@@ -43,6 +43,7 @@
   .blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
   .block { display: flex; align-items: flex-start; gap: 10px; background: var(--panel2);
            border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; }
+  .block.dis { opacity: .35; pointer-events: none; }
   .block input { margin-top: 3px; accent-color: var(--accent); }
   .block b { font-size: 13px; display: block; }
   .block small { color: var(--dim); font-size: 11px; }
@@ -275,6 +276,19 @@ function refreshDeckAircraft(){
   }
 }
 function refreshEraGating(){
+  // landlocked maps (no carrier water): disable + uncheck the carrier block
+  if (S.map){
+    const hasCarrier = !!OPT.maps[S.map].has_carrier;
+    const cb = document.getElementById('bb_carrier');
+    const blk = cb?.closest('.block');
+    if (blk){
+      blk.classList.toggle('dis', !hasCarrier);
+      blk.querySelector('small').textContent = hasCarrier
+        ? 'CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)'
+        : 'No carrier water on this map';
+      if (!hasCarrier && cb.checked){ cb.checked = false; }
+    }
+  }
   refreshCarrierUI();
   // hard era gate: roster, templates, and maps all follow the period
   refreshAircraft();

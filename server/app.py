@@ -59,6 +59,7 @@ def options():
     eras = load_json("eras")
     return {
         "maps": {k: {"label": v["label"], "free": v["free"],
+                     "has_carrier": "carrier" in v,
                      "presets": {e: {"blue_airbases": p["blue_airbases"],
                                      "red_airbases": p["red_airbases"],
                                      "blue_country": p["blue_country"],
