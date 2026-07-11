@@ -33,6 +33,9 @@ SAMPLES = [
            bb_carrier=True, carrier_hull="cvn_75", carrier_layout="launch",
            carrier_deck_aircraft=["FA_18C_hornet", "S_3B"],
            bb_farps=True, bb_targets=True, bb_range=True),
+    # NTTR red flag: Nellis vs Groom Lake/Tonopah, nav points + targets + range
+    Recipe(map="nevada", era="modern", aircraft="F_16C_50", seed=75,
+           bb_targets=True, bb_range=True),
     # South Atlantic 1982: HMS Invincible task force, Harriers, no AEW (history)
     Recipe(map="falklands", era="coldwar", aircraft="AV8BNA", seed=82,
            bb_carrier=True, carrier_hull="invincible", carrier_layout="recovery",

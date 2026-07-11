@@ -80,10 +80,12 @@ def page_airfields(own_fields, enemy_fields, era_year):
     return img
 
 
-def page_theater(own_fields, enemy_fields, bullseye, map_label, support_names):
+def page_theater(own_fields, enemy_fields, bullseye, map_label, support_names,
+                 nav_points=None):
     img, d, f = _page("THEATER OVERVIEW", f"{map_label} · schematic, not to scale for nav")
+    nav_points = nav_points or []
     pts = [(a.position.x, a.position.y) for a in own_fields + enemy_fields] + [
-        (bullseye["x"], bullseye["y"])]
+        (bullseye["x"], bullseye["y"])] + [(p.x, p.y) for _n, p in nav_points]
     xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
     pad = max((max(xs) - min(xs)), (max(ys) - min(ys)), 1) * 0.18
     x0, x1 = min(xs) - pad, max(xs) + pad
@@ -94,6 +96,13 @@ def page_theater(own_fields, enemy_fields, bullseye, map_label, support_names):
         sx = 60 + (y - y0) / (y1 - y0) * (W - 120)
         sy = 160 + (1 - (x - x0) / (x1 - x0)) * (H - 320)
         return sx, sy
+
+    # nav reference points: gold triangles, drawn first so airfields sit on top
+    GOLD = (240, 200, 90)
+    for name, p in nav_points:
+        sx, sy = px(p.x, p.y)
+        d.polygon([(sx, sy - 8), (sx - 7, sy + 6), (sx + 7, sy + 6)], outline=GOLD, width=2)
+        d.text((sx + 10, sy - 8), name.split("/")[0].strip()[:16], font=f["small"], fill=GOLD)
 
     for ap, color in [(a, BLUE) for a in own_fields] + [(a, RED) for a in enemy_fields]:
         sx, sy = px(ap.position.x, ap.position.y)
@@ -120,11 +129,13 @@ def inject_kneeboard(miz_path, pages):
 
 
 def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
-                    map_label, era_label, era_year, home_name, support_names):
+                    map_label, era_label, era_year, home_name, support_names,
+                    nav_points=None):
     pages = [
         page_comms(comms, map_label, era_label, home_name),
         page_airfields(own_fields, enemy_fields, era_year),
-        page_theater(own_fields, enemy_fields, bullseye, map_label, support_names),
+        page_theater(own_fields, enemy_fields, bullseye, map_label, support_names,
+                     nav_points),
     ]
     inject_kneeboard(miz_path, pages)
     return len(pages)

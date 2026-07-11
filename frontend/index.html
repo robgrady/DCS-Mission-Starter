@@ -66,8 +66,8 @@
      &nbsp;·&nbsp; <a href="/api/guide" style="color:var(--accent)">Download the user guide</a></p>
 </header>
 <main>
-  <div class="step"><h2><span class="n">1</span>Map</h2><div class="cards" id="maps"></div></div>
-  <div class="step"><h2><span class="n">2</span>Era</h2><div class="cards" id="eras"></div></div>
+  <div class="step"><h2><span class="n">1</span>Era</h2><div class="cards" id="eras"></div></div>
+  <div class="step"><h2><span class="n">2</span>Map</h2><div class="cards" id="maps"></div></div>
   <div class="step"><h2><span class="n">3</span>Coalition &amp; basing</h2>
     <div class="row">
       <div><label>Your side</label><select id="coalition">
@@ -121,6 +121,7 @@ const BLOCKS = [
   ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true],
   ["bb_carrier","Carrier strike group","CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)", false],
   ["bb_ambient","Ambient air traffic","AI transports starting up and flying between friendly fields", true],
+  ["bb_navpoints","Nav reference points","Named landmarks (Belted Peak, Student Gap...) on F10 map + kneeboard", true],
   ["bb_farps","Functional FARPs","Pads + fuel/ammo/command/comms so rearm-refuel works (helo eras)", false],
   ["bb_targets","Strike target packages","Depot / convoy / C2 site placed in the enemy rear with trigger zones", false],
   ["bb_range","Practice range","Bombing ring + strafe line in the friendly rear", false],
@@ -130,7 +131,7 @@ const BLOCKS = [
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
-  bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_farps:false,bb_targets:false,bb_range:false,
+  bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
   carrier_cap:false,carrier_aew:false,template:null,seed:1};
 function encodeRecipe(r){
@@ -151,16 +152,21 @@ async function init(){
   const maps = document.getElementById('maps');
   for (const [k,v] of Object.entries(OPT.maps)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
-    c.onclick = ()=>{ S.map=k;
-      if (S.era && !v.presets[S.era]) { S.era = Object.keys(v.presets)[0];
-        sel(document.getElementById('eras'), document.querySelector(`#eras .card[data-k="${S.era}"]`)); }
-      sel(maps,c); refreshEraGating(); fillHome(); sum(); };
+    c.onclick = ()=>{ S.map=k; sel(maps,c); refreshEraGating(); fillHome(); sum(); };
     maps.appendChild(c);
   }
   const eras = document.getElementById('eras');
   for (const [k,v] of Object.entries(OPT.eras)){
-    const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>Hard-filters aircraft, statics &amp; SAMs to the period</small></div>`);
-    c.onclick = ()=>{ S.era=k; sel(eras,c); refreshEraGating(); fillHome(); sum(); };
+    const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>Hard-filters maps, aircraft, statics &amp; SAMs to the period</small></div>`);
+    c.onclick = ()=>{ S.era=k; sel(eras,c);
+      // era drives everything: if the current map has no preset for it, jump
+      // to the first map that does
+      if (!S.map || !OPT.maps[S.map].presets[k]) {
+        const valid = Object.keys(OPT.maps).find(mk=>OPT.maps[mk].presets[k]);
+        S.map = valid;
+        sel(document.getElementById('maps'), document.querySelector(`#maps .card[data-k="${valid}"]`));
+      }
+      refreshEraGating(); fillHome(); sum(); };
     eras.appendChild(c);
   }
   refreshAircraft();
@@ -198,15 +204,15 @@ async function init(){
   sum();
 }
 function defaultSelection(){
-  const maps = document.getElementById('maps');
-  maps.firstElementChild.click();
-  // default to the first era the selected map actually supports (era gate)
-  const firstEra = Object.keys(OPT.maps[S.map].presets)[0];
-  document.querySelector(`#eras .card[data-k="${firstEra}"]`).click();
+  // era-first: default to Modern (broadest module ownership); the era click
+  // auto-selects the first valid map
+  const card = document.querySelector('#eras .card[data-k="modern"]')
+            || document.querySelector('#eras .card');
+  card.click();
 }
 function applyRecipe(r){
-  document.querySelector(`#maps .card[data-k="${r.map}"]`)?.click();
   document.querySelector(`#eras .card[data-k="${r.era}"]`)?.click();
+  document.querySelector(`#maps .card[data-k="${r.map}"]`)?.click();
   document.getElementById('coalition').value = r.coalition; fillHome();
   if (r.home_airbase) document.getElementById('home').value = r.home_airbase;
   document.getElementById('aircraft').value = r.aircraft;
@@ -272,12 +278,9 @@ function refreshEraGating(){
       document.querySelector('#templates .card[data-k=""]').classList.add('sel');
       c.classList.remove('sel'); }
   });
+  // era-first UX: maps grey out under the chosen era; eras themselves never grey
   document.querySelectorAll('#maps .card').forEach(c=>{
     const ok = !!OPT.maps[c.dataset.k].presets[S.era];
-    c.classList.toggle('dis', !ok);
-  });
-  document.querySelectorAll('#eras .card').forEach(c=>{
-    const ok = !S.map || !!OPT.maps[S.map].presets[c.dataset.k];
     c.classList.toggle('dis', !ok);
   });
 }

@@ -27,6 +27,7 @@ class Recipe:
     bb_carrier: bool = False           # BB-9 carrier strike group (blue, coastal maps)
     bb_ambient: bool = True            # BB-13 ambient AI traffic between friendly fields
 
+    bb_navpoints: bool = True          # BB-22 named geo reference points (F10 map + kneeboard)
     bb_farps: bool = False             # BB-4 functional FARPs (helo ops; not WWII)
     bb_targets: bool = False           # BB-16 strike target packages in the enemy rear
     bb_range: bool = False             # BB-17 practice range in the friendly rear

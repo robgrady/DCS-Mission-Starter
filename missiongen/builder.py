@@ -212,6 +212,13 @@ class StarterBuilder:
             if aw:
                 stats["support"].append(aw.name)
 
+        nav_pts = []
+        if r.bb_navpoints:
+            from . import navpoints
+            nav_pts = navpoints.add_nav_points(m, r.map)
+            if nav_pts:
+                stats["nav_points"] = len(nav_pts)
+
         if r.bb_farps:
             if r.era == "wwii":
                 self.warnings.append("FARPs are helicopter-era only - skipped in WWII")
@@ -272,8 +279,12 @@ class StarterBuilder:
 
         # --- briefing ----------------------------------------------------------
         if r.bb_briefing:
-            m.set_description_text(self._briefing(map_cfg, era_cfg, preset, home,
-                                                  comms, stats, template_brief))
+            brief = self._briefing(map_cfg, era_cfg, preset, home,
+                                   comms, stats, template_brief)
+            if nav_pts:
+                from . import navpoints
+                brief += "\n" + navpoints.briefing_block(nav_pts)
+            m.set_description_text(brief)
 
         self.stats = stats
         # context the kneeboard renderer needs after save
@@ -283,6 +294,7 @@ class StarterBuilder:
             "map_label": map_cfg["label"], "era_label": era_cfg["label"],
             "era_year": era_cfg["year"], "home_name": home.name,
             "support_names": stats["support"],
+            "nav_points": [(n, p) for n, p, _t, _note in nav_pts],
         }
         return m
 

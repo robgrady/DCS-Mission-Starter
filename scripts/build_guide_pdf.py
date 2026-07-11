@@ -158,15 +158,16 @@ story += [
     PageBreak(),
     P("Step by step", "h1"),
 
-    P("Step 1 — Pick a map", "h2"),
-    P("Choose your theater. Maps that don't support the selected era are greyed out."),
-    shot("step1_map.png", "Step 1: map selection — six theaters, era-aware."),
+    P("Step 1 — Pick an era", "h2"),
+    P("Start with <b>when</b>. The era is the master filter: it decides which maps, aircraft, "
+      "statics, SAMs, and support assets can appear. A WWII starter will not offer a Hornet, "
+      "and a modern starter will not offer a Spitfire."),
+    shot("step1_era.png", "Step 1: era selection — the period drives everything downstream."),
 
-    P("Step 2 — Pick an era", "h2"),
-    P("The era is a <b>hard filter</b>: it decides which aircraft, statics, SAMs, and support "
-      "assets can appear. A WWII starter will not offer a Hornet, and a modern starter will "
-      "not offer a Spitfire."),
-    shot("step2_era.png", "Step 2: era selection — WWII is greyed out because the selected map has no WWII preset."),
+    P("Step 2 — Pick a map", "h2"),
+    P("Choose your theater. Maps without content for the chosen era are greyed out — pick "
+      "WWII and the Channel and Normandy light up; pick Modern and the Marianas appears."),
+    shot("step2_map.png", "Step 2: map selection — eight theaters, filtered by the era you chose."),
 
     P("Step 3 — Coalition, basing & aircraft", "h2"),
     P("Pick your side, home airfield, and aircraft from the full DCS flyable roster (period-"

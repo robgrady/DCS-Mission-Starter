@@ -1,0 +1,34 @@
+{
+  "_comment": "Named geographic reference points per map - the landmarks crews actually navigate by. Marked on the F10 map (text + circle on the Common drawing layer), listed in the briefing with coordinates, and plotted on the kneeboard theater page. Coordinates flagged approx:true are curated estimates - tune against the in-game map.",
+
+  "nevada": [
+    {"name": "AREA 51 / Groom Lake dry bed", "lat": 37.2720, "lon": -115.8100, "type": "landmark",
+     "note": "The dry lake itself - the classic visual reference"},
+    {"name": "BELTED PEAK", "lat": 37.4400, "lon": -116.2000, "type": "peak", "approx": true,
+     "note": "Belted Range - common north-range reference"},
+    {"name": "STUDENT GAP", "lat": 37.3080, "lon": -115.5860, "type": "corridor", "approx": true,
+     "note": "Classic range entry reference"},
+    {"name": "COYOTE SUMMIT", "lat": 37.5150, "lon": -115.5730, "type": "corridor",
+     "note": "SR-375 pass west of Hancock Summit"},
+    {"name": "HANCOCK SUMMIT", "lat": 37.4310, "lon": -115.3660, "type": "corridor",
+     "note": "Extraterrestrial Highway pass"},
+    {"name": "RACHEL", "lat": 37.6450, "lon": -115.7460, "type": "landmark",
+     "note": "The town - north range visual checkpoint"},
+    {"name": "TOLICHA PEAK", "lat": 37.2560, "lon": -116.7770, "type": "peak",
+     "note": "West range - EW range reference"},
+    {"name": "MOUNT IRISH", "lat": 37.6570, "lon": -115.3960, "type": "peak",
+     "note": "East range high terrain"},
+    {"name": "MOUNT CHARLESTON", "lat": 36.2720, "lon": -115.6930, "type": "peak",
+     "note": "11,900 ft - highest terrain near Las Vegas"},
+    {"name": "SUNRISE MOUNTAIN", "lat": 36.2050, "lon": -115.0250, "type": "peak",
+     "note": "Nellis departure reference"},
+    {"name": "FRENCHMAN LAKE", "lat": 36.8080, "lon": -115.9350, "type": "lake",
+     "note": "Dry lake on the south range"},
+    {"name": "TEXAS LAKE", "lat": 37.4550, "lon": -115.6330, "type": "lake", "approx": true,
+     "note": "Dry lake - north range reference"},
+    {"name": "DOG BONE LAKE", "lat": 36.9600, "lon": -115.4700, "type": "lake", "approx": true,
+     "note": "Distinctive dry lake shape"},
+    {"name": "MORMON MESA", "lat": 36.9800, "lon": -114.3000, "type": "landmark",
+     "note": "East range flat-top mesa"}
+  ]
+}

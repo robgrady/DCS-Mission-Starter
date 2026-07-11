@@ -24,9 +24,9 @@ with sync_playwright() as pw:
 
     steps = page.locator(".step")
 
-    # step 1+2: map & era cards (selected state)
-    steps.nth(0).screenshot(path=str(OUT / "step1_map.png"))
-    steps.nth(1).screenshot(path=str(OUT / "step2_era.png"))
+    # step 1+2: era & map cards (era-first UX)
+    steps.nth(0).screenshot(path=str(OUT / "step1_era.png"))
+    steps.nth(1).screenshot(path=str(OUT / "step2_map.png"))
 
     # step 3: coalition / basing / aircraft
     steps.nth(2).screenshot(path=str(OUT / "step3_basing.png"))
@@ -39,8 +39,8 @@ with sync_playwright() as pw:
     # step 4b: carrier deck configuration — era gate means the Roosevelt needs
     # a modern era, so switch to Syria/Modern first
     page.evaluate("""() => {
-        document.querySelector('#maps .card[data-k="syria"]').click();
         document.querySelector('#eras .card[data-k="modern"]').click();
+        document.querySelector('#maps .card[data-k="syria"]').click();
     }""")
     page.wait_for_timeout(400)
     page.select_option("#carrier_hull", "cvn_71")
