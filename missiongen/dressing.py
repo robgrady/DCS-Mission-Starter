@@ -37,8 +37,10 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     for slot in free:
         if placed >= target:
             break
-        # pick a type that fits the stand
+        # pick a type that fits the stand (helo lists can be empty, e.g. WWII)
         if slot.helicopter and not slot.airplanes:
+            if not helo_refs:
+                continue
             ref = rng.choice(helo_refs)
         elif slot.large:
             ref = rng.choice(large_refs + plane_refs)
@@ -46,6 +48,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             # only put big airframes on large stands
             ref = rng.choice([r for r in plane_refs if r not in large_refs] or plane_refs)
         else:
+            if not helo_refs:
+                continue
             ref = rng.choice(helo_refs)
         unit_type = resolve(ref)
 

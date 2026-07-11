@@ -1,7 +1,35 @@
 {
+  "wwii": {
+    "label": "World War II (1939-1946)",
+    "year": 1944,
+    "window": [1939, 1946],
+    "blue": {
+      "parked_planes": ["planes.SpitfireLFMkIX", "planes.P_51D", "planes.P_47D_30"],
+      "parked_large": ["planes.C_47"],
+      "parked_helos": [],
+      "fuel_truck": "vehicles.Unarmed.Bedford_MWD",
+      "utility_trucks": ["vehicles.Unarmed.CCKW_353", "vehicles.Unarmed.Willys_MB"],
+      "fire_truck": "vehicles.Unarmed.Bedford_MWD",
+      "sam_kits": [],
+      "shorad": ["vehicles.AirDefence.Bofors40", "vehicles.AirDefence.QF_37_AA"],
+      "manpad": null
+    },
+    "red": {
+      "parked_planes": ["planes.Bf_109K_4", "planes.FW_190A8", "planes.FW_190D9"],
+      "parked_large": ["planes.Ju_88A4"],
+      "parked_helos": [],
+      "fuel_truck": "vehicles.Unarmed.Blitz_36_6700A",
+      "utility_trucks": ["vehicles.Unarmed.Kubelwagen_82", "vehicles.Unarmed.Blitz_36_6700A"],
+      "fire_truck": "vehicles.Unarmed.Blitz_36_6700A",
+      "sam_kits": [],
+      "shorad": ["vehicles.AirDefence.Flak38", "vehicles.AirDefence.Flak36"],
+      "manpad": null
+    }
+  },
   "coldwar": {
     "label": "Cold War (1965-1985)",
     "year": 1978,
+    "window": [1965, 1985],
     "blue": {
       "parked_planes": ["planes.F_4E", "planes.F_5E_3", "planes.C_130"],
       "parked_large": ["planes.C_130"],
@@ -28,6 +56,7 @@
   "modern": {
     "label": "Modern (2000s+)",
     "year": 2011,
+    "window": [2000, 2030],
     "blue": {
       "parked_planes": ["planes.F_16C_50", "planes.FA_18C_hornet", "planes.C_130", "planes.A_10C_2"],
       "parked_large": ["planes.C_130"],

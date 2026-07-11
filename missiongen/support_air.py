@@ -5,10 +5,12 @@ from dcs.mission import StartType
 from .dressing import _offset
 
 TANKERS = {
+    "wwii": {"blue": None, "red": None},          # no AAR in 1944
     "coldwar": {"blue": planes.KC_135, "red": None},
     "modern": {"blue": planes.KC135MPRS, "red": None},
 }
 AWACS_TYPES = {
+    "wwii": {"blue": None, "red": None},          # no AWACS in 1944
     "coldwar": {"blue": planes.E_3A, "red": planes.A_50},
     "modern": {"blue": planes.E_3A, "red": planes.A_50},
 }
@@ -36,6 +38,8 @@ def add_tanker(m, country, era, side, anchor, heading_away_deg, comms):
 
 def add_awacs(m, country, era, side, anchor, heading_away_deg, comms):
     atype = AWACS_TYPES[era][side]
+    if atype is None:
+        return None
     freq = comms.next_uhf()
     pos = _offset(anchor, 90000, heading_away_deg)   # 50nm behind friendly lines
     aw = m.awacs_flight(

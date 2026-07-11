@@ -22,6 +22,20 @@
       }
     }
   },
+  "thechannel": {
+    "label": "The Channel",
+    "terrain_class": "dcs.terrain.thechannel.TheChannel",
+    "free": false,
+    "presets": {
+      "wwii": {
+        "blue_country": "UK",
+        "red_country": "Germany",
+        "blue_airbases": ["Manston", "Hawkinge", "Biggin Hill"],
+        "red_airbases": ["Abbeville Drucat", "Saint Omer Longuenesse", "Merville Calonne"],
+        "frontline_hint": "The Channel coast, 1944"
+      }
+    }
+  },
   "syria": {
     "label": "Syria",
     "terrain_class": "dcs.terrain.syria.Syria",

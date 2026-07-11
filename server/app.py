@@ -34,6 +34,9 @@ def flyable_aircraft():
             if isinstance(cls, type) and getattr(cls, "flyable", False):
                 out.append({"key": name, "id": cls.id, "kind": kind})
     out.sort(key=lambda a: a["id"])
+    service = load_json("aircraft_service")
+    for a in out:
+        a["service"] = service.get(a["key"])   # [from, to|null] or null=unknown
     # pending (announced/pre-order) modules, flagged for the UI
     from missiongen.pending import pending_aircraft
     for key, cfg in pending_aircraft().items():
@@ -59,11 +62,14 @@ def options():
                                      "red_country": p["red_country"]}
                                  for e, p in v["presets"].items()}}
                  for k, v in maps.items()},
-        "eras": {k: v["label"] for k, v in eras.items()},
+        "eras": {k: {"label": v["label"], "window": v.get("window")}
+                 for k, v in eras.items()},
         "aircraft": flyable_aircraft(),
         "templates": {
-            "backseat_izlid": "Backseat Ops: IZLID Designation (F-4E, you fly the back seat)",
-            "backseat_intercept": "Backseat Ops: GCI Intercept (F-4E, experimental)",
+            "backseat_izlid": {"label": "Backseat Ops: IZLID Designation (F-4E, you fly the back seat)",
+                               "eras": ["coldwar", "modern"]},
+            "backseat_intercept": {"label": "Backseat Ops: GCI Intercept (F-4E, experimental)",
+                                   "eras": ["coldwar", "modern"]},
         },
         "enums": {
             "start": ["cold", "warm", "runway"],
@@ -77,7 +83,10 @@ def options():
 @app.get("/api/health")
 def health():
     errors = validate_data_packs()
-    return {"ok": not errors, "data_pack_errors": errors}
+    service = load_json("aircraft_service")
+    gaps = [a["key"] for a in flyable_aircraft() if a["key"] not in service]
+    return {"ok": not errors, "data_pack_errors": errors,
+            "service_data_gaps": gaps}
 
 
 @app.get("/api/dl")

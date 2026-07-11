@@ -16,6 +16,24 @@ from . import dressing, airdefense, support_air, backseat
 START_TYPES = {"cold": StartType.Cold, "warm": StartType.Warm, "runway": StartType.Runway}
 TIME_PRESETS = {"dawn": 5, "day": 12, "dusk": 18, "night": 22}
 
+# templates are era-gated too: no Backseat Ops in a WWII starter
+TEMPLATE_ERAS = {"backseat_izlid": ("coldwar", "modern"),
+                 "backseat_intercept": ("coldwar", "modern")}
+
+
+class EraViolation(Exception):
+    """Hard era gate: the selection is not plausible for the mission period."""
+
+
+def aircraft_in_era(aircraft_key: str, era_cfg: dict) -> bool:
+    """Service window overlaps era window. Unlisted aircraft pass (data gap, not a block)."""
+    service = load_json("aircraft_service").get(aircraft_key)
+    window = era_cfg.get("window")
+    if not service or not window:
+        return True
+    frm, to = service
+    return frm <= window[1] and (to is None or to >= window[0])
+
 
 def _bearing(a, b) -> float:
     return math.degrees(math.atan2(b.y - a.y, b.x - a.x)) % 360
@@ -39,6 +57,17 @@ class StarterBuilder:
         map_cfg = self.maps[r.map]
         era_cfg = self.eras[r.era]
         preset = map_cfg["presets"][r.era]
+
+        # --- hard era gates (FR: period accuracy is the product) ------------
+        if r.era not in map_cfg["presets"]:
+            raise EraViolation(f"{map_cfg['label']} has no {r.era} preset")
+        if not r.template and not aircraft_in_era(r.aircraft, era_cfg):
+            svc = load_json("aircraft_service").get(r.aircraft)
+            raise EraViolation(
+                f"{r.aircraft} was not in service during {era_cfg['label']} "
+                f"(service {svc[0]}-{svc[1] or 'present'}). Pick a period-correct aircraft.")
+        if r.template and r.era not in TEMPLATE_ERAS.get(r.template, ()):
+            raise EraViolation(f"Template '{r.template}' is not available in {era_cfg['label']}")
 
         terrain = resolve_terrain(map_cfg["terrain_class"])
         m = dcs.Mission(terrain())
@@ -145,7 +174,8 @@ class StarterBuilder:
         if r.bb_awacs:
             aw = support_air.add_awacs(m, own_country, r.era, r.coalition,
                                        own_center, away_bearing, comms)
-            stats["support"].append(aw.name)
+            if aw:
+                stats["support"].append(aw.name)
 
         # --- template packs ---------------------------------------------------
         template_brief = ""
