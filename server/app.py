@@ -81,14 +81,14 @@ def options():
     }
 
 
-DOCS = Path(__file__).parent.parent / "docs" / "USER_GUIDE.md"
+DOCS_PDF = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
 
 
 @app.get("/api/guide")
 def guide_download():
-    """Downloadable Mission Starter documentation."""
-    return FileResponse(str(DOCS), filename="DCS_Mission_Starter_Guide.md",
-                        media_type="text/markdown")
+    """Downloadable Mission Starter documentation (professional PDF)."""
+    return FileResponse(str(DOCS_PDF), filename="DCS_Mission_Starter_Guide.pdf",
+                        media_type="application/pdf")
 
 
 @app.get("/api/health")
