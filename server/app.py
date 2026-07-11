@@ -12,7 +12,10 @@ from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse
 from pydantic import BaseModel
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
+_root = Path(__file__).parent.parent
+sys.path.insert(0, str(_root))
+if (_root / "vendor" / "dcs").exists():          # vendored pydcs (Mac/no-network installs)
+    sys.path.insert(0, str(_root / "vendor"))
 from missiongen import Recipe, generate
 from missiongen.resolver import load_json, validate_data_packs
 

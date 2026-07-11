@@ -21,17 +21,19 @@ Open it in the DCS Mission Editor and build your mission on top.
   Jester/Iceman PROXY flag API (IZLID designation run; Iceman flies, you work the pit)
 - **Seeded:** same recipe + seed = same starter, always regenerable
 
-## Quick start
+## Quick start (macOS)
+
+Double-click **`run_mac.command`** in Finder. First run sets up the environment
+(needs internet, ~1 minute); the wizard then opens at http://127.0.0.1:8000.
+If macOS blocks the script the first time, right-click it → **Open** → **Open**.
+pydcs ships vendored in `vendor/dcs`, so no special installs are needed.
+
+## Quick start (any OS, manual)
 
 ```bash
-pip install -r requirements.txt
-# pydcs must be the GitHub master (the PyPI release is outdated):
-pip install "pydcs @ git+https://github.com/pydcs/dcs.git"
-# if the wheel build fails on your system, vendor the package instead:
-#   git clone --depth 1 https://github.com/pydcs/dcs.git /tmp/pydcs
-#   cp -r /tmp/pydcs/dcs "$(python -c 'import site; print(site.getsitepackages()[0])')/"
-
-uvicorn server.app:app --reload
+python3 -m venv .venv && source .venv/bin/activate
+pip install fastapi "uvicorn[standard]" pillow pyproj
+PYTHONPATH=vendor uvicorn server.app:app
 # open http://127.0.0.1:8000
 ```
 
