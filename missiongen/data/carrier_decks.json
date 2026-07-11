@@ -1,0 +1,89 @@
+{
+  "_comment": "Carrier deck configuration data. Spot offsets are SHIP-RELATIVE meters (x=forward, y=starboard) with hdg relative to BRC; zones model real Nimitz/Forrestal deck areas. Offsets are curated estimates - tune after in-game visual check. Layouts express real-world deck states as fill/keep-clear zone lists.",
+
+  "hulls": {
+    "cvn_71": {
+      "label": "CVN-71 Theodore Roosevelt",
+      "ship": "ships.CVN_71", "module": "Supercarrier", "eras": ["modern"],
+      "deck_aircraft": ["planes.FA_18C_hornet", "planes.F_14B", "planes.E_2C", "planes.S_3B", "helicopters.SH_60B"],
+      "spots": {
+        "bow":      [{"x": 108, "y": 14, "hdg": 40}, {"x": 96, "y": 20, "hdg": 40},
+                     {"x": 84, "y": 24, "hdg": 40}, {"x": 120, "y": 8, "hdg": 30}],
+        "street":   [{"x": 34, "y": 27, "hdg": 0}, {"x": 18, "y": 27, "hdg": 0},
+                     {"x": 2, "y": 27, "hdg": 0}, {"x": -14, "y": 27, "hdg": 0}],
+        "sixpack":  [{"x": -44, "y": 22, "hdg": 350}, {"x": -56, "y": 24, "hdg": 350},
+                     {"x": -68, "y": 26, "hdg": 350}],
+        "fantail":  [{"x": -128, "y": 12, "hdg": 200}, {"x": -140, "y": 2, "hdg": 190},
+                     {"x": -134, "y": -10, "hdg": 170}, {"x": -120, "y": 22, "hdg": 210}],
+        "elevators": [{"x": 62, "y": 33, "hdg": 90}, {"x": -20, "y": 33, "hdg": 90},
+                      {"x": -66, "y": 33, "hdg": 90}]
+      },
+      "equipment": [
+        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -30, "y": 18, "hdg": 270},
+        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": 50, "y": 22, "hdg": 90},
+        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -8, "y": 20, "hdg": 0},
+        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -50, "y": 16, "hdg": 180},
+        {"ref": "vehicles.Unarmed.P20_drivable", "x": -34, "y": 30, "hdg": 0},
+        {"ref": "vehicles.Unarmed.GD_20", "x": 8, "y": 30, "hdg": 0}
+      ]
+    },
+    "cvn_72": {
+      "label": "CVN-72 Abraham Lincoln",
+      "ship": "ships.CVN_72", "module": "Supercarrier", "eras": ["modern"],
+      "inherit_spots": "cvn_71"
+    },
+    "cvn_73": {
+      "label": "CVN-73 George Washington",
+      "ship": "ships.CVN_73", "module": "Supercarrier", "eras": ["modern"],
+      "inherit_spots": "cvn_71"
+    },
+    "cvn_75": {
+      "label": "CVN-75 Harry S. Truman",
+      "ship": "ships.CVN_75", "module": "Supercarrier", "eras": ["modern"],
+      "inherit_spots": "cvn_71"
+    },
+    "stennis": {
+      "label": "CVN-74 John C. Stennis (base game)",
+      "ship": "ships.Stennis", "module": null, "eras": ["modern"],
+      "inherit_spots": "cvn_71"
+    },
+    "forrestal": {
+      "label": "CV-59 Forrestal",
+      "ship": "ships.Forrestal", "module": "F-14 Tomcat", "eras": ["coldwar"],
+      "deck_aircraft": ["planes.F_14A", "planes.E_2C", "planes.S_3B"],
+      "spots": {
+        "bow":      [{"x": 96, "y": 12, "hdg": 40}, {"x": 84, "y": 18, "hdg": 40},
+                     {"x": 108, "y": 6, "hdg": 30}],
+        "street":   [{"x": 28, "y": 25, "hdg": 0}, {"x": 12, "y": 25, "hdg": 0},
+                     {"x": -4, "y": 25, "hdg": 0}],
+        "sixpack":  [{"x": -40, "y": 20, "hdg": 350}, {"x": -52, "y": 22, "hdg": 350}],
+        "fantail":  [{"x": -116, "y": 10, "hdg": 200}, {"x": -126, "y": 0, "hdg": 190},
+                     {"x": -110, "y": 18, "hdg": 210}],
+        "elevators": [{"x": 54, "y": 30, "hdg": 90}, {"x": -60, "y": 30, "hdg": 90}]
+      },
+      "equipment": [
+        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -26, "y": 16, "hdg": 270},
+        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -6, "y": 18, "hdg": 0},
+        {"ref": "vehicles.Unarmed.P20_drivable", "x": -30, "y": 27, "hdg": 0}
+      ]
+    }
+  },
+
+  "layouts": {
+    "recovery": {
+      "label": "Recovery - angle clear, pack bow & street",
+      "fill_zones": ["bow", "street", "sixpack"],
+      "note": "Landing area and waist clear for cyclic recovery"
+    },
+    "launch": {
+      "label": "Launch - cats clear, pack fantail & elevators",
+      "fill_zones": ["fantail", "sixpack", "elevators"],
+      "note": "Bow and waist cats clear for the launch cycle"
+    },
+    "packed": {
+      "label": "Packed deck - max parked aircraft",
+      "fill_zones": ["bow", "street", "sixpack", "fantail", "elevators"],
+      "note": "Port visit / no-fly deck"
+    }
+  }
+}

@@ -86,6 +86,15 @@
   <div class="step"><h2><span class="n">4</span>Building blocks</h2>
     <div class="blocks" id="blocks"></div>
   </div>
+  <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration</h2>
+    <div class="row">
+      <div><label>Hull</label><select id="carrier_hull"></select></div>
+      <div><label>Deck layout (real-world states)</label><select id="carrier_layout"></select></div>
+    </div>
+    <label>Aircraft on deck</label>
+    <div class="blocks" id="deck_aircraft"></div>
+    <label class="block" style="margin-top:10px"><input type="checkbox" id="carrier_equipment" checked><span><b>Deck equipment</b><small>Tugs, MJ-1 loaders, crash &amp; salvage gear at real stations</small></span></label>
+  </div>
   <div class="step"><h2><span class="n">5</span>Template pack <span class="pill">optional</span></h2>
     <div class="cards" id="templates"></div>
   </div>
@@ -107,13 +116,18 @@ const BLOCKS = [
   ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true],
   ["bb_carrier","Carrier strike group","CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)", false],
   ["bb_ambient","Ambient air traffic","AI transports starting up and flying between friendly fields", true],
+  ["bb_farps","Functional FARPs","Pads + fuel/ammo/command/comms so rearm-refuel works (helo eras)", false],
+  ["bb_targets","Strike target packages","Depot / convoy / C2 site placed in the enemy rear with trigger zones", false],
+  ["bb_range","Practice range","Bombing ring + strafe line in the friendly rear", false],
 ];
 
 // --- share links: recipe <-> base64url(JSON of non-default fields) ---
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
-  bb_kneeboard:true,bb_carrier:false,bb_ambient:true,template:null,seed:1};
+  bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_farps:false,bb_targets:false,bb_range:false,
+  carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
+  template:null,seed:1};
 function encodeRecipe(r){
   const diff = {};
   for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;
@@ -154,6 +168,7 @@ async function init(){
   const bl = document.getElementById('blocks');
   for (const [k,t,d,on] of BLOCKS)
     bl.appendChild(el(`<label class="block"><input type="checkbox" id="${k}" ${on?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`));
+  document.getElementById('bb_carrier').addEventListener('change', refreshCarrierUI);
   const tp = document.getElementById('templates');
   const none = el(`<div class="card sel" data-k=""><b>None — pure starter</b><small>You build the mission on top</small></div>`);
   none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); };
@@ -163,6 +178,12 @@ async function init(){
     c.onclick = ()=>{ S.template=k; sel(tp,c); sum(); };
     tp.appendChild(c);
   }
+  // carrier deck configuration UI
+  const cl = document.getElementById('carrier_layout');
+  for (const [k,v] of Object.entries(OPT.carriers._layouts))
+    cl.appendChild(el(`<option value="${k}">${v}</option>`));
+  refreshCarrierUI();
+  document.getElementById('carrier_hull').onchange = ()=>{ refreshDeckAircraft(); sum(); };
   document.getElementById('coalition').onchange = ()=>{ fillHome(); sum(); };
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
@@ -204,7 +225,32 @@ function refreshAircraft(){
            : (S.era==='wwii' ? 'P_51D' : 'F_16C_50');
   if (!ac.value && ac.options.length) ac.selectedIndex = 0;
 }
+function refreshCarrierUI(){
+  const on = document.getElementById('bb_carrier')?.checked;
+  document.getElementById('carrierstep').style.display = on ? '' : 'none';
+  if (!on) return;
+  const hs = document.getElementById('carrier_hull');
+  const prev = hs.value;
+  hs.innerHTML = '';
+  for (const [k,v] of Object.entries(OPT.carriers)){
+    if (k === '_layouts' || (S.era && !v.eras.includes(S.era))) continue;
+    hs.appendChild(el(`<option value="${k}">${v.label}${v.module?` — ${v.module}`:''}</option>`));
+  }
+  if ([...hs.options].some(o=>o.value===prev)) hs.value = prev;
+  refreshDeckAircraft();
+}
+function refreshDeckAircraft(){
+  const hull = OPT.carriers[document.getElementById('carrier_hull').value];
+  const da = document.getElementById('deck_aircraft');
+  da.innerHTML = '';
+  if (!hull) return;
+  for (const ref of hull.deck_aircraft){
+    const key = ref.split('.').pop();
+    da.appendChild(el(`<label class="block"><input type="checkbox" class="deckac" value="${key}" checked><span><b>${key.replace(/_/g,'-')}</b><small>parked on deck</small></span></label>`));
+  }
+}
 function refreshEraGating(){
+  refreshCarrierUI();
   // hard era gate: roster, templates, and maps all follow the period
   refreshAircraft();
   document.querySelectorAll('#templates .card[data-eras]').forEach(c=>{
@@ -246,6 +292,12 @@ function recipe(){
     seed:+document.getElementById('seed').value,
   };
   for (const [k] of BLOCKS) r[k]=document.getElementById(k).checked;
+  if (r.bb_carrier){
+    r.carrier_hull = document.getElementById('carrier_hull').value || null;
+    r.carrier_layout = document.getElementById('carrier_layout').value;
+    r.carrier_deck_aircraft = [...document.querySelectorAll('.deckac:checked')].map(c=>c.value);
+    r.carrier_equipment = document.getElementById('carrier_equipment').checked;
+  }
   return r;
 }
 function sum(){

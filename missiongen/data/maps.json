@@ -36,6 +36,64 @@
       }
     }
   },
+  "persiangulf": {
+    "label": "Persian Gulf",
+    "terrain_class": "dcs.terrain.persiangulf.PersianGulf",
+    "free": false,
+    "carrier": {"anchor": {"x": -80000, "y": -100000}, "heading": 90,
+                "note": "Gulf of Oman southwest of the strait - VERIFY IN-GAME"},
+    "presets": {
+      "coldwar": {
+        "blue_country": "USA",
+        "red_country": "Iran",
+        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Sharjah Intl"],
+        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Bandar Lengeh"],
+        "frontline_hint": "Strait of Hormuz"
+      },
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "Iran",
+        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Khasab"],
+        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Kish Intl"],
+        "frontline_hint": "Strait of Hormuz"
+      }
+    }
+  },
+  "nevada": {
+    "label": "Nevada (NTTR)",
+    "terrain_class": "dcs.terrain.nevada.Nevada",
+    "free": false,
+    "presets": {
+      "coldwar": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Nellis", "Creech", "McCarran International"],
+        "red_airbases": ["Groom Lake", "Lincoln County", "Beatty"],
+        "frontline_hint": "Red Flag ranges"
+      },
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Nellis", "Creech", "McCarran International"],
+        "red_airbases": ["Groom Lake", "Lincoln County", "Beatty"],
+        "frontline_hint": "Red Flag ranges"
+      }
+    }
+  },
+  "normandy": {
+    "label": "Normandy 2",
+    "terrain_class": "dcs.terrain.normandy.Normandy",
+    "free": false,
+    "presets": {
+      "wwii": {
+        "blue_country": "USA",
+        "red_country": "Germany",
+        "blue_airbases": ["Saint Pierre du Mont", "Cricqueville-en-Bessin", "Sainte-Laurent-sur-Mer"],
+        "red_airbases": ["Maupertus", "Lessay", "Picauville"],
+        "frontline_hint": "Normandy beachhead, summer 1944"
+      }
+    }
+  },
   "syria": {
     "label": "Syria",
     "terrain_class": "dcs.terrain.syria.Syria",

@@ -71,6 +71,7 @@ def options():
             "backseat_intercept": {"label": "Backseat Ops: GCI Intercept (F-4E, experimental)",
                                    "eras": ["coldwar", "modern"]},
         },
+        "carriers": __import__("missiongen.deck", fromlist=["hulls_for_options"]).hulls_for_options(),
         "enums": {
             "start": ["cold", "warm", "runway"],
             "time_of_day": ["dawn", "day", "dusk", "night"],

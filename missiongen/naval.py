@@ -23,18 +23,27 @@ def _offset(pos, meters, bearing_deg):
                          pos.y + meters * math.sin(b), pos._terrain)
 
 
-def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings):
-    from .resolver import resolve
-    carrier_cfg = CARRIERS.get(era, {}).get(side)
+def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
+                      hull_key=None):
+    from .resolver import resolve, load_json
     anchor_cfg = map_cfg.get("carrier")
-    if not carrier_cfg:
-        warnings.append(f"no {era}/{side} carrier defined - carrier group skipped")
-        return None
     if not anchor_cfg:
         warnings.append(f"map has no carrier anchor - carrier group skipped")
-        return None
+        return None, None
 
-    ref, label = carrier_cfg
+    if hull_key:
+        from .deck import _load_hull
+        hull = _load_hull(hull_key)
+        if era not in hull["eras"]:
+            warnings.append(f"{hull['label']} is not a {era} hull - carrier skipped")
+            return None, None
+        ref, label = hull["ship"], hull["label"]
+    else:
+        carrier_cfg = CARRIERS.get(era, {}).get(side)
+        if not carrier_cfg:
+            warnings.append(f"no {era}/{side} carrier defined - carrier group skipped")
+            return None, None
+        ref, label = carrier_cfg
     ctype = resolve(ref)
     anchor = mapping.Point(anchor_cfg["anchor"]["x"], anchor_cfg["anchor"]["y"], m.terrain)
 
@@ -63,4 +72,4 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings):
     wp.tasks.append(ActivateLink4Command(unit_id=grp.units[0].id))
     comms.add("Carrier", "Mother", f"{freq:.2f}", "71X",
               f"{label} - ICLS 11, Link4, BRC {int(brc):03d}")
-    return grp
+    return grp, brc

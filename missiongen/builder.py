@@ -157,12 +157,20 @@ class StarterBuilder:
                 m, own_country, home, era_cfg[r.coalition], self.rng, r.era)
 
         if r.bb_carrier:
-            from . import naval
+            from . import naval, deck
             if r.coalition == "blue":
-                csg = naval.add_carrier_group(m, own_country, r.era, "blue",
-                                              map_cfg, m.weather, comms, self.warnings)
+                default_hull = {"coldwar": "forrestal", "modern": "stennis"}.get(r.era)
+                hull_key = r.carrier_hull or default_hull
+                csg, brc = naval.add_carrier_group(
+                    m, own_country, r.era, "blue", map_cfg, m.weather, comms,
+                    self.warnings, hull_key=hull_key)
                 if csg:
                     stats["support"].append(csg.name)
+                    n = deck.configure_deck(
+                        m, own_country, csg, brc, hull_key, r.carrier_layout,
+                        r.carrier_deck_aircraft, r.carrier_equipment,
+                        self.rng, self.warnings)
+                    stats["deck_statics"] = n
             else:
                 self.warnings.append("carrier group is blue-only for now - skipped")
 
@@ -176,6 +184,43 @@ class StarterBuilder:
                                        own_center, away_bearing, comms)
             if aw:
                 stats["support"].append(aw.name)
+
+        if r.bb_farps:
+            if r.era == "wwii":
+                self.warnings.append("FARPs are helicopter-era only - skipped in WWII")
+            else:
+                from . import farps
+                fwd = _bearing(own_center, enemy_center)
+                for i in range(2):
+                    pos = mapping.Point(
+                        own_center.x + 0.3 * (enemy_center.x - own_center.x)
+                        + self.rng.uniform(-6000, 6000),
+                        own_center.y + 0.3 * (enemy_center.y - own_center.y)
+                        + self.rng.uniform(-6000, 6000), m.terrain)
+                    farps.add_farp(m, own_country, r.coalition, pos, self.rng,
+                                   f"FARP {'London Dallas Berlin Paris'.split()[i]}",
+                                   comms)
+                stats["support"].append("2x FARP")
+
+        if r.bb_targets:
+            from . import targets as tgt
+            enemy_side = "red" if r.coalition == "blue" else "blue"
+            picks = self.rng.sample(list(tgt.TARGET_PACKAGES), k=2)
+            for i, pk in enumerate(picks):
+                center = mapping.Point(
+                    enemy_center.x + self.rng.uniform(-15000, 15000),
+                    enemy_center.y + self.rng.uniform(-15000, 15000), m.terrain)
+                label = tgt.add_target_package(m, enemy_country, r.era, pk,
+                                               center, self.rng, f"TGT{i+1}")
+                stats.setdefault("targets", []).append(label)
+
+        if r.bb_range:
+            from . import targets as tgt
+            pos = mapping.Point(
+                own_center.x - 0.2 * (enemy_center.x - own_center.x),
+                own_center.y - 0.2 * (enemy_center.y - own_center.y), m.terrain)
+            tgt.add_practice_range(m, own_country, pos, self.rng, "RNG1")
+            stats.setdefault("targets", []).append("practice range")
 
         # --- template packs ---------------------------------------------------
         template_brief = ""
