@@ -166,7 +166,7 @@ story += [
 
     P("Step 2 — Pick a map", "h2"),
     P("Choose your theater. Maps without content for the chosen era are greyed out — pick "
-      "WWII and the Channel and Normandy light up; pick Modern and the Marianas appears."),
+      "WWII and the Channel, Normandy, and the 1944 Marianas light up. The Marianas carries all three eras — 1944 campaign, Arc Light era, and modern."),
     shot("step2_map.png", "Step 2: map selection — eight theaters, filtered by the era you chose."),
 
     P("Step 3 — Coalition, basing & aircraft", "h2"),
@@ -192,8 +192,30 @@ story += [
       "the file in <i>Saved Games/DCS/Missions/</i> and fly, or open it in the Mission Editor "
       "and keep building. <b>Copy share link</b> gives you a URL that regenerates this exact "
       "starter for anyone who clicks it — paste it in your squadron Discord."),
-    shot("step6_template.png", "Step 5: template packs — era-gated like everything else."),
+    shot("step6_template.png", "Step 5: template packs — era-gated like everything else, with crew difficulty."),
     shot("step7_generate.png", "The generate bar: share link and download."),
+
+    PageBreak(),
+    P("Crew Ops — fly the back seat", "h1"),
+    P("<b>The backseat contract: the mission flies the jet; you run the mission.</b> Crew Ops "
+      "templates are player-paced through the <b>F10 CREW menu</b> — no scripts on a stopwatch. "
+      "Commands appear as they become relevant, the AI crew answers your calls, and real events "
+      "drive the feedback (“GOOD EFFECT ON TARGET” when your convoy dies)."),
+    B("<b>WSO: IZLID Designation (F-4E, solo)</b> — Iceman flies, Jester lases. You call the "
+      "commit, the sparkle, and the egress from the back seat."),
+    B("<b>WSO: GCI Intercept (F-4E, solo)</b> — Iceman holds CAP until <i>you</i> commit on the "
+      "inbound Backfires. Work the radar, build the geometry, run the intercept."),
+    B("<b>RIO: Fleet Defense (F-14, multiplayer)</b> — one jet, two humans: pilot up front, RIO "
+      "on the AWG-9. Four Backfires inbound on the force; sort the raid in TWS and time the "
+      "Phoenix shots. (Solo RIO arrives with the F-14B(U)'s crew AI.)"),
+    P("<b>Crew difficulty:</b> Trainee shows [CREW HINT] prompts for the next call; Qualified "
+      "gives you a clean cockpit.", "note"),
+
+    P("Nav reference points", "h1"),
+    P("On maps with curated landmark data (Nevada today), named references — Area 51, Belted "
+      "Peak, Student Gap, Coyote Summit and more — are marked on the <b>F10 map</b>, listed in "
+      "the briefing with coordinates, plotted on the kneeboard theater page, and provided as "
+      "named trigger zones (<i>NAV BELTED PEAK</i>) you can build your own logic on."),
 
     PageBreak(),
     P("The standard comm ladder", "h1"),
@@ -238,6 +260,8 @@ blocks_rows = [
     ["Practice range", "Bombing ring and strafe line in the friendly rear."],
     ["Nav kneeboard", "Comms card, airfield data, and a theater overview rendered into the "
      "jet's kneeboard."],
+    ["Nav reference points", "Named landmarks (Area 51, Belted Peak...) marked on the F10 map, "
+     "in the briefing, and on the kneeboard, with trigger zones for your own logic."],
 ]
 story += [t(blocks_rows, [1.5*inch, 5.1*inch])]
 
@@ -245,9 +269,12 @@ story += [
     P("The carrier strike group", "h1"),
     P("Pick a hull and you get its <b>real strike group</b>. The Roosevelt sails as CSG-9 with "
       "USS Lake Erie (CG-70) and DESRON 23 destroyers; the Truman as CSG-8 with USS Gettysburg; "
-      "the Forrestal as a 1980s Mediterranean battle group with USS Ticonderoga. Screen stations "
+      "the Forrestal as a 1980s Mediterranean battle group with USS Ticonderoga; HMS Invincible "
+      "as the 1982 South Atlantic task force with her Leander frigates (and, true to history, no "
+      "AEW); USS Essex as Task Force 58 with Corsairs for the 1944 Marianas. Screen stations "
       "follow doctrine: plane-guard destroyer astern, AAW cruiser on the beam, pickets on the "
-      "bow quarters. The group steams into wind on BRC."),
+      "bow quarters. The group steams into wind on BRC. On landlocked maps (Nevada) the carrier "
+      "option greys out — there is no carrier water."),
     P("Deck configuration", "h2"),
 ]
 deck_rows = [
@@ -264,13 +291,8 @@ story += [t(deck_rows, [1.2*inch, 5.4*inch]), Spacer(1, 6),
             "air wing's <b>CAP</b> (two-ship on the threat axis at 25,000 ft — e.g. VFA-146 Blue "
             "Diamonds) and an <b>E-2 Hawkeye</b> AEW orbit covering the force."),
 
-          P("Template packs", "h1"),
-          B("<b>Backseat Ops: IZLID Designation (F-4E)</b> — you fly the back seat; Iceman flies the "
-            "jet and Jester lases a convoy with the IZLID on a scripted timeline."),
-          B("<b>Backseat Ops: GCI Intercept (F-4E, experimental)</b> — Iceman holds CAP, GCI commits "
-            "you onto inbound Backfires; you run the intercept from the pit."),
           P("Templates are the one exception to the no-waypoints rule — the AI pilot needs "
-            "steerpoints to fly.", "note"),
+            "steerpoints to fly. See the Crew Ops section for the WSO/RIO scenarios.", "note"),
 
           P("Share links and recipes", "h1"),
           P("A starter is defined by its <b>recipe</b> — your wizard selections plus a seed. Share "
