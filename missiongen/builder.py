@@ -77,8 +77,15 @@ class StarterBuilder:
         self._apply_weather(m)
 
         # --- coalitions & airbase ownership ---------------------------------
-        blue_country = m.country(resolve_country(preset["blue_country"])().name)
-        red_country = m.country(resolve_country(preset["red_country"])().name)
+        def _get_country(name, side):
+            c = m.country(resolve_country(name)().name)
+            if c is None:  # not in the mission's default coalitions (e.g. Argentina)
+                c = resolve_country(name)()
+                m.coalition[side].add_country(c)
+            return c
+
+        blue_country = _get_country(preset["blue_country"], "blue")
+        red_country = _get_country(preset["red_country"], "red")
 
         blue_fields, red_fields = [], []
         for name in preset["blue_airbases"]:

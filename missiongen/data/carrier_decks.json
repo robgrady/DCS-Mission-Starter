@@ -128,6 +128,33 @@
       }
     },
 
+    "invincible": {
+      "label": "R05 HMS Invincible (1982 Task Force)",
+      "ship": "ships.Hms_invincible", "module": "South Atlantic", "eras": ["coldwar"],
+      "deck_aircraft": ["planes.AV8BNA"],
+      "_note": "AV-8B stands in for the Sea Harrier FRS.1. No AEW in 1982 - that was the hard lesson of the war.",
+      "csg": {
+        "group_name": "Task Force 317 - Invincible group",
+        "flagship_name": "R05 HMS Invincible",
+        "escorts": [
+          {"ref": "ships.Leander_gun_achilles", "name": "F12 HMS Achilles", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.Leander_gun_andromeda", "name": "F57 HMS Andromeda", "r": 4000, "brg": 90, "role": "goalkeeper"},
+          {"ref": "ships.Leander_gun_ariadne", "name": "F72 HMS Ariadne", "r": 9000, "brg": 30, "role": "picket"}
+        ],
+        "airwing": {"label": "801 NAS",
+          "cap": {"type": "planes.AV8BNA", "squadron": "801 NAS"},
+          "aew": null}
+      },
+      "spots": {
+        "street":    [{"x": 55, "y": 5, "hdg": 15}, {"x": 35, "y": 6, "hdg": 15},
+                      {"x": 15, "y": 7, "hdg": 15}, {"x": -5, "y": 7, "hdg": 15}],
+        "fantail_stbd": [{"x": -55, "y": 5, "hdg": 0}, {"x": -70, "y": 3, "hdg": 0}],
+        "el1":       [{"x": -30, "y": 8, "hdg": 90}]
+      },
+      "equipment": [
+        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -18, "y": 8, "hdg": 180}
+      ]
+    },
     "forrestal": {
       "label": "CV-59 Forrestal (CVW-6, 1980s Med)",
       "ship": "ships.Forrestal", "module": "F-14 Tomcat", "eras": ["coldwar"],

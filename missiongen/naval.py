@@ -119,7 +119,11 @@ def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
     if not airwing:
         warnings.append("no air wing data for this hull - AEW skipped")
         return None
-    aew_cfg = airwing["aew"]
+    aew_cfg = airwing.get("aew")
+    if not aew_cfg:
+        warnings.append("this air wing has no AEW aircraft (historically accurate "
+                        "for the 1982 task force) - AEW skipped")
+        return None
     aew_type = resolve(aew_cfg["type"])
     pos = _offset(carrier_pos, 45000, (threat_bearing + 180) % 360)  # 25nm behind CSG
     freq = comms.freq("aew")

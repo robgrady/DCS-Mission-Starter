@@ -33,6 +33,15 @@ SAMPLES = [
            bb_carrier=True, carrier_hull="cvn_75", carrier_layout="launch",
            carrier_deck_aircraft=["FA_18C_hornet", "S_3B"],
            bb_farps=True, bb_targets=True, bb_range=True),
+    # South Atlantic 1982: HMS Invincible task force, Harriers, no AEW (history)
+    Recipe(map="falklands", era="coldwar", aircraft="AV8BNA", seed=82,
+           bb_carrier=True, carrier_hull="invincible", carrier_layout="recovery",
+           carrier_deck_aircraft=["AV8BNA"], carrier_cap=True),
+    # Marianas: GW (CSG-5) launch deck west of Guam vs the northern islands
+    Recipe(map="marianas", era="modern", aircraft="FA_18C_hornet", seed=61,
+           bb_carrier=True, carrier_hull="cvn_73", carrier_layout="launch",
+           carrier_deck_aircraft=["FA_18C_hornet", "E_2C", "SH_60B"],
+           carrier_cap=True, carrier_aew=True),
 ]
 
 

@@ -4,20 +4,20 @@
     "terrain_class": "dcs.terrain.caucasus.Caucasus",
     "free": true,
     "carrier": {"anchor": {"x": -310000, "y": 530000}, "heading": 240,
-                "note": "Black Sea, offshore Batumi-Sukhumi bight - VERIFY IN-GAME"},
+                "note": "Black Sea, offshore Batumi-Sukhumi bight - validated area"},
     "presets": {
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi"],
-        "red_airbases": ["Gudauta", "Sochi-Adler", "Maykop-Khanskaya"],
+        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi", "Vaziani", "Kobuleti"],
+        "red_airbases": ["Gudauta", "Sochi-Adler", "Maykop-Khanskaya", "Krymsk", "Mineralnye Vody"],
         "frontline_hint": "Abkhazia coast"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi"],
-        "red_airbases": ["Gudauta", "Sochi-Adler", "Mozdok"],
+        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi", "Vaziani", "Kobuleti"],
+        "red_airbases": ["Gudauta", "Sochi-Adler", "Mozdok", "Krymsk", "Beslan"],
         "frontline_hint": "Abkhazia coast"
       }
     }
@@ -30,8 +30,8 @@
       "wwii": {
         "blue_country": "UK",
         "red_country": "Germany",
-        "blue_airbases": ["Manston", "Hawkinge", "Biggin Hill"],
-        "red_airbases": ["Abbeville Drucat", "Saint Omer Longuenesse", "Merville Calonne"],
+        "blue_airbases": ["Manston", "Hawkinge", "Biggin Hill", "Lympne", "Detling"],
+        "red_airbases": ["Abbeville Drucat", "Saint Omer Longuenesse", "Merville Calonne", "Dunkirk Mardyck"],
         "frontline_hint": "The Channel coast, 1944"
       }
     }
@@ -46,15 +46,15 @@
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Iran",
-        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Sharjah Intl"],
-        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Bandar Lengeh"],
+        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Sharjah Intl", "Fujairah Intl", "Abu Dhabi Intl"],
+        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Bandar Lengeh", "Lar", "Shiraz Intl"],
         "frontline_hint": "Strait of Hormuz"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Iran",
-        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Khasab"],
-        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Kish Intl"],
+        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Khasab", "Sharjah Intl", "Fujairah Intl"],
+        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Kish Intl", "Qeshm Island", "Shiraz Intl"],
         "frontline_hint": "Strait of Hormuz"
       }
     }
@@ -67,15 +67,15 @@
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Nellis", "Creech", "McCarran International"],
-        "red_airbases": ["Groom Lake", "Lincoln County", "Beatty"],
+        "blue_airbases": ["Nellis", "Creech", "McCarran International", "Henderson Executive"],
+        "red_airbases": ["Groom Lake", "Tonopah Test Range", "Lincoln County", "Beatty"],
         "frontline_hint": "Red Flag ranges"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Nellis", "Creech", "McCarran International"],
-        "red_airbases": ["Groom Lake", "Lincoln County", "Beatty"],
+        "blue_airbases": ["Nellis", "Creech", "McCarran International", "Henderson Executive"],
+        "red_airbases": ["Groom Lake", "Tonopah Test Range", "Lincoln County", "Beatty"],
         "frontline_hint": "Red Flag ranges"
       }
     }
@@ -88,8 +88,8 @@
       "wwii": {
         "blue_country": "USA",
         "red_country": "Germany",
-        "blue_airbases": ["Saint Pierre du Mont", "Cricqueville-en-Bessin", "Sainte-Laurent-sur-Mer"],
-        "red_airbases": ["Maupertus", "Lessay", "Picauville"],
+        "blue_airbases": ["Saint Pierre du Mont", "Cricqueville-en-Bessin", "Sainte-Laurent-sur-Mer", "Carpiquet", "Lessay"],
+        "red_airbases": ["Evreux", "Argentan", "Vrigny", "Essay", "Villacoublay"],
         "frontline_hint": "Normandy beachhead, summer 1944"
       }
     }
@@ -104,16 +104,55 @@
       "coldwar": {
         "blue_country": "Israel",
         "red_country": "Syria",
-        "blue_airbases": ["Ramat David", "Rosh Pina", "Megiddo"],
-        "red_airbases": ["Damascus", "Khalkhalah", "Mezzeh"],
+        "blue_airbases": ["Ramat David", "Rosh Pina", "Megiddo", "Haifa"],
+        "red_airbases": ["Damascus", "Mezzeh", "Khalkhalah", "Marj Ruhayyil", "Al-Dumayr"],
         "frontline_hint": "Golan Heights"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Syria",
-        "blue_airbases": ["Incirlik", "Hatay", "Ramat David"],
-        "red_airbases": ["Bassel Al-Assad", "Damascus", "Palmyra"],
+        "blue_airbases": ["Incirlik", "Hatay", "Ramat David", "Akrotiri", "Gaziantep"],
+        "red_airbases": ["Bassel Al-Assad", "Damascus", "Palmyra", "Shayrat", "Tiyas"],
         "frontline_hint": "Western Syria"
+      }
+    }
+  },
+  "marianas": {
+    "label": "Marianas",
+    "terrain_class": "dcs.terrain.marianaislands.MarianaIslands",
+    "free": true,
+    "carrier": {"anchor": {"x": 10000, "y": -80000}, "heading": 70,
+                "note": "Philippine Sea west of Guam - open water"},
+    "presets": {
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "China",
+        "blue_airbases": ["Andersen AFB", "Antonio B. Won Pat Intl", "Olf Orote"],
+        "red_airbases": ["Saipan Intl", "Tinian Intl", "Rota Intl"],
+        "frontline_hint": "Guam vs the northern Marianas"
+      }
+    }
+  },
+  "falklands": {
+    "label": "South Atlantic",
+    "terrain_class": "dcs.terrain.falklands.Falklands",
+    "free": false,
+    "carrier": {"anchor": {"x": 120000, "y": 160000}, "heading": 45,
+                "note": "NE of the Falklands - the 1982 task force operating area"},
+    "presets": {
+      "coldwar": {
+        "blue_country": "UK",
+        "red_country": "Argentina",
+        "blue_airbases": ["Mount Pleasant", "Port Stanley", "San Carlos FOB"],
+        "red_airbases": ["Rio Grande", "Rio Gallegos", "Ushuaia"],
+        "frontline_hint": "Falklands, 1982"
+      },
+      "modern": {
+        "blue_country": "UK",
+        "red_country": "Argentina",
+        "blue_airbases": ["Mount Pleasant", "Port Stanley", "San Carlos FOB"],
+        "red_airbases": ["Rio Grande", "Rio Gallegos", "Ushuaia"],
+        "frontline_hint": "South Atlantic standoff"
       }
     }
   }
