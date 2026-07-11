@@ -121,10 +121,26 @@ class StarterBuilder:
         player_group = None
         if not r.template:
             aircraft = self._resolve_aircraft(r.aircraft)
-            player_group = m.flight_group_from_airport(
-                own_country, "Viper 1" if r.coalition == "blue" else "Bandit 1",
-                aircraft, home,
-                start_type=START_TYPES[r.start], group_size=max(1, min(4, r.slots)))
+            from dcs.terrain.terrain import NoParkingSlotError
+            player_group = None
+            for field in [home] + [a for a in own_fields if a is not home]:
+                try:
+                    player_group = m.flight_group_from_airport(
+                        own_country, "Viper 1" if r.coalition == "blue" else "Bandit 1",
+                        aircraft, field,
+                        start_type=START_TYPES[r.start],
+                        group_size=max(1, min(4, r.slots)))
+                    if field is not home:
+                        self.warnings.append(
+                            f"no free {aircraft.id} parking at {home.name} - "
+                            f"flight placed at {field.name}")
+                        home = field
+                    break
+                except NoParkingSlotError:
+                    continue
+            if player_group is None:
+                raise UnknownUnitError(
+                    f"no friendly airbase on this preset has free parking for {aircraft.id}")
             if r.slots <= 1:
                 player_group.units[0].set_player()
             else:

@@ -44,6 +44,13 @@ SAMPLES = [
     Recipe(map="falklands", era="coldwar", aircraft="AV8BNA", seed=82,
            bb_carrier=True, carrier_hull="invincible", carrier_layout="recovery",
            carrier_deck_aircraft=["AV8BNA"], carrier_cap=True),
+    # Marianas 1944: Corsairs off the Essex (TF 58) vs Japanese-held Saipan
+    Recipe(map="marianas", era="wwii", aircraft="F4U_1D", seed=44,
+           bb_carrier=True, carrier_hull="essex", carrier_layout="recovery",
+           carrier_deck_aircraft=["F4U_1D"], carrier_cap=True),
+    # Marianas Arc Light era: F-4E out of Andersen AFB
+    Recipe(map="marianas", era="coldwar", aircraft="F_4E_45MC", seed=72,
+           home_airbase="Andersen AFB"),
     # Marianas: GW (CSG-5) launch deck west of Guam vs the northern islands
     Recipe(map="marianas", era="modern", aircraft="FA_18C_hornet", seed=61,
            bb_carrier=True, carrier_hull="cvn_73", carrier_layout="launch",

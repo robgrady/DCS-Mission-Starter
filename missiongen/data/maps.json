@@ -124,6 +124,21 @@
     "carrier": {"anchor": {"x": 10000, "y": -80000}, "heading": 70,
                 "note": "Philippine Sea west of Guam - open water"},
     "presets": {
+      "wwii": {
+        "blue_country": "USA",
+        "red_country": "Japan",
+        "blue_airbases": ["North West Field", "Tinian Intl", "Olf Orote"],
+        "red_airbases": ["Saipan Intl", "Pagan Airstrip", "Rota Intl"],
+        "frontline_hint": "Marianas campaign, 1944 (Saipan Intl = the old Aslito Field)",
+        "note": "DCS has no Japanese WWII aircraft - red fields dress with the generic WWII pack"
+      },
+      "coldwar": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Andersen AFB", "Antonio B. Won Pat Intl", "North West Field"],
+        "red_airbases": ["Saipan Intl", "Tinian Intl", "Pagan Airstrip"],
+        "frontline_hint": "WESTPAC, Arc Light era - B-52 country"
+      },
       "modern": {
         "blue_country": "USA",
         "red_country": "China",

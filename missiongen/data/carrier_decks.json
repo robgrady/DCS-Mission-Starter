@@ -128,6 +128,27 @@
       }
     },
 
+    "essex": {
+      "label": "CV-9 USS Essex (TF 58, 1944)",
+      "ship": "ships.Essex", "module": "WWII Assets / Marianas", "eras": ["wwii"],
+      "deck_aircraft": ["planes.F4U_1D"],
+      "_note": "Corsair stands in for the full CVG. Straight deck - aft pack only, forward deck clear for launch/recovery runs. DCS has no WWII escort destroyers; screen omitted.",
+      "csg": {
+        "group_name": "Task Force 58.1 - Essex group",
+        "flagship_name": "CV-9 USS Essex",
+        "escorts": [],
+        "airwing": {"label": "CVG-15",
+          "cap": {"type": "planes.F4U_1D", "squadron": "VF-15"},
+          "aew": null}
+      },
+      "spots": {
+        "street":    [{"x": -25, "y": 2, "hdg": 10}, {"x": -40, "y": -2, "hdg": 10},
+                      {"x": -55, "y": 2, "hdg": 10}, {"x": -70, "y": -2, "hdg": 10}],
+        "fantail_stbd": [{"x": -85, "y": 3, "hdg": 5}, {"x": -98, "y": -1, "hdg": 5}],
+        "el1":       [{"x": -12, "y": 6, "hdg": 90}]
+      },
+      "equipment": []
+    },
     "invincible": {
       "label": "R05 HMS Invincible (1982 Task Force)",
       "ship": "ships.Hms_invincible", "module": "South Atlantic", "eras": ["coldwar"],
