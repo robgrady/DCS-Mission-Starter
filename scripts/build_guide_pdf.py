@@ -9,9 +9,11 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
                                 Spacer, Table, TableStyle, PageBreak,
-                                KeepTogether)
+                                KeepTogether, Image as RLImage)
+from PIL import Image as PILImage
 
 OUT = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
+IMG = Path(__file__).parent.parent / "docs" / "img"
 
 # palette — dark naval blue + gold accent
 NAVY = HexColor("#0e1a2b")
@@ -122,6 +124,19 @@ def P(text, s="body"):
     return Paragraph(text, styles[s])
 
 
+def shot(name, caption, width=6.6 * inch):
+    """Screenshot with caption, scaled to width, kept together."""
+    path = IMG / name
+    if not path.exists():
+        return Spacer(1, 1)
+    w, h = PILImage.open(path).size
+    img = RLImage(str(path), width=width, height=width * h / w)
+    cap = Paragraph(caption, ParagraphStyle(
+        "cap", fontName="Helvetica-Oblique", fontSize=8.5, leading=11,
+        textColor=DIM, alignment=TA_CENTER, spaceBefore=3, spaceAfter=10))
+    return KeepTogether([img, cap])
+
+
 def B(text):
     return Paragraph(f"•  {text}", styles["bullet"])
 
@@ -138,18 +153,48 @@ story += [
     P("<b>We set the stage — you write the play.</b> The Starter never places your waypoints. "
       "Flight planning is always yours."),
 
-    P("Quick start", "h1"),
-    B("<b>1.</b> Open the wizard and pick a <b>map</b> and an <b>era</b>. The era is a hard filter: "
-      "a WWII starter will not offer a Hornet, and a modern starter will not offer a Spitfire."),
-    B("<b>2.</b> Pick your <b>side, home airfield, and aircraft</b> — the full DCS flyable roster, "
-      "filtered to the period. Choose single-player or multiplayer slots, start type, time, weather."),
-    B("<b>3.</b> Toggle <b>building blocks</b>. Everything is optional; defaults are sensible."),
-    B("<b>4.</b> Optionally pick a <b>template pack</b> (e.g. Backseat Ops for the F-4E)."),
-    B("<b>5.</b> <b>Generate.</b> Drop the .miz in <i>Saved Games/DCS/Missions/</i> and fly, "
-      "or open it in the Mission Editor and keep building."),
-    B("<b>6.</b> <b>Share.</b> “Copy share link” gives you a URL that regenerates this exact "
-      "starter for anyone who clicks it. Paste it in your squadron Discord."),
+    shot("hero.png", "The Mission Starter wizard."),
 
+    PageBreak(),
+    P("Step by step", "h1"),
+
+    P("Step 1 — Pick a map", "h2"),
+    P("Choose your theater. Maps that don't support the selected era are greyed out."),
+    shot("step1_map.png", "Step 1: map selection — six theaters, era-aware."),
+
+    P("Step 2 — Pick an era", "h2"),
+    P("The era is a <b>hard filter</b>: it decides which aircraft, statics, SAMs, and support "
+      "assets can appear. A WWII starter will not offer a Hornet, and a modern starter will "
+      "not offer a Spitfire."),
+    shot("step2_era.png", "Step 2: era selection — WWII is greyed out because the selected map has no WWII preset."),
+
+    P("Step 3 — Coalition, basing & aircraft", "h2"),
+    P("Pick your side, home airfield, and aircraft from the full DCS flyable roster (period-"
+      "filtered). Set single-player or multiplayer slots, start type, time, weather, and world "
+      "density."),
+    shot("step3_basing.png", "Step 3: side, home plate, aircraft, and mission conditions."),
+
+    PageBreak(),
+    P("Step 4 — Choose building blocks", "h2"),
+    P("Everything is optional and defaults are sensible. Each block is described in the "
+      "reference table later in this guide."),
+    shot("step4_blocks.png", "Step 4: the building-block toggles."),
+
+    PageBreak(),
+    P("Step 4b — Configure the carrier (optional)", "h2"),
+    P("With the carrier block enabled, pick a hull, a real-world deck state, the aircraft "
+      "spotted on deck, and optionally launch the air wing's CAP and Hawkeye."),
+    shot("step5_carrier.png", "Step 4b: the Roosevelt with a recovery deck, full airwing, CAP and AAW Hawkeye."),
+
+    P("Step 5 — Template pack (optional), then Generate", "h2"),
+    P("Pick a curated scenario or keep the pure starter, then hit <b>GENERATE .MIZ</b>. Drop "
+      "the file in <i>Saved Games/DCS/Missions/</i> and fly, or open it in the Mission Editor "
+      "and keep building. <b>Copy share link</b> gives you a URL that regenerates this exact "
+      "starter for anyone who clicks it — paste it in your squadron Discord."),
+    shot("step6_template.png", "Step 5: template packs — era-gated like everything else."),
+    shot("step7_generate.png", "The generate bar: share link and download."),
+
+    PageBreak(),
     P("The standard comm ladder", "h1"),
     P("Every starter uses the same predefined comms, so you learn the plan once. The ladder is "
       "printed on the in-jet kneeboard and in the mission briefing."),

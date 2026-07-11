@@ -193,9 +193,16 @@ async function init(){
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
   const code = new URLSearchParams(location.search).get('r');
-  if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ maps.firstElementChild.click(); eras.firstElementChild.click(); } }
-  else { maps.firstElementChild.click(); eras.firstElementChild.click(); }
+  if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ defaultSelection(); } }
+  else { defaultSelection(); }
   sum();
+}
+function defaultSelection(){
+  const maps = document.getElementById('maps');
+  maps.firstElementChild.click();
+  // default to the first era the selected map actually supports (era gate)
+  const firstEra = Object.keys(OPT.maps[S.map].presets)[0];
+  document.querySelector(`#eras .card[data-k="${firstEra}"]`).click();
 }
 function applyRecipe(r){
   document.querySelector(`#maps .card[data-k="${r.map}"]`)?.click();
