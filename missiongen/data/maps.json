@@ -3,6 +3,8 @@
     "label": "Caucasus",
     "terrain_class": "dcs.terrain.caucasus.Caucasus",
     "free": true,
+    "carrier": {"anchor": {"x": -310000, "y": 530000}, "heading": 240,
+                "note": "Black Sea, offshore Batumi-Sukhumi bight - VERIFY IN-GAME"},
     "presets": {
       "coldwar": {
         "blue_country": "USA",
@@ -24,6 +26,8 @@
     "label": "Syria",
     "terrain_class": "dcs.terrain.syria.Syria",
     "free": false,
+    "carrier": {"anchor": {"x": 20000, "y": -60000}, "heading": 250,
+                "note": "Eastern Med, WSW of Latakia - VERIFY IN-GAME"},
     "presets": {
       "coldwar": {
         "blue_country": "Israel",

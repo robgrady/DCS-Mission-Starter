@@ -96,7 +96,18 @@ class StarterBuilder:
             comms.add("Flight", player_group.name, "305.00", "-", aircraft.id)
 
         # --- building blocks -------------------------------------------------
-        stats = {"statics": 0, "sam_sites": [], "support": []}
+        stats = {"statics": 0, "sam_sites": [], "support": [], "ambient": []}
+
+        # ambient traffic BEFORE dressing so AI aircraft claim parking slots first
+        if r.bb_ambient:
+            from . import ambient
+            enemy_side = "red" if r.coalition == "blue" else "blue"
+            stats["ambient"] += ambient.add_ambient_traffic(
+                m, own_country, own_fields, era_cfg[r.coalition], r.density,
+                self.rng, "friendly")
+            stats["ambient"] += ambient.add_ambient_traffic(
+                m, enemy_country, enemy_fields, era_cfg[enemy_side], r.density,
+                self.rng, "enemy")
 
         if r.bb_dressing:
             for ap in own_fields:
@@ -115,6 +126,16 @@ class StarterBuilder:
             # friendly SHORAD at home plate only
             stats["sam_sites"] += airdefense.defend_airbase(
                 m, own_country, home, era_cfg[r.coalition], self.rng, r.era)
+
+        if r.bb_carrier:
+            from . import naval
+            if r.coalition == "blue":
+                csg = naval.add_carrier_group(m, own_country, r.era, "blue",
+                                              map_cfg, m.weather, comms, self.warnings)
+                if csg:
+                    stats["support"].append(csg.name)
+            else:
+                self.warnings.append("carrier group is blue-only for now - skipped")
 
         if r.bb_tanker:
             tk = support_air.add_tanker(m, own_country, r.era, r.coalition,

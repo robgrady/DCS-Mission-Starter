@@ -104,13 +104,15 @@ const BLOCKS = [
   ["bb_comms","Comms card","Non-conflicting freq/TACAN plan in briefing", true],
   ["bb_briefing","Starter briefing","Situation + contents summary", true],
   ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true],
+  ["bb_carrier","Carrier strike group","CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)", false],
+  ["bb_ambient","Ambient air traffic","AI transports starting up and flying between friendly fields", true],
 ];
 
 // --- share links: recipe <-> base64url(JSON of non-default fields) ---
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
-  bb_kneeboard:true,template:null,seed:1};
+  bb_kneeboard:true,bb_carrier:false,bb_ambient:true,template:null,seed:1};
 function encodeRecipe(r){
   const diff = {};
   for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;

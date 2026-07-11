@@ -24,6 +24,8 @@ class Recipe:
     bb_comms: bool = True              # BB-18 comms card in briefing
     bb_briefing: bool = True           # BB-21
     bb_kneeboard: bool = True          # BB-19 nav chart kneeboard pages
+    bb_carrier: bool = False           # BB-9 carrier strike group (blue, coastal maps)
+    bb_ambient: bool = True            # BB-13 ambient AI traffic between friendly fields
 
     # template packs
     template: Optional[str] = None     # None | "backseat_izlid"
