@@ -95,12 +95,29 @@ def configure_deck(m, country, csg_group, brc_deg, hull_key, layout_key,
         warnings.append(f"none of the selected deck aircraft are deckable on "
                         f"{hull['label']} - deck left empty")
 
+    # real spotting practice: helos to the corral, E-2s toward the bow,
+    # jets fill the rest in zone order (doctrine order, not shuffled)
+    helos = [r for r in valid if r.startswith("helicopters.")]
+    e2s = [r for r in valid if r.split(".")[-1].startswith("E_2")]
+    jets = [r for r in valid if r not in helos and r not in e2s]
+
     spots = [s for z in layout["fill_zones"] for s in hull["spots"].get(z, [])]
-    rng.shuffle(spots)
+    ji = 0
     for i, spot in enumerate(spots):
-        if not valid:
+        pref = spot.get("pref")
+        if pref == "helo":
+            if not helos:
+                continue                      # no helo selected: corral stays open
+            ref = helos[i % len(helos)]
+        elif pref == "e2" and e2s:
+            ref = e2s[0]
+        elif jets:
+            ref = jets[ji % len(jets)]
+            ji += 1
+        elif valid:
+            ref = valid[i % len(valid)]
+        else:
             break
-        ref = valid[i % len(valid)]
         actype = resolve(ref)
         _place_linked(m, country, f"DECK {hull_key} {i+1} {actype.id}", actype,
                       ship_unit, brc_deg, spot["x"], spot["y"], spot["hdg"])
