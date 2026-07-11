@@ -18,7 +18,8 @@ TIME_PRESETS = {"dawn": 5, "day": 12, "dusk": 18, "night": 22}
 
 # templates are era-gated too: no Backseat Ops in a WWII starter
 TEMPLATE_ERAS = {"backseat_izlid": ("coldwar", "modern"),
-                 "backseat_intercept": ("coldwar", "modern")}
+                 "backseat_intercept": ("coldwar", "modern"),
+                 "rio_fleet_defense": ("coldwar", "modern")}
 
 
 class EraViolation(Exception):
@@ -258,7 +259,7 @@ class StarterBuilder:
 
         # --- template packs ---------------------------------------------------
         template_brief = ""
-        if r.template in ("backseat_izlid", "backseat_intercept"):
+        if r.template in ("backseat_izlid", "backseat_intercept", "rio_fleet_defense"):
             target_area = mapping.Point(
                 enemy_center.x + self.rng.uniform(-8000, 8000),
                 enemy_center.y + self.rng.uniform(-8000, 8000), m.terrain)
@@ -266,10 +267,15 @@ class StarterBuilder:
                 backseat.build_backseat_izlid(m, r, blue_country, red_country, home,
                                               target_area, self.rng, comms)
                 template_brief = backseat.BRIEFING_BLOCK
-            else:
+            elif r.template == "backseat_intercept":
                 backseat.build_backseat_intercept(m, r, blue_country, red_country,
                                                   home, target_area, self.rng, comms)
                 template_brief = backseat.INTERCEPT_BRIEFING_BLOCK
+            else:
+                backseat.build_rio_fleet_defense(m, r, blue_country, red_country,
+                                                 home, target_area, self.rng, comms,
+                                                 r.era)
+                template_brief = backseat.RIO_BRIEFING_BLOCK
 
         # --- bullseye ---------------------------------------------------------
         midpoint = mapping.Point((own_center.x + enemy_center.x) / 2,

@@ -69,10 +69,12 @@ def options():
                  for k, v in eras.items()},
         "aircraft": flyable_aircraft(),
         "templates": {
-            "backseat_izlid": {"label": "Backseat Ops: IZLID Designation (F-4E, you fly the back seat)",
+            "backseat_izlid": {"label": "WSO: IZLID Designation (F-4E solo — you run the mission from the back seat)",
                                "eras": ["coldwar", "modern"]},
-            "backseat_intercept": {"label": "Backseat Ops: GCI Intercept (F-4E, experimental)",
+            "backseat_intercept": {"label": "WSO: GCI Intercept (F-4E solo — commit the intercept from the pit)",
                                    "eras": ["coldwar", "modern"]},
+            "rio_fleet_defense": {"label": "RIO: Fleet Defense (F-14 multiplayer crew — the AWG-9 vs a Backfire raid)",
+                                  "eras": ["coldwar", "modern"]},
         },
         "carriers": __import__("missiongen.deck", fromlist=["hulls_for_options"]).hulls_for_options(),
         "enums": {

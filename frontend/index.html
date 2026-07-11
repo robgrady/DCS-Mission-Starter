@@ -102,6 +102,13 @@
   </div>
   <div class="step"><h2><span class="n">5</span>Template pack <span class="pill">optional</span></h2>
     <div class="cards" id="templates"></div>
+    <div class="row" style="margin-top:10px"><div style="max-width:280px">
+      <label>Crew difficulty (for WSO/RIO templates)</label>
+      <select id="crew_difficulty">
+        <option value="qualified">Qualified — clean cockpit, your calls</option>
+        <option value="trainee">Trainee — crew hints tell you the next call</option>
+      </select>
+    </div></div>
   </div>
 </main>
 <div class="genbar">
@@ -133,7 +140,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
-  carrier_cap:false,carrier_aew:false,template:null,seed:1};
+  carrier_cap:false,carrier_aew:false,template:null,crew_difficulty:"qualified",seed:1};
 function encodeRecipe(r){
   const diff = {};
   for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;
@@ -296,6 +303,7 @@ function fillHome(){
 function recipe(){
   const r = {
     map:S.map, era:S.era, template:S.template,
+    crew_difficulty:document.getElementById('crew_difficulty').value,
     coalition:document.getElementById('coalition').value,
     aircraft:document.getElementById('aircraft').value,
     home_airbase:document.getElementById('home').value,

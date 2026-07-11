@@ -33,6 +33,10 @@ SAMPLES = [
            bb_carrier=True, carrier_hull="cvn_75", carrier_layout="launch",
            carrier_deck_aircraft=["FA_18C_hornet", "S_3B"],
            bb_farps=True, bb_targets=True, bb_range=True),
+    # RIO fleet defense: MP crew Tomcats vs a Backfire raid off Guam
+    Recipe(map="marianas", era="modern", aircraft="F_14B", seed=88,
+           template="rio_fleet_defense", bb_carrier=True, carrier_hull="cvn_73",
+           carrier_layout="launch", carrier_deck_aircraft=["F_14B", "E_2C"]),
     # NTTR red flag: Nellis vs Groom Lake/Tonopah, nav points + targets + range
     Recipe(map="nevada", era="modern", aircraft="F_16C_50", seed=75,
            bb_targets=True, bb_range=True),
