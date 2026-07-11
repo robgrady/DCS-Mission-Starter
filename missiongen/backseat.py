@@ -94,6 +94,62 @@ def build_backseat_izlid(m, recipe, blue_country, red_country, home_airport,
     return f4
 
 
+def build_backseat_intercept(m, recipe, blue_country, red_country, home_airport,
+                             target_area, rng: random.Random, comms):
+    """Scenario 2 (EXPERIMENTAL): GCI intercept training. Iceman flies CAP and
+    responds to timed vectors; the player runs the intercept from the back seat
+    against an inbound bomber cell."""
+    from dcs import planes as _planes
+
+    # CAP anchor between home and the threat axis
+    cap = mapping.Point((home_airport.position.x + target_area.x) / 2,
+                        (home_airport.position.y + target_area.y) / 2,
+                        target_area._terrain)
+
+    # Inbound red bomber cell, high and fast, pointed at the friendly side
+    bombers = m.flight_group_inflight(
+        red_country, "Vandal 1", _planes.Tu_22M3,
+        mapping.Point(target_area.x + 60000, target_area.y + 40000, target_area._terrain),
+        altitude=9000, speed=900, group_size=2)
+    bombers.add_waypoint(home_airport.position, altitude=9000)
+
+    # Player F-4E on CAP, Iceman flying
+    f4 = m.flight_group_inflight(
+        blue_country, "Rhino 1", planes.F_4E_45MC, cap,
+        altitude=6096, speed=740, group_size=1)
+    f4.add_waypoint(cap, altitude=6096)                     # STPT 2: CAP anchor
+    f4.add_waypoint(target_area, altitude=7620)             # STPT 3: threat axis
+    f4.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f4.units]
+
+    import math as _math
+    threat_brg = ( _math.degrees(_math.atan2(
+        target_area.y - cap.y, target_area.x - cap.x)) % 360)
+
+    _flag_trigger(m, "Iceman: orbit CAP anchor (STPT 2)", 20,
+                  FLAGS["iceman_orbit_stpt"], 2)
+    _flag_trigger(m, "GCI commit: Iceman heading to threat", 180,
+                  FLAGS["iceman_hdg_abs"], round(threat_brg))
+    _flag_trigger(m, "Iceman: gate speed", 185, FLAGS["iceman_spd_abs"], 550)
+    _flag_trigger(m, "Iceman: climb 25k", 190, FLAGS["iceman_alt_abs"], 25000)
+    _flag_trigger(m, "Iceman: press to threat axis (STPT 3)", 240,
+                  FLAGS["iceman_fly_to_stpt"], 3)
+
+    comms.add("Flight", "Rhino 1-1", "305.00", "-", "F-4E Backseat Intercept (EXPERIMENTAL)")
+    return f4
+
+
+INTERCEPT_BRIEFING_BLOCK = """
+== BACKSEAT OPS: GCI INTERCEPT (EXPERIMENTAL) ==
+You are the WSO. Iceman holds CAP at STPT 2. At T+3min GCI commits you:
+Iceman turns onto the threat bearing, gates, and climbs. Two Backfires
+inbound high and fast - find them on the radar, build the intercept
+geometry, and direct the engagement from the back seat.
+
+EXPERIMENTAL: Iceman command values (speed kts / altitude ft assumptions)
+pending validation against the released Heatblur flag semantics.
+"""
+
+
 BRIEFING_BLOCK = """
 == BACKSEAT OPS: IZLID DESIGNATION ==
 You are the WSO. Iceman has the jet - he will ingress to the target area,

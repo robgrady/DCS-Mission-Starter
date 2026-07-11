@@ -23,6 +23,7 @@ class Recipe:
     bb_awacs: bool = True              # BB-12
     bb_comms: bool = True              # BB-18 comms card in briefing
     bb_briefing: bool = True           # BB-21
+    bb_kneeboard: bool = True          # BB-19 nav chart kneeboard pages
 
     # template packs
     template: Optional[str] = None     # None | "backseat_izlid"

@@ -128,13 +128,18 @@ class StarterBuilder:
 
         # --- template packs ---------------------------------------------------
         template_brief = ""
-        if r.template == "backseat_izlid":
+        if r.template in ("backseat_izlid", "backseat_intercept"):
             target_area = mapping.Point(
                 enemy_center.x + self.rng.uniform(-8000, 8000),
                 enemy_center.y + self.rng.uniform(-8000, 8000), m.terrain)
-            backseat.build_backseat_izlid(m, r, blue_country, red_country, home,
-                                          target_area, self.rng, comms)
-            template_brief = backseat.BRIEFING_BLOCK
+            if r.template == "backseat_izlid":
+                backseat.build_backseat_izlid(m, r, blue_country, red_country, home,
+                                              target_area, self.rng, comms)
+                template_brief = backseat.BRIEFING_BLOCK
+            else:
+                backseat.build_backseat_intercept(m, r, blue_country, red_country,
+                                                  home, target_area, self.rng, comms)
+                template_brief = backseat.INTERCEPT_BRIEFING_BLOCK
 
         # --- bullseye ---------------------------------------------------------
         midpoint = mapping.Point((own_center.x + enemy_center.x) / 2,
@@ -148,6 +153,14 @@ class StarterBuilder:
                                                   comms, stats, template_brief))
 
         self.stats = stats
+        # context the kneeboard renderer needs after save
+        self.kb_ctx = {
+            "comms": comms, "own_fields": own_fields, "enemy_fields": enemy_fields,
+            "bullseye": {"x": midpoint.x, "y": midpoint.y},
+            "map_label": map_cfg["label"], "era_label": era_cfg["label"],
+            "era_year": era_cfg["year"], "home_name": home.name,
+            "support_names": stats["support"],
+        }
         return m
 
     def _resolve_aircraft(self, name: str):
@@ -165,22 +178,25 @@ class StarterBuilder:
         raise UnknownUnitError(f"Aircraft '{name}' not found in pydcs planes/helicopters")
 
     def _apply_weather(self, m):
+        """Real DCS cloud presets (the same ones the ME weather page uses)."""
+        from dcs.cloud_presets import Clouds
         w = self.recipe.weather
+        presets = {
+            "scattered": (Clouds.LightScattered1, 2500),
+            "overcast": (Clouds.Overcast2, 1800),
+            "storm": (Clouds.OvercastAndRain2, 1500),
+        }
         try:
-            if w == "scattered":
-                m.weather.clouds_base = 2500
-                m.weather.clouds_density = 4
-                m.weather.clouds_thickness = 500
-            elif w == "overcast":
-                m.weather.clouds_base = 1800
-                m.weather.clouds_density = 9
-                m.weather.clouds_thickness = 900
-            elif w == "storm":
-                m.weather.clouds_base = 1500
-                m.weather.clouds_density = 9
-                m.weather.clouds_thickness = 1200
-                m.weather.clouds_iprecptns = 1
+            if w in presets:
+                preset, base = presets[w]
+                preset = getattr(preset, "value", preset)   # enum member -> CloudPreset
+                base = max(preset.min_base, min(base, preset.max_base))
+                m.weather.clouds_preset = preset
+                m.weather.clouds_base = base
+            if w == "storm":
                 m.weather.wind_at_ground.speed = 8
+                m.weather.wind_at_ground.direction = int(self.rng.uniform(0, 360))
+                m.weather.wind_at_2000.speed = 12
         except AttributeError as e:
             self.warnings.append(f"weather preset partial: {e}")
 
@@ -212,4 +228,11 @@ def generate(recipe: Recipe, out_path: str) -> dict:
     b = StarterBuilder(recipe)
     m = b.build()
     m.save(out_path)
+    if recipe.bb_kneeboard:
+        try:
+            from .kneeboard import build_kneeboard
+            n = build_kneeboard(out_path, **b.kb_ctx)
+            b.stats["kneeboard_pages"] = n
+        except Exception as e:
+            b.warnings.append(f"kneeboard rendering failed: {e}")
     return {"stats": b.stats, "warnings": b.warnings, "path": out_path}

@@ -91,6 +91,7 @@
 </main>
 <div class="genbar">
   <div id="summary"></div><div id="status"></div>
+  <button id="share" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer;">COPY SHARE LINK</button>
   <button id="gen">GENERATE .MIZ</button>
 </div>
 <script>
@@ -102,7 +103,23 @@ const BLOCKS = [
   ["bb_awacs","AWACS","On station behind friendly lines", true],
   ["bb_comms","Comms card","Non-conflicting freq/TACAN plan in briefing", true],
   ["bb_briefing","Starter briefing","Situation + contents summary", true],
+  ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true],
 ];
+
+// --- share links: recipe <-> base64url(JSON of non-default fields) ---
+const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
+  home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
+  bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
+  bb_kneeboard:true,template:null,seed:1};
+function encodeRecipe(r){
+  const diff = {};
+  for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;
+  return btoa(JSON.stringify(diff)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+function decodeRecipe(code){
+  const b = code.replace(/-/g,'+').replace(/_/g,'/');
+  return {...RECIPE_DEFAULTS, ...JSON.parse(atob(b))};
+}
 let OPT = null;
 
 function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
@@ -145,10 +162,24 @@ async function init(){
   }
   document.getElementById('coalition').onchange = ()=>{ fillHome(); sum(); };
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
-  // defaults
-  maps.firstElementChild.click();
-  eras.firstElementChild.click();
+  // defaults, or prefill from a share link (?r=<code>)
+  const code = new URLSearchParams(location.search).get('r');
+  if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ maps.firstElementChild.click(); eras.firstElementChild.click(); } }
+  else { maps.firstElementChild.click(); eras.firstElementChild.click(); }
   sum();
+}
+function applyRecipe(r){
+  document.querySelector(`#maps .card[data-k="${r.map}"]`)?.click();
+  document.querySelector(`#eras .card[data-k="${r.era}"]`)?.click();
+  document.getElementById('coalition').value = r.coalition; fillHome();
+  if (r.home_airbase) document.getElementById('home').value = r.home_airbase;
+  document.getElementById('aircraft').value = r.aircraft;
+  document.getElementById('slots').value = r.slots;
+  for (const k of ['start','time_of_day','weather','density']) document.getElementById(k).value = r[k];
+  document.getElementById('seed').value = r.seed;
+  for (const [k] of BLOCKS) document.getElementById(k).checked = !!r[k];
+  const tsel = document.querySelector(`#templates .card[data-k="${r.template||''}"]`);
+  if (tsel) tsel.click();
 }
 function sel(container, card){
   container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
@@ -203,6 +234,12 @@ document.getElementById('gen').onclick = async ()=>{
     st.textContent = warn ? ('Done, with warnings: '+warn) : 'Done — check your downloads.';
   } catch(e){ st.textContent = 'Error: '+e; }
   finally { btn.disabled = false; }
+};
+document.getElementById('share').onclick = async ()=>{
+  const code = encodeRecipe(recipe());
+  const url = `${location.origin}/?r=${code}`;
+  await navigator.clipboard.writeText(url);
+  document.getElementById('status').textContent = 'Share link copied — anyone can regenerate this exact starter.';
 };
 init();
 </script>

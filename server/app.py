@@ -61,7 +61,10 @@ def options():
                  for k, v in maps.items()},
         "eras": {k: v["label"] for k, v in eras.items()},
         "aircraft": flyable_aircraft(),
-        "templates": {"backseat_izlid": "Backseat Ops: IZLID Designation (F-4E, you fly the back seat)"},
+        "templates": {
+            "backseat_izlid": "Backseat Ops: IZLID Designation (F-4E, you fly the back seat)",
+            "backseat_intercept": "Backseat Ops: GCI Intercept (F-4E, experimental)",
+        },
         "enums": {
             "start": ["cold", "warm", "runway"],
             "time_of_day": ["dawn", "day", "dusk", "night"],
@@ -75,6 +78,22 @@ def options():
 def health():
     errors = validate_data_packs()
     return {"ok": not errors, "data_pack_errors": errors}
+
+
+@app.get("/api/dl")
+def api_download_by_code(r: str):
+    """A share link IS the mission: /api/dl?r=<code> regenerates and downloads it."""
+    from missiongen.share import decode_recipe
+    try:
+        recipe = decode_recipe(r)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid share code")
+    tag = recipe.template or "starter"
+    fname = f"{recipe.map}_{recipe.era}_{recipe.aircraft}_{tag}_{recipe.seed}.miz"
+    out = Path(tempfile.mkdtemp()) / fname
+    result = generate(recipe, str(out))
+    return FileResponse(str(out), filename=fname, media_type="application/zip",
+                        headers={"X-Warnings": "; ".join(result["warnings"])[:900]})
 
 
 class GenerateRequest(BaseModel):
