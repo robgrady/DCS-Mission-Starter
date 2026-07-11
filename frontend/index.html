@@ -94,6 +94,10 @@
     <label>Aircraft on deck</label>
     <div class="blocks" id="deck_aircraft"></div>
     <label class="block" style="margin-top:10px"><input type="checkbox" id="carrier_equipment" checked><span><b>Deck equipment</b><small>Tugs, MJ-1 loaders, crash &amp; salvage gear at real stations</small></span></label>
+    <div class="blocks" style="margin-top:10px">
+      <label class="block"><input type="checkbox" id="carrier_cap"><span><b>Launch CAP</b><small>Air-wing 2-ship on station toward the threat axis</small></span></label>
+      <label class="block"><input type="checkbox" id="carrier_aew"><span><b>Launch Hawkeye (AAW)</b><small>Air-wing E-2 AEW orbit covering the strike group</small></span></label>
+    </div>
   </div>
   <div class="step"><h2><span class="n">5</span>Template pack <span class="pill">optional</span></h2>
     <div class="cards" id="templates"></div>
@@ -127,7 +131,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_farps:false,bb_targets:false,bb_range:false,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
-  template:null,seed:1};
+  carrier_cap:false,carrier_aew:false,template:null,seed:1};
 function encodeRecipe(r){
   const diff = {};
   for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;
@@ -297,6 +301,8 @@ function recipe(){
     r.carrier_layout = document.getElementById('carrier_layout').value;
     r.carrier_deck_aircraft = [...document.querySelectorAll('.deckac:checked')].map(c=>c.value);
     r.carrier_equipment = document.getElementById('carrier_equipment').checked;
+    r.carrier_cap = document.getElementById('carrier_cap').checked;
+    r.carrier_aew = document.getElementById('carrier_aew').checked;
   }
   return r;
 }

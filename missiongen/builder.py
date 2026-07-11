@@ -171,6 +171,19 @@ class StarterBuilder:
                         r.carrier_deck_aircraft, r.carrier_equipment,
                         self.rng, self.warnings)
                     stats["deck_statics"] = n
+                    carrier_pos = csg.units[0].position
+                    if r.carrier_cap:
+                        cap = naval.add_carrier_cap(m, own_country, hull_key,
+                                                    carrier_pos, brc, threat_bearing,
+                                                    comms, self.warnings)
+                        if cap:
+                            stats["support"].append(cap.name)
+                    if r.carrier_aew:
+                        aew = naval.add_carrier_aew(m, own_country, hull_key,
+                                                    carrier_pos, brc, threat_bearing,
+                                                    comms, self.warnings)
+                        if aew:
+                            stats["support"].append(aew.name)
             else:
                 self.warnings.append("carrier group is blue-only for now - skipped")
 

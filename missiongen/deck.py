@@ -110,33 +110,38 @@ def configure_deck(m, country, csg_group, brc_deg, hull_key, layout_key,
         warnings.append(f"none of the selected deck aircraft are deckable on "
                         f"{hull['label']} - deck left empty")
 
-    # real spotting practice: helos to the corral, E-2s toward the bow,
-    # jets fill the rest in zone order (doctrine order, not shuffled)
+    # squadron spotting: ONE type per zone (whole rows of the same airframe at a
+    # uniform heading, like a real handler's spot), helos to the corral, E-2s to
+    # their pref spots. Zones fill in doctrine order — nothing is shuffled.
     helos = [r for r in valid if r.startswith("helicopters.")]
     e2s = [r for r in valid if r.split(".")[-1].startswith("E_2")]
     jets = [r for r in valid if r not in helos and r not in e2s]
 
-    spots = [s for z in layout["fill_zones"] for s in hull["spots"].get(z, [])]
-    ji = 0
-    for i, spot in enumerate(spots):
-        pref = spot.get("pref")
+    zi = 0   # cycles jet types across zones, keeping each row homogeneous
+    i = 0
+    for zone in layout["fill_zones"]:
+        zone_spots = hull["spots"].get(zone, [])
+        if not zone_spots:
+            continue
+        # pick this zone's type once
+        pref = zone_spots[0].get("pref")
         if pref == "helo":
-            if not helos:
-                continue                      # no helo selected: corral stays open
-            ref = helos[i % len(helos)]
-        elif pref == "e2" and e2s:
-            ref = e2s[0]
+            zone_ref = helos[0] if helos else None      # corral stays open otherwise
+        elif pref == "e2":
+            zone_ref = e2s[0] if e2s else (jets[zi % len(jets)] if jets else None)
         elif jets:
-            ref = jets[ji % len(jets)]
-            ji += 1
-        elif valid:
-            ref = valid[i % len(valid)]
+            zone_ref = jets[zi % len(jets)]
+            zi += 1
         else:
-            break
-        actype = resolve(ref)
-        _place_linked(m, country, f"DECK {hull_key} {i+1} {actype.id}", actype,
-                      ship_unit, brc_deg, spot["x"], spot["y"], spot["hdg"])
-        placed += 1
+            zone_ref = valid[0] if valid else None
+        if zone_ref is None:
+            continue
+        actype = resolve(zone_ref)
+        for spot in zone_spots:
+            i += 1
+            _place_linked(m, country, f"DECK {hull_key} {i} {actype.id}", actype,
+                          ship_unit, brc_deg, spot["x"], spot["y"], spot["hdg"])
+            placed += 1
 
     if want_equipment:
         for j, eq in enumerate(hull["equipment"]):

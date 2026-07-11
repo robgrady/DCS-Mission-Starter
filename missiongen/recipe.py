@@ -36,6 +36,8 @@ class Recipe:
     carrier_layout: str = "recovery"            # recovery | launch | packed
     carrier_deck_aircraft: List[str] = field(default_factory=list)  # pydcs keys to park
     carrier_equipment: bool = True              # tugs, MJ-1s, crash gear
+    carrier_cap: bool = False                   # air wing launches a 2-ship CAP on the threat axis
+    carrier_aew: bool = False                   # air wing launches an E-2 Hawkeye AEW orbit (AAW picture)
 
     # template packs
     template: Optional[str] = None     # None | "backseat_izlid"

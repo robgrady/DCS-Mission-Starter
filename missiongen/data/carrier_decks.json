@@ -1,28 +1,44 @@
 {
-  "_comment": "Carrier deck data using real USN deck-handler geography. Offsets are SHIP-RELATIVE meters (x=forward, y=starboard), hdg relative to BRC. Zones follow Ouija-board terminology: the point/crotch (bow), six-pack (stbd forward of island), the street (island taxi lane), corral (helo spots aft of island), junkyard (aft of island, yellow-gear country), fantail, elevators EL1-3 stbd / EL4 port, and the angle (landing area - only fillable on a packed deck). Spot 'pref' steers helos to the corral and E-2s toward the bow per real spotting practice. Offsets are curated estimates - tune after in-game visual check. NOTE: DCS Supercarrier cold-start spawn spots live on the bow and near the island; if a player cold-starts on a dressed deck, expect to free a spot or two after visual check.",
+  "_comment": "Carrier deck + strike group data. Spots are SHIP-RELATIVE meters (x=fwd, y=stbd), hdg relative to BRC. Deck spotting uses tight uniform-heading ROWS per zone (one aircraft type per zone = squadron spotting) so decks read like real recovery/launch photos, not scatter. CSG composition and ship names are real deployments (TR CSG-9 2024 per DVIDS; others from public deployment records). Escort stations are relative to BRC: plane guard astern, AAW shotgun on the beam, pickets on the bow quarters. Offsets remain curated estimates - tune in-game.",
 
   "hulls": {
     "cvn_71": {
-      "label": "CVN-71 Theodore Roosevelt",
+      "label": "CVN-71 Theodore Roosevelt (CSG-9)",
       "ship": "ships.CVN_71", "module": "Supercarrier", "eras": ["modern"],
       "deck_aircraft": ["planes.FA_18C_hornet", "planes.F_14B", "planes.E_2C", "planes.S_3B", "helicopters.SH_60B"],
+      "csg": {
+        "group_name": "CSG-9 Theodore Roosevelt",
+        "flagship_name": "CVN-71 USS Theodore Roosevelt",
+        "escorts": [
+          {"ref": "ships.TICONDEROG", "name": "CG-70 USS Lake Erie", "r": 3500, "brg": 90, "role": "AAW shotgun"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-59 USS Russell", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-97 USS Halsey", "r": 9000, "brg": 30, "role": "picket"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-118 USS Daniel Inouye", "r": 9000, "brg": 330, "role": "picket"}
+        ],
+        "airwing": {"label": "CVW-11",
+          "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-146 Blue Diamonds"},
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-117 Wallbangers"}}
+      },
       "spots": {
-        "point":     [{"x": 138, "y": -2, "hdg": 320, "pref": "e2"},
-                      {"x": 128, "y": 6, "hdg": 35}],
-        "crotch":    [{"x": 116, "y": -2, "hdg": 340}, {"x": 104, "y": 3, "hdg": 25},
-                      {"x": 94, "y": -4, "hdg": 335}],
-        "bow_stbd":  [{"x": 122, "y": 17, "hdg": 45}, {"x": 108, "y": 21, "hdg": 45},
-                      {"x": 94, "y": 23, "hdg": 45}, {"x": 80, "y": 25, "hdg": 50, "pref": "e2"}],
-        "sixpack":   [{"x": 48, "y": 24, "hdg": 130}, {"x": 36, "y": 26, "hdg": 130},
+        "point":     [{"x": 140, "y": -2, "hdg": 0, "pref": "e2"},
+                      {"x": 134, "y": 9, "hdg": 0, "pref": "e2"}],
+        "bow_row_stbd": [{"x": 126, "y": 22, "hdg": 40}, {"x": 112, "y": 22, "hdg": 40},
+                         {"x": 98, "y": 22, "hdg": 40}, {"x": 84, "y": 22, "hdg": 40},
+                         {"x": 70, "y": 22, "hdg": 40}],
+        "bow_row_cat1": [{"x": 122, "y": 7, "hdg": 40}, {"x": 108, "y": 7, "hdg": 40},
+                         {"x": 94, "y": 7, "hdg": 40}, {"x": 80, "y": 7, "hdg": 40}],
+        "bow_row_cat2": [{"x": 118, "y": -8, "hdg": 40}, {"x": 104, "y": -8, "hdg": 40},
+                         {"x": 90, "y": -8, "hdg": 40}, {"x": 76, "y": -8, "hdg": 40}],
+        "sixpack":   [{"x": 48, "y": 25, "hdg": 130}, {"x": 36, "y": 26, "hdg": 130},
                       {"x": 24, "y": 27, "hdg": 130}, {"x": 12, "y": 28, "hdg": 130}],
         "street":    [{"x": -8, "y": 22, "hdg": 0}, {"x": -26, "y": 22, "hdg": 0},
                       {"x": -42, "y": 22, "hdg": 0}],
         "corral":    [{"x": -56, "y": 27, "hdg": 90, "pref": "helo"},
                       {"x": -68, "y": 29, "hdg": 90, "pref": "helo"}],
-        "junkyard":  [{"x": -82, "y": 26, "hdg": 210}, {"x": -94, "y": 29, "hdg": 210},
-                      {"x": -106, "y": 31, "hdg": 210}],
-        "fantail_stbd": [{"x": -142, "y": 16, "hdg": 10}, {"x": -152, "y": 8, "hdg": 355}],
-        "fantail_port": [{"x": -148, "y": -6, "hdg": 5}, {"x": -154, "y": -16, "hdg": 15}],
+        "junkyard":  [{"x": -84, "y": 27, "hdg": 210}, {"x": -96, "y": 29, "hdg": 210},
+                      {"x": -108, "y": 31, "hdg": 210}],
+        "fantail_stbd": [{"x": -142, "y": 16, "hdg": 5}, {"x": -152, "y": 8, "hdg": 5}],
+        "fantail_port": [{"x": -148, "y": -6, "hdg": 5}, {"x": -154, "y": -16, "hdg": 5}],
         "angle":     [{"x": -78, "y": -12, "hdg": 189}, {"x": -94, "y": -16, "hdg": 189},
                       {"x": -110, "y": -19, "hdg": 189}, {"x": -126, "y": -22, "hdg": 189}],
         "el1":       [{"x": 62, "y": 37, "hdg": 90}],
@@ -31,55 +47,116 @@
         "el4":       [{"x": -55, "y": -38, "hdg": 270}]
       },
       "equipment": [
-        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -14, "y": 28, "hdg": 0,
-         "_": "tug at the island base, street side"},
-        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -88, "y": 33, "hdg": 180,
-         "_": "tug in the junkyard"},
-        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -34, "y": 30, "hdg": 90,
-         "_": "MJ-1 at the bomb farm (island stbd aft)"},
-        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -44, "y": 31, "hdg": 90,
-         "_": "MJ-1 at the bomb farm"},
-        {"ref": "vehicles.Unarmed.P20_drivable", "x": 4, "y": 30, "hdg": 180,
-         "_": "crash truck at island forward corner, nose aft"},
-        {"ref": "vehicles.Unarmed.GD_20", "x": -74, "y": 33, "hdg": 0,
-         "_": "yellow gear in the junkyard"}
+        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -14, "y": 28, "hdg": 0},
+        {"ref": "vehicles.Unarmed.TugHarlan_drivable", "x": -88, "y": 33, "hdg": 180},
+        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -34, "y": 30, "hdg": 90},
+        {"ref": "vehicles.Unarmed.MJ_1_drivable", "x": -44, "y": 31, "hdg": 90},
+        {"ref": "vehicles.Unarmed.P20_drivable", "x": 4, "y": 30, "hdg": 180},
+        {"ref": "vehicles.Unarmed.GD_20", "x": -74, "y": 33, "hdg": 0}
       ]
     },
+
     "cvn_72": {
-      "label": "CVN-72 Abraham Lincoln",
+      "label": "CVN-72 Abraham Lincoln (CSG-3)",
       "ship": "ships.CVN_72", "module": "Supercarrier", "eras": ["modern"],
-      "inherit_spots": "cvn_71"
+      "inherit_spots": "cvn_71",
+      "csg": {
+        "group_name": "CSG-3 Abraham Lincoln",
+        "flagship_name": "CVN-72 USS Abraham Lincoln",
+        "escorts": [
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-77 USS O'Kane", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-112 USS Michael Murphy", "r": 9000, "brg": 30, "role": "picket"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-121 USS Frank E. Petersen Jr.", "r": 9000, "brg": 330, "role": "picket"}
+        ],
+        "airwing": {"label": "CVW-9",
+          "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-151 Vigilantes"},
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-112 Golden Hawks"}}
+      }
     },
+
     "cvn_73": {
-      "label": "CVN-73 George Washington",
+      "label": "CVN-73 George Washington (CSG-5)",
       "ship": "ships.CVN_73", "module": "Supercarrier", "eras": ["modern"],
-      "inherit_spots": "cvn_71"
+      "inherit_spots": "cvn_71",
+      "csg": {
+        "group_name": "CSG-5 George Washington",
+        "flagship_name": "CVN-73 USS George Washington",
+        "escorts": [
+          {"ref": "ships.TICONDEROG", "name": "CG-62 USS Robert Smalls", "r": 3500, "brg": 90, "role": "AAW shotgun"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-76 USS Higgins", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-85 USS McCampbell", "r": 9000, "brg": 30, "role": "picket"}
+        ],
+        "airwing": {"label": "CVW-5",
+          "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-27 Royal Maces"},
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-125 Tigertails"}}
+      }
     },
+
     "cvn_75": {
-      "label": "CVN-75 Harry S. Truman",
+      "label": "CVN-75 Harry S. Truman (CSG-8)",
       "ship": "ships.CVN_75", "module": "Supercarrier", "eras": ["modern"],
-      "inherit_spots": "cvn_71"
+      "inherit_spots": "cvn_71",
+      "csg": {
+        "group_name": "CSG-8 Harry S. Truman",
+        "flagship_name": "CVN-75 USS Harry S. Truman",
+        "escorts": [
+          {"ref": "ships.TICONDEROG", "name": "CG-64 USS Gettysburg", "r": 3500, "brg": 90, "role": "AAW shotgun"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-55 USS Stout", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-109 USS Jason Dunham", "r": 9000, "brg": 30, "role": "picket"}
+        ],
+        "airwing": {"label": "CVW-1",
+          "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-81 Sunliners"},
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-126 Seahawks"}}
+      }
     },
+
     "stennis": {
-      "label": "CVN-74 John C. Stennis (base game)",
+      "label": "CVN-74 John C. Stennis (CSG-3, base game)",
       "ship": "ships.Stennis", "module": null, "eras": ["modern"],
-      "inherit_spots": "cvn_71"
+      "inherit_spots": "cvn_71",
+      "csg": {
+        "group_name": "CSG-3 John C. Stennis",
+        "flagship_name": "CVN-74 USS John C. Stennis",
+        "escorts": [
+          {"ref": "ships.TICONDEROG", "name": "CG-53 USS Mobile Bay", "r": 3500, "brg": 90, "role": "AAW shotgun"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-106 USS Stockdale", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.USS_Arleigh_Burke_IIa", "name": "DDG-93 USS Chung-Hoon", "r": 9000, "brg": 30, "role": "picket"}
+        ],
+        "airwing": {"label": "CVW-9",
+          "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-151 Vigilantes"},
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-112 Golden Hawks"}}
+      }
     },
+
     "forrestal": {
-      "label": "CV-59 Forrestal",
+      "label": "CV-59 Forrestal (CVW-6, 1980s Med)",
       "ship": "ships.Forrestal", "module": "F-14 Tomcat", "eras": ["coldwar"],
       "deck_aircraft": ["planes.F_14A", "planes.E_2C", "planes.S_3B"],
+      "csg": {
+        "group_name": "Forrestal Battle Group (CarGru 6)",
+        "flagship_name": "CV-59 USS Forrestal",
+        "escorts": [
+          {"ref": "ships.TICONDEROG", "name": "CG-47 USS Ticonderoga", "r": 3500, "brg": 90, "role": "AAW shotgun"},
+          {"ref": "ships.PERRY", "name": "FFG-40 USS Halyburton", "r": 1600, "brg": 180, "role": "plane guard"},
+          {"ref": "ships.PERRY", "name": "FFG-36 USS Underwood", "r": 9000, "brg": 30, "role": "picket"}
+        ],
+        "airwing": {"label": "CVW-6",
+          "cap": {"type": "planes.F_14A", "squadron": "VF-31 Tomcatters"},
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-122 Steeljaws"}}
+      },
       "spots": {
-        "point":     [{"x": 122, "y": -2, "hdg": 330, "pref": "e2"}],
-        "crotch":    [{"x": 104, "y": 0, "hdg": 340}, {"x": 92, "y": -4, "hdg": 25}],
-        "bow_stbd":  [{"x": 106, "y": 15, "hdg": 45}, {"x": 92, "y": 19, "hdg": 45},
-                      {"x": 78, "y": 22, "hdg": 50}],
+        "point":     [{"x": 122, "y": -2, "hdg": 0, "pref": "e2"}],
+        "bow_row_stbd": [{"x": 108, "y": 19, "hdg": 40}, {"x": 94, "y": 19, "hdg": 40},
+                         {"x": 80, "y": 19, "hdg": 40}],
+        "bow_row_cat1": [{"x": 106, "y": 5, "hdg": 40}, {"x": 92, "y": 5, "hdg": 40},
+                         {"x": 78, "y": 5, "hdg": 40}],
+        "bow_row_cat2": [{"x": 102, "y": -9, "hdg": 40}, {"x": 88, "y": -9, "hdg": 40}],
         "sixpack":   [{"x": 40, "y": 22, "hdg": 130}, {"x": 28, "y": 24, "hdg": 130},
                       {"x": 16, "y": 25, "hdg": 130}],
         "street":    [{"x": -6, "y": 20, "hdg": 0}, {"x": -22, "y": 20, "hdg": 0}],
         "corral":    [{"x": -46, "y": 25, "hdg": 90, "pref": "helo"}],
         "junkyard":  [{"x": -70, "y": 24, "hdg": 210}, {"x": -82, "y": 27, "hdg": 210}],
-        "fantail_stbd": [{"x": -126, "y": 14, "hdg": 10}, {"x": -136, "y": 6, "hdg": 355}],
+        "fantail_stbd": [{"x": -126, "y": 14, "hdg": 5}, {"x": -136, "y": 6, "hdg": 5}],
         "fantail_port": [{"x": -132, "y": -8, "hdg": 5}],
         "angle":     [{"x": -70, "y": -10, "hdg": 189}, {"x": -86, "y": -14, "hdg": 189},
                       {"x": -102, "y": -17, "hdg": 189}],
@@ -98,23 +175,24 @@
 
   "layouts": {
     "recovery": {
-      "label": "Recovery — LA clear, deck spotted forward",
-      "fill_zones": ["point", "crotch", "bow_stbd", "sixpack", "street", "corral",
-                     "junkyard", "fantail_stbd", "el1", "el2", "el3"],
-      "note": "Cyclic recovery: everything inside the LA foul lines is clear, including the waist cats, EL4, and the port stern (the ramp). Recovered jets get spotted forward: the point, the crotch, and the starboard bow rows in a herringbone, six-pack nose-in to the island, helos in the corral, tails over the round-down on the starboard fantail corner only."
+      "label": "Recovery — LA clear, bow packed in tight rows",
+      "fill_zones": ["point", "bow_row_stbd", "bow_row_cat1", "bow_row_cat2",
+                     "sixpack", "street", "corral", "junkyard", "fantail_stbd",
+                     "el1", "el2", "el3"],
+      "note": "Cyclic recovery: everything inside the LA foul lines clear (waist cats, EL4, port stern ramp). The bow is the pack: three tight rows at uniform 40deg herringbone across the cat tracks and the starboard edge, E-2s nose-out on the point, six-pack nose-in, helos in the corral, tails over the round-down on the stbd fantail only."
     },
     "launch": {
       "label": "Launch — cats and taxi flow clear, deck spotted aft",
       "fill_zones": ["sixpack", "street", "corral", "junkyard",
                      "fantail_stbd", "el2", "el3"],
-      "note": "Launch cycle: bow cat tracks, JBDs, the crotch, and the point are clear for cat 1/2 ops and taxi flow; the LA stays clear for the waist cats. Non-flying spares hold in the six-pack, the street, the junkyard, and the starboard fantail. EL1 and EL4 are not used adjacent to active cats."
+      "note": "Launch cycle: bow cat tracks, JBDs, the point, and the LA clear; spares hold aft in uniform rows. EL1/EL4 not used adjacent to active cats."
     },
     "packed": {
       "label": "Packed deck — port visit / no-fly, LA fouled",
-      "fill_zones": ["point", "crotch", "bow_stbd", "sixpack", "street", "corral",
-                     "junkyard", "fantail_stbd", "fantail_port", "angle",
-                     "el1", "el2", "el3", "el4"],
-      "note": "No flight ops: the landing area and all four elevators are fouled with parked aircraft, herringbone rows down the angle. Do not fly from this deck."
+      "fill_zones": ["point", "bow_row_stbd", "bow_row_cat1", "bow_row_cat2",
+                     "sixpack", "street", "corral", "junkyard", "fantail_stbd",
+                     "fantail_port", "angle", "el1", "el2", "el3", "el4"],
+      "note": "No flight ops: LA fouled with a herringbone row down the angle, all four elevators loaded."
     }
   }
 }

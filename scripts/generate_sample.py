@@ -17,7 +17,8 @@ SAMPLES = [
     # Roosevelt, recovery deck: LA clear, deck spotted forward, helos in the corral
     Recipe(map="syria", era="modern", aircraft="FA_18C_hornet", seed=31,
            bb_carrier=True, carrier_hull="cvn_71", carrier_layout="recovery",
-           carrier_deck_aircraft=["FA_18C_hornet", "F_14B", "E_2C", "SH_60B"]),
+           carrier_deck_aircraft=["FA_18C_hornet", "F_14B", "E_2C", "SH_60B"],
+           carrier_cap=True, carrier_aew=True),
     # Roosevelt, launch deck: cats + taxi flow clear, spares aft
     Recipe(map="syria", era="modern", aircraft="FA_18C_hornet", seed=32,
            bb_carrier=True, carrier_hull="cvn_71", carrier_layout="launch",
@@ -25,7 +26,8 @@ SAMPLES = [
     # Forrestal, coldwar recovery deck with Tomcats
     Recipe(map="caucasus", era="coldwar", aircraft="F_14A_135_GR", seed=33,
            bb_carrier=True, carrier_hull="forrestal", carrier_layout="recovery",
-           carrier_deck_aircraft=["F_14A", "E_2C", "S_3B"]),
+           carrier_deck_aircraft=["F_14A", "E_2C", "S_3B"],
+           carrier_cap=True, carrier_aew=True),
     # Persian Gulf everything: Truman launch deck, FARPs, targets, range
     Recipe(map="persiangulf", era="modern", aircraft="AH_64D_BLK_II", seed=51,
            bb_carrier=True, carrier_hull="cvn_75", carrier_layout="launch",
