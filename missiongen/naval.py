@@ -8,7 +8,8 @@ quarters), and the embarked air wing for CAP/AEW launches.
 import math
 from dcs import mapping, planes
 from dcs.mission import StartType
-from dcs.task import ActivateBeaconCommand, ActivateICLSCommand, ActivateLink4Command, CAP
+from dcs.task import (ActivateBeaconCommand, ActivateICLSCommand,
+                      ActivateLink4Command, ActivateACLSCommand, CAP)
 from dcs.unit import Skill
 
 CARRIERS = {  # legacy fallback when no hull specified
@@ -68,15 +69,21 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     # steam 40km down BRC at ~25kts
     grp.add_waypoint(_offset(anchor, 40000, brc), speed=46)
 
-    # beacons on the boat
+    # ALL boat systems active: TACAN, ICLS, Link4, ACLS
+    cv = comms.cfg("carrier")
+    ship_id = grp.units[0].id
+    tacan_ch = int(cv["tacan"][:-1])
     wp = grp.points[0]
-    freq = comms.next_uhf()
-    wp.tasks.append(ActivateBeaconCommand(channel=71, modechannel="X", callsign="STN",
-                                          unit_id=grp.units[0].id, aa=False))
-    wp.tasks.append(ActivateICLSCommand(channel=11, unit_id=grp.units[0].id))
-    wp.tasks.append(ActivateLink4Command(unit_id=grp.units[0].id))
-    comms.add("Carrier", "Mother", f"{freq:.2f}", "71X",
-              f"{csg.get('flagship_name', hull['label'])} - ICLS 11, BRC {int(brc):03d}")
+    wp.tasks.append(ActivateBeaconCommand(channel=tacan_ch, modechannel=cv["tacan"][-1],
+                                          callsign=cv["tacan_callsign"],
+                                          unit_id=ship_id, aa=False))
+    wp.tasks.append(ActivateICLSCommand(channel=cv["icls"], unit_id=ship_id))
+    wp.tasks.append(ActivateLink4Command(unit_id=ship_id, frequency=int(cv["link4"])))
+    wp.tasks.append(ActivateACLSCommand(unit_id=ship_id))
+    grp.set_frequency(cv["freq"])
+    comms.add("Carrier", cv["callsign"], f"{cv['freq']:.2f}", cv["tacan"],
+              f"{csg.get('flagship_name', hull['label'])} - ICLS {cv['icls']}, "
+              f"Link4 {cv['link4']:.0f}, ACLS on, BRC {int(brc):03d}")
     return grp, brc
 
 
@@ -96,7 +103,8 @@ def add_carrier_cap(m, country, hull_key, carrier_pos, brc, threat_bearing,
     fg = m.patrol_flight(
         country, f"CAP {cap_cfg['squadron']}", cap_type, airport=None,
         pos1=st1, pos2=st2, speed=750, altitude=CAP_ALT, group_size=2)
-    freq = comms.next_uhf()
+    freq = comms.freq("cap")
+    fg.set_frequency(freq)
     comms.add("CAP", cap_cfg["squadron"].split()[0], f"{freq:.2f}", "-",
               f"{airwing['label']} {cap_type.id} x2, stn 30nm on threat axis")
     return fg
@@ -114,7 +122,7 @@ def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
     aew_cfg = airwing["aew"]
     aew_type = resolve(aew_cfg["type"])
     pos = _offset(carrier_pos, 45000, (threat_bearing + 180) % 360)  # 25nm behind CSG
-    freq = comms.next_uhf()
+    freq = comms.freq("aew")
     fg = m.awacs_flight(
         country, f"AEW {aew_cfg['squadron']}", aew_type, airport=None,
         position=pos, race_distance=48000, heading=(threat_bearing + 90) % 360,

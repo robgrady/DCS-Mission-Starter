@@ -23,8 +23,9 @@ def add_tanker(m, country, era, side, anchor, heading_away_deg, comms):
     ttype = TANKERS[era][side]
     if ttype is None:
         return None
-    freq = comms.next_uhf()
-    tacan = comms.next_tacan()
+    tk_cfg = comms.cfg("tanker")
+    freq = tk_cfg["freq"]
+    tacan = tk_cfg["tacan"]
     pos = _offset(anchor, 55000, heading_away_deg)   # 30nm behind friendly lines
     tk = m.refuel_flight(
         country, "Texaco", ttype, airport=None, position=pos,
@@ -40,7 +41,7 @@ def add_awacs(m, country, era, side, anchor, heading_away_deg, comms):
     atype = AWACS_TYPES[era][side]
     if atype is None:
         return None
-    freq = comms.next_uhf()
+    freq = comms.freq("awacs")
     pos = _offset(anchor, 90000, heading_away_deg)   # 50nm behind friendly lines
     aw = m.awacs_flight(
         country, "Overlord", atype, airport=None, position=pos,

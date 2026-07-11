@@ -28,7 +28,7 @@ def _offset(pos, meters, bearing_deg):
 
 def add_farp(m, country, side, position, rng: random.Random, name, comms=None):
     """One functional FARP: pad + support ring. Returns the FARP static group."""
-    freq = 127.5 + rng.randrange(0, 8) * 0.25
+    freq = comms.next_farp() if comms else 127.5
     pad = FARP(m.terrain, m.next_unit_id(), f"{name} pad", frequency=freq)
     pad.position = position
     from dcs import unitgroup

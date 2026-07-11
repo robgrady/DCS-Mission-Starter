@@ -81,6 +81,16 @@ def options():
     }
 
 
+DOCS = Path(__file__).parent.parent / "docs" / "USER_GUIDE.md"
+
+
+@app.get("/api/guide")
+def guide_download():
+    """Downloadable Mission Starter documentation."""
+    return FileResponse(str(DOCS), filename="DCS_Mission_Starter_Guide.md",
+                        media_type="text/markdown")
+
+
 @app.get("/api/health")
 def health():
     errors = validate_data_packs()

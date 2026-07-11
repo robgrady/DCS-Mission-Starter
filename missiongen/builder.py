@@ -122,7 +122,14 @@ class StarterBuilder:
             else:
                 for u in player_group.units:
                     u.set_client()
-            comms.add("Flight", player_group.name, "305.00", "-", aircraft.id)
+            fc = comms.freq("flight_common")
+            try:
+                player_group.set_frequency(fc)
+            except Exception:
+                pass
+            comms.add("Flight", player_group.name, f"{fc:.2f}", "-", aircraft.id)
+            comms.add("Tactical", "-", f"{comms.freq('tactical'):.2f}", "-",
+                      "inter-flight coordination")
 
         # --- building blocks -------------------------------------------------
         stats = {"statics": 0, "sam_sites": [], "support": [], "ambient": []}
