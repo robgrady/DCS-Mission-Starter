@@ -8,8 +8,23 @@ linkUnit/offsets, so DeckStatic extends Static.dict() with them.
 import math
 from dcs import mapping
 from dcs.unit import Static
+from dcs.point import StaticPoint
 
 from .resolver import load_json, resolve
+
+
+class LinkedStaticPoint(StaticPoint):
+    """Static group route point carrying linkUnit — this is where the ME puts it
+    (mist.lua: group_data.route.points[1].linkUnit) and what DCS reads for deck
+    statics. Without it, linked statics silently fail to ride the ship."""
+    def __init__(self, position, link_unit_id):
+        super().__init__(position)
+        self.link_unit_id = link_unit_id
+
+    def dict(self):
+        d = super().dict()
+        d["linkUnit"] = self.link_unit_id
+        return d
 
 
 class DeckStatic(Static):
@@ -71,9 +86,9 @@ def _place_linked(m, country, name, unit_type, ship_unit, brc_deg, dx, dy, hdg_r
     s.link_dy = dy
     s.link_angle = math.radians(hdg_rel_deg)
     sg.add_unit(s)
-    from dcs.point import StaticPoint
-    sp = StaticPoint(s.position)
-    sg.add_point(sp)
+    # linkUnit must ALSO be on the route point — that's the field DCS actually
+    # reads for deck statics (verified against mist.lua's mission parser)
+    sg.add_point(LinkedStaticPoint(s.position, ship_unit.id))
     sg.link_offset = True
     country.add_static_group(sg)
     return sg
