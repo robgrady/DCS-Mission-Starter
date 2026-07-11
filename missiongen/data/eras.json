@@ -1,0 +1,54 @@
+{
+  "coldwar": {
+    "label": "Cold War (1965-1985)",
+    "year": 1978,
+    "blue": {
+      "parked_planes": ["planes.F_4E", "planes.F_5E_3", "planes.C_130"],
+      "parked_large": ["planes.C_130"],
+      "parked_helos": ["helicopters.UH_1H"],
+      "fuel_truck": "vehicles.Unarmed.M978_HEMTT_Tanker",
+      "utility_trucks": ["vehicles.Unarmed.M_818", "vehicles.Unarmed.Hummer"],
+      "fire_truck": "vehicles.Unarmed.HEMTT_TFFT",
+      "sam_kits": ["hawk"],
+      "shorad": ["vehicles.AirDefence.Vulcan", "vehicles.AirDefence.M1_37mm"],
+      "manpad": null
+    },
+    "red": {
+      "parked_planes": ["planes.MiG_21Bis", "planes.MiG_23MLD", "planes.Su_17M4", "planes.An_26B"],
+      "parked_large": ["planes.An_26B"],
+      "parked_helos": ["helicopters.Mi_8MT"],
+      "fuel_truck": "vehicles.Unarmed.ATZ_10",
+      "utility_trucks": ["vehicles.Unarmed.GAZ_66", "vehicles.Unarmed.KAMAZ_Truck"],
+      "fire_truck": "vehicles.Unarmed.ATZ_10",
+      "sam_kits": ["sa2", "sa3", "sa6"],
+      "shorad": ["vehicles.AirDefence.ZSU_23_4_Shilka", "vehicles.AirDefence.ZSU_57_2"],
+      "manpad": null
+    }
+  },
+  "modern": {
+    "label": "Modern (2000s+)",
+    "year": 2011,
+    "blue": {
+      "parked_planes": ["planes.F_16C_50", "planes.FA_18C_hornet", "planes.C_130", "planes.A_10C_2"],
+      "parked_large": ["planes.C_130"],
+      "parked_helos": ["helicopters.AH_64D_BLK_II", "helicopters.UH_1H"],
+      "fuel_truck": "vehicles.Unarmed.M978_HEMTT_Tanker",
+      "utility_trucks": ["vehicles.Unarmed.M_818", "vehicles.Unarmed.Hummer"],
+      "fire_truck": "vehicles.Unarmed.HEMTT_TFFT",
+      "sam_kits": ["patriot", "hawk"],
+      "shorad": ["vehicles.AirDefence.M1097_Avenger", "vehicles.AirDefence.Gepard"],
+      "manpad": null
+    },
+    "red": {
+      "parked_planes": ["planes.MiG_29S", "planes.Su_24M", "planes.Su_25"],
+      "parked_large": ["planes.IL_76MD"],
+      "parked_helos": ["helicopters.Mi_24P", "helicopters.Mi_8MT"],
+      "fuel_truck": "vehicles.Unarmed.ATZ_10",
+      "utility_trucks": ["vehicles.Unarmed.KAMAZ_Truck", "vehicles.Unarmed.GAZ_3308"],
+      "fire_truck": "vehicles.Unarmed.ATZ_10",
+      "sam_kits": ["sa11", "sa6"],
+      "shorad": ["vehicles.AirDefence.X_2S6_Tunguska", "vehicles.AirDefence.ZSU_23_4_Shilka"],
+      "manpad": null
+    }
+  }
+}

@@ -1,0 +1,4 @@
+fastapi>=0.110
+uvicorn[standard]>=0.29
+# pydcs: install from GitHub master (PyPI 0.15.0 lacks F-4E-45MC and current units)
+# pip install "pydcs @ git+https://github.com/pydcs/dcs.git"

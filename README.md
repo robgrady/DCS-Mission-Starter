@@ -1,0 +1,73 @@
+# DCS Mission Starter
+
+**Select, don't search.** A web-based mission *starter* for DCS World: pick a map, era,
+coalition, and aircraft, and get a downloadable `.miz` with airfields dressed with
+era-accurate static aircraft and equipment, functional SAM sites, and support flights
+(tanker/AWACS) on station with a non-conflicting comms/TACAN plan.
+
+**We set the stage — you write the play.** The starter never places player waypoints.
+Open it in the DCS Mission Editor and build your mission on top.
+
+## Features (P0)
+
+- **Maps:** Caucasus, Syria (data-pack driven; more coming)
+- **Eras:** Cold War (1965–1985), Modern (2000s+) — filters statics, parked aircraft, SAMs
+- **Full aircraft roster:** every flyable DCS module, straight from the pydcs unit database
+- **Building blocks:** airfield dressing (static aircraft on real parking stands, ground
+  support equipment, infrastructure), complete SAM sites (SA-2/3/6/11, Hawk, Patriot)
+  with doctrinal layouts, SHORAD, tanker + AWACS with auto-assigned freqs/TACAN,
+  comms card, starter briefing
+- **Template pack — Backseat Ops:** RIO/WSO-driven F-4E scenario using the Heatblur
+  Jester/Iceman PROXY flag API (IZLID designation run; Iceman flies, you work the pit)
+- **Seeded:** same recipe + seed = same starter, always regenerable
+
+## Quick start
+
+```bash
+pip install -r requirements.txt
+# pydcs must be the GitHub master (the PyPI release is outdated):
+pip install "pydcs @ git+https://github.com/pydcs/dcs.git"
+# if the wheel build fails on your system, vendor the package instead:
+#   git clone --depth 1 https://github.com/pydcs/dcs.git /tmp/pydcs
+#   cp -r /tmp/pydcs/dcs "$(python -c 'import site; print(site.getsitepackages()[0])')/"
+
+uvicorn server.app:app --reload
+# open http://127.0.0.1:8000
+```
+
+Generate samples from the CLI without the server:
+
+```bash
+python scripts/generate_sample.py   # writes to samples/
+```
+
+Drop the generated `.miz` into `Saved Games/DCS/Missions/` and fly, or open it in the
+Mission Editor and keep building.
+
+## Architecture
+
+```
+missiongen/            generation engine (pure python, no web deps)
+  recipe.py            wizard inputs; recipe+seed = reproducible starter
+  builder.py           orchestrator
+  dressing.py          BB-1..3  static aircraft / GSE / infrastructure
+  airdefense.py        BB-5..6  SAM sites + SHORAD (functional groups)
+  kits.py              doctrinal SAM site layouts
+  support_air.py       BB-11..12 tanker / AWACS
+  comms.py             BB-18 freq & TACAN allocator
+  backseat.py          Backseat Ops template pack (Heatblur PROXY flags)
+  data/eras.json       era whitelists per faction (versioned data pack)
+  data/maps.json       per-map coalition presets (versioned data pack)
+server/app.py          FastAPI: /api/options, /api/generate, /api/health
+frontend/index.html    single-file wizard
+scripts/               CLI generation + smoke test
+```
+
+Design principles: unknown unit types **fail loudly** (`/api/health` validates the data
+packs), recipes are saved instead of artifacts, and the era/placement **data packs are
+the product** — the code is just plumbing.
+
+## Roadmap
+
+See the project requirements doc (v0.3): P1 accounts + personal recipe library,
+P2 public catalog with faceted selection, more maps/eras, more Backseat Ops scenarios.

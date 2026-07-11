@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DCS Mission Starter</title>
+<style>
+  :root {
+    --bg: #0d1117; --panel: #161b22; --panel2: #1c2330; --line: #2d3748;
+    --text: #e6edf3; --dim: #8b949e; --accent: #58a6ff; --green: #3fb950;
+    --amber: #d29922;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text);
+         font-family: "Segoe UI", system-ui, sans-serif; min-height: 100vh; }
+  header { padding: 28px 32px 12px; border-bottom: 1px solid var(--line); }
+  header h1 { font-size: 22px; letter-spacing: 2px; font-weight: 600; }
+  header h1 span { color: var(--accent); }
+  header p { color: var(--dim); margin-top: 4px; font-size: 13px; }
+  main { max-width: 980px; margin: 0 auto; padding: 24px 20px 80px; }
+  .step { background: var(--panel); border: 1px solid var(--line);
+          border-radius: 10px; padding: 18px 20px; margin-bottom: 16px; }
+  .step h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1.5px;
+             color: var(--accent); margin-bottom: 12px; }
+  .step h2 .n { display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+                background: var(--accent); color: #04121f; text-align: center;
+                line-height: 22px; margin-right: 8px; font-size: 12px; }
+  .cards { display: flex; flex-wrap: wrap; gap: 10px; }
+  .card { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px;
+          padding: 12px 16px; cursor: pointer; min-width: 150px; flex: 1;
+          transition: border-color .15s; user-select: none; }
+  .card:hover { border-color: var(--dim); }
+  .card.sel { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .card b { display: block; font-size: 15px; }
+  .card small { color: var(--dim); font-size: 12px; }
+  select, input[type=number] { background: var(--panel2); color: var(--text);
+      border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px;
+      font-size: 14px; width: 100%; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 160px; }
+  label { display: block; font-size: 12px; color: var(--dim); margin: 10px 0 4px; }
+  .blocks { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+  .block { display: flex; align-items: flex-start; gap: 10px; background: var(--panel2);
+           border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; cursor: pointer; }
+  .block input { margin-top: 3px; accent-color: var(--accent); }
+  .block b { font-size: 13px; display: block; }
+  .block small { color: var(--dim); font-size: 11px; }
+  .genbar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(13,17,23,.95);
+            border-top: 1px solid var(--line); padding: 14px 32px; display: flex;
+            align-items: center; gap: 18px; backdrop-filter: blur(6px); }
+  button#gen { background: var(--green); color: #04150a; font-weight: 700;
+      border: none; border-radius: 8px; padding: 12px 34px; font-size: 15px;
+      cursor: pointer; letter-spacing: .5px; }
+  button#gen:disabled { opacity: .5; cursor: wait; }
+  #summary { color: var(--dim); font-size: 13px; flex: 1; }
+  #status { font-size: 13px; color: var(--amber); }
+  .pill { display: inline-block; background: var(--panel2); border: 1px solid var(--line);
+          border-radius: 20px; padding: 2px 10px; font-size: 11px; color: var(--dim); margin-left: 8px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>DCS <span>MISSION STARTER</span></h1>
+  <p>Select, don't search. We set the stage — you write the play. No waypoints, ever.</p>
+</header>
+<main>
+  <div class="step"><h2><span class="n">1</span>Map</h2><div class="cards" id="maps"></div></div>
+  <div class="step"><h2><span class="n">2</span>Era</h2><div class="cards" id="eras"></div></div>
+  <div class="step"><h2><span class="n">3</span>Coalition &amp; basing</h2>
+    <div class="row">
+      <div><label>Your side</label><select id="coalition">
+        <option value="blue">Blue</option><option value="red">Red</option></select></div>
+      <div><label>Home airbase</label><select id="home"></select></div>
+      <div><label>Aircraft (full DCS roster)</label><select id="aircraft"></select></div>
+    </div>
+    <div class="row">
+      <div><label>Slots (1 = single player)</label><input type="number" id="slots" min="1" max="4" value="1"></div>
+      <div><label>Start</label><select id="start"></select></div>
+      <div><label>Time</label><select id="time_of_day"></select></div>
+      <div><label>Weather</label><select id="weather"></select></div>
+      <div><label>Density</label><select id="density"></select></div>
+      <div><label>Seed</label><input type="number" id="seed" value="1"></div>
+    </div>
+  </div>
+  <div class="step"><h2><span class="n">4</span>Building blocks</h2>
+    <div class="blocks" id="blocks"></div>
+  </div>
+  <div class="step"><h2><span class="n">5</span>Template pack <span class="pill">optional</span></h2>
+    <div class="cards" id="templates"></div>
+  </div>
+</main>
+<div class="genbar">
+  <div id="summary"></div><div id="status"></div>
+  <button id="gen">GENERATE .MIZ</button>
+</div>
+<script>
+const S = { map:null, era:null, template:null };
+const BLOCKS = [
+  ["bb_dressing","Airfield dressing","Static aircraft, GSE, infrastructure on real stands", true],
+  ["bb_sams","Air defenses","Complete era-correct SAM sites + SHORAD", true],
+  ["bb_tanker","Tanker","Racetrack, TACAN + freq assigned", true],
+  ["bb_awacs","AWACS","On station behind friendly lines", true],
+  ["bb_comms","Comms card","Non-conflicting freq/TACAN plan in briefing", true],
+  ["bb_briefing","Starter briefing","Situation + contents summary", true],
+];
+let OPT = null;
+
+function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
+
+async function init(){
+  OPT = await (await fetch('/api/options')).json();
+  const maps = document.getElementById('maps');
+  for (const [k,v] of Object.entries(OPT.maps)){
+    const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
+    c.onclick = ()=>{ S.map=k; sel(maps,c); fillHome(); sum(); };
+    maps.appendChild(c);
+  }
+  const eras = document.getElementById('eras');
+  for (const [k,v] of Object.entries(OPT.eras)){
+    const c = el(`<div class="card" data-k="${k}"><b>${v}</b><small>Filters aircraft, statics &amp; SAMs</small></div>`);
+    c.onclick = ()=>{ S.era=k; sel(eras,c); fillHome(); sum(); };
+    eras.appendChild(c);
+  }
+  const ac = document.getElementById('aircraft');
+  for (const a of OPT.aircraft)
+    ac.appendChild(el(`<option value="${a.key}">${a.id}${a.kind==='helicopter'?' (helo)':''}</option>`));
+  ac.value = 'F_16C_50';
+  for (const key of ['start','time_of_day','weather','density']){
+    const s = document.getElementById(key);
+    for (const v of OPT.enums[key]) s.appendChild(el(`<option>${v}</option>`));
+  }
+  document.getElementById('density').value='normal';
+  document.getElementById('time_of_day').value='day';
+  const bl = document.getElementById('blocks');
+  for (const [k,t,d,on] of BLOCKS)
+    bl.appendChild(el(`<label class="block"><input type="checkbox" id="${k}" ${on?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`));
+  const tp = document.getElementById('templates');
+  const none = el(`<div class="card sel" data-k=""><b>None — pure starter</b><small>You build the mission on top</small></div>`);
+  none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); };
+  tp.appendChild(none);
+  for (const [k,v] of Object.entries(OPT.templates)){
+    const c = el(`<div class="card" data-k="${k}"><b>${v}</b><small>Curated scripted scenario</small></div>`);
+    c.onclick = ()=>{ S.template=k; sel(tp,c); sum(); };
+    tp.appendChild(c);
+  }
+  document.getElementById('coalition').onchange = ()=>{ fillHome(); sum(); };
+  ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
+  // defaults
+  maps.firstElementChild.click();
+  eras.firstElementChild.click();
+  sum();
+}
+function sel(container, card){
+  container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
+  card.classList.add('sel');
+}
+function fillHome(){
+  if(!S.map||!S.era) return;
+  const side = document.getElementById('coalition').value;
+  const p = OPT.maps[S.map].presets[S.era];
+  const list = side==='blue'? p.blue_airbases : p.red_airbases;
+  const h = document.getElementById('home');
+  h.innerHTML='';
+  list.forEach(n=>h.appendChild(el(`<option>${n}</option>`)));
+}
+function recipe(){
+  const r = {
+    map:S.map, era:S.era, template:S.template,
+    coalition:document.getElementById('coalition').value,
+    aircraft:document.getElementById('aircraft').value,
+    home_airbase:document.getElementById('home').value,
+    slots:+document.getElementById('slots').value,
+    start:document.getElementById('start').value,
+    time_of_day:document.getElementById('time_of_day').value,
+    weather:document.getElementById('weather').value,
+    density:document.getElementById('density').value,
+    seed:+document.getElementById('seed').value,
+  };
+  for (const [k] of BLOCKS) r[k]=document.getElementById(k).checked;
+  return r;
+}
+function sum(){
+  if(!OPT||!S.map||!S.era) return;
+  const r = recipe();
+  document.getElementById('summary').textContent =
+    `${OPT.maps[S.map].label} · ${OPT.eras[S.era]} · ${r.coalition} · ${r.aircraft} from ${r.home_airbase}` +
+    (S.template? ` · ${S.template}` : '') + ` · seed ${r.seed}`;
+}
+document.getElementById('gen').onclick = async ()=>{
+  const btn = document.getElementById('gen'), st = document.getElementById('status');
+  btn.disabled = true; st.textContent = 'Generating…';
+  try{
+    const res = await fetch('/api/generate', {method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({recipe: recipe()})});
+    if(!res.ok){ st.textContent = 'Error: ' + (await res.json()).detail; return; }
+    const warn = res.headers.get('X-Warnings');
+    const blob = await res.blob();
+    const cd = res.headers.get('Content-Disposition')||'';
+    const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'starter.miz';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
+    st.textContent = warn ? ('Done, with warnings: '+warn) : 'Done — check your downloads.';
+  } catch(e){ st.textContent = 'Error: '+e; }
+  finally { btn.disabled = false; }
+};
+init();
+</script>
+</body>
+</html>

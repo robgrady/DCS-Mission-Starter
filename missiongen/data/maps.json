@@ -1,0 +1,44 @@
+{
+  "caucasus": {
+    "label": "Caucasus",
+    "terrain_class": "dcs.terrain.caucasus.Caucasus",
+    "free": true,
+    "presets": {
+      "coldwar": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi"],
+        "red_airbases": ["Gudauta", "Sochi-Adler", "Maykop-Khanskaya"],
+        "frontline_hint": "Abkhazia coast"
+      },
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi"],
+        "red_airbases": ["Gudauta", "Sochi-Adler", "Mozdok"],
+        "frontline_hint": "Abkhazia coast"
+      }
+    }
+  },
+  "syria": {
+    "label": "Syria",
+    "terrain_class": "dcs.terrain.syria.Syria",
+    "free": false,
+    "presets": {
+      "coldwar": {
+        "blue_country": "Israel",
+        "red_country": "Syria",
+        "blue_airbases": ["Ramat David", "Rosh Pina", "Megiddo"],
+        "red_airbases": ["Damascus", "Khalkhalah", "Mezzeh"],
+        "frontline_hint": "Golan Heights"
+      },
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "Syria",
+        "blue_airbases": ["Incirlik", "Hatay", "Ramat David"],
+        "red_airbases": ["Bassel Al-Assad", "Damascus", "Palmyra"],
+        "frontline_hint": "Western Syria"
+      }
+    }
+  }
+}
