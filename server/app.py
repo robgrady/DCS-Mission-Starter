@@ -33,7 +33,13 @@ def flyable_aircraft():
             cls = getattr(mod, name)
             if isinstance(cls, type) and getattr(cls, "flyable", False):
                 out.append({"key": name, "id": cls.id, "kind": kind})
-    return sorted(out, key=lambda a: a["id"])
+    out.sort(key=lambda a: a["id"])
+    # pending (announced/pre-order) modules, flagged for the UI
+    from missiongen.pending import pending_aircraft
+    for key, cfg in pending_aircraft().items():
+        out.append({"key": key, "id": cfg["label"], "kind": cfg["kind"],
+                    "upcoming": True})
+    return out
 
 
 @app.get("/", response_class=HTMLResponse)

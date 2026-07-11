@@ -123,7 +123,7 @@ async function init(){
   }
   const ac = document.getElementById('aircraft');
   for (const a of OPT.aircraft)
-    ac.appendChild(el(`<option value="${a.key}">${a.id}${a.kind==='helicopter'?' (helo)':''}</option>`));
+    ac.appendChild(el(`<option value="${a.key}">${a.upcoming?'⏳ ':''}${a.id}${a.kind==='helicopter'?' (helo)':''}</option>`));
   ac.value = 'F_16C_50';
   for (const key of ['start','time_of_day','weather','density']){
     const s = document.getElementById(key);

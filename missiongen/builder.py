@@ -156,6 +156,12 @@ class StarterBuilder:
                 return resolve(f"{mod}.{name}")
             except UnknownUnitError:
                 continue
+        # pending (announced/pre-order) modules with provisional type ids
+        from .pending import get_pending
+        cls, warning = get_pending(name)
+        if cls is not None:
+            self.warnings.append(warning)
+            return cls
         raise UnknownUnitError(f"Aircraft '{name}' not found in pydcs planes/helicopters")
 
     def _apply_weather(self, m):

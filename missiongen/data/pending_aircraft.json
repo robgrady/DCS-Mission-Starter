@@ -1,0 +1,10 @@
+{
+  "F_14B_U": {
+    "label": "F-14B(U) Tomcat (upcoming - Heatblur)",
+    "provisional_id": "F-14B-U",
+    "inherits": "planes.F_14B",
+    "kind": "plane",
+    "note": "Pre-order as of 2026-07. UPDATE provisional_id to the real DCS type id on release day, then move to normal roster. Until then generated missions carry a warning.",
+    "backseat_capable": true
+  }
+}
