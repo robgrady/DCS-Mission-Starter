@@ -1,32 +1,43 @@
-"""Crew Ops template packs — RIO/WSO-driven missions.
+"""Crew Ops template packs — F-14 Tomcat crew-AI missions.
 
 THE BACKSEAT CONTRACT: the mission flies the jet; the player runs the mission.
 Scenarios are player-paced via the F10 crew menu (see crewops.py), not timers.
 
-WSO (F-4E, available today): Iceman flies via the Heatblur PROXY flag API,
-Jester designates. Shared by IronMike for third-party RIO missions.
-RIO (F-14, available today in MULTIPLAYER): one jet, human pilot + human RIO.
-Solo F-14 RIO waits on the F-14B(U)'s new crew AI — same template machinery
-will drive it when Heatblur ships the flags (pending-module pattern).
+PLATFORM (corrected 2026-07-12): the crew-AI mission-command flag API belongs to
+the F-14B(U) — note the "BU" in the flag names. Jester is the F-14's AI RIO;
+Iceman is the F-14's AI pilot. The F-4E has NO crew AI and needs none: the
+Phantom's back seat has full flight controls, so a WSO player simply flies from
+the pit. Crew Ops templates are therefore F-14 only.
 
-Heatblur flag reference:
-  10019 zone target select | 10046 GGW target (0.01-0.99 -> "GGWTargetNN")
-  10047 IZLID lase (value*60s, -1 cont, 0 stop)
-  10080/81 hdg abs/rel | 10082/83 spd abs/rel | 10084/85 alt abs/rel
-  10086 fly-to-stpt | 10087 orbit stpt | 10088 hold
+Two genres on the F-14B(U):
+  PILOT-SEAT (AI RIO): command Jester — 10019 zone target select,
+    10046 PROXY_Jester_BU_wpt_from_ggw_target (0.01-0.99 -> "GGWTargetNN"),
+    10047 PROXY_Jester_BU_izlid_point_zone (value*60 s lase, -1 cont, 0 stop)
+  RIO-SEAT (AI pilot): command Iceman — 10080/81 hdg abs/rel, 10082/83 spd,
+    10084/85 alt, 10086 fly-to-steerpoint, 10087 orbit steerpoint, 10088 hold
+
+F-14A/B (today, no flag API): rio_fleet_defense — solo via in-cockpit Iceman
+(A-menu) or multiplayer human crew.
+
+The F-14B(U) is pre-release: templates use the provisional type id (pending-
+module pattern) and generation attaches a warning until Heatblur ships.
+
 NOTE: templates are the sanctioned exception to the no-waypoints principle —
-the AI pilot needs steerpoints. These are template waypoints, not user plans.
+the AI crew needs steerpoints. These are template waypoints, not user plans.
 """
 import math
 import random
-from dcs import mapping, planes, vehicles
+from dcs import mapping, vehicles
 from dcs.action import SetFlagValue
 
 from .crewops import CrewFlow
+from .pending import get_pending
 
 FLAGS = {
-    "ggw_target": 10046, "izlid_lase": 10047,
-    "iceman_hdg_abs": 10080, "iceman_spd_abs": 10082, "iceman_alt_abs": 10084,
+    "zone_target": 10019, "ggw_target": 10046, "izlid_lase": 10047,
+    "iceman_hdg_abs": 10080, "iceman_hdg_rel": 10081,
+    "iceman_spd_abs": 10082, "iceman_spd_rel": 10083,
+    "iceman_alt_abs": 10084, "iceman_alt_rel": 10085,
     "iceman_fly_to_stpt": 10086, "iceman_orbit_stpt": 10087, "iceman_hold": 10088,
 }
 
@@ -35,11 +46,20 @@ def _pt(base, dx, dy):
     return mapping.Point(base.x + dx, base.y + dy, base._terrain)
 
 
-# ---------------------------------------------------------------- WSO: IZLID
+def _f14bu(warnings):
+    cls, warning = get_pending("F_14B_U")
+    if warning:
+        warnings.append(warning)
+    return cls
+
+
+# --------------------------------------------- PILOT + JESTER: IZLID strike
 def build_backseat_izlid(m, recipe, blue_country, red_country, home_airport,
-                         target_area, rng: random.Random, comms):
-    """WSO IZLID designation run — player-paced. You call the ingress, the
-    lase, and the egress from the back seat; Iceman and Jester execute."""
+                         target_area, rng: random.Random, comms, warnings):
+    """F-14B(U) PILOT-seat mission: you fly, Jester (AI RIO) works the pod.
+    Player-paced: you call the sparkle and the cease from the F10 crew menu."""
+    cls = _f14bu(warnings)
+
     convoy_pos = _pt(target_area, rng.uniform(-1500, 1500), rng.uniform(-1500, 1500))
     convoy = m.vehicle_group(red_country, "GGWTarget01", vehicles.Armor.BMP_2,
                              convoy_pos, heading=rng.uniform(0, 360), group_size=4)
@@ -47,32 +67,24 @@ def build_backseat_izlid(m, recipe, blue_country, red_country, home_airport,
     m.triggers.add_triggerzone(convoy_pos, radius=2000, name="IZLID ZONE")
 
     ingress = _pt(target_area, -27000, -5000)
-    f4 = m.flight_group_inflight(blue_country, "Rhino 1", planes.F_4E_45MC,
-                                 ingress, altitude=4572, speed=760, group_size=1)
-    f4.add_waypoint(target_area, altitude=4572)          # STPT 2: target
-    f4.add_waypoint(_pt(target_area, -30000, 15000), altitude=5486)  # STPT 3: egress
-    f4.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f4.units]
+    f14 = m.flight_group_inflight(blue_country, "Victory 1", cls,
+                                  ingress, altitude=4572, speed=760, group_size=1)
+    f14.add_waypoint(target_area, altitude=4572)          # STPT 2: target
+    f14.add_waypoint(_pt(target_area, -30000, 15000), altitude=5486)  # STPT 3: egress
+    f14.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f14.units]
 
     flow = CrewFlow(m, recipe.crew_difficulty)
     flow.message_at_start(
-        "BACKSEAT OPS - IZLID DESIGNATION. You are the WSO; Iceman has the jet.\n"
-        "Run the mission from the F10 CREW menu: commit, lase, egress - your calls.")
-
-    commit = flow.add_command(
-        "CREW: Commit - Iceman, take us to the target",
-        [SetFlagValue(FLAGS["iceman_fly_to_stpt"], 2),
-         SetFlagValue(FLAGS["iceman_alt_abs"], 15000)],
-        feedback="Iceman: roger, coming on course for steerpoint 2, base plus fifteen.",
-        hint="Open the F10 menu and COMMIT when your systems are set up.")
+        "CREW OPS - JESTER IZLID STRIKE (F-14B(U)). You have the jet; Jester has\n"
+        "the back seat. Fly the profile to steerpoint 2 and run Jester's IZLID\n"
+        "from the F10 CREW menu: sparkle, confirm effect, cease. Your calls.")
 
     lase = flow.add_command(
         "JESTER: IZLID on - sparkle the convoy",
         [SetFlagValue(FLAGS["ggw_target"], 0.01),
-         SetFlagValue(FLAGS["izlid_lase"], 3.0),
-         SetFlagValue(FLAGS["iceman_orbit_stpt"], 2)],
-        after_flag=commit,
-        feedback="Jester: IZLID on, sparkle on the convoy. Iceman holding overhead.",
-        hint="In the target area, call JESTER to put the IZLID on. Watch the sparkle.")
+         SetFlagValue(FLAGS["izlid_lase"], 3.0)],
+        feedback="Jester: IZLID on, sparkle on the convoy (GGWTarget01).",
+        hint="Fly to the target area, then call JESTER on the F10 menu to lase.")
 
     flow.add_command(
         "JESTER: Cease lase",
@@ -80,35 +92,31 @@ def build_backseat_izlid(m, recipe, blue_country, red_country, home_airport,
         after_flag=lase,
         feedback="Jester: IZLID off.")
 
-    flow.add_command(
-        "CREW: Egress - take us home",
-        [SetFlagValue(FLAGS["izlid_lase"], 0),
-         SetFlagValue(FLAGS["iceman_fly_to_stpt"], 3)],
-        after_flag=commit,
-        feedback="Iceman: roger, egressing to steerpoint 3.")
-
     flow.on_group_dead("GGWTarget01", [],
-                       feedback="GOOD EFFECT ON TARGET - convoy destroyed. "
-                                "Call the egress when you're ready.")
+                       feedback="GOOD EFFECT ON TARGET - convoy destroyed. Egress when ready.")
 
-    comms.add("Flight", "Rhino 1-1", f"{comms.freq('flight_common'):.2f}", "-",
-              "F-4E Backseat Ops (crew menu on F10)")
-    return f4
+    comms.add("Flight", "Victory 1-1", f"{comms.freq('flight_common'):.2f}", "-",
+              "F-14B(U) + Jester (crew menu on F10)")
+    return f14
 
 
 BRIEFING_BLOCK = """
-== BACKSEAT OPS: IZLID DESIGNATION (WSO) ==
-You are the WSO. Iceman has the jet - YOU run the mission from the F10 CREW
-menu: commit the ingress, put Jester's IZLID on the convoy (GGWTarget01),
-confirm effect, call the egress. The jet responds to your calls, not a script.
+== CREW OPS: JESTER IZLID STRIKE (F-14B(U), PILOT SEAT) ==
+You fly; Jester works the back seat. Ingress to steerpoint 2, then run the
+designation from the F10 CREW menu: IZLID on, confirm effect, cease. The
+mission commands Jester through the Heatblur flag API on your calls.
+NOTE: F-14B(U) is pre-release - this mission uses the provisional type id.
 """
 
 
-# ------------------------------------------------------------ WSO: intercept
+# ------------------------------------------------ RIO + ICEMAN: GCI intercept
 def build_backseat_intercept(m, recipe, blue_country, red_country, home_airport,
-                             target_area, rng: random.Random, comms):
-    """WSO GCI intercept — player-paced. Iceman holds CAP until YOU commit."""
+                             target_area, rng: random.Random, comms, warnings):
+    """F-14B(U) RIO-seat mission: Iceman (AI pilot) flies YOUR calls.
+    He holds CAP until you commit from the F10 crew menu."""
     from dcs import planes as _planes
+    cls = _f14bu(warnings)
+
     cap = mapping.Point((home_airport.position.x + target_area.x) / 2,
                         (home_airport.position.y + target_area.y) / 2,
                         target_area._terrain)
@@ -117,22 +125,20 @@ def build_backseat_intercept(m, recipe, blue_country, red_country, home_airport,
         _pt(target_area, 60000, 40000), altitude=9000, speed=900, group_size=2)
     bombers.add_waypoint(home_airport.position, altitude=9000)
 
-    f4 = m.flight_group_inflight(blue_country, "Rhino 1", planes.F_4E_45MC,
-                                 cap, altitude=6096, speed=740, group_size=1)
-    f4.add_waypoint(cap, altitude=6096)
-    f4.add_waypoint(target_area, altitude=7620)
-    f4.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f4.units]
+    f14 = m.flight_group_inflight(blue_country, "Anytime 1", cls,
+                                  cap, altitude=6096, speed=740, group_size=1)
+    f14.add_waypoint(cap, altitude=6096)          # STPT 2: CAP anchor
+    f14.add_waypoint(target_area, altitude=7620)  # STPT 3: threat axis
+    f14.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f14.units]
 
     threat_brg = round(math.degrees(math.atan2(
         target_area.y - cap.y, target_area.x - cap.x)) % 360)
 
     flow = CrewFlow(m, recipe.crew_difficulty)
     flow.message_at_start(
-        "BACKSEAT OPS - GCI INTERCEPT. Two Backfires inbound. Iceman holds CAP\n"
-        "until YOU commit from the F10 CREW menu. Find them, build the geometry,\n"
-        "run the intercept from the back seat.")
-    # Iceman establishes the CAP orbit immediately
-    flow.on_flag(0, [], comment="noop")
+        "CREW OPS - RIO GCI INTERCEPT (F-14B(U)). You're the RIO; Iceman has the\n"
+        "jet and holds CAP until YOU commit from the F10 CREW menu. Work the\n"
+        "AWG-9, build the picture, run the intercept. Two Backfires inbound.")
     from dcs.triggers import TriggerOnce
     from dcs.condition import TimeAfter
     t = TriggerOnce(comment="Iceman: establish CAP")
@@ -141,44 +147,52 @@ def build_backseat_intercept(m, recipe, blue_country, red_country, home_airport,
     m.triggerrules.triggers.append(t)
 
     commit = flow.add_command(
-        f"CREW: Commit - vector {threat_brg:03d} on the raid",
+        f"CREW: Commit - Iceman, vector {threat_brg:03d} on the raid",
         [SetFlagValue(FLAGS["iceman_hdg_abs"], threat_brg),
          SetFlagValue(FLAGS["iceman_spd_abs"], 550),
          SetFlagValue(FLAGS["iceman_alt_abs"], 25000)],
-        feedback=f"Iceman: committing, heading {threat_brg:03d}, gate, climbing to base plus 25.",
-        hint="Work the radar. When you have the picture, COMMIT from the F10 menu.")
+        feedback=f"Iceman: committing, heading {threat_brg:03d}, gate, climbing.",
+        hint="Sort the raid in TWS. When you have the picture, COMMIT on the F10 menu.")
 
     flow.add_command(
-        "CREW: Skip it - back to CAP",
+        "CREW: Skip it - Iceman, back to CAP",
         [SetFlagValue(FLAGS["iceman_orbit_stpt"], 2)],
         after_flag=commit,
-        feedback="Iceman: roger, resuming CAP orbit.")
+        feedback="Iceman: roger, resuming CAP orbit at steerpoint 2.")
+
+    flow.add_command(
+        "CREW: Iceman, hold what you've got",
+        [SetFlagValue(FLAGS["iceman_hold"], 1)],
+        after_flag=commit,
+        feedback="Iceman: holding current heading and altitude.")
 
     flow.on_group_dead("Vandal 1", [],
                        feedback="SPLASH THE RAID - both Backfires down. "
-                                "Take us back to CAP or call the egress.")
+                                "Send Iceman back to CAP or call the egress.")
 
-    comms.add("Flight", "Rhino 1-1", f"{comms.freq('flight_common'):.2f}", "-",
-              "F-4E GCI Intercept (crew menu on F10)")
-    return f4
+    comms.add("Flight", "Anytime 1-1", f"{comms.freq('flight_common'):.2f}", "-",
+              "F-14B(U) RIO + Iceman (crew menu on F10)")
+    return f14
 
 
 INTERCEPT_BRIEFING_BLOCK = """
-== BACKSEAT OPS: GCI INTERCEPT (WSO) ==
-You are the WSO. Iceman holds CAP until YOU commit from the F10 CREW menu.
-Two Backfires inbound high and fast - find them on the radar, commit the
-intercept, direct the engagement. Iceman flies your calls.
-NOTE: Iceman speed/altitude flag units assumed kts/ft pending Heatblur docs.
+== CREW OPS: RIO GCI INTERCEPT (F-14B(U), RIO SEAT) ==
+You are the RIO; Iceman (AI pilot) flies your calls through the F10 CREW
+menu: commit on the raid, hold, or recommit CAP. Two Backfires inbound high
+and fast - find them on the AWG-9, build the geometry, run the intercept.
+NOTE: F-14B(U) is pre-release - provisional type id; Iceman flag value units
+(kts/ft assumed) pending Heatblur confirmation.
 """
 
 
-# ---------------------------------------------------- RIO: fleet defense (MP)
+# ---------------------------------------------- RIO: fleet defense (today's F-14)
 def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
                             target_area, rng: random.Random, comms, era, csg=None):
-    """RIO fleet defense — MULTIPLAYER crew mission (human pilot + human RIO in
-    one Tomcat). The classic AWG-9 problem: a regimental Backfire raid inbound
-    on the force. GCI picture and commit calls come through the F10 crew menu."""
+    """RIO fleet defense on TODAY'S F-14A/B (no flag API needed): solo via the
+    in-cockpit Iceman (A-menu), or multiplayer human crew. The classic AWG-9
+    problem: a regimental Backfire raid inbound on the force."""
     from dcs import planes as _planes
+    from dcs.mission import StartType
     cat = _planes.F_14A_135_GR if era == "coldwar" else _planes.F_14B
 
     cap = mapping.Point((home_airport.position.x + target_area.x) / 2,
@@ -190,10 +204,7 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
     raid.add_waypoint(home_airport.position, altitude=10000)
 
     solo = recipe.slots <= 1
-    from dcs.mission import StartType
     if csg is not None:
-        # CARRIER START: the mission begins on the boat. Solo RIOs cat-shot
-        # themselves, level off, then swap seats for Iceman.
         f14 = m.flight_group_from_unit(
             blue_country, "Anytime 1", cat, csg,
             start_type=StartType.Warm, group_size=1 if solo else 2)
@@ -204,12 +215,10 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
     f14.add_waypoint(cap, altitude=7620)
     f14.add_waypoint(target_area, altitude=9144)
     if solo:
-        # SOLO RIO: air start = level flight = Iceman-ready. Spawn in the front,
-        # trim level, jump to the back seat; Iceman holds the jet (A-menu commands).
         f14.units[0].set_player()
     else:
         for u in f14.units:
-            u.set_client()      # MP: human pilot + human RIO crew each jet
+            u.set_client()
 
     threat_brg = round(math.degrees(math.atan2(
         target_area.y - cap.y, target_area.x - cap.x)) % 360)
@@ -244,7 +253,7 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
                        feedback="GRAND SLAM - raid destroyed. The force is safe. RTB.")
 
     comms.add("Flight", "Anytime 1-1", f"{comms.freq('flight_common'):.2f}", "-",
-              f"{cat.id} x2 crew jets (pilot+RIO per jet, multiplayer)")
+              f"{cat.id} (RIO crew mission)")
     return f14
 
 
@@ -253,9 +262,8 @@ RIO_BRIEFING_BLOCK = """
 Four Backfires inbound on the force. The RIO owns the AWG-9: build the
 picture in TWS, sort the raid, time the shots. GCI on the F10 menu.
 
-SOLO (slots=1): you air-start level on CAP. Trim the jet, jump to the back
-seat, and Iceman holds it - command him with the A-menu (heading/altitude/
-speed, Ctrl+1-8). He is a basic autopilot: set his course, then work the
-radar. MULTIPLAYER (slots=2): two crew jets, human pilot + human RIO each.
-(Mission-scripted pilot control arrives with the F-14B(U)'s new crew AI.)
+SOLO (slots=1): you air-start level on CAP (or cat-shot from the boat if the
+carrier is home). Trim, jump to the back seat, and Iceman holds it - command
+him with the A-menu (Ctrl+1-8). MULTIPLAYER (slots=2): two crew jets, human
+pilot + human RIO each. (F-14B(U) adds full mission-scripted crew AI.)
 """

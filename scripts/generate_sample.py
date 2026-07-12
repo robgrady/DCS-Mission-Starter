@@ -8,9 +8,10 @@ from missiongen import Recipe, generate
 
 SAMPLES = [
     Recipe(map="caucasus", era="coldwar", aircraft="F_4E_45MC", seed=42),
-    Recipe(map="caucasus", era="coldwar", aircraft="F_4E_45MC", seed=42,
+    # F-14B(U) crew-AI missions (pre-release module, provisional id)
+    Recipe(map="syria", era="modern", aircraft="F_14B_U", seed=42,
            template="backseat_izlid"),
-    Recipe(map="caucasus", era="coldwar", aircraft="F_4E_45MC", seed=5,
+    Recipe(map="marianas", era="modern", aircraft="F_14B_U", seed=5,
            template="backseat_intercept"),
     Recipe(map="syria", era="modern", aircraft="F_16C_50", seed=7),
     Recipe(map="thechannel", era="wwii", aircraft="SpitfireLFMkIX", seed=44),

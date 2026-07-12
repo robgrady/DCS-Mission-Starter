@@ -201,16 +201,18 @@ story += [
       "templates are player-paced through the <b>F10 CREW menu</b> — no scripts on a stopwatch. "
       "Commands appear as they become relevant, the AI crew answers your calls, and real events "
       "drive the feedback (“GOOD EFFECT ON TARGET” when your convoy dies)."),
-    B("<b>WSO: IZLID Designation (F-4E, solo)</b> — Iceman flies, Jester lases. You call the "
-      "commit, the sparkle, and the egress from the back seat."),
-    B("<b>WSO: GCI Intercept (F-4E, solo)</b> — Iceman holds CAP until <i>you</i> commit on the "
-      "inbound Backfires. Work the radar, build the geometry, run the intercept."),
+    B("<b>F-14B(U) Pilot + Jester: IZLID Strike</b> — you fly the Tomcat; Jester (the AI RIO) "
+      "puts the IZLID on the target when you call it from the crew menu. (Pre-release module.)"),
+    B("<b>F-14B(U) RIO + Iceman: GCI Intercept</b> — you're the RIO; Iceman (the AI pilot) "
+      "flies YOUR calls — commit, hold, recommit CAP — while you run the AWG-9. (Pre-release.)"),
     B("<b>RIO: Fleet Defense (F-14, solo or multiplayer)</b> — four Backfires inbound on the "
       "force; sort the raid in TWS and time the Phoenix shots. <b>Solo</b> (1 slot): you "
       "air-start level on CAP — trim, jump to the back seat, and Iceman holds the jet on your "
       "A-menu commands. <b>Multiplayer</b> (2 slots): human pilot up front, human RIO in back."),
     P("<b>Crew difficulty:</b> Trainee shows [CREW HINT] prompts for the next call; Qualified "
-      "gives you a clean cockpit.", "note"),
+      "gives you a clean cockpit. <b>Why F-14 only?</b> Jester and Iceman are the Tomcat's crew "
+      "AI. The F-4E needs none — the Phantom's back seat has full flight controls, so a WSO "
+      "player simply flies from the pit.", "note"),
 
     P("Nav reference points", "h1"),
     P("On maps with curated landmark data (Nevada today), named references — Area 51, Belted "

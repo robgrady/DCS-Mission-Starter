@@ -16,9 +16,11 @@ from . import dressing, airdefense, support_air, backseat
 START_TYPES = {"cold": StartType.Cold, "warm": StartType.Warm, "runway": StartType.Runway}
 TIME_PRESETS = {"dawn": 5, "day": 12, "dusk": 18, "night": 22}
 
-# templates are era-gated too: no Backseat Ops in a WWII starter
-TEMPLATE_ERAS = {"backseat_izlid": ("coldwar", "modern"),
-                 "backseat_intercept": ("coldwar", "modern"),
+# templates are era-gated too. F-14B(U) flag-API missions are modern-only
+# (the B(U) upgrade is a mid-90s+ airframe); fleet defense runs on today's
+# F-14A (coldwar) / F-14B (modern).
+TEMPLATE_ERAS = {"backseat_izlid": ("modern",),
+                 "backseat_intercept": ("modern",),
                  "rio_fleet_defense": ("coldwar", "modern")}
 
 
@@ -298,11 +300,13 @@ class StarterBuilder:
                 enemy_center.y + self.rng.uniform(-8000, 8000), m.terrain)
             if r.template == "backseat_izlid":
                 backseat.build_backseat_izlid(m, r, blue_country, red_country, home,
-                                              target_area, self.rng, comms)
+                                              target_area, self.rng, comms,
+                                              self.warnings)
                 template_brief = backseat.BRIEFING_BLOCK
             elif r.template == "backseat_intercept":
                 backseat.build_backseat_intercept(m, r, blue_country, red_country,
-                                                  home, target_area, self.rng, comms)
+                                                  home, target_area, self.rng, comms,
+                                                  self.warnings)
                 template_brief = backseat.INTERCEPT_BRIEFING_BLOCK
             else:
                 backseat.build_rio_fleet_defense(m, r, blue_country, red_country,
