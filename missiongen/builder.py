@@ -142,6 +142,15 @@ class StarterBuilder:
                         self.rng, self.warnings)
                     stats["deck_statics"] = n
                     carrier_pos = csg.units[0].position
+                    # flight ops underway (launch/recovery deck) => the SAR
+                    # helo is airborne in Starboard Delta before the first
+                    # cat shot ("first off, last on")
+                    if r.carrier_layout in ("launch", "recovery"):
+                        pg = naval.add_plane_guard(m, own_country, hull_key,
+                                                   carrier_pos, brc, comms,
+                                                   self.warnings)
+                        if pg:
+                            stats["support"].append(pg.name)
                     if r.carrier_cap:
                         cap = naval.add_carrier_cap(m, own_country, hull_key,
                                                     carrier_pos, brc, threat_bearing,

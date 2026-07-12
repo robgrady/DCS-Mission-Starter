@@ -9,6 +9,7 @@
               "icls": 11, "link4": 336.0, "callsign": "Mother"},
   "cap": 258.0,
   "aew": 259.0,
+  "angel": 262.0,
   "farp_base": 127.5,
   "notes": "Guard 243.0 monitored. Field ATC per DCS auto-assign (see kneeboard airfield page)."
 }

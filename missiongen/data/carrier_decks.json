@@ -17,7 +17,8 @@
         ],
         "airwing": {"label": "CVW-11",
           "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-146 Blue Diamonds"},
-          "aew": {"type": "planes.E_2C", "squadron": "VAW-117 Wallbangers"}}
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-117 Wallbangers"},
+          "helo": {"type": "helicopters.SH_60B", "squadron": "HS-6 Indians"}}
       },
       "spots": {
         "point":     [{"x": 140, "y": -2, "hdg": 0, "pref": "e2"},
@@ -70,7 +71,8 @@
         ],
         "airwing": {"label": "CVW-9",
           "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-151 Vigilantes"},
-          "aew": {"type": "planes.E_2C", "squadron": "VAW-112 Golden Hawks"}}
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-112 Golden Hawks"},
+          "helo": {"type": "helicopters.SH_60B", "squadron": "HS-8 Eightballers"}}
       }
     },
 
@@ -88,7 +90,8 @@
         ],
         "airwing": {"label": "CVW-5",
           "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-27 Royal Maces"},
-          "aew": {"type": "planes.E_2C", "squadron": "VAW-125 Tigertails"}}
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-125 Tigertails"},
+          "helo": {"type": "helicopters.SH_60B", "squadron": "HS-14 Chargers"}}
       }
     },
 
@@ -106,7 +109,8 @@
         ],
         "airwing": {"label": "CVW-1",
           "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-81 Sunliners"},
-          "aew": {"type": "planes.E_2C", "squadron": "VAW-126 Seahawks"}}
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-126 Seahawks"},
+          "helo": {"type": "helicopters.SH_60B", "squadron": "HS-11 Dragonslayers"}}
       }
     },
 
@@ -124,7 +128,8 @@
         ],
         "airwing": {"label": "CVW-9",
           "cap": {"type": "planes.FA_18C_hornet", "squadron": "VFA-151 Vigilantes"},
-          "aew": {"type": "planes.E_2C", "squadron": "VAW-112 Golden Hawks"}}
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-112 Golden Hawks"},
+          "helo": {"type": "helicopters.SH_60B", "squadron": "HS-8 Eightballers"}}
       }
     },
 
@@ -190,7 +195,8 @@
         ],
         "airwing": {"label": "CVW-6",
           "cap": {"type": "planes.F_14A", "squadron": "VF-31 Tomcatters"},
-          "aew": {"type": "planes.E_2C", "squadron": "VAW-122 Steeljaws"}}
+          "aew": {"type": "planes.E_2C", "squadron": "VAW-122 Steeljaws"},
+          "helo": {"type": "helicopters.SH_60B", "squadron": "HS-15 Red Lions"}}
       },
       "spots": {
         "point":     [{"x": 122, "y": -2, "hdg": 0, "pref": "e2"}],

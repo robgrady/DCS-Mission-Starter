@@ -280,6 +280,14 @@ story += [
       "follow doctrine: plane-guard destroyer astern, AAW cruiser on the beam, pickets on the "
       "bow quarters. The group steams into wind on BRC. On landlocked maps (Nevada) the carrier "
       "option greys out — there is no carrier water."),
+    P("When the deck is set for flight ops (launch or recovery), the air wing's SAR helo is "
+      "already airborne — <b>Angel</b>, an SH-60 holding in <b>Starboard Delta</b>: 300 ft and "
+      "below, a quarter mile off the starboard beam, tracking the ship's course. Starboard, "
+      "because the whole Case I pattern lives in left-hand turns on the port side; doctrine is "
+      "\"first off, last on\" — the helo launches before the first cat shot. Each wing flies its "
+      "real HS squadron (HS-6 Indians on the Roosevelt, HS-15 Red Lions on the Forrestal), up "
+      "Angel common on 262.0. The 1944 Essex keeps her plane-guard destroyer astern instead — "
+      "no helos in Task Force 58."),
     P("Deck configuration", "h2"),
 ]
 deck_rows = [

@@ -87,6 +87,54 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     return grp, brc
 
 
+def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
+    """Plane-guard / SAR helo in STARBOARD DELTA for fixed-wing flight ops.
+
+    US carrier doctrine (CV NATOPS): whenever the boat is launching or
+    recovering fixed-wing aircraft, a rescue helo is AIRBORNE first and
+    recovers last ("first off, last on"). It holds in the Starboard Delta
+    pattern — LOW (300 ft and below) and on the STARBOARD side of the ship,
+    roughly abeam the island at 1/4–1/2 nm, tracking the ship's course.
+    Starboard, because the entire Case I fixed-wing pattern (the break,
+    downwind, the groove) lives in left-hand turns on the PORT side; the
+    helo's station keeps it permanently clear of the pattern while seconds
+    away from a crew in the water off either catapult or the ramp.
+
+    DCS implementation: air-start the air wing's SH-60 500 m off the
+    starboard beam at 300 ft, then fly a route that parallels the carrier's
+    steaming leg at matched speed — the helo station-keeps in Starboard D
+    for the whole mission.
+    """
+    from .resolver import resolve
+    from .deck import _load_hull
+    hull = _load_hull(hull_key)
+    helo_cfg = hull.get("csg", {}).get("airwing", {}).get("helo") if hull.get("csg") else None
+    if not helo_cfg:
+        # Historically accurate gaps: 1944 Essex (plane guard was a destroyer
+        # station — already in the screen) and 1982 Invincible (820 NAS Sea
+        # King HAS.5 — no DCS asset).
+        warnings.append(f"{hull['label']}: no plane-guard helo in this air wing "
+                        "(destroyer astern holds the plane-guard station)")
+        return None
+    helo_type = resolve(helo_cfg["type"])
+    stbd = (brc + 90) % 360
+    # Starboard Delta: 500 m off the starboard beam, 300 ft, tracking BRC
+    station = _offset(carrier_pos, 500, stbd)
+    fg = m.flight_group_inflight(country, f"Angel {helo_cfg['squadron']}",
+                                 helo_type, station, altitude=91, speed=60)
+    fg.units[0].skill = Skill.High
+    fg.points[0].speed = 46                       # settle to ship's 25 kts
+    # parallel the carrier's 40 km steaming leg, staying 500 m starboard
+    leg_end = _offset(_offset(carrier_pos, 40000, brc), 500, stbd)
+    fg.add_waypoint(leg_end, altitude=91, speed=46)
+    freq = comms.freq("angel")
+    fg.set_frequency(freq)
+    comms.add("Plane guard", "Angel", f"{freq:.2f}", "-",
+              f"{helo_cfg['squadron']} {helo_type.id} in Starboard Delta, "
+              "300 ft off the starboard beam")
+    return fg
+
+
 def add_carrier_cap(m, country, hull_key, carrier_pos, brc, threat_bearing,
                     comms, warnings):
     """2-ship CAP from the embarked air wing, on station toward the threat axis."""
