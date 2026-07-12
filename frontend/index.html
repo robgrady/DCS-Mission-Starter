@@ -88,6 +88,25 @@
   <div class="step"><h2><span class="n">4</span>Building blocks</h2>
     <div class="blocks" id="blocks"></div>
   </div>
+  <div class="step" id="dressstep"><h2><span class="n">4a</span>Populate airfields</h2>
+    <div class="row">
+      <div style="flex:1.4">
+        <label>Ramp theme — who parks on YOUR fields (era-filtered)</label>
+        <select id="dress_theme"></select>
+        <small id="dress_theme_desc" style="display:block;color:var(--dim);margin-top:4px"></small>
+      </div>
+      <div style="flex:1">
+        <label>Fill: <b id="dress_fill_label">45%</b> of parking stands <small style="color:var(--dim)">(capped at 24 aircraft/field for FPS)</small></label>
+        <input type="range" id="dress_fill" min="0" max="100" step="5" value="45" style="width:100%">
+      </div>
+    </div>
+    <div class="row" style="margin-top:6px">
+      <label style="font-weight:normal"><input type="checkbox" id="dress_aircraft" checked> Parked aircraft</label>
+      <label style="font-weight:normal"><input type="checkbox" id="dress_gse" checked> Ground equipment <small style="color:var(--dim)">(fuel &amp; utility trucks by occupied stands)</small></label>
+      <label style="font-weight:normal"><input type="checkbox" id="dress_infra" checked> Infrastructure <small style="color:var(--dim)">(fuel farm, tents, barracks off the ramp)</small></label>
+    </div>
+    <small style="color:var(--dim)">Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
+  </div>
   <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration</h2>
     <div class="row">
       <div><label>Hull</label><select id="carrier_hull"></select></div>
@@ -138,6 +157,7 @@ const BLOCKS = [
 // --- share links: recipe <-> base64url(JSON of non-default fields) ---
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
+  dress_fill:null,dress_aircraft:true,dress_gse:true,dress_infra:true,dress_theme:null,
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
@@ -161,7 +181,7 @@ async function init(){
   const maps = document.getElementById('maps');
   for (const [k,v] of Object.entries(OPT.maps)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
-    c.onclick = ()=>{ S.map=k; sel(maps,c); refreshEraGating(); fillHome(); sum(); };
+    c.onclick = ()=>{ S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); sum(); };
     maps.appendChild(c);
   }
   const eras = document.getElementById('eras');
@@ -175,7 +195,7 @@ async function init(){
         S.map = valid;
         sel(document.getElementById('maps'), document.querySelector(`#maps .card[data-k="${valid}"]`));
       }
-      refreshEraGating(); fillHome(); sum(); };
+      refreshEraGating(); fillHome(); refreshDressUI(); sum(); };
     eras.appendChild(c);
   }
   refreshAircraft();
@@ -204,7 +224,11 @@ async function init(){
     cl.appendChild(el(`<option value="${k}">${v}</option>`));
   refreshCarrierUI();
   document.getElementById('carrier_hull').onchange = ()=>{ refreshDeckAircraft(); refreshAircraft(); sum(); };
-  document.getElementById('coalition').onchange = ()=>{ fillHome(); sum(); };
+  document.getElementById('coalition').onchange = ()=>{ fillHome(); refreshDressUI(); sum(); };
+  document.getElementById('bb_dressing').addEventListener('change', refreshDressUI);
+  document.getElementById('dress_theme').onchange = ()=>{ onThemeChange(); sum(); };
+  document.getElementById('dress_fill').oninput = function(){
+    document.getElementById('dress_fill_label').textContent = this.value + '%'; };
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
   const code = new URLSearchParams(location.search).get('r');
@@ -229,6 +253,14 @@ function applyRecipe(r){
   for (const k of ['start','time_of_day','weather','density']) document.getElementById(k).value = r[k];
   document.getElementById('seed').value = r.seed;
   for (const [k] of BLOCKS) document.getElementById(k).checked = !!r[k];
+  refreshDressUI();
+  if (r.dress_fill != null){
+    document.getElementById('dress_fill').value = r.dress_fill;
+    document.getElementById('dress_fill_label').textContent = r.dress_fill + '%';
+  }
+  for (const k of ['dress_aircraft','dress_gse','dress_infra'])
+    document.getElementById(k).checked = r[k] !== false;
+  if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
   const tsel = document.querySelector(`#templates .card[data-k="${r.template||''}"]`);
   if (tsel) tsel.click();
 }
@@ -341,6 +373,31 @@ function onHomeChange(){
   refreshAircraft();
   sum();
 }
+function refreshDressUI(){
+  if(!OPT||!S.era) return;
+  const side = document.getElementById('coalition').value || 'blue';
+  const themes = (OPT.ramp_themes[S.era]||{})[side] || {};
+  const mapDef = S.map ? ((OPT.map_theme_defaults[S.map]||{})[S.era]||{})[side] : null;
+  const eraDef = Object.keys(themes)[0];
+  const defKey = mapDef || null;
+  const sel = document.getElementById('dress_theme');
+  const prev = sel.value;
+  sel.innerHTML = '';
+  const autoLabel = defKey && themes[defKey] ? `Auto for this map — ${themes[defKey].label}` : 'Auto (era default)';
+  sel.appendChild(el(`<option value="">${autoLabel}</option>`));
+  for (const [k,t] of Object.entries(themes))
+    sel.appendChild(el(`<option value="${k}">${t.label}</option>`));
+  if ([...sel.options].some(o=>o.value===prev)) sel.value = prev;
+  onThemeChange();
+  const dstep = document.getElementById('dressstep');
+  dstep.style.display = document.getElementById('bb_dressing')?.checked === false ? 'none' : '';
+}
+function onThemeChange(){
+  const side = document.getElementById('coalition').value || 'blue';
+  const themes = (OPT.ramp_themes[S.era]||{})[side] || {};
+  const k = document.getElementById('dress_theme').value;
+  document.getElementById('dress_theme_desc').textContent = k && themes[k] ? themes[k].desc : 'Picks the right ramp for the map — e.g. US Air Force at Nellis, no Navy paint.';
+}
 function recipe(){
   const r = {
     map:S.map, era:S.era, template:S.template,
@@ -356,6 +413,14 @@ function recipe(){
     seed:+document.getElementById('seed').value,
   };
   for (const [k] of BLOCKS) r[k]=document.getElementById(k).checked;
+  if (r.bb_dressing){
+    const fill = +document.getElementById('dress_fill').value;
+    if (fill !== 45) r.dress_fill = fill;
+    r.dress_aircraft = document.getElementById('dress_aircraft').checked;
+    r.dress_gse = document.getElementById('dress_gse').checked;
+    r.dress_infra = document.getElementById('dress_infra').checked;
+    r.dress_theme = document.getElementById('dress_theme').value || null;
+  }
   if (r.bb_carrier){
     r.carrier_hull = document.getElementById('carrier_hull').value || null;
     r.carrier_layout = document.getElementById('carrier_layout').value;

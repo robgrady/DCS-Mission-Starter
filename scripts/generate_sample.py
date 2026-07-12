@@ -67,6 +67,10 @@ SAMPLES = [
     # NTTR: out of Groom Lake itself (blue - it's a USAF field)
     Recipe(map="nevada", era="modern", aircraft="F_16C_50", seed=51,
            home_airbase="Groom Lake", bb_targets=True),
+    # RED FLAG: Nellis surge ramp - B-1/B-52 heavies, aggressors, Navy + allied visitors
+    Recipe(map="nevada", era="modern", aircraft="F_16C_50", seed=52,
+           home_airbase="Nellis", dress_theme="red_flag", dress_fill=85,
+           bb_targets=True, bb_range=True),
     # Cold War Germany: F-4E on the Inner German Border out of Ramstein
     Recipe(map="germany", era="coldwar", aircraft="F_4E_45MC", seed=86),
     # Kola: RIO fleet defense SOLO off Andoya — Roosevelt in the Norwegian Sea

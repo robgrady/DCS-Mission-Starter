@@ -78,6 +78,16 @@ def options():
             "rio_fleet_defense": {"label": "F-14 RIO: Fleet Defense — the AWG-9 vs a Backfire raid (solo or MP crew, works today)",
                                   "eras": ["coldwar", "modern"]},
         },
+        "ramp_themes": {
+            era: {side: {k: {"label": t["label"], "desc": t["desc"]}
+                         for k, t in sides.items() if k != "default"}
+                  for side, sides in eras_t.items()}
+            for era, eras_t in load_json("ramp_themes").items()
+            if isinstance(eras_t, dict)},
+        "map_theme_defaults": {
+            mk: {e: {s: p.get(f"{s}_theme") for s in ("blue", "red")}
+                 for e, p in mv["presets"].items()}
+            for mk, mv in maps.items()},
         "carriers": __import__("missiongen.deck", fromlist=["hulls_for_options"]).hulls_for_options(),
         "carrier_capable": load_json("carrier_capable"),
         "enums": {

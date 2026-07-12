@@ -14,7 +14,17 @@ class Recipe:
     start: str = "cold"                # cold | warm | runway
     time_of_day: str = "day"           # dawn | day | dusk | night
     weather: str = "clear"             # clear | scattered | overcast | storm
-    density: str = "normal"            # sparse | normal | busy
+    density: str = "normal"            # sparse | normal | busy (AD/ambient scale)
+
+    # airfield population (BB-1..3 fine control)
+    dress_fill: Optional[int] = None   # % of free parking stands to fill (0-100);
+                                       # None = derive from density (25/45/70)
+    dress_aircraft: bool = True        # parked aircraft on stands
+    dress_gse: bool = True             # ground support equipment by occupied stands
+    dress_infra: bool = True           # fuel farm / tents / barracks cluster
+    dress_theme: Optional[str] = None  # ramp theme key for the PLAYER's fields
+                                       # (ramp_themes.json); None = map/era default.
+                                       # Enemy fields always use their map/era default.
 
     # building blocks
     bb_dressing: bool = True           # BB-1..3 static aircraft, GSE, infrastructure

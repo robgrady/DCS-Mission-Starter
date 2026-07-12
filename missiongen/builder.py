@@ -229,13 +229,26 @@ class StarterBuilder:
                 self.rng, "enemy")
 
         if r.bb_dressing:
+            enemy_side = "red" if r.coalition == "blue" else "blue"
+            # ramp themes: player's choice for own fields; enemy fields always
+            # use their map/era default (era-gated by structure)
+            own_tkey, own_theme = dressing.resolve_theme(
+                r.era, r.coalition, preset, r.dress_theme, self.warnings)
+            _, enemy_theme = dressing.resolve_theme(r.era, enemy_side, preset)
+            if own_tkey:
+                stats["ramp_theme"] = own_tkey
+            dress_kw = dict(fill=r.dress_fill,
+                            include_aircraft=r.dress_aircraft,
+                            include_gse=r.dress_gse,
+                            include_infra=r.dress_infra)
             for ap in own_fields:
                 stats["statics"] += dressing.dress_airfield(
-                    m, ap, own_country, era_cfg[r.coalition], r.density, self.rng)
-            enemy_side = "red" if r.coalition == "blue" else "blue"
+                    m, ap, own_country, era_cfg[r.coalition], r.density, self.rng,
+                    theme=own_theme, **dress_kw)
             for ap in enemy_fields:
                 stats["statics"] += dressing.dress_airfield(
-                    m, ap, enemy_country, era_cfg[enemy_side], r.density, self.rng)
+                    m, ap, enemy_country, era_cfg[enemy_side], r.density, self.rng,
+                    theme=enemy_theme, **dress_kw)
 
         if r.bb_sams:
             enemy_side = "red" if r.coalition == "blue" else "blue"

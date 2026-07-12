@@ -3,21 +3,61 @@
     "label": "Caucasus",
     "terrain_class": "dcs.terrain.caucasus.Caucasus",
     "free": true,
-    "carrier": {"anchor": {"x": -310000, "y": 530000}, "heading": 240,
-                "note": "Black Sea, offshore Batumi-Sukhumi bight - validated area"},
+    "carrier": {
+      "anchor": {
+        "x": -310000,
+        "y": 530000
+      },
+      "heading": 240,
+      "note": "Black Sea, offshore Batumi-Sukhumi bight - validated area"
+    },
     "presets": {
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi", "Vaziani", "Kobuleti", "Tbilisi-Lochini", "Soganlug"],
-        "red_airbases": ["Gudauta", "Sukhumi-Babushara", "Sochi-Adler", "Maykop-Khanskaya", "Krymsk", "Krasnodar-Center", "Mineralnye Vody", "Anapa-Vityazevo"],
+        "blue_airbases": [
+          "Kutaisi",
+          "Senaki-Kolkhi",
+          "Batumi",
+          "Vaziani",
+          "Kobuleti",
+          "Tbilisi-Lochini",
+          "Soganlug"
+        ],
+        "red_airbases": [
+          "Gudauta",
+          "Sukhumi-Babushara",
+          "Sochi-Adler",
+          "Maykop-Khanskaya",
+          "Krymsk",
+          "Krasnodar-Center",
+          "Mineralnye Vody",
+          "Anapa-Vityazevo"
+        ],
         "frontline_hint": "Abkhazia coast"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Kutaisi", "Senaki-Kolkhi", "Batumi", "Vaziani", "Kobuleti", "Tbilisi-Lochini", "Soganlug"],
-        "red_airbases": ["Gudauta", "Sukhumi-Babushara", "Sochi-Adler", "Mozdok", "Beslan", "Krymsk", "Krasnodar-Pashkovsky", "Nalchik"],
+        "blue_airbases": [
+          "Kutaisi",
+          "Senaki-Kolkhi",
+          "Batumi",
+          "Vaziani",
+          "Kobuleti",
+          "Tbilisi-Lochini",
+          "Soganlug"
+        ],
+        "red_airbases": [
+          "Gudauta",
+          "Sukhumi-Babushara",
+          "Sochi-Adler",
+          "Mozdok",
+          "Beslan",
+          "Krymsk",
+          "Krasnodar-Pashkovsky",
+          "Nalchik"
+        ],
         "frontline_hint": "Abkhazia coast"
       }
     }
@@ -30,8 +70,22 @@
       "wwii": {
         "blue_country": "UK",
         "red_country": "Germany",
-        "blue_airbases": ["Manston", "Hawkinge", "Biggin Hill", "Lympne", "Detling", "High Halden", "Headcorn", "Eastchurch"],
-        "red_airbases": ["Abbeville Drucat", "Saint Omer Longuenesse", "Merville Calonne", "Dunkirk Mardyck"],
+        "blue_airbases": [
+          "Manston",
+          "Hawkinge",
+          "Biggin Hill",
+          "Lympne",
+          "Detling",
+          "High Halden",
+          "Headcorn",
+          "Eastchurch"
+        ],
+        "red_airbases": [
+          "Abbeville Drucat",
+          "Saint Omer Longuenesse",
+          "Merville Calonne",
+          "Dunkirk Mardyck"
+        ],
         "frontline_hint": "The Channel coast, 1944"
       }
     }
@@ -40,21 +94,63 @@
     "label": "Persian Gulf",
     "terrain_class": "dcs.terrain.persiangulf.PersianGulf",
     "free": false,
-    "carrier": {"anchor": {"x": -80000, "y": -100000}, "heading": 90,
-                "note": "Gulf of Oman southwest of the strait - VERIFY IN-GAME"},
+    "carrier": {
+      "anchor": {
+        "x": -80000,
+        "y": -100000
+      },
+      "heading": 90,
+      "note": "Gulf of Oman southwest of the strait - VERIFY IN-GAME"
+    },
     "presets": {
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Iran",
-        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Liwa AFB", "Sharjah Intl", "Fujairah Intl", "Abu Dhabi Intl", "Al Ain Intl", "Dubai Intl"],
-        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Bandar Lengeh", "Lar", "Shiraz Intl", "Kerman", "Bandar-e-Jask", "Qeshm Island"],
+        "blue_airbases": [
+          "Al Dhafra AFB",
+          "Al Minhad AFB",
+          "Liwa AFB",
+          "Sharjah Intl",
+          "Fujairah Intl",
+          "Abu Dhabi Intl",
+          "Al Ain Intl",
+          "Dubai Intl"
+        ],
+        "red_airbases": [
+          "Bandar Abbas Intl",
+          "Havadarya",
+          "Bandar Lengeh",
+          "Lar",
+          "Shiraz Intl",
+          "Kerman",
+          "Bandar-e-Jask",
+          "Qeshm Island"
+        ],
         "frontline_hint": "Strait of Hormuz"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Iran",
-        "blue_airbases": ["Al Dhafra AFB", "Al Minhad AFB", "Liwa AFB", "Khasab", "Sharjah Intl", "Fujairah Intl", "Al Ain Intl", "Dubai Intl"],
-        "red_airbases": ["Bandar Abbas Intl", "Havadarya", "Kish Intl", "Qeshm Island", "Shiraz Intl", "Bandar Lengeh", "Lar", "Bandar-e-Jask"],
+        "blue_airbases": [
+          "Al Dhafra AFB",
+          "Al Minhad AFB",
+          "Liwa AFB",
+          "Khasab",
+          "Sharjah Intl",
+          "Fujairah Intl",
+          "Al Ain Intl",
+          "Dubai Intl"
+        ],
+        "red_airbases": [
+          "Bandar Abbas Intl",
+          "Havadarya",
+          "Kish Intl",
+          "Qeshm Island",
+          "Shiraz Intl",
+          "Bandar Lengeh",
+          "Lar",
+          "Bandar-e-Jask"
+        ],
         "frontline_hint": "Strait of Hormuz"
       }
     }
@@ -67,17 +163,45 @@
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Nellis", "Creech", "Groom Lake", "Tonopah Test Range", "McCarran International", "Henderson Executive"],
-        "red_airbases": ["Tonopah", "Beatty", "Lincoln County", "Pahute Mesa", "Mesquite"],
+        "blue_airbases": [
+          "Nellis",
+          "Creech",
+          "Groom Lake",
+          "Tonopah Test Range",
+          "McCarran International",
+          "Henderson Executive"
+        ],
+        "red_airbases": [
+          "Tonopah",
+          "Beatty",
+          "Lincoln County",
+          "Pahute Mesa",
+          "Mesquite"
+        ],
         "frontline_hint": "Red Flag ranges",
-        "note": "Groom Lake and Tonopah Test Range are blue - they are USAF classified fields (Red Hats/Red Eagles flew captured MiGs FROM Groom Lake, as USAF units). Range-side civilian strips play OPFOR."
+        "note": "Groom Lake and Tonopah Test Range are blue - they are USAF classified fields (Red Hats/Red Eagles flew captured MiGs FROM Groom Lake, as USAF units). Range-side civilian strips play OPFOR.",
+        "blue_theme": "usafe"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Nellis", "Creech", "Groom Lake", "Tonopah Test Range", "McCarran International", "Henderson Executive"],
-        "red_airbases": ["Tonopah", "Beatty", "Lincoln County", "Pahute Mesa", "Mesquite"],
-        "frontline_hint": "Red Flag ranges"
+        "blue_airbases": [
+          "Nellis",
+          "Creech",
+          "Groom Lake",
+          "Tonopah Test Range",
+          "McCarran International",
+          "Henderson Executive"
+        ],
+        "red_airbases": [
+          "Tonopah",
+          "Beatty",
+          "Lincoln County",
+          "Pahute Mesa",
+          "Mesquite"
+        ],
+        "frontline_hint": "Red Flag ranges",
+        "blue_theme": "usaf"
       }
     }
   },
@@ -89,9 +213,30 @@
       "wwii": {
         "blue_country": "USA",
         "red_country": "Germany",
-        "blue_airbases": ["Saint Pierre du Mont", "Cricqueville-en-Bessin", "Sainte-Laurent-sur-Mer", "Carpiquet", "Lessay", "Maupertus", "Picauville", "Sainte-Croix-sur-Mer", "Tangmere", "Ford"],
-        "red_airbases": ["Evreux", "Argentan", "Vrigny", "Essay", "Villacoublay", "Saint-Andre-de-lEure", "Conches", "Rouen-Boos"],
-        "frontline_hint": "Normandy beachhead, summer 1944"
+        "blue_airbases": [
+          "Saint Pierre du Mont",
+          "Cricqueville-en-Bessin",
+          "Sainte-Laurent-sur-Mer",
+          "Carpiquet",
+          "Lessay",
+          "Maupertus",
+          "Picauville",
+          "Sainte-Croix-sur-Mer",
+          "Tangmere",
+          "Ford"
+        ],
+        "red_airbases": [
+          "Evreux",
+          "Argentan",
+          "Vrigny",
+          "Essay",
+          "Villacoublay",
+          "Saint-Andre-de-lEure",
+          "Conches",
+          "Rouen-Boos"
+        ],
+        "frontline_hint": "Normandy beachhead, summer 1944",
+        "blue_theme": "usaaf"
       }
     }
   },
@@ -99,21 +244,61 @@
     "label": "Syria",
     "terrain_class": "dcs.terrain.syria.Syria",
     "free": false,
-    "carrier": {"anchor": {"x": 20000, "y": -60000}, "heading": 250,
-                "note": "Eastern Med, WSW of Latakia - VERIFY IN-GAME"},
+    "carrier": {
+      "anchor": {
+        "x": 20000,
+        "y": -60000
+      },
+      "heading": 250,
+      "note": "Eastern Med, WSW of Latakia - VERIFY IN-GAME"
+    },
     "presets": {
       "coldwar": {
         "blue_country": "Israel",
         "red_country": "Syria",
-        "blue_airbases": ["Ramat David", "Rosh Pina", "Megiddo", "Haifa", "Eyn Shemer", "Kiryat Shmona"],
-        "red_airbases": ["Damascus", "Mezzeh", "Khalkhalah", "Marj Ruhayyil", "Al-Dumayr", "Sayqal", "An Nasiriyah", "Tha'lah"],
+        "blue_airbases": [
+          "Ramat David",
+          "Rosh Pina",
+          "Megiddo",
+          "Haifa",
+          "Eyn Shemer",
+          "Kiryat Shmona"
+        ],
+        "red_airbases": [
+          "Damascus",
+          "Mezzeh",
+          "Khalkhalah",
+          "Marj Ruhayyil",
+          "Al-Dumayr",
+          "Sayqal",
+          "An Nasiriyah",
+          "Tha'lah"
+        ],
         "frontline_hint": "Golan Heights"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Syria",
-        "blue_airbases": ["Incirlik", "Hatay", "Gaziantep", "Adana Sakirpasa", "Ramat David", "Akrotiri", "Paphos", "Larnaca"],
-        "red_airbases": ["Bassel Al-Assad", "Damascus", "Aleppo", "Palmyra", "Shayrat", "Tiyas", "Hama", "Deir ez-Zor"],
+        "blue_airbases": [
+          "Incirlik",
+          "Hatay",
+          "Gaziantep",
+          "Adana Sakirpasa",
+          "Ramat David",
+          "Akrotiri",
+          "Paphos",
+          "Larnaca"
+        ],
+        "red_airbases": [
+          "Bassel Al-Assad",
+          "Damascus",
+          "Aleppo",
+          "Palmyra",
+          "Shayrat",
+          "Tiyas",
+          "Hama",
+          "Deir ez-Zor"
+        ],
         "frontline_hint": "Western Syria"
       }
     }
@@ -122,22 +307,65 @@
     "label": "Sinai",
     "terrain_class": "dcs.terrain.sinai.Sinai",
     "free": false,
-    "carrier": {"anchor": {"x": 204252, "y": 103031}, "heading": 300,
-                "note": "Eastern Med N of Port Said - the 6th Fleet's October 1973 station (pyproj-derived, VERIFY IN-GAME)"},
+    "carrier": {
+      "anchor": {
+        "x": 204252,
+        "y": 103031
+      },
+      "heading": 300,
+      "note": "Eastern Med N of Port Said - the 6th Fleet's October 1973 station (pyproj-derived, VERIFY IN-GAME)"
+    },
     "presets": {
       "coldwar": {
         "blue_country": "Israel",
         "red_country": "Egypt",
-        "blue_airbases": ["Hatzor", "Tel Nof", "Hatzerim", "Ramat David", "Melez", "El Arish", "Bir Hasanah", "Abu Rudeis"],
-        "red_airbases": ["Cairo West", "Inshas Airbase", "Abu Suwayr", "Fayed", "Kibrit Air Base", "Al Mansurah", "Bilbeis Air Base", "Beni Suef"],
+        "blue_airbases": [
+          "Hatzor",
+          "Tel Nof",
+          "Hatzerim",
+          "Ramat David",
+          "Melez",
+          "El Arish",
+          "Bir Hasanah",
+          "Abu Rudeis"
+        ],
+        "red_airbases": [
+          "Cairo West",
+          "Inshas Airbase",
+          "Abu Suwayr",
+          "Fayed",
+          "Kibrit Air Base",
+          "Al Mansurah",
+          "Bilbeis Air Base",
+          "Beni Suef"
+        ],
         "frontline_hint": "The Suez Canal, October 1973",
-        "note": "1973 order of battle: Israel holds the Sinai fields taken in 1967 - Melez is Refidim/Bir Gifgafa, the IAF's forward Sinai base. Egypt's canal-front fields (Abu Suwayr, Fayed, Kibrit) sit under the SA-2/SA-3 belt."
+        "note": "1973 order of battle: Israel holds the Sinai fields taken in 1967 - Melez is Refidim/Bir Gifgafa, the IAF's forward Sinai base. Egypt's canal-front fields (Abu Suwayr, Fayed, Kibrit) sit under the SA-2/SA-3 belt.",
+        "blue_theme": "usafe"
       },
       "modern": {
         "blue_country": "Israel",
         "red_country": "Egypt",
-        "blue_airbases": ["Nevatim", "Ramon Airbase", "Ovda", "Tel Nof", "Hatzerim", "Hatzor", "Ramat David", "Palmachim"],
-        "red_airbases": ["Cairo West", "Inshas Airbase", "Fayed", "Bilbeis Air Base", "Al Mansurah", "Borg El Arab International Airport", "Beni Suef", "Hurghada International Airport"],
+        "blue_airbases": [
+          "Nevatim",
+          "Ramon Airbase",
+          "Ovda",
+          "Tel Nof",
+          "Hatzerim",
+          "Hatzor",
+          "Ramat David",
+          "Palmachim"
+        ],
+        "red_airbases": [
+          "Cairo West",
+          "Inshas Airbase",
+          "Fayed",
+          "Bilbeis Air Base",
+          "Al Mansurah",
+          "Borg El Arab International Airport",
+          "Beni Suef",
+          "Hurghada International Airport"
+        ],
         "frontline_hint": "The Sinai buffer"
       }
     }
@@ -146,30 +374,64 @@
     "label": "Marianas",
     "terrain_class": "dcs.terrain.marianaislands.MarianaIslands",
     "free": true,
-    "carrier": {"anchor": {"x": 10000, "y": -80000}, "heading": 70,
-                "note": "Philippine Sea west of Guam - open water"},
+    "carrier": {
+      "anchor": {
+        "x": 10000,
+        "y": -80000
+      },
+      "heading": 70,
+      "note": "Philippine Sea west of Guam - open water"
+    },
     "presets": {
       "wwii": {
         "blue_country": "USA",
         "red_country": "Japan",
-        "blue_airbases": ["North West Field", "Tinian Intl", "Olf Orote"],
-        "red_airbases": ["Saipan Intl", "Pagan Airstrip", "Rota Intl"],
+        "blue_airbases": [
+          "North West Field",
+          "Tinian Intl",
+          "Olf Orote"
+        ],
+        "red_airbases": [
+          "Saipan Intl",
+          "Pagan Airstrip",
+          "Rota Intl"
+        ],
         "frontline_hint": "Marianas campaign, 1944 (Saipan Intl = the old Aslito Field)",
         "note": "DCS has no Japanese WWII aircraft - red fields dress with the generic WWII pack"
       },
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Andersen AFB", "Antonio B. Won Pat Intl", "North West Field"],
-        "red_airbases": ["Saipan Intl", "Tinian Intl", "Pagan Airstrip", "Rota Intl"],
-        "frontline_hint": "WESTPAC, Arc Light era - B-52 country"
+        "blue_airbases": [
+          "Andersen AFB",
+          "Antonio B. Won Pat Intl",
+          "North West Field"
+        ],
+        "red_airbases": [
+          "Saipan Intl",
+          "Tinian Intl",
+          "Pagan Airstrip",
+          "Rota Intl"
+        ],
+        "frontline_hint": "WESTPAC, Arc Light era - B-52 country",
+        "blue_theme": "usafe"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "China",
-        "blue_airbases": ["Andersen AFB", "Antonio B. Won Pat Intl", "Olf Orote"],
-        "red_airbases": ["Saipan Intl", "Tinian Intl", "Rota Intl", "Pagan Airstrip"],
-        "frontline_hint": "Guam vs the northern Marianas"
+        "blue_airbases": [
+          "Andersen AFB",
+          "Antonio B. Won Pat Intl",
+          "Olf Orote"
+        ],
+        "red_airbases": [
+          "Saipan Intl",
+          "Tinian Intl",
+          "Rota Intl",
+          "Pagan Airstrip"
+        ],
+        "frontline_hint": "Guam vs the northern Marianas",
+        "blue_theme": "usaf"
       }
     }
   },
@@ -181,15 +443,56 @@
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Ramstein", "Bitburg", "Spangdahlem", "Hahn", "Sembach", "Zweibrucken", "Norvenich", "Wiesbaden", "Gutersloh", "Fassberg"],
-        "red_airbases": ["Templin", "Sperenberg", "Werneuchen", "Altes Lager", "Merseburg", "Falkenberg", "Neuruppin", "Parchim", "Wittstock", "Finow"],
-        "frontline_hint": "The Inner German Border - Fulda Gap"
+        "blue_airbases": [
+          "Ramstein",
+          "Bitburg",
+          "Spangdahlem",
+          "Hahn",
+          "Sembach",
+          "Zweibrucken",
+          "Norvenich",
+          "Wiesbaden",
+          "Gutersloh",
+          "Fassberg"
+        ],
+        "red_airbases": [
+          "Templin",
+          "Sperenberg",
+          "Werneuchen",
+          "Altes Lager",
+          "Merseburg",
+          "Falkenberg",
+          "Neuruppin",
+          "Parchim",
+          "Wittstock",
+          "Finow"
+        ],
+        "frontline_hint": "The Inner German Border - Fulda Gap",
+        "blue_theme": "usafe"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Ramstein", "Spangdahlem", "Buchel", "Norvenich", "Laage", "Wunstorf", "Holzdorf", "Cologne"],
-        "red_airbases": ["Templin", "Sperenberg", "Werneuchen", "Falkenberg", "Neuruppin", "Parchim", "Wittstock", "Marxwalde"],
+        "blue_airbases": [
+          "Ramstein",
+          "Spangdahlem",
+          "Buchel",
+          "Norvenich",
+          "Laage",
+          "Wunstorf",
+          "Holzdorf",
+          "Cologne"
+        ],
+        "red_airbases": [
+          "Templin",
+          "Sperenberg",
+          "Werneuchen",
+          "Falkenberg",
+          "Neuruppin",
+          "Parchim",
+          "Wittstock",
+          "Marxwalde"
+        ],
         "frontline_hint": "Central Europe - the old NATO/WP line"
       }
     }
@@ -198,22 +501,64 @@
     "label": "Kola",
     "terrain_class": "dcs.terrain.kola.Kola",
     "free": false,
-    "carrier": {"anchor": {"x": 215404, "y": -331948}, "heading": 30,
-                "note": "Norwegian Sea 100 km W of Andoya - NATO Northern Flank ops area (pyproj-derived, VERIFY IN-GAME)"},
+    "carrier": {
+      "anchor": {
+        "x": 215404,
+        "y": -331948
+      },
+      "heading": 30,
+      "note": "Norwegian Sea 100 km W of Andoya - NATO Northern Flank ops area (pyproj-derived, VERIFY IN-GAME)"
+    },
     "presets": {
       "coldwar": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Bodo", "Bardufoss", "Andoya", "Evenes", "Banak", "Kirkenes", "Alta"],
-        "red_airbases": ["Severomorsk-1", "Severomorsk-3", "Olenya", "Monchegorsk", "Kilpyavr", "Luostari Pechenga", "Afrikanda", "Koshka Yavr"],
+        "blue_airbases": [
+          "Bodo",
+          "Bardufoss",
+          "Andoya",
+          "Evenes",
+          "Banak",
+          "Kirkenes",
+          "Alta"
+        ],
+        "red_airbases": [
+          "Severomorsk-1",
+          "Severomorsk-3",
+          "Olenya",
+          "Monchegorsk",
+          "Kilpyavr",
+          "Luostari Pechenga",
+          "Afrikanda",
+          "Koshka Yavr"
+        ],
         "frontline_hint": "The Northern Flank - Finnmark to the Kola Peninsula",
         "note": "Cold War Finland and Sweden are neutral - their fields stay out of the preset"
       },
       "modern": {
         "blue_country": "USA",
         "red_country": "Russia",
-        "blue_airbases": ["Bodo", "Bardufoss", "Andoya", "Evenes", "Banak", "Kirkenes", "Rovaniemi", "Kallax", "Kiruna"],
-        "red_airbases": ["Severomorsk-1", "Severomorsk-3", "Olenya", "Monchegorsk", "Kilpyavr", "Murmansk International", "Koshka Yavr", "Afrikanda"],
+        "blue_airbases": [
+          "Bodo",
+          "Bardufoss",
+          "Andoya",
+          "Evenes",
+          "Banak",
+          "Kirkenes",
+          "Rovaniemi",
+          "Kallax",
+          "Kiruna"
+        ],
+        "red_airbases": [
+          "Severomorsk-1",
+          "Severomorsk-3",
+          "Olenya",
+          "Monchegorsk",
+          "Kilpyavr",
+          "Murmansk International",
+          "Koshka Yavr",
+          "Afrikanda"
+        ],
         "frontline_hint": "High North - Norwegian/Finnish/Swedish NATO vs the Kola bastion"
       }
     }
@@ -222,22 +567,50 @@
     "label": "South Atlantic",
     "terrain_class": "dcs.terrain.falklands.Falklands",
     "free": false,
-    "carrier": {"anchor": {"x": 120000, "y": 160000}, "heading": 45,
-                "note": "NE of the Falklands - the 1982 task force operating area"},
+    "carrier": {
+      "anchor": {
+        "x": 120000,
+        "y": 160000
+      },
+      "heading": 45,
+      "note": "NE of the Falklands - the 1982 task force operating area"
+    },
     "presets": {
       "coldwar": {
         "blue_country": "UK",
         "red_country": "Argentina",
-        "blue_airbases": ["Mount Pleasant", "Port Stanley", "San Carlos FOB", "Goose Green"],
-        "red_airbases": ["Rio Grande", "Rio Gallegos", "San Julian", "Puerto Santa Cruz", "Ushuaia"],
+        "blue_airbases": [
+          "Mount Pleasant",
+          "Port Stanley",
+          "San Carlos FOB",
+          "Goose Green"
+        ],
+        "red_airbases": [
+          "Rio Grande",
+          "Rio Gallegos",
+          "San Julian",
+          "Puerto Santa Cruz",
+          "Ushuaia"
+        ],
         "frontline_hint": "Falklands, 1982",
         "note": "San Julian and Puerto Santa Cruz hosted the Daggers and A-4s in 1982. Mount Pleasant is a 1984 build - kept for playability."
       },
       "modern": {
         "blue_country": "UK",
         "red_country": "Argentina",
-        "blue_airbases": ["Mount Pleasant", "Port Stanley", "San Carlos FOB", "Goose Green"],
-        "red_airbases": ["Rio Grande", "Rio Gallegos", "San Julian", "Puerto Santa Cruz", "Ushuaia"],
+        "blue_airbases": [
+          "Mount Pleasant",
+          "Port Stanley",
+          "San Carlos FOB",
+          "Goose Green"
+        ],
+        "red_airbases": [
+          "Rio Grande",
+          "Rio Gallegos",
+          "San Julian",
+          "Puerto Santa Cruz",
+          "Ushuaia"
+        ],
         "frontline_hint": "South Atlantic standoff"
       }
     }

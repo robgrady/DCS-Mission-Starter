@@ -5,11 +5,34 @@ import random
 from dcs import mapping
 import dcs.statics as statics
 
-from .resolver import resolve
+from .resolver import resolve, load_json
 from .placement import AirfieldKeepOut
 
 DENSITY_FILL = {"sparse": 0.25, "normal": 0.45, "busy": 0.70}
 MAX_STATICS_PER_FIELD = 24   # NFR: FPS guard
+
+
+def resolve_theme(era, side, map_preset=None, theme_key=None, warnings=None):
+    """Pick the ramp theme for a side: explicit choice > map preset > era default.
+
+    Themes are era-gated by structure (a theme only exists under its era), so a
+    WWII field can never draw a modern ramp no matter what the user selects."""
+    themes = load_json("ramp_themes").get(era, {}).get(side, {})
+    default_key = themes.get("default")
+    key = theme_key or (map_preset or {}).get(f"{side}_theme") or default_key
+    if key not in themes or key == "default":
+        if theme_key and warnings is not None:
+            warnings.append(f"ramp theme '{theme_key}' does not exist in the "
+                            f"{era} era - using '{default_key}'")
+        key = default_key
+    return key, themes.get(key)
+
+
+def _weighted(rng, pairs):
+    """Pick a ref from [[ref, weight], ...]."""
+    refs = [p[0] for p in pairs]
+    weights = [p[1] for p in pairs]
+    return rng.choices(refs, weights=weights, k=1)[0]
 
 
 def _offset(pos, meters, bearing_deg):
@@ -19,12 +42,18 @@ def _offset(pos, meters, bearing_deg):
 
 
 def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Random,
-                   used_slot_names=None):
+                   used_slot_names=None, theme=None, fill=None,
+                   include_aircraft=True, include_gse=True, include_infra=True):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
     safe); everything free-placed (GSE, infrastructure) is validated against
     the runway keep-out corridors so movement areas stay clear.
+
+    theme: ramp theme dict from ramp_themes.json (weighted [ref, weight] lists)
+           deciding WHO parks here; falls back to eras.json flat lists.
+    fill: 0-100 percent of free stands to fill; None derives from density.
+    include_*: user-selected object classes (aircraft / GSE / infrastructure).
     """
     used = used_slot_names or set()
     keepout = AirfieldKeepOut(airport)
@@ -33,31 +62,42 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     free = [s for s in airport.parking_slots
             if s.unit_id is None and s.slot_name not in used]
     rng.shuffle(free)
-    target = min(int(len(free) * DENSITY_FILL[density]), MAX_STATICS_PER_FIELD)
+    frac = (max(0, min(100, fill)) / 100.0) if fill is not None else DENSITY_FILL[density]
+    target = min(int(len(free) * frac), MAX_STATICS_PER_FIELD)
 
-    plane_refs = era_side_cfg["parked_planes"]
-    large_refs = era_side_cfg["parked_large"]
-    helo_refs = era_side_cfg["parked_helos"]
+    if theme:
+        plane_w = theme["planes"]
+        large_w = theme["large"]
+        helo_w = theme["helos"]
+    else:  # legacy flat lists, weight 1
+        plane_w = [[r, 1] for r in era_side_cfg["parked_planes"]]
+        large_w = [[r, 1] for r in era_side_cfg["parked_large"]]
+        helo_w = [[r, 1] for r in era_side_cfg["parked_helos"]]
+    large_set = {r for r, _ in large_w}
     fuel_truck = resolve(era_side_cfg["fuel_truck"])
     utility = [resolve(r) for r in era_side_cfg["utility_trucks"]]
 
-    for slot in free:
+    for slot in (free if include_aircraft else []):
         if placed >= target:
             break
         # pick a type that fits the stand (helo lists can be empty, e.g. WWII)
         if slot.helicopter and not slot.airplanes:
-            if not helo_refs:
+            if not helo_w:
                 continue
-            ref = rng.choice(helo_refs)
-        elif slot.large:
-            ref = rng.choice(large_refs + plane_refs)
+            ref = _weighted(rng, helo_w)
+        elif slot.large or (slot.airplanes and slot.length >= 60 and slot.width >= 55):
+            # flagged-large stands, or physically roomy ramp spots (some
+            # terrains, e.g. NTTR, flag no stands large at all — but Nellis
+            # parks B-1s on its big ramp squares in reality)
+            ref = _weighted(rng, large_w + plane_w)
         elif slot.airplanes:
             # only put big airframes on large stands
-            ref = rng.choice([r for r in plane_refs if r not in large_refs] or plane_refs)
+            small = [p for p in plane_w if p[0] not in large_set]
+            ref = _weighted(rng, small or plane_w)
         else:
-            if not helo_refs:
+            if not helo_w:
                 continue
-            ref = rng.choice(helo_refs)
+            ref = _weighted(rng, helo_w)
         unit_type = resolve(ref)
 
         heading = rng.uniform(0, 360)
@@ -70,7 +110,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         # Stay WITHIN the stand's own footprint (stands are 40-80 m wide, so
         # 12-16 m off the aircraft is still apron, never the taxilane) and
         # never inside a runway corridor.
-        if rng.random() < 0.5:
+        if include_gse and rng.random() < 0.5:
             gse_max = max(12.0, min(16.0, (min(slot.length, slot.width) / 2) - 8))
             gse_pos = _offset(slot.position, rng.uniform(12, gse_max),
                               heading + rng.uniform(60, 120))
@@ -85,7 +125,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     # mid-runway. Now: push the anchor perpendicular to the runway axis,
     # DEEPER into the ramp side (away from the runway), then validate — the
     # cluster row runs parallel to the runway so it can never cross it.
-    if free:
+    if free and include_infra:
         cx = sum(s.position.x for s in free) / len(free)
         cy = sum(s.position.y for s in free) / len(free)
         centroid = mapping.Point(cx, cy, airport.position._terrain)

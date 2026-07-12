@@ -192,6 +192,19 @@ story += [
       "reference table later in this guide."),
     shot("step4_blocks.png", "Step 4: the building-block toggles."),
 
+    P("Step 4a — Populate airfields", "h2"),
+    P("Decide exactly how your fields are dressed. The <b>fill slider</b> sets what share of "
+      "each field's parking stands gets a static aircraft (capped at 24 per field for frame "
+      "rate); the three toggles switch parked aircraft, ground equipment, and the "
+      "infrastructure cluster independently. The <b>ramp theme</b> decides WHO parks there, "
+      "with weighted realistic mixes and strict era gating. \"Auto\" picks the right ramp for "
+      "the map — Nellis dresses as a US Air Force base, not a Navy ramp. Select <b>Red Flag "
+      "exercise</b> and the NTTR fills out like exercise season: B-1 and B-52 heavies on the "
+      "big ramp squares, aggressor Vipers, and Navy and allied visitors — a Hornet, a Mirage, "
+      "a Tornado among the Eagles. Enemy fields always dress with their own era-correct "
+      "theme, and runways and taxi routes always stay clear."),
+    shot("step4a_dress.png", "Step 4a: fill percentage, object types, and the ramp theme — Red Flag selected."),
+
     PageBreak(),
     P("Step 4b — Configure the carrier (optional)", "h2"),
     P("With the carrier block enabled, pick a hull, a real-world deck state, the aircraft "

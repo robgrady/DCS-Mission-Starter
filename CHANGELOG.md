@@ -17,6 +17,38 @@ guide cover.
 
 ---
 
+## [1.1.0] — 2026-07-12
+
+### Added — "Populate airfields" control panel (new wizard section 4a)
+Airfield dressing is no longer a random grab-bag. Users now control exactly
+how their fields are populated:
+
+- **Fill slider (0–100%)** — how much of each field's parking to fill,
+  replacing the coarse sparse/normal/busy for statics (density still scales
+  air defenses and ambient traffic). Capped at 24 aircraft/field for FPS.
+- **Object-type toggles** — parked aircraft, ground equipment, and
+  infrastructure can each be switched off independently.
+- **Ramp themes** — WHO parks on your fields, with weighted realistic mixes
+  (`ramp_themes.json`), strictly era-gated:
+  - Modern blue: **US Air Force** (Vipers/Eagles/Hogs/heavies, no Navy
+    paint), **Red Flag exercise** (Nellis surge ramp: B-1/B-52 heavies,
+    aggressor Vipers, Navy and allied visitors — Hornets, Mirages,
+    Tornados), **Navy/Marine Corps**, **Joint expeditionary**.
+  - Modern red: **VKS frontal**, **Long-Range Aviation** (Backfire/Bear base).
+  - Cold War: **USAFE**, **NATO allied wing**, **US Navy** vs **VVS
+    frontal**, **PVO interceptors**.
+  - WWII: **RAF**, **USAAF** vs **Luftwaffe**.
+- **Map-aware defaults** — Nellis is an Air Force base: the NTTR now
+  defaults to the USAF theme (no more random F/A-18s), Andersen/Marianas to
+  USAF, Cold War Germany to USAFE, Normandy to USAAF. "Auto" always picks
+  the right ramp for the map; enemy fields dress with their own era default.
+- Heavy airframes (B-1B, B-52, KC-135, C-17) now park on physically roomy
+  stands even on terrains whose data flags no stand as "large" (NTTR).
+- Share links carry the full population config; the wwii anachronism guard
+  extends to every theme; invalid theme keys warn and fall back safely.
+
+---
+
 ## [1.0.1] — 2026-07-12
 
 ### Fixed

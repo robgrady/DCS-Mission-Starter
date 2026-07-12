@@ -74,4 +74,21 @@ def validate_data_packs() -> list:
                 if era == "wwii" and any(tag in ref for tag in _WWII_FORBIDDEN):
                     errors.append(f"ANACHRONISM wwii/{side}: {ref} is not a "
                                   "WWII-era unit - period dressing violated")
+    # ramp themes: resolve every ref; wwii themes obey the anachronism guard too
+    themes = load_json("ramp_themes")
+    for era, sides in themes.items():
+        if not isinstance(sides, dict):
+            continue                     # _comment
+        for side, tset in sides.items():
+            for tkey, tcfg in tset.items():
+                if tkey == "default":
+                    continue
+                for pairs in (tcfg["planes"], tcfg["large"], tcfg["helos"]):
+                    for ref, _w in pairs:
+                        try:
+                            resolve(ref)
+                        except UnknownUnitError as e:
+                            errors.append(f"theme {era}/{side}/{tkey}: {e}")
+                        if era == "wwii" and any(t in ref for t in _WWII_FORBIDDEN):
+                            errors.append(f"ANACHRONISM theme wwii/{side}/{tkey}: {ref}")
     return errors

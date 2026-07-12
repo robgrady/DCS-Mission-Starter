@@ -36,6 +36,16 @@ with sync_playwright() as pw:
     page.wait_for_timeout(400)
     steps.nth(3).screenshot(path=str(OUT / "step4_blocks.png"))
 
+    # step 4a: populate airfields — show the Red Flag theme on the NTTR
+    page.evaluate("""() => {
+        document.querySelector('#eras .card[data-k="modern"]').click();
+        document.querySelector('#maps .card[data-k="nevada"]').click();
+    }""")
+    page.wait_for_timeout(400)
+    page.select_option("#dress_theme", "red_flag")
+    page.wait_for_timeout(200)
+    page.locator("#dressstep").screenshot(path=str(OUT / "step4a_dress.png"))
+
     # step 4b: carrier deck configuration — era gate means the Roosevelt needs
     # a modern era, so switch to Syria/Modern first
     page.evaluate("""() => {
