@@ -81,6 +81,7 @@ at `/api/roadmap` and linked from the web UI.
 
 ## About
 
-Developed by **Authentic Media**. Free community tool — provided **as-is, with no
-warranty of any kind** (see [LICENSE](LICENSE), MIT). Not affiliated with or endorsed
+Developed by **Authentic Media LLC**. Free community tool — provided **as-is, with
+no warranty and no liability of any kind**, including for third-party modified or
+redistributed copies (see [LICENSE](LICENSE), MIT + additional disclaimer). Not affiliated with or endorsed
 by Eagle Dynamics or Heatblur Defense.

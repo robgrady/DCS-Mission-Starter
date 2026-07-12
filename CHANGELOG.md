@@ -17,6 +17,17 @@ guide cover.
 
 ---
 
+## [1.1.2] — 2026-07-12
+
+### Changed
+- License and attribution updated for **Authentic Media LLC**: strengthened
+  no-liability disclaimer covering software defects, generated mission files,
+  and third-party modified/tampered/redistributed copies (official source
+  only); no support or updates promised. Footer, guide cover, and README
+  now state "no warranty and no liability."
+
+---
+
 ## [1.1.1] — 2026-07-12
 
 ### Added
