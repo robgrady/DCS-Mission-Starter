@@ -94,12 +94,101 @@ def _place_linked(m, country, name, unit_type, ship_unit, brc_deg, dx, dy, hdg_r
     return sg
 
 
+def _place_linked_raw(m, country, name, type_str, ship_unit, brc_deg,
+                      dx, dy, hdg_rel_deg, category=None, livery=None):
+    """Deck-linked static from a raw DCS type string (SC gear, personnel, liveried jets)."""
+    import math as _math
+    brc = _math.radians(brc_deg)
+    wx = ship_unit.position.x + dx * _math.cos(brc) - dy * _math.sin(brc)
+    wy = ship_unit.position.y + dx * _math.sin(brc) + dy * _math.cos(brc)
+    from dcs import unitgroup
+    from dcs.point import StaticPoint
+    sg = unitgroup.StaticGroup(m.next_group_id(), name)
+    s = DeckStatic(m.next_unit_id(), name + " unit", type_str, m.terrain)
+    if category:
+        s.category = category
+    if livery:
+        s.livery_id = livery
+    s.position = mapping.Point(wx, wy, m.terrain)
+    s.heading = (brc_deg + hdg_rel_deg) % 360
+    s.link_unit_id = ship_unit.id
+    s.link_dx = dx
+    s.link_dy = dy
+    s.link_angle = _math.radians(hdg_rel_deg)
+    sg.add_unit(s)
+    sg.add_point(LinkedStaticPoint(s.position, ship_unit.id))
+    sg.link_offset = True
+    country.add_static_group(sg)
+    return sg
+
+
+def configure_deck_formation(m, country, csg_group, brc_deg, hull_key, layout_key,
+                             aircraft_keys, want_equipment, rng, warnings):
+    """Supercarrier hulls: editor-MEASURED formation templates (Redkite data).
+    Rows are real ops-phase packs; one aircraft type per row (squadron spotting);
+    template liveries carried when the type matches."""
+    fm = load_json("deck_formations")
+    formation = fm["formations"].get(layout_key) or fm["formations"]["underway"]
+    hull = _load_hull(hull_key)
+    ship_unit = csg_group.units[0]
+    placed = 0
+
+    valid = [r for r in hull["deck_aircraft"] if r.split(".")[-1] in aircraft_keys]
+    jets = [r for r in valid if not r.startswith("helicopters.")
+            and not r.split(".")[-1].startswith("E_2")]
+    i = 0
+    for ri, row in enumerate(formation["rows"]):
+        if not jets:
+            break
+        ref = jets[ri % len(jets)]          # homogeneous type per row
+        actype = resolve(ref)
+        for spot in row["slots"]:
+            i += 1
+            livery = spot.get("livery") if actype.id == spot.get("template_type") else None
+            _place_linked_raw(m, country, f"DECK {hull_key} {i} {actype.id}",
+                              actype.id, ship_unit, brc_deg,
+                              spot["x"], spot["y"], spot["hdg"],
+                              category="Planes", livery=livery)
+            placed += 1
+
+    # typed specials (E-2 by the island, SH-60 on the port quarter) — only if selected
+    sel = set(aircraft_keys)
+    for sp in formation.get("special", []):
+        want = (sp["type"] == "E-2C" and "E_2C" in sel) or \
+               (sp["type"] == "SH-60B" and "SH_60B" in sel)
+        if not want:
+            continue
+        i += 1
+        cat = "Helicopters" if sp["type"] == "SH-60B" else "Planes"
+        _place_linked_raw(m, country, f"DECK {hull_key} {i} {sp['type']}",
+                          sp["type"], ship_unit, brc_deg,
+                          sp["x"], sp["y"], sp["hdg"], category=cat,
+                          livery=sp.get("livery"))
+        placed += 1
+
+    if want_equipment:
+        for j, eq in enumerate(fm["equipment"]):
+            _place_linked_raw(m, country, f"DECKEQ {hull_key} {j+1}",
+                              eq["type"], ship_unit, brc_deg,
+                              eq["x"], eq["y"], eq["hdg"],
+                              category=eq.get("category"),
+                              livery=eq.get("livery"))
+            placed += 1
+    return placed
+
+
 def configure_deck(m, country, csg_group, brc_deg, hull_key, layout_key,
                    aircraft_keys, want_equipment, rng, warnings):
-    """Fill the selected layout's zones with the chosen aircraft + default gear."""
+    """Fill the selected layout with the chosen aircraft + default gear.
+    Supercarrier hulls use measured formation templates; other hulls use zones."""
+    fm = load_json("deck_formations")
+    if hull_key in fm["applies_to_hulls"]:
+        return configure_deck_formation(m, country, csg_group, brc_deg, hull_key,
+                                        layout_key, aircraft_keys, want_equipment,
+                                        rng, warnings)
     data = load_json("carrier_decks")
     hull = _load_hull(hull_key)
-    layout = data["layouts"][layout_key]
+    layout = data["layouts"].get(layout_key) or data["layouts"]["recovery"]
     ship_unit = csg_group.units[0]
     placed = 0
 

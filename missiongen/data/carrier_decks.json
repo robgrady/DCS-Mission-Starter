@@ -222,6 +222,11 @@
   },
 
   "layouts": {
+    "underway": {
+      "label": "Underway — cruise deck, light park aft of the island",
+      "fill_zones": ["sixpack", "street", "corral", "el2", "el3"],
+      "note": "Transit/cruise: bow, cats, and LA all clear; a light park aft of the island. On Supercarrier hulls this uses editor-measured positions (Redkite data); on other hulls a light zone fill."
+    },
     "recovery": {
       "label": "Recovery — LA clear, bow packed in tight rows",
       "fill_zones": ["point", "bow_row_stbd", "bow_row_cat1", "bow_row_cat2",
