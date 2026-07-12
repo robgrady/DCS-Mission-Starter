@@ -77,7 +77,7 @@ Design rules:
 - **Layer discipline**: coalition-private info on Blue/Red layers (DCS renders them per side), shared references (bullseye, nav points, range) on Common — MP-safe by construction
 - **One visual language**: consistent colors/line weights across all zones (racetracks dashed, threats red rings, references neutral) — documented in the guide
 - **Kneeboard parity**: the same geometry already feeds the kneeboard theater page; graphics and kneeboard stay in sync automatically because both draw from the same data
-- Recipe: `bb_graphics` toggle (default on), with per-category refinement deferred until users ask
+- **User-selectable layers (refined requirement)**: not one master toggle — a "Map graphics" checklist in the wizard where each layer is added/removed individually: Nav points · Tanker tracks · AWACS/AEW orbits · CAP stations · Carrier ops box · Target rings · FARP rings · Bullseye · Threat rings (intel). Sensible defaults per mission shape (e.g. tanker track auto-on when the tanker block is on); the existing nav-points block folds in as the first layer of this system. Recipe carries the layer set (`map_layers`), so share links reproduce the exact map picture.
 - No player waypoints, ever — zones inform, they don't route
 
 ## LATER — v2.0: Community (the original vision)
