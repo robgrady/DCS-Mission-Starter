@@ -57,6 +57,16 @@ SAMPLES = [
     # Marianas Arc Light era: F-4E out of Andersen AFB
     Recipe(map="marianas", era="coldwar", aircraft="F_4E_45MC", seed=72,
            home_airbase="Andersen AFB"),
+    # Sinai, October 1973: IAF Kurnass (F-4E) over the canal, out of Refidim (Melez)
+    Recipe(map="sinai", era="coldwar", aircraft="F_4E_45MC", seed=73,
+           home_airbase="Melez"),
+    # Sinai modern: Truman launch deck N of Port Said (6th Fleet's 1973 station)
+    Recipe(map="sinai", era="modern", aircraft="FA_18C_hornet", seed=74,
+           bb_carrier=True, carrier_hull="cvn_75", carrier_layout="launch",
+           carrier_deck_aircraft=["FA_18C_hornet", "E_2C"], carrier_aew=True),
+    # NTTR: out of Groom Lake itself (blue - it's a USAF field)
+    Recipe(map="nevada", era="modern", aircraft="F_16C_50", seed=51,
+           home_airbase="Groom Lake", bb_targets=True),
     # Cold War Germany: F-4E on the Inner German Border out of Ramstein
     Recipe(map="germany", era="coldwar", aircraft="F_4E_45MC", seed=86),
     # Kola: RIO fleet defense SOLO off Andoya — Roosevelt in the Norwegian Sea
