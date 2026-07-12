@@ -161,6 +161,14 @@ story += [
 
     shot("hero.png", "The Mission Starter wizard."),
 
+    P("Finding your way", "h2"),
+    P("The <b>progress rail</b> on the left tracks every step with its current value and "
+      "goes green as you make choices — click any step to jump there. Section headers "
+      "fold a finished section out of the way. <b>Generate and the share link are always "
+      "one click away</b> in the rail. Your work saves itself: close the browser "
+      "mid-build and everything is exactly where you left it when you come back "
+      "(\"Reset wizard\" starts fresh)."),
+
     PageBreak(),
     P("Step by step", "h1"),
 

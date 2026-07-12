@@ -58,6 +58,38 @@
   #status { font-size: 13px; color: var(--amber); }
   .pill { display: inline-block; background: var(--panel2); border: 1px solid var(--line);
           border-radius: 20px; padding: 2px 10px; font-size: 11px; color: var(--dim); margin-left: 8px; }
+  /* v1.3.0 wizard navigation: progress rail + collapsible sections.
+     Sections are NEVER unmounted — collapse only hides them visually, so
+     input state cannot be lost between steps by construction. */
+  .app { display: flex; align-items: flex-start; }
+  #rail { position: sticky; top: 0; width: 232px; flex: none; height: calc(100vh - 0px);
+          border-right: 1px solid var(--line); background: var(--panel);
+          display: flex; flex-direction: column; padding-top: 10px; }
+  #railsteps { flex: 1; overflow-y: auto; }
+  .rstep { display: flex; gap: 10px; padding: 9px 14px; cursor: pointer;
+           border-left: 3px solid transparent; align-items: flex-start; user-select: none; }
+  .rstep:hover { background: var(--panel2); }
+  .rstep.active { border-left-color: var(--accent); background: var(--panel2); }
+  .rstep .dot { width: 20px; height: 20px; border-radius: 50%; background: var(--line);
+                display: flex; align-items: center; justify-content: center;
+                font-size: 11px; flex: none; margin-top: 1px; color: var(--text); }
+  .rstep.done .dot { background: var(--green); color: #04150a; }
+  .rstep b { display: block; font-size: 12.5px; line-height: 1.25; }
+  .rstep small { color: var(--dim); font-size: 11px; display: block;
+                 max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .railfoot { padding: 12px 14px calc(12px + 64px); border-top: 1px solid var(--line); }
+  #railgen { width: 100%; background: var(--green); color: #04150a; font-weight: 700;
+             border: none; border-radius: 8px; padding: 11px; font-size: 13px; cursor: pointer; }
+  #railshare, #railreset { width: 100%; background: none; border: 1px solid var(--line);
+             color: var(--dim); border-radius: 8px; padding: 6px; margin-top: 7px;
+             font-size: 12px; cursor: pointer; }
+  .step > h2 { cursor: pointer; }
+  .hdrval { color: var(--green); font-size: 12px; text-transform: none;
+            letter-spacing: 0; margin-left: 10px; font-weight: normal; }
+  .chev { float: right; color: var(--dim); transition: transform .15s; }
+  .step.collapsed > *:not(h2) { display: none; }
+  .step.collapsed .chev { transform: rotate(-90deg); }
+  @media (max-width: 900px) { #rail { display: none; } }
 </style>
 </head>
 <body>
@@ -67,10 +99,19 @@
      &nbsp;·&nbsp; <a href="/api/guide" style="color:var(--accent)">Download the user guide</a>
      &nbsp;·&nbsp; <a href="/api/roadmap" style="color:var(--accent)">Roadmap</a></p>
 </header>
+<div class="app">
+<nav id="rail">
+  <div id="railsteps"></div>
+  <div class="railfoot">
+    <button id="railgen">GENERATE .MIZ</button>
+    <button id="railshare">Copy share link</button>
+    <button id="railreset" title="Clear saved state and start over">Reset wizard</button>
+  </div>
+</nav>
 <main>
-  <div class="step"><h2><span class="n">1</span>Era</h2><div class="cards" id="eras"></div></div>
-  <div class="step"><h2><span class="n">2</span>Map</h2><div class="cards" id="maps"></div></div>
-  <div class="step"><h2><span class="n">3</span>Coalition &amp; basing</h2>
+  <div class="step" id="sec_era"><h2><span class="n">1</span>Era<span class="hdrval" id="hv_era"></span><span class="chev">▾</span></h2><div class="cards" id="eras"></div></div>
+  <div class="step" id="sec_map"><h2><span class="n">2</span>Map<span class="hdrval" id="hv_map"></span><span class="chev">▾</span></h2><div class="cards" id="maps"></div></div>
+  <div class="step" id="sec_basing"><h2><span class="n">3</span>Coalition &amp; basing<span class="hdrval" id="hv_basing"></span><span class="chev">▾</span></h2>
     <div class="row">
       <div><label>Your side</label><select id="coalition">
         <option value="blue">Blue</option><option value="red">Red</option></select></div>
@@ -86,10 +127,10 @@
       <div><label>Seed</label><input type="number" id="seed" value="1"></div>
     </div>
   </div>
-  <div class="step"><h2><span class="n">4</span>Building blocks</h2>
+  <div class="step" id="sec_blocks"><h2><span class="n">4</span>Building blocks<span class="hdrval" id="hv_blocks"></span><span class="chev">▾</span></h2>
     <div class="blocks" id="blocks"></div>
   </div>
-  <div class="step" id="dressstep"><h2><span class="n">4a</span>Populate airfields</h2>
+  <div class="step" id="dressstep"><h2><span class="n">4a</span>Populate airfields<span class="hdrval" id="hv_dress"></span><span class="chev">▾</span></h2>
     <div class="row">
       <div style="flex:1.4">
         <label>Ramp theme — who parks on YOUR fields (era-filtered)</label>
@@ -108,14 +149,14 @@
     </div>
     <small style="color:var(--dim)">Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
   </div>
-  <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)</h2>
+  <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)<span class="hdrval" id="hv_gfx"></span><span class="chev">▾</span></h2>
     <div class="blocks" id="gfxlayers"></div>
     <small style="color:var(--dim);display:block;margin-top:8px">
       The map briefs the mission: each layer draws real mission geometry on the F10 map.
       Friendly orbits and threat rings render on YOUR side's layer only (multiplayer-safe);
       bullseye and nav points are shared. Zones inform — they never route you.</small>
   </div>
-  <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration</h2>
+  <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration<span class="hdrval" id="hv_carrier"></span><span class="chev">▾</span></h2>
     <div class="row">
       <div><label>Hull</label><select id="carrier_hull"></select></div>
       <div><label>Deck layout (real-world states)</label><select id="carrier_layout"></select></div>
@@ -128,7 +169,7 @@
       <label class="block"><input type="checkbox" id="carrier_aew"><span><b>Launch Hawkeye (AAW)</b><small>Air-wing E-2 AEW orbit covering the strike group</small></span></label>
     </div>
   </div>
-  <div class="step"><h2><span class="n">5</span>Template pack <span class="pill">optional</span></h2>
+  <div class="step" id="sec_template"><h2><span class="n">5</span>Template pack <span class="pill">optional</span><span class="hdrval" id="hv_template"></span><span class="chev">▾</span></h2>
     <div class="cards" id="templates"></div>
     <div class="row" style="margin-top:10px"><div style="max-width:280px">
       <label>Crew difficulty (for WSO/RIO templates)</label>
@@ -144,6 +185,7 @@
     Not affiliated with Eagle Dynamics or Heatblur
   </footer>
 </main>
+</div>
 <div class="genbar">
   <div id="summary"></div><div id="status"></div>
   <button id="share" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer;">COPY SHARE LINK</button>
@@ -247,8 +289,10 @@ async function init(){
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
   const code = new URLSearchParams(location.search).get('r');
+  buildRail();
   if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ defaultSelection(); } }
-  else { defaultSelection(); }
+  else if (!restoreState()) { defaultSelection(); }
+  updateRail();
   sum();
 }
 function defaultSelection(){
@@ -406,6 +450,98 @@ function initGfxUI(){
   for (const [k,label,desc] of GFX_LAYERS)
     c.appendChild(el(`<label class="block"><input type="checkbox" class="gfxl" value="${k}" checked><span><b>${label}</b><small>${desc}</small></span></label>`));
 }
+
+// ===== v1.3.0 wizard navigation =====================================
+// STATE ARCHITECTURE (why state can't be lost between steps):
+//   1. Single source of truth: the DOM inputs themselves. Sections are
+//      never unmounted — "collapse" is CSS-only — so values survive any
+//      navigation by construction.
+//   2. recipe() serializes the whole DOM to one plain object; applyRecipe()
+//      restores it. The same pair powers share links, so persistence and
+//      sharing can never drift apart.
+//   3. Autosave: every change (sum() runs on every input) writes the recipe
+//      to localStorage; a refresh/crash restores it. Share-link URLs (?r=)
+//      take precedence over the autosave. "Reset wizard" clears it.
+const RAIL_STEPS = [
+  ["sec_era",     "Era",                () => S.era ? OPT.eras[S.era].label : null],
+  ["sec_map",     "Map",                () => S.map ? OPT.maps[S.map].label : null],
+  ["sec_basing",  "Side & jet",         () => {
+      const a = document.getElementById('aircraft').selectedOptions[0];
+      const h = document.getElementById('home').selectedOptions[0];
+      return a ? `${document.getElementById('coalition').value} · ${a.text.split(' (')[0]}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') : null; }],
+  ["sec_blocks",  "Building blocks",    () => {
+      const on = BLOCKS.filter(([k]) => document.getElementById(k)?.checked).length;
+      return `${on}/${BLOCKS.length} on`; }],
+  ["dressstep",   "Populate airfields", () => {
+      if (!document.getElementById('bb_dressing')?.checked) return "off";
+      const t = document.getElementById('dress_theme');
+      const name = t.selectedOptions[0] ? t.selectedOptions[0].text.replace('Auto for this map — ','') : '';
+      return `${name} · ${document.getElementById('dress_fill').value}%`; }],
+  ["gfxstep",     "Map graphics",       () => {
+      const gl = [...document.querySelectorAll('.gfxl')];
+      return `${gl.filter(c=>c.checked).length}/${gl.length} layers`; }],
+  ["carrierstep", "Carrier",            () => {
+      if (!document.getElementById('bb_carrier')?.checked) return "off";
+      const h = document.getElementById('carrier_hull').selectedOptions[0];
+      return h ? h.text.split(' (')[0] : "on"; }],
+  ["sec_template","Template",           () => {
+      const c = document.querySelector('#templates .card.sel');
+      return c && c.dataset.k ? c.querySelector('b').textContent : "none"; }],
+];
+
+function buildRail(){
+  const c = document.getElementById('railsteps');
+  c.innerHTML = '';
+  for (const [id, label] of RAIL_STEPS){
+    const r = el(`<div class="rstep" data-target="${id}"><div class="dot">•</div><div><b>${label}</b><small>—</small></div></div>`);
+    r.onclick = () => {
+      const sec = document.getElementById(id);
+      sec.classList.remove('collapsed');
+      sec.scrollIntoView({behavior:'smooth', block:'start'});
+      document.querySelectorAll('.rstep').forEach(x=>x.classList.remove('active'));
+      r.classList.add('active');
+    };
+    c.appendChild(r);
+  }
+  document.getElementById('railgen').onclick = () => document.getElementById('gen').click();
+  document.getElementById('railshare').onclick = () => document.getElementById('share').click();
+  document.getElementById('railreset').onclick = () => {
+    try { localStorage.removeItem('ms_recipe'); } catch(e){}
+    location.href = location.pathname;   // drop any ?r= too
+  };
+  // collapse/expand on header click (CSS-only hide: inputs stay mounted)
+  document.querySelectorAll('.step > h2').forEach(h =>
+    h.onclick = () => h.parentElement.classList.toggle('collapsed'));
+}
+
+function updateRail(){
+  if (!OPT) return;
+  document.querySelectorAll('.rstep').forEach(r => {
+    const step = RAIL_STEPS.find(([id]) => id === r.dataset.target);
+    const sec = document.getElementById(r.dataset.target);
+    if (sec && sec.style.display === 'none'){ r.style.display = 'none'; return; }
+    r.style.display = '';
+    let v = null;
+    try { v = step[2](); } catch(e){}
+    r.querySelector('small').textContent = v || '—';
+    r.classList.toggle('done', !!v && v !== 'off' && v !== 'none');
+  });
+}
+
+// --- autosave (survives refresh/crash; share links take precedence) ---
+function saveState(){
+  try { localStorage.setItem('ms_recipe', JSON.stringify(recipe())); } catch(e){}
+}
+function restoreState(){
+  try {
+    const raw = localStorage.getItem('ms_recipe');
+    if (!raw) return false;
+    applyRecipe(JSON.parse(raw));
+    return true;
+  } catch(e){ return false; }
+}
+// ===== end v1.3.0 wizard navigation =================================
+
 function refreshDressUI(){
   if(!OPT||!S.era) return;
   const side = document.getElementById('coalition').value || 'blue';
@@ -468,7 +604,9 @@ function recipe(){
   return r;
 }
 function sum(){
-  if(!OPT||!S.map||!S.era) return;
+  if(!OPT) return;
+  updateRail(); saveState();
+  if(!S.map||!S.era) return;
   const r = recipe();
   document.getElementById('summary').textContent =
     `${OPT.maps[S.map].label} · ${OPT.eras[S.era].label} · ${r.coalition} · ${r.aircraft} from ${r.home_airbase}` +

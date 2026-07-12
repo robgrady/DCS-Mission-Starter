@@ -17,6 +17,38 @@ guide cover.
 
 ---
 
+## [1.3.0] — 2026-07-12
+
+### Added — Wizard navigation (UX Phase 1: the hybrid rail)
+Per the approved design (hybrid over strict tabs, to protect the re-roll
+loop — see docs/ROADMAP.md and the UX plan):
+
+- **Progress rail** (left, sticky): every step with a live value summary
+  (Era ✓ Cold War · Map ✓ Germany · Populate ✓ NATO allied wing · 80% ·
+  Map graphics 8/9 layers…). Click scrolls to and expands the section;
+  steps go green as they carry real choices; irrelevant steps (carrier on
+  a landlocked map) hide.
+- **Collapsible sections**: header click folds a section to its title —
+  collapse is CSS-only, inputs stay mounted.
+- **Generate + share link pinned in the rail** — always reachable, plus a
+  "Reset wizard" that clears saved state.
+
+### State architecture (why nothing is lost between steps)
+1. Single source of truth: the DOM inputs themselves — sections are never
+   unmounted, so navigation cannot destroy state by construction.
+2. One serializer pair: `recipe()` / `applyRecipe()` powers share links,
+   autosave, and restore — persistence and sharing can never drift apart.
+3. **Autosave**: every change writes the full recipe to localStorage; a
+   refresh or crash restores exactly where you were. Share-link URLs (?r=)
+   take precedence over the autosave.
+
+Verified in-browser (Playwright): collapse keeps values; full reload
+restores era/map/seed/theme/fill/layer selections; reset returns to
+defaults; zero console errors. Narrow screens (<900 px) fall back to the
+classic single column with the bottom bar.
+
+---
+
 ## [1.2.0] — 2026-07-12
 
 ### Added — Mission graphics: F10 map drawing layers (roadmap "v1.6" pulled forward)

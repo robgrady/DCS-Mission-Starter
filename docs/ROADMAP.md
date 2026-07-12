@@ -4,11 +4,11 @@
 
 **North star:** "Select, don't search." A DCS pilot gets a living, period-accurate mission in under a minute — no editor, no Lua, no digging through User Files. The heavy lifting (statics, defenses, comms, carrier ops) is done; the player writes the play. Never place player waypoints.
 
-**Versioning:** semver (CHANGELOG.md). PATCH = fixes/data, MINOR = new capability, MAJOR = breaking recipes/share links. Current: **v1.2.0**.
+**Versioning:** semver (CHANGELOG.md). PATCH = fixes/data, MINOR = new capability, MAJOR = breaking recipes/share links. Current: **v1.3.0**.
 
 ---
 
-## Shipped (v1.0.0 → v1.2.0) — the foundation
+## Shipped (v1.0.0 → v1.3.0) — the foundation
 
 11 era-gated theaters with historian-checked presets · full mission engine (dressing, doctrinal SAMs, support air, ambient, FARPs, targets/range, nav points, kneeboards, comm ladder, share links) · real carrier strike groups with measured deck formations, CAP/AEW, Angel plane guard, carrier-as-home · Crew Ops (F-14) · runway/taxiway keep-out discipline · Populate Airfields panel (fill %, object types, era-gated ramp themes, map-aware defaults) · PDF guide with screenshots · Mac launcher · Replit/Fly.io/Docker deploy configs.
 
@@ -24,7 +24,7 @@
 - Small-field parking density (Sinai/Germany), approx NTTR nav coords
 - Iceman flag value units once IronMike answers (kts/ft assumed)
 
-## NEXT — v1.3.0: Wizard navigation (UX Phase 1)
+## ✅ SHIPPED v1.3.0: Wizard navigation (UX Phase 1)
 
 **Theme: the page grew past its design.** Per ux-redesign-plan.md (hybrid chosen over strict tabs to protect the re-roll loop).
 
@@ -32,7 +32,7 @@
 - Completed sections collapse to one-line summaries
 - Generate + share link pinned in the rail — always visible
 - Populate-airfields and carrier as expanded panels (drawer pattern)
-- Pure frontend; recipe format untouched
+- Pure frontend; recipe format untouched. Shipped 2026-07-12 with localStorage autosave (state survives refresh; sections never unmount).
 
 ## v1.4.0: Aircraft picker (UX Phase 2)
 
@@ -92,7 +92,7 @@ Design rules:
 
 ## Operational track (parallel, not versioned)
 
-1. **GitHub push** — blocked on repo URL/token from Rob; tags v1.0.0–v1.2.0 ready
+1. **GitHub push** — blocked on repo URL/token from Rob; tags v1.0.0–v1.3.0 ready
 2. **Deploy** — Replit Autoscale (verified) or Fly.io; then a domain
 3. **Community feedback loop** — post to DCS forums/Reddit after deploy; in-game validation reports drive the v1.1.x patch train
 4. **New maps as pydcs ships them** — proven pure-data, near-zero cost (Afghanistan/Iraq candidates when terrain data lands)
@@ -101,7 +101,7 @@ Design rules:
 
 | When | Decision |
 |---|---|
-| Before v1.3 | Hybrid rail (recommended) vs strict tabs — mockup delivered |
+| ✅ Decided | Hybrid rail shipped in v1.3.0 (strict tabs rejected — protects the re-roll loop) |
 | Before v1.4 | Weights vs exact counts; nameable mixes now or at v2.0 |
 | ✅ Decided | SAM threat rings shipped as blue-layer intel picture, on by default (uncheck to hide) |
 | Before v2.0 | Hosting/auth approach for accounts (cost vs free-tool ethos) |
