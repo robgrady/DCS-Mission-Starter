@@ -189,21 +189,35 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
         _pt(target_area, 80000, 50000), altitude=10000, speed=950, group_size=4)
     raid.add_waypoint(home_airport.position, altitude=10000)
 
+    solo = recipe.slots <= 1
     f14 = m.flight_group_inflight(blue_country, "Anytime 1", cat,
-                                  cap, altitude=7620, speed=740, group_size=2)
+                                  cap, altitude=7620, speed=740,
+                                  group_size=1 if solo else 2)
     f14.add_waypoint(cap, altitude=7620)
     f14.add_waypoint(target_area, altitude=9144)
-    for u in f14.units:
-        u.set_client()          # MP: pilot + RIO crew each jet
+    if solo:
+        # SOLO RIO: air start = level flight = Iceman-ready. Spawn in the front,
+        # trim level, jump to the back seat; Iceman holds the jet (A-menu commands).
+        f14.units[0].set_player()
+    else:
+        for u in f14.units:
+            u.set_client()      # MP: human pilot + human RIO crew each jet
 
     threat_brg = round(math.degrees(math.atan2(
         target_area.y - cap.y, target_area.x - cap.x)) % 360)
 
     flow = CrewFlow(m, recipe.crew_difficulty)
-    flow.message_at_start(
-        "CREW OPS - FLEET DEFENSE (RIO). Multiplayer crew mission: pilot up front,\n"
-        "RIO in back. Four Backfires inbound on the force. RIO runs the AWG-9,\n"
-        "sorts the raid in TWS, times the Phoenix shots. GCI on the F10 menu.")
+    if solo:
+        flow.message_at_start(
+            "CREW OPS - FLEET DEFENSE (SOLO RIO). You're air-started level on CAP:\n"
+            "trim the jet, then JUMP TO THE BACK SEAT - Iceman takes the stick.\n"
+            "Command him with the A-menu (heading/altitude/speed). Run the AWG-9,\n"
+            "sort the raid in TWS, time the Phoenix shots. GCI on the F10 menu.")
+    else:
+        flow.message_at_start(
+            "CREW OPS - FLEET DEFENSE (RIO). Multiplayer crew mission: pilot up front,\n"
+            "RIO in back. Four Backfires inbound on the force. RIO runs the AWG-9,\n"
+            "sorts the raid in TWS, times the Phoenix shots. GCI on the F10 menu.")
 
     flow.add_command(
         "GCI: Picture",
@@ -221,9 +235,13 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
 
 
 RIO_BRIEFING_BLOCK = """
-== CREW OPS: FLEET DEFENSE (RIO, MULTIPLAYER) ==
-One jet, two humans: pilot up front, RIO in back. Four Backfires inbound on
-the force. The RIO owns the AWG-9: build the picture in TWS, sort the raid,
-time the shots. GCI picture calls on the F10 menu. This is the Tomcat's job.
-(Solo RIO with an AI pilot arrives with the F-14B(U)'s new crew AI.)
+== CREW OPS: FLEET DEFENSE (RIO) ==
+Four Backfires inbound on the force. The RIO owns the AWG-9: build the
+picture in TWS, sort the raid, time the shots. GCI on the F10 menu.
+
+SOLO (slots=1): you air-start level on CAP. Trim the jet, jump to the back
+seat, and Iceman holds it - command him with the A-menu (heading/altitude/
+speed, Ctrl+1-8). He is a basic autopilot: set his course, then work the
+radar. MULTIPLAYER (slots=2): two crew jets, human pilot + human RIO each.
+(Mission-scripted pilot control arrives with the F-14B(U)'s new crew AI.)
 """

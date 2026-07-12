@@ -205,9 +205,10 @@ story += [
       "commit, the sparkle, and the egress from the back seat."),
     B("<b>WSO: GCI Intercept (F-4E, solo)</b> — Iceman holds CAP until <i>you</i> commit on the "
       "inbound Backfires. Work the radar, build the geometry, run the intercept."),
-    B("<b>RIO: Fleet Defense (F-14, multiplayer)</b> — one jet, two humans: pilot up front, RIO "
-      "on the AWG-9. Four Backfires inbound on the force; sort the raid in TWS and time the "
-      "Phoenix shots. (Solo RIO arrives with the F-14B(U)'s crew AI.)"),
+    B("<b>RIO: Fleet Defense (F-14, solo or multiplayer)</b> — four Backfires inbound on the "
+      "force; sort the raid in TWS and time the Phoenix shots. <b>Solo</b> (1 slot): you "
+      "air-start level on CAP — trim, jump to the back seat, and Iceman holds the jet on your "
+      "A-menu commands. <b>Multiplayer</b> (2 slots): human pilot up front, human RIO in back."),
     P("<b>Crew difficulty:</b> Trainee shows [CREW HINT] prompts for the next call; Qualified "
       "gives you a clean cockpit.", "note"),
 
