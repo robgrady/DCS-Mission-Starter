@@ -73,3 +73,14 @@ the product** — the code is just plumbing.
 
 See the project requirements doc (v0.3): P1 accounts + personal recipe library,
 P2 public catalog with faceted selection, more maps/eras, more Backseat Ops scenarios.
+
+## Roadmap
+
+The product roadmap ships with the app: [docs/ROADMAP.md](docs/ROADMAP.md), also served
+at `/api/roadmap` and linked from the web UI.
+
+## About
+
+Developed by **Authentic Media**. Free community tool — provided **as-is, with no
+warranty of any kind** (see [LICENSE](LICENSE), MIT). Not affiliated with or endorsed
+by Eagle Dynamics or Heatblur Defense.

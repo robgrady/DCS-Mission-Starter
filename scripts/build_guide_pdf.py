@@ -99,7 +99,9 @@ def cover(canvas, doc):
     canvas.setFont("Helvetica", 10)
     canvas.setFillColor(HexColor("#6d7f95"))
     canvas.drawString(0.9 * inch, 1.6 * inch, f"Version {APP_VERSION}  ·  July 2026")
-    canvas.drawString(0.9 * inch, 1.4 * inch, "robgrady.com")
+    canvas.drawString(0.9 * inch, 1.4 * inch,
+                      "Developed by Authentic Media  ·  robgrady.com  ·  "
+                      "provided as-is, no warranty")
     canvas.restoreState()
 
 

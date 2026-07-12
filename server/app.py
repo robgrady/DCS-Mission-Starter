@@ -100,6 +100,14 @@ def options():
 
 
 DOCS_PDF = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
+ROADMAP_MD = Path(__file__).parent.parent / "docs" / "ROADMAP.md"
+
+
+@app.get("/api/roadmap")
+def roadmap():
+    """The product roadmap ships WITH the product (published manifest)."""
+    return FileResponse(str(ROADMAP_MD), filename="ROADMAP.md",
+                        media_type="text/markdown")
 
 
 @app.get("/api/guide")

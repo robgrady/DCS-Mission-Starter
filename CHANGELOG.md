@@ -17,6 +17,18 @@ guide cover.
 
 ---
 
+## [1.1.1] — 2026-07-12
+
+### Added
+- **Roadmap ships with the product**: `docs/ROADMAP.md` served at `/api/roadmap`,
+  linked from the app header and footer — the release plan is a published manifest.
+- **Attribution & license**: Developed by Authentic Media; MIT LICENSE added —
+  the tool is free and provided **as-is with no warranty of any kind**. Stated in
+  the app footer, the PDF guide cover, the README, and the LICENSE file.
+  Not affiliated with Eagle Dynamics or Heatblur.
+
+---
+
 ## [1.1.0] — 2026-07-12
 
 ### Added — "Populate airfields" control panel (new wizard section 4a)
