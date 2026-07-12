@@ -166,8 +166,10 @@ story += [
 
     P("Step 2 — Pick a map", "h2"),
     P("Choose your theater. Maps without content for the chosen era are greyed out — pick "
-      "WWII and the Channel, Normandy, and the 1944 Marianas light up. The Marianas carries all three eras — 1944 campaign, Arc Light era, and modern."),
-    shot("step2_map.png", "Step 2: map selection — eight theaters, filtered by the era you chose."),
+      "WWII and the Channel, Normandy, and the 1944 Marianas light up. The Marianas carries all three eras — 1944 campaign, Arc Light era, and modern. "
+      "Cold War Germany puts you on the Inner German Border (Fulda Gap west, GDR fields east); "
+      "Kola covers NATO's Northern Flank, with the carrier group stationed in the Norwegian Sea off Andoya."),
+    shot("step2_map.png", "Step 2: map selection — ten theaters, filtered by the era you chose."),
 
     P("Step 3 — Coalition, basing & aircraft", "h2"),
     P("Pick your side, home airfield, and aircraft from the full DCS flyable roster (period-"

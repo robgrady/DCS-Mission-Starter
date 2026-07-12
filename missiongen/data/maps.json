@@ -148,6 +148,50 @@
       }
     }
   },
+  "germany": {
+    "label": "Cold War Germany",
+    "terrain_class": "dcs.terrain.germany.Germany",
+    "free": false,
+    "presets": {
+      "coldwar": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Ramstein", "Bitburg", "Spangdahlem", "Hahn", "Sembach", "Norvenich", "Gutersloh", "Wunstorf"],
+        "red_airbases": ["Templin", "Sperenberg", "Werneuchen", "Altes Lager", "Merseburg", "Falkenberg", "Neuruppin", "Parchim"],
+        "frontline_hint": "The Inner German Border - Fulda Gap"
+      },
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Ramstein", "Spangdahlem", "Norvenich", "Buchel", "Laage", "Wunstorf"],
+        "red_airbases": ["Templin", "Sperenberg", "Werneuchen", "Falkenberg", "Neuruppin", "Parchim"],
+        "frontline_hint": "Central Europe - the old NATO/WP line"
+      }
+    }
+  },
+  "kola": {
+    "label": "Kola",
+    "terrain_class": "dcs.terrain.kola.Kola",
+    "free": false,
+    "carrier": {"anchor": {"x": 215404, "y": -331948}, "heading": 30,
+                "note": "Norwegian Sea 100 km W of Andoya - NATO Northern Flank ops area (pyproj-derived, VERIFY IN-GAME)"},
+    "presets": {
+      "coldwar": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Bodo", "Bardufoss", "Andoya", "Evenes", "Banak", "Kirkenes"],
+        "red_airbases": ["Severomorsk-1", "Severomorsk-3", "Olenya", "Monchegorsk", "Kilpyavr", "Luostari Pechenga", "Afrikanda"],
+        "frontline_hint": "The Northern Flank - Finnmark to the Kola Peninsula"
+      },
+      "modern": {
+        "blue_country": "USA",
+        "red_country": "Russia",
+        "blue_airbases": ["Bodo", "Bardufoss", "Andoya", "Evenes", "Banak", "Kirkenes", "Rovaniemi"],
+        "red_airbases": ["Severomorsk-1", "Severomorsk-3", "Olenya", "Monchegorsk", "Kilpyavr", "Murmansk International"],
+        "frontline_hint": "High North - Norwegian/Finnish NATO vs the Kola bastion"
+      }
+    }
+  },
   "falklands": {
     "label": "South Atlantic",
     "terrain_class": "dcs.terrain.falklands.Falklands",

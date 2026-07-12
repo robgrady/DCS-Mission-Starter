@@ -57,6 +57,13 @@ SAMPLES = [
     # Marianas Arc Light era: F-4E out of Andersen AFB
     Recipe(map="marianas", era="coldwar", aircraft="F_4E_45MC", seed=72,
            home_airbase="Andersen AFB"),
+    # Cold War Germany: F-4E on the Inner German Border out of Ramstein
+    Recipe(map="germany", era="coldwar", aircraft="F_4E_45MC", seed=86),
+    # Kola: RIO fleet defense SOLO off Andoya — Roosevelt in the Norwegian Sea
+    Recipe(map="kola", era="modern", aircraft="F_14B", seed=87,
+           template="rio_fleet_defense", home_airbase="CARRIER",
+           carrier_hull="cvn_71", carrier_layout="launch",
+           carrier_deck_aircraft=["FA_18C_hornet", "E_2C"], carrier_aew=True, slots=1),
     # Marianas: GW (CSG-5) launch deck west of Guam vs the northern islands
     Recipe(map="marianas", era="modern", aircraft="FA_18C_hornet", seed=61,
            bb_carrier=True, carrier_hull="cvn_73", carrier_layout="launch",
