@@ -1,0 +1,16 @@
+# Replit config — DCS Mission Starter
+# Import the repo (or upload the zip), hit Run for dev, then Deploy → Autoscale.
+# The app is stateless (missions regenerate from recipe codes), so Autoscale is
+# the right target: scales to zero when idle, no persistent disk needed.
+
+run = "uvicorn server.app:app --host 0.0.0.0 --port 8000"
+modules = ["python-3.11"]
+entrypoint = "server/app.py"
+
+[deployment]
+run = ["sh", "-c", "uvicorn server.app:app --host 0.0.0.0 --port $PORT"]
+deploymentTarget = "autoscale"
+
+[[ports]]
+localPort = 8000
+externalPort = 80

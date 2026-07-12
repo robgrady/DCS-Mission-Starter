@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     fonts-dejavu-core git && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt pillow
+RUN pip install --no-cache-dir -r requirements.txt
 
 # pydcs from GitHub master (PyPI release is outdated); vendor the package if the
 # wheel build fails (it's pure python)
@@ -17,6 +17,8 @@ RUN pip install --no-cache-dir "pydcs @ git+https://github.com/pydcs/dcs.git" ||
     rm -rf /tmp/pydcs )
 
 COPY missiongen ./missiongen
+COPY vendor ./vendor
+COPY docs ./docs
 COPY server ./server
 COPY frontend ./frontend
 

@@ -1,4 +1,7 @@
 fastapi>=0.110
 uvicorn[standard]>=0.29
-# pydcs: install from GitHub master (PyPI 0.15.0 lacks F-4E-45MC and current units)
-# pip install "pydcs @ git+https://github.com/pydcs/dcs.git"
+pillow>=10.0
+pyproj>=3.6
+# pydcs is VENDORED in vendor/dcs (server/app.py adds it to sys.path) because
+# PyPI 0.15.0 lacks F-4E-45MC and current units. No pip install needed.
+# To rebuild the PDF guide (not needed at runtime): pip install reportlab playwright
