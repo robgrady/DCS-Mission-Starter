@@ -109,6 +109,9 @@ class StarterBuilder:
         own_country = blue_country if r.coalition == "blue" else red_country
         enemy_country = red_country if r.coalition == "blue" else blue_country
 
+        carrier_home = r.home_airbase == "CARRIER"
+        self._carrier_home = carrier_home
+        bb_carrier = r.bb_carrier or carrier_home
         home = next((a for a in own_fields if a.name == r.home_airbase), own_fields[0])
         own_center = _centroid([a.position for a in own_fields], m.terrain)
         enemy_center = _centroid([a.position for a in enemy_fields], m.terrain)
@@ -116,10 +119,56 @@ class StarterBuilder:
         away_bearing = (threat_bearing + 180) % 360
 
         comms = CommsPlan()
+        stats = {"statics": 0, "sam_sites": [], "support": [], "ambient": []}
+
+        # --- carrier strike group (built FIRST so the boat can be home plate) --
+        csg, brc, hull_key = None, None, None
+        if bb_carrier:
+            from . import naval, deck
+            if r.coalition == "blue":
+                default_hull = {"wwii": "essex", "coldwar": "forrestal",
+                                "modern": "stennis"}.get(r.era)
+                hull_key = r.carrier_hull or default_hull
+                csg, brc = naval.add_carrier_group(
+                    m, own_country, r.era, "blue", map_cfg, m.weather, comms,
+                    self.warnings, hull_key=hull_key)
+                if csg:
+                    stats["support"].append(csg.name)
+                    n = deck.configure_deck(
+                        m, own_country, csg, brc, hull_key, r.carrier_layout,
+                        r.carrier_deck_aircraft, r.carrier_equipment,
+                        self.rng, self.warnings)
+                    stats["deck_statics"] = n
+                    carrier_pos = csg.units[0].position
+                    if r.carrier_cap:
+                        cap = naval.add_carrier_cap(m, own_country, hull_key,
+                                                    carrier_pos, brc, threat_bearing,
+                                                    comms, self.warnings)
+                        if cap:
+                            stats["support"].append(cap.name)
+                    if r.carrier_aew:
+                        aew = naval.add_carrier_aew(m, own_country, hull_key,
+                                                    carrier_pos, brc, threat_bearing,
+                                                    comms, self.warnings)
+                        if aew:
+                            stats["support"].append(aew.name)
+            else:
+                self.warnings.append("carrier group is blue-only for now - skipped")
+        if carrier_home and csg is None:
+            raise EraViolation("Carrier home base selected but no carrier strike group "
+                               "could be created on this map/era")
+        self._csg, self._brc, self._hull_key = csg, brc, hull_key
 
         # --- player flight (unless a template pack owns the player) ---------
         player_group = None
-        if not r.template:
+        if not r.template and carrier_home:
+            aircraft = self._resolve_aircraft(r.aircraft)
+            self._check_carrier_capable(r.aircraft, aircraft, hull_key)
+            player_group = m.flight_group_from_unit(
+                own_country, "Anytime 1", aircraft, csg,
+                start_type=START_TYPES[r.start],
+                group_size=max(1, min(4, r.slots)))
+        elif not r.template:
             aircraft = self._resolve_aircraft(r.aircraft)
             from dcs.terrain.terrain import NoParkingSlotError
             player_group = None
@@ -141,6 +190,7 @@ class StarterBuilder:
             if player_group is None:
                 raise UnknownUnitError(
                     f"no friendly airbase on this preset has free parking for {aircraft.id}")
+        if player_group is not None:
             if r.slots <= 1:
                 player_group.units[0].set_player()
             else:
@@ -156,8 +206,6 @@ class StarterBuilder:
                       "inter-flight coordination")
 
         # --- building blocks -------------------------------------------------
-        stats = {"statics": 0, "sam_sites": [], "support": [], "ambient": []}
-
         # ambient traffic BEFORE dressing so AI aircraft claim parking slots first
         if r.bb_ambient:
             from . import ambient
@@ -186,37 +234,6 @@ class StarterBuilder:
             # friendly SHORAD at home plate only
             stats["sam_sites"] += airdefense.defend_airbase(
                 m, own_country, home, era_cfg[r.coalition], self.rng, r.era)
-
-        if r.bb_carrier:
-            from . import naval, deck
-            if r.coalition == "blue":
-                default_hull = {"coldwar": "forrestal", "modern": "stennis"}.get(r.era)
-                hull_key = r.carrier_hull or default_hull
-                csg, brc = naval.add_carrier_group(
-                    m, own_country, r.era, "blue", map_cfg, m.weather, comms,
-                    self.warnings, hull_key=hull_key)
-                if csg:
-                    stats["support"].append(csg.name)
-                    n = deck.configure_deck(
-                        m, own_country, csg, brc, hull_key, r.carrier_layout,
-                        r.carrier_deck_aircraft, r.carrier_equipment,
-                        self.rng, self.warnings)
-                    stats["deck_statics"] = n
-                    carrier_pos = csg.units[0].position
-                    if r.carrier_cap:
-                        cap = naval.add_carrier_cap(m, own_country, hull_key,
-                                                    carrier_pos, brc, threat_bearing,
-                                                    comms, self.warnings)
-                        if cap:
-                            stats["support"].append(cap.name)
-                    if r.carrier_aew:
-                        aew = naval.add_carrier_aew(m, own_country, hull_key,
-                                                    carrier_pos, brc, threat_bearing,
-                                                    comms, self.warnings)
-                        if aew:
-                            stats["support"].append(aew.name)
-            else:
-                self.warnings.append("carrier group is blue-only for now - skipped")
 
         if r.bb_tanker:
             tk = support_air.add_tanker(m, own_country, r.era, r.coalition,
@@ -290,7 +307,7 @@ class StarterBuilder:
             else:
                 backseat.build_rio_fleet_defense(m, r, blue_country, red_country,
                                                  home, target_area, self.rng, comms,
-                                                 r.era)
+                                                 r.era, csg=self._csg if carrier_home else None)
                 template_brief = backseat.RIO_BRIEFING_BLOCK
 
         # --- bullseye ---------------------------------------------------------
@@ -314,11 +331,24 @@ class StarterBuilder:
             "comms": comms, "own_fields": own_fields, "enemy_fields": enemy_fields,
             "bullseye": {"x": midpoint.x, "y": midpoint.y},
             "map_label": map_cfg["label"], "era_label": era_cfg["label"],
-            "era_year": era_cfg["year"], "home_name": home.name,
+            "era_year": era_cfg["year"],
+            "home_name": (csg.units[0].name if carrier_home and csg else home.name),
             "support_names": stats["support"],
             "nav_points": [(n, p) for n, p, _t, _note in nav_pts],
         }
         return m
+
+    def _check_carrier_capable(self, key: str, aircraft, hull_key: str):
+        """Hard gate: only carrier-capable aircraft can start on the boat."""
+        cap = load_json("carrier_capable")
+        deck_class = cap["hull_class"].get(hull_key)
+        allowed = cap["classes"].get(deck_class, [])
+        if key not in allowed:
+            from .deck import _load_hull
+            raise EraViolation(
+                f"{aircraft.id} cannot operate from {_load_hull(hull_key)['label']} "
+                f"({deck_class} deck). Carrier-capable options: "
+                f"{', '.join(allowed) or 'none for this hull'}.")
 
     def _resolve_aircraft(self, name: str):
         for mod in ("planes", "helicopters"):
@@ -367,7 +397,7 @@ class StarterBuilder:
             "and support aircraft are on station. No player waypoints have been placed -",
             "open it in the Mission Editor and build your mission on top.",
             "",
-            f"Home plate: {home.name}",
+            f"Home plate: {self._csg.units[0].name if getattr(self, '_carrier_home', False) and self._csg else home.name}",
             f"Static objects placed: {stats['statics']}",
             f"Air defense groups: {len(stats['sam_sites'])}",
             f"Support flights: {', '.join(stats['support']) or 'none'}",

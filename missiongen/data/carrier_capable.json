@@ -1,0 +1,14 @@
+{
+  "_comment": "Which flyable aircraft can START on which carrier deck class. Drives the aircraft filter when the user picks the carrier as home base, and generation-time validation.",
+  "classes": {
+    "catobar": ["FA_18C_hornet", "F_14A_95_GR", "F_14A_135_GR", "F_14A_135_GR_Early",
+                "F_14B", "F_14B_U"],
+    "vstol": ["AV8BNA"],
+    "wwii_deck": ["F4U_1D"]
+  },
+  "hull_class": {
+    "cvn_71": "catobar", "cvn_72": "catobar", "cvn_73": "catobar", "cvn_75": "catobar",
+    "stennis": "catobar", "forrestal": "catobar",
+    "invincible": "vstol", "essex": "wwii_deck"
+  }
+}

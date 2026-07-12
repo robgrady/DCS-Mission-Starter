@@ -33,6 +33,11 @@ SAMPLES = [
            bb_carrier=True, carrier_hull="cvn_75", carrier_layout="launch",
            carrier_deck_aircraft=["FA_18C_hornet", "S_3B"],
            bb_farps=True, bb_targets=True, bb_range=True),
+    # RIO fleet defense SOLO, STARTING ON THE ROOSEVELT deck west of Guam
+    Recipe(map="marianas", era="modern", aircraft="F_14B", seed=90,
+           template="rio_fleet_defense", home_airbase="CARRIER",
+           carrier_hull="cvn_71", carrier_layout="launch",
+           carrier_deck_aircraft=["FA_18C_hornet", "E_2C"], carrier_aew=True, slots=1),
     # RIO fleet defense: MP crew Tomcats vs a Backfire raid off Guam
     Recipe(map="marianas", era="modern", aircraft="F_14B", seed=88,
            template="rio_fleet_defense", bb_carrier=True, carrier_hull="cvn_73",

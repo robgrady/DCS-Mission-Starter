@@ -174,7 +174,7 @@ NOTE: Iceman speed/altitude flag units assumed kts/ft pending Heatblur docs.
 
 # ---------------------------------------------------- RIO: fleet defense (MP)
 def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
-                            target_area, rng: random.Random, comms, era):
+                            target_area, rng: random.Random, comms, era, csg=None):
     """RIO fleet defense — MULTIPLAYER crew mission (human pilot + human RIO in
     one Tomcat). The classic AWG-9 problem: a regimental Backfire raid inbound
     on the force. GCI picture and commit calls come through the F10 crew menu."""
@@ -190,9 +190,17 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
     raid.add_waypoint(home_airport.position, altitude=10000)
 
     solo = recipe.slots <= 1
-    f14 = m.flight_group_inflight(blue_country, "Anytime 1", cat,
-                                  cap, altitude=7620, speed=740,
-                                  group_size=1 if solo else 2)
+    from dcs.mission import StartType
+    if csg is not None:
+        # CARRIER START: the mission begins on the boat. Solo RIOs cat-shot
+        # themselves, level off, then swap seats for Iceman.
+        f14 = m.flight_group_from_unit(
+            blue_country, "Anytime 1", cat, csg,
+            start_type=StartType.Warm, group_size=1 if solo else 2)
+    else:
+        f14 = m.flight_group_inflight(blue_country, "Anytime 1", cat,
+                                      cap, altitude=7620, speed=740,
+                                      group_size=1 if solo else 2)
     f14.add_waypoint(cap, altitude=7620)
     f14.add_waypoint(target_area, altitude=9144)
     if solo:
@@ -207,7 +215,13 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
         target_area.y - cap.y, target_area.x - cap.x)) % 360)
 
     flow = CrewFlow(m, recipe.crew_difficulty)
-    if solo:
+    if solo and csg is not None:
+        flow.message_at_start(
+            "CREW OPS - FLEET DEFENSE (SOLO RIO, CARRIER START). You're on the boat.\n"
+            "Cat-shot yourself, climb out, get level and trimmed - then JUMP TO THE\n"
+            "BACK SEAT and Iceman takes the stick (A-menu: heading/altitude/speed).\n"
+            "Run the AWG-9, sort the raid in TWS. GCI on the F10 menu.")
+    elif solo:
         flow.message_at_start(
             "CREW OPS - FLEET DEFENSE (SOLO RIO). You're air-started level on CAP:\n"
             "trim the jet, then JUMP TO THE BACK SEAT - Iceman takes the stick.\n"

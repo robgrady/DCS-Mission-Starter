@@ -78,6 +78,7 @@ def options():
                                   "eras": ["coldwar", "modern"]},
         },
         "carriers": __import__("missiongen.deck", fromlist=["hulls_for_options"]).hulls_for_options(),
+        "carrier_capable": load_json("carrier_capable"),
         "enums": {
             "start": ["cold", "warm", "runway"],
             "time_of_day": ["dawn", "day", "dusk", "night"],

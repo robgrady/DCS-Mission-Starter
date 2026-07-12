@@ -202,7 +202,7 @@ async function init(){
   for (const [k,v] of Object.entries(OPT.carriers._layouts))
     cl.appendChild(el(`<option value="${k}">${v}</option>`));
   refreshCarrierUI();
-  document.getElementById('carrier_hull').onchange = ()=>{ refreshDeckAircraft(); sum(); };
+  document.getElementById('carrier_hull').onchange = ()=>{ refreshDeckAircraft(); refreshAircraft(); sum(); };
   document.getElementById('coalition').onchange = ()=>{ fillHome(); sum(); };
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
@@ -245,10 +245,19 @@ function refreshAircraft(){
   const ac = document.getElementById('aircraft');
   const prev = ac.value;
   ac.innerHTML = '';
-  for (const a of OPT.aircraft.filter(inEra))
+  let pool = OPT.aircraft.filter(inEra);
+  // carrier home: only carrier-capable aircraft for the selected hull's deck class
+  if (document.getElementById('home')?.value === 'CARRIER'){
+    const hull = document.getElementById('carrier_hull')?.value || eraHull();
+    const cls = OPT.carrier_capable.hull_class[hull];
+    const allowed = OPT.carrier_capable.classes[cls] || [];
+    pool = pool.filter(a=>allowed.includes(a.key));
+  }
+  for (const a of pool)
     ac.appendChild(el(`<option value="${a.key}">${a.upcoming?'⏳ ':''}${a.id}${a.kind==='helicopter'?' (helo)':''}</option>`));
   ac.value = [...ac.options].some(o=>o.value===prev) ? prev
-           : (S.era==='wwii' ? 'P_51D' : 'F_16C_50');
+           : (pool.some(a=>a.key==='FA_18C_hornet') ? 'FA_18C_hornet'
+              : S.era==='wwii' ? (pool.some(a=>a.key==='P_51D')?'P_51D':'') : 'F_16C_50');
   if (!ac.value && ac.options.length) ac.selectedIndex = 0;
 }
 function refreshCarrierUI(){
@@ -305,14 +314,31 @@ function refreshEraGating(){
     c.classList.toggle('dis', !ok);
   });
 }
+function eraHull(){
+  // first hull valid for the current era, if any
+  return Object.entries(OPT.carriers).find(([k,v])=>k!=='_layouts'&&v.eras.includes(S.era))?.[0] || null;
+}
 function fillHome(){
   if(!S.map||!S.era) return;
   const side = document.getElementById('coalition').value;
   const p = OPT.maps[S.map].presets[S.era];
   const list = side==='blue'? p.blue_airbases : p.red_airbases;
   const h = document.getElementById('home');
+  const prev = h.value;
   h.innerHTML='';
+  // the carrier is a first-class home base on coastal maps (blue, era-valid hull)
+  if (side==='blue' && OPT.maps[S.map].has_carrier && eraHull())
+    h.appendChild(el(`<option value="CARRIER">⚓ The carrier (start on the boat)</option>`));
   list.forEach(n=>h.appendChild(el(`<option>${n}</option>`)));
+  if ([...h.options].some(o=>o.value===prev)) h.value = prev;
+  h.onchange = onHomeChange;
+}
+function onHomeChange(){
+  const isCarrier = document.getElementById('home').value === 'CARRIER';
+  const cb = document.getElementById('bb_carrier');
+  if (isCarrier && !cb.checked){ cb.checked = true; refreshCarrierUI(); }
+  refreshAircraft();
+  sum();
 }
 function recipe(){
   const r = {
