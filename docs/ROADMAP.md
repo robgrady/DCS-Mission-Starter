@@ -59,6 +59,27 @@
 - Measured deck data for non-SC hulls
 - Germany map's 100+ FRG/GDR helipads as FARP spawns
 
+## v1.6.0: Mission graphics — F10 drawing layers
+
+**Theme: the map briefs the mission.** Extend the proven drawings mechanism (NTTR nav points, range rings already ship) to every mission element that has geometry, so the F10 map reads like a planned ATO instead of empty terrain. Order-independent of v1.4/v1.5 — can be pulled forward.
+
+Drawn zones (each from geometry the engine already computes):
+- **Tanker tracks** — racetrack outline + label block (callsign · freq · TACAN · altitude), drawn from the refuel_flight anchor/orbit points
+- **AWACS & AEW orbits** — same treatment
+- **CAP stations** — racetrack + station label on the threat axis
+- **Carrier ops box** — CSG operating area + BRC arrow (blue, coastal maps)
+- **Target area rings** — circle + name over each strike package (mirrors the trigger zones)
+- **FARP service rings** — the rearm/refuel radius players actually care about
+- **Bullseye marker** — labeled on both sides' maps
+- **SAM threat rings (design decision)** — planned red WEZ circles drawn on the BLUE layer only, framed as "intel picture": realistic (you brief known threats), and red MP players don't get their own SAMs highlighted
+
+Design rules:
+- **Layer discipline**: coalition-private info on Blue/Red layers (DCS renders them per side), shared references (bullseye, nav points, range) on Common — MP-safe by construction
+- **One visual language**: consistent colors/line weights across all zones (racetracks dashed, threats red rings, references neutral) — documented in the guide
+- **Kneeboard parity**: the same geometry already feeds the kneeboard theater page; graphics and kneeboard stay in sync automatically because both draw from the same data
+- Recipe: `bb_graphics` toggle (default on), with per-category refinement deferred until users ask
+- No player waypoints, ever — zones inform, they don't route
+
 ## LATER — v2.0: Community (the original vision)
 
 **Theme: fix "I can't find what I want on User Files" at the catalog level, not just the generator level.** MAJOR because accounts change the product shape.
@@ -82,5 +103,6 @@
 |---|---|
 | Before v1.2 | Hybrid rail (recommended) vs strict tabs — mockup delivered |
 | Before v1.3 | Weights vs exact counts; nameable mixes now or at v2.0 |
+| Before v1.6 | SAM threat rings: blue-layer "intel picture" (recommended) vs off by default |
 | Before v2.0 | Hosting/auth approach for accounts (cost vs free-tool ethos) |
 | Anytime | Deploy target: Replit (fastest) vs Fly.io (custom domain story) |
