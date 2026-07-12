@@ -44,6 +44,16 @@ def resolve_country(name: str):
     return c
 
 
+# Anachronism guard: nothing post-1945 may appear in a WWII dressing block.
+# This makes "no F/A-18 on a WWII field" a hard invariant instead of a data
+# convention — any future edit that sneaks a jet/helo/modern truck into the
+# wwii era fails the health check loudly.
+_WWII_FORBIDDEN = ("planes.F_", "planes.FA_", "planes.A_10", "planes.MiG",
+                   "planes.Su_", "planes.C_130", "planes.IL_76", "planes.An_",
+                   "planes.E_2", "planes.S_3", "helicopters.",
+                   "HEMTT", "KAMAZ", "Hummer", "GAZ_", "ATZ", "M_818")
+
+
 def validate_data_packs() -> list:
     """Resolve every unit reference in every data pack. Returns list of errors."""
     errors = []
@@ -61,4 +71,7 @@ def validate_data_packs() -> list:
                     resolve(ref)
                 except UnknownUnitError as e:
                     errors.append(f"{era}/{side}: {e}")
+                if era == "wwii" and any(tag in ref for tag in _WWII_FORBIDDEN):
+                    errors.append(f"ANACHRONISM wwii/{side}: {ref} is not a "
+                                  "WWII-era unit - period dressing violated")
     return errors

@@ -17,6 +17,39 @@ guide cover.
 
 ---
 
+## [1.0.1] — 2026-07-12
+
+### Fixed
+- **Statics no longer appear on runways or taxi routes.** Free-placed objects
+  could land on the movement area: the airfield infrastructure cluster was
+  pushed 350 m from the ramp centroid at a *random* bearing (the ramp sits
+  beside the runway, so this regularly dropped fuel tanks and tents
+  mid-runway), GSE trucks could drift off the stand into taxilanes, and
+  SHORAD point defense was placed 900–1400 m from the field reference point
+  at a random bearing — often on the runway itself. New `placement.py`
+  models every runway as a keep-out corridor (built from pydcs runway
+  headings through the field reference point, with generous width to absorb
+  shoulders, parallel taxiways, and magnetic-variation error) and all
+  free-placed objects are validated against it:
+  - Infrastructure cluster now anchors on the ramp side *away* from the
+    runway axis and its row runs *parallel* to the runway — geometrically
+    unable to cross it — with per-object validation as backstop.
+  - GSE stays within the parking stand's own footprint (12–16 m off the
+    aircraft; stands are 40–80 m wide) — apron, never taxilane.
+  - SHORAD and SAM sites sample bearings until clear (SAMs demand 550 m
+    margin so no launcher of the kit crosses the corridor).
+  - Aircraft statics were always safe: they only occupy surveyed parking
+    stands from the terrain data.
+  - Verified: 30 generated missions across 10 maps / 3 eras / 3 seeds —
+    12,256 free-placed objects, zero inside a runway corridor.
+- **Period dressing is now a hard invariant.** Dressing data was already
+  era-keyed (WWII fields only draw warbirds, Bedfords, Kübelwagens), but the
+  health check now carries an anachronism guard: any future data edit that
+  puts a jet, helicopter, or modern vehicle into the WWII era block fails
+  `/api/health` loudly. No F/A-18 on a 1944 field, guaranteed.
+
+---
+
 ## [1.0.0] — 2026-07-12
 
 First locked release. Everything below is the 1.0 baseline.

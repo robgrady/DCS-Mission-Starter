@@ -6,6 +6,7 @@ from dcs.unit import Skill
 from .kits import kit_positions, SAM_KITS
 from .resolver import resolve
 from .dressing import _offset
+from .placement import AirfieldKeepOut
 
 
 def place_sam_site(m, country, kit_key, center, rng: random.Random, name):
@@ -27,19 +28,32 @@ def place_sam_site(m, country, kit_key, center, rng: random.Random, name):
 
 
 def defend_airbase(m, country, airport, side_cfg, rng: random.Random, era_key):
-    """Stand up one SAM site 2.5-4km off the field plus SHORAD point defense."""
+    """Stand up one SAM site 2.5-4km off the field plus SHORAD point defense.
+
+    Both are validated against the field's runway keep-out corridors — the
+    SHORAD radius (900-1400 m from the field reference point) previously
+    landed vehicles ON the runway when the random bearing pointed down the
+    strip. Real point defense sits on the perimeter, clear of movement areas.
+    """
+    keepout = AirfieldKeepOut(airport)
     created = []
     kits = side_cfg["sam_kits"]
     if kits:
         kit = rng.choice(kits)
-        center = _offset(airport.position, rng.uniform(2500, 4000), rng.uniform(0, 360))
-        name = f"{SAM_KITS[kit]['label']} - {airport.name}"
-        place_sam_site(m, country, kit, center, rng, name)
-        created.append(name)
+        # SAM footprint is ~150-500 m across: demand extra margin so no
+        # launcher of the kit crosses the corridor
+        center = keepout.find_clear(airport.position, 2500, 4000, rng,
+                                    margin=550, avoid_stands=False)
+        if center is not None:
+            name = f"{SAM_KITS[kit]['label']} - {airport.name}"
+            place_sam_site(m, country, kit, center, rng, name)
+            created.append(name)
 
-    # SHORAD pair on the field perimeter
+    # SHORAD pair on the field perimeter, clear of runway and stands
     for i, ref in enumerate(rng.sample(side_cfg["shorad"], k=min(2, len(side_cfg["shorad"])))):
-        pos = _offset(airport.position, rng.uniform(900, 1400), rng.uniform(0, 360))
+        pos = keepout.find_clear(airport.position, 900, 1400, rng, margin=50)
+        if pos is None:
+            continue
         g = m.vehicle_group(country, f"SHORAD {airport.name} {i+1}", resolve(ref),
                             pos, heading=rng.uniform(0, 360))
         g.units[0].skill = Skill.High

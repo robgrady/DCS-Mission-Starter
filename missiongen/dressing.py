@@ -6,6 +6,7 @@ from dcs import mapping
 import dcs.statics as statics
 
 from .resolver import resolve
+from .placement import AirfieldKeepOut
 
 DENSITY_FILL = {"sparse": 0.25, "normal": 0.45, "busy": 0.70}
 MAX_STATICS_PER_FIELD = 24   # NFR: FPS guard
@@ -19,8 +20,14 @@ def _offset(pos, meters, bearing_deg):
 
 def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Random,
                    used_slot_names=None):
-    """Fill an airfield with era/faction-correct static aircraft + ground equipment."""
+    """Fill an airfield with era/faction-correct static aircraft + ground equipment.
+
+    Placement discipline: aircraft go on surveyed parking stands only (always
+    safe); everything free-placed (GSE, infrastructure) is validated against
+    the runway keep-out corridors so movement areas stay clear.
+    """
     used = used_slot_names or set()
+    keepout = AirfieldKeepOut(airport)
     placed = 0
 
     free = [s for s in airport.parking_slots
@@ -59,32 +66,54 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                        heading=heading)
         placed += 1
 
-        # BB-2: ground support equipment near ~half the occupied stands
+        # BB-2: ground support equipment near ~half the occupied stands.
+        # Stay WITHIN the stand's own footprint (stands are 40-80 m wide, so
+        # 12-16 m off the aircraft is still apron, never the taxilane) and
+        # never inside a runway corridor.
         if rng.random() < 0.5:
-            gse_pos = _offset(slot.position, rng.uniform(18, 26), heading + rng.uniform(60, 120))
-            gse_type = fuel_truck if rng.random() < 0.5 else rng.choice(utility)
-            m.static_group(country, f"GSE {airport.name} {slot.slot_name}",
-                           _type=gse_type, position=gse_pos,
-                           heading=rng.uniform(0, 360))
+            gse_max = max(12.0, min(16.0, (min(slot.length, slot.width) / 2) - 8))
+            gse_pos = _offset(slot.position, rng.uniform(12, gse_max),
+                              heading + rng.uniform(60, 120))
+            if keepout.clear(gse_pos, avoid_stands=False):
+                gse_type = fuel_truck if rng.random() < 0.5 else rng.choice(utility)
+                m.static_group(country, f"GSE {airport.name} {slot.slot_name}",
+                               _type=gse_type, position=gse_pos,
+                               heading=rng.uniform(0, 360))
 
-    # BB-3: infrastructure cluster near the ramp centroid, pushed away from stands
+    # BB-3: infrastructure cluster near the ramp. The ramp sits BESIDE the
+    # runway, so a random bearing from its centroid used to land the cluster
+    # mid-runway. Now: push the anchor perpendicular to the runway axis,
+    # DEEPER into the ramp side (away from the runway), then validate — the
+    # cluster row runs parallel to the runway so it can never cross it.
     if free:
         cx = sum(s.position.x for s in free) / len(free)
         cy = sum(s.position.y for s in free) / len(free)
         centroid = mapping.Point(cx, cy, airport.position._terrain)
-        bearing = rng.uniform(0, 360)
-        anchor = _offset(centroid, 350, bearing)
-        infra = [
-            (statics.Fortification.Fuel_tank, 0),
-            (statics.Fortification.Fuel_tank, 18),
-            (statics.Fortification.Tent01, 60),
-            (statics.Fortification.Tent03, 85),
-            (statics.Fortification.Barracks_2, 130),
-            (statics.Fortification.Comms_tower_M, 190),
-        ]
-        for i, (obj, dist) in enumerate(infra):
-            pos = _offset(anchor, dist, bearing + 90)
-            m.static_group(country, f"INF {airport.name} {i}", _type=obj,
-                           position=pos, heading=(bearing + 180) % 360)
+        away = keepout.away_side_bearing(centroid)
+        anchor = None
+        for push in (300, 450, 600):
+            cand = _offset(centroid, push, away + rng.uniform(-20, 20))
+            if keepout.clear(cand, margin=60):
+                anchor = cand
+                break
+        if anchor is None:
+            anchor = keepout.find_clear(centroid, 300, 700, rng, margin=60,
+                                        prefer_bearing=away)
+        if anchor is not None:
+            row = keepout.runway_axis_heading()   # row parallels the runway
+            infra = [
+                (statics.Fortification.Fuel_tank, 0),
+                (statics.Fortification.Fuel_tank, 18),
+                (statics.Fortification.Tent01, 60),
+                (statics.Fortification.Tent03, 85),
+                (statics.Fortification.Barracks_2, 130),
+                (statics.Fortification.Comms_tower_M, 190),
+            ]
+            for i, (obj, dist) in enumerate(infra):
+                pos = _offset(anchor, dist, row)
+                if not keepout.clear(pos):
+                    continue                      # belt and suspenders
+                m.static_group(country, f"INF {airport.name} {i}", _type=obj,
+                               position=pos, heading=(row + 90) % 360)
 
     return placed
