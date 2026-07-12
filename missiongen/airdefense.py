@@ -27,7 +27,8 @@ def place_sam_site(m, country, kit_key, center, rng: random.Random, name):
     return vg
 
 
-def defend_airbase(m, country, airport, side_cfg, rng: random.Random, era_key):
+def defend_airbase(m, country, airport, side_cfg, rng: random.Random, era_key,
+                   gfx_threats=None):
     """Stand up one SAM site 2.5-4km off the field plus SHORAD point defense.
 
     Both are validated against the field's runway keep-out corridors — the
@@ -48,6 +49,9 @@ def defend_airbase(m, country, airport, side_cfg, rng: random.Random, era_key):
             name = f"{SAM_KITS[kit]['label']} - {airport.name}"
             place_sam_site(m, country, kit, center, rng, name)
             created.append(name)
+            if gfx_threats is not None:
+                gfx_threats.append((center, SAM_KITS[kit].get("wez_m", 25000),
+                                    SAM_KITS[kit]["label"]))
 
     # SHORAD pair on the field perimeter, clear of runway and stands
     for i, ref in enumerate(rng.sample(side_cfg["shorad"], k=min(2, len(side_cfg["shorad"])))):

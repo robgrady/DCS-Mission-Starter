@@ -14,7 +14,7 @@ def _ring(ref, count, radius, start_bearing=0.0):
 
 SAM_KITS = {
     "sa2": {
-        "label": "SA-2 Guideline site",
+        "label": "SA-2 Guideline site", "wez_m": 40000,
         "units": (
             [("vehicles.AirDefence.SNR_75V", 0, 0, False)]                 # Fan Song TR center
             + _ring("vehicles.AirDefence.S_75M_Volhov", 6, 140)            # 6 launchers, star
@@ -22,7 +22,7 @@ SAM_KITS = {
         ),
     },
     "sa3": {
-        "label": "SA-3 Goa site",
+        "label": "SA-3 Goa site", "wez_m": 22000,
         "units": (
             [("vehicles.AirDefence.Snr_s_125_tr", 0, 0, False)]            # Low Blow TR
             + _ring("vehicles.AirDefence.X_5p73_s_125_ln", 4, 110, 45)
@@ -30,14 +30,14 @@ SAM_KITS = {
         ),
     },
     "sa6": {
-        "label": "SA-6 Gainful battery",
+        "label": "SA-6 Gainful battery", "wez_m": 24000,
         "units": (
             [("vehicles.AirDefence.Kub_1S91_str", 0, 0, False)]            # Straight Flush
             + _ring("vehicles.AirDefence.Kub_2P25_ln", 4, 130, 20)
         ),
     },
     "sa11": {
-        "label": "SA-11 Gadfly battery",
+        "label": "SA-11 Gadfly battery", "wez_m": 35000,
         "units": (
             [("vehicles.AirDefence.SA_11_Buk_SR_9S18M1", 0, 0, False),
              ("vehicles.AirDefence.SA_11_Buk_CC_9S470M1", 60, 180, False)]
@@ -45,7 +45,7 @@ SAM_KITS = {
         ),
     },
     "hawk": {
-        "label": "MIM-23 Hawk battery",
+        "label": "MIM-23 Hawk battery", "wez_m": 40000,
         "units": (
             [("vehicles.AirDefence.Hawk_sr", 0, 0, False),
              ("vehicles.AirDefence.Hawk_tr", 70, 90, False),
@@ -55,7 +55,7 @@ SAM_KITS = {
         ),
     },
     "patriot": {
-        "label": "MIM-104 Patriot battery",
+        "label": "MIM-104 Patriot battery", "wez_m": 90000,
         "units": (
             [("vehicles.AirDefence.Patriot_str", 0, 0, False),
              ("vehicles.AirDefence.Patriot_ECS", 50, 150, False),

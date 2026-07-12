@@ -50,6 +50,10 @@ class Recipe:
     carrier_cap: bool = False                   # air wing launches a 2-ship CAP on the threat axis
     carrier_aew: bool = False                   # air wing launches an E-2 Hawkeye AEW orbit (AAW picture)
 
+    # F10 map graphics layers (v1.2.0): None = auto (draw everything that has
+    # geometry); explicit list = only those keys (see graphics.LAYER_KEYS)
+    map_layers: Optional[List[str]] = None
+
     # template packs
     template: Optional[str] = None     # None | backseat_izlid | backseat_intercept | rio_fleet_defense
     crew_difficulty: str = "qualified" # trainee (hints) | qualified (clean)

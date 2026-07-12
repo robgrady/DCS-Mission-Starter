@@ -136,7 +136,7 @@ def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
 
 
 def add_carrier_cap(m, country, hull_key, carrier_pos, brc, threat_bearing,
-                    comms, warnings):
+                    comms, warnings, gfx=None):
     """2-ship CAP from the embarked air wing, on station toward the threat axis."""
     from .resolver import resolve
     from .deck import _load_hull
@@ -155,11 +155,13 @@ def add_carrier_cap(m, country, hull_key, carrier_pos, brc, threat_bearing,
     fg.set_frequency(freq)
     comms.add("CAP", cap_cfg["squadron"].split()[0], f"{freq:.2f}", "-",
               f"{airwing['label']} {cap_type.id} x2, stn 30nm on threat axis")
+    if gfx is not None:
+        gfx["cap"] = (st1, st2, f"CAP {cap_cfg['squadron']} {freq:.2f}")
     return fg
 
 
 def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
-                    comms, warnings):
+                    comms, warnings, gfx=None):
     """Air-wing E-2 Hawkeye AEW orbit behind the CSG (AAW picture for the group)."""
     from .resolver import resolve
     from .deck import _load_hull
@@ -181,4 +183,7 @@ def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
         altitude=AEW_ALT, speed=500, frequency=freq)
     comms.add("AEW", aew_cfg["squadron"].split()[0], f"{freq:.2f}", "-",
               f"{airwing['label']} {aew_type.id} overhead the force")
+    if gfx is not None:
+        gfx["aew"] = (pos, (threat_bearing + 90) % 360, 48000,
+                      f"AEW {aew_cfg['squadron']} {freq:.2f}")
     return fg

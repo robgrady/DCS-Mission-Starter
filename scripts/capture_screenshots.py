@@ -45,6 +45,7 @@ with sync_playwright() as pw:
     page.select_option("#dress_theme", "red_flag")
     page.wait_for_timeout(200)
     page.locator("#dressstep").screenshot(path=str(OUT / "step4a_dress.png"))
+    page.locator("#gfxstep").screenshot(path=str(OUT / "step4c_gfx.png"))
 
     # step 4b: carrier deck configuration — era gate means the Roosevelt needs
     # a modern era, so switch to Syria/Modern first

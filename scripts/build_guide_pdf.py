@@ -207,6 +207,17 @@ story += [
       "theme, and runways and taxi routes always stay clear."),
     shot("step4a_dress.png", "Step 4a: fill percentage, object types, and the ramp theme — Red Flag selected."),
 
+    P("Step 4c — Map graphics (F10)", "h2"),
+    P("The map briefs the mission. Each layer draws real mission geometry on the F10 map: "
+      "the tanker's racetrack with its freq/TACAN label, the AWACS orbit, carrier CAP and "
+      "Hawkeye stations, the strike group's ops box with a BRC arrow, amber rings over "
+      "target packages and the range, FARP service rings, bullseye, and — the intel "
+      "picture — known enemy SAM engagement rings at doctrinal radii. Friendly orbits and "
+      "threat rings render on YOUR coalition's layer only, so in multiplayer the enemy "
+      "never sees your picture (or gets their own SAMs highlighted). Uncheck any layer "
+      "for a cleaner map. Zones inform — they never route you."),
+    shot("step4c_gfx.png", "Step 4c: the map-graphics layer picker."),
+
     PageBreak(),
     P("Step 4b — Configure the carrier (optional)", "h2"),
     P("With the carrier block enabled, pick a hull, a real-world deck state, the aircraft "

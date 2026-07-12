@@ -124,6 +124,7 @@ class StarterBuilder:
         stats = {"statics": 0, "sam_sites": [], "support": [], "ambient": []}
 
         # --- carrier strike group (built FIRST so the boat can be home plate) --
+        gfx = {"targets": [], "farps": [], "threats": []}   # map-graphics geometry
         csg, brc, hull_key = None, None, None
         if bb_carrier:
             from . import naval, deck
@@ -136,6 +137,7 @@ class StarterBuilder:
                     self.warnings, hull_key=hull_key)
                 if csg:
                     stats["support"].append(csg.name)
+                    gfx["carrier"] = (csg.units[0].position, brc, csg.name)
                     n = deck.configure_deck(
                         m, own_country, csg, brc, hull_key, r.carrier_layout,
                         r.carrier_deck_aircraft, r.carrier_equipment,
@@ -154,13 +156,13 @@ class StarterBuilder:
                     if r.carrier_cap:
                         cap = naval.add_carrier_cap(m, own_country, hull_key,
                                                     carrier_pos, brc, threat_bearing,
-                                                    comms, self.warnings)
+                                                    comms, self.warnings, gfx=gfx)
                         if cap:
                             stats["support"].append(cap.name)
                     if r.carrier_aew:
                         aew = naval.add_carrier_aew(m, own_country, hull_key,
                                                     carrier_pos, brc, threat_bearing,
-                                                    comms, self.warnings)
+                                                    comms, self.warnings, gfx=gfx)
                         if aew:
                             stats["support"].append(aew.name)
             else:
@@ -254,19 +256,20 @@ class StarterBuilder:
             enemy_side = "red" if r.coalition == "blue" else "blue"
             for ap in enemy_fields:
                 stats["sam_sites"] += airdefense.defend_airbase(
-                    m, enemy_country, ap, era_cfg[enemy_side], self.rng, r.era)
+                    m, enemy_country, ap, era_cfg[enemy_side], self.rng, r.era,
+                    gfx_threats=gfx["threats"])
             # friendly SHORAD at home plate only
             stats["sam_sites"] += airdefense.defend_airbase(
                 m, own_country, home, era_cfg[r.coalition], self.rng, r.era)
 
         if r.bb_tanker:
             tk = support_air.add_tanker(m, own_country, r.era, r.coalition,
-                                        own_center, away_bearing, comms)
+                                        own_center, away_bearing, comms, gfx=gfx)
             if tk:
                 stats["support"].append(tk.name)
         if r.bb_awacs:
             aw = support_air.add_awacs(m, own_country, r.era, r.coalition,
-                                       own_center, away_bearing, comms)
+                                       own_center, away_bearing, comms, gfx=gfx)
             if aw:
                 stats["support"].append(aw.name)
 
@@ -289,9 +292,10 @@ class StarterBuilder:
                         + self.rng.uniform(-6000, 6000),
                         own_center.y + 0.3 * (enemy_center.y - own_center.y)
                         + self.rng.uniform(-6000, 6000), m.terrain)
+                    fname = f"FARP {'London Dallas Berlin Paris'.split()[i]}"
                     farps.add_farp(m, own_country, r.coalition, pos, self.rng,
-                                   f"FARP {'London Dallas Berlin Paris'.split()[i]}",
-                                   comms)
+                                   fname, comms)
+                    gfx["farps"].append((pos, fname))
                 stats["support"].append("2x FARP")
 
         if r.bb_targets:
@@ -305,6 +309,7 @@ class StarterBuilder:
                 label = tgt.add_target_package(m, enemy_country, r.era, pk,
                                                center, self.rng, f"TGT{i+1}")
                 stats.setdefault("targets", []).append(label)
+                gfx["targets"].append((center, label))
 
         if r.bb_range:
             from . import targets as tgt
@@ -313,6 +318,7 @@ class StarterBuilder:
                 own_center.y - 0.2 * (enemy_center.y - own_center.y), m.terrain)
             tgt.add_practice_range(m, own_country, pos, self.rng, "RNG1")
             stats.setdefault("targets", []).append("practice range")
+            gfx["targets"].append((pos, "RNG1 practice range"))
 
         # --- template packs ---------------------------------------------------
         template_brief = ""
@@ -341,6 +347,14 @@ class StarterBuilder:
                                  (own_center.y + enemy_center.y) / 2, m.terrain)
         for coal in m.coalition.values():
             coal.bullseye = {"x": midpoint.x, "y": midpoint.y}
+        gfx["bullseye"] = midpoint
+
+        # --- F10 map graphics layers (the map briefs the mission) -------------
+        from . import graphics
+        layers = graphics.effective_layers(r.map_layers)
+        drawn = graphics.draw_layers(m, gfx, layers, r.coalition)
+        if drawn:
+            stats["map_layers"] = drawn
 
         # --- briefing ----------------------------------------------------------
         if r.bb_briefing:

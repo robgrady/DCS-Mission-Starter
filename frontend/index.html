@@ -108,6 +108,13 @@
     </div>
     <small style="color:var(--dim)">Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
   </div>
+  <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)</h2>
+    <div class="blocks" id="gfxlayers"></div>
+    <small style="color:var(--dim);display:block;margin-top:8px">
+      The map briefs the mission: each layer draws real mission geometry on the F10 map.
+      Friendly orbits and threat rings render on YOUR side's layer only (multiplayer-safe);
+      bullseye and nav points are shared. Zones inform — they never route you.</small>
+  </div>
   <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration</h2>
     <div class="row">
       <div><label>Hull</label><select id="carrier_hull"></select></div>
@@ -164,6 +171,7 @@ const BLOCKS = [
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   dress_fill:null,dress_aircraft:true,dress_gse:true,dress_infra:true,dress_theme:null,
+  map_layers:null,
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
@@ -182,6 +190,7 @@ let OPT = null;
 function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
 
 async function init(){
+  initGfxUI();
   OPT = await (await fetch('/api/options')).json();
   if (OPT.version) document.getElementById('appver').textContent = 'v' + OPT.version;
   const maps = document.getElementById('maps');
@@ -267,6 +276,8 @@ function applyRecipe(r){
   for (const k of ['dress_aircraft','dress_gse','dress_infra'])
     document.getElementById(k).checked = r[k] !== false;
   if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
+  document.querySelectorAll('.gfxl').forEach(c =>
+    c.checked = r.map_layers == null || r.map_layers.includes(c.value));
   const tsel = document.querySelector(`#templates .card[data-k="${r.template||''}"]`);
   if (tsel) tsel.click();
 }
@@ -379,6 +390,22 @@ function onHomeChange(){
   refreshAircraft();
   sum();
 }
+const GFX_LAYERS = [
+  ["tanker","Tanker track","Racetrack + TEXACO freq/TACAN/altitude label"],
+  ["awacs","AWACS orbit","OVERLORD station behind friendly lines"],
+  ["cap","Carrier CAP station","Air-wing 2-ship racetrack on the threat axis"],
+  ["aew","Hawkeye AEW orbit","E-2 station covering the strike group"],
+  ["carrier_box","Carrier ops box","CSG operating area + BRC arrow"],
+  ["targets","Target & range rings","Amber ring + name over each strike package / practice range"],
+  ["farps","FARP rings","Service radius + name at each FARP"],
+  ["bullseye","Bullseye","Shared reference marker (both sides)"],
+  ["threats","Threat rings (intel)","Known enemy SAM engagement rings — YOUR side's map only"],
+];
+function initGfxUI(){
+  const c = document.getElementById('gfxlayers');
+  for (const [k,label,desc] of GFX_LAYERS)
+    c.appendChild(el(`<label class="block"><input type="checkbox" class="gfxl" value="${k}" checked><span><b>${label}</b><small>${desc}</small></span></label>`));
+}
 function refreshDressUI(){
   if(!OPT||!S.era) return;
   const side = document.getElementById('coalition').value || 'blue';
@@ -427,6 +454,9 @@ function recipe(){
     r.dress_infra = document.getElementById('dress_infra').checked;
     r.dress_theme = document.getElementById('dress_theme').value || null;
   }
+  const gl = [...document.querySelectorAll('.gfxl')];
+  const on = gl.filter(c=>c.checked).map(c=>c.value);
+  r.map_layers = on.length === gl.length ? null : on;   // null = auto/all
   if (r.bb_carrier){
     r.carrier_hull = document.getElementById('carrier_hull').value || null;
     r.carrier_layout = document.getElementById('carrier_layout').value;

@@ -17,6 +17,35 @@ guide cover.
 
 ---
 
+## [1.2.0] — 2026-07-12
+
+### Added — Mission graphics: F10 map drawing layers (roadmap "v1.6" pulled forward)
+The map briefs the mission. New wizard section 4c "Map graphics (F10)" — a
+layer picker where each drawn zone is added individually:
+
+- **Tanker track** — racetrack + TEXACO freq/TACAN/altitude label
+- **AWACS orbit** — OVERLORD station behind friendly lines
+- **Carrier CAP station** and **Hawkeye AEW orbit** — air-wing racetracks
+- **Carrier ops box** — CSG operating area + BRC arrow
+- **Target & range rings** — amber ring + name over strike packages and the
+  practice range
+- **FARP rings** — service radius + name
+- **Bullseye** — shared reference marker
+- **Threat rings (intel)** — known enemy area-SAM engagement rings with
+  doctrinal WEZ radii (SA-2 40 km · SA-3 22 · SA-6 24 · SA-11 35 ·
+  Hawk 40 · Patriot 90), drawn on YOUR side's layer only
+
+Design rules: coalition-private picture on the Blue/Red drawing layers (DCS
+renders them per side — multiplayer-safe by construction), shared references
+on Common; one visual language (blue friendly orbits, red threat rings, amber
+targets, green FARPs); zones inform, they never route — no player waypoints,
+ever. Every zone draws from geometry the engine already computes. Recipe
+carries the layer set (`map_layers`; null = auto), so share links reproduce
+the exact map picture. Nav points remain the Common-layer companion (existing
+block, same checklist family).
+
+---
+
 ## [1.1.2] — 2026-07-12
 
 ### Changed

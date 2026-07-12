@@ -4,11 +4,11 @@
 
 **North star:** "Select, don't search." A DCS pilot gets a living, period-accurate mission in under a minute — no editor, no Lua, no digging through User Files. The heavy lifting (statics, defenses, comms, carrier ops) is done; the player writes the play. Never place player waypoints.
 
-**Versioning:** semver (CHANGELOG.md). PATCH = fixes/data, MINOR = new capability, MAJOR = breaking recipes/share links. Current: **v1.1.0**.
+**Versioning:** semver (CHANGELOG.md). PATCH = fixes/data, MINOR = new capability, MAJOR = breaking recipes/share links. Current: **v1.2.0**.
 
 ---
 
-## Shipped (v1.0.0 → v1.1.0) — the foundation
+## Shipped (v1.0.0 → v1.2.0) — the foundation
 
 11 era-gated theaters with historian-checked presets · full mission engine (dressing, doctrinal SAMs, support air, ambient, FARPs, targets/range, nav points, kneeboards, comm ladder, share links) · real carrier strike groups with measured deck formations, CAP/AEW, Angel plane guard, carrier-as-home · Crew Ops (F-14) · runway/taxiway keep-out discipline · Populate Airfields panel (fill %, object types, era-gated ramp themes, map-aware defaults) · PDF guide with screenshots · Mac launcher · Replit/Fly.io/Docker deploy configs.
 
@@ -24,7 +24,7 @@
 - Small-field parking density (Sinai/Germany), approx NTTR nav coords
 - Iceman flag value units once IronMike answers (kts/ft assumed)
 
-## NEXT — v1.2.0: Wizard navigation (UX Phase 1)
+## NEXT — v1.3.0: Wizard navigation (UX Phase 1)
 
 **Theme: the page grew past its design.** Per ux-redesign-plan.md (hybrid chosen over strict tabs to protect the re-roll loop).
 
@@ -34,7 +34,7 @@
 - Populate-airfields and carrier as expanded panels (drawer pattern)
 - Pure frontend; recipe format untouched
 
-## NEXT — v1.3.0: Aircraft picker (UX Phase 2)
+## v1.4.0: Aircraft picker (UX Phase 2)
 
 **Theme: your ramp, exactly.** The feature the new layout makes room for.
 
@@ -43,7 +43,7 @@
 - New `dress_mix` recipe field — share links carry custom mixes; server-side era validation (anachronism guard applies)
 - Decision open: nameable/saveable mixes (bridge to the personal library)
 
-## v1.4.0: Crew Ops II
+## v1.5.0: Crew Ops II
 
 **Theme: the back seat is the product's moat.**
 
@@ -51,7 +51,7 @@
 - Instructor difficulty tier (injected failures: lase windows, notching bandits, EMCON)
 - F-14B(U) release day: swap provisional type id for the real one, verify Jester/Iceman flags in-game, drop pending-module warnings — the izlid/intercept templates go "works today"
 
-## v1.5.0: Visual fidelity
+## v1.6.0: Visual fidelity
 
 **Theme: ramps that photograph well.**
 
@@ -59,9 +59,9 @@
 - Measured deck data for non-SC hulls
 - Germany map's 100+ FRG/GDR helipads as FARP spawns
 
-## v1.6.0: Mission graphics — F10 drawing layers
+## ✅ SHIPPED as v1.2.0: Mission graphics — F10 drawing layers (pulled forward)
 
-**Theme: the map briefs the mission.** Extend the proven drawings mechanism (NTTR nav points, range rings already ship) to every mission element that has geometry, so the F10 map reads like a planned ATO instead of empty terrain. Order-independent of v1.4/v1.5 — can be pulled forward.
+**Theme: the map briefs the mission.** Extend the proven drawings mechanism (NTTR nav points, range rings already ship) to every mission element that has geometry, so the F10 map reads like a planned ATO instead of empty terrain. Pulled forward at Rob's call; shipped 2026-07-12.
 
 Drawn zones (each from geometry the engine already computes):
 - **Tanker tracks** — racetrack outline + label block (callsign · freq · TACAN · altitude), drawn from the refuel_flight anchor/orbit points
@@ -92,7 +92,7 @@ Design rules:
 
 ## Operational track (parallel, not versioned)
 
-1. **GitHub push** — blocked on repo URL/token from Rob; tags v1.0.0–v1.1.0 ready
+1. **GitHub push** — blocked on repo URL/token from Rob; tags v1.0.0–v1.2.0 ready
 2. **Deploy** — Replit Autoscale (verified) or Fly.io; then a domain
 3. **Community feedback loop** — post to DCS forums/Reddit after deploy; in-game validation reports drive the v1.1.x patch train
 4. **New maps as pydcs ships them** — proven pure-data, near-zero cost (Afghanistan/Iraq candidates when terrain data lands)
@@ -101,8 +101,8 @@ Design rules:
 
 | When | Decision |
 |---|---|
-| Before v1.2 | Hybrid rail (recommended) vs strict tabs — mockup delivered |
-| Before v1.3 | Weights vs exact counts; nameable mixes now or at v2.0 |
-| Before v1.6 | SAM threat rings: blue-layer "intel picture" (recommended) vs off by default |
+| Before v1.3 | Hybrid rail (recommended) vs strict tabs — mockup delivered |
+| Before v1.4 | Weights vs exact counts; nameable mixes now or at v2.0 |
+| ✅ Decided | SAM threat rings shipped as blue-layer intel picture, on by default (uncheck to hide) |
 | Before v2.0 | Hosting/auth approach for accounts (cost vs free-tool ethos) |
 | Anytime | Deploy target: Replit (fastest) vs Fly.io (custom domain story) |
