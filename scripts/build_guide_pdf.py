@@ -11,6 +11,10 @@ from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
                                 Spacer, Table, TableStyle, PageBreak,
                                 KeepTogether, Image as RLImage)
 from PIL import Image as PILImage
+import sys as _sys
+_sys.path.insert(0, str(Path(__file__).parent.parent))
+_sys.path.insert(0, str(Path(__file__).parent.parent / "vendor"))
+from missiongen import __version__ as APP_VERSION
 
 OUT = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
 IMG = Path(__file__).parent.parent / "docs" / "img"
@@ -94,7 +98,7 @@ def cover(canvas, doc):
                       "Airfields dressed. SAMs up. The strike group at sea. No waypoints, ever.")
     canvas.setFont("Helvetica", 10)
     canvas.setFillColor(HexColor("#6d7f95"))
-    canvas.drawString(0.9 * inch, 1.6 * inch, "Version 1.0  ·  July 2026")
+    canvas.drawString(0.9 * inch, 1.6 * inch, f"Version {APP_VERSION}  ·  July 2026")
     canvas.drawString(0.9 * inch, 1.4 * inch, "robgrady.com")
     canvas.restoreState()
 

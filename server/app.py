@@ -16,10 +16,10 @@ _root = Path(__file__).parent.parent
 sys.path.insert(0, str(_root))
 if (_root / "vendor" / "dcs").exists():          # vendored pydcs (Mac/no-network installs)
     sys.path.insert(0, str(_root / "vendor"))
-from missiongen import Recipe, generate
+from missiongen import Recipe, generate, __version__
 from missiongen.resolver import load_json, validate_data_packs
 
-app = FastAPI(title="DCS Mission Starter")
+app = FastAPI(title="DCS Mission Starter", version=__version__)
 
 FRONTEND = Path(__file__).parent.parent / "frontend" / "index.html"
 
@@ -58,6 +58,7 @@ def options():
     maps = load_json("maps")
     eras = load_json("eras")
     return {
+        "version": __version__,
         "maps": {k: {"label": v["label"], "free": v["free"],
                      "has_carrier": "carrier" in v,
                      "presets": {e: {"blue_airbases": p["blue_airbases"],
@@ -103,8 +104,8 @@ def health():
     errors = validate_data_packs()
     service = load_json("aircraft_service")
     gaps = [a["key"] for a in flyable_aircraft() if a["key"] not in service]
-    return {"ok": not errors, "data_pack_errors": errors,
-            "service_data_gaps": gaps}
+    return {"ok": not errors, "version": __version__,
+            "data_pack_errors": errors, "service_data_gaps": gaps}
 
 
 @app.get("/api/dl")

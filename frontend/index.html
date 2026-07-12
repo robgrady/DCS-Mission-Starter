@@ -62,7 +62,7 @@
 </head>
 <body>
 <header>
-  <h1>DCS <span>MISSION STARTER</span></h1>
+  <h1>DCS <span>MISSION STARTER</span> <span id="appver" style="font-size:12px;color:var(--dim);font-weight:normal"></span></h1>
   <p>Select, don't search. We set the stage — you write the play. No waypoints, ever.
      &nbsp;·&nbsp; <a href="/api/guide" style="color:var(--accent)">Download the user guide</a></p>
 </header>
@@ -157,6 +157,7 @@ function el(html){ const d=document.createElement('div'); d.innerHTML=html; retu
 
 async function init(){
   OPT = await (await fetch('/api/options')).json();
+  if (OPT.version) document.getElementById('appver').textContent = 'v' + OPT.version;
   const maps = document.getElementById('maps');
   for (const [k,v] of Object.entries(OPT.maps)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
