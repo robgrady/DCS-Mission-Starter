@@ -122,52 +122,106 @@ def _place_linked_raw(m, country, name, type_str, ship_unit, brc_deg,
     return sg
 
 
+# minimum clear distance between parked aircraft centers, by size class (meters)
+LARGE_TYPES = ("F-14", "E-2", "S-3")
+MIN_SEP = {"small-small": 9.0, "mixed": 11.0, "large-large": 13.0}
+
+
+def _is_large(type_id: str) -> bool:
+    return any(type_id.startswith(t) for t in LARGE_TYPES)
+
+
+def _sep_ok(placed_pts, x, y, type_id):
+    """Hard no-overlap rule: reject any spot too close to an already-placed aircraft."""
+    for (px, py, ptype) in placed_pts:
+        both_large = _is_large(type_id) and _is_large(ptype)
+        either_large = _is_large(type_id) or _is_large(ptype)
+        min_d = MIN_SEP["large-large"] if both_large else (
+            MIN_SEP["mixed"] if either_large else MIN_SEP["small-small"])
+        if ((x - px) ** 2 + (y - py) ** 2) ** 0.5 < min_d:
+            return False
+    return True
+
+
 def configure_deck_formation(m, country, csg_group, brc_deg, hull_key, layout_key,
                              aircraft_keys, want_equipment, rng, warnings):
     """Supercarrier hulls: editor-MEASURED formation templates (Redkite data).
-    Rows are real ops-phase packs; one aircraft type per row (squadron spotting);
-    template liveries carried when the type matches."""
+
+    RULES enforced here:
+    1. Each deck AREA (cat1/cat2/fantail) has two spacing VARIANTS — Tomcat-spaced
+       ('large') and Hornet-spaced ('small'). They are alternates for the same
+       physical space; exactly ONE is used, chosen by the type assigned to the area.
+    2. Large types never go into small-spaced slots (Tomcat spacing fits anything;
+       Hornet spacing only fits small jets).
+    3. A minimum-separation validator rejects ANY placement that would overlap an
+       already-placed aircraft, regardless of data errors.
+    """
     fm = load_json("deck_formations")
     formation = fm["formations"].get(layout_key) or fm["formations"]["underway"]
     hull = _load_hull(hull_key)
     ship_unit = csg_group.units[0]
     placed = 0
+    placed_pts = []   # (x, y, type_id) of every aircraft on deck
+    i = 0
 
     valid = [r for r in hull["deck_aircraft"] if r.split(".")[-1] in aircraft_keys]
     jets = [r for r in valid if not r.startswith("helicopters.")
             and not r.split(".")[-1].startswith("E_2")]
-    i = 0
-    for ri, row in enumerate(formation["rows"]):
+
+    def put(type_id, spot, category="Planes", livery=None):
+        nonlocal placed, i
+        if category in ("Planes", "Helicopters"):
+            if not _sep_ok(placed_pts, spot["x"], spot["y"], type_id):
+                warnings.append(f"deck separation rule: dropped a {type_id} at "
+                                f"({spot['x']:.0f},{spot['y']:.0f}) - too close to another aircraft")
+                return
+            placed_pts.append((spot["x"], spot["y"], type_id))
+        i += 1
+        _place_linked_raw(m, country, f"DECK {hull_key} {i} {type_id}",
+                          type_id, ship_unit, brc_deg,
+                          spot["x"], spot["y"], spot["hdg"],
+                          category=category, livery=livery)
+        placed += 1
+
+    # areas: ONE variant each, chosen by the type assigned to that area
+    for ai, area_name in enumerate(formation["areas"]):
         if not jets:
             break
-        ref = jets[ri % len(jets)]          # homogeneous type per row
+        ref = jets[ai % len(jets)]           # homogeneous type per area
         actype = resolve(ref)
-        for spot in row["slots"]:
-            i += 1
+        variants = fm["areas"][area_name]
+        variant = "large" if _is_large(actype.id) else "small"
+        slots_ = variants.get(variant) or variants["large"]
+        for spot in slots_:
             livery = spot.get("livery") if actype.id == spot.get("template_type") else None
-            _place_linked_raw(m, country, f"DECK {hull_key} {i} {actype.id}",
-                              actype.id, ship_unit, brc_deg,
-                              spot["x"], spot["y"], spot["hdg"],
-                              category="Planes", livery=livery)
-            placed += 1
+            put(actype.id, spot, livery=livery)
 
-    # typed specials (E-2 by the island, SH-60 on the port quarter) — only if selected
-    sel = set(aircraft_keys)
-    for sp in formation.get("special", []):
-        want = (sp["type"] == "E-2C" and "E_2C" in sel) or \
-               (sp["type"] == "SH-60B" and "SH_60B" in sel)
-        if not want:
-            continue
-        i += 1
-        cat = "Helicopters" if sp["type"] == "SH-60B" else "Planes"
-        _place_linked_raw(m, country, f"DECK {hull_key} {i} {sp['type']}",
-                          sp["type"], ship_unit, brc_deg,
-                          sp["x"], sp["y"], sp["hdg"], category=cat,
-                          livery=sp.get("livery"))
-        placed += 1
+    # island park (single measured mixed set) — substitute types slot-by-slot,
+    # honoring each slot's original size class so spacing stays valid
+    if formation.get("island") and jets:
+        small_jets = [r for r in jets if not _is_large(resolve(r).id)]
+        for k, spot in enumerate(fm["island_park"]):
+            tmpl_large = _is_large(spot.get("template_type", ""))
+            pool = jets if tmpl_large else (small_jets or jets)
+            actype = resolve(pool[k % len(pool)])
+            if _is_large(actype.id) and not tmpl_large:
+                continue    # rule 2: never a large jet in a small slot
+            livery = spot.get("livery") if actype.id == spot.get("template_type") else None
+            put(actype.id, spot, livery=livery)
+
+    # typed specials (E-2 by the island, SH-60) — only if selected
+    if formation.get("special"):
+        sel = set(aircraft_keys)
+        for sp in fm["special"]:
+            want = (sp["type"] == "E-2C" and "E_2C" in sel) or \
+                   (sp["type"] == "SH-60B" and "SH_60B" in sel)
+            if want:
+                cat = "Helicopters" if sp["type"] == "SH-60B" else "Planes"
+                put(sp["type"], sp, category=cat, livery=sp.get("livery"))
 
     if want_equipment:
         for j, eq in enumerate(fm["equipment"]):
+            i += 1
             _place_linked_raw(m, country, f"DECKEQ {hull_key} {j+1}",
                               eq["type"], ship_unit, brc_deg,
                               eq["x"], eq["y"], eq["hdg"],

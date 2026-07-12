@@ -1,5 +1,6 @@
 {
- "_credit": "Deck positions measured in the DCS Mission Editor - Redkite's 'Supercarrier Lua Templates for static deck objects v2a' (digitalcombatsimulator.com/en/files/3309905). Formation names follow carrier ops phases.",
+ "_credit": "Deck positions measured in the DCS ME - Redkite's Supercarrier Lua Templates v2a (digitalcombatsimulator.com/en/files/3309905).",
+ "_rules": "Each deck area has TWO variants (large=Tomcat-spaced, small=Hornet-spaced) which are ALTERNATES for the same physical space - the engine picks ONE per area based on the aircraft type assigned to it. Large spacing is safe for any type; small spacing only for small jets. A minimum-separation validator enforces no-overlap regardless.",
  "applies_to_hulls": [
   "cvn_71",
   "cvn_72",
@@ -142,502 +143,364 @@
    "type": "AS32-31A"
   }
  ],
+ "areas": {
+  "cat1": {
+   "large": [
+    {
+     "x": 155.2,
+     "y": 9.88,
+     "hdg": 336.0,
+     "livery": "VF-103 Last Ride",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 134.93,
+     "y": 11.83,
+     "hdg": 331.0,
+     "livery": "VF-102 Diamondbacks",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 115.11,
+     "y": 13.35,
+     "hdg": 336.0,
+     "livery": "VF-24 Renegades",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 93.58,
+     "y": 14.3,
+     "hdg": 333.0,
+     "livery": "VF-32 Fighting Swordsmen 101",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 77.04,
+     "y": 17.2,
+     "hdg": 313.0,
+     "livery": "VF-32 Fighting Swordsmen 102",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 57.79,
+     "y": 18.46,
+     "hdg": 45.0,
+     "livery": "VF-32 Fighting Swordsmen 103",
+     "template_type": "F-14B"
+    }
+   ],
+   "small": [
+    {
+     "x": 157.18,
+     "y": 9.41,
+     "hdg": 354.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 139.74,
+     "y": 9.41,
+     "hdg": 336.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 124.83,
+     "y": 11.17,
+     "hdg": 327.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 110.69,
+     "y": 12.24,
+     "hdg": 328.0,
+     "livery": "VFA-106",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 93.33,
+     "y": 14.08,
+     "hdg": 322.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 77.9,
+     "y": 17.66,
+     "hdg": 322.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 63.51,
+     "y": 18.28,
+     "hdg": 321.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    }
+   ]
+  },
+  "cat2": {
+   "large": [
+    {
+     "x": 153.03,
+     "y": -8.57,
+     "hdg": 23.0,
+     "livery": "VF-102 Diamondbacks",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 135.27,
+     "y": -8.66,
+     "hdg": 34.0,
+     "livery": "VF-102 Diamondbacks",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 118.21,
+     "y": -9.28,
+     "hdg": 40.0,
+     "livery": "VF-143 Pukin Dogs Low Vis",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 101.68,
+     "y": -8.3,
+     "hdg": 45.0,
+     "livery": "VF-211 Fighting Checkmates",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 83.44,
+     "y": -4.71,
+     "hdg": 32.0,
+     "livery": "VF-211 Fighting Checkmates",
+     "template_type": "F-14B"
+    },
+    {
+     "x": 63.86,
+     "y": -2.24,
+     "hdg": 20.0,
+     "livery": "VF-74 BeDevilers 1991",
+     "template_type": "F-14B"
+    }
+   ],
+   "small": [
+    {
+     "x": 154.99,
+     "y": -8.42,
+     "hdg": 16.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 143.11,
+     "y": -7.73,
+     "hdg": 42.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 130.92,
+     "y": -7.73,
+     "hdg": 29.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 117.83,
+     "y": -8.86,
+     "hdg": 48.0,
+     "livery": "VFA-106",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 106.88,
+     "y": -8.96,
+     "hdg": 47.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 94.9,
+     "y": -7.32,
+     "hdg": 34.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 81.16,
+     "y": -5.31,
+     "hdg": 39.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": 64.93,
+     "y": -3.21,
+     "hdg": 21.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    }
+   ]
+  },
+  "fantail": {
+   "large": [
+    {
+     "x": -156.18,
+     "y": -7.45,
+     "hdg": 68.0,
+     "livery": "VF-32 Fighting Swordsmen 101",
+     "template_type": "F-14B"
+    },
+    {
+     "x": -142.86,
+     "y": -11.29,
+     "hdg": 84.0,
+     "livery": "VF-32 Fighting Swordsmen 101",
+     "template_type": "F-14B"
+    },
+    {
+     "x": -126.79,
+     "y": -11.38,
+     "hdg": 103.0,
+     "livery": "VF-32 Fighting Swordsmen 101",
+     "template_type": "F-14B"
+    },
+    {
+     "x": -152.77,
+     "y": 12.2,
+     "hdg": 350.0,
+     "livery": "VF-32 Fighting Swordsmen 101",
+     "template_type": "F-14B"
+    }
+   ],
+   "small": [
+    {
+     "x": -158.55,
+     "y": -5.82,
+     "hdg": 72.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": -148.36,
+     "y": -8.42,
+     "hdg": 72.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": -138.49,
+     "y": -11.12,
+     "hdg": 72.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": -127.47,
+     "y": -13.3,
+     "hdg": 56.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    },
+    {
+     "x": -151.79,
+     "y": 8.84,
+     "hdg": 351.0,
+     "livery": "VFA-37",
+     "template_type": "FA-18C_hornet"
+    }
+   ]
+  }
+ },
+ "island_park": [
+  {
+   "x": -92.27,
+   "y": 33.29,
+   "hdg": 264.0,
+   "livery": "VF-32 Fighting Swordsmen 102",
+   "template_type": "F-14B"
+  },
+  {
+   "x": -104.85,
+   "y": 33.29,
+   "hdg": 273.0,
+   "livery": "VF-32 Fighting Swordsmen 101",
+   "template_type": "F-14B"
+  },
+  {
+   "x": -114.69,
+   "y": 26.06,
+   "hdg": 308.0,
+   "livery": "VFA-106",
+   "template_type": "FA-18C_hornet"
+  },
+  {
+   "x": -123.87,
+   "y": 24.61,
+   "hdg": 308.0,
+   "livery": "VFA-106",
+   "template_type": "FA-18C_hornet"
+  },
+  {
+   "x": -136.24,
+   "y": 24.7,
+   "hdg": 343.0,
+   "livery": "VFA-106",
+   "template_type": "FA-18C_hornet"
+  }
+ ],
+ "special": [
+  {
+   "x": -53.01,
+   "y": 13.94,
+   "hdg": 303.0,
+   "livery": "standard",
+   "type": "SH-60B"
+  },
+  {
+   "x": -66.81,
+   "y": 19.29,
+   "hdg": 329.0,
+   "livery": "E-2D Demo",
+   "type": "E-2C"
+  }
+ ],
  "formations": {
   "recovery": {
-   "label": "Recovery \u2014 LA clear, bow packed (measured rows over cats 1 & 2)",
-   "rows": [
-    {
-     "name": "cat1_row",
-     "slots": [
-      {
-       "x": 155.2,
-       "y": 9.88,
-       "hdg": 336.0,
-       "livery": "VF-103 Last Ride",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 134.93,
-       "y": 11.83,
-       "hdg": 331.0,
-       "livery": "VF-102 Diamondbacks",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 115.11,
-       "y": 13.35,
-       "hdg": 336.0,
-       "livery": "VF-24 Renegades",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 93.58,
-       "y": 14.3,
-       "hdg": 333.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 77.04,
-       "y": 17.2,
-       "hdg": 313.0,
-       "livery": "VF-32 Fighting Swordsmen 102",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 57.79,
-       "y": 18.46,
-       "hdg": 45.0,
-       "livery": "VF-32 Fighting Swordsmen 103",
-       "template_type": "F-14B"
-      }
-     ]
-    },
-    {
-     "name": "cat2_row",
-     "slots": [
-      {
-       "x": 154.99,
-       "y": -8.42,
-       "hdg": 16.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 143.11,
-       "y": -7.73,
-       "hdg": 42.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 130.92,
-       "y": -7.73,
-       "hdg": 29.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 117.83,
-       "y": -8.86,
-       "hdg": 48.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 106.88,
-       "y": -8.96,
-       "hdg": 47.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 94.9,
-       "y": -7.32,
-       "hdg": 34.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 81.16,
-       "y": -5.31,
-       "hdg": 39.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 64.93,
-       "y": -3.21,
-       "hdg": 21.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      }
-     ]
-    }
+   "label": "Recovery - LA clear, bow packed",
+   "areas": [
+    "cat1",
+    "cat2"
    ],
-   "special": []
+   "island": false,
+   "special": false
   },
   "launch": {
-   "label": "Launch \u2014 cats manned, spares packed on the fantail",
-   "rows": [
-    {
-     "name": "aft_stbd",
-     "slots": [
-      {
-       "x": -156.18,
-       "y": -7.45,
-       "hdg": 68.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -142.86,
-       "y": -11.29,
-       "hdg": 84.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -126.79,
-       "y": -11.38,
-       "hdg": 103.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -152.77,
-       "y": 12.2,
-       "hdg": 350.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      }
-     ]
-    },
-    {
-     "name": "aft_port",
-     "slots": [
-      {
-       "x": -158.55,
-       "y": -5.82,
-       "hdg": 72.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -148.36,
-       "y": -8.42,
-       "hdg": 72.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -138.49,
-       "y": -11.12,
-       "hdg": 72.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -127.47,
-       "y": -13.3,
-       "hdg": 56.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -151.79,
-       "y": 8.84,
-       "hdg": 351.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      }
-     ]
-    }
+   "label": "Launch - cats manned, spares on the fantail",
+   "areas": [
+    "fantail"
    ],
-   "special": []
+   "island": true,
+   "special": false
   },
   "underway": {
-   "label": "Underway \u2014 cruise deck, light park aft of the island",
-   "rows": [
-    {
-     "name": "island_park",
-     "slots": [
-      {
-       "x": -92.27,
-       "y": 33.29,
-       "hdg": 264.0,
-       "livery": "VF-32 Fighting Swordsmen 102",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -104.85,
-       "y": 33.29,
-       "hdg": 273.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -114.69,
-       "y": 26.06,
-       "hdg": 308.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -123.87,
-       "y": 24.61,
-       "hdg": 308.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -136.24,
-       "y": 24.7,
-       "hdg": 343.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      }
-     ]
-    }
-   ],
-   "special": [
-    {
-     "x": -53.01,
-     "y": 13.94,
-     "hdg": 303.0,
-     "livery": "standard",
-     "type": "SH-60B"
-    },
-    {
-     "x": -66.81,
-     "y": 19.29,
-     "hdg": 329.0,
-     "livery": "E-2D Demo",
-     "type": "E-2C"
-    }
-   ]
+   "label": "Underway - cruise deck, light park aft of the island",
+   "areas": [],
+   "island": true,
+   "special": true
   },
   "packed": {
-   "label": "Packed \u2014 no-fly deck, bow and fantail full",
-   "rows": [
-    {
-     "name": "cat1_row",
-     "slots": [
-      {
-       "x": 155.2,
-       "y": 9.88,
-       "hdg": 336.0,
-       "livery": "VF-103 Last Ride",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 134.93,
-       "y": 11.83,
-       "hdg": 331.0,
-       "livery": "VF-102 Diamondbacks",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 115.11,
-       "y": 13.35,
-       "hdg": 336.0,
-       "livery": "VF-24 Renegades",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 93.58,
-       "y": 14.3,
-       "hdg": 333.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 77.04,
-       "y": 17.2,
-       "hdg": 313.0,
-       "livery": "VF-32 Fighting Swordsmen 102",
-       "template_type": "F-14B"
-      },
-      {
-       "x": 57.79,
-       "y": 18.46,
-       "hdg": 45.0,
-       "livery": "VF-32 Fighting Swordsmen 103",
-       "template_type": "F-14B"
-      }
-     ]
-    },
-    {
-     "name": "cat2_row",
-     "slots": [
-      {
-       "x": 154.99,
-       "y": -8.42,
-       "hdg": 16.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 143.11,
-       "y": -7.73,
-       "hdg": 42.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 130.92,
-       "y": -7.73,
-       "hdg": 29.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 117.83,
-       "y": -8.86,
-       "hdg": 48.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 106.88,
-       "y": -8.96,
-       "hdg": 47.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 94.9,
-       "y": -7.32,
-       "hdg": 34.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 81.16,
-       "y": -5.31,
-       "hdg": 39.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": 64.93,
-       "y": -3.21,
-       "hdg": 21.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      }
-     ]
-    },
-    {
-     "name": "aft_stbd",
-     "slots": [
-      {
-       "x": -156.18,
-       "y": -7.45,
-       "hdg": 68.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -142.86,
-       "y": -11.29,
-       "hdg": 84.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -126.79,
-       "y": -11.38,
-       "hdg": 103.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -152.77,
-       "y": 12.2,
-       "hdg": 350.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      }
-     ]
-    },
-    {
-     "name": "aft_port",
-     "slots": [
-      {
-       "x": -158.55,
-       "y": -5.82,
-       "hdg": 72.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -148.36,
-       "y": -8.42,
-       "hdg": 72.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -138.49,
-       "y": -11.12,
-       "hdg": 72.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -127.47,
-       "y": -13.3,
-       "hdg": 56.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -151.79,
-       "y": 8.84,
-       "hdg": 351.0,
-       "livery": "VFA-37",
-       "template_type": "FA-18C_hornet"
-      }
-     ]
-    },
-    {
-     "name": "island_park",
-     "slots": [
-      {
-       "x": -92.27,
-       "y": 33.29,
-       "hdg": 264.0,
-       "livery": "VF-32 Fighting Swordsmen 102",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -104.85,
-       "y": 33.29,
-       "hdg": 273.0,
-       "livery": "VF-32 Fighting Swordsmen 101",
-       "template_type": "F-14B"
-      },
-      {
-       "x": -114.69,
-       "y": 26.06,
-       "hdg": 308.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -123.87,
-       "y": 24.61,
-       "hdg": 308.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      },
-      {
-       "x": -136.24,
-       "y": 24.7,
-       "hdg": 343.0,
-       "livery": "VFA-106",
-       "template_type": "FA-18C_hornet"
-      }
-     ]
-    }
+   "label": "Packed - no-fly deck, bow and fantail full",
+   "areas": [
+    "cat1",
+    "cat2",
+    "fantail"
    ],
-   "special": [
-    {
-     "x": -53.01,
-     "y": 13.94,
-     "hdg": 303.0,
-     "livery": "standard",
-     "type": "SH-60B"
-    },
-    {
-     "x": -66.81,
-     "y": 19.29,
-     "hdg": 329.0,
-     "livery": "E-2D Demo",
-     "type": "E-2C"
-    }
-   ]
+   "island": true,
+   "special": true
   }
  }
 }
