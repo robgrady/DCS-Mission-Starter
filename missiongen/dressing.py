@@ -1,15 +1,29 @@
-"""BB-1..3: airfield dressing — static aircraft on real parking spots, ground support
-equipment near occupied stands, infrastructure statics near the ramp."""
+"""BB-1..3: airfield dressing — parked aircraft on real parking spots, ground support
+equipment near occupied stands, infrastructure statics near the ramp.
+
+Parked AIRCRAFT are placed as UNCONTROLLED flights at the terrain's own parking
+slots — NOT as static objects. This is the only way to get them oriented
+correctly: the DCS terrain stores each slot's parking heading in its binary and
+applies it when the sim spawns an aircraft there; that heading is NOT exposed to
+static placement (pydcs ParkingSlot has no heading field), so a static must guess
+its facing and can also clip a building's collision mesh. An uncontrolled flight
+lets DCS own both position and heading — nose-out, ready to taxi — exactly like
+the AI flights that already spawn correctly. Ground equipment stays static."""
 import math
 import random
 from dcs import mapping
+from dcs.mission import StartType
 import dcs.statics as statics
 
 from .resolver import resolve, load_json
 from .placement import AirfieldKeepOut
 
 DENSITY_FILL = {"sparse": 0.25, "normal": 0.45, "busy": 0.70}
-MAX_STATICS_PER_FIELD = 24   # NFR: FPS guard
+# Parked aircraft are now real (uncontrolled) aircraft, not static shapes, so
+# they cost more FPS. The AUTO/density default caps per field so a "just
+# generate it" mission stays performant even on many-field maps; an EXPLICIT
+# fill % overrides this cap (the user owns that tradeoff, and is warned).
+AUTO_CAP_PER_FIELD = {"sparse": 5, "normal": 8, "busy": 14}
 
 
 def resolve_theme(era, side, map_preset=None, theme_key=None, warnings=None):
@@ -84,15 +98,15 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     free = [s for s in airport.parking_slots
             if s.unit_id is None and s.slot_name not in used and _can_fill(s)]
     rng.shuffle(free)
-    slot_hdgs = keepout.slot_headings() if free else {}
 
     if fill is not None:
         # EXPLICIT user percentage WINS - no cap. The user asked for 75%,
         # they get 75% (of eligible free stands), even at a 247-stand field.
         target = round(len(free) * max(0, min(100, fill)) / 100.0)
     else:
-        # auto/density path keeps the FPS guard
-        target = min(int(len(free) * DENSITY_FILL[density]), MAX_STATICS_PER_FIELD)
+        # auto/density path keeps the FPS guard (real aircraft now)
+        target = min(int(len(free) * DENSITY_FILL[density]),
+                     AUTO_CAP_PER_FIELD[density])
 
     for slot in (free if include_aircraft else []):
         if placed >= target:
@@ -115,31 +129,36 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             if not helo_w:
                 continue
             ref, livery = _weighted(rng, helo_w)
+        if slot.unit_id is not None:      # claimed by player/ambient meanwhile
+            continue
         unit_type = resolve(ref)
 
-        # PER-SLOT orientation: each aircraft parks perpendicular to ITS OWN
-        # row of stands, nose toward the runway — ready to taxi for takeoff.
-        # (One global heading per field was wrong: aprons, angled hardstands
-        # and dispersals face different ways. slot_headings() derives each
-        # spot's true alignment from the field's own geometry.)
-        heading = (slot_hdgs.get(slot.slot_name,
-                                 keepout.runway_axis_heading())
-                   + rng.uniform(-3, 3)) % 360.0
-        name = f"ST {airport.name} {slot.slot_name} {unit_type.id}"
-        grp = m.static_group(country, name, _type=unit_type,
-                             position=slot.position, heading=heading)
+        # PARKED AIRCRAFT AS AN UNCONTROLLED FLIGHT AT THE REAL SLOT.
+        # DCS orients it from the terrain's own parking data (nose-out, ready
+        # to taxi) and seats it on valid designer-placed parking — so it can
+        # never point the wrong way or sit on a building. Uncontrolled = it
+        # spawns parked, engines off, and never moves (no route, no waypoints).
+        try:
+            grp = m.flight_group_from_airport(
+                country, f"RAMP {airport.name} {slot.slot_name} {unit_type.id}",
+                unit_type, airport, start_type=StartType.Cold, group_size=1,
+                parking_slots=[slot])
+        except Exception:
+            continue                       # type can't park here — skip, no crash
+        grp.uncontrolled = True            # inert: parked, never activates
         if livery:
             grp.units[0].livery_id = livery
         placed += 1
 
         # BB-2: ground support equipment near ~half the occupied stands.
         # Stay WITHIN the stand's own footprint (stands are 40-80 m wide, so
-        # 12-16 m off the aircraft is still apron, never the taxilane) and
-        # never inside a runway corridor.
+        # 12-16 m off the aircraft is still apron, never the taxilane), on the
+        # side away from the runway, and never inside a runway corridor.
         if include_gse and rng.random() < 0.5:
             gse_max = max(12.0, min(16.0, (min(slot.length, slot.width) / 2) - 8))
             gse_pos = _offset(slot.position, rng.uniform(12, gse_max),
-                              heading + rng.uniform(60, 120))
+                              keepout.away_side_bearing(slot.position)
+                              + rng.uniform(-40, 40))
             if keepout.clear(gse_pos, avoid_stands=False):
                 gse_type = fuel_truck if rng.random() < 0.5 else rng.choice(utility)
                 m.static_group(country, f"GSE {airport.name} {slot.slot_name}",

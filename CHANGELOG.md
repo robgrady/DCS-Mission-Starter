@@ -17,6 +17,37 @@ guide cover.
 
 ---
 
+## [1.5.2] — 2026-07-13
+
+### Fixed — parked aircraft now placed by DCS (correct orientation, never on buildings)
+Two in-game bugs (Rob's screenshots): some parked aircraft faced the wrong
+way, and some sat on top of buildings. **Root cause**: parked aircraft were
+STATIC objects placed at a raw position + a guessed heading. DCS stores each
+parking slot's real facing inside its terrain binary and applies it only when
+it spawns an *aircraft* there — that heading is not exposed to static
+placement (pydcs `ParkingSlot` has no heading field), so a static must guess
+(v1.5.0/1.5.1 geometric inference — right for some aprons, wrong for others),
+and a static at a raw XY can also land on a building's collision mesh.
+
+**Fix**: parked aircraft are now placed as **uncontrolled flights at the
+terrain's real parking slots** — the same mechanism DCS uses for the AI
+flights that already spawn correctly. DCS owns position *and* heading, so
+every aircraft is nose-out, ready to taxi, seated on a designer-validated
+slot, and can never point the wrong way or clip a building. Uncontrolled =
+it spawns parked, engines off, and never moves (no route, no waypoints).
+Ground equipment and infrastructure stay static.
+
+### Changed
+- Parked aircraft are real (uncontrolled) aircraft now, so they cost more FPS
+  than static shapes. The **auto/density default is capped per field**
+  (sparse 5 / normal 8 / busy 14) so a "just generate it" mission stays
+  performant; an **explicit fill % still overrides the cap** (you own that
+  tradeoff — the slider label and guide say so). Verified: auto Germany 200→
+  ~160, Caucasus ~60, Nevada ~34; explicit 75% at Nellis still fills to the
+  user's number.
+
+---
+
 ## [1.5.1] — 2026-07-13
 
 ### Fixed

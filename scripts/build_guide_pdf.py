@@ -204,8 +204,10 @@ story += [
 
     P("Step 4a — Populate airfields", "h2"),
     P("Decide exactly how your fields are dressed. The <b>fill slider</b> sets exactly what "
-      "share of each field's fillable stands gets a static aircraft — 75% means 75%. Big "
-      "fields at high fill mean 100+ statics, so mind your frame rate. The three toggles "
+      "share of each field's fillable stands gets a parked aircraft — 75% means 75%. "
+      "Parked aircraft are real, DCS-parked jets (correctly oriented, never on a building), "
+      "so a high fill across many airfields is FPS-heavy — dial it back if your frame rate "
+      "drops. The three toggles "
       "switch parked aircraft, ground equipment, and the "
       "infrastructure cluster independently. The <b>ramp theme</b> decides WHO parks there, "
       "with weighted realistic mixes and strict era gating. \"Auto\" picks the right ramp for "
