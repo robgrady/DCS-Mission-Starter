@@ -275,14 +275,34 @@ class StarterBuilder:
                 stats["civilian_undressed"] = skipped
 
         if r.bb_sams:
+            from . import threats
             enemy_side = "red" if r.coalition == "blue" else "blue"
+            # base per-airfield defense: SAM kit chosen by the Threat Dial tier
+            enemy_kits = threats.sam_kits_for(
+                r.era, enemy_side, r.threat_tier,
+                era_cfg[enemy_side]["sam_kits"])
             for ap in enemy_fields:
                 stats["sam_sites"] += airdefense.defend_airbase(
                     m, enemy_country, ap, era_cfg[enemy_side], self.rng, r.era,
-                    gfx_threats=gfx["threats"])
+                    gfx_threats=gfx["threats"], kits_override=enemy_kits)
             # friendly SHORAD at home plate only
             stats["sam_sites"] += airdefense.defend_airbase(
                 m, own_country, home, era_cfg[r.coalition], self.rng, r.era)
+
+            # --- Threat Dial: extra area SAM belt + enemy CAP (seeded count) --
+            tp = threats.plan(r.threat_intensity, self.rng)
+            stats["threat_level"] = f"{tp['label']} / {threats.TIER_LABELS.get(r.threat_tier, r.threat_tier)}"
+            area = threats.add_area_sams(
+                m, enemy_country, r.era, enemy_side, r.threat_tier,
+                tp["n_extra_sams"], own_center, enemy_center, self.rng,
+                gfx_threats=gfx["threats"])
+            stats["sam_sites"] += area
+            cap = threats.add_enemy_cap(
+                m, enemy_country, r.era, enemy_side, r.threat_tier,
+                tp["n_cap"], own_center, enemy_center, tp["skill"],
+                self.rng, gfx=gfx)
+            if cap:
+                stats.setdefault("enemy_cap", []).extend(cap)
 
         if r.bb_tanker:
             tk = support_air.add_tanker(m, own_country, r.era, r.coalition,

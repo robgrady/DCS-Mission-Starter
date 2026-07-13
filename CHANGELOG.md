@@ -17,6 +17,40 @@ guide cover.
 
 ---
 
+## [1.6.0] — 2026-07-13
+
+### Added — Threat Dial: control how many threats and what level
+New wizard panel (Step 4d) with two knobs, both era-gated and seeded so a
+recipe+seed always regenerates the same picture:
+
+- **Intensity (1–5: Minimal → Maximum)** — on top of the SAM defending each
+  enemy airfield, spawns a *randomized* count of extra area SAM sites (a belt
+  between the lines) and airborne enemy **CAP** flights. The count is rolled off
+  the seed, so re-rolls at the same setting differ. Engagement skill scales with
+  intensity (Good → Excellent).
+- **System level (`threat_tier`)** — `auto` (era's historical mix, keeps default
+  missions in character) · `light` (SA-2/SA-3, MiG-21/23) · `heavy`
+  (SA-10/SA-11, Su-27/MiG-31) · `mixed` (rolled per site/flight). Fully
+  era-gated: a WWII "heavy" push still tops out at period fighters, a Cold War
+  one at the MiG-23 — no anachronisms.
+
+New **SA-10 Grumble (S-300PS)** kit (Big Bird SR + Clam Shell + Flap Lid TR +
+54K6 CP + six 5P85 TELs, 75 km WEZ) backs the modern heavy tier. Enemy CAP spawns
+airborne (inflight patrol) so there's no parking/pop-in interaction and it engages
+inbound air within ~55 km. Area SAMs and CAP feed the F10 threat-ring layer.
+
+Recipe gains `threat_intensity` (default 3) and `threat_tier` (default `auto`);
+both ride share links and autosave. Old share links (no threat fields) decode to
+the defaults — non-breaking. Verified end-to-end through the API and UI, samples
+regenerated, `.miz` reloads clean.
+
+*Roadmap note: this shipped as the next MINOR (1.6.0); the aircraft picker moves
+to 1.7.0. The scripted live-behavior features (fox-calls, stats/leaderboard, auto
+bandit picture) are aggregated into a future MAJOR — they need an embedded-Lua
+runtime the product doesn't have yet.*
+
+---
+
 ## [1.5.4] — 2026-07-13
 
 ### Changed — comm plan now sits on the real 25 kHz channel raster

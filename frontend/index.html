@@ -170,6 +170,25 @@
       Friendly orbits and threat rings render on YOUR side's layer only (multiplayer-safe);
       bullseye and nav points are shared. Zones inform — they never route you.</small>
   </div>
+  <div class="step" id="threatstep"><h2><span class="n">4d</span>Threat level<span class="hdrval" id="hv_threat"></span><span class="chev">▾</span></h2>
+    <div class="row">
+      <div style="flex:2">
+        <label>Intensity: <b id="threat_intensity_label">Moderate</b> <small style="color:var(--dim)">(how many extra area SAMs &amp; enemy CAP flights spawn between the lines — count is randomized off the seed, so re-rolls feel different)</small></label>
+        <input type="range" id="threat_intensity" min="1" max="5" step="1" value="3" style="width:100%">
+        <small style="color:var(--dim)">1 Minimal · 2 Light · 3 Moderate · 4 Heavy · 5 Maximum</small>
+      </div>
+      <div style="max-width:250px">
+        <label>System level</label>
+        <select id="threat_tier">
+          <option value="auto">Era standard — historical mix</option>
+          <option value="light">Light — SA-2/3 · MiG-21/23</option>
+          <option value="heavy">Heavy — SA-10/11 · Su-27/MiG-31</option>
+          <option value="mixed">Mixed — surprise me</option>
+        </select>
+      </div>
+    </div>
+    <small style="color:var(--dim);display:block;margin-top:8px">On top of the SAM defending each enemy airfield, the dial adds an area SAM belt and airborne enemy CAP on the threat axis. Everything is era-gated — a WWII field never fields an SA-10. Needs <b>Air defenses</b> (building blocks) on.</small>
+  </div>
   <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration<span class="hdrval" id="hv_carrier"></span><span class="chev">▾</span></h2>
     <div class="row">
       <div><label>Hull</label><select id="carrier_hull"></select></div>
@@ -228,6 +247,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   dress_fill:null,dress_aircraft:true,dress_gse:true,dress_infra:true,dress_theme:null,
   map_layers:null,dress_overrides:{},dress_aircraft_mode:"static",
+  threat_intensity:3,threat_tier:"auto",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
@@ -300,6 +320,10 @@ async function init(){
   document.getElementById('dress_theme').onchange = ()=>{ onThemeChange(); sum(); };
   document.getElementById('dress_fill').oninput = function(){
     document.getElementById('dress_fill_label').textContent = this.value + '%'; };
+  document.getElementById('threat_intensity').oninput = function(){
+    setIntensityLabel(this.value); };
+  document.getElementById('threat_intensity').addEventListener('change', sum);
+  document.getElementById('threat_tier').onchange = sum;
   ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
   const code = new URLSearchParams(location.search).get('r');
@@ -335,6 +359,11 @@ function applyRecipe(r){
     document.getElementById(k).checked = r[k] !== false;
   if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
   if (r.dress_aircraft_mode) document.getElementById('dress_aircraft_mode').value = r.dress_aircraft_mode;
+  if (r.threat_intensity != null){
+    document.getElementById('threat_intensity').value = r.threat_intensity;
+    setIntensityLabel(r.threat_intensity);
+  }
+  if (r.threat_tier) document.getElementById('threat_tier').value = r.threat_tier;
   if (r.dress_overrides) for (const [n,v] of Object.entries(r.dress_overrides)){
     const row = document.querySelector(`.pbrow[data-base="${n}"]`);
     if (row){ row.querySelector('.pbon').checked = true;
@@ -349,6 +378,11 @@ function applyRecipe(r){
 function sel(container, card){
   container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
   card.classList.add('sel');
+}
+const INTENSITY_NAMES = {1:"Minimal",2:"Light",3:"Moderate",4:"Heavy",5:"Maximum"};
+function setIntensityLabel(v){
+  const e = document.getElementById('threat_intensity_label');
+  if (e) e.textContent = INTENSITY_NAMES[+v] || "Moderate";
 }
 function inEra(a){
   if(!S.era) return true;
@@ -502,6 +536,12 @@ const RAIL_STEPS = [
   ["gfxstep",     "Map graphics",       () => {
       const gl = [...document.querySelectorAll('.gfxl')];
       return `${gl.filter(c=>c.checked).length}/${gl.length} layers`; }],
+  ["threatstep",  "Threat level",       () => {
+      if (!document.getElementById('bb_sams')?.checked) return "defenses off";
+      const lab = document.getElementById('threat_intensity_label')?.textContent || '';
+      const t = document.getElementById('threat_tier');
+      const tl = t && t.selectedOptions[0] ? t.selectedOptions[0].text.split(' —')[0] : '';
+      return `${lab} · ${tl}`; }],
   ["carrierstep", "Carrier",            () => {
       if (!document.getElementById('bb_carrier')?.checked) return "off";
       const h = document.getElementById('carrier_hull').selectedOptions[0];
@@ -650,6 +690,8 @@ function recipe(){
     seed:+document.getElementById('seed').value,
   };
   for (const [k] of BLOCKS) r[k]=document.getElementById(k).checked;
+  r.threat_intensity = +document.getElementById('threat_intensity').value;
+  r.threat_tier = document.getElementById('threat_tier').value;
   if (r.bb_dressing){
     const fill = +document.getElementById('dress_fill').value;
     if (fill !== 45) r.dress_fill = fill;

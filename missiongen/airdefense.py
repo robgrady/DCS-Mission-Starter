@@ -28,7 +28,7 @@ def place_sam_site(m, country, kit_key, center, rng: random.Random, name):
 
 
 def defend_airbase(m, country, airport, side_cfg, rng: random.Random, era_key,
-                   gfx_threats=None):
+                   gfx_threats=None, kits_override=None):
     """Stand up one SAM site 2.5-4km off the field plus SHORAD point defense.
 
     Both are validated against the field's runway keep-out corridors — the
@@ -38,7 +38,7 @@ def defend_airbase(m, country, airport, side_cfg, rng: random.Random, era_key,
     """
     keepout = AirfieldKeepOut(airport)
     created = []
-    kits = side_cfg["sam_kits"]
+    kits = kits_override if kits_override is not None else side_cfg["sam_kits"]
     if kits:
         kit = rng.choice(kits)
         # SAM footprint is ~150-500 m across: demand extra margin so no

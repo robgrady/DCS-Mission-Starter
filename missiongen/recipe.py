@@ -39,6 +39,15 @@ class Recipe:
     # building blocks
     bb_dressing: bool = True           # BB-1..3 static aircraft, GSE, infrastructure
     bb_sams: bool = True               # BB-5..6 SAM sites + SHORAD
+
+    # Threat Dial (v1.6.0): how MANY threats and what LEVEL (see threats.py)
+    threat_intensity: int = 3          # 1 Minimal · 2 Light · 3 Moderate ·
+                                       # 4 Heavy · 5 Maximum. Controls the random
+                                       # count of extra area SAM sites + enemy CAP
+                                       # flights on top of base airfield defense.
+    threat_tier: str = "auto"          # auto (era doctrine) | light (SA-2/3,
+                                       # MiG-21/23) | heavy (SA-10/11, Su-27/MiG-31)
+                                       # | mixed. Era-gated (no anachronisms).
     bb_tanker: bool = True             # BB-11
     bb_awacs: bool = True              # BB-12
     bb_comms: bool = True              # BB-18 comms card in briefing

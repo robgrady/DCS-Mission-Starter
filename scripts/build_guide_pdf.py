@@ -231,6 +231,20 @@ story += [
       "for a cleaner map. Zones inform — they never route you."),
     shot("step4c_gfx.png", "Step 4c: the map-graphics layer picker."),
 
+    P("Step 4d — Threat level", "h2"),
+    P("The <b>Threat Dial</b> sets how hard the mission pushes back. <b>Intensity</b> "
+      "(Minimal → Maximum) controls how many extra area SAM sites and airborne enemy "
+      "CAP flights spawn on top of the SAM defending each enemy airfield — the count is "
+      "rolled off the mission seed, so two re-rolls at the same setting give a different "
+      "picture. <b>System level</b> sets the calibre: <i>Era standard</i> uses the "
+      "period's historical mix; <i>Light</i> leans on legacy kit (SA-2/SA-3, MiG-21/23) "
+      "for a trainer-friendly fight; <i>Heavy</i> brings the modern long-range threats "
+      "(SA-10/SA-11, Su-27/MiG-31); <i>Mixed</i> rolls the pool per site. Everything is "
+      "era-gated — a WWII field never fields an SA-10, and a Cold War push tops out at "
+      "the MiG-23. The enemy CAP orbits on the threat axis and engages you inbound; the "
+      "area SAMs form a belt you have to plan around. Turn the base <b>Air defenses</b> "
+      "block off and the dial stands down with it."),
+
     PageBreak(),
     P("Step 4b — Configure the carrier (optional)", "h2"),
     P("With the carrier block enabled, pick a hull, a real-world deck state, the aircraft "

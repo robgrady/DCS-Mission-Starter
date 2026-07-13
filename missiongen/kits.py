@@ -44,6 +44,19 @@ SAM_KITS = {
             + _ring("vehicles.AirDefence.SA_11_Buk_LN_9A310M1", 4, 150, 10)
         ),
     },
+    "sa10": {
+        "label": "SA-10 Grumble (S-300PS) site", "wez_m": 75000,
+        "units": (
+            # 64H6E Big Bird SR (center), Clam Shell low-alt SR, Flap Lid TR, 54K6 CP
+            [("vehicles.AirDefence.S_300PS_64H6E_sr", 0, 0, False),
+             ("vehicles.AirDefence.S_300PS_40B6MD_sr", 110, 25, False),
+             ("vehicles.AirDefence.S_300PS_40B6M_tr", 90, 315, False),
+             ("vehicles.AirDefence.S_300PS_54K6_cp", 130, 200, False)]
+            # 6 TEL launchers ringed out (5P85C + 5P85D alternating)
+            + _ring("vehicles.AirDefence.S_300PS_5P85C_ln", 3, 180, 0)
+            + _ring("vehicles.AirDefence.S_300PS_5P85D_ln", 3, 180, 60)
+        ),
+    },
     "hawk": {
         "label": "MIM-23 Hawk battery", "wez_m": 40000,
         "units": (
