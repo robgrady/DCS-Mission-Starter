@@ -59,12 +59,6 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     keepout = AirfieldKeepOut(airport)
     placed = 0
 
-    free = [s for s in airport.parking_slots
-            if s.unit_id is None and s.slot_name not in used]
-    rng.shuffle(free)
-    frac = (max(0, min(100, fill)) / 100.0) if fill is not None else DENSITY_FILL[density]
-    target = min(int(len(free) * frac), MAX_STATICS_PER_FIELD)
-
     if theme:
         plane_w = theme["planes"]
         large_w = theme["large"]
@@ -76,6 +70,25 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     large_set = {r for r, _ in large_w}
     fuel_truck = resolve(era_side_cfg["fuel_truck"])
     utility = [resolve(r) for r in era_side_cfg["utility_trucks"]]
+
+    # ELIGIBLE stands only: the fill %% must mean "this share of the aircraft
+    # spots actually get a static" — a helipad on a WWII field (no helos in
+    # the era list) can never be filled, so it must not dilute the math
+    def _can_fill(s):
+        if s.airplanes:
+            return bool(plane_w or large_w)
+        return bool(helo_w)          # helo-only pad
+    free = [s for s in airport.parking_slots
+            if s.unit_id is None and s.slot_name not in used and _can_fill(s)]
+    rng.shuffle(free)
+
+    if fill is not None:
+        # EXPLICIT user percentage WINS - no cap. The user asked for 75%,
+        # they get 75% (of eligible free stands), even at a 247-stand field.
+        target = round(len(free) * max(0, min(100, fill)) / 100.0)
+    else:
+        # auto/density path keeps the FPS guard
+        target = min(int(len(free) * DENSITY_FILL[density]), MAX_STATICS_PER_FIELD)
 
     for slot in (free if include_aircraft else []):
         if placed >= target:

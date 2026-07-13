@@ -203,9 +203,10 @@ story += [
     shot("step4_blocks.png", "Step 4: the building-block toggles."),
 
     P("Step 4a — Populate airfields", "h2"),
-    P("Decide exactly how your fields are dressed. The <b>fill slider</b> sets what share of "
-      "each field's parking stands gets a static aircraft (capped at 24 per field for frame "
-      "rate); the three toggles switch parked aircraft, ground equipment, and the "
+    P("Decide exactly how your fields are dressed. The <b>fill slider</b> sets exactly what "
+      "share of each field's fillable stands gets a static aircraft — 75% means 75%. Big "
+      "fields at high fill mean 100+ statics, so mind your frame rate. The three toggles "
+      "switch parked aircraft, ground equipment, and the "
       "infrastructure cluster independently. The <b>ramp theme</b> decides WHO parks there, "
       "with weighted realistic mixes and strict era gating. \"Auto\" picks the right ramp for "
       "the map — Nellis dresses as a US Air Force base, not a Navy ramp. Select <b>Red Flag "

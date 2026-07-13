@@ -17,6 +17,21 @@ guide cover.
 
 ---
 
+## [1.3.1] — 2026-07-13
+
+### Fixed
+- **The fill slider now means what it says.** 75% fill was producing ~10%
+  at large fields: a hidden FPS guard capped every field at 24 static
+  aircraft regardless of the slider (Nellis has 247 stands — 75% was
+  clamped from ~185 to 24). An explicit user percentage now WINS with no
+  cap (verified at Nellis: 75% → 184 aircraft, 25% → 25%, 100% → 100%);
+  the 24-aircraft guard still applies only to the automatic/density default.
+  Also, the percentage is now computed over FILLABLE stands only — helipads
+  that can't take an aircraft in the era no longer dilute the math. UI and
+  guide text updated (with an honest FPS note for big fields at high fill).
+
+---
+
 ## [1.3.0] — 2026-07-12
 
 ### Added — Wizard navigation (UX Phase 1: the hybrid rail)
