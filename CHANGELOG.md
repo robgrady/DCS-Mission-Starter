@@ -17,6 +17,37 @@ guide cover.
 
 ---
 
+## [1.5.3] — 2026-07-13
+
+### Fixed / Changed — parked aircraft default back to STATIC (fixes spawn-in "pop-in"); AI facing is now an opt-in mode
+v1.5.2 placed every parked aircraft as an uncontrolled AI unit to get exact
+facing. That fixed orientation but introduced worse problems: the aircraft
+**stream in over the first seconds** ("only the player jet shows, then the
+rest load"), cost real FPS, and appear as map/radar contacts.
+
+Root reality (no free lunch): the painted parking line on the ramp *is* the
+slot's true heading, which lives in the DCS terrain binary and is applied
+only when DCS itself parks an aircraft — it is **not exposed** to static
+placement. So exact line-alignment is only possible via AI-parked aircraft,
+which carry those costs; static clutter loads instantly but can only
+approximate facing.
+
+This is now a **user choice** in Populate Airfields — *Parked-aircraft
+placement*:
+- **Static (default)** — instant load, light, inert, no radar contacts, no
+  pop-in. Facing is a best-effort per-slot guess (rows via geometry, nose
+  toward the runway).
+- **AI-parked** — uncontrolled flights at real slots; DCS aligns each
+  aircraft **exactly to the painted parking line** and never clips a
+  building, but they cost FPS, show as contacts, and stream in.
+
+Auto/density caps are per mode (static 10/18/28, AI 5/8/14 per field);
+explicit fill % still overrides. Recipe `dress_aircraft_mode` rides share
+links + autosave. Default static resolves Rob's pop-in immediately; AI mode
+is one dropdown away for exact facing.
+
+---
+
 ## [1.5.2] — 2026-07-13
 
 ### Fixed — parked aircraft now placed by DCS (correct orientation, never on buildings)

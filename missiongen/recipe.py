@@ -27,6 +27,11 @@ class Recipe:
                                        # 0 = leave empty; an entry on a CIVILIAN
                                        # base force-populates it ("populate
                                        # anyway"); absent = inherit global.
+    dress_aircraft_mode: str = "static"  # "static" (fast, inert, best-effort
+                                       # facing) | "parked_ai" (uncontrolled
+                                       # flights: DCS aligns to the painted
+                                       # parking line exactly, but they cost
+                                       # FPS, show as contacts, and pop in)
     dress_theme: Optional[str] = None  # ramp theme key for the PLAYER's fields
                                        # (ramp_themes.json); None = map/era default.
                                        # Enemy fields always use their map/era default.

@@ -1,4 +1,4 @@
-__version__ = "1.5.2"
+__version__ = "1.5.3"
 
 from .recipe import Recipe
 from .builder import StarterBuilder, generate
