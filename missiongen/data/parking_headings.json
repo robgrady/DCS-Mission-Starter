@@ -1,0 +1,7 @@
+{
+  "_comment": "Measured dominant parking headings per airfield (degrees TRUE), used ONLY by static aircraft placement. pydcs does not expose the painted parking-line heading, so static aircraft otherwise get a geometric guess. Where a field is listed here, its statics face the measured heading instead — exact facing with none of the AI-parked costs (no FPS hit, no map contacts, no pop-in). A single number is the DOMINANT heading of the field's majority apron; the odd row that faces another way is accepted. Fields not listed keep the geometric guess (nothing regresses). To add a field: park an aircraft on a ramp slot in the Mission Editor, read its heading, and drop it in as \"<Airfield name>\": <heading>. Airfield names must match pydcs airport names exactly.",
+  "_schema": "map_key -> { airfield_name: heading_deg_true }",
+  "nevada": {
+    "Nellis": 219
+  }
+}

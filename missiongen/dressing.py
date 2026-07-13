@@ -70,7 +70,7 @@ def _offset(pos, meters, bearing_deg):
 def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Random,
                    used_slot_names=None, theme=None, fill=None,
                    include_aircraft=True, include_gse=True, include_infra=True,
-                   aircraft_mode="static"):
+                   aircraft_mode="static", field_heading=None):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
@@ -160,12 +160,18 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             gse_ref_hdg = keepout.away_side_bearing(slot.position)
         else:
             # STATIC clutter: instant render, cheap, inert, no radar contact.
-            # Facing is a best-effort per-slot guess (rows via geometry, nose
-            # toward the runway) — it does NOT read the painted parking line,
-            # which DCS keeps in its terrain binary and does not expose here.
-            heading = (slot_hdgs.get(slot.slot_name,
-                                     keepout.runway_axis_heading())
-                       + rng.uniform(-3, 3)) % 360.0
+            # Facing priority:
+            #   1. MEASURED field heading (parking_headings.json) — the real
+            #      painted-line heading someone read in the Mission Editor. pydcs
+            #      won't expose it, so a measured value is the exact answer for
+            #      this field's majority apron. Use it for every static here.
+            #   2. Per-slot geometric guess (rows via covariance, nose toward
+            #      runway) where the field hasn't been measured yet.
+            #   3. Runway-axis fallback.
+            base_hdg = (field_heading if field_heading is not None
+                        else slot_hdgs.get(slot.slot_name,
+                                           keepout.runway_axis_heading()))
+            heading = (base_hdg + rng.uniform(-3, 3)) % 360.0
             grp = m.static_group(
                 country, f"ST {airport.name} {slot.slot_name} {unit_type.id}",
                 _type=unit_type, position=slot.position, heading=heading)

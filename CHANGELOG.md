@@ -17,6 +17,29 @@ guide cover.
 
 ---
 
+## [1.6.1] — 2026-07-13
+
+### Added — measured parking-heading data pack (exact static facing, no AI cost)
+New `missiongen/data/parking_headings.json`: a map → airfield → heading (°true)
+table of *measured* painted-line headings. Static aircraft at a listed field now
+face the measured heading instead of the geometric guess — exact facing with none
+of the AI-parked costs (no FPS hit, no map contacts, no pop-in). This is the
+"data pack" path that resolves the long-standing static-vs-AI tradeoff for any
+field we have a real heading for.
+
+- First entry: **Nevada · Nellis = 219°** (Rob's measured majority-apron heading).
+  Verified: all 148 Nellis statics face 216–222°; every other Nevada field keeps
+  its geometric guess (nothing regresses).
+- Fields not in the table are unchanged, so this is purely additive.
+- Extending it is one line: park an aircraft on a ramp slot in the Mission Editor,
+  read the heading, add `"<Airfield>": <heading>` under the map. A single number
+  is the dominant apron heading; the odd row facing another way is accepted.
+  (Per-apron precision can layer on later without changing the mechanism.)
+
+Recipe/share/API formats unchanged.
+
+---
+
 ## [1.6.0] — 2026-07-13
 
 ### Added — Threat Dial: control how many threats and what level

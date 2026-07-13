@@ -251,6 +251,13 @@ class StarterBuilder:
             # (Tinian 1944 is a bomber base; Tinian today is a civil field).
             civilian = set(preset.get("civilian_airbases", []))
             overrides = r.dress_overrides or {}
+            # measured painted-line headings for THIS map (parking_headings.json);
+            # static aircraft at a listed field face the exact heading instead of
+            # the geometric guess. Absent map/field => geometric guess (no change).
+            try:
+                field_hdgs = load_json("parking_headings").get(r.map, {})
+            except Exception:
+                field_hdgs = {}
             skipped = []
 
             def _dress(ap, country, cfg, theme):
@@ -264,6 +271,7 @@ class StarterBuilder:
                 kw = dict(dress_kw)
                 if ov is not None:
                     kw["fill"] = ov
+                kw["field_heading"] = field_hdgs.get(ap.name)
                 return dressing.dress_airfield(
                     m, ap, country, cfg, r.density, self.rng, theme=theme, **kw)
 
