@@ -32,11 +32,11 @@ def add_tanker(m, country, era, side, anchor, heading_away_deg, comms, gfx=None)
         race_distance=48000, heading=(heading_away_deg + 90) % 360,
         altitude=TANKER_ALT, speed=550,
         start_type=StartType.Warm, frequency=freq, tacanchannel=tacan)
-    comms.add("Tanker", "Texaco 1-1", f"{freq:.2f}", tacan,
+    comms.add("Tanker", "Texaco 1-1", f"{freq:.3f}", tacan,
               f"{ttype.id} FL200")
     if gfx is not None:
         gfx["tanker"] = (pos, (heading_away_deg + 90) % 360, 48000,
-                         f"TEXACO {freq:.2f} / {tacan} / FL200")
+                         f"TEXACO {freq:.3f} / {tacan} / FL200")
     return tk
 
 
@@ -50,8 +50,8 @@ def add_awacs(m, country, era, side, anchor, heading_away_deg, comms, gfx=None):
         country, "Overlord", atype, airport=None, position=pos,
         race_distance=64000, heading=(heading_away_deg + 90) % 360,
         altitude=AWACS_ALT, speed=750, frequency=freq)
-    comms.add("AWACS", "Overlord 1-1", f"{freq:.2f}", "-", f"{atype.id} FL300")
+    comms.add("AWACS", "Overlord 1-1", f"{freq:.3f}", "-", f"{atype.id} FL300")
     if gfx is not None:
         gfx["awacs"] = (pos, (heading_away_deg + 90) % 360, 64000,
-                        f"OVERLORD {freq:.2f} / FL300")
+                        f"OVERLORD {freq:.3f} / FL300")
     return aw

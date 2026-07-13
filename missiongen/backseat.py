@@ -95,7 +95,7 @@ def build_backseat_izlid(m, recipe, blue_country, red_country, home_airport,
     flow.on_group_dead("GGWTarget01", [],
                        feedback="GOOD EFFECT ON TARGET - convoy destroyed. Egress when ready.")
 
-    comms.add("Flight", "Victory 1-1", f"{comms.freq('flight_common'):.2f}", "-",
+    comms.add("Flight", "Victory 1-1", f"{comms.freq('flight_common'):.3f}", "-",
               "F-14B(U) + Jester (crew menu on F10)")
     return f14
 
@@ -170,7 +170,7 @@ def build_backseat_intercept(m, recipe, blue_country, red_country, home_airport,
                        feedback="SPLASH THE RAID - both Backfires down. "
                                 "Send Iceman back to CAP or call the egress.")
 
-    comms.add("Flight", "Anytime 1-1", f"{comms.freq('flight_common'):.2f}", "-",
+    comms.add("Flight", "Anytime 1-1", f"{comms.freq('flight_common'):.3f}", "-",
               "F-14B(U) RIO + Iceman (crew menu on F10)")
     return f14
 
@@ -252,7 +252,7 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
     flow.on_group_dead("Raid 1", [],
                        feedback="GRAND SLAM - raid destroyed. The force is safe. RTB.")
 
-    comms.add("Flight", "Anytime 1-1", f"{comms.freq('flight_common'):.2f}", "-",
+    comms.add("Flight", "Anytime 1-1", f"{comms.freq('flight_common'):.3f}", "-",
               f"{cat.id} (RIO crew mission)")
     return f14
 

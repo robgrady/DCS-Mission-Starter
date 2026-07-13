@@ -49,7 +49,7 @@ def add_farp(m, country, side, position, rng: random.Random, name, comms=None):
         m.vehicle_group(country, f"{name} spt {i+1}", utype, pos,
                         heading=rng.uniform(0, 360))
     if comms:
-        comms.add("FARP", name, f"{freq:.2f}", "-", "rearm/refuel active")
+        comms.add("FARP", name, f"{freq:.3f}", "-", "rearm/refuel active")
     return sg
 
 
@@ -96,7 +96,7 @@ def helipad_farps(m, country, side, own_center, enemy_center, rng, comms,
             m.vehicle_group(country, f"{name} spt {j+1}", utype, pos,
                             heading=rng.uniform(0, 360))
         if comms:
-            comms.add("FARP", name, f"{freq:.2f}", "-",
+            comms.add("FARP", name, f"{freq:.3f}", "-",
                       "real helipad site - rearm/refuel active")
         used.append((ap, name))
     return used

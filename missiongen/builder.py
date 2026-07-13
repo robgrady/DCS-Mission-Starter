@@ -214,8 +214,8 @@ class StarterBuilder:
                 player_group.set_frequency(fc)
             except Exception:
                 pass
-            comms.add("Flight", player_group.name, f"{fc:.2f}", "-", aircraft.id)
-            comms.add("Tactical", "-", f"{comms.freq('tactical'):.2f}", "-",
+            comms.add("Flight", player_group.name, f"{fc:.3f}", "-", aircraft.id)
+            comms.add("Tactical", "-", f"{comms.freq('tactical'):.3f}", "-",
                       "inter-flight coordination")
 
         # --- building blocks -------------------------------------------------

@@ -17,6 +17,31 @@ guide cover.
 
 ---
 
+## [1.5.4] — 2026-07-13
+
+### Changed — comm plan now sits on the real 25 kHz channel raster
+The standard comm ladder used round whole-MHz values (251.0, 254.0, 305.0…),
+which read like placeholders rather than assigned frequencies. All agency
+frequencies now sit on the real-world **25 kHz raster** (multiples of 0.025 MHz),
+so a card looks like a SPINS ladder pulled from an ATO:
+
+- Flight 305.725, Tactical 254.325, AWACS 251.475, Tanker 253.625/39Y,
+  Mother 264.425/71X, CAP 258.175, AEW 259.925, Angel (rescue) 262.050,
+  FARP base 127.525.
+- **Guard stays fixed at 243.000** — the international UHF emergency channel is
+  set by regulation and must not move.
+- The fallback allocator (extras beyond the ladder) and the FARP allocator now
+  step on the raster too, so any auto-assigned frequency is a legal channel.
+
+New `snap()` helper rounds any frequency onto the raster; ladder values are
+snapped defensively on read. Comms card / kneeboard now print 3 decimals
+(251.475 instead of a rounded 251.48) and the callsign column was widened one
+space to keep long callsigns off the frequency. Verified in-`.miz`: emitted
+radio frequencies are exact on-raster Hz (e.g. 251475000, 253625000) with no
+float drift, and no player waypoints or other behavior changed.
+
+---
+
 ## [1.5.3] — 2026-07-13
 
 ### Fixed / Changed — parked aircraft default back to STATIC (fixes spawn-in "pop-in"); AI facing is now an opt-in mode

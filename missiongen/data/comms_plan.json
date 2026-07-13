@@ -1,15 +1,16 @@
 {
-  "_comment": "Predefined standard comm ladder. Every generated mission uses these exact assignments so users learn ONE plan that holds across all starters. Kneeboard and briefing print this ladder.",
+  "_comment": "Predefined standard comm ladder. Every generated mission uses these exact assignments so users learn ONE plan that holds across all starters. Kneeboard and briefing print this ladder. All UHF/VHF-AM values sit on the real-world 25 kHz channel raster (multiples of 0.025 MHz) so they read like assigned frequencies, not placeholders. Guard 243.000 is the international UHF emergency frequency and is fixed by regulation — do not move it.",
+  "raster_khz": 25,
   "guard": 243.0,
-  "flight_common": 305.0,
-  "tactical": 254.0,
-  "awacs": 251.0,
-  "tanker": {"freq": 253.0, "tacan": "39Y", "callsign": "Texaco"},
-  "carrier": {"freq": 264.0, "tacan": "71X", "tacan_callsign": "STN",
+  "flight_common": 305.725,
+  "tactical": 254.325,
+  "awacs": 251.475,
+  "tanker": {"freq": 253.625, "tacan": "39Y", "callsign": "Texaco"},
+  "carrier": {"freq": 264.425, "tacan": "71X", "tacan_callsign": "STN",
               "icls": 11, "link4": 336.0, "callsign": "Mother"},
-  "cap": 258.0,
-  "aew": 259.0,
-  "angel": 262.0,
-  "farp_base": 127.5,
-  "notes": "Guard 243.0 monitored. Field ATC per DCS auto-assign (see kneeboard airfield page)."
+  "cap": 258.175,
+  "aew": 259.925,
+  "angel": 262.05,
+  "farp_base": 127.525,
+  "notes": "Guard 243.000 monitored (fixed UHF emergency). All agency freqs on the 25 kHz raster. Field ATC per DCS auto-assign (see kneeboard airfield page)."
 }

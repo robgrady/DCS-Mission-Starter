@@ -81,7 +81,7 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     wp.tasks.append(ActivateLink4Command(unit_id=ship_id, frequency=int(cv["link4"])))
     wp.tasks.append(ActivateACLSCommand(unit_id=ship_id))
     grp.set_frequency(cv["freq"])
-    comms.add("Carrier", cv["callsign"], f"{cv['freq']:.2f}", cv["tacan"],
+    comms.add("Carrier", cv["callsign"], f"{cv['freq']:.3f}", cv["tacan"],
               f"{csg.get('flagship_name', hull['label'])} - ICLS {cv['icls']}, "
               f"Link4 {cv['link4']:.0f}, ACLS on, BRC {int(brc):03d}")
     return grp, brc
@@ -129,7 +129,7 @@ def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
     fg.add_waypoint(leg_end, altitude=91, speed=46)
     freq = comms.freq("angel")
     fg.set_frequency(freq)
-    comms.add("Plane guard", "Angel", f"{freq:.2f}", "-",
+    comms.add("Plane guard", "Angel", f"{freq:.3f}", "-",
               f"{helo_cfg['squadron']} {helo_type.id} in Starboard Delta, "
               "300 ft off the starboard beam")
     return fg
@@ -153,10 +153,10 @@ def add_carrier_cap(m, country, hull_key, carrier_pos, brc, threat_bearing,
         pos1=st1, pos2=st2, speed=750, altitude=CAP_ALT, group_size=2)
     freq = comms.freq("cap")
     fg.set_frequency(freq)
-    comms.add("CAP", cap_cfg["squadron"].split()[0], f"{freq:.2f}", "-",
+    comms.add("CAP", cap_cfg["squadron"].split()[0], f"{freq:.3f}", "-",
               f"{airwing['label']} {cap_type.id} x2, stn 30nm on threat axis")
     if gfx is not None:
-        gfx["cap"] = (st1, st2, f"CAP {cap_cfg['squadron']} {freq:.2f}")
+        gfx["cap"] = (st1, st2, f"CAP {cap_cfg['squadron']} {freq:.3f}")
     return fg
 
 
@@ -181,9 +181,9 @@ def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
         country, f"AEW {aew_cfg['squadron']}", aew_type, airport=None,
         position=pos, race_distance=48000, heading=(threat_bearing + 90) % 360,
         altitude=AEW_ALT, speed=500, frequency=freq)
-    comms.add("AEW", aew_cfg["squadron"].split()[0], f"{freq:.2f}", "-",
+    comms.add("AEW", aew_cfg["squadron"].split()[0], f"{freq:.3f}", "-",
               f"{airwing['label']} {aew_type.id} overhead the force")
     if gfx is not None:
         gfx["aew"] = (pos, (threat_bearing + 90) % 360, 48000,
-                      f"AEW {aew_cfg['squadron']} {freq:.2f}")
+                      f"AEW {aew_cfg['squadron']} {freq:.3f}")
     return fg
