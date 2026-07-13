@@ -34,7 +34,15 @@
           "Mineralnye Vody",
           "Anapa-Vityazevo"
         ],
-        "frontline_hint": "Abkhazia coast"
+        "frontline_hint": "Abkhazia coast",
+        "civilian_airbases": [
+          "Batumi",
+          "Tbilisi-Lochini",
+          "Sochi-Adler",
+          "Sukhumi-Babushara",
+          "Mineralnye Vody",
+          "Anapa-Vityazevo"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -58,7 +66,16 @@
           "Krasnodar-Pashkovsky",
           "Nalchik"
         ],
-        "frontline_hint": "Abkhazia coast"
+        "frontline_hint": "Abkhazia coast",
+        "civilian_airbases": [
+          "Batumi",
+          "Tbilisi-Lochini",
+          "Sochi-Adler",
+          "Sukhumi-Babushara",
+          "Beslan",
+          "Nalchik",
+          "Krasnodar-Pashkovsky"
+        ]
       }
     }
   },
@@ -126,7 +143,18 @@
           "Bandar-e-Jask",
           "Qeshm Island"
         ],
-        "frontline_hint": "Strait of Hormuz"
+        "frontline_hint": "Strait of Hormuz",
+        "civilian_airbases": [
+          "Sharjah Intl",
+          "Fujairah Intl",
+          "Abu Dhabi Intl",
+          "Al Ain Intl",
+          "Dubai Intl",
+          "Bandar Lengeh",
+          "Lar",
+          "Kerman",
+          "Qeshm Island"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -151,7 +179,17 @@
           "Lar",
           "Bandar-e-Jask"
         ],
-        "frontline_hint": "Strait of Hormuz"
+        "frontline_hint": "Strait of Hormuz",
+        "civilian_airbases": [
+          "Sharjah Intl",
+          "Fujairah Intl",
+          "Al Ain Intl",
+          "Dubai Intl",
+          "Kish Intl",
+          "Bandar Lengeh",
+          "Lar",
+          "Qeshm Island"
+        ]
       }
     }
   },
@@ -180,7 +218,15 @@
         ],
         "frontline_hint": "Red Flag ranges",
         "note": "Groom Lake and Tonopah Test Range are blue - they are USAF classified fields (Red Hats/Red Eagles flew captured MiGs FROM Groom Lake, as USAF units). Range-side civilian strips play OPFOR.",
-        "blue_theme": "usafe"
+        "blue_theme": "usafe",
+        "civilian_airbases": [
+          "McCarran International",
+          "Henderson Executive",
+          "Tonopah",
+          "Beatty",
+          "Lincoln County",
+          "Mesquite"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -201,7 +247,15 @@
           "Mesquite"
         ],
         "frontline_hint": "Red Flag ranges",
-        "blue_theme": "usaf"
+        "blue_theme": "usaf",
+        "civilian_airbases": [
+          "McCarran International",
+          "Henderson Executive",
+          "Tonopah",
+          "Beatty",
+          "Lincoln County",
+          "Mesquite"
+        ]
       }
     }
   },
@@ -274,7 +328,11 @@
           "An Nasiriyah",
           "Tha'lah"
         ],
-        "frontline_hint": "Golan Heights"
+        "frontline_hint": "Golan Heights",
+        "civilian_airbases": [
+          "Haifa",
+          "Kiryat Shmona"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -299,7 +357,17 @@
           "Hama",
           "Deir ez-Zor"
         ],
-        "frontline_hint": "Western Syria"
+        "frontline_hint": "Western Syria",
+        "civilian_airbases": [
+          "Hatay",
+          "Gaziantep",
+          "Adana Sakirpasa",
+          "Paphos",
+          "Larnaca",
+          "Aleppo",
+          "Damascus",
+          "Deir ez-Zor"
+        ]
       }
     }
   },
@@ -341,7 +409,10 @@
         ],
         "frontline_hint": "The Suez Canal, October 1973",
         "note": "1973 order of battle: Israel holds the Sinai fields taken in 1967 - Melez is Refidim/Bir Gifgafa, the IAF's forward Sinai base. Egypt's canal-front fields (Abu Suwayr, Fayed, Kibrit) sit under the SA-2/SA-3 belt.",
-        "blue_theme": "usafe"
+        "blue_theme": "usafe",
+        "civilian_airbases": [
+          "Abu Rudeis"
+        ]
       },
       "modern": {
         "blue_country": "Israel",
@@ -366,7 +437,11 @@
           "Beni Suef",
           "Hurghada International Airport"
         ],
-        "frontline_hint": "The Sinai buffer"
+        "frontline_hint": "The Sinai buffer",
+        "civilian_airbases": [
+          "Hurghada International Airport",
+          "Borg El Arab International Airport"
+        ]
       }
     }
   },
@@ -414,7 +489,13 @@
           "Rota Intl"
         ],
         "frontline_hint": "WESTPAC, Arc Light era - B-52 country",
-        "blue_theme": "usafe"
+        "blue_theme": "usafe",
+        "civilian_airbases": [
+          "Saipan Intl",
+          "Tinian Intl",
+          "Rota Intl",
+          "Antonio B. Won Pat Intl"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -431,7 +512,13 @@
           "Pagan Airstrip"
         ],
         "frontline_hint": "Guam vs the northern Marianas",
-        "blue_theme": "usaf"
+        "blue_theme": "usaf",
+        "civilian_airbases": [
+          "Saipan Intl",
+          "Tinian Intl",
+          "Rota Intl",
+          "Antonio B. Won Pat Intl"
+        ]
       }
     }
   },
@@ -493,7 +580,10 @@
           "Wittstock",
           "Marxwalde"
         ],
-        "frontline_hint": "Central Europe - the old NATO/WP line"
+        "frontline_hint": "Central Europe - the old NATO/WP line",
+        "civilian_airbases": [
+          "Cologne"
+        ]
       }
     }
   },
@@ -533,7 +623,11 @@
           "Koshka Yavr"
         ],
         "frontline_hint": "The Northern Flank - Finnmark to the Kola Peninsula",
-        "note": "Cold War Finland and Sweden are neutral - their fields stay out of the preset"
+        "note": "Cold War Finland and Sweden are neutral - their fields stay out of the preset",
+        "civilian_airbases": [
+          "Alta",
+          "Kirkenes"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -559,7 +653,12 @@
           "Koshka Yavr",
           "Afrikanda"
         ],
-        "frontline_hint": "High North - Norwegian/Finnish/Swedish NATO vs the Kola bastion"
+        "frontline_hint": "High North - Norwegian/Finnish/Swedish NATO vs the Kola bastion",
+        "civilian_airbases": [
+          "Kirkenes",
+          "Kiruna",
+          "Murmansk International"
+        ]
       }
     }
   },
@@ -593,7 +692,13 @@
           "Ushuaia"
         ],
         "frontline_hint": "Falklands, 1982",
-        "note": "San Julian and Puerto Santa Cruz hosted the Daggers and A-4s in 1982. Mount Pleasant is a 1984 build - kept for playability."
+        "note": "San Julian and Puerto Santa Cruz hosted the Daggers and A-4s in 1982. Mount Pleasant is a 1984 build - kept for playability.",
+        "civilian_airbases": [
+          "Goose Green",
+          "Port Stanley",
+          "San Julian",
+          "Puerto Santa Cruz"
+        ]
       },
       "modern": {
         "blue_country": "UK",
@@ -611,7 +716,13 @@
           "Puerto Santa Cruz",
           "Ushuaia"
         ],
-        "frontline_hint": "South Atlantic standoff"
+        "frontline_hint": "South Atlantic standoff",
+        "civilian_airbases": [
+          "Goose Green",
+          "Port Stanley",
+          "San Julian",
+          "Puerto Santa Cruz"
+        ]
       }
     }
   }

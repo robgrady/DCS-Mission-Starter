@@ -147,7 +147,7 @@
       <label style="font-weight:normal"><input type="checkbox" id="dress_gse" checked> Ground equipment <small style="color:var(--dim)">(fuel &amp; utility trucks by occupied stands)</small></label>
       <label style="font-weight:normal"><input type="checkbox" id="dress_infra" checked> Infrastructure <small style="color:var(--dim)">(fuel farm, tents, barracks off the ramp)</small></label>
     </div>
-    <small style="color:var(--dim)">Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
+    <small style="color:var(--dim)">Only military installations are populated — civilian airports (marked in the Home list) stay undressed. Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
   </div>
   <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)<span class="hdrval" id="hv_gfx"></span><span class="chev">▾</span></h2>
     <div class="blocks" id="gfxlayers"></div>
@@ -417,13 +417,14 @@ function fillHome(){
   const side = document.getElementById('coalition').value;
   const p = OPT.maps[S.map].presets[S.era];
   const list = side==='blue'? p.blue_airbases : p.red_airbases;
+  const civ = new Set(p.civilian_airbases || []);
   const h = document.getElementById('home');
   const prev = h.value;
   h.innerHTML='';
   // the carrier is a first-class home base on coastal maps (blue, era-valid hull)
   if (side==='blue' && OPT.maps[S.map].has_carrier && eraHull())
     h.appendChild(el(`<option value="CARRIER">⚓ The carrier (start on the boat)</option>`));
-  list.forEach(n=>h.appendChild(el(`<option>${n}</option>`)));
+  list.forEach(n=>h.appendChild(el(`<option value="${n}">${n}${civ.has(n)?' — civilian':''}</option>`)));
   if ([...h.options].some(o=>o.value===prev)) h.value = prev;
   h.onchange = onHomeChange;
 }

@@ -17,6 +17,25 @@ guide cover.
 
 ---
 
+## [1.3.2] — 2026-07-13
+
+### Fixed
+- **Only military installations are populated.** Civilian airports (McCarran,
+  Henderson Executive, Dubai Intl, Murmansk International, the NTTR range-side
+  town strips...) no longer receive military ramp dressing — no fighter rows
+  on an airline apron. Classification is per map/era in maps.json
+  (`civilian_airbases`) because it is era-dependent: Tinian 1944 is a B-29
+  base, Tinian today is a civil field; WWII presets have no civilian fields.
+  Civilian airports remain fully usable as home plate and for ambient
+  traffic, and are marked "— civilian" in the Home selector. Verified on the
+  NTTR: Nellis 148 / Creech 31 / Groom Lake 31 / Tonopah Test Range 41
+  static aircraft; McCarran, Henderson, Tonopah town, Beatty, Lincoln
+  County, Mesquite all zero.
+- Per-base fill overrides (one row per base, MIL/CIV badge, inherit-global
+  default) are planned for v1.4.0 — see the roadmap.
+
+---
+
 ## [1.3.1] — 2026-07-13
 
 ### Fixed

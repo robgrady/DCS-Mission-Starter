@@ -64,7 +64,8 @@ def options():
                      "presets": {e: {"blue_airbases": p["blue_airbases"],
                                      "red_airbases": p["red_airbases"],
                                      "blue_country": p["blue_country"],
-                                     "red_country": p["red_country"]}
+                                     "red_country": p["red_country"],
+                                     "civilian_airbases": p.get("civilian_airbases", [])}
                                  for e, p in v["presets"].items()}}
                  for k, v in maps.items()},
         "eras": {k: {"label": v["label"], "window": v.get("window")}

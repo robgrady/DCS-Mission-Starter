@@ -42,6 +42,15 @@
 - Live mix bar: resulting proportions + estimated aircraft count at current fill
 - New `dress_mix` recipe field — share links carry custom mixes; server-side era validation (anachronism guard applies)
 - Decision open: nameable/saveable mixes (bridge to the personal library)
+- **Per-base population overrides** (Rob, 2026-07-13): an expandable "Per-base
+  overrides" table inside Populate Airfields — one row per base on the map,
+  MIL/CIV badge, include-toggle, and a compact fill override that defaults to
+  "inherit global". UX call: NOT a wall of always-visible sliders (6–10 sliders
+  of clutter for a control most users touch rarely) — progressive disclosure
+  behind one "Per-base…" expander. Civilian rows appear greyed ("not
+  populated") with a deliberate "populate anyway" escape hatch for sandbox
+  builders. Recipe: `dress_overrides` map; share links carry it.
+  (The military-only default itself shipped early as v1.3.2.)
 
 ## v1.5.0: Crew Ops II
 

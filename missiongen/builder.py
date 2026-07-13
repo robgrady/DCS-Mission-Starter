@@ -243,14 +243,27 @@ class StarterBuilder:
                             include_aircraft=r.dress_aircraft,
                             include_gse=r.dress_gse,
                             include_infra=r.dress_infra)
+            # ONLY MILITARY INSTALLATIONS get ramp dressing. Civilian airports
+            # (McCarran, Dubai Intl, Murmansk...) stay undressed — no combat
+            # aircraft rows on an airline apron. They remain usable as home
+            # plate and for ambient traffic; classification is per map/era
+            # (Tinian 1944 is a bomber base; Tinian today is a civil field).
+            civilian = set(preset.get("civilian_airbases", []))
+            skipped = []
             for ap in own_fields:
+                if ap.name in civilian:
+                    skipped.append(ap.name); continue
                 stats["statics"] += dressing.dress_airfield(
                     m, ap, own_country, era_cfg[r.coalition], r.density, self.rng,
                     theme=own_theme, **dress_kw)
             for ap in enemy_fields:
+                if ap.name in civilian:
+                    skipped.append(ap.name); continue
                 stats["statics"] += dressing.dress_airfield(
                     m, ap, enemy_country, era_cfg[enemy_side], r.density, self.rng,
                     theme=enemy_theme, **dress_kw)
+            if skipped:
+                stats["civilian_undressed"] = skipped
 
         if r.bb_sams:
             enemy_side = "red" if r.coalition == "blue" else "blue"
