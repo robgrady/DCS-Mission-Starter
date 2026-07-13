@@ -17,6 +17,17 @@ guide cover.
 
 ---
 
+## [1.6.4] — 2026-07-13
+
+### Fixed — friendly dependency error in the survey tool
+`scripts/build_survey_mission.py` now catches a missing dependency (e.g. `pyproj`,
+which pydcs needs to project the map) and prints how to fix it — reuse the
+launcher's `.venv` or `pip3 install <pkg>` — instead of a raw `ModuleNotFoundError`
+traceback. `pyproj` was already listed in `requirements.txt`; this only improves
+the message when a script is run outside the app's environment.
+
+---
+
 ## [1.6.3] — 2026-07-13
 
 ### Added — parking-heading survey tool (auto-populate exact per-spot facing)

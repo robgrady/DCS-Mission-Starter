@@ -28,12 +28,22 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "vendor"))
 
-import dcs
-from dcs import planes
-from dcs.mission import StartType
-from dcs.triggers import TriggerStart
-from dcs.action import DoScript
-from dcs.translation import String
+try:
+    import dcs
+    from dcs import planes
+    from dcs.mission import StartType
+    from dcs.triggers import TriggerStart
+    from dcs.action import DoScript
+    from dcs.translation import String
+except ModuleNotFoundError as e:
+    missing = getattr(e, "name", str(e))
+    raise SystemExit(
+        f"Missing dependency '{missing}'. This tool needs the same packages as the "
+        "app.\nEasiest fix — use the environment the launcher built:\n"
+        "    source .venv/bin/activate   (run run_mac.command once first if there is no .venv)\n"
+        "    python3 scripts/build_survey_mission.py <map> [Airfield ...]\n"
+        f"Or install it directly:  pip3 install {missing}"
+        "   (add --user or --break-system-packages on recent macOS)")
 
 from missiongen.resolver import load_json, resolve_terrain, resolve_country
 
