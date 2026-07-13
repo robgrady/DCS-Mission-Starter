@@ -249,19 +249,27 @@ class StarterBuilder:
             # plate and for ambient traffic; classification is per map/era
             # (Tinian 1944 is a bomber base; Tinian today is a civil field).
             civilian = set(preset.get("civilian_airbases", []))
+            overrides = r.dress_overrides or {}
             skipped = []
+
+            def _dress(ap, country, cfg, theme):
+                ov = overrides.get(ap.name)
+                # civilian fields stay empty UNLESS explicitly overridden
+                # ("populate anyway"); an override of 0 empties ANY field
+                if ov is None and ap.name in civilian:
+                    skipped.append(ap.name); return 0
+                if ov == 0:
+                    skipped.append(ap.name); return 0
+                kw = dict(dress_kw)
+                if ov is not None:
+                    kw["fill"] = ov
+                return dressing.dress_airfield(
+                    m, ap, country, cfg, r.density, self.rng, theme=theme, **kw)
+
             for ap in own_fields:
-                if ap.name in civilian:
-                    skipped.append(ap.name); continue
-                stats["statics"] += dressing.dress_airfield(
-                    m, ap, own_country, era_cfg[r.coalition], r.density, self.rng,
-                    theme=own_theme, **dress_kw)
+                stats["statics"] += _dress(ap, own_country, era_cfg[r.coalition], own_theme)
             for ap in enemy_fields:
-                if ap.name in civilian:
-                    skipped.append(ap.name); continue
-                stats["statics"] += dressing.dress_airfield(
-                    m, ap, enemy_country, era_cfg[enemy_side], r.density, self.rng,
-                    theme=enemy_theme, **dress_kw)
+                stats["statics"] += _dress(ap, enemy_country, era_cfg[enemy_side], enemy_theme)
             if skipped:
                 stats["civilian_undressed"] = skipped
 
@@ -298,18 +306,28 @@ class StarterBuilder:
                 self.warnings.append("FARPs are helicopter-era only - skipped in WWII")
             else:
                 from . import farps
-                fwd = _bearing(own_center, enemy_center)
-                for i in range(2):
-                    pos = mapping.Point(
-                        own_center.x + 0.3 * (enemy_center.x - own_center.x)
-                        + self.rng.uniform(-6000, 6000),
-                        own_center.y + 0.3 * (enemy_center.y - own_center.y)
-                        + self.rng.uniform(-6000, 6000), m.terrain)
-                    fname = f"FARP {'London Dallas Berlin Paris'.split()[i]}"
-                    farps.add_farp(m, own_country, r.coalition, pos, self.rng,
-                                   fname, comms)
-                    gfx["farps"].append((pos, fname))
-                stats["support"].append("2x FARP")
+                # Visual Fidelity: maps that ship REAL helipad sites (Cold War
+                # Germany's 100+ 'H FRG/GDR' pads) use those instead of
+                # synthetic pads dropped in a field
+                used = farps.helipad_farps(m, own_country, r.coalition,
+                                           own_center, enemy_center,
+                                           self.rng, comms)
+                if used:
+                    for ap, fname in used:
+                        gfx["farps"].append((ap.position, fname))
+                    stats["support"].append(f"{len(used)}x FARP (real helipad sites)")
+                else:
+                    for i in range(2):
+                        pos = mapping.Point(
+                            own_center.x + 0.3 * (enemy_center.x - own_center.x)
+                            + self.rng.uniform(-6000, 6000),
+                            own_center.y + 0.3 * (enemy_center.y - own_center.y)
+                            + self.rng.uniform(-6000, 6000), m.terrain)
+                        fname = f"FARP {'London Dallas Berlin Paris'.split()[i]}"
+                        farps.add_farp(m, own_country, r.coalition, pos, self.rng,
+                                       fname, comms)
+                        gfx["farps"].append((pos, fname))
+                    stats["support"].append("2x FARP")
 
         if r.bb_targets:
             from . import targets as tgt

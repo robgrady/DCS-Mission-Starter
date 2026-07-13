@@ -22,6 +22,11 @@ class Recipe:
     dress_aircraft: bool = True        # parked aircraft on stands
     dress_gse: bool = True             # ground support equipment by occupied stands
     dress_infra: bool = True           # fuel farm / tents / barracks cluster
+    dress_overrides: dict = field(default_factory=dict)
+                                       # per-base fill overrides {airbase: 0-100}.
+                                       # 0 = leave empty; an entry on a CIVILIAN
+                                       # base force-populates it ("populate
+                                       # anyway"); absent = inherit global.
     dress_theme: Optional[str] = None  # ramp theme key for the PLAYER's fields
                                        # (ramp_themes.json); None = map/era default.
                                        # Enemy fields always use their map/era default.
