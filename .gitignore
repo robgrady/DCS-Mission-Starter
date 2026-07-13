@@ -2,3 +2,13 @@ __pycache__/
 *.pyc
 samples/*.miz
 .venv/
+
+# Build / release artifacts
+dcs-mission-starter-*.zip
+
+# Scratch missions + survey outputs at repo root
+/*.miz
+survey_*.miz
+parking_survey.txt
+*dcs*.log
+fake_*.log

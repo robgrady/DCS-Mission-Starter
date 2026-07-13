@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.6.3] — 2026-07-13
+
+### Added — parking-heading survey tool (auto-populate exact per-spot facing)
+Two offline developer scripts that turn a map's real painted-line headings into
+`parking_headings.json` entries without hand-measuring each spot:
+
+- `scripts/build_survey_mission.py <map> [Airfield ...]` builds a throwaway
+  `survey_<map>.miz` that drops one uncontrolled aircraft on every airplane
+  parking spot (DCS seats each at the painted-line heading on load) and embeds a
+  Lua exporter. Run it once in DCS, wait ~20 s: it writes one line per spot
+  (`PSURVEY_OUT|<airport>|<slot>|<heading>`) to `dcs.log` and to
+  `Saved Games/DCS/parking_survey.txt`.
+- `scripts/import_survey.py <map> <log-or-txt>` parses that output and merges
+  exact per-spot headings into the data pack (`{default: <dominant>, slots: {…}}`
+  per field). `--dry-run` previews.
+
+This makes exact facing scalable to whole maps in static mode — no FPS cost, no
+contacts, no pop-in. The exporter Lua lives ONLY in the throwaway survey mission
+(a dev tool); nothing shipped in a user mission contains a script. Verified the
+full round-trip on Nellis: 233 spots surveyed, imported, and re-applied with
+247/247 statics matching their measured heading.
+
+Also: `.gitignore` now excludes release zips, scratch `.miz`, and survey logs
+(removed some that earlier `git add -A` runs had committed).
+
+---
+
 ## [1.6.2] — 2026-07-13
 
 ### Added — per-spot parking headings; heading is aircraft-static-only
