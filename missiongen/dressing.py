@@ -84,6 +84,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     free = [s for s in airport.parking_slots
             if s.unit_id is None and s.slot_name not in used and _can_fill(s)]
     rng.shuffle(free)
+    slot_hdgs = keepout.slot_headings() if free else {}
 
     if fill is not None:
         # EXPLICIT user percentage WINS - no cap. The user asked for 75%,
@@ -116,11 +117,14 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             ref, livery = _weighted(rng, helo_w)
         unit_type = resolve(ref)
 
-        # real ramps are ROWS: everyone parks on the apron alignment
-        # (perpendicular to the runway axis), nose-out, small jitter —
-        # not 360-degree scatter
-        ramp_hdg = (keepout.runway_axis_heading() + 90.0) % 360.0
-        heading = (ramp_hdg + rng.uniform(-6, 6)) % 360.0
+        # PER-SLOT orientation: each aircraft parks perpendicular to ITS OWN
+        # row of stands, nose toward the runway — ready to taxi for takeoff.
+        # (One global heading per field was wrong: aprons, angled hardstands
+        # and dispersals face different ways. slot_headings() derives each
+        # spot's true alignment from the field's own geometry.)
+        heading = (slot_hdgs.get(slot.slot_name,
+                                 keepout.runway_axis_heading())
+                   + rng.uniform(-3, 3)) % 360.0
         name = f"ST {airport.name} {slot.slot_name} {unit_type.id}"
         grp = m.static_group(country, name, _type=unit_type,
                              position=slot.position, heading=heading)

@@ -82,6 +82,71 @@ class AirfieldKeepOut:
         side = 1.0 if (vx * wy - vy * wx) >= 0 else -1.0
         return (self.runway_axis_heading() + side * 90.0) % 360.0
 
+    def slot_headings(self, max_row_dist=90.0):
+        """Per-slot PARKING ORIENTATION derived from the field's own geometry.
+
+        The terrain data gives slot positions but not headings, and one global
+        heading per field is wrong — real airfields have aprons, angled
+        hardstands, and dispersals facing different ways. Military logic:
+        1. A slot's ROW is its neighboring slots (within ~90 m). The row axis
+           is the principal axis of the neighbor offsets.
+        2. Aircraft park PERPENDICULAR to their row, and of the two
+           perpendicular choices, the nose points TOWARD the runway — parked
+           ready to taxi for takeoff.
+        3. Isolated slots (revetments, dispersal pads, shelters) face the
+           runway directly — the taxi track runs that way.
+        Returns {slot_name: heading_deg}.
+        """
+        slots = list(self.airport.parking_slots)
+        pts = [(s.position.x, s.position.y) for s in slots]
+        out = {}
+        for i, s in enumerate(slots):
+            x0, y0 = pts[i]
+            neigh = []
+            for j, (px, py) in enumerate(pts):
+                if j == i:
+                    continue
+                dx, dy = px - x0, py - y0
+                if math.hypot(dx, dy) <= max_row_dist:
+                    neigh.append((dx, dy))
+            if len(neigh) >= 2:
+                # principal axis of the neighbor cloud = row direction
+                sxx = sum(dx * dx for dx, dy in neigh)
+                syy = sum(dy * dy for dx, dy in neigh)
+                sxy = sum(dx * dy for dx, dy in neigh)
+                row = math.degrees(0.5 * math.atan2(2 * sxy, sxx - syy))
+            elif len(neigh) == 1:
+                row = math.degrees(math.atan2(neigh[0][1], neigh[0][0]))
+            else:
+                # isolated pad: face the runway
+                out[s.slot_name] = self._bearing_to_runway(s.position)
+                continue
+            # perpendicular to the row, nose toward the runway
+            h1, h2 = (row + 90.0) % 360.0, (row - 90.0) % 360.0
+            out[s.slot_name] = min(
+                (h1, h2),
+                key=lambda h: self.dist_to_runway(self._probe(s.position, 120.0, h)))
+        return out
+
+    def _probe(self, pos, meters, bearing_deg):
+        b = math.radians(bearing_deg)
+        return mapping.Point(pos.x + meters * math.cos(b),
+                             pos.y + meters * math.sin(b), pos._terrain)
+
+    def _bearing_to_runway(self, pos):
+        """Bearing from pos toward the nearest point on the runway corridor."""
+        best, bx, by = None, None, None
+        for a, b in self.corridors:
+            ax, ay = a; cx, cy = b
+            vx, vy = cx - ax, cy - ay
+            seg2 = vx * vx + vy * vy
+            t = 0.0 if seg2 == 0 else max(0.0, min(1.0, ((pos.x - ax) * vx + (pos.y - ay) * vy) / seg2))
+            px, py = ax + t * vx, ay + t * vy
+            d = math.hypot(pos.x - px, pos.y - py)
+            if best is None or d < best:
+                best, bx, by = d, px, py
+        return math.degrees(math.atan2(by - pos.y, bx - pos.x)) % 360.0
+
     def find_clear(self, anchor, radius_lo, radius_hi, rng, margin=0.0,
                    avoid_stands=True, tries=24, prefer_bearing=None):
         """Sample positions around anchor until one clears the keep-outs.

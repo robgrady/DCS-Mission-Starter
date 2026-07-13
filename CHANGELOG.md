@@ -17,6 +17,27 @@ guide cover.
 
 ---
 
+## [1.5.1] — 2026-07-13
+
+### Fixed
+- **Static aircraft now face the right way at every spot.** v1.5.0 aligned
+  all statics to ONE heading per field (runway axis + 90°) — correct for the
+  main ramp, wrong for every apron that faces another way, which is why some
+  aircraft looked right and others didn't. Orientation is now derived
+  **per slot** from the field's own geometry (`slot_headings`):
+  each aircraft finds its parking ROW (neighboring stands within 90 m,
+  principal-axis fit), parks perpendicular to it, and of the two
+  perpendicular choices the nose points **toward the runway — parked ready
+  to taxi for takeoff**. Isolated pads (revetments, dispersals, shelters)
+  face the runway directly. Jitter tightened to ±3°.
+- Audited visually across Nellis, Groom Lake, and Ramstein: every apron
+  orients as its own row block (Nellis resolves ~10 distinct apron
+  orientations where there was one), rows are internally consistent, noses
+  point at the movement area. Geometric inference — worth one in-game look
+  at unusual shelter complexes.
+
+---
+
 ## [1.5.0] — 2026-07-13
 
 ### Added — Visual Fidelity (roadmap "v1.6", pulled forward)
