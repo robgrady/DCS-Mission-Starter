@@ -17,6 +17,27 @@ guide cover.
 
 ---
 
+## [1.6.2] — 2026-07-13
+
+### Added — per-spot parking headings; heading is aircraft-static-only
+The parking-heading data pack now supports **exact per-spot facing**, not just one
+heading per field. A field value in `parking_headings.json` can be either a bare
+number (whole-field dominant heading, as before) or an object:
+
+    "Nellis": { "default": 219, "slots": { "F164": 41, "F163": 41 } }
+
+Per-spot headings are keyed by the parking spot's stable pydcs name (F164, …), so
+a value measured once is permanent. Priority: per-spot measured → field default →
+per-slot geometric guess → runway-axis fallback.
+
+Clarified/enforced scope: the measured heading applies to **static aircraft only**.
+Ground equipment and infrastructure keep their own placement and orientation
+(GSE still scatters realistically around occupied stands). Verified: with a
+per-spot override, the named spots face the override and every other Nellis static
+faces the 219 default; GSE headings remain varied. Recipe/share/API unchanged.
+
+---
+
 ## [1.6.1] — 2026-07-13
 
 ### Added — measured parking-heading data pack (exact static facing, no AI cost)

@@ -61,6 +61,26 @@ def _weighted(rng, pairs):
     return p[0], livery
 
 
+def _parse_field_heading(field_heading):
+    """Normalize a parking_headings.json field value into (default, slots).
+
+    Accepts a bare number (whole-field dominant heading), a dict with optional
+    "default" and "slots" (per-slot-name headings), or None. Returns
+    (default_or_None, slots_dict). Per-slot values win over the default.
+    """
+    if field_heading is None:
+        return None, {}
+    if isinstance(field_heading, (int, float)):
+        return float(field_heading), {}
+    if isinstance(field_heading, dict):
+        d = field_heading.get("default")
+        d = float(d) if isinstance(d, (int, float)) else None
+        slots = {k: float(v) for k, v in (field_heading.get("slots") or {}).items()
+                 if isinstance(v, (int, float))}
+        return d, slots
+    return None, {}
+
+
 def _offset(pos, meters, bearing_deg):
     b = math.radians(bearing_deg)
     return mapping.Point(pos.x + meters * math.cos(b),
@@ -85,6 +105,14 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     used = used_slot_names or set()
     keepout = AirfieldKeepOut(airport)
     placed = 0
+
+    # measured painted-line facing (parking_headings.json). Accept either
+    #   number                -> one dominant heading for the whole field, OR
+    #   {"default": n,          -> field default + exact per-spot overrides
+    #    "slots": {"D15": 219,     keyed by the slot's stable name
+    #              "A28": 41}}
+    # Applies to AIRCRAFT statics only (GSE/infra keep their own placement).
+    field_default_hdg, slot_hdg_overrides = _parse_field_heading(field_heading)
 
     if theme:
         plane_w = theme["planes"]
@@ -168,9 +196,16 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             #   2. Per-slot geometric guess (rows via covariance, nose toward
             #      runway) where the field hasn't been measured yet.
             #   3. Runway-axis fallback.
-            base_hdg = (field_heading if field_heading is not None
-                        else slot_hdgs.get(slot.slot_name,
-                                           keepout.runway_axis_heading()))
+            # Facing priority: exact per-spot measured heading (by slot name) >
+            # field-wide measured heading > per-slot geometric guess >
+            # runway-axis fallback.
+            if slot.slot_name in slot_hdg_overrides:
+                base_hdg = slot_hdg_overrides[slot.slot_name]
+            elif field_default_hdg is not None:
+                base_hdg = field_default_hdg
+            else:
+                base_hdg = slot_hdgs.get(slot.slot_name,
+                                         keepout.runway_axis_heading())
             heading = (base_hdg + rng.uniform(-3, 3)) % 360.0
             grp = m.static_group(
                 country, f"ST {airport.name} {slot.slot_name} {unit_type.id}",
