@@ -29,10 +29,13 @@ def resolve_theme(era, side, map_preset=None, theme_key=None, warnings=None):
 
 
 def _weighted(rng, pairs):
-    """Pick a ref from [[ref, weight], ...]."""
-    refs = [p[0] for p in pairs]
-    weights = [p[1] for p in pairs]
-    return rng.choices(refs, weights=weights, k=1)[0]
+    """Pick from [[ref, weight], ...] or [[ref, weight, [liveries]], ...].
+    Returns (ref, livery_or_None). Unknown livery ids are harmless: DCS
+    falls back to the default skin."""
+    idx = rng.choices(range(len(pairs)), weights=[p[1] for p in pairs], k=1)[0]
+    p = pairs[idx]
+    livery = rng.choice(p[2]) if len(p) > 2 and p[2] else None
+    return p[0], livery
 
 
 def _offset(pos, meters, bearing_deg):
@@ -67,7 +70,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         plane_w = [[r, 1] for r in era_side_cfg["parked_planes"]]
         large_w = [[r, 1] for r in era_side_cfg["parked_large"]]
         helo_w = [[r, 1] for r in era_side_cfg["parked_helos"]]
-    large_set = {r for r, _ in large_w}
+    large_set = {p[0] for p in large_w}
     fuel_truck = resolve(era_side_cfg["fuel_truck"])
     utility = [resolve(r) for r in era_side_cfg["utility_trucks"]]
 
@@ -97,26 +100,32 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         if slot.helicopter and not slot.airplanes:
             if not helo_w:
                 continue
-            ref = _weighted(rng, helo_w)
+            ref, livery = _weighted(rng, helo_w)
         elif slot.large or (slot.airplanes and slot.length >= 60 and slot.width >= 55):
             # flagged-large stands, or physically roomy ramp spots (some
             # terrains, e.g. NTTR, flag no stands large at all — but Nellis
             # parks B-1s on its big ramp squares in reality)
-            ref = _weighted(rng, large_w + plane_w)
+            ref, livery = _weighted(rng, large_w + plane_w)
         elif slot.airplanes:
             # only put big airframes on large stands
             small = [p for p in plane_w if p[0] not in large_set]
-            ref = _weighted(rng, small or plane_w)
+            ref, livery = _weighted(rng, small or plane_w)
         else:
             if not helo_w:
                 continue
-            ref = _weighted(rng, helo_w)
+            ref, livery = _weighted(rng, helo_w)
         unit_type = resolve(ref)
 
-        heading = rng.uniform(0, 360)
+        # real ramps are ROWS: everyone parks on the apron alignment
+        # (perpendicular to the runway axis), nose-out, small jitter —
+        # not 360-degree scatter
+        ramp_hdg = (keepout.runway_axis_heading() + 90.0) % 360.0
+        heading = (ramp_hdg + rng.uniform(-6, 6)) % 360.0
         name = f"ST {airport.name} {slot.slot_name} {unit_type.id}"
-        m.static_group(country, name, _type=unit_type, position=slot.position,
-                       heading=heading)
+        grp = m.static_group(country, name, _type=unit_type,
+                             position=slot.position, heading=heading)
+        if livery:
+            grp.units[0].livery_id = livery
         placed += 1
 
         # BB-2: ground support equipment near ~half the occupied stands.

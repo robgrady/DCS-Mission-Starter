@@ -4,11 +4,11 @@
 
 **North star:** "Select, don't search." A DCS pilot gets a living, period-accurate mission in under a minute — no editor, no Lua, no digging through User Files. The heavy lifting (statics, defenses, comms, carrier ops) is done; the player writes the play. Never place player waypoints.
 
-**Versioning:** semver (CHANGELOG.md). PATCH = fixes/data, MINOR = new capability, MAJOR = breaking recipes/share links. Current: **v1.3.0**.
+**Versioning:** semver (CHANGELOG.md). PATCH = fixes/data, MINOR = new capability, MAJOR = breaking recipes/share links. Current: **v1.5.0**.
 
 ---
 
-## Shipped (v1.0.0 → v1.3.0) — the foundation
+## Shipped (v1.0.0 → v1.5.0) — the foundation
 
 11 era-gated theaters with historian-checked presets · full mission engine (dressing, doctrinal SAMs, support air, ambient, FARPs, targets/range, nav points, kneeboards, comm ladder, share links) · real carrier strike groups with measured deck formations, CAP/AEW, Angel plane guard, carrier-as-home · Crew Ops (F-14) · runway/taxiway keep-out discipline · Populate Airfields panel (fill %, object types, era-gated ramp themes, map-aware defaults) · PDF guide with screenshots · Mac launcher · Replit/Fly.io/Docker deploy configs.
 
@@ -34,7 +34,7 @@
 - Populate-airfields and carrier as expanded panels (drawer pattern)
 - Pure frontend; recipe format untouched. Shipped 2026-07-12 with localStorage autosave (state survives refresh; sections never unmount).
 
-## v1.4.0: Aircraft picker (UX Phase 2)
+## ✅ v1.4.0 SHIPPED: Per-base overrides · NEXT — v1.6.0: Aircraft picker (UX Phase 2)
 
 **Theme: your ramp, exactly.** The feature the new layout makes room for.
 
@@ -52,7 +52,7 @@
   builders. Recipe: `dress_overrides` map; share links carry it.
   (The military-only default itself shipped early as v1.3.2.)
 
-## v1.5.0: Crew Ops II
+## v1.7.0: Crew Ops II
 
 **Theme: the back seat is the product's moat.**
 
@@ -60,9 +60,9 @@
 - Instructor difficulty tier (injected failures: lase windows, notching bandits, EMCON)
 - F-14B(U) release day: swap provisional type id for the real one, verify Jester/Iceman flags in-game, drop pending-module warnings — the izlid/intercept templates go "works today"
 
-## v1.6.0: Visual fidelity
+## ✅ SHIPPED as v1.5.0: Visual fidelity (pulled forward)
 
-**Theme: ramps that photograph well.**
+**Theme: ramps that photograph well.** Shipped 2026-07-13: aligned parking rows (±6° on the ramp axis), livery machinery (curated data pending in-game verification), real helipad FARPs on Cold War Germany. Deferred: measured non-SC deck data (patch train — needs real measurements, not guesses).
 
 - Liveries for airfield statics (aggressor schemes at Nellis, squadron tails per theme — livery_id already proven on deck statics)
 - Measured deck data for non-SC hulls
@@ -101,7 +101,7 @@ Design rules:
 
 ## Operational track (parallel, not versioned)
 
-1. **GitHub push** — blocked on repo URL/token from Rob; tags v1.0.0–v1.3.0 ready
+1. **GitHub push** — blocked on repo URL/token from Rob; tags v1.0.0–v1.5.0 ready
 2. **Deploy** — Replit Autoscale (verified) or Fly.io; then a domain
 3. **Community feedback loop** — post to DCS forums/Reddit after deploy; in-game validation reports drive the v1.1.x patch train
 4. **New maps as pydcs ships them** — proven pure-data, near-zero cost (Afghanistan/Iraq candidates when terrain data lands)

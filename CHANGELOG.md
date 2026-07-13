@@ -17,6 +17,50 @@ guide cover.
 
 ---
 
+## [1.5.0] — 2026-07-13
+
+### Added — Visual Fidelity (roadmap "v1.6", pulled forward)
+- **Aligned parking rows**: parked statics no longer scatter at random
+  headings — every aircraft parks on the ramp alignment (perpendicular to
+  the runway axis, nose-out) with a realistic ±6° jitter. Verified: 123
+  statics at Nellis span exactly 12° of heading. Ramps now photograph like
+  ramps.
+- **Livery machinery**: ramp-theme entries can carry livery lists
+  (`[ref, weight, [liveries]]`); picked liveries apply to the placed static.
+  Unknown livery ids fall back to the default skin in DCS, so curated
+  livery data can be added safely after in-game verification (aggressor
+  schemes at Nellis, squadron tails per theme).
+- **Real helipad FARPs on Cold War Germany**: the map ships 100+ surveyed
+  'H FRG/H GDR' helipad sites as terrain airports — FARPs now use the real
+  pads nearest the frontline (side-correct: FRG pads for blue, GDR for red)
+  with the full support ring and comms, instead of synthetic pads dropped
+  in a field. Maps without helipad sites keep the synthetic FARPs.
+
+### Deferred (honest scope)
+- Measured deck data for non-SC hulls (Forrestal/Invincible/Essex) stays in
+  the patch train — it needs community template extraction or in-game
+  measurement, not guesses.
+
+---
+
+## [1.4.0] — 2026-07-13
+
+### Added — Per-base population overrides
+The "Per-base overrides" expander inside Populate Airfields (per the UX
+plan: progressive disclosure, not a wall of sliders):
+
+- One row per base on the map — your side and the enemy's — each with a
+  MIL/CIV badge, an enable checkbox, and a fill slider that defaults to
+  **inherit** (the global fill).
+- **0% empties any base**; an override on a CIVILIAN base deliberately
+  populates it (the "populate anyway" escape hatch — F-16s at McCarran if
+  that's your scenario).
+- New recipe field `dress_overrides` ({airbase: 0–100}) — rides share links
+  and the autosave. Verified: Nellis@90 → 221 statics, Creech@0 → empty,
+  McCarran@30 force-populated, unset fields inherit; survives page reload.
+
+---
+
 ## [1.3.2] — 2026-07-13
 
 ### Fixed
