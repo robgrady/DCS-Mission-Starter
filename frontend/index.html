@@ -161,6 +161,14 @@
       <div id="perbase_rows" style="margin-top:8px"></div>
       <small style="color:var(--dim)">Default is "inherit" (the global fill above). Check a base to give it its own fill — 0% empties it. Civilian airports are never populated unless you deliberately override them here.</small>
     </details>
+    <details id="composer" style="margin-top:10px">
+      <summary style="cursor:pointer;color:var(--accent);font-size:13px">Ramp Composer — pick exact aircraft &amp; counts (overrides the theme)</summary>
+      <div id="composer_banner" style="display:none;margin:8px 0;padding:7px 11px;background:var(--panel2);border-left:3px solid var(--accent);border-radius:5px;font-size:12.5px">
+        Custom mix active — <b id="composer_total">0</b> aircraft per field. The ramp theme &amp; fill above are ignored for your side's fields. <a href="#" id="composer_clear" style="color:var(--accent);margin-left:6px">Clear all</a>
+      </div>
+      <div id="composer_cats" style="margin-top:8px"></div>
+      <small style="color:var(--dim);display:block;margin-top:6px">Counts are <b>per airfield</b>. Helicopters go on pads, heavies (B-1, C-130, tankers, AWACS) on large stands; anything beyond a field's capacity is skipped. Leave everything at 0 to use the ramp theme above. Liveries use the default squadron skin (per-type picker coming next).</small>
+    </details>
     <small style="color:var(--dim);display:block;margin-top:8px">Only military installations are populated — civilian airports (marked in the Home list) stay undressed. Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
   </div>
   <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)<span class="hdrval" id="hv_gfx"></span><span class="chev">▾</span></h2>
@@ -246,7 +254,7 @@ const BLOCKS = [
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   dress_fill:null,dress_aircraft:true,dress_gse:true,dress_infra:true,dress_theme:null,
-  map_layers:null,dress_overrides:{},dress_aircraft_mode:"static",
+  map_layers:null,dress_overrides:{},dress_aircraft_mode:"static",dress_mix:null,
   threat_intensity:3,threat_tier:"auto",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
@@ -320,6 +328,11 @@ async function init(){
   document.getElementById('dress_theme').onchange = ()=>{ onThemeChange(); sum(); };
   document.getElementById('dress_fill').oninput = function(){
     document.getElementById('dress_fill_label').textContent = this.value + '%'; };
+  document.getElementById('composer_clear').onclick = (e)=>{
+    e.preventDefault();
+    document.querySelectorAll('.cmixn').forEach(i=>i.value=0);
+    updateComposerBanner(); sum();
+  };
   document.getElementById('threat_intensity').oninput = function(){
     setIntensityLabel(this.value); };
   document.getElementById('threat_intensity').addEventListener('change', sum);
@@ -359,6 +372,14 @@ function applyRecipe(r){
     document.getElementById(k).checked = r[k] !== false;
   if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
   if (r.dress_aircraft_mode) document.getElementById('dress_aircraft_mode').value = r.dress_aircraft_mode;
+  if (r.dress_mix && Object.keys(r.dress_mix).length){
+    document.getElementById('composer').open = true;
+    for (const [t,n] of Object.entries(r.dress_mix)){
+      const inp = document.querySelector(`.cmixn[data-type="${t}"]`);
+      if(inp) inp.value = n;
+    }
+    updateComposerBanner();
+  }
   if (r.threat_intensity != null){
     document.getElementById('threat_intensity').value = r.threat_intensity;
     setIntensityLabel(r.threat_intensity);
@@ -539,6 +560,9 @@ const RAIL_STEPS = [
       return `${on}/${BLOCKS.length} on`; }],
   ["dressstep",   "Populate airfields", () => {
       if (!document.getElementById('bb_dressing')?.checked) return "off";
+      const cmix = (typeof composerMix==='function') ? composerMix() : {};
+      const tot = Object.values(cmix).reduce((a,b)=>a+b,0);
+      if (tot) return `custom mix · ${tot}/field`;
       const t = document.getElementById('dress_theme');
       const name = t.selectedOptions[0] ? t.selectedOptions[0].text.replace('Auto for this map — ','') : '';
       return `${name} · ${document.getElementById('dress_fill').value}%`; }],
@@ -630,8 +654,46 @@ function refreshDressUI(){
   if ([...sel.options].some(o=>o.value===prev)) sel.value = prev;
   onThemeChange();
   buildPerBase();
+  buildComposer();
   const dstep = document.getElementById('dressstep');
   dstep.style.display = document.getElementById('bb_dressing')?.checked === false ? 'none' : '';
+}
+// --- Ramp Composer (v1.7.0): pick exact aircraft + counts (dress_mix) ---
+function buildComposer(){
+  const cat = OPT && OPT.static_catalog;
+  if(!cat || !S.era) return;
+  const cont = document.getElementById('composer_cats');
+  const prev = composerMix();          // preserve counts across era rebuilds
+  cont.innerHTML = '';
+  for(const c of cat.categories){
+    const types = Object.entries(cat.types)
+      .filter(([id,t]) => t.cat===c && t.eras.includes(S.era));
+    if(!types.length) continue;
+    const grp = el(`<div style="margin-bottom:9px"><div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${cat.category_labels[c]||c}</div></div>`);
+    const wrap = el(`<div style="display:flex;flex-wrap:wrap;gap:6px"></div>`);
+    for(const [id,t] of types){
+      const v = prev[id]||0;
+      wrap.appendChild(el(`<label style="display:flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:3px 7px;font-size:12.5px"><span>${t.name}</span><input type="number" class="cmixn" data-type="${id}" min="0" max="99" value="${v}" style="width:42px"></label>`));
+    }
+    grp.appendChild(wrap); cont.appendChild(grp);
+  }
+  cont.querySelectorAll('.cmixn').forEach(inp => inp.oninput = ()=>{ updateComposerBanner(); sum(); });
+  updateComposerBanner();
+}
+function composerMix(){
+  const mix = {};
+  document.querySelectorAll('.cmixn').forEach(inp => {
+    const n = +inp.value||0; if(n>0) mix[inp.dataset.type] = n;
+  });
+  return mix;
+}
+function updateComposerBanner(){
+  const mix = composerMix();
+  const tot = Object.values(mix).reduce((a,b)=>a+b,0);
+  const t = document.getElementById('composer_total');
+  if(t) t.textContent = tot;
+  const b = document.getElementById('composer_banner');
+  if(b) b.style.display = tot>0 ? '' : 'none';
 }
 function buildPerBase(){
   if(!OPT||!S.map||!S.era) return;
@@ -711,6 +773,8 @@ function recipe(){
     r.dress_aircraft_mode = document.getElementById('dress_aircraft_mode').value;
     const ov = perBaseOverrides();
     if (Object.keys(ov).length) r.dress_overrides = ov;
+    const cmix = composerMix();
+    if (Object.keys(cmix).length) r.dress_mix = cmix;
   }
   const gl = [...document.querySelectorAll('.gfxl')];
   const on = gl.filter(c=>c.checked).map(c=>c.value);

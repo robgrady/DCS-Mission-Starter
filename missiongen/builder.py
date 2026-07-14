@@ -260,7 +260,7 @@ class StarterBuilder:
                 field_hdgs = {}
             skipped = []
 
-            def _dress(ap, country, cfg, theme):
+            def _dress(ap, country, cfg, theme, mix=None):
                 ov = overrides.get(ap.name)
                 # civilian fields stay empty UNLESS explicitly overridden
                 # ("populate anyway"); an override of 0 empties ANY field
@@ -272,11 +272,15 @@ class StarterBuilder:
                 if ov is not None:
                     kw["fill"] = ov
                 kw["field_heading"] = field_hdgs.get(ap.name)
+                kw["mix"] = mix
                 return dressing.dress_airfield(
                     m, ap, country, cfg, r.density, self.rng, theme=theme, **kw)
 
+            # the custom mix (Ramp Composer) applies to the PLAYER's own fields;
+            # enemy fields always dress from their era/map theme
             for ap in own_fields:
-                stats["statics"] += _dress(ap, own_country, era_cfg[r.coalition], own_theme)
+                stats["statics"] += _dress(ap, own_country, era_cfg[r.coalition],
+                                           own_theme, mix=r.dress_mix)
             for ap in enemy_fields:
                 stats["statics"] += _dress(ap, enemy_country, era_cfg[enemy_side], enemy_theme)
             if skipped:

@@ -61,6 +61,86 @@ def _weighted(rng, pairs):
     return p[0], livery
 
 
+_STATIC_CATALOG = None
+
+
+def _catalog_size(type_id):
+    """fighter | large | helo for a catalog type; None if unknown."""
+    global _STATIC_CATALOG
+    if _STATIC_CATALOG is None:
+        try:
+            _STATIC_CATALOG = load_json("static_catalog").get("types", {})
+        except Exception:
+            _STATIC_CATALOG = {}
+    t = _STATIC_CATALOG.get(type_id)
+    return t.get("size") if t else None
+
+
+def _resolve_type(type_id):
+    from dcs import planes, helicopters
+    for mod in (planes, helicopters):
+        t = getattr(mod, type_id, None)
+        if t is not None:
+            return t
+    raise ValueError(f"aircraft type '{type_id}' not found")
+
+
+def _place_mix(airport, mix, place_fn, rng, used):
+    """Ramp Composer: place an explicit {type_id: count} composition.
+
+    Round-robin over the requested types so a field with fewer stands than the
+    total truncates PROPORTIONALLY (2 of everything, not all of the first type).
+    Stand-aware: helos prefer helo pads (fall back to airplane stands), heavies
+    need a large/roomy stand, fighters take any airplane stand.
+    """
+    items = []
+    for tid, cnt in mix.items():
+        try:
+            c = int(cnt)
+        except (TypeError, ValueError):
+            continue
+        if c <= 0:
+            continue
+        try:
+            ut = _resolve_type(tid)
+        except Exception:
+            continue
+        size = _catalog_size(tid) or ("helo" if getattr(ut, "helicopter", False) else "fighter")
+        items.append((ut, c, size))
+    if not items:
+        return 0
+
+    free_all = [s for s in airport.parking_slots
+                if s.unit_id is None and s.slot_name not in used]
+    rng.shuffle(free_all)
+    taken = set()
+
+    def pick(size):
+        if size == "helo":
+            order = ([s for s in free_all if s.helicopter]
+                     + [s for s in free_all if s.airplanes])
+        elif size == "large":
+            order = [s for s in free_all
+                     if s.large or (s.airplanes and s.length >= 60 and s.width >= 55)]
+        else:
+            order = [s for s in free_all if s.airplanes]
+        for s in order:
+            if s.slot_name not in taken and s.unit_id is None:
+                taken.add(s.slot_name)
+                return s
+        return None
+
+    placed = 0
+    maxc = max(c for _, c, _ in items)
+    for i in range(maxc):
+        for ut, c, size in items:
+            if i < c:
+                s = pick(size)
+                if s is not None and place_fn(s, ut, None):
+                    placed += 1
+    return placed
+
+
 def _parse_field_heading(field_heading):
     """Normalize a parking_headings.json field value into (default, slots).
 
@@ -90,7 +170,7 @@ def _offset(pos, meters, bearing_deg):
 def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Random,
                    used_slot_names=None, theme=None, fill=None,
                    include_aircraft=True, include_gse=True, include_infra=True,
-                   aircraft_mode="static", field_heading=None):
+                   aircraft_mode="static", field_heading=None, mix=None):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
@@ -139,65 +219,26 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     # best-effort per-slot facing (static mode only; AI mode lets DCS decide)
     slot_hdgs = keepout.slot_headings() if (free and aircraft_mode == "static") else {}
 
-    if fill is not None:
-        # EXPLICIT user percentage WINS - no cap. The user asked for 75%,
-        # they get 75% (of eligible free stands), even at a 247-stand field.
-        target = round(len(free) * max(0, min(100, fill)) / 100.0)
-    else:
-        target = min(int(len(free) * DENSITY_FILL[density]),
-                     AUTO_CAP_PER_FIELD[aircraft_mode][density])
-
-    for slot in (free if include_aircraft else []):
-        if placed >= target:
-            break
-        # pick a type that fits the stand (helo lists can be empty, e.g. WWII)
-        if slot.helicopter and not slot.airplanes:
-            if not helo_w:
-                continue
-            ref, livery = _weighted(rng, helo_w)
-        elif slot.large or (slot.airplanes and slot.length >= 60 and slot.width >= 55):
-            # flagged-large stands, or physically roomy ramp spots (some
-            # terrains, e.g. NTTR, flag no stands large at all — but Nellis
-            # parks B-1s on its big ramp squares in reality)
-            ref, livery = _weighted(rng, large_w + plane_w)
-        elif slot.airplanes:
-            # only put big airframes on large stands
-            small = [p for p in plane_w if p[0] not in large_set]
-            ref, livery = _weighted(rng, small or plane_w)
-        else:
-            if not helo_w:
-                continue
-            ref, livery = _weighted(rng, helo_w)
+    # --- placement body shared by theme-fill and custom-mix paths --------
+    def _place(slot, unit_type, livery):
+        """Place one aircraft static (or parked_ai) + its GSE. Returns placed?"""
         if slot.unit_id is not None:      # claimed by player/ambient meanwhile
-            continue
-        unit_type = resolve(ref)
-
+            return False
         if aircraft_mode == "parked_ai":
-            # EXACT facing: an uncontrolled flight at the real slot. DCS aligns
-            # it to the slot (the painted line) and seats it on valid parking —
-            # can't face wrong or clip a building. Cost: it's an AI unit (FPS,
-            # shows as a map contact, streams in over the first seconds).
+            # EXACT facing: uncontrolled flight at the real slot (DCS aligns it to
+            # the painted line). Cost: live AI unit (FPS, map contact, pop-in).
             try:
                 grp = m.flight_group_from_airport(
                     country, f"RAMP {airport.name} {slot.slot_name} {unit_type.id}",
                     unit_type, airport, start_type=StartType.Cold, group_size=1,
                     parking_slots=[slot])
             except Exception:
-                continue                   # type can't park here — skip, no crash
-            grp.uncontrolled = True        # inert: parked, never activates
+                return False               # type can't park here — skip, no crash
+            grp.uncontrolled = True
             gse_ref_hdg = keepout.away_side_bearing(slot.position)
         else:
-            # STATIC clutter: instant render, cheap, inert, no radar contact.
-            # Facing priority:
-            #   1. MEASURED field heading (parking_headings.json) — the real
-            #      painted-line heading someone read in the Mission Editor. pydcs
-            #      won't expose it, so a measured value is the exact answer for
-            #      this field's majority apron. Use it for every static here.
-            #   2. Per-slot geometric guess (rows via covariance, nose toward
-            #      runway) where the field hasn't been measured yet.
-            #   3. Runway-axis fallback.
-            # Facing priority: exact per-spot measured heading (by slot name) >
-            # field-wide measured heading > per-slot geometric guess >
+            # STATIC. Facing priority: exact per-spot measured heading (by slot
+            # name) > field-wide measured heading > per-slot geometric guess >
             # runway-axis fallback.
             if slot.slot_name in slot_hdg_overrides:
                 base_hdg = slot_hdg_overrides[slot.slot_name]
@@ -213,14 +254,9 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             gse_ref_hdg = heading + rng.uniform(60, 120)
         if livery:
             grp.units[0].livery_id = livery
-        placed += 1
-
-        # BB-2: ground support equipment near ~half the occupied stands.
-        # Keep the truck ON the aircraft's OWN pad, just off to one side. The
-        # offset MUST scale to the stand: a fixed 12-16 m offset (the old code)
-        # is fine on a 60 m bomber pad but throws the truck clean off a 14 m
-        # fighter stand — into the taxilane or onto a sunshade canopy (Nellis).
-        # So base it on the stand's half-width, clamped to a sane 4-9 m.
+        # BB-2: GSE truck on the aircraft's OWN pad — offset scaled to the stand
+        # half-width (4-9 m), so it never spills into the taxilane or onto a
+        # sunshade canopy the way a fixed 12-16 m offset did on small stands.
         if include_gse and rng.random() < 0.5:
             half = min(slot.length, slot.width) / 2.0
             off = max(4.0, min(0.6 * half, 9.0)) * rng.uniform(0.85, 1.0)
@@ -230,6 +266,38 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                 m.static_group(country, f"GSE {airport.name} {slot.slot_name}",
                                _type=gse_type, position=gse_pos,
                                heading=rng.uniform(0, 360))
+        return True
+
+    if mix and include_aircraft:
+        # CUSTOM MIX (Ramp Composer): place exactly the requested types/counts.
+        # fill%% is ignored — the mix IS the population. Default liveries.
+        placed += _place_mix(airport, mix, _place, rng, used)
+    elif include_aircraft:
+        if fill is not None:
+            # EXPLICIT user percentage WINS — no cap (75% means 75% of stands).
+            target = round(len(free) * max(0, min(100, fill)) / 100.0)
+        else:
+            target = min(int(len(free) * DENSITY_FILL[density]),
+                         AUTO_CAP_PER_FIELD[aircraft_mode][density])
+        for slot in free:
+            if placed >= target:
+                break
+            # pick a type that fits the stand (helo lists can be empty, e.g. WWII)
+            if slot.helicopter and not slot.airplanes:
+                if not helo_w:
+                    continue
+                ref, livery = _weighted(rng, helo_w)
+            elif slot.large or (slot.airplanes and slot.length >= 60 and slot.width >= 55):
+                ref, livery = _weighted(rng, large_w + plane_w)
+            elif slot.airplanes:
+                small = [p for p in plane_w if p[0] not in large_set]
+                ref, livery = _weighted(rng, small or plane_w)
+            else:
+                if not helo_w:
+                    continue
+                ref, livery = _weighted(rng, helo_w)
+            if _place(slot, resolve(ref), livery):
+                placed += 1
 
     # BB-3: infrastructure cluster near the ramp. The ramp sits BESIDE the
     # runway, so a random bearing from its centroid used to land the cluster

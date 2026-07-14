@@ -91,6 +91,7 @@ def options():
             for mk, mv in maps.items()},
         "carriers": __import__("missiongen.deck", fromlist=["hulls_for_options"]).hulls_for_options(),
         "carrier_capable": load_json("carrier_capable"),
+        "static_catalog": load_json("static_catalog"),
         "enums": {
             "start": ["cold", "warm", "runway"],
             "time_of_day": ["dawn", "day", "dusk", "night"],

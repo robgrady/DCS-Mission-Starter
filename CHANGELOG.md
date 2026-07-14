@@ -17,6 +17,34 @@ guide cover.
 
 ---
 
+## [1.7.0] — 2026-07-14
+
+### Added — Ramp Composer: pick exact aircraft & counts for your ramps
+The aircraft-selection feature. Inside Populate airfields, a new **Ramp Composer**
+lets you compose your side's ramps by hand instead of relying on the random theme
+draw — directly addressing the gaps Rob raised (too few helos; no B-1 / C-130 /
+AWACS / tanker statics; random liveries).
+
+- **Category composer** — era-valid types grouped by role (Fighters & Attack,
+  Bombers & Heavies, Tankers, AWACS & ISR, Transport, Helicopters), each with a
+  count. New `data/static_catalog.json` (74 types) is the roster; `/api/options`
+  exposes it. Era-filtered live (WWII offers warbirds, never a B-1).
+- **Stand-aware placement** — helicopters go on pads, heavies (B-1, C-130, KC-135,
+  E-3…) on large/roomy stands, fighters on airplane stands; anything beyond a
+  field's capacity is skipped. Counts are **per airfield**, applied round-robin so
+  a small field truncates proportionally.
+- New `dress_mix` recipe field (`{type: count}`) for the player's side; enemy
+  fields keep their era/map theme. When set, it overrides the theme + fill%.
+  Rides share links + autosave; old links (no mix) decode to the theme path.
+- Liveries currently use the default squadron skin (removes the "random livery"
+  problem); a per-type livery picker is the next fast-follow.
+
+Verified: Nellis with `{F-16:8, Apache:4, C-130:2, E-3:1, KC-135:1, B-1:2}` places
+exactly that, with measured per-spot headings intact; share roundtrips; headless UI
+renders the composer, era-filters types, and collects the mix with no JS errors.
+
+---
+
 ## [1.6.10] — 2026-07-14
 
 ### Added — parking-heading data for 7 more maps (9 of 11 now surveyed)

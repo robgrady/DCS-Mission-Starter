@@ -222,6 +222,19 @@ story += [
       "theme, and runways and taxi routes always stay clear."),
     shot("step4a_dress.png", "Step 4a: fill percentage, object types, and the ramp theme — Red Flag selected."),
 
+    P("The Ramp Composer — pick exact aircraft", "h2"),
+    P("When a theme isn't specific enough, open the <b>Ramp Composer</b> inside Populate "
+      "airfields and build the ramp by hand. Aircraft are grouped by role — Fighters &amp; "
+      "Attack, Bombers &amp; Heavies, Tankers, AWACS &amp; ISR, Transport, Helicopters — and "
+      "each type has a count. Want six Vipers, four Apaches, a pair of B-1s, a tanker and an "
+      "AWACS on the ground? Set the numbers. Counts are <b>per airfield</b> and era-filtered "
+      "(a WWII composer offers warbirds, never a B-1), and placement is stand-aware: "
+      "helicopters go on pads, heavies on the large ramp squares, everything else on fighter "
+      "stands, with anything beyond a field's capacity skipped. Any counts here override the "
+      "ramp theme and fill for your side's fields; leave them all at zero to use the theme. "
+      "The exact composition rides the share link, so a squadron-mate who clicks it gets the "
+      "same ramp."),
+
     P("Step 4c — Map graphics (F10)", "h2"),
     P("The map briefs the mission. Each layer draws real mission geometry on the F10 map: "
       "the tanker's racetrack with its freq/TACAN label, the AWACS orbit, carrier CAP and "

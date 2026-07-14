@@ -32,6 +32,11 @@ class Recipe:
                                        # flights: DCS aligns to the painted
                                        # parking line exactly, but they cost
                                        # FPS, show as contacts, and pop in)
+    dress_mix: Optional[dict] = None   # Ramp Composer: explicit {type_id: count}
+                                       # for the PLAYER's fields. When set, places
+                                       # exactly these aircraft (round-robin,
+                                       # stand-aware) instead of the ramp theme;
+                                       # fill% is ignored. None = use the theme.
     dress_theme: Optional[str] = None  # ramp theme key for the PLAYER's fields
                                        # (ramp_themes.json); None = map/era default.
                                        # Enemy fields always use their map/era default.
