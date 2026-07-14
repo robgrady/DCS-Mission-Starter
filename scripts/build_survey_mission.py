@@ -102,9 +102,23 @@ def build(map_key, airfields=None):
     terrain_cls = resolve_terrain(maps[map_key]["terrain_class"])
     m = dcs.Mission(terrain_cls())
 
-    usa = resolve_country("USA")
-    m.coalition["blue"].add_country(usa())
-    country = list(m.coalition["blue"].countries.values())[0]
+    # pydcs gives each country only ~989 unique onboard/tail numbers, so a single
+    # country caps out near 989 aircraft ("pop from an empty set"). Big maps have
+    # more parking than that, so spread the survey across a POOL of countries and
+    # round-robin — the aircraft's country is irrelevant to a slot's heading.
+    country_pool = []
+    for cname in ("USA", "Russia", "France", "Germany", "UK", "Italy", "Spain",
+                  "Turkey", "Israel", "Canada", "Australia", "Netherlands",
+                  "Belgium", "Norway", "Greece"):
+        try:
+            cc = resolve_country(cname)()
+            m.coalition["blue"].add_country(cc)
+            country_pool.append(cc)
+        except Exception:
+            continue
+    if not country_pool:
+        raise SystemExit("could not add any country to the mission")
+    country = country_pool[0]
 
     all_ports = m.terrain.airports
     if airfields:
@@ -131,6 +145,7 @@ def build(map_key, airfields=None):
 
     total_spots = 0
     total_placed = 0
+    idx = 0
     for ap in targets:
         ap.set_blue()
         spots = [s for s in ap.parking_slots if s.unit_id is None and s.airplanes]
@@ -138,9 +153,13 @@ def build(map_key, airfields=None):
         placed_here = 0
         for slot in spots:
             gname = f"PSURVEY|{ap.name}|{slot.slot_name}"
+            # round-robin the country pool so no single country exhausts its
+            # ~989 onboard-number budget on a big map
+            rr_country = country_pool[idx % len(country_pool)]
+            idx += 1
             try:
                 grp = m.flight_group_from_airport(
-                    country, gname, SURVEY_TYPE, ap,
+                    rr_country, gname, SURVEY_TYPE, ap,
                     start_type=StartType.Cold, group_size=1,
                     parking_slots=[slot])
             except Exception:
