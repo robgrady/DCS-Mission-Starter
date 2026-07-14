@@ -17,6 +17,25 @@ guide cover.
 
 ---
 
+## [1.8.1] — 2026-07-14
+
+### Added — forward momentum + completion cues on the new screens
+Section navigation needed a clear "you're done here, move on" signal. Added:
+
+- **"Next: <screen> →" button** at the bottom of every screen (with a **Back**
+  button and a **"Step N of M"** progress readout), so there's always an obvious
+  way forward — not just the rail. Next hides on the final Review screen, where
+  Generate takes over. The step count adjusts live (8 vs 9) as the Carrier screen
+  appears/disappears.
+- **Completion checkmarks** — each rail section shows a green **✓** once it has a
+  valid selection (number badge until then), so you can see at a glance what's
+  done and what's left.
+
+Pure UX; no engine/recipe change. Verified Next/Back flow, dynamic step count,
+checkmarks, and Review-as-terminal; no JS errors.
+
+---
+
 ## [1.8.0] — 2026-07-14
 
 ### Changed — section-navigation redesign (the app is no longer one long scroll)
