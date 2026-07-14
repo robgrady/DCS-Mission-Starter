@@ -81,12 +81,15 @@ local function _export()
     end
   end
   env.info("PSURVEY_DONE|count=" .. tostring(#out))
+  -- tidy file if the install allows it (most don't — io/lfs are sanitized by
+  -- default); dcs.log via env.info above ALWAYS works and is the reliable output.
   if io and lfs then
     local ok, f = pcall(io.open, lfs.writedir() .. "parking_survey.txt", "w")
     if ok and f then f:write(table.concat(out, "\n")); f:close() end
   end
-  trigger.action.outText("Parking survey: " .. #out ..
-    " spots exported.\nSee dcs.log (filter PSURVEY_OUT) or\nSaved Games/DCS/parking_survey.txt", 60)
+  trigger.action.outText("Parking survey done: " .. #out .. " spots.\n" ..
+    "Now just EXIT. Send the file:\n" ..
+    "Saved Games/DCS/Logs/dcs.log", 120)
 end
 timer.scheduleFunction(function() _export() end, nil, timer.getTime() + 15)
 """
@@ -113,6 +116,18 @@ def build(map_key, airfields=None):
         targets = list(all_ports.values())
         print(f"WARNING: surveying ALL {len(targets)} airfields on {map_key} — "
               "the mission may be slow to load. Name specific fields to narrow it.")
+
+    # A player slot so the mission is flyable in single-player (the export timer
+    # runs once the mission is live). Su-25T ships FREE with DCS — everyone has it.
+    player_field = targets[0] if targets else list(all_ports.values())[0]
+    player_field.set_blue()
+    try:
+        pg = m.flight_group_from_airport(
+            country, "SURVEY PILOT", planes.Su_25T, player_field,
+            start_type=StartType.Cold, group_size=1)
+        pg.units[0].set_player()
+    except Exception as e:
+        print(f"  (could not add player slot: {e} — mission still runnable via ME)")
 
     total_spots = 0
     total_placed = 0

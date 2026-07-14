@@ -17,6 +17,19 @@ guide cover.
 
 ---
 
+## [1.6.5] — 2026-07-14
+
+### Changed — survey mission is now fly-and-send (no local Python for the user)
+`build_survey_mission.py` now adds a player slot (free Su-25T) so the survey
+`.miz` is directly flyable in single-player, and the on-screen message points at
+`Saved Games/DCS/Logs/dcs.log` (the reliable output — DCS sanitizes `io`/`lfs`
+by default, so the tidy .txt only appears on desanitized installs; `env.info` to
+dcs.log always works). Workflow for the user is now zero-dependency: fly the
+pre-built mission, send the log; the maintainer runs the import. Verified full
+Nevada survey builds (571 spots + player) at 48 KB and reloads clean.
+
+---
+
 ## [1.6.4] — 2026-07-13
 
 ### Fixed — friendly dependency error in the survey tool
