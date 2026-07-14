@@ -36,6 +36,8 @@ styles = {
                          textColor=NAVY, spaceBefore=18, spaceAfter=6),
     "h2": ParagraphStyle("h2", fontName="Helvetica-Bold", fontSize=12.5, leading=16,
                          textColor=BLUE, spaceBefore=12, spaceAfter=4),
+    "h3": ParagraphStyle("h3", fontName="Helvetica-Bold", fontSize=10.5, leading=14,
+                         textColor=INK, spaceBefore=9, spaceAfter=2),
     "body": ParagraphStyle("body", fontName="Helvetica", fontSize=10, leading=14.5,
                            textColor=INK, spaceAfter=6),
     "bullet": ParagraphStyle("bullet", fontName="Helvetica", fontSize=10, leading=14.5,
@@ -200,23 +202,37 @@ story += [
       "so lights up the Carrier screen."),
 
     P("3 · Airfields — populate your ramps", "h2"),
-    P("Fill your side's fields with parked aircraft, ground equipment and infrastructure. Two "
-      "ways to do it: <b>Ramp theme</b> auto-fills a curated, era- and base-correct mix (Nellis "
-      "dresses as an Air Force base, not a Navy ramp) at a <b>fill percentage</b> you set; or "
-      "<b>Compose</b> — the Ramp Composer — where you pick exact aircraft and counts by role "
-      "(Fighters, Bombers &amp; Heavies, Tankers, AWACS, Transport, Helicopters), with your "
-      "coalition and Red/OPFOR aggressors listed separately. Compose starts pre-populated from "
-      "the selected theme (pick <i>Red Flag</i> and you get Vipers, Eagles, a Tornado, B-1s, "
-      "tankers and an AWACS already laid in) — adjust from there. Placement is stand-aware "
-      "(helos on pads, heavies on the big ramp squares) and era-gated."),
+    P("Fill your side's fields with parked aircraft, ground equipment and infrastructure. "
+      "There are two ways to do it, chosen with the toggle at the top of the screen."),
+
+    P("Two ways to fill", "h3"),
+    P("<b>Ramp theme</b> auto-fills a curated, era- and base-correct mix — Nellis dresses as an "
+      "Air Force base, not a Navy ramp — at a <b>fill percentage</b> you set. This is the quick "
+      "path: pick a theme (or leave it on Auto) and go."),
+    shot("airfields_mode.png", "The toggle picks how ramps are filled; in theme mode you get a theme dropdown and a fill slider.", max_h=2.6 * inch),
+
+    P("Compose exact aircraft", "h3"),
+    P("Switch to <b>Compose</b> for the Ramp Composer, where you pick exact aircraft and counts "
+      "by role — Fighters, Bombers &amp; Heavies, Tankers, AWACS, Transport, Helicopters — with "
+      "your own coalition and Red/OPFOR aggressors in separate, colour-coded sections. It starts "
+      "<b>pre-populated from the selected theme</b>: pick <i>Red Flag</i> and you get Vipers, "
+      "Eagles, a Tornado, a pair of B-1s, tankers and an AWACS already laid in — adjust the "
+      "numbers from there. Counts are <b>per airfield</b>, era-filtered (a WWII composer offers "
+      "warbirds, never a B-1), and placement is stand-aware: helos on pads, heavies on the big "
+      "ramp squares, anything beyond a field's capacity skipped. The exact mix rides the share "
+      "link, so a squadron-mate who clicks it gets the same ramp."),
+    shot("airfields_compose.png", "The Ramp Composer, pre-populated from the Red Flag template — your coalition and Red aggressors listed separately (scrolls for more categories).", max_h=3.4 * inch),
+
+    P("Placement mode &amp; object types", "h3"),
     P("<b>Placement mode</b> matters for performance. <b>Static objects</b> (recommended) are "
       "inert scenery — no AI pilot, so they use far less memory and CPU, load instantly, and "
       "never show as map contacts; their facing is <b>exact</b> on the surveyed maps (all but "
       "Falklands and The Channel). <b>AI aircraft</b> align to the painted line on any map but "
       "are live units that cost frames and can hurt FPS on lower-end PCs — only worth it on the "
-      "two unsurveyed maps. Runways and taxiways always stay clear, and enemy fields dress "
-      "themselves with their own era-correct theme."),
-    shot("airfields.png", "Airfields with the Ramp Composer open — coalition-separated, pre-populated from the theme."),
+      "two unsurveyed maps. The three checkboxes switch parked aircraft, ground equipment and "
+      "the infrastructure cluster independently. Runways and taxiways always stay clear, and "
+      "enemy fields dress themselves with their own era-correct theme."),
+    shot("airfields_place.png", "Placement mode (Static is recommended for performance) and the object-type toggles.", max_h=2.4 * inch),
 
     P("4 · Threats — defenses and the Threat Dial", "h2"),
     P("Turn on <b>Air defenses</b> (era-correct SAM sites + SHORAD at every enemy field), then "

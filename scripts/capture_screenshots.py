@@ -44,8 +44,32 @@ with sync_playwright() as pw:
                     clip={"x": 0, "y": 0, "width": 1380, "height": 820})
     page.locator("main").screenshot(path=str(OUT / "theater.png"))
 
-    # Airfields — Compose mode, pre-populated from the Red Flag template
+    # Airfields — broken into three focused, readable crops instead of one long shot.
+    def clip_ids(ids, out, pad=10, max_h=None):
+        """Screenshot the bounding union of the given element ids (CSS px)."""
+        box = page.evaluate(
+            """(ids)=>{const rs=ids.map(i=>document.getElementById(i))
+                 .filter(Boolean).map(e=>e.getBoundingClientRect());
+               if(!rs.length) return null;
+               const top=Math.min(...rs.map(r=>r.top)), left=Math.min(...rs.map(r=>r.left)),
+                     right=Math.max(...rs.map(r=>r.right)), bot=Math.max(...rs.map(r=>r.bottom));
+               return {x:left, y:top, w:right-left, h:bot-top};}""", ids)
+        if not box:
+            return
+        h = box["h"] if not max_h else min(box["h"], max_h)
+        page.screenshot(path=str(OUT / out), clip={
+            "x": max(0, box["x"]-pad), "y": max(0, box["y"]-pad),
+            "width": box["w"]+2*pad, "height": h+2*pad})
+
     show(page, "airfields")
+    # (A) the two ways to fill — theme mode: the mode toggle + theme dropdown + fill
+    page.evaluate("""() => {
+        const r = document.querySelector('input[name=dmode][value=theme]');
+        r.checked = true; r.dispatchEvent(new Event('change'));
+    }""")
+    page.wait_for_timeout(300)
+    clip_ids(["dress_mode_row", "theme_controls"], "airfields_mode.png")
+    # (B) the Ramp Composer — compose mode, pre-populated from Red Flag (top only)
     page.evaluate("""() => {
         const r = document.querySelector('input[name=dmode][value=compose]');
         r.checked = true; r.dispatchEvent(new Event('change'));
@@ -57,7 +81,9 @@ with sync_playwright() as pw:
         if (o) { s.value = o.value; s.dispatchEvent(new Event('change')); }
     }""")
     page.wait_for_timeout(300)
-    page.locator("main").screenshot(path=str(OUT / "airfields.png"))
+    clip_ids(["composer"], "airfields_compose.png", max_h=360)   # banner + Blue fighters/heavies
+    # (C) placement mode + object toggles
+    clip_ids(["dress_place_row", "dress_obj_row"], "airfields_place.png")
 
     # Threats
     show(page, "threats")

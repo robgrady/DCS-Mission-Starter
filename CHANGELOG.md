@@ -17,6 +17,20 @@ guide cover.
 
 ---
 
+## [1.8.4] — 2026-07-14
+
+### Docs — Airfields guide section broken into readable steps
+The single full-length Airfields screenshot was too tall to read in print. Split the
+guide's Airfields section into three sub-steps, each with its own focused, cropped
+image: **Two ways to fill** (the theme/compose toggle + theme dropdown + fill),
+**Compose exact aircraft** (the Ramp Composer, cropped to the coalition headers and top
+categories), and **Placement mode & object types** (static-vs-AI + the object toggles).
+`capture_screenshots.py` now emits `airfields_mode/compose/place.png` via bounding-box
+clips (stable element ids added in the UI); `shot()` takes a per-image height cap and
+the guide adds an `h3` sub-heading style.
+
+---
+
 ## [1.8.3] — 2026-07-14
 
 ### Docs — user guide + README refreshed to current functionality

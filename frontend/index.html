@@ -154,7 +154,7 @@
     <p class="screenhint">Fill your side's ramps with parked aircraft, ground equipment and infrastructure.</p>
     <div class="blocks" id="tog_dress" style="margin-bottom:12px"></div>
     <div id="dress_body">
-    <div class="row" style="margin-bottom:4px"><div>
+    <div class="row" id="dress_mode_row" style="margin-bottom:4px"><div>
       <label>How to fill your ramps</label>
       <div style="display:flex;gap:16px;margin-top:2px">
         <label style="font-weight:normal"><input type="radio" name="dmode" value="theme" checked> <b>Ramp theme</b> — a curated mix, auto-filled</label>
@@ -172,7 +172,7 @@
         <input type="range" id="dress_fill" min="0" max="100" step="5" value="45" style="width:100%">
       </div>
     </div>
-    <div class="row" style="margin-top:6px">
+    <div class="row" id="dress_place_row" style="margin-top:6px">
       <div style="flex:1.4">
         <label>Parked-aircraft placement</label>
         <select id="dress_aircraft_mode">
@@ -184,7 +184,7 @@
         </small>
       </div>
     </div>
-    <div class="row" style="margin-top:6px">
+    <div class="row" id="dress_obj_row" style="margin-top:6px">
       <label style="font-weight:normal"><input type="checkbox" id="dress_aircraft" checked> Parked aircraft</label>
       <label style="font-weight:normal"><input type="checkbox" id="dress_gse" checked> Ground equipment <small style="color:var(--dim)">(fuel &amp; utility trucks by occupied stands)</small></label>
       <label style="font-weight:normal"><input type="checkbox" id="dress_infra" checked> Infrastructure <small style="color:var(--dim)">(fuel farm, tents, barracks off the ramp)</small></label>
