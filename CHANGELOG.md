@@ -17,6 +17,18 @@ guide cover.
 
 ---
 
+## [1.6.9] — 2026-07-14
+
+### Added — full Germany parking-heading data (26 fields, exact per-spot)
+Imported the whole-Germany survey: 2,220 spots across all 26 preset airfields now
+carry exact measured painted-line headings. Static aircraft across the Cold War
+German fields — Bitburg, Ramstein, Spangdahlem, Laage, Finow, and the rest — face
+their real per-spot direction with no AI cost. Big bases show heavy variety (Bitburg
+alone: 76 distinct headings). Verified 146/146 Bitburg statics match; other maps
+untouched; samples regenerated. Nevada + Germany now surveyed; 9 maps to go.
+
+---
+
 ## [1.6.8] — 2026-07-14
 
 ### Fixed — GSE trucks land on the pad; carrier no longer hijacks the aircraft list
