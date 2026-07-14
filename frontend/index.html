@@ -83,13 +83,16 @@
   #railshare, #railreset { width: 100%; background: none; border: 1px solid var(--line);
              color: var(--dim); border-radius: 8px; padding: 6px; margin-top: 7px;
              font-size: 12px; cursor: pointer; }
-  .step > h2 { cursor: pointer; }
   .hdrval { color: var(--green); font-size: 12px; text-transform: none;
             letter-spacing: 0; margin-left: 10px; font-weight: normal; }
-  .chev { float: right; color: var(--dim); transition: transform .15s; }
-  .step.collapsed > *:not(h2) { display: none; }
-  .step.collapsed .chev { transform: rotate(-90deg); }
-  @media (max-width: 900px) { #rail { display: none; } }
+  .chev { display: none; }
+  .step h2 .n { display: none; }
+  .rstep.dim { opacity: .4; pointer-events: none; }
+  .subcat { font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+            color: var(--dim); margin: 14px 0 6px; }
+  .screenhint { color: var(--dim); font-size: 13px; margin: -4px 0 14px; }
+  @media (max-width: 900px) { #rail { position:static; width:100%; height:auto; }
+    .app { flex-direction: column; } }
 </style>
 </head>
 <body>
@@ -126,11 +129,22 @@
       <div><label>Density</label><select id="density"></select></div>
       <div><label>Seed</label><input type="number" id="seed" value="1"></div>
     </div>
+    <div class="subcat">Carrier</div>
+    <div class="blocks" id="tog_carrier"></div>
   </div>
-  <div class="step" id="sec_blocks"><h2><span class="n">4</span>Building blocks<span class="hdrval" id="hv_blocks"></span><span class="chev">▾</span></h2>
-    <div class="blocks" id="blocks"></div>
+  <div class="step" id="sec_support"><h2><span class="n">5</span>Support &amp; extras<span class="hdrval" id="hv_support"></span></h2>
+    <p class="screenhint">On-station assets and briefing aids — turn on what the mission needs.</p>
+    <div class="subcat">Air support</div>
+    <div class="blocks" id="sup_air"></div>
+    <div class="subcat">Targets &amp; ranges</div>
+    <div class="blocks" id="sup_tgt"></div>
+    <div class="subcat">Briefing aids</div>
+    <div class="blocks" id="sup_brief"></div>
   </div>
-  <div class="step" id="dressstep"><h2><span class="n">4a</span>Populate airfields<span class="hdrval" id="hv_dress"></span><span class="chev">▾</span></h2>
+  <div class="step" id="dressstep"><h2><span class="n">3</span>Airfields<span class="hdrval" id="hv_dress"></span></h2>
+    <p class="screenhint">Fill your side's ramps with parked aircraft, ground equipment and infrastructure.</p>
+    <div class="blocks" id="tog_dress" style="margin-bottom:12px"></div>
+    <div id="dress_body">
     <div class="row" style="margin-bottom:4px"><div>
       <label>How to fill your ramps</label>
       <div style="display:flex;gap:16px;margin-top:2px">
@@ -179,15 +193,18 @@
       <small style="color:var(--dim);display:block;margin-top:6px">Counts are <b>per airfield</b> and start from the selected theme — adjust freely. Helicopters go on pads, heavies (B-1, C-130, tankers, AWACS) on large stands; anything beyond a field's capacity is skipped. Your coalition and Red/OPFOR aggressors are listed separately. Liveries use the default squadron skin (per-type picker coming next).</small>
     </div>
     <small style="color:var(--dim);display:block;margin-top:8px">Only military installations are populated — civilian airports (marked in the Home list) stay undressed. Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
+    </div><!-- /dress_body -->
   </div>
-  <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)<span class="hdrval" id="hv_gfx"></span><span class="chev">▾</span></h2>
+  <div class="step" id="gfxstep"><h2><span class="n">7</span>Map graphics (F10)<span class="hdrval" id="hv_gfx"></span></h2>
     <div class="blocks" id="gfxlayers"></div>
     <small style="color:var(--dim);display:block;margin-top:8px">
       The map briefs the mission: each layer draws real mission geometry on the F10 map.
       Friendly orbits and threat rings render on YOUR side's layer only (multiplayer-safe);
       bullseye and nav points are shared. Zones inform — they never route you.</small>
   </div>
-  <div class="step" id="threatstep"><h2><span class="n">4d</span>Threat level<span class="hdrval" id="hv_threat"></span><span class="chev">▾</span></h2>
+  <div class="step" id="threatstep"><h2><span class="n">4</span>Threats<span class="hdrval" id="hv_threat"></span></h2>
+    <p class="screenhint">Air defenses plus the Threat Dial — how hard the mission pushes back.</p>
+    <div class="blocks" id="tog_threat" style="margin-bottom:12px"></div>
     <div class="row">
       <div style="flex:2">
         <label>Intensity: <b id="threat_intensity_label">Moderate</b> <small style="color:var(--dim)">(how many extra area SAMs &amp; enemy CAP flights spawn between the lines — count is randomized off the seed, so re-rolls feel different)</small></label>
@@ -206,7 +223,7 @@
     </div>
     <small style="color:var(--dim);display:block;margin-top:8px">On top of the SAM defending each enemy airfield, the dial adds an area SAM belt and airborne enemy CAP on the threat axis. Everything is era-gated — a WWII field never fields an SA-10. Needs <b>Air defenses</b> (building blocks) on.</small>
   </div>
-  <div class="step" id="carrierstep" style="display:none"><h2><span class="n">4b</span>Carrier deck configuration<span class="hdrval" id="hv_carrier"></span><span class="chev">▾</span></h2>
+  <div class="step" id="carrierstep"><h2><span class="n">6</span>Carrier deck configuration<span class="hdrval" id="hv_carrier"></span></h2>
     <div class="row">
       <div><label>Hull</label><select id="carrier_hull"></select></div>
       <div><label>Deck layout (real-world states)</label><select id="carrier_layout"></select></div>
@@ -219,7 +236,7 @@
       <label class="block"><input type="checkbox" id="carrier_aew"><span><b>Launch Hawkeye (AAW)</b><small>Air-wing E-2 AEW orbit covering the strike group</small></span></label>
     </div>
   </div>
-  <div class="step" id="sec_template"><h2><span class="n">5</span>Template pack <span class="pill">optional</span><span class="hdrval" id="hv_template"></span><span class="chev">▾</span></h2>
+  <div class="step" id="sec_template"><h2><span class="n">8</span>Template pack <span class="pill">optional</span><span class="hdrval" id="hv_template"></span></h2>
     <div class="cards" id="templates"></div>
     <div class="row" style="margin-top:10px"><div style="max-width:280px">
       <label>Crew difficulty (for WSO/RIO templates)</label>
@@ -228,6 +245,14 @@
         <option value="trainee">Trainee — crew hints tell you the next call</option>
       </select>
     </div></div>
+  </div>
+  <div class="step" id="sec_review"><h2><span class="n">9</span>Review &amp; generate<span class="hdrval"></span></h2>
+    <p class="screenhint">One glance, then build. Any rail item jumps you back to tweak.</p>
+    <div id="review_box" style="background:var(--panel2);border-left:3px solid var(--green);border-radius:6px;padding:12px 14px;font-size:13px;line-height:1.7"></div>
+    <div style="display:flex;gap:12px;margin-top:14px">
+      <button id="gen2" style="background:var(--green);color:#04150a;font-weight:700;border:none;border-radius:8px;padding:12px 28px;font-size:15px;cursor:pointer">GENERATE .MIZ</button>
+      <button id="share2" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 22px;font-size:14px;cursor:pointer">Copy share link</button>
+    </div>
   </div>
   <footer style="text-align:center;color:var(--dim);font-size:11.5px;padding:26px 0 90px">
     Developed by <b>Authentic Media LLC</b> · Free community tool, provided <b>as-is with no warranty and no liability</b> of any kind ·
@@ -243,20 +268,21 @@
 </div>
 <script>
 const S = { map:null, era:null, template:null };
+// each block renders into a target container on its screen (5th field)
 const BLOCKS = [
-  ["bb_dressing","Airfield dressing","Static aircraft, GSE, infrastructure on real stands", true],
-  ["bb_sams","Air defenses","Complete era-correct SAM sites + SHORAD", true],
-  ["bb_tanker","Tanker","Racetrack, TACAN + freq assigned", true],
-  ["bb_awacs","AWACS","On station behind friendly lines", true],
-  ["bb_comms","Comms card","Non-conflicting freq/TACAN plan in briefing", true],
-  ["bb_briefing","Starter briefing","Situation + contents summary", true],
-  ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true],
-  ["bb_carrier","Carrier strike group","CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)", false],
-  ["bb_ambient","Ambient air traffic","AI transports starting up and flying between friendly fields", true],
-  ["bb_navpoints","Nav reference points","Named landmarks (Belted Peak, Student Gap...) on F10 map + kneeboard", true],
-  ["bb_farps","Functional FARPs","Pads + fuel/ammo/command/comms so rearm-refuel works (helo eras)", false],
-  ["bb_targets","Strike target packages","Depot / convoy / C2 site placed in the enemy rear with trigger zones", false],
-  ["bb_range","Practice range","Bombing ring + strafe line in the friendly rear", false],
+  ["bb_dressing","Airfield dressing","Static aircraft, GSE, infrastructure on real stands", true, "tog_dress"],
+  ["bb_sams","Air defenses","Complete era-correct SAM sites + SHORAD", true, "tog_threat"],
+  ["bb_carrier","Carrier strike group","CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)", false, "tog_carrier"],
+  ["bb_tanker","Tanker","Racetrack, TACAN + freq assigned", true, "sup_air"],
+  ["bb_awacs","AWACS","On station behind friendly lines", true, "sup_air"],
+  ["bb_ambient","Ambient air traffic","AI transports starting up and flying between friendly fields", true, "sup_air"],
+  ["bb_farps","Functional FARPs","Pads + fuel/ammo/command/comms so rearm-refuel works (helo eras)", false, "sup_air"],
+  ["bb_targets","Strike target packages","Depot / convoy / C2 site placed in the enemy rear with trigger zones", false, "sup_tgt"],
+  ["bb_range","Practice range","Bombing ring + strafe line in the friendly rear", false, "sup_tgt"],
+  ["bb_comms","Comms card","Non-conflicting freq/TACAN plan in briefing", true, "sup_brief"],
+  ["bb_briefing","Starter briefing","Situation + contents summary", true, "sup_brief"],
+  ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true, "sup_brief"],
+  ["bb_navpoints","Nav reference points","Named landmarks (Belted Peak, Student Gap...) on F10 map + kneeboard", true, "sup_brief"],
 ];
 
 // --- share links: recipe <-> base64url(JSON of non-default fields) ---
@@ -313,10 +339,11 @@ async function init(){
   }
   document.getElementById('density').value='normal';
   document.getElementById('time_of_day').value='day';
-  const bl = document.getElementById('blocks');
-  for (const [k,t,d,on] of BLOCKS)
-    bl.appendChild(el(`<label class="block"><input type="checkbox" id="${k}" ${on?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`));
-  document.getElementById('bb_carrier').addEventListener('change', refreshCarrierUI);
+  for (const [k,t,d,on,target] of BLOCKS){
+    const box = document.getElementById(target);
+    if (box) box.appendChild(el(`<label class="block"><input type="checkbox" id="${k}" ${on?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`));
+  }
+  document.getElementById('bb_carrier').addEventListener('change', ()=>{ refreshCarrierUI(); updateRail(); });
   const tp = document.getElementById('templates');
   const none = el(`<div class="card sel" data-k=""><b>None — pure starter</b><small>You build the mission on top</small></div>`);
   none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); };
@@ -364,10 +391,13 @@ async function init(){
   // defaults, or prefill from a share link (?r=<code>)
   const code = new URLSearchParams(location.search).get('r');
   buildRail();
+  document.getElementById('gen2').onclick = () => document.getElementById('gen').click();
+  document.getElementById('share2').onclick = () => document.getElementById('share').click();
   if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ defaultSelection(); } }
   else if (!restoreState()) { defaultSelection(); }
   updateRail();
   sum();
+  showScreen('theater');       // land on the first screen (section navigation)
 }
 function defaultSelection(){
   // era-first: default to Modern (broadest module ownership); the era click
@@ -458,8 +488,8 @@ function refreshAircraft(){
   if (!ac.value && ac.options.length) ac.selectedIndex = 0;
 }
 function refreshCarrierUI(){
+  // screen visibility is owned by showScreen()/the rail; here we only populate
   const on = document.getElementById('bb_carrier')?.checked;
-  document.getElementById('carrierstep').style.display = on ? '' : 'none';
   if (!on) return;
   const hs = document.getElementById('carrier_hull');
   const prev = hs.value;
@@ -575,80 +605,108 @@ function initGfxUI(){
 //   3. Autosave: every change (sum() runs on every input) writes the recipe
 //      to localStorage; a refresh/crash restores it. Share-link URLs (?r=)
 //      take precedence over the autosave. "Reset wizard" clears it.
-const RAIL_STEPS = [
-  ["sec_era",     "Era",                () => S.era ? OPT.eras[S.era].label : null],
-  ["sec_map",     "Map",                () => S.map ? OPT.maps[S.map].label : null],
-  ["sec_basing",  "Side & jet",         () => {
+// ===== section-navigation: the rail SWITCHES the single visible screen =====
+const SCREENS = [
+  {key:"theater", num:1, label:"Theater", steps:["sec_era","sec_map"], val:()=>{
+      if(!S.era) return null;
+      return OPT.eras[S.era].label + (S.map? ` · ${OPT.maps[S.map].label}`:''); }},
+  {key:"flight", num:2, label:"Flight", steps:["sec_basing"], val:()=>{
       const a = document.getElementById('aircraft').selectedOptions[0];
       const h = document.getElementById('home').selectedOptions[0];
-      return a ? `${document.getElementById('coalition').value} · ${a.text.split(' (')[0]}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') : null; }],
-  ["sec_blocks",  "Building blocks",    () => {
-      const on = BLOCKS.filter(([k]) => document.getElementById(k)?.checked).length;
-      return `${on}/${BLOCKS.length} on`; }],
-  ["dressstep",   "Populate airfields", () => {
+      return a ? `${document.getElementById('coalition').value} · ${a.text.split(' (')[0]}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') : null; }},
+  {key:"airfields", num:3, label:"Airfields", steps:["dressstep"], val:()=>{
       if (!document.getElementById('bb_dressing')?.checked) return "off";
       if (typeof dressMode==='function' && dressMode()==='compose'){
         const tot = Object.values(composerMix()).reduce((a,b)=>a+b,0);
-        return `composed · ${tot}/field`;
-      }
+        return `composed · ${tot}/field`; }
       const t = document.getElementById('dress_theme');
       const name = t.selectedOptions[0] ? t.selectedOptions[0].text.replace('Auto for this map — ','') : '';
-      return `${name} · ${document.getElementById('dress_fill').value}%`; }],
-  ["gfxstep",     "Map graphics",       () => {
-      const gl = [...document.querySelectorAll('.gfxl')];
-      return `${gl.filter(c=>c.checked).length}/${gl.length} layers`; }],
-  ["threatstep",  "Threat level",       () => {
+      return `${name} · ${document.getElementById('dress_fill').value}%`; }},
+  {key:"threats", num:4, label:"Threats", steps:["threatstep"], val:()=>{
       if (!document.getElementById('bb_sams')?.checked) return "defenses off";
       const lab = document.getElementById('threat_intensity_label')?.textContent || '';
       const t = document.getElementById('threat_tier');
       const tl = t && t.selectedOptions[0] ? t.selectedOptions[0].text.split(' —')[0] : '';
-      return `${lab} · ${tl}`; }],
-  ["carrierstep", "Carrier",            () => {
-      if (!document.getElementById('bb_carrier')?.checked) return "off";
+      return `${lab} · ${tl}`; }},
+  {key:"support", num:5, label:"Support & extras", steps:["sec_support"], val:()=>{
+      const on = BLOCKS.filter(([k,,,,tg]) => tg && tg.startsWith('sup_') && document.getElementById(k)?.checked).length;
+      return `${on} on`; }},
+  {key:"carrier", num:6, label:"Carrier", steps:["carrierstep"],
+      cond:()=>document.getElementById('bb_carrier')?.checked, val:()=>{
       const h = document.getElementById('carrier_hull').selectedOptions[0];
-      return h ? h.text.split(' (')[0] : "on"; }],
-  ["sec_template","Template",           () => {
+      return h ? h.text.split(' (')[0] : "on"; }},
+  {key:"graphics", num:7, label:"Map & graphics", steps:["gfxstep"], val:()=>{
+      const gl = [...document.querySelectorAll('.gfxl')];
+      return `${gl.filter(c=>c.checked).length}/${gl.length} layers`; }},
+  {key:"template", num:8, label:"Template", steps:["sec_template"], val:()=>{
       const c = document.querySelector('#templates .card.sel');
-      return c && c.dataset.k ? c.querySelector('b').textContent : "none"; }],
+      return c && c.dataset.k ? c.querySelector('b').textContent : "none"; }},
+  {key:"review", num:9, label:"Review & generate", steps:["sec_review"], val:()=>"ready"},
 ];
+const ALL_STEP_IDS = [...new Set(SCREENS.flatMap(s=>s.steps))];
+let CUR_SCREEN = "theater";
+
+function showScreen(key){
+  const scr = SCREENS.find(s=>s.key===key);
+  if(!scr) return;
+  if(scr.cond && !scr.cond()) key = "theater";   // don't land on a hidden screen
+  CUR_SCREEN = key;
+  const show = new Set(SCREENS.find(s=>s.key===key).steps);
+  ALL_STEP_IDS.forEach(id=>{ const e=document.getElementById(id); if(e) e.style.display = show.has(id)?'':'none'; });
+  document.querySelectorAll('.rstep').forEach(r=>r.classList.toggle('active', r.dataset.key===key));
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(key==="review") buildReview();
+}
 
 function buildRail(){
   const c = document.getElementById('railsteps');
   c.innerHTML = '';
-  for (const [id, label] of RAIL_STEPS){
-    const r = el(`<div class="rstep" data-target="${id}"><div class="dot">•</div><div><b>${label}</b><small>—</small></div></div>`);
-    r.onclick = () => {
-      const sec = document.getElementById(id);
-      sec.classList.remove('collapsed');
-      sec.scrollIntoView({behavior:'smooth', block:'start'});
-      document.querySelectorAll('.rstep').forEach(x=>x.classList.remove('active'));
-      r.classList.add('active');
-    };
+  for (const scr of SCREENS){
+    const r = el(`<div class="rstep" data-key="${scr.key}"><div class="dot">${scr.num}</div><div><b>${scr.label}</b><small>—</small></div></div>`);
+    r.onclick = () => { if(!r.classList.contains('dim')) showScreen(scr.key); };
     c.appendChild(r);
   }
   document.getElementById('railgen').onclick = () => document.getElementById('gen').click();
   document.getElementById('railshare').onclick = () => document.getElementById('share').click();
   document.getElementById('railreset').onclick = () => {
     try { localStorage.removeItem('ms_recipe'); } catch(e){}
-    location.href = location.pathname;   // drop any ?r= too
+    location.href = location.pathname;
   };
-  // collapse/expand on header click (CSS-only hide: inputs stay mounted)
-  document.querySelectorAll('.step > h2').forEach(h =>
-    h.onclick = () => h.parentElement.classList.toggle('collapsed'));
 }
 
 function updateRail(){
   if (!OPT) return;
   document.querySelectorAll('.rstep').forEach(r => {
-    const step = RAIL_STEPS.find(([id]) => id === r.dataset.target);
-    const sec = document.getElementById(r.dataset.target);
-    if (sec && sec.style.display === 'none'){ r.style.display = 'none'; return; }
-    r.style.display = '';
-    let v = null;
-    try { v = step[2](); } catch(e){}
-    r.querySelector('small').textContent = v || '—';
-    r.classList.toggle('done', !!v && v !== 'off' && v !== 'none');
+    const scr = SCREENS.find(s=>s.key===r.dataset.key);
+    const hidden = scr.cond && !scr.cond();
+    r.classList.toggle('dim', !!hidden);
+    let v = null; try { v = scr.val(); } catch(e){}
+    r.querySelector('small').textContent = hidden ? '—' : (v || '—');
+    r.classList.toggle('done', !hidden && !!v && v !== 'off' && v !== 'none' && v !== 'ready' && v !== 'defenses off');
   });
+  // if the current screen just became hidden (carrier turned off), fall back
+  const cur = SCREENS.find(s=>s.key===CUR_SCREEN);
+  if (cur && cur.cond && !cur.cond()) showScreen('theater');
+}
+
+function buildReview(){
+  if(!OPT || !S.map || !S.era) return;
+  const r = recipe();
+  const g = id => document.getElementById(id);
+  const home = r.home_airbase || (g('home').selectedOptions[0]?.text||'').replace('⚓ ','');
+  const parts = [];
+  parts.push(`<b>${OPT.eras[S.era].label} · ${OPT.maps[S.map].label} · ${r.coalition} · ${r.aircraft} from ${home}</b>`);
+  const air = !g('bb_dressing').checked ? 'airfields: off'
+    : (dressMode()==='compose' ? `airfields: composed ${Object.values(composerMix()).reduce((a,b)=>a+b,0)}/field`
+       : `airfields: ${(g('dress_theme').selectedOptions[0]?.text||'').replace('Auto for this map — ','')} ${g('dress_fill').value}%`);
+  parts.push(air + ` · placement ${g('dress_aircraft_mode').value==='static'?'static (light)':'AI (heavier)'}`);
+  parts.push(`threats: ${g('bb_sams').checked ? (g('threat_intensity_label').textContent+' / '+(g('threat_tier').selectedOptions[0]?.text.split(' —')[0]||'')) : 'off'}`);
+  const sup = BLOCKS.filter(([k,,,,tg])=>tg&&tg.startsWith('sup_')&&g(k)?.checked).map(b=>b[1]);
+  parts.push('support: ' + (sup.join(', ')||'none'));
+  const gl=[...document.querySelectorAll('.gfxl')];
+  parts.push(`map graphics: ${gl.filter(c=>c.checked).length}/${gl.length} layers · seed ${r.seed}`);
+  if (S.template) parts.push(`template: ${S.template}`);
+  g('review_box').innerHTML = parts.join('<br>');
 }
 
 // --- autosave (survives refresh/crash; share links take precedence) ---
@@ -684,8 +742,10 @@ function refreshDressUI(){
   buildPerBase();
   buildComposer();
   setDressMode(false);          // keep current mode; don't reseed on rebuild
-  const dstep = document.getElementById('dressstep');
-  dstep.style.display = document.getElementById('bb_dressing')?.checked === false ? 'none' : '';
+  // hide the populate BODY (not the whole screen) when dressing is off — the
+  // on/off toggle at the top of the Airfields screen stays visible.
+  document.getElementById('dress_body').style.display =
+    document.getElementById('bb_dressing')?.checked === false ? 'none' : '';
 }
 // --- Ramp Composer (v1.7.0): pick exact aircraft + counts (dress_mix) ---
 function dressMode(){

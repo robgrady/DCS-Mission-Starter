@@ -17,6 +17,30 @@ guide cover.
 
 ---
 
+## [1.8.0] — 2026-07-14
+
+### Changed — section-navigation redesign (the app is no longer one long scroll)
+The single-page wizard had grown crowded. The left rail is now real navigation: it
+**switches which single screen is shown** instead of scrolling one endless page. Only
+the screen you're working on is on-screen; Generate/Share stay pinned (rail + bottom
+bar), so the fast tweak-and-regenerate loop is untouched — you jump to any screen and
+build anytime, no forced Next/Back.
+
+Nine focused screens: **Theater** (era + map) · **Flight** (side, jet, home, start/
+weather) · **Airfields** (populate + Ramp Composer, finally its own room) · **Threats**
+(air defenses + Threat Dial) · **Support & extras** · **Carrier** (only shown when the
+carrier is home) · **Map & graphics** · **Template** · **Review & generate** (one-glance
+summary).
+
+The flat 13-checkbox "building blocks" list is **dissolved** — each toggle now lives on
+the screen it belongs to (air-defenses with the Threat Dial, tanker/AWACS/FARPs under
+Support, carrier on Flight). Same recipe/share format and engine — this is purely the
+navigation and layout. Verified: screen switching, distributed toggles, carrier
+dims/enables, recipe collection, share-link restore, and generation all work; no JS
+errors. Implemented from the approved prototype.
+
+---
+
 ## [1.7.3] — 2026-07-14
 
 ### Added — Cold War Red Flag theme (Red Flag 81-x)
