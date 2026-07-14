@@ -17,6 +17,30 @@ guide cover.
 
 ---
 
+## [1.8.3] — 2026-07-14
+
+### Docs — user guide + README refreshed to current functionality
+The documentation still described the old single-scroll "Step 4a/4b/4c" wizard with
+stale screenshots. Rewritten to match the shipped product:
+
+- **PDF guide** — "Finding your way" now explains section navigation (rail switches
+  screens, completion checkmarks, Next/Back + Step N of M, pinned Preview + Generate).
+  "Step by step" is now **"Screen by screen"** across the nine screens (Theater, Flight,
+  Airfields, Threats, Support & extras, Carrier, Map & graphics, Template, Review), with
+  current coverage of the Ramp Composer, Threat Dial, and the static-vs-AI performance
+  guidance. Six fresh screenshots captured against the new UI (`scripts/capture_screenshots.py`
+  rewritten to drive the screen navigation); stale step-*.png removed. `shot()` now caps
+  image height so tall single-screen captures fit the page.
+- **Comm ladder table** updated to the 25 kHz raster frequencies (251.475, 253.625,
+  264.425…; Guard 243.000).
+- **README** rewritten — 11 theaters / 3 eras, Ramp Composer, exact parking-heading
+  facing, Threat Dial, carriers, 25 kHz comms, section-nav UI, current architecture map,
+  and survey tooling.
+
+No engine change.
+
+---
+
 ## [1.8.2] — 2026-07-14
 
 ### Fixed — the live preview summary got buried by the redesign

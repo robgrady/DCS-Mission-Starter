@@ -130,13 +130,17 @@ def P(text, s="body"):
     return Paragraph(text, styles[s])
 
 
-def shot(name, caption, width=6.6 * inch):
-    """Screenshot with caption, scaled to width, kept together."""
+def shot(name, caption, width=6.6 * inch, max_h=8.1 * inch):
+    """Screenshot with caption, scaled to width but capped in height so tall
+    single-screen captures still fit on the page, kept together."""
     path = IMG / name
     if not path.exists():
         return Spacer(1, 1)
     w, h = PILImage.open(path).size
-    img = RLImage(str(path), width=width, height=width * h / w)
+    disp_w, disp_h = width, width * h / w
+    if disp_h > max_h:                      # scale down to fit the page height
+        disp_h, disp_w = max_h, max_h * w / h
+    img = RLImage(str(path), width=disp_w, height=disp_h)
     cap = Paragraph(caption, ParagraphStyle(
         "cap", fontName="Helvetica-Oblique", fontSize=8.5, leading=11,
         textColor=DIM, alignment=TA_CENTER, spaceBefore=3, spaceAfter=10))
@@ -162,120 +166,99 @@ story += [
     shot("hero.png", "The Mission Starter wizard."),
 
     P("Finding your way", "h2"),
-    P("The <b>progress rail</b> on the left tracks every step with its current value and "
-      "goes green as you make choices — click any step to jump there. Section headers "
-      "fold a finished section out of the way. <b>Generate and the share link are always "
-      "one click away</b> in the rail. Your work saves itself: close the browser "
-      "mid-build and everything is exactly where you left it when you come back "
-      "(\"Reset wizard\" starts fresh)."),
+    P("The app works as a set of <b>focused screens</b>, not one long page. The <b>rail</b> on "
+      "the left lists the mission's areas — click any one to switch to it, and you see just that "
+      "screen. Each rail item shows its current value and turns green with a <b>✓</b> once set, "
+      "so you can tell at a glance what's done. A <b>Next</b> button (with Back and a "
+      "\"Step N of M\" readout) walks you through in order if you'd rather be guided. "
+      "The live <b>PREVIEW</b> line and the <b>GENERATE</b> button are pinned at the bottom of "
+      "every screen, so you can build the moment you're happy — there is no required order, and "
+      "changing one thing and regenerating is always two clicks. Your work saves itself: close "
+      "the browser mid-build and everything is exactly where you left it (\"Reset wizard\" starts "
+      "fresh)."),
+    shot("hero.png", "Section navigation: the rail switches screens, completion checkmarks show progress, and Generate + the live preview stay pinned."),
 
     PageBreak(),
-    P("Step by step", "h1"),
+    P("Screen by screen", "h1"),
 
-    P("Step 1 — Pick an era", "h2"),
-    P("Start with <b>when</b>. The era is the master filter: it decides which maps, aircraft, "
-      "statics, SAMs, and support assets can appear. A WWII starter will not offer a Hornet, "
-      "and a modern starter will not offer a Spitfire."),
-    shot("step1_era.png", "Step 1: era selection — the period drives everything downstream."),
+    P("1 · Theater — era and map", "h2"),
+    P("Start with <b>when</b>, then <b>where</b>. The era is the master filter: it decides which "
+      "maps, aircraft, statics, SAMs, and support can appear — a WWII starter never offers a "
+      "Hornet, a modern one never a Spitfire. Maps without content for the era grey out. All "
+      "eleven theaters are here: pick WWII and the Channel, Normandy and the 1944 Marianas light "
+      "up; Cold War Germany puts you on the Inner German Border; Kola covers NATO's Northern "
+      "Flank; Sinai in the Cold War is October 1973. Each preset carries its major airfields on "
+      "both sides — on the NTTR that includes Groom Lake and Tonopah Test Range as blue home "
+      "plates (USAF fields; even the captured MiGs there flew as USAF units)."),
+    shot("theater.png", "Theater: era across the top, then the maps valid for it."),
 
-    P("Step 2 — Pick a map", "h2"),
-    P("Choose your theater. Maps without content for the chosen era are greyed out — pick "
-      "WWII and the Channel, Normandy, and the 1944 Marianas light up. The Marianas carries all three eras — 1944 campaign, Arc Light era, and modern. "
-      "Cold War Germany puts you on the Inner German Border (Fulda Gap west, GDR fields east); "
-      "Kola covers NATO's Northern Flank, with the carrier group stationed in the Norwegian Sea off Andoya; "
-      "Sinai in the Cold War era is October 1973 — Israel holds the Sinai fields taken in '67 while "
-      "Egypt's canal-front bases sit under the SAM belt, and the 6th Fleet steams north of Port Said. "
-      "Every map's preset carries its major airfields on both sides — on the NTTR that includes Groom "
-      "Lake and the Tonopah Test Range as blue, selectable home plates (they are USAF fields; even the "
-      "captured MiGs there flew as USAF units)."),
-    shot("step2_map.png", "Step 2: map selection — eleven theaters, filtered by the era you chose."),
-
-    P("Step 3 — Coalition, basing & aircraft", "h2"),
+    P("2 · Flight — side, jet, home base", "h2"),
     P("Pick your side, home airfield, and aircraft from the full DCS flyable roster (period-"
-      "filtered). Set single-player or multiplayer slots, start type, time, weather, and world "
-      "density."),
-    shot("step3_basing.png", "Step 3: side, home plate, aircraft, and mission conditions."),
+      "filtered), plus single- or multiplayer slots, start type, time, weather, and world "
+      "density. On coastal maps <b>the carrier</b> is offered here as a home base (last in the "
+      "list); land bases are the default, so choosing the boat is a deliberate act — and doing "
+      "so lights up the Carrier screen."),
 
-    PageBreak(),
-    P("Step 4 — Choose building blocks", "h2"),
-    P("Everything is optional and defaults are sensible. Each block is described in the "
-      "reference table later in this guide."),
-    shot("step4_blocks.png", "Step 4: the building-block toggles."),
+    P("3 · Airfields — populate your ramps", "h2"),
+    P("Fill your side's fields with parked aircraft, ground equipment and infrastructure. Two "
+      "ways to do it: <b>Ramp theme</b> auto-fills a curated, era- and base-correct mix (Nellis "
+      "dresses as an Air Force base, not a Navy ramp) at a <b>fill percentage</b> you set; or "
+      "<b>Compose</b> — the Ramp Composer — where you pick exact aircraft and counts by role "
+      "(Fighters, Bombers &amp; Heavies, Tankers, AWACS, Transport, Helicopters), with your "
+      "coalition and Red/OPFOR aggressors listed separately. Compose starts pre-populated from "
+      "the selected theme (pick <i>Red Flag</i> and you get Vipers, Eagles, a Tornado, B-1s, "
+      "tankers and an AWACS already laid in) — adjust from there. Placement is stand-aware "
+      "(helos on pads, heavies on the big ramp squares) and era-gated."),
+    P("<b>Placement mode</b> matters for performance. <b>Static objects</b> (recommended) are "
+      "inert scenery — no AI pilot, so they use far less memory and CPU, load instantly, and "
+      "never show as map contacts; their facing is <b>exact</b> on the surveyed maps (all but "
+      "Falklands and The Channel). <b>AI aircraft</b> align to the painted line on any map but "
+      "are live units that cost frames and can hurt FPS on lower-end PCs — only worth it on the "
+      "two unsurveyed maps. Runways and taxiways always stay clear, and enemy fields dress "
+      "themselves with their own era-correct theme."),
+    shot("airfields.png", "Airfields with the Ramp Composer open — coalition-separated, pre-populated from the theme."),
 
-    P("Step 4a — Populate airfields", "h2"),
-    P("Decide exactly how your fields are dressed. The <b>fill slider</b> sets exactly what "
-      "share of each field's fillable stands gets a parked aircraft — 75% means 75%. "
-      "The <b>placement mode</b> is a real tradeoff: <i>Static</i> (default) loads instantly, "
-      "is an inert static object — no AI pilot, so it uses far less memory and CPU, "
-      "loads instantly, and never appears as a map contact. Its facing is exact on the "
-      "surveyed maps (all but Falklands and The Channel) and a best-effort guess elsewhere. "
-      "<i>AI aircraft</i> are live uncontrolled units — they align exactly to the painted "
-      "line on any map, but they cost memory and frames and can hurt FPS on lower-end PCs, "
-      "so Static is recommended. "
-      "<i>AI-parked</i> aligns each aircraft exactly to the painted parking line (DCS places "
-      "it), but the aircraft are heavier, show as map contacts, and stream in over the first "
-      "seconds. The three toggles "
-      "switch parked aircraft, ground equipment, and the "
-      "infrastructure cluster independently. The <b>ramp theme</b> decides WHO parks there, "
-      "with weighted realistic mixes and strict era gating. \"Auto\" picks the right ramp for "
-      "the map — Nellis dresses as a US Air Force base, not a Navy ramp. Select <b>Red Flag "
-      "exercise</b> and the NTTR fills out like exercise season: B-1 and B-52 heavies on the "
-      "big ramp squares, aggressor Vipers, and Navy and allied visitors — a Hornet, a Mirage, "
-      "a Tornado among the Eagles. Enemy fields always dress with their own era-correct "
-      "theme, and runways and taxi routes always stay clear."),
-    shot("step4a_dress.png", "Step 4a: fill percentage, object types, and the ramp theme — Red Flag selected."),
+    P("4 · Threats — defenses and the Threat Dial", "h2"),
+    P("Turn on <b>Air defenses</b> (era-correct SAM sites + SHORAD at every enemy field), then "
+      "set the <b>Threat Dial</b>. <b>Intensity</b> (Minimal → Maximum) adds extra area SAM "
+      "sites and airborne enemy CAP on top of the base defenses — the count is rolled off the "
+      "seed, so re-rolls differ. <b>System level</b> sets the calibre: <i>Era standard</i>, "
+      "<i>Light</i> (SA-2/3, MiG-21/23), <i>Heavy</i> (SA-10/11, Su-27/MiG-31), or <i>Mixed</i>. "
+      "Everything is era-gated — a WWII field never fields an SA-10. The enemy CAP engages you "
+      "inbound; the area SAMs form a belt to plan around."),
+    shot("threats.png", "Threats: air defenses plus the intensity dial and system-level tiers."),
 
-    P("The Ramp Composer — pick exact aircraft", "h2"),
-    P("When a theme isn't specific enough, open the <b>Ramp Composer</b> inside Populate "
-      "airfields and build the ramp by hand. Aircraft are grouped by role — Fighters &amp; "
-      "Attack, Bombers &amp; Heavies, Tankers, AWACS &amp; ISR, Transport, Helicopters — and "
-      "each type has a count. Want six Vipers, four Apaches, a pair of B-1s, a tanker and an "
-      "AWACS on the ground? Set the numbers. Counts are <b>per airfield</b> and era-filtered "
-      "(a WWII composer offers warbirds, never a B-1), and placement is stand-aware: "
-      "helicopters go on pads, heavies on the large ramp squares, everything else on fighter "
-      "stands, with anything beyond a field's capacity skipped. Any counts here override the "
-      "ramp theme and fill for your side's fields; leave them all at zero to use the theme. "
-      "The exact composition rides the share link, so a squadron-mate who clicks it gets the "
-      "same ramp."),
+    P("5 · Support & extras", "h2"),
+    P("On-station assets and briefing aids, grouped by what they do: <b>air support</b> (tanker, "
+      "AWACS, ambient traffic, FARPs), <b>targets &amp; ranges</b> (strike packages, a practice "
+      "range), and <b>briefing aids</b> (the comms card, in-jet kneeboards, named nav reference "
+      "points). Turn on what the mission needs — sensible defaults are already set."),
 
-    P("Step 4c — Map graphics (F10)", "h2"),
-    P("The map briefs the mission. Each layer draws real mission geometry on the F10 map: "
-      "the tanker's racetrack with its freq/TACAN label, the AWACS orbit, carrier CAP and "
-      "Hawkeye stations, the strike group's ops box with a BRC arrow, amber rings over "
-      "target packages and the range, FARP service rings, bullseye, and — the intel "
-      "picture — known enemy SAM engagement rings at doctrinal radii. Friendly orbits and "
-      "threat rings render on YOUR coalition's layer only, so in multiplayer the enemy "
-      "never sees your picture (or gets their own SAMs highlighted). Uncheck any layer "
-      "for a cleaner map. Zones inform — they never route you."),
-    shot("step4c_gfx.png", "Step 4c: the map-graphics layer picker."),
+    P("6 · Carrier (when the carrier is home)", "h2"),
+    P("Shown only when you chose the carrier as your home base. Pick a hull, a real-world deck "
+      "state (recovery, launch, underway, packed), the aircraft spotted on deck, and optionally "
+      "launch the air wing's CAP and Hawkeye. All approach systems come pre-activated."),
+    shot("carrier.png", "Carrier deck configuration — hull, deck state, air wing."),
 
-    P("Step 4d — Threat level", "h2"),
-    P("The <b>Threat Dial</b> sets how hard the mission pushes back. <b>Intensity</b> "
-      "(Minimal → Maximum) controls how many extra area SAM sites and airborne enemy "
-      "CAP flights spawn on top of the SAM defending each enemy airfield — the count is "
-      "rolled off the mission seed, so two re-rolls at the same setting give a different "
-      "picture. <b>System level</b> sets the calibre: <i>Era standard</i> uses the "
-      "period's historical mix; <i>Light</i> leans on legacy kit (SA-2/SA-3, MiG-21/23) "
-      "for a trainer-friendly fight; <i>Heavy</i> brings the modern long-range threats "
-      "(SA-10/SA-11, Su-27/MiG-31); <i>Mixed</i> rolls the pool per site. Everything is "
-      "era-gated — a WWII field never fields an SA-10, and a Cold War push tops out at "
-      "the MiG-23. The enemy CAP orbits on the threat axis and engages you inbound; the "
-      "area SAMs form a belt you have to plan around. Turn the base <b>Air defenses</b> "
-      "block off and the dial stands down with it."),
+    P("7 · Map &amp; graphics (F10)", "h2"),
+    P("Each layer draws real mission geometry on the F10 map: the tanker's racetrack with its "
+      "freq/TACAN label, the AWACS orbit, carrier CAP and Hawkeye stations, the strike group's "
+      "ops box, amber rings over targets and the range, FARP service rings, bullseye, and the "
+      "intel picture — known enemy SAM rings at doctrinal radii. Friendly orbits and threat "
+      "rings render on YOUR coalition's layer only, so multiplayer stays fair. Zones inform — "
+      "they never route you."),
 
-    PageBreak(),
-    P("Step 4b — Configure the carrier (optional)", "h2"),
-    P("With the carrier block enabled, pick a hull, a real-world deck state, the aircraft "
-      "spotted on deck, and optionally launch the air wing's CAP and Hawkeye."),
-    shot("step5_carrier.png", "Step 4b: the Roosevelt with a recovery deck, full airwing, CAP and AAW Hawkeye."),
+    P("8 · Template pack (optional)", "h2"),
+    P("Keep the pure starter, or drop into a curated scenario (the F-14 Crew Ops packs). Crew "
+      "difficulty sets whether the back-seat AI hints your next call."),
 
-    P("Step 5 — Template pack (optional), then Generate", "h2"),
-    P("Pick a curated scenario or keep the pure starter, then hit <b>GENERATE .MIZ</b>. Drop "
-      "the file in <i>Saved Games/DCS/Missions/</i> and fly, or open it in the Mission Editor "
-      "and keep building. <b>Copy share link</b> gives you a URL that regenerates this exact "
-      "starter for anyone who clicks it — paste it in your squadron Discord."),
-    shot("step6_template.png", "Step 5: template packs — era-gated like everything else, with crew difficulty."),
-    shot("step7_generate.png", "The generate bar: share link and download."),
+    P("9 · Review &amp; generate", "h2"),
+    P("A one-glance summary of every choice. Hit <b>GENERATE .MIZ</b> (here or from the pinned "
+      "bar on any screen), drop the file in <i>Saved Games/DCS/Missions/</i>, and fly — or open "
+      "it in the Mission Editor and keep building. <b>Copy share link</b> gives a URL that "
+      "regenerates this exact starter for anyone who clicks it; paste it in your squadron "
+      "Discord."),
+    shot("review.png", "Review & generate: the full picture before you build."),
 
     PageBreak(),
     P("Crew Ops — fly the back seat", "h1"),
@@ -304,21 +287,23 @@ story += [
 
     PageBreak(),
     P("The standard comm ladder", "h1"),
-    P("Every starter uses the same predefined comms, so you learn the plan once. The ladder is "
+    P("Every starter uses the same predefined comms, so you learn the plan once. All agency "
+      "frequencies sit on the real 25 kHz radio channel raster (they end on realistic .025 "
+      "increments, not round whole numbers), and Guard stays fixed at 243.000. The ladder is "
       "printed on the in-jet kneeboard and in the mission briefing."),
 ]
 
 comm_rows = [
     ["AGENCY", "CALLSIGN", "FREQ (UHF)", "TACAN", "NOTES"],
-    ["Guard", "—", "243.00", "—", "monitored"],
-    ["Your flight", "(varies)", "305.00", "—", "flight common"],
-    ["Tactical", "—", "254.00", "—", "inter-flight coordination"],
-    ["AWACS", "Overlord", "251.00", "—", "land-based E-3 / A-50"],
-    ["Tanker", "Texaco", "253.00", "39Y", "speeds & altitudes per type"],
-    ["Carrier", "Mother", "264.00", "71X", "ICLS 11 · Link4 336 · ACLS on"],
-    ["CAP", "(squadron)", "258.00", "—", "carrier air wing"],
-    ["AEW Hawkeye", "(squadron)", "259.00", "—", "carrier air wing"],
-    ["FARPs", "(name)", "127.50+", "—", "0.25 steps per pad"],
+    ["Guard", "—", "243.000", "—", "monitored (fixed emergency)"],
+    ["Your flight", "(varies)", "305.725", "—", "flight common"],
+    ["Tactical", "—", "254.325", "—", "inter-flight coordination"],
+    ["AWACS", "Overlord", "251.475", "—", "land-based E-3 / A-50"],
+    ["Tanker", "Texaco", "253.625", "39Y", "speeds & altitudes per type"],
+    ["Carrier", "Mother", "264.425", "71X", "ICLS 11 · Link4 336 · ACLS on"],
+    ["CAP", "(squadron)", "258.175", "—", "carrier air wing"],
+    ["AEW Hawkeye", "(squadron)", "259.925", "—", "carrier air wing"],
+    ["FARPs", "(name)", "127.525+", "—", "0.25 steps per pad"],
 ]
 story += [t(comm_rows, [1.15*inch, 1.05*inch, 1.0*inch, 0.7*inch, 2.7*inch]),
           Spacer(1, 6),
