@@ -17,6 +17,24 @@ guide cover.
 
 ---
 
+## [1.6.10] — 2026-07-14
+
+### Added — parking-heading data for 7 more maps (9 of 11 now surveyed)
+Imported whole-map surveys for **Caucasus, Kola, Marianas, Normandy, Persian Gulf,
+Sinai, and Syria** — every airplane parking spot on all their preset airfields now
+carries its exact measured painted-line heading. Static aircraft face the real
+per-spot direction with no AI cost across:
+
+- Caucasus (19 fields), Kola (18), Marianas (5), Normandy (18), Persian Gulf (18),
+  Sinai (22), Syria (28) — ~5,300 spots this batch.
+- Verified on the big fields: Vaziani 92/92, Incirlik 126/126, Hatzerim 174/174,
+  Monchegorsk 96/96 statics match their surveyed spot.
+
+**9 of 11 maps done** (Nevada, Germany + these 7). Only Falklands and The Channel
+remain. Recipe/share/API unchanged; samples regenerated.
+
+---
+
 ## [1.6.9] — 2026-07-14
 
 ### Added — full Germany parking-heading data (26 fields, exact per-spot)
