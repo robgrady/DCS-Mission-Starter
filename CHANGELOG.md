@@ -17,6 +17,23 @@ guide cover.
 
 ---
 
+## [1.8.2] — 2026-07-14
+
+### Fixed — the live preview summary got buried by the redesign
+After the section-nav redesign the bottom bar (with the running "Preview" summary)
+spanned the full width and **collided with the rail's own Generate button**, and
+Generate ended up in three places (rail, bottom bar, Review). Cleaned up:
+
+- The bottom bar now starts after the rail (no overlap); the running summary is
+  labelled **"PREVIEW"** and is clearly visible again, with Copy Share + Generate
+  on the right.
+- Removed the redundant **Generate / Copy-share buttons from the rail footer**
+  (the bottom bar covers those) — the rail keeps just "Reset wizard".
+
+One pinned action bar, one always-visible preview. No engine change.
+
+---
+
 ## [1.8.1] — 2026-07-14
 
 ### Added — forward momentum + completion cues on the new screens

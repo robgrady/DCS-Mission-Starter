@@ -47,9 +47,9 @@
   .block input { margin-top: 3px; accent-color: var(--accent); }
   .block b { font-size: 13px; display: block; }
   .block small { color: var(--dim); font-size: 11px; }
-  .genbar { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(13,17,23,.95);
-            border-top: 1px solid var(--line); padding: 14px 32px; display: flex;
-            align-items: center; gap: 18px; backdrop-filter: blur(6px); }
+  .genbar { position: fixed; bottom: 0; left: 232px; right: 0; background: rgba(13,17,23,.97);
+            border-top: 1px solid var(--line); padding: 12px 32px; display: flex;
+            align-items: center; gap: 18px; backdrop-filter: blur(6px); z-index: 20; }
   button#gen { background: var(--green); color: #04150a; font-weight: 700;
       border: none; border-radius: 8px; padding: 12px 34px; font-size: 15px;
       cursor: pointer; letter-spacing: .5px; }
@@ -100,7 +100,10 @@
             color: var(--dim); margin: 14px 0 6px; }
   .screenhint { color: var(--dim); font-size: 13px; margin: -4px 0 14px; }
   @media (max-width: 900px) { #rail { position:static; width:100%; height:auto; }
-    .app { flex-direction: column; } }
+    .app { flex-direction: column; } .genbar { left: 0; } }
+  #summary { line-height: 1.4; }
+  #summary .pfx { color: var(--dim); text-transform: uppercase; letter-spacing: 1px;
+                  font-size: 10px; margin-right: 8px; }
 </style>
 </head>
 <body>
@@ -114,8 +117,6 @@
 <nav id="rail">
   <div id="railsteps"></div>
   <div class="railfoot">
-    <button id="railgen">GENERATE .MIZ</button>
-    <button id="railshare">Copy share link</button>
     <button id="railreset" title="Clear saved state and start over">Reset wizard</button>
   </div>
 </nav>
@@ -703,8 +704,6 @@ function buildRail(){
     r.onclick = () => { if(!r.classList.contains('dim')) showScreen(scr.key); };
     c.appendChild(r);
   }
-  document.getElementById('railgen').onclick = () => document.getElementById('gen').click();
-  document.getElementById('railshare').onclick = () => document.getElementById('share').click();
   document.getElementById('railreset').onclick = () => {
     try { localStorage.removeItem('ms_recipe'); } catch(e){}
     location.href = location.pathname;
@@ -966,8 +965,8 @@ function sum(){
   updateRail(); saveState();
   if(!S.map||!S.era) return;
   const r = recipe();
-  document.getElementById('summary').textContent =
-    `${OPT.maps[S.map].label} · ${OPT.eras[S.era].label} · ${r.coalition} · ${r.aircraft} from ${r.home_airbase}` +
+  document.getElementById('summary').innerHTML =
+    `<span class="pfx">Preview</span>${OPT.maps[S.map].label} · ${OPT.eras[S.era].label} · ${r.coalition} · ${r.aircraft} from ${r.home_airbase}` +
     (S.template? ` · ${S.template}` : '') + ` · seed ${r.seed}`;
 }
 document.getElementById('gen').onclick = async ()=>{
