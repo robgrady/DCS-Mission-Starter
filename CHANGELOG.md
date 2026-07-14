@@ -17,6 +17,24 @@ guide cover.
 
 ---
 
+## [1.6.6] — 2026-07-14
+
+### Added — full Nevada parking-heading data (all 16 airfields, exact per-spot)
+Ran the survey mission over the whole Nevada map and imported the results: every
+airplane parking spot on all 16 airfields (571 spots) now has its exact measured
+painted-line heading in `parking_headings.json`. Static aircraft across Nevada —
+Nellis, Creech, Groom Lake, Tonopah, Tonopah Test Range, and the rest — face the
+real per-spot direction with no AI cost.
+
+- Nellis alone carries 27 distinct measured headings (the 220° main ramp plus the
+  310°, 130°, 40°, 180° rows), replacing the single 219° dominant value from 1.6.1.
+- The survey's Nellis dominant came out at **220°**, confirming the hand-measured
+  219° to within a degree.
+- Verified 247/247 Nellis statics match their surveyed spot; other maps untouched;
+  samples regenerated.
+
+---
+
 ## [1.6.5] — 2026-07-14
 
 ### Changed — survey mission is now fly-and-send (no local Python for the user)
