@@ -17,6 +17,25 @@ guide cover.
 
 ---
 
+## [1.7.2] — 2026-07-14
+
+### Changed — placement mode relabeled to steer users to lightweight statics
+The default has always been static objects (inert, low memory), but the old labels
+called static "best-effort facing" and AI-parked "exact facing" — which nudged
+users toward the heavy AI mode right when measured parking headings made **static
+exact** on surveyed maps. Fixed the framing:
+
+- **Static objects (recommended)** — inert, low memory/CPU, no map contacts, exact
+  facing on all surveyed maps (everything but Falklands & The Channel).
+- **AI aircraft (uncontrolled)** — now clearly flagged as heavier (memory/CPU, map
+  contacts, streams in), with an inline **⚠ may hurt FPS on lower-end PCs** warning
+  shown when selected. Only needed for exact facing on the two unsurveyed maps.
+
+No engine change — statics were and remain the default; this removes the UX trap
+that led people to pick the memory-hungry mode. Guide copy updated to match.
+
+---
+
 ## [1.7.1] — 2026-07-14
 
 ### Improved — Ramp Composer is pre-populated, coalition-separated, and complete

@@ -153,9 +153,12 @@
       <div style="flex:1.4">
         <label>Parked-aircraft placement</label>
         <select id="dress_aircraft_mode">
-          <option value="static">Static — instant load, light, best-effort facing</option>
-          <option value="parked_ai">AI-parked — exact facing on the painted lines, but heavier &amp; streams in</option>
+          <option value="static">Static objects (recommended) — inert, low memory, exact facing on surveyed maps</option>
+          <option value="parked_ai">AI aircraft (uncontrolled) — heavier: more memory/CPU, map contacts, streams in</option>
         </select>
+        <small id="dress_mode_warn" style="display:none;color:#e8b84a;margin-top:5px">
+          ⚠ AI aircraft are live units — they use more memory and CPU and can hurt FPS on lower-end PCs. Only needed for exact facing on the two maps not yet surveyed (Falklands, The Channel). <b>Static is recommended</b> everywhere else.
+        </small>
       </div>
     </div>
     <div class="row" style="margin-top:6px">
@@ -346,6 +349,11 @@ async function init(){
   document.getElementById('composer_reset').onclick = (e)=>{
     e.preventDefault(); seedComposerFromTheme(); sum();
   };
+  document.getElementById('dress_aircraft_mode').onchange = function(){
+    document.getElementById('dress_mode_warn').style.display =
+      this.value==='parked_ai' ? '' : 'none';
+    sum();
+  };
   document.querySelectorAll('input[name=dmode]').forEach(rb =>
     rb.onchange = ()=>{ setDressMode(true); sum(); });
   document.getElementById('threat_intensity').oninput = function(){
@@ -387,6 +395,8 @@ function applyRecipe(r){
     document.getElementById(k).checked = r[k] !== false;
   if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
   if (r.dress_aircraft_mode) document.getElementById('dress_aircraft_mode').value = r.dress_aircraft_mode;
+  document.getElementById('dress_mode_warn').style.display =
+    (r.dress_aircraft_mode === 'parked_ai') ? '' : 'none';
   if (r.dress_mix && Object.keys(r.dress_mix).length){
     const rb = document.querySelector('input[name=dmode][value=compose]');
     if(rb) rb.checked = true;

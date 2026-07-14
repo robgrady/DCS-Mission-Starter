@@ -1,0 +1,314 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DCS Mission Starter — Redesign Prototype</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#151b23; --panel2:#1c242e; --line:#2a333f;
+    --text:#e6edf3; --dim:#8b98a5; --accent:#4f8cff; --accent2:#2f6fe0;
+    --blue:#6ea8ff; --red:#ff8a8a; --good:#3fb950;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);
+    font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+  a{color:var(--accent);text-decoration:none}
+  .app{display:grid;grid-template-columns:248px 1fr;grid-template-rows:1fr auto;
+    height:100vh;max-height:100vh}
+  /* ---------- left rail ---------- */
+  .rail{grid-row:1/3;background:var(--panel);border-right:1px solid var(--line);
+    padding:16px 12px;overflow:auto}
+  .brand{font-weight:700;font-size:15px;padding:4px 8px 14px;letter-spacing:.2px}
+  .brand small{display:block;color:var(--dim);font-weight:400;font-size:11px;margin-top:2px}
+  .rstep{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:9px;
+    cursor:pointer;margin-bottom:2px;border:1px solid transparent}
+  .rstep:hover{background:var(--panel2)}
+  .rstep.active{background:var(--panel2);border-color:var(--accent)}
+  .rstep .num{width:22px;height:22px;border-radius:50%;background:var(--panel2);
+    border:1px solid var(--line);display:flex;align-items:center;justify-content:center;
+    font-size:11px;color:var(--dim);flex:0 0 auto;margin-top:1px}
+  .rstep.active .num{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .rstep.done .num{background:var(--good);color:#04210d;border-color:var(--good)}
+  .rstep b{font-weight:600;font-size:13.5px}
+  .rstep small{display:block;color:var(--dim);font-size:11.5px}
+  .rstep.dim{opacity:.5}
+  .railfoot{margin-top:14px;padding-top:14px;border-top:1px solid var(--line)}
+  /* ---------- main ---------- */
+  .main{grid-row:1;overflow:auto;padding:30px 40px 40px}
+  .screen{display:none;max-width:760px;animation:fade .18s ease}
+  .screen.show{display:block}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+  h1{font-size:22px;margin:0 0 4px}
+  .sub{color:var(--dim);margin:0 0 22px;font-size:13.5px}
+  label{display:block;font-size:12.5px;color:var(--dim);margin:14px 0 5px;font-weight:500}
+  select,input[type=text],input[type=number]{background:var(--panel2);color:var(--text);
+    border:1px solid var(--line);border-radius:8px;padding:9px 10px;font-size:14px;width:100%}
+  input[type=number]{width:48px;padding:5px 6px;text-align:center}
+  .row{display:flex;gap:14px;flex-wrap:wrap}
+  .row>div{flex:1;min-width:150px}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:6px}
+  .card{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:13px;cursor:pointer}
+  .card:hover{border-color:var(--accent)}
+  .card.sel{border-color:var(--accent);background:#17233a}
+  .card b{display:block;margin-bottom:3px}
+  .card small{color:var(--dim);font-size:11.5px}
+  .seg{display:inline-flex;background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:3px;gap:3px}
+  .seg button{background:none;border:none;color:var(--dim);padding:7px 14px;border-radius:6px;cursor:pointer;font-size:13px}
+  .seg button.on{background:var(--accent);color:#fff}
+  .toggle{display:flex;align-items:center;gap:10px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:9px;padding:11px 13px;margin-top:8px}
+  .toggle input{width:16px;height:16px}
+  .toggle .t{flex:1}
+  .toggle b{font-size:13.5px}
+  .toggle small{display:block;color:var(--dim);font-size:11.5px}
+  .chip{display:inline-flex;align-items:center;gap:6px;background:var(--panel2);border:1px solid var(--line);
+    border-radius:7px;padding:4px 8px;font-size:12.5px;margin:0 6px 6px 0}
+  .catlabel{font-size:10.5px;text-transform:uppercase;letter-spacing:.6px;color:var(--dim);margin:9px 0 4px}
+  .coalhdr{font-size:12.5px;font-weight:700;margin:14px 0 2px}
+  .coalhdr.blue{color:var(--blue)} .coalhdr.red{color:var(--red)}
+  .banner{background:var(--panel2);border-left:3px solid var(--accent);border-radius:6px;
+    padding:8px 12px;font-size:12.5px;margin:4px 0 10px}
+  .note{color:var(--dim);font-size:12px;margin-top:12px}
+  .pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:20px;
+    padding:2px 9px;font-size:11px;color:var(--dim);margin-left:8px}
+  /* ---------- generate bar ---------- */
+  .genbar{grid-column:2;grid-row:2;display:flex;align-items:center;gap:14px;
+    background:var(--panel);border-top:1px solid var(--line);padding:12px 40px}
+  .genbar .summary{flex:1;color:var(--dim);font-size:12.5px}
+  .genbar .summary b{color:var(--text)}
+  .btn{border:none;border-radius:9px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer}
+  .btn.ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+  .btn.primary{background:var(--accent);color:#fff}
+  .kbd{font:11px monospace;background:var(--panel2);border:1px solid var(--line);border-radius:4px;padding:1px 5px;color:var(--dim)}
+  .flag{position:fixed;top:10px;right:14px;background:#3a2a12;border:1px solid #7a5a1a;color:#e8c88a;
+    font-size:11px;padding:4px 10px;border-radius:20px}
+</style>
+</head>
+<body>
+<div class="flag">PROTOTYPE — clickable navigation mockup, not the live app</div>
+<div class="app">
+  <!-- ================= RAIL ================= -->
+  <nav class="rail">
+    <div class="brand">DCS Mission Starter <small>Authentic Media LLC</small></div>
+    <div class="rstep done" data-s="theater"><div class="num">1</div><div><b>Theater</b><small>Modern · Nevada (NTTR)</small></div></div>
+    <div class="rstep done" data-s="flight"><div class="num">2</div><div><b>Flight</b><small>Blue · F-16C · Nellis</small></div></div>
+    <div class="rstep active" data-s="airfields"><div class="num">3</div><div><b>Airfields</b><small>Compose · 20/field</small></div></div>
+    <div class="rstep done" data-s="threats"><div class="num">4</div><div><b>Threats</b><small>Moderate · Era standard</small></div></div>
+    <div class="rstep" data-s="support"><div class="num">5</div><div><b>Support</b><small>Tanker · AWACS · nav</small></div></div>
+    <div class="rstep dim" data-s="carrier"><div class="num">6</div><div><b>Carrier</b><small>land base — n/a</small></div></div>
+    <div class="rstep" data-s="graphics"><div class="num">7</div><div><b>Map &amp; graphics</b><small>6/9 layers</small></div></div>
+    <div class="rstep" data-s="template"><div class="num">8</div><div><b>Template</b><small>none (pure starter)</small></div></div>
+    <div class="rstep" data-s="review"><div class="num">9</div><div><b>Review &amp; generate</b><small>ready</small></div></div>
+    <div class="railfoot">
+      <button class="btn primary" style="width:100%;margin-bottom:8px" onclick="go('review')">GENERATE .MIZ</button>
+      <button class="btn ghost" style="width:100%">Copy share link</button>
+    </div>
+  </nav>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- 1 THEATER -->
+    <section class="screen" id="s-theater">
+      <h1>Theater</h1>
+      <p class="sub">Pick the era, then the map. Era drives everything downstream.</p>
+      <label>Era</label>
+      <div class="cards">
+        <div class="card">WWII<br><small>1944</small></div>
+        <div class="card">Cold War<br><small>1965–1985</small></div>
+        <div class="card sel">Modern<br><small>2000s+</small></div>
+      </div>
+      <label>Map (valid for Modern)</label>
+      <div class="cards">
+        <div class="card sel">Nevada<br><small>NTTR</small></div>
+        <div class="card">Persian Gulf<br><small>coastal</small></div>
+        <div class="card">Syria<br><small>coastal</small></div>
+        <div class="card">Germany<br><small>Cold War fields</small></div>
+        <div class="card">Kola<br><small>Arctic</small></div>
+        <div class="card">Sinai<br><small>coastal</small></div>
+      </div>
+    </section>
+
+    <!-- 2 FLIGHT -->
+    <section class="screen" id="s-flight">
+      <h1>Flight</h1>
+      <p class="sub">Who you are and where you start.</p>
+      <label>Coalition</label>
+      <div class="seg"><button class="on">Blue</button><button>Red</button></div>
+      <div class="row">
+        <div><label>Aircraft</label><select><option>F-16C Viper</option><option>F/A-18C Hornet</option><option>F-15E Strike Eagle</option><option>A-10C II</option></select></div>
+        <div><label>Home base</label><select><option>Nellis AFB</option><option>Creech</option><option>Groom Lake</option><option>⚓ The carrier</option></select></div>
+      </div>
+      <div class="row">
+        <div><label>Start</label><select><option>Cold &amp; dark</option><option>Warm (engines on)</option><option>Runway</option></select></div>
+        <div><label>Player slots</label><select><option>1 (single-player)</option><option>2</option><option>4</option></select></div>
+        <div><label>Time of day</label><select><option>Day</option><option>Dawn</option><option>Dusk</option><option>Night</option></select></div>
+        <div><label>Weather</label><select><option>Clear</option><option>Scattered</option><option>Overcast</option><option>Storm</option></select></div>
+      </div>
+    </section>
+
+    <!-- 3 AIRFIELDS (the star) -->
+    <section class="screen show" id="s-airfields">
+      <h1>Airfields <span class="pill">populate your ramps</span></h1>
+      <p class="sub">Fill your side's fields with parked aircraft, GSE and infrastructure. This screen finally has room to breathe.</p>
+      <label>How to fill your ramps</label>
+      <div class="seg"><button onclick="cmode(this,0)">Ramp theme</button><button class="on" onclick="cmode(this,1)">Compose exact aircraft</button></div>
+
+      <div id="m-theme" style="display:none">
+        <div class="row" style="margin-top:12px">
+          <div><label>Ramp theme</label><select><option>Auto — USAF (Nellis)</option><option>Red Flag exercise</option><option>Navy / Marine</option></select></div>
+          <div><label>Fill: 45% of stands</label><input type="text" value="————●———————" disabled style="text-align:center"></div>
+        </div>
+      </div>
+
+      <div id="m-compose" style="margin-top:12px">
+        <div class="row">
+          <div style="flex:2"><label>Start from template</label><select><option>Red Flag exercise</option><option>USAF (Nellis)</option><option>Navy / Marine</option></select></div>
+        </div>
+        <div class="banner"><b>20</b> aircraft per airfield · <a href="#">Reset to theme</a> · <a href="#">Clear all</a></div>
+
+        <div class="coalhdr blue">Your coalition — Blue</div>
+        <div class="catlabel">Fighters &amp; Attack</div>
+        <div>
+          <span class="chip">F-16C <input type="number" value="4"></span>
+          <span class="chip">F-15C <input type="number" value="2"></span>
+          <span class="chip">F-15E <input type="number" value="2"></span>
+          <span class="chip">A-10C II <input type="number" value="1"></span>
+          <span class="chip">F/A-18C <input type="number" value="1"></span>
+          <span class="chip">Mirage 2000C <input type="number" value="1"></span>
+          <span class="chip">Tornado GR4 <input type="number" value="1"></span>
+        </div>
+        <div class="catlabel">Bombers &amp; Heavies</div>
+        <div><span class="chip">B-1B <input type="number" value="2"></span><span class="chip">B-52H <input type="number" value="1"></span></div>
+        <div class="catlabel">Tankers · AWACS · Transport</div>
+        <div><span class="chip">KC-135 <input type="number" value="2"></span><span class="chip">E-3A <input type="number" value="1"></span><span class="chip">C-17A <input type="number" value="1"></span></div>
+        <div class="catlabel">Helicopters</div>
+        <div><span class="chip">UH-1H <input type="number" value="1"></span><span class="chip">AH-64D <input type="number" value="0"></span></div>
+
+        <div class="coalhdr red">Red / OPFOR &amp; Aggressors</div>
+        <div class="catlabel">Fighters &amp; Attack</div>
+        <div><span class="chip">F-5E (Aggr.) <input type="number" value="0"></span><span class="chip">MiG-29A <input type="number" value="0"></span><span class="chip">Su-27 <input type="number" value="0"></span></div>
+      </div>
+
+      <div class="row" style="margin-top:16px">
+        <label class="toggle" style="flex:1"><input type="checkbox" checked><span class="t"><b>Parked aircraft</b></span></label>
+        <label class="toggle" style="flex:1"><input type="checkbox" checked><span class="t"><b>Ground equipment</b><small>trucks by the jets</small></span></label>
+        <label class="toggle" style="flex:1"><input type="checkbox" checked><span class="t"><b>Infrastructure</b><small>fuel farm, tents</small></span></label>
+      </div>
+      <label style="margin-top:14px">Placement mode</label>
+      <select><option>Static — instant, light, exact facing (measured)</option><option>AI-parked — exact but heavier, streams in</option></select>
+      <div class="note">▸ Per-base overrides &amp; the full 89-type catalog live here too — collapsed until you need them.</div>
+    </section>
+
+    <!-- 4 THREATS -->
+    <section class="screen" id="s-threats">
+      <h1>Threats</h1>
+      <p class="sub">How hard the mission pushes back. Air defenses + the Threat Dial, together.</p>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Air defenses</b><small>era-correct SAM sites + SHORAD at enemy fields</small></span></label>
+      <label>Intensity — Moderate</label>
+      <input type="text" value="——————●————" disabled style="text-align:center">
+      <div class="note">1 Minimal · 2 Light · 3 Moderate · 4 Heavy · 5 Maximum — extra area SAMs + enemy CAP, count randomized off the seed.</div>
+      <label>System level</label>
+      <select><option>Era standard — historical mix</option><option>Light — SA-2/3 · MiG-21/23</option><option>Heavy — SA-10/11 · Su-27/MiG-31</option><option>Mixed</option></select>
+    </section>
+
+    <!-- 5 SUPPORT -->
+    <section class="screen" id="s-support">
+      <h1>Support &amp; extras</h1>
+      <p class="sub">On-station assets and briefing aids. (The old flat 13-checkbox list, now grouped by what it does.)</p>
+      <div class="catlabel">Air support</div>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Tanker</b><small>racetrack, TACAN + freq</small></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>AWACS</b><small>on station behind friendly lines</small></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Ambient traffic</b><small>AI transports between friendly fields</small></span></label>
+      <label class="toggle"><input type="checkbox"><span class="t"><b>Functional FARPs</b><small>rearm/refuel pads (helo eras)</small></span></label>
+      <div class="catlabel" style="margin-top:14px">Targets &amp; ranges</div>
+      <label class="toggle"><input type="checkbox"><span class="t"><b>Strike target packages</b><small>depot / convoy / C2 in the enemy rear</small></span></label>
+      <label class="toggle"><input type="checkbox"><span class="t"><b>Practice range</b><small>bombing ring + strafe line</small></span></label>
+      <div class="catlabel" style="margin-top:14px">Briefing aids</div>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Comms card + kneeboards</b><small>freq/TACAN plan, airfield &amp; theater pages</small></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Nav reference points</b><small>named landmarks on F10 + kneeboard</small></span></label>
+    </section>
+
+    <!-- 6 CARRIER -->
+    <section class="screen" id="s-carrier">
+      <h1>Carrier</h1>
+      <p class="sub">Shown only when the carrier is your home base (coastal maps). Greyed in the rail otherwise.</p>
+      <div class="row">
+        <div><label>Hull</label><select><option>CVN-73 George Washington</option><option>CVN-71 Roosevelt</option><option>Forrestal</option></select></div>
+        <div><label>Deck state</label><select><option>Recovery</option><option>Launch</option><option>Underway</option><option>Packed</option></select></div>
+      </div>
+      <label>Air wing on deck</label>
+      <div><span class="chip">F/A-18C <input type="number" value="8"></span><span class="chip">F-14B <input type="number" value="4"></span><span class="chip">E-2C <input type="number" value="1"></span></div>
+      <label class="toggle" style="margin-top:12px"><input type="checkbox" checked><span class="t"><b>Launch CAP + Hawkeye</b><small>air wing on station toward the threat axis</small></span></label>
+    </section>
+
+    <!-- 7 GRAPHICS -->
+    <section class="screen" id="s-graphics">
+      <h1>Map &amp; graphics</h1>
+      <p class="sub">What the F10 map draws. Coalition-private layers stay MP-safe.</p>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Tanker track</b></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>AWACS / AEW orbits</b></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Target &amp; range rings</b></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Threat rings (intel)</b><small>known enemy SAM WEZ — your side's layer only</small></span></label>
+      <label class="toggle"><input type="checkbox" checked><span class="t"><b>Bullseye + nav points</b></span></label>
+      <label class="toggle"><input type="checkbox"><span class="t"><b>FARP service rings</b></span></label>
+    </section>
+
+    <!-- 8 TEMPLATE -->
+    <section class="screen" id="s-template">
+      <h1>Template <span class="pill">optional</span></h1>
+      <p class="sub">Keep the pure starter, or drop into a curated scenario.</p>
+      <div class="cards">
+        <div class="card sel"><b>None</b><small>pure starter — you build the play</small></div>
+        <div class="card"><b>F-14 RIO: Fleet Defense</b><small>AWG-9 vs a Backfire raid</small></div>
+        <div class="card"><b>IZLID Strike</b><small>Jester designates on your call ⏳</small></div>
+      </div>
+    </section>
+
+    <!-- 9 REVIEW -->
+    <section class="screen" id="s-review">
+      <h1>Review &amp; generate</h1>
+      <p class="sub">One glance, then build.</p>
+      <div class="banner" style="border-left-color:var(--good)">
+        <b>Modern · Nevada · Blue · F-16C from Nellis</b><br>
+        Compose: 20 aircraft/field (incl. Tornado, 2×B-1, E-3, KC-135) · Threats Moderate/Era · Tanker + AWACS + nav · 6/9 map layers · seed 3
+      </div>
+      <div style="display:flex;gap:12px;margin-top:8px">
+        <button class="btn primary">GENERATE .MIZ</button>
+        <button class="btn ghost">Copy share link</button>
+      </div>
+      <div class="note">Every screen's summary is echoed here, so you never generate blind — and any rail item jumps you back to tweak, then straight to Generate.</div>
+    </section>
+
+  </main>
+
+  <!-- ============ GENERATE BAR (always pinned) ============ -->
+  <div class="genbar">
+    <div class="summary"><b>Nevada</b> · Modern · Blue · F-16C from Nellis · composed ramp · seed 3</div>
+    <span class="kbd">Generate is always one click — from any screen</span>
+    <button class="btn ghost">Copy share link</button>
+    <button class="btn primary">GENERATE .MIZ</button>
+  </div>
+</div>
+
+<script>
+  function go(s){
+    document.querySelectorAll('.screen').forEach(x=>x.classList.remove('show'));
+    document.getElementById('s-'+s).classList.add('show');
+    document.querySelectorAll('.rstep').forEach(r=>r.classList.toggle('active', r.dataset.s===s));
+    document.querySelector('.main').scrollTop=0;
+  }
+  document.querySelectorAll('.rstep').forEach(r=>{
+    if(r.classList.contains('dim')) return;
+    r.onclick=()=>go(r.dataset.s);
+  });
+  function cmode(btn,compose){
+    btn.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    document.getElementById('m-theme').style.display = compose?'none':'';
+    document.getElementById('m-compose').style.display = compose?'':'none';
+  }
+</script>
+</body>
+</html>
