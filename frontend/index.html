@@ -136,8 +136,16 @@
       <div><label>Time</label><select id="time_of_day"></select></div>
       <div><label>Weather</label><select id="weather"></select></div>
       <div><label>Density</label><select id="density"></select></div>
-      <div><label>Seed</label><input type="number" id="seed" value="1"></div>
+      <div><label>Variation <span style="text-transform:none;letter-spacing:0">(seed)</span></label>
+        <div style="display:flex;gap:6px">
+          <input type="number" id="seed" value="1" min="1" style="flex:1">
+          <button type="button" id="reroll" title="Re-roll a new random variation"
+            style="background:var(--panel2);border:1px solid var(--line);border-radius:6px;color:var(--text);cursor:pointer;padding:0 12px;font-size:16px">🎲</button>
+        </div>
+      </div>
     </div>
+    <small style="color:var(--dim);display:block;margin-top:6px">
+      <b>Variation (seed)</b> — the same seed always builds the <b>exact same mission</b> (that's how a share link reproduces it precisely). Keep it to fine-tune the same layout; change it or hit <b>🎲</b> to re-roll a different spread of parked aircraft, threats and support.</small>
     <div class="subcat">Carrier</div>
     <div class="blocks" id="tog_carrier"></div>
   </div>
@@ -389,6 +397,10 @@ async function init(){
   };
   document.getElementById('composer_reset').onclick = (e)=>{
     e.preventDefault(); seedComposerFromTheme(); sum();
+  };
+  document.getElementById('reroll').onclick = ()=>{
+    document.getElementById('seed').value = Math.floor(Math.random()*99999)+1;
+    sum();
   };
   document.getElementById('dress_aircraft_mode').onchange = function(){
     document.getElementById('dress_mode_warn').style.display =

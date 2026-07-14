@@ -200,6 +200,17 @@ story += [
       "density. On coastal maps <b>the carrier</b> is offered here as a home base (last in the "
       "list); land bases are the default, so choosing the boat is a deliberate act — and doing "
       "so lights up the Carrier screen."),
+    P("Variations &amp; the seed", "h3"),
+    P("The <b>Variation (seed)</b> field is the one control people find mysterious, so here's "
+      "the whole story: the generator makes hundreds of small random choices — which stands get "
+      "aircraft, where the area SAMs sit, exactly where the tanker orbits. The <b>seed</b> is "
+      "the number those choices are rolled from. <b>The same recipe and the same seed always "
+      "build the exact same mission</b>, byte for byte — that's how a share link reproduces your "
+      "mission precisely for a squadron-mate. If you like a mission but want to tweak one setting, "
+      "<i>keep</i> the seed so everything else stays put. If you want a <i>different</i> layout of "
+      "the same scenario, change the number — or just hit the <b>🎲 re-roll</b> button next to "
+      "it — and generate again. You never have to think about the actual value; treat 🎲 as "
+      "\"give me another version.\""),
 
     P("3 · Airfields — populate your ramps", "h2"),
     P("Fill your side's fields with parked aircraft, ground equipment and infrastructure. "

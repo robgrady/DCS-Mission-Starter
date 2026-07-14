@@ -17,6 +17,23 @@ guide cover.
 
 ---
 
+## [1.8.5] — 2026-07-14
+
+### Changed — the "seed" is explained and gets a re-roll button
+The bare "Seed" number field confused people. Reframed it around what users actually
+want — a different version — while keeping the reproducibility that share links rely on:
+
+- Relabelled **"Variation (seed)"** with an inline **🎲 re-roll** button that drops in a
+  fresh random seed, plus a one-line helper: *same seed builds the exact same mission
+  (that's how share links reproduce it); change it or hit 🎲 to re-roll a different spread
+  of aircraft, threats and support.*
+- Guide gains a **"Variations & the seed"** explainer under the Flight screen — you never
+  have to think about the number; treat 🎲 as "give me another version."
+
+No engine change; the seed still drives reproducible generation exactly as before.
+
+---
+
 ## [1.8.4] — 2026-07-14
 
 ### Docs — Airfields guide section broken into readable steps
