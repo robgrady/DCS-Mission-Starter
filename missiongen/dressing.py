@@ -216,12 +216,15 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         placed += 1
 
         # BB-2: ground support equipment near ~half the occupied stands.
-        # Stay WITHIN the stand's own footprint (stands are 40-80 m wide, so
-        # 12-16 m off the aircraft is still apron, never the taxilane) and
-        # never inside a runway corridor.
+        # Keep the truck ON the aircraft's OWN pad, just off to one side. The
+        # offset MUST scale to the stand: a fixed 12-16 m offset (the old code)
+        # is fine on a 60 m bomber pad but throws the truck clean off a 14 m
+        # fighter stand — into the taxilane or onto a sunshade canopy (Nellis).
+        # So base it on the stand's half-width, clamped to a sane 4-9 m.
         if include_gse and rng.random() < 0.5:
-            gse_max = max(12.0, min(16.0, (min(slot.length, slot.width) / 2) - 8))
-            gse_pos = _offset(slot.position, rng.uniform(12, gse_max), gse_ref_hdg)
+            half = min(slot.length, slot.width) / 2.0
+            off = max(4.0, min(0.6 * half, 9.0)) * rng.uniform(0.85, 1.0)
+            gse_pos = _offset(slot.position, off, gse_ref_hdg)
             if keepout.clear(gse_pos, avoid_stands=False):
                 gse_type = fuel_truck if rng.random() < 0.5 else rng.choice(utility)
                 m.static_group(country, f"GSE {airport.name} {slot.slot_name}",

@@ -464,8 +464,13 @@ function refreshEraGating(){
   });
 }
 function eraHull(){
-  // first hull valid for the current era, if any
-  return Object.entries(OPT.carriers).find(([k,v])=>k!=='_layouts'&&v.eras.includes(S.era))?.[0] || null;
+  // default hull for the current era — prefer a CATOBAR deck (full fixed-wing
+  // air wing) over a V/STOL deck (Harrier-only), so choosing the carrier does
+  // not needlessly collapse the jet list to the AV-8B.
+  const ents = Object.entries(OPT.carriers).filter(([k,v])=>k!=='_layouts'&&v.eras.includes(S.era));
+  if(!ents.length) return null;
+  const cat = ents.find(([k])=>(OPT.carrier_capable.hull_class||{})[k]==='catobar');
+  return (cat||ents[0])[0];
 }
 function fillHome(){
   if(!S.map||!S.era) return;
@@ -476,11 +481,15 @@ function fillHome(){
   const h = document.getElementById('home');
   const prev = h.value;
   h.innerHTML='';
-  // the carrier is a first-class home base on coastal maps (blue, era-valid hull)
+  // land bases first so a normal runway is the DEFAULT home. The carrier is an
+  // opt-in choice listed last — making it the first option silently defaulted
+  // users onto the boat, which also collapsed the jet list to carrier-capable
+  // only (and to the AV-8B when the era's default hull was a Harrier deck).
+  list.forEach(n=>h.appendChild(el(`<option value="${n}">${n}${civ.has(n)?' — civilian':''}</option>`)));
   if (side==='blue' && OPT.maps[S.map].has_carrier && eraHull())
     h.appendChild(el(`<option value="CARRIER">⚓ The carrier (start on the boat)</option>`));
-  list.forEach(n=>h.appendChild(el(`<option value="${n}">${n}${civ.has(n)?' — civilian':''}</option>`)));
   if ([...h.options].some(o=>o.value===prev)) h.value = prev;
+  else h.selectedIndex = 0;     // default to the first land base, never the carrier
   h.onchange = onHomeChange;
 }
 function onHomeChange(){

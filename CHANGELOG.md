@@ -17,6 +17,38 @@ guide cover.
 
 ---
 
+## [1.6.8] — 2026-07-14
+
+### Fixed — GSE trucks land on the pad; carrier no longer hijacks the aircraft list
+Two issues from Rob's in-game Nellis screenshot:
+
+- **GSE placement** — ground trucks used a fixed 12–16 m side offset regardless of
+  stand size. On a ~14 m fighter stand that threw the truck clean off the pad into
+  the taxilane or onto the sunshade canopies. Offset is now scaled to the stand's
+  half-width, clamped to 4–9 m, so trucks sit beside the aircraft on its own pad.
+  (Nellis GSE now averages ~5.5 m from the jet, all ≤ 9 m.)
+- **Aircraft dropdown showed only the AV-8B** — on coastal maps the home list put
+  "⚓ The carrier" *first*, so it became the default home. That silently filtered
+  the jet list to carrier-capable, and since the Cold War default hull is HMS
+  Invincible (a Harrier deck), the roster collapsed to the AV-8B. Fix: land bases
+  are listed first and are the default home; the carrier is opt-in and listed last.
+  `eraHull()` now prefers a CATOBAR deck, so even choosing the carrier keeps the
+  full air wing. Verified: coastal Cold War / modern maps now default to a land
+  base and show the full 41 / 53-aircraft list.
+
+---
+
+## [1.6.7] — 2026-07-14
+
+### Fixed — survey builder no longer caps at ~989 spots on big maps
+pydcs gives each country only ~989 unique onboard/tail numbers, so large-map
+surveys hit `pop from an empty set` and silently dropped every field past the cap
+(Germany placed 988 of 2,220). The survey builder now spreads aircraft across a
+15-country pool, round-robined per spot. Verified full placement: Germany
+2,220/2,220, Sinai 1,546/1,546, Syria 1,044/1,044, and all reload clean.
+
+---
+
 ## [1.6.6] — 2026-07-14
 
 ### Added — full Nevada parking-heading data (all 16 airfields, exact per-spot)
