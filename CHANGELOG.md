@@ -17,6 +17,22 @@ guide cover.
 
 ---
 
+## [1.7.3] — 2026-07-14
+
+### Added — Cold War Red Flag theme (Red Flag 81-x)
+Red Flag existed only as a Modern ramp theme; it started in 1975, so a Cold War
+version was missing. Added **"Red Flag exercise (Cold War)"** under coldwar/blue:
+F-4E Phantoms, F-5E Aggressors, F-15C/F-16A, A-10s, B-52 heavies + KC-135/E-3, and
+NATO visitors (Tornado IDS, Mirage F1CE) — a ~1981 Nellis surge ramp. Also flagged
+F-15C and E-3A as Cold War-valid in the composer catalog (both in service by 1977),
+so they show and pre-populate in the Cold War composer.
+
+Find Red Flag in **Populate airfields → theme dropdown** (or Compose → start from
+template) for either era + Blue. Verified it places in-game and pre-populates the
+composer to 21 aircraft incl. the Tornado and Aggressors.
+
+---
+
 ## [1.7.2] — 2026-07-14
 
 ### Changed — placement mode relabeled to steer users to lightweight statics

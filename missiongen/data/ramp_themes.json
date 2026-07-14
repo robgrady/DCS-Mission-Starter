@@ -1,128 +1,594 @@
 {
-  "_comment": "Ramp themes: WHO lives on the dressed airfields. Weighted lists [ref, weight] keep mixes realistic (a Red Flag ramp is mostly USAF with a few visitors, not an even split). Era-gated: a theme only exists under its era. default marks the era/side fallback; map presets may override per side (e.g. Nevada blue = usaf - Nellis is an Air Force base, no random Hornets). Trucks/GSE stay era-side data in eras.json.",
-
-  "modern": {
-    "blue": {
-      "default": "expeditionary",
-      "usaf": {
-        "label": "US Air Force",
-        "desc": "CONUS/USAFE ramp - Vipers, Eagles, Hogs, heavies. No Navy paint.",
-        "planes": [["planes.F_16C_50", 4], ["planes.F_15E", 3], ["planes.F_15C", 2], ["planes.A_10C_2", 2]],
-        "large": [["planes.C_130", 3], ["planes.KC_135", 2], ["planes.C_17A", 2], ["planes.B_1B", 1]],
-        "helos": [["helicopters.UH_1H", 1]]
-      },
-      "red_flag": {
-        "label": "Red Flag exercise",
-        "desc": "Nellis surge ramp: USAF core + B-1/B-52 heavies, aggressor Vipers, Navy and allied visitors.",
-        "planes": [["planes.F_16C_50", 4], ["planes.F_15C", 2], ["planes.F_15E", 2], ["planes.A_10C_2", 1], ["planes.FA_18C_hornet", 1], ["planes.M_2000C", 1], ["planes.Tornado_GR4", 1]],
-        "large": [["planes.B_1B", 2], ["planes.B_52H", 1], ["planes.KC_135", 2], ["planes.E_3A", 1], ["planes.C_17A", 1]],
-        "helos": [["helicopters.UH_1H", 1]]
-      },
-      "navy_marine": {
-        "label": "Navy / Marine Corps",
-        "desc": "Shore-based NAS/MCAS ramp - Hornets, Tomcats, Harriers, Hawkeyes, Seahawks.",
-        "planes": [["planes.FA_18C_hornet", 4], ["planes.F_14B", 2], ["planes.AV8BNA", 2]],
-        "large": [["planes.E_2C", 1], ["planes.S_3B", 1], ["planes.C_130", 1]],
-        "helos": [["helicopters.SH_60B", 2], ["helicopters.UH_1H", 1]]
-      },
-      "expeditionary": {
-        "label": "Joint expeditionary",
-        "desc": "Deployed coalition mix - the classic forward-operating ramp.",
-        "planes": [["planes.F_16C_50", 3], ["planes.FA_18C_hornet", 2], ["planes.A_10C_2", 2]],
-        "large": [["planes.C_130", 2], ["planes.C_17A", 1]],
-        "helos": [["helicopters.AH_64D_BLK_II", 1], ["helicopters.UH_1H", 1]]
-      }
-    },
-    "red": {
-      "default": "vks",
-      "vks": {
-        "label": "Russian VKS (frontal)",
-        "desc": "Fulcrums, Flankers, Fencers, Frogfoots with transport and AWACS support.",
-        "planes": [["planes.MiG_29S", 3], ["planes.Su_27", 3], ["planes.Su_24M", 2], ["planes.Su_25", 2]],
-        "large": [["planes.IL_76MD", 2], ["planes.A_50", 1], ["planes.IL_78M", 1]],
-        "helos": [["helicopters.Mi_24P", 1], ["helicopters.Mi_8MT", 2]]
-      },
-      "strategic": {
-        "label": "Long-Range Aviation",
-        "desc": "Backfire/Bear bomber base with interceptor defense and tankers.",
-        "planes": [["planes.MiG_31", 2], ["planes.Su_27", 1]],
-        "large": [["planes.Tu_22M3", 3], ["planes.Tu_95MS", 2], ["planes.IL_78M", 1]],
-        "helos": [["helicopters.Mi_8MT", 1]]
-      }
-    }
+ "_comment": "Ramp themes: WHO lives on the dressed airfields. Weighted lists [ref, weight] keep mixes realistic (a Red Flag ramp is mostly USAF with a few visitors, not an even split). Era-gated: a theme only exists under its era. default marks the era/side fallback; map presets may override per side (e.g. Nevada blue = usaf - Nellis is an Air Force base, no random Hornets). Trucks/GSE stay era-side data in eras.json.",
+ "modern": {
+  "blue": {
+   "default": "expeditionary",
+   "usaf": {
+    "label": "US Air Force",
+    "desc": "CONUS/USAFE ramp - Vipers, Eagles, Hogs, heavies. No Navy paint.",
+    "planes": [
+     [
+      "planes.F_16C_50",
+      4
+     ],
+     [
+      "planes.F_15E",
+      3
+     ],
+     [
+      "planes.F_15C",
+      2
+     ],
+     [
+      "planes.A_10C_2",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.C_130",
+      3
+     ],
+     [
+      "planes.KC_135",
+      2
+     ],
+     [
+      "planes.C_17A",
+      2
+     ],
+     [
+      "planes.B_1B",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   },
+   "red_flag": {
+    "label": "Red Flag exercise",
+    "desc": "Nellis surge ramp: USAF core + B-1/B-52 heavies, aggressor Vipers, Navy and allied visitors.",
+    "planes": [
+     [
+      "planes.F_16C_50",
+      4
+     ],
+     [
+      "planes.F_15C",
+      2
+     ],
+     [
+      "planes.F_15E",
+      2
+     ],
+     [
+      "planes.A_10C_2",
+      1
+     ],
+     [
+      "planes.FA_18C_hornet",
+      1
+     ],
+     [
+      "planes.M_2000C",
+      1
+     ],
+     [
+      "planes.Tornado_GR4",
+      1
+     ]
+    ],
+    "large": [
+     [
+      "planes.B_1B",
+      2
+     ],
+     [
+      "planes.B_52H",
+      1
+     ],
+     [
+      "planes.KC_135",
+      2
+     ],
+     [
+      "planes.E_3A",
+      1
+     ],
+     [
+      "planes.C_17A",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   },
+   "navy_marine": {
+    "label": "Navy / Marine Corps",
+    "desc": "Shore-based NAS/MCAS ramp - Hornets, Tomcats, Harriers, Hawkeyes, Seahawks.",
+    "planes": [
+     [
+      "planes.FA_18C_hornet",
+      4
+     ],
+     [
+      "planes.F_14B",
+      2
+     ],
+     [
+      "planes.AV8BNA",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.E_2C",
+      1
+     ],
+     [
+      "planes.S_3B",
+      1
+     ],
+     [
+      "planes.C_130",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.SH_60B",
+      2
+     ],
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   },
+   "expeditionary": {
+    "label": "Joint expeditionary",
+    "desc": "Deployed coalition mix - the classic forward-operating ramp.",
+    "planes": [
+     [
+      "planes.F_16C_50",
+      3
+     ],
+     [
+      "planes.FA_18C_hornet",
+      2
+     ],
+     [
+      "planes.A_10C_2",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.C_130",
+      2
+     ],
+     [
+      "planes.C_17A",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.AH_64D_BLK_II",
+      1
+     ],
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   }
   },
-
-  "coldwar": {
-    "blue": {
-      "default": "usafe",
-      "usafe": {
-        "label": "USAFE / US Air Force",
-        "desc": "1980s Air Force ramp - Phantoms, Eagles, Tigers, Herks on the Victor Alert line.",
-        "planes": [["planes.F_4E", 4], ["planes.F_5E_3", 2], ["planes.F_15C", 2]],
-        "large": [["planes.C_130", 2], ["planes.KC_135", 1]],
-        "helos": [["helicopters.UH_1H", 1]]
-      },
-      "nato_allied": {
-        "label": "NATO allied wing",
-        "desc": "Mixed alliance ramp - Phantoms alongside Tornados and Mirages.",
-        "planes": [["planes.F_4E", 3], ["planes.Tornado_IDS", 2], ["planes.F_5E_3", 2], ["planes.M_2000C", 1]],
-        "large": [["planes.C_130", 2]],
-        "helos": [["helicopters.UH_1H", 1]]
-      },
-      "navy": {
-        "label": "US Navy",
-        "desc": "Tomcat-era NAS ramp - F-14s, Vikings, Hawkeyes.",
-        "planes": [["planes.F_14A", 3], ["planes.FA_18C_hornet", 1]],
-        "large": [["planes.S_3B", 1], ["planes.E_2C", 1], ["planes.C_130", 1]],
-        "helos": [["helicopters.UH_1H", 1]]
-      }
-    },
-    "red": {
-      "default": "vvs",
-      "vvs": {
-        "label": "Soviet VVS (frontal)",
-        "desc": "Fishbeds, Floggers, Fitters with An-26 hacks - the classic WP ramp.",
-        "planes": [["planes.MiG_21Bis", 3], ["planes.MiG_23MLD", 3], ["planes.Su_17M4", 2]],
-        "large": [["planes.An_26B", 2], ["planes.IL_76MD", 1]],
-        "helos": [["helicopters.Mi_8MT", 2], ["helicopters.Mi_24P", 1]]
-      },
-      "pvo": {
-        "label": "Soviet PVO (air defense)",
-        "desc": "Interceptor regiment - Foxbats and Foxhounds on alert rows.",
-        "planes": [["planes.MiG_25PD", 3], ["planes.MiG_31", 2], ["planes.MiG_23MLD", 2]],
-        "large": [["planes.An_26B", 1]],
-        "helos": [["helicopters.Mi_8MT", 1]]
-      }
-    }
-  },
-
-  "wwii": {
-    "blue": {
-      "default": "raf",
-      "raf": {
-        "label": "Royal Air Force",
-        "desc": "Spitfires and Mosquitos dispersed on a fighter station.",
-        "planes": [["planes.SpitfireLFMkIX", 4], ["planes.MosquitoFBMkVI", 2]],
-        "large": [["planes.C_47", 1]],
-        "helos": []
-      },
-      "usaaf": {
-        "label": "US Army Air Forces",
-        "desc": "Mustangs and Thunderbolts with Havocs and Skytrains on the hardstands.",
-        "planes": [["planes.P_51D", 4], ["planes.P_47D_30", 3], ["planes.A_20G", 1]],
-        "large": [["planes.C_47", 2]],
-        "helos": []
-      }
-    },
-    "red": {
-      "default": "luftwaffe",
-      "luftwaffe": {
-        "label": "Luftwaffe",
-        "desc": "109s and 190s in revetments, a Ju 88 on the apron.",
-        "planes": [["planes.Bf_109K_4", 3], ["planes.FW_190A8", 2], ["planes.FW_190D9", 2]],
-        "large": [["planes.Ju_88A4", 1]],
-        "helos": []
-      }
-    }
+  "red": {
+   "default": "vks",
+   "vks": {
+    "label": "Russian VKS (frontal)",
+    "desc": "Fulcrums, Flankers, Fencers, Frogfoots with transport and AWACS support.",
+    "planes": [
+     [
+      "planes.MiG_29S",
+      3
+     ],
+     [
+      "planes.Su_27",
+      3
+     ],
+     [
+      "planes.Su_24M",
+      2
+     ],
+     [
+      "planes.Su_25",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.IL_76MD",
+      2
+     ],
+     [
+      "planes.A_50",
+      1
+     ],
+     [
+      "planes.IL_78M",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.Mi_24P",
+      1
+     ],
+     [
+      "helicopters.Mi_8MT",
+      2
+     ]
+    ]
+   },
+   "strategic": {
+    "label": "Long-Range Aviation",
+    "desc": "Backfire/Bear bomber base with interceptor defense and tankers.",
+    "planes": [
+     [
+      "planes.MiG_31",
+      2
+     ],
+     [
+      "planes.Su_27",
+      1
+     ]
+    ],
+    "large": [
+     [
+      "planes.Tu_22M3",
+      3
+     ],
+     [
+      "planes.Tu_95MS",
+      2
+     ],
+     [
+      "planes.IL_78M",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.Mi_8MT",
+      1
+     ]
+    ]
+   }
   }
+ },
+ "coldwar": {
+  "blue": {
+   "default": "usafe",
+   "usafe": {
+    "label": "USAFE / US Air Force",
+    "desc": "1980s Air Force ramp - Phantoms, Eagles, Tigers, Herks on the Victor Alert line.",
+    "planes": [
+     [
+      "planes.F_4E",
+      4
+     ],
+     [
+      "planes.F_5E_3",
+      2
+     ],
+     [
+      "planes.F_15C",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.C_130",
+      2
+     ],
+     [
+      "planes.KC_135",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   },
+   "nato_allied": {
+    "label": "NATO allied wing",
+    "desc": "Mixed alliance ramp - Phantoms alongside Tornados and Mirages.",
+    "planes": [
+     [
+      "planes.F_4E",
+      3
+     ],
+     [
+      "planes.Tornado_IDS",
+      2
+     ],
+     [
+      "planes.F_5E_3",
+      2
+     ],
+     [
+      "planes.M_2000C",
+      1
+     ]
+    ],
+    "large": [
+     [
+      "planes.C_130",
+      2
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   },
+   "navy": {
+    "label": "US Navy",
+    "desc": "Tomcat-era NAS ramp - F-14s, Vikings, Hawkeyes.",
+    "planes": [
+     [
+      "planes.F_14A",
+      3
+     ],
+     [
+      "planes.FA_18C_hornet",
+      1
+     ]
+    ],
+    "large": [
+     [
+      "planes.S_3B",
+      1
+     ],
+     [
+      "planes.E_2C",
+      1
+     ],
+     [
+      "planes.C_130",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   },
+   "red_flag": {
+    "label": "Red Flag exercise (Cold War)",
+    "desc": "Nellis surge ramp, ~1981 (Red Flag 81-x): Phantoms & Eagles, F-5 Aggressors, A-10s and Vipers, B-52 heavies, and NATO visitors (Tornado, Mirage F1).",
+    "planes": [
+     [
+      "planes.F_4E",
+      4
+     ],
+     [
+      "planes.F_15C",
+      2
+     ],
+     [
+      "planes.F_5E_3",
+      3
+     ],
+     [
+      "planes.A_10A",
+      2
+     ],
+     [
+      "planes.F_16A",
+      1
+     ],
+     [
+      "planes.Mirage_F1CE",
+      1
+     ],
+     [
+      "planes.Tornado_IDS",
+      1
+     ]
+    ],
+    "large": [
+     [
+      "planes.B_52H",
+      2
+     ],
+     [
+      "planes.KC_135",
+      2
+     ],
+     [
+      "planes.E_3A",
+      1
+     ],
+     [
+      "planes.C_130",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.UH_1H",
+      1
+     ]
+    ]
+   }
+  },
+  "red": {
+   "default": "vvs",
+   "vvs": {
+    "label": "Soviet VVS (frontal)",
+    "desc": "Fishbeds, Floggers, Fitters with An-26 hacks - the classic WP ramp.",
+    "planes": [
+     [
+      "planes.MiG_21Bis",
+      3
+     ],
+     [
+      "planes.MiG_23MLD",
+      3
+     ],
+     [
+      "planes.Su_17M4",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.An_26B",
+      2
+     ],
+     [
+      "planes.IL_76MD",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.Mi_8MT",
+      2
+     ],
+     [
+      "helicopters.Mi_24P",
+      1
+     ]
+    ]
+   },
+   "pvo": {
+    "label": "Soviet PVO (air defense)",
+    "desc": "Interceptor regiment - Foxbats and Foxhounds on alert rows.",
+    "planes": [
+     [
+      "planes.MiG_25PD",
+      3
+     ],
+     [
+      "planes.MiG_31",
+      2
+     ],
+     [
+      "planes.MiG_23MLD",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.An_26B",
+      1
+     ]
+    ],
+    "helos": [
+     [
+      "helicopters.Mi_8MT",
+      1
+     ]
+    ]
+   }
+  }
+ },
+ "wwii": {
+  "blue": {
+   "default": "raf",
+   "raf": {
+    "label": "Royal Air Force",
+    "desc": "Spitfires and Mosquitos dispersed on a fighter station.",
+    "planes": [
+     [
+      "planes.SpitfireLFMkIX",
+      4
+     ],
+     [
+      "planes.MosquitoFBMkVI",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.C_47",
+      1
+     ]
+    ],
+    "helos": []
+   },
+   "usaaf": {
+    "label": "US Army Air Forces",
+    "desc": "Mustangs and Thunderbolts with Havocs and Skytrains on the hardstands.",
+    "planes": [
+     [
+      "planes.P_51D",
+      4
+     ],
+     [
+      "planes.P_47D_30",
+      3
+     ],
+     [
+      "planes.A_20G",
+      1
+     ]
+    ],
+    "large": [
+     [
+      "planes.C_47",
+      2
+     ]
+    ],
+    "helos": []
+   }
+  },
+  "red": {
+   "default": "luftwaffe",
+   "luftwaffe": {
+    "label": "Luftwaffe",
+    "desc": "109s and 190s in revetments, a Ju 88 on the apron.",
+    "planes": [
+     [
+      "planes.Bf_109K_4",
+      3
+     ],
+     [
+      "planes.FW_190A8",
+      2
+     ],
+     [
+      "planes.FW_190D9",
+      2
+     ]
+    ],
+    "large": [
+     [
+      "planes.Ju_88A4",
+      1
+     ]
+    ],
+    "helos": []
+   }
+  }
+ }
 }

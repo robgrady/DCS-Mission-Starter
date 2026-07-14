@@ -59,7 +59,8 @@
    "cat": "fighter",
    "size": "fighter",
    "eras": [
-    "modern"
+    "modern",
+    "coldwar"
    ],
    "side": "blue"
   },
@@ -548,7 +549,8 @@
    "cat": "awacs",
    "size": "large",
    "eras": [
-    "modern"
+    "modern",
+    "coldwar"
    ],
    "side": "blue"
   },
