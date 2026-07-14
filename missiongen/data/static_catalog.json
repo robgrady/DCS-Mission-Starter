@@ -1,5 +1,5 @@
 {
- "_comment": "Static-eligible aircraft catalog for the Ramp Composer (dress_mix). cat=display group; size=fighter|large|helo (stand fit); eras=valid eras; side=blue|red|both (default grouping, not a hard filter).",
+ "_comment": "Static-eligible aircraft catalog for the Ramp Composer. cat=display group; size=fighter|large|helo; eras=valid eras; side=blue|red (coalition grouping).",
  "categories": [
   "fighter",
   "bomber",
@@ -23,6 +23,25 @@
    "size": "fighter",
    "eras": [
     "modern"
+   ],
+   "side": "blue"
+  },
+  "F_16A": {
+   "name": "F-16A",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "F_16A_MLU": {
+   "name": "F-16A MLU",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
    ],
    "side": "blue"
   },
@@ -62,12 +81,40 @@
    ],
    "side": "blue"
   },
+  "F_14A": {
+   "name": "F-14A Tomcat",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
   "A_10C_2": {
    "name": "A-10C II",
    "cat": "fighter",
    "size": "fighter",
    "eras": [
     "modern"
+   ],
+   "side": "blue"
+  },
+  "A_10C": {
+   "name": "A-10C",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern"
+   ],
+   "side": "blue"
+  },
+  "A_10A": {
+   "name": "A-10A",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "coldwar"
    ],
    "side": "blue"
   },
@@ -89,8 +136,123 @@
    ],
    "side": "blue"
   },
-  "JF_17": {
-   "name": "JF-17 Thunder",
+  "Mirage_2000_5": {
+   "name": "Mirage 2000-5",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern"
+   ],
+   "side": "blue"
+  },
+  "Mirage_F1CE": {
+   "name": "Mirage F1CE",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "Mirage_F1EE": {
+   "name": "Mirage F1EE",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "Tornado_IDS": {
+   "name": "Tornado IDS",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "Tornado_GR4": {
+   "name": "Tornado GR4",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern"
+   ],
+   "side": "blue"
+  },
+  "AJS37": {
+   "name": "AJS-37 Viggen",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "Hawk": {
+   "name": "Hawk",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "C_101CC": {
+   "name": "C-101 Aviojet",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "MB_339A": {
+   "name": "MB-339",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "F_5E_3": {
+   "name": "F-5E Tiger II (Aggressor)",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "F_4E": {
+   "name": "F-4E Phantom",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "F_86F_Sabre": {
+   "name": "F-86F Sabre",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "coldwar"
+   ],
+   "side": "blue"
+  },
+  "MiG_29S": {
+   "name": "MiG-29S",
    "cat": "fighter",
    "size": "fighter",
    "eras": [
@@ -98,8 +260,18 @@
    ],
    "side": "red"
   },
-  "MiG_29S": {
-   "name": "MiG-29S",
+  "MiG_29A": {
+   "name": "MiG-29A",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "red"
+  },
+  "MiG_29G": {
+   "name": "MiG-29G (Aggressor)",
    "cat": "fighter",
    "size": "fighter",
    "eras": [
@@ -134,79 +306,14 @@
    ],
    "side": "red"
   },
-  "Su_34": {
-   "name": "Su-34",
-   "cat": "bomber",
-   "size": "large",
+  "JF_17": {
+   "name": "JF-17 Thunder",
+   "cat": "fighter",
+   "size": "fighter",
    "eras": [
     "modern"
    ],
    "side": "red"
-  },
-  "F_5E_3": {
-   "name": "F-5E Tiger II",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "modern",
-    "coldwar"
-   ],
-   "side": "blue"
-  },
-  "MiG_29A": {
-   "name": "MiG-29A",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "modern",
-    "coldwar"
-   ],
-   "side": "red"
-  },
-  "A_10A": {
-   "name": "A-10A",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "coldwar"
-   ],
-   "side": "blue"
-  },
-  "F_4E": {
-   "name": "F-4E Phantom",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "coldwar"
-   ],
-   "side": "blue"
-  },
-  "F_14A_135_GR": {
-   "name": "F-14A Tomcat",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "coldwar"
-   ],
-   "side": "blue"
-  },
-  "Mirage_F1CE": {
-   "name": "Mirage F1CE",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "coldwar"
-   ],
-   "side": "blue"
-  },
-  "F_86F_Sabre": {
-   "name": "F-86F Sabre",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "coldwar"
-   ],
-   "side": "blue"
   },
   "MiG_21Bis": {
    "name": "MiG-21bis",
@@ -231,6 +338,7 @@
    "cat": "fighter",
    "size": "fighter",
    "eras": [
+    "modern",
     "coldwar"
    ],
    "side": "red"
@@ -253,12 +361,53 @@
    ],
    "side": "red"
   },
+  "Su_25": {
+   "name": "Su-25",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "red"
+  },
+  "Su_17M4": {
+   "name": "Su-17M4",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "red"
+  },
+  "L_39ZA": {
+   "name": "L-39ZA Albatros",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "red"
+  },
+  "L_39C": {
+   "name": "L-39C Albatros",
+   "cat": "fighter",
+   "size": "fighter",
+   "eras": [
+    "modern",
+    "coldwar"
+   ],
+   "side": "red"
+  },
   "B_1B": {
    "name": "B-1B Lancer",
    "cat": "bomber",
    "size": "large",
    "eras": [
-    "modern"
+    "modern",
+    "coldwar"
    ],
    "side": "blue"
   },
@@ -269,6 +418,15 @@
    "eras": [
     "modern",
     "coldwar"
+   ],
+   "side": "blue"
+  },
+  "F_117A": {
+   "name": "F-117A Nighthawk",
+   "cat": "bomber",
+   "size": "fighter",
+   "eras": [
+    "modern"
    ],
    "side": "blue"
   },
@@ -311,24 +469,14 @@
    ],
    "side": "red"
   },
-  "Su_25": {
-   "name": "Su-25",
-   "cat": "fighter",
-   "size": "fighter",
-   "eras": [
-    "modern",
-    "coldwar"
-   ],
-   "side": "red"
-  },
-  "F_117A": {
-   "name": "F-117A",
+  "Su_34": {
+   "name": "Su-34",
    "cat": "bomber",
-   "size": "fighter",
+   "size": "large",
    "eras": [
     "modern"
    ],
-   "side": "blue"
+   "side": "red"
   },
   "B_17G": {
    "name": "B-17G",
@@ -413,15 +561,6 @@
    ],
    "side": "blue"
   },
-  "A_50": {
-   "name": "A-50 (AWACS)",
-   "cat": "awacs",
-   "size": "large",
-   "eras": [
-    "modern"
-   ],
-   "side": "red"
-  },
   "S_3B": {
    "name": "S-3B Viking",
    "cat": "awacs",
@@ -430,6 +569,15 @@
     "modern"
    ],
    "side": "blue"
+  },
+  "A_50": {
+   "name": "A-50 (AWACS)",
+   "cat": "awacs",
+   "size": "large",
+   "eras": [
+    "modern"
+   ],
+   "side": "red"
   },
   "C_130": {
    "name": "C-130 Hercules",
@@ -661,7 +809,7 @@
    "side": "blue"
   },
   "MosquitoFBMkVI": {
-   "name": "Mosquito FB Mk VI",
+   "name": "Mosquito FB VI",
    "cat": "fighter",
    "size": "fighter",
    "eras": [

@@ -131,13 +131,20 @@
     <div class="blocks" id="blocks"></div>
   </div>
   <div class="step" id="dressstep"><h2><span class="n">4a</span>Populate airfields<span class="hdrval" id="hv_dress"></span><span class="chev">▾</span></h2>
-    <div class="row">
+    <div class="row" style="margin-bottom:4px"><div>
+      <label>How to fill your ramps</label>
+      <div style="display:flex;gap:16px;margin-top:2px">
+        <label style="font-weight:normal"><input type="radio" name="dmode" value="theme" checked> <b>Ramp theme</b> — a curated mix, auto-filled</label>
+        <label style="font-weight:normal"><input type="radio" name="dmode" value="compose"> <b>Compose</b> — pick exact aircraft &amp; counts</label>
+      </div>
+    </div></div>
+    <div class="row" id="theme_controls">
       <div style="flex:1.4">
-        <label>Ramp theme — who parks on YOUR fields (era-filtered)</label>
+        <label id="dress_theme_label">Ramp theme — who parks on YOUR fields (era-filtered)</label>
         <select id="dress_theme"></select>
         <small id="dress_theme_desc" style="display:block;color:var(--dim);margin-top:4px"></small>
       </div>
-      <div style="flex:1">
+      <div style="flex:1" id="fill_col">
         <label>Fill: <b id="dress_fill_label">45%</b> of fillable parking stands <small style="color:var(--dim)">(exact — this share of each field's stands gets a parked aircraft. Facing vs. performance is the placement mode below.)</small></label>
         <input type="range" id="dress_fill" min="0" max="100" step="5" value="45" style="width:100%">
       </div>
@@ -161,14 +168,13 @@
       <div id="perbase_rows" style="margin-top:8px"></div>
       <small style="color:var(--dim)">Default is "inherit" (the global fill above). Check a base to give it its own fill — 0% empties it. Civilian airports are never populated unless you deliberately override them here.</small>
     </details>
-    <details id="composer" style="margin-top:10px">
-      <summary style="cursor:pointer;color:var(--accent);font-size:13px">Ramp Composer — pick exact aircraft &amp; counts (overrides the theme)</summary>
-      <div id="composer_banner" style="display:none;margin:8px 0;padding:7px 11px;background:var(--panel2);border-left:3px solid var(--accent);border-radius:5px;font-size:12.5px">
-        Custom mix active — <b id="composer_total">0</b> aircraft per field. The ramp theme &amp; fill above are ignored for your side's fields. <a href="#" id="composer_clear" style="color:var(--accent);margin-left:6px">Clear all</a>
+    <div id="composer" style="display:none;margin-top:6px">
+      <div id="composer_banner" style="margin:2px 0 8px;padding:7px 11px;background:var(--panel2);border-left:3px solid var(--accent);border-radius:5px;font-size:12.5px">
+        <b id="composer_total">0</b> aircraft per airfield. <a href="#" id="composer_reset" style="color:var(--accent);margin-left:6px">Reset to theme</a> · <a href="#" id="composer_clear" style="color:var(--accent);margin-left:4px">Clear all</a>
       </div>
-      <div id="composer_cats" style="margin-top:8px"></div>
-      <small style="color:var(--dim);display:block;margin-top:6px">Counts are <b>per airfield</b>. Helicopters go on pads, heavies (B-1, C-130, tankers, AWACS) on large stands; anything beyond a field's capacity is skipped. Leave everything at 0 to use the ramp theme above. Liveries use the default squadron skin (per-type picker coming next).</small>
-    </details>
+      <div id="composer_cats"></div>
+      <small style="color:var(--dim);display:block;margin-top:6px">Counts are <b>per airfield</b> and start from the selected theme — adjust freely. Helicopters go on pads, heavies (B-1, C-130, tankers, AWACS) on large stands; anything beyond a field's capacity is skipped. Your coalition and Red/OPFOR aggressors are listed separately. Liveries use the default squadron skin (per-type picker coming next).</small>
+    </div>
     <small style="color:var(--dim);display:block;margin-top:8px">Only military installations are populated — civilian airports (marked in the Home list) stay undressed. Enemy fields dress automatically with their own era-correct theme. Runways and taxi routes always stay clear.</small>
   </div>
   <div class="step" id="gfxstep"><h2><span class="n">4c</span>Map graphics (F10)<span class="hdrval" id="hv_gfx"></span><span class="chev">▾</span></h2>
@@ -325,7 +331,11 @@ async function init(){
   document.getElementById('carrier_hull').onchange = ()=>{ refreshDeckAircraft(); refreshAircraft(); sum(); };
   document.getElementById('coalition').onchange = ()=>{ fillHome(); refreshDressUI(); sum(); };
   document.getElementById('bb_dressing').addEventListener('change', refreshDressUI);
-  document.getElementById('dress_theme').onchange = ()=>{ onThemeChange(); sum(); };
+  document.getElementById('dress_theme').onchange = ()=>{
+    onThemeChange();
+    if(dressMode()==='compose') seedComposerFromTheme();   // re-seed from the picked template
+    sum();
+  };
   document.getElementById('dress_fill').oninput = function(){
     document.getElementById('dress_fill_label').textContent = this.value + '%'; };
   document.getElementById('composer_clear').onclick = (e)=>{
@@ -333,6 +343,11 @@ async function init(){
     document.querySelectorAll('.cmixn').forEach(i=>i.value=0);
     updateComposerBanner(); sum();
   };
+  document.getElementById('composer_reset').onclick = (e)=>{
+    e.preventDefault(); seedComposerFromTheme(); sum();
+  };
+  document.querySelectorAll('input[name=dmode]').forEach(rb =>
+    rb.onchange = ()=>{ setDressMode(true); sum(); });
   document.getElementById('threat_intensity').oninput = function(){
     setIntensityLabel(this.value); };
   document.getElementById('threat_intensity').addEventListener('change', sum);
@@ -373,7 +388,9 @@ function applyRecipe(r){
   if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
   if (r.dress_aircraft_mode) document.getElementById('dress_aircraft_mode').value = r.dress_aircraft_mode;
   if (r.dress_mix && Object.keys(r.dress_mix).length){
-    document.getElementById('composer').open = true;
+    const rb = document.querySelector('input[name=dmode][value=compose]');
+    if(rb) rb.checked = true;
+    setDressMode(false);
     for (const [t,n] of Object.entries(r.dress_mix)){
       const inp = document.querySelector(`.cmixn[data-type="${t}"]`);
       if(inp) inp.value = n;
@@ -560,9 +577,10 @@ const RAIL_STEPS = [
       return `${on}/${BLOCKS.length} on`; }],
   ["dressstep",   "Populate airfields", () => {
       if (!document.getElementById('bb_dressing')?.checked) return "off";
-      const cmix = (typeof composerMix==='function') ? composerMix() : {};
-      const tot = Object.values(cmix).reduce((a,b)=>a+b,0);
-      if (tot) return `custom mix · ${tot}/field`;
+      if (typeof dressMode==='function' && dressMode()==='compose'){
+        const tot = Object.values(composerMix()).reduce((a,b)=>a+b,0);
+        return `composed · ${tot}/field`;
+      }
       const t = document.getElementById('dress_theme');
       const name = t.selectedOptions[0] ? t.selectedOptions[0].text.replace('Auto for this map — ','') : '';
       return `${name} · ${document.getElementById('dress_fill').value}%`; }],
@@ -655,29 +673,61 @@ function refreshDressUI(){
   onThemeChange();
   buildPerBase();
   buildComposer();
+  setDressMode(false);          // keep current mode; don't reseed on rebuild
   const dstep = document.getElementById('dressstep');
   dstep.style.display = document.getElementById('bb_dressing')?.checked === false ? 'none' : '';
 }
 // --- Ramp Composer (v1.7.0): pick exact aircraft + counts (dress_mix) ---
+function dressMode(){
+  const r = document.querySelector('input[name=dmode]:checked');
+  return r ? r.value : 'theme';
+}
+function currentThemeMix(){
+  // the default composition for the currently-selected theme (player's side)
+  const side = document.getElementById('coalition').value || 'blue';
+  const themes = (OPT.ramp_themes[S.era]||{})[side] || {};
+  let key = document.getElementById('dress_theme').value;
+  if(!key){                              // '' = auto → map default, else first
+    key = (((OPT.map_theme_defaults[S.map]||{})[S.era]||{})[side]) || Object.keys(themes)[0];
+  }
+  return (themes[key] && themes[key].mix) ? themes[key].mix : {};
+}
 function buildComposer(){
   const cat = OPT && OPT.static_catalog;
   if(!cat || !S.era) return;
   const cont = document.getElementById('composer_cats');
-  const prev = composerMix();          // preserve counts across era rebuilds
+  const side = document.getElementById('coalition').value || 'blue';
+  const prev = composerMix();            // preserve counts across rebuilds
   cont.innerHTML = '';
-  for(const c of cat.categories){
-    const types = Object.entries(cat.types)
-      .filter(([id,t]) => t.cat===c && t.eras.includes(S.era));
-    if(!types.length) continue;
-    const grp = el(`<div style="margin-bottom:9px"><div style="font-size:11px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px">${cat.category_labels[c]||c}</div></div>`);
-    const wrap = el(`<div style="display:flex;flex-wrap:wrap;gap:6px"></div>`);
-    for(const [id,t] of types){
-      const v = prev[id]||0;
-      wrap.appendChild(el(`<label style="display:flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:3px 7px;font-size:12.5px"><span>${t.name}</span><input type="number" class="cmixn" data-type="${id}" min="0" max="99" value="${v}" style="width:42px"></label>`));
+  const sections = [
+    [side, side==='blue' ? 'Your coalition — Blue' : 'Your coalition — Red'],
+    [side==='blue'?'red':'blue', 'Red / OPFOR & Aggressors'],
+  ];
+  for(const [gside, glabel] of sections){
+    const anySide = Object.values(cat.types).some(t => t.side===gside && t.eras.includes(S.era));
+    if(!anySide) continue;
+    cont.appendChild(el(`<div style="font-size:12px;font-weight:600;color:${gside==='blue'?'#6ea8ff':'#ff8a8a'};margin:10px 0 4px">${glabel}</div>`));
+    for(const c of cat.categories){
+      const types = Object.entries(cat.types)
+        .filter(([id,t]) => t.cat===c && t.eras.includes(S.era) && t.side===gside);
+      if(!types.length) continue;
+      const grp = el(`<div style="margin-bottom:7px"><div style="font-size:10.5px;color:var(--dim);text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px">${cat.category_labels[c]||c}</div></div>`);
+      const wrap = el(`<div style="display:flex;flex-wrap:wrap;gap:6px"></div>`);
+      for(const [id,t] of types){
+        const v = prev[id]||0;
+        wrap.appendChild(el(`<label style="display:flex;align-items:center;gap:5px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:3px 7px;font-size:12.5px"><span>${t.name}</span><input type="number" class="cmixn" data-type="${id}" min="0" max="99" value="${v}" style="width:42px"></label>`));
+      }
+      grp.appendChild(wrap); cont.appendChild(grp);
     }
-    grp.appendChild(wrap); cont.appendChild(grp);
   }
   cont.querySelectorAll('.cmixn').forEach(inp => inp.oninput = ()=>{ updateComposerBanner(); sum(); });
+  updateComposerBanner();
+}
+function seedComposerFromTheme(){
+  const seed = currentThemeMix();
+  document.querySelectorAll('.cmixn').forEach(inp => {
+    inp.value = seed[inp.dataset.type] || 0;
+  });
   updateComposerBanner();
 }
 function composerMix(){
@@ -688,12 +738,20 @@ function composerMix(){
   return mix;
 }
 function updateComposerBanner(){
-  const mix = composerMix();
-  const tot = Object.values(mix).reduce((a,b)=>a+b,0);
-  const t = document.getElementById('composer_total');
-  if(t) t.textContent = tot;
-  const b = document.getElementById('composer_banner');
-  if(b) b.style.display = tot>0 ? '' : 'none';
+  const tot = Object.values(composerMix()).reduce((a,b)=>a+b,0);
+  const t = document.getElementById('composer_total'); if(t) t.textContent = tot;
+}
+function setDressMode(seedIfEmpty){
+  const compose = dressMode()==='compose';
+  // keep the theme dropdown visible in BOTH modes — in compose it's the
+  // "start from template" picker; only the fill slider is theme-only.
+  document.getElementById('fill_col').style.display = compose ? 'none' : '';
+  document.getElementById('composer').style.display = compose ? '' : 'none';
+  document.getElementById('dress_theme_label').textContent = compose
+    ? 'Start from template — pick a base composition, then adjust below'
+    : 'Ramp theme — who parks on YOUR fields (era-filtered)';
+  if(compose && seedIfEmpty && Object.keys(composerMix()).length===0)
+    seedComposerFromTheme();
 }
 function buildPerBase(){
   if(!OPT||!S.map||!S.era) return;
@@ -773,8 +831,10 @@ function recipe(){
     r.dress_aircraft_mode = document.getElementById('dress_aircraft_mode').value;
     const ov = perBaseOverrides();
     if (Object.keys(ov).length) r.dress_overrides = ov;
-    const cmix = composerMix();
-    if (Object.keys(cmix).length) r.dress_mix = cmix;
+    if (dressMode()==='compose'){
+      const cmix = composerMix();
+      if (Object.keys(cmix).length) r.dress_mix = cmix;
+    }
   }
   const gl = [...document.querySelectorAll('.gfxl')];
   const on = gl.filter(c=>c.checked).map(c=>c.value);

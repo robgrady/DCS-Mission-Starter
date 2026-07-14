@@ -24,6 +24,20 @@ app = FastAPI(title="DCS Mission Starter", version=__version__)
 FRONTEND = Path(__file__).parent.parent / "frontend" / "index.html"
 
 
+def _theme_mix(theme):
+    """Flatten a ramp theme's weighted planes/large/helos lists into a default
+    {type_id: count} composition the Ramp Composer pre-populates from. Weights
+    double as sensible starting counts (a Red Flag ramp is authored that way)."""
+    mix = {}
+    for key in ("planes", "large", "helos"):
+        for entry in theme.get(key, []):
+            ref = entry[0]
+            weight = entry[1] if len(entry) > 1 else 1
+            tid = ref.split(".")[-1]
+            mix[tid] = mix.get(tid, 0) + int(weight)
+    return mix
+
+
 def flyable_aircraft():
     """FR-1: every current flyable DCS aircraft, straight from the pydcs unit DB."""
     import dcs.planes as planes
@@ -80,7 +94,8 @@ def options():
                                   "eras": ["coldwar", "modern"]},
         },
         "ramp_themes": {
-            era: {side: {k: {"label": t["label"], "desc": t["desc"]}
+            era: {side: {k: {"label": t["label"], "desc": t["desc"],
+                             "mix": _theme_mix(t)}
                          for k, t in sides.items() if k != "default"}
                   for side, sides in eras_t.items()}
             for era, eras_t in load_json("ramp_themes").items()

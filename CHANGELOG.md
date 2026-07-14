@@ -17,6 +17,31 @@ guide cover.
 
 ---
 
+## [1.7.1] — 2026-07-14
+
+### Improved — Ramp Composer is pre-populated, coalition-separated, and complete
+Rob's feedback on v1.7.0: Tornados missing, composer unintuitive (blank), Red/Blue
+mixed together, B-1 absent in Cold War.
+
+- **Catalog completed (89 types)** — added the Tornado (IDS/GR4), Mirage F1CE/EE
+  and 2000-5, AJS-37 Viggen, Hawk, C-101, MB-339, F-16A, F-14A, Su-17M4, L-39 and
+  more. Confirmed every ramp-theme aircraft now has a catalog entry (Tornado was
+  the missing link). **B-1B and B-52H now available in the Cold War era.**
+- **Pre-populated, not blank** — a "Ramp theme / Compose" toggle. Compose mode
+  seeds the composer from the selected theme's real composition (Red Flag →
+  4×F-16, 2×F-15C, 2×F-15E, Tornado, Mirage, 2×B-1, B-52, 2×KC-135, E-3, C-17…),
+  so you start from a realistic ramp and adjust. The theme dropdown stays visible
+  as a "start from template" picker; "Reset to theme" re-seeds.
+- **Red & Blue separated** — the composer lists "Your coalition" and "Red / OPFOR
+  & Aggressors" in distinct, color-coded sections. `/api/options` now exposes each
+  theme's composition (`_theme_mix`) for the pre-population.
+
+Verified: engine places Tornado + international types; Red Flag pre-populates to 20
+aircraft incl. Tornado; era switch filters correctly (Cold War shows B-1, hides
+modern-only jets); mode toggle drops the mix cleanly; no JS errors.
+
+---
+
 ## [1.7.0] — 2026-07-14
 
 ### Added — Ramp Composer: pick exact aircraft & counts for your ramps
