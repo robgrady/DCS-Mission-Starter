@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.8.7] — 2026-07-15
+
+### Fixed — nation-appropriate parked-aircraft liveries (curated pack)
+Parked statics shipped no `livery_id`, so DCS chose the default skin — which for
+some jets is the wrong service (a USAF F-4E at Nellis drawing a USMC scheme).
+
+- **New `missiongen/data/liveries.json`** — a curated pack keyed
+  `types.<type_id>.<COUNTRY>` with a `default` fallback. Placement now steers
+  every parked aircraft (both ramp-theme fill AND the Ramp Composer mix) to a
+  livery for the base's own nation. Nellis F-4E/F-5E now draw USAF/Aggressor
+  paint; a Huey correctly keeps US Army/USMC. An explicit theme/mix livery still
+  wins; the pack only fills the gap that was previously left to DCS.
+- **Wiring** — `dressing._pick_livery(type_id, country_name, rng)`; applied in
+  `_place` when no explicit livery is set. Hyphen/underscore-normalized so the
+  pydcs `.id` ("F-4E") matches the catalog-style key ("F_4E"). Unknown ids are
+  harmless — DCS falls back to the stock default — so a stale string is safe.
+- **New `scripts/dump_liveries.py`** — dependency-free harvester. Point it at a
+  DCS install (auto-detects common paths, or pass install root + Saved
+  Games/DCS) and it reads the real livery folder names, tags each by nation from
+  its `description.lua`, and overwrites `liveries.json` with **verified** strings
+  — including any paid/3rd-party liveries you own. `--merge` / `--dry-run`
+  supported. This is the authoritative source; the shipped pack is best-effort
+  until harvested.
+
+*Note: the seeded strings are best-effort (pydcs bundles no livery database).
+Run the harvester against your install to lock in exact, verified ids.*
+
 ## [1.8.6] — 2026-07-14
 
 ### Fixed / Changed — user-feedback pass: clarity + support-flight correctness

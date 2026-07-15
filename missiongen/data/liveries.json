@@ -1,0 +1,172 @@
+{
+  "_note": "Curated livery pack. DCS livery_id is a folder name from the install; pydcs bundles NONE, so these are authored by hand. Structure: types.<type_id>.<COUNTRY> = [livery_id, ...], plus an optional 'default' list used when the placement country has no entry. Placement picks nation-appropriate skins so e.g. a USAF F-4E at Nellis never draws a USMC scheme. Unknown ids are HARMLESS (DCS falls back to the stock default) — so a wrong string simply means no fix for that type until corrected. AUTHORITATIVE source = your install: run scripts/dump_liveries.py against your DCS folder to overwrite these with verified strings (including any paid/3rd-party liveries).",
+  "_verified": false,
+  "types": {
+    "F_4E": {
+      "USA": ["USAF 469th TFS", "USAF 34th TFS", "USAF 57th FWW Aggressor", "USAF Compass Ghost Grey"],
+      "Israel": ["IDF/AF 201 Squadron", "IDF/AF 119 Squadron"],
+      "Germany": ["Luftwaffe JG-71", "Luftwaffe JG-74"],
+      "Egypt": ["EAF"],
+      "Iran": ["IRIAF"],
+      "default": ["USAF 469th TFS"]
+    },
+    "F_16C_50": {
+      "USA": ["USAF 388th FW", "USAF 480th FS", "USAF 55th FS Aggressor", "USAF 64th AGRS"],
+      "Israel": ["IDF/AF 101 Squadron", "IDF/AF 253 Squadron"],
+      "default": ["USAF 388th FW"]
+    },
+    "F_16A_MLU": {
+      "USA": ["USAF 388th FW"],
+      "default": ["USAF 388th FW"]
+    },
+    "F_16A": {
+      "USA": ["USAF 388th TFW", "USAF 57th FWW Aggressor"],
+      "default": ["USAF 388th TFW"]
+    },
+    "F_15C": {
+      "USA": ["USAF 58th TFS", "USAF 493rd FS", "USAF 44th FS", "USAF 65th AGRS Aggressor"],
+      "Israel": ["IDF/AF 133 Squadron"],
+      "default": ["USAF 58th TFS"]
+    },
+    "F_15E": {
+      "USA": ["USAF 335th FS", "USAF 391st FS", "USAF 48th FW"],
+      "default": ["USAF 335th FS"]
+    },
+    "FA_18C_hornet": {
+      "USA": ["VFA-25 Fist of the Fleet", "VFA-113 Stingers", "VFA-131 Wildcats", "VMFA-232 Red Devils"],
+      "default": ["VFA-25 Fist of the Fleet"]
+    },
+    "A_10C_2": {
+      "USA": ["USAF 190th FS", "USAF 74th FS", "USAF 25th FS"],
+      "default": ["USAF 190th FS"]
+    },
+    "A_10C": {
+      "USA": ["USAF 190th FS", "USAF 74th FS"],
+      "default": ["USAF 190th FS"]
+    },
+    "A_10A": {
+      "USA": ["USAF 25th FS", "USAF 23rd TFW"],
+      "default": ["USAF 25th FS"]
+    },
+    "F_14B": {
+      "USA": ["VF-103 Jolly Rogers", "VF-142 Ghostriders", "VF-32 Swordsmen"],
+      "default": ["VF-103 Jolly Rogers"]
+    },
+    "F_14A": {
+      "USA": ["VF-1 Wolfpack", "VF-84 Jolly Rogers", "VF-41 Black Aces"],
+      "Iran": ["IRIAF 81st TFS"],
+      "default": ["VF-1 Wolfpack"]
+    },
+    "F_5E_3": {
+      "USA": ["USAF Aggressor Ferris", "USAF Aggressor Lizard", "USN Aggressor"],
+      "default": ["USAF Aggressor Ferris"]
+    },
+    "AV8BNA": {
+      "USA": ["VMA-231 Ace of Spades", "VMA-211 Wake Island Avengers"],
+      "default": ["VMA-231 Ace of Spades"]
+    },
+    "B_1B": {
+      "USA": ["USAF 28th BW", "USAF 7th BW"],
+      "default": ["USAF 28th BW"]
+    },
+    "B_52H": {
+      "USA": ["USAF 2nd BW", "USAF 5th BW"],
+      "default": ["USAF 2nd BW"]
+    },
+    "KC_135": {
+      "USA": ["USAF"],
+      "default": ["USAF"]
+    },
+    "KC135MPRS": {
+      "USA": ["USAF"],
+      "default": ["USAF"]
+    },
+    "E_3A": {
+      "USA": ["USAF"],
+      "default": ["USAF"]
+    },
+    "C_130": {
+      "USA": ["USAF"],
+      "default": ["USAF"]
+    },
+    "MiG_29S": {
+      "Russia": ["Russia VVS", "Russia 120th IAP"],
+      "default": ["Russia VVS"]
+    },
+    "MiG_29A": {
+      "Russia": ["Soviet VVS", "Russia VVS"],
+      "Germany": ["Luftwaffe JG-73"],
+      "default": ["Soviet VVS"]
+    },
+    "Su_27": {
+      "Russia": ["Russia VVS 3rd Sqn", "Russia Lipetsk"],
+      "default": ["Russia VVS 3rd Sqn"]
+    },
+    "Su_25": {
+      "Russia": ["Russia VVS", "Soviet VVS"],
+      "default": ["Russia VVS"]
+    },
+    "Su_34": {
+      "Russia": ["Russia VVS"],
+      "default": ["Russia VVS"]
+    },
+    "MiG_21Bis": {
+      "Russia": ["Soviet VVS Silver", "Soviet VVS Camo"],
+      "Syria": ["Syria AF"],
+      "Egypt": ["Egypt AF"],
+      "default": ["Soviet VVS Silver"]
+    },
+    "MiG_23MLD": {
+      "Russia": ["Soviet VVS"],
+      "Syria": ["Syria AF"],
+      "default": ["Soviet VVS"]
+    },
+    "Su_24M": {
+      "Russia": ["Russia VVS"],
+      "default": ["Russia VVS"]
+    },
+    "Tu_22M3": {
+      "Russia": ["Russia VVS"],
+      "default": ["Russia VVS"]
+    },
+    "Mi_24P": {
+      "Russia": ["Russia Army Aviation", "Soviet Army Aviation"],
+      "default": ["Russia Army Aviation"]
+    },
+    "Mi_8MT": {
+      "Russia": ["Russia Army Aviation", "Soviet Army Aviation"],
+      "default": ["Russia Army Aviation"]
+    },
+    "Ka_50": {
+      "Russia": ["Russia Army Aviation"],
+      "default": ["Russia Army Aviation"]
+    },
+    "AH_64D_BLK_II": {
+      "USA": ["US Army 1-227 ARB", "US Army 101st CAB"],
+      "default": ["US Army 1-227 ARB"]
+    },
+    "UH_1H": {
+      "USA": ["US Army", "USMC"],
+      "default": ["US Army"]
+    },
+    "M_2000C": {
+      "USA": ["USAF Aggressor"],
+      "default": ["EC 2/5 Ile de France"]
+    },
+    "Mirage_2000_5": {
+      "default": ["EC 1/2 Cigognes"]
+    },
+    "P_51D": {
+      "USA": ["USAAF 357th FG"],
+      "default": ["USAAF 357th FG"]
+    },
+    "Bf_109K_4": {
+      "Germany": ["Luftwaffe JG-52"],
+      "default": ["Luftwaffe JG-52"]
+    },
+    "SpitfireLFMkIX": {
+      "UK": ["RAF 126 Sqn"],
+      "default": ["RAF 126 Sqn"]
+    }
+  }
+}

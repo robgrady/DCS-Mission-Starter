@@ -62,6 +62,33 @@ def _weighted(rng, pairs):
 
 
 _STATIC_CATALOG = None
+_LIVERY_PACK = None
+
+
+def _pick_livery(type_id, country_name, rng):
+    """Nation-appropriate stock livery for a type, or None (DCS default).
+
+    Curated pack (data/liveries.json), keyed types.<type_id>.<COUNTRY> with a
+    'default' fallback. This is the fix for wrong-nation skins on statics that
+    otherwise ship no livery_id (e.g. a USAF F-4E drawing a USMC scheme): we
+    steer to the base's own nation. Unknown ids are harmless — DCS falls back
+    to the stock default — so a stale string simply means no override.
+    """
+    global _LIVERY_PACK
+    if _LIVERY_PACK is None:
+        try:
+            _LIVERY_PACK = load_json("liveries").get("types", {})
+        except Exception:
+            _LIVERY_PACK = {}
+    # callers pass the pydcs .id ("F-4E"); pack is keyed attribute-style
+    # ("F_4E") to match static_catalog — normalize the hyphen/underscore.
+    entry = _LIVERY_PACK.get(type_id) or _LIVERY_PACK.get(str(type_id).replace("-", "_"))
+    if not entry:
+        return None
+    options = entry.get(country_name) or entry.get("default")
+    if not options:
+        return None
+    return rng.choice(options)
 
 
 def _catalog_size(type_id):
@@ -252,6 +279,11 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                 country, f"ST {airport.name} {slot.slot_name} {unit_type.id}",
                 _type=unit_type, position=slot.position, heading=heading)
             gse_ref_hdg = heading + rng.uniform(60, 120)
+        # Explicit theme/mix livery wins; otherwise steer to a nation-correct
+        # skin from the curated pack (fixes wrong-service defaults like a USAF
+        # F-4E showing a USMC scheme). country.name = "USA"/"Russia"/"Israel"...
+        if not livery:
+            livery = _pick_livery(unit_type.id, getattr(country, "name", None), rng)
         if livery:
             grp.units[0].livery_id = livery
         # BB-2: GSE truck on the aircraft's OWN pad — offset scaled to the stand
@@ -270,7 +302,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
 
     if mix and include_aircraft:
         # CUSTOM MIX (Ramp Composer): place exactly the requested types/counts.
-        # fill%% is ignored — the mix IS the population. Default liveries.
+        # fill%% is ignored — the mix IS the population. Liveries come from the
+        # curated nation pack (see _place: livery None -> _pick_livery).
         placed += _place_mix(airport, mix, _place, rng, used)
     elif include_aircraft:
         if fill is not None:
