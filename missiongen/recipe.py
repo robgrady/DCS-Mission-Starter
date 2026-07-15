@@ -40,6 +40,12 @@ class Recipe:
     dress_theme: Optional[str] = None  # ramp theme key for the PLAYER's fields
                                        # (ramp_themes.json); None = map/era default.
                                        # Enemy fields always use their map/era default.
+    dress_livery_style: str = "squadron"  # parked-aircraft skin style (global):
+                                       # "squadron" (nation-correct mix, default) |
+                                       # "aggressors" (adversary schemes where they
+                                       # exist) | "clean" (DCS stock default) |
+                                       # "random" (any scheme in the pack). Applies
+                                       # to statics on BOTH sides. See dressing._pick_livery.
 
     # building blocks
     bb_dressing: bool = True           # BB-1..3 static aircraft, GSE, infrastructure

@@ -243,7 +243,8 @@ class StarterBuilder:
                             include_aircraft=r.dress_aircraft,
                             include_gse=r.dress_gse,
                             include_infra=r.dress_infra,
-                            aircraft_mode=r.dress_aircraft_mode)
+                            aircraft_mode=r.dress_aircraft_mode,
+                            livery_style=getattr(r, "dress_livery_style", "squadron"))
             # ONLY MILITARY INSTALLATIONS get ramp dressing. Civilian airports
             # (McCarran, Dubai Intl, Murmansk...) stay undressed — no combat
             # aircraft rows on an airline apron. They remain usable as home

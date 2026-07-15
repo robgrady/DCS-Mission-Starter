@@ -65,15 +65,33 @@ _STATIC_CATALOG = None
 _LIVERY_PACK = None
 
 
-def _pick_livery(type_id, country_name, rng):
-    """Nation-appropriate stock livery for a type, or None (DCS default).
+_AGGR_RE = None
+
+
+def _is_aggressor(livery_id):
+    global _AGGR_RE
+    if _AGGR_RE is None:
+        import re
+        _AGGR_RE = re.compile(r"aggr|agrs|adversary|aggressor", re.IGNORECASE)
+    return bool(_AGGR_RE.search(livery_id or ""))
+
+
+def _pick_livery(type_id, country_name, rng, style="squadron"):
+    """Livery for a parked static, or None (DCS stock default).
 
     Curated pack (data/liveries.json), keyed types.<type_id>.<COUNTRY> with a
-    'default' fallback. This is the fix for wrong-nation skins on statics that
-    otherwise ship no livery_id (e.g. a USAF F-4E drawing a USMC scheme): we
-    steer to the base's own nation. Unknown ids are harmless — DCS falls back
-    to the stock default — so a stale string simply means no override.
+    'default' fallback. Fixes wrong-nation skins on statics that otherwise ship
+    no livery_id (e.g. a USAF F-4E drawing a USMC scheme). Unknown ids are
+    harmless — DCS falls back to the stock default — so a stale string is safe.
+
+    style (global "livery style" control):
+      squadron  — nation-correct mix (default)
+      aggressors— adversary schemes where they exist, else fall back to squadron
+      clean     — no override; DCS stock default skin
+      random    — any scheme in the type's pack (all nations), for visual variety
     """
+    if style == "clean":
+        return None
     global _LIVERY_PACK
     if _LIVERY_PACK is None:
         try:
@@ -85,10 +103,21 @@ def _pick_livery(type_id, country_name, rng):
     entry = _LIVERY_PACK.get(type_id) or _LIVERY_PACK.get(str(type_id).replace("-", "_"))
     if not entry:
         return None
-    options = entry.get(country_name) or entry.get("default")
-    if not options:
+    nation = entry.get(country_name) or entry.get("default")
+    if style == "random":
+        allv = sorted({v for k, vals in entry.items() if not k.startswith("_")
+                       for v in (vals or [])})
+        return rng.choice(allv) if allv else (rng.choice(nation) if nation else None)
+    if style == "aggressors":
+        allv = [v for k, vals in entry.items() if not k.startswith("_")
+                for v in (vals or [])]
+        aggr = sorted({v for v in allv if _is_aggressor(v)})
+        if aggr:
+            return rng.choice(aggr)
+        # no aggressor scheme for this type -> fall through to squadron
+    if not nation:
         return None
-    return rng.choice(options)
+    return rng.choice(nation)
 
 
 def _catalog_size(type_id):
@@ -197,7 +226,8 @@ def _offset(pos, meters, bearing_deg):
 def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Random,
                    used_slot_names=None, theme=None, fill=None,
                    include_aircraft=True, include_gse=True, include_infra=True,
-                   aircraft_mode="static", field_heading=None, mix=None):
+                   aircraft_mode="static", field_heading=None, mix=None,
+                   livery_style="squadron"):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
@@ -283,7 +313,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         # skin from the curated pack (fixes wrong-service defaults like a USAF
         # F-4E showing a USMC scheme). country.name = "USA"/"Russia"/"Israel"...
         if not livery:
-            livery = _pick_livery(unit_type.id, getattr(country, "name", None), rng)
+            livery = _pick_livery(unit_type.id, getattr(country, "name", None),
+                                  rng, livery_style)
         if livery:
             grp.units[0].livery_id = livery
         # BB-2: GSE truck on the aircraft's OWN pad — offset scaled to the stand

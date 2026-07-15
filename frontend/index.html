@@ -200,6 +200,20 @@
         </small>
       </div>
     </div>
+    <div class="row" id="dress_livery_row" style="margin-top:6px">
+      <div style="flex:1.4">
+        <label>Livery style — how parked aircraft are painted</label>
+        <select id="dress_livery_style">
+          <option value="squadron">Squadron mix (recommended) — real nation-correct schemes</option>
+          <option value="aggressors">Aggressors — adversary paint where it exists</option>
+          <option value="clean">Clean / stock — DCS default factory skin</option>
+          <option value="random">Random — mixed schemes for variety</option>
+        </select>
+        <small id="dress_livery_desc" style="display:block;color:var(--dim);margin-top:4px">
+          Skins match the base's nation (a USAF F-4E won't wear USMC paint). For exact, verified liveries on YOUR install — including paid ones — run <code>scripts/dump_liveries.py</code> once.
+        </small>
+      </div>
+    </div>
     <div class="row" id="dress_obj_row" style="margin-top:6px">
       <label style="font-weight:normal"><input type="checkbox" id="dress_aircraft" checked> Parked aircraft</label>
       <label style="font-weight:normal"><input type="checkbox" id="dress_gse" checked> Ground equipment <small style="color:var(--dim)">(fuel &amp; utility trucks by occupied stands)</small></label>
@@ -320,6 +334,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   dress_fill:null,dress_aircraft:true,dress_gse:true,dress_infra:true,dress_theme:null,
   map_layers:null,dress_overrides:{},dress_aircraft_mode:"static",dress_mix:null,
+  dress_livery_style:"squadron",
   threat_intensity:3,threat_tier:"auto",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
@@ -464,6 +479,7 @@ function applyRecipe(r){
     document.getElementById(k).checked = r[k] !== false;
   if (r.dress_theme) { document.getElementById('dress_theme').value = r.dress_theme; onThemeChange(); }
   if (r.dress_aircraft_mode) document.getElementById('dress_aircraft_mode').value = r.dress_aircraft_mode;
+  if (r.dress_livery_style) document.getElementById('dress_livery_style').value = r.dress_livery_style;
   document.getElementById('dress_mode_warn').style.display =
     (r.dress_aircraft_mode === 'parked_ai') ? '' : 'none';
   if (r.dress_mix && Object.keys(r.dress_mix).length){
@@ -965,6 +981,7 @@ function recipe(){
     r.dress_infra = document.getElementById('dress_infra').checked;
     r.dress_theme = document.getElementById('dress_theme').value || null;
     r.dress_aircraft_mode = document.getElementById('dress_aircraft_mode').value;
+    r.dress_livery_style = document.getElementById('dress_livery_style').value;
     const ov = perBaseOverrides();
     if (Object.keys(ov).length) r.dress_overrides = ov;
     if (dressMode()==='compose'){

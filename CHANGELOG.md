@@ -17,6 +17,25 @@ guide cover.
 
 ---
 
+## [1.8.8] — 2026-07-15
+
+### Added — global "Livery style" control (Airfields screen)
+A single dropdown, not a per-aircraft picker — a deliberate UX call. Liveries are
+install-specific (paid/3rd-party skins vary per machine) and a web app can't know
+what any user owns, so a dropdown of exact skin names per type would offer skins
+some users don't have. One coarse, robust choice degrades gracefully instead:
+
+- **Squadron mix** (default) — real nation-correct schemes (the v1.8.7 behavior).
+- **Aggressors** — adversary paint where a type has one (F-5E/F-16/F-15 Aggressor,
+  etc.), falling back to squadron for types with none.
+- **Clean / stock** — no override; DCS default factory skin.
+- **Random** — any scheme in the pack, for a busy, varied ramp.
+
+Applies to parked statics on **both** sides. New recipe field
+`dress_livery_style` (default `"squadron"`); wired through share links + autosave.
+`dressing._pick_livery(..., style)` does the filtering; the true per-type picker
+stays deferred until we can populate it from a user's own harvested liveries.
+
 ## [1.8.7] — 2026-07-15
 
 ### Fixed — nation-appropriate parked-aircraft liveries (curated pack)
