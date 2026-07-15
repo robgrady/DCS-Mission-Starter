@@ -149,7 +149,7 @@ class StarterBuilder:
                     # cat shot ("first off, last on")
                     if r.carrier_layout in ("launch", "recovery"):
                         pg = naval.add_plane_guard(m, own_country, hull_key,
-                                                   carrier_pos, brc, comms,
+                                                   csg, brc, comms,
                                                    self.warnings)
                         if pg:
                             stats["support"].append(pg.name)
@@ -308,7 +308,7 @@ class StarterBuilder:
             area = threats.add_area_sams(
                 m, enemy_country, r.era, enemy_side, r.threat_tier,
                 tp["n_extra_sams"], own_center, enemy_center, self.rng,
-                gfx_threats=gfx["threats"])
+                gfx_threats=gfx["threats"], enemy_fields=enemy_fields)
             stats["sam_sites"] += area
             cap = threats.add_enemy_cap(
                 m, enemy_country, r.era, enemy_side, r.threat_tier,

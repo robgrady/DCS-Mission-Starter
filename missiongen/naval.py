@@ -48,10 +48,23 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     ctype = resolve(hull["ship"])
     anchor = mapping.Point(anchor_cfg["anchor"]["x"], anchor_cfg["anchor"]["y"], m.terrain)
 
-    # BRC: into wind when weather sets one, else curated open-sea heading
+    # BRC: into wind when weather sets one, else curated open-sea heading —
+    # but CLAMPED to ±60° of the curated heading. The curated axis is the
+    # map's guaranteed sea room (validated against the coastline); an
+    # unconstrained wind BRC steered the whole 40 km steaming leg wherever
+    # the weather pointed, which beached the CSG on coast-tight maps
+    # (Persian Gulf: wind from the west -> BRC 090 -> leg ended INLAND in
+    # the UAE). Real carriers want wind down the deck, but the captain
+    # keeps sea room first; a ±60° window still gives useful WOD while the
+    # track never leaves validated open water.
+    safe = anchor_cfg["heading"]
     wind_dir = getattr(getattr(m.weather, "wind_at_ground", None), "direction", 0)
     wind_spd = getattr(getattr(m.weather, "wind_at_ground", None), "speed", 0)
-    brc = (wind_dir + 180) % 360 if wind_spd > 2 else anchor_cfg["heading"]
+    brc = safe
+    if wind_spd > 2:
+        want = (wind_dir + 180) % 360
+        dev = (want - safe + 180) % 360 - 180      # signed diff, -180..180
+        brc = (safe + max(-60.0, min(60.0, dev))) % 360
 
     group_name = csg.get("group_name", f"CSG {hull['label']}")
     grp = m.ship_group(country, group_name, ctype, anchor, heading=brc)
@@ -87,7 +100,7 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     return grp, brc
 
 
-def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
+def add_plane_guard(m, country, hull_key, carrier_grp, brc, comms, warnings):
     """Plane-guard / SAR helo in STARBOARD DELTA for fixed-wing flight ops.
 
     US carrier doctrine (CV NATOPS): whenever the boat is launching or
@@ -101,12 +114,16 @@ def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
     away from a crew in the water off either catapult or the ramp.
 
     DCS implementation: air-start the air wing's SH-60 500 m off the
-    starboard beam at 300 ft, then fly a route that parallels the carrier's
-    steaming leg at matched speed — the helo station-keeps in Starboard D
-    for the whole mission.
+    starboard beam at 300 ft, then LINK it to the ship with a Follow task on
+    the carrier group (offset: 500 m starboard, 100 m astern of the bow,
+    +300 ft). The DCS AI then station-keeps on the ship itself — turns,
+    speed changes, everything — instead of dead-reckoning a parallel route
+    that drifts apart the moment the boat maneuvers.
     """
     from .resolver import resolve
     from .deck import _load_hull
+    from dcs.task import Follow
+    from dcs.mapping import Vector2
     hull = _load_hull(hull_key)
     helo_cfg = hull.get("csg", {}).get("airwing", {}).get("helo") if hull.get("csg") else None
     if not helo_cfg:
@@ -117,6 +134,7 @@ def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
                         "(destroyer astern holds the plane-guard station)")
         return None
     helo_type = resolve(helo_cfg["type"])
+    carrier_pos = carrier_grp.units[0].position
     stbd = (brc + 90) % 360
     # Starboard Delta: 500 m off the starboard beam, 300 ft, tracking BRC
     station = _offset(carrier_pos, 500, stbd)
@@ -124,7 +142,13 @@ def add_plane_guard(m, country, hull_key, carrier_pos, brc, comms, warnings):
                                  helo_type, station, altitude=91, speed=60)
     fg.units[0].skill = Skill.High
     fg.points[0].speed = 46                       # settle to ship's 25 kts
-    # parallel the carrier's 40 km steaming leg, staying 500 m starboard
+    # THE LINK: follow the carrier group. Offset frame is the ship's own:
+    # x = along heading (negative = astern), z = starboard. 300 ft above deck.
+    fg.points[0].tasks.append(Follow(groupid=carrier_grp.id,
+                                     group_offset=Vector2(-100, 500),
+                                     altitude_difference=91))
+    # fallback route parallel to the steaming leg (only matters if the Follow
+    # target despawns; harmless otherwise — the Follow task owns the helo)
     leg_end = _offset(_offset(carrier_pos, 40000, brc), 500, stbd)
     fg.add_waypoint(leg_end, altitude=91, speed=46)
     freq = comms.freq("angel")

@@ -17,6 +17,39 @@ guide cover.
 
 ---
 
+## [1.8.9] — 2026-07-15
+
+### Fixed — three placement realism bugs (SAMs in the sea, carrier near land, Angel adrift)
+
+- **Area SAM sites no longer spawn in the ocean.** The Threat Dial belt used to
+  interpolate free coordinates on the own→enemy axis; pydcs has NO land/water
+  query, so on water-heavy maps (Marianas, Sinai, Kola…) sites landed in the
+  sea. New rule — doctrinally better AND terrain-safe: **sites anchor to enemy
+  airfields**, 4–9 km out (SAM belts defend assets, not empty map squares).
+  Offset direction is a land bet in priority order: toward the nearest other
+  enemy field within 90 km → toward the enemy rear → along the runway axis.
+  Never toward the player (that points out to sea on carrier maps). Front-line
+  fields get sites first, so the belt still sits between you and their
+  heartland. Verified: worst site-to-airfield distance 8.9 km across
+  Marianas/Sinai/Kola at maximum intensity.
+- **Carrier no longer steams toward land.** Two bugs: (1) the Persian Gulf
+  anchor sat ~15 km off Dubai with heading 090 — the 40 km steaming leg ended
+  literally INLAND in the UAE. Moved to the central Gulf (25.45N 54.95E, hdg
+  285), 40+ km from every coast and clear of Abu Musa/Sirri. Marianas heading
+  070 aimed the leg at Guam's NW coast — now 250 into the open Philippine Sea.
+  (2) Systemic: wind >2 m/s replaced the curated heading with an unconstrained
+  wind BRC, steering the leg wherever the weather pointed on ANY map. BRC is
+  now **clamped to ±60° of the curated open-sea axis** — wind down the deck
+  when possible, sea room always. Every map's full ±60° arc was validated
+  against the coastline.
+- **Angel is now LINKED to the boat.** The plane-guard helo used to fly a
+  dead-reckoned route parallel to the ship's leg — the moment the boat
+  maneuvered they drifted apart. It now carries a DCS **Follow task on the
+  carrier group** (500 m starboard, 100 m astern of the bow, 300 ft): the AI
+  station-keeps in Starboard Delta through the ship's turns and speed changes
+  for the whole mission. Verified: Follow task bound to the CSG group id in
+  the .miz.
+
 ## [1.8.8] — 2026-07-15
 
 ### Added — global "Livery style" control (Airfields screen)

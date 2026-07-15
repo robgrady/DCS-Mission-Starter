@@ -127,26 +127,61 @@ def plan(intensity, rng: random.Random):
 
 
 def add_area_sams(m, country, era, enemy_side, tier, n, own_center, enemy_center,
-                  rng: random.Random, gfx_threats=None):
-    """Place n standalone SAM sites in the enemy half, forming a threat belt the
-    player must penetrate. Sites sit 25-55% of the way to the enemy centroid,
-    spread laterally, off any airfield (no keep-out needed — open terrain)."""
+                  rng: random.Random, gfx_threats=None, enemy_fields=None):
+    """Place n standalone SAM sites forming the belt the player must penetrate.
+
+    Sites are ANCHORED TO ENEMY AIRFIELDS, 4-9 km out — not interpolated on the
+    own→enemy axis. Two reasons:
+    1. REALISM: SAM belts defend assets. SA-2/SA-10 regiments are laid around
+       airbases, ports and C2 — not scattered across empty map squares.
+    2. TERRAIN SAFETY: pydcs exposes NO land/water query, so any free-floating
+       coordinate can land in the sea on water-heavy maps (Marianas, Sinai,
+       Kola...). Airfields are the one feature guaranteed to be on land; a
+       short offset from one stays on land.
+    Offset direction is another LAND BET, in priority order: toward the nearest
+    other enemy airfield within 90 km (same landmass), else toward the enemy
+    rear (deeper into their own territory), else along the runway axis (flat
+    ground extends along the runway line). Never "toward the player" — on
+    carrier maps that bearing points out to sea.
+    Front-line fields (closest to the player) get sites first: that puts the
+    belt between the player and the enemy heartland, same intent as before.
+    Fallback: no enemy fields on the map -> old axis interpolation (rare)."""
     from .airdefense import place_sam_site
     kits = sam_kits_for(era, enemy_side, tier, [])
     if not kits or n <= 0:
         return []
-    axis = _bearing(own_center, enemy_center)
-    dist = _dist(own_center, enemy_center)
     created = []
+    fields = sorted(enemy_fields or [], key=lambda a: _dist(a.position, own_center))
     for i in range(n):
-        frac = rng.uniform(0.25, 0.55)
-        along = mapping.Point(
-            own_center.x + (enemy_center.x - own_center.x) * frac,
-            own_center.y + (enemy_center.y - own_center.y) * frac,
-            m.terrain)
-        # lateral spread perpendicular to the threat axis
-        center = _offset(along, rng.uniform(-0.18, 0.18) * dist,
-                         (axis + 90) % 360)
+        if fields:
+            ap = fields[i % len(fields)]
+            others = [o for o in fields
+                      if o is not ap and _dist(o.position, ap.position) < 90000]
+            if others:
+                near = min(others, key=lambda o: _dist(o.position, ap.position))
+                base_brg = _bearing(ap.position, near.position)
+            elif _dist(ap.position, enemy_center) > 5000:
+                base_brg = _bearing(ap.position, enemy_center)
+            else:  # single isolated field: runway axis extends over land
+                try:
+                    from .placement import AirfieldKeepOut
+                    base_brg = AirfieldKeepOut(ap).runway_axis_heading()
+                    if rng.random() < 0.5:
+                        base_brg = (base_brg + 180) % 360
+                except Exception:
+                    base_brg = rng.uniform(0, 360)
+            brg = (base_brg + rng.uniform(-35, 35)) % 360
+            center = _offset(ap.position, rng.uniform(4000, 9000), brg)
+        else:  # legacy fallback: no enemy airfields known
+            axis = _bearing(own_center, enemy_center)
+            dist = _dist(own_center, enemy_center)
+            frac = rng.uniform(0.25, 0.55)
+            along = mapping.Point(
+                own_center.x + (enemy_center.x - own_center.x) * frac,
+                own_center.y + (enemy_center.y - own_center.y) * frac,
+                m.terrain)
+            center = _offset(along, rng.uniform(-0.18, 0.18) * dist,
+                             (axis + 90) % 360)
         kit = rng.choice(kits)
         name = f"{SAM_KITS[kit]['label']} - Area {i+1}"
         vg = place_sam_site(m, country, kit, center, rng, name)
