@@ -4,23 +4,39 @@ from dcs.mission import StartType
 
 from .dressing import _offset
 
-TANKERS = {
-    "wwii": {"blue": None, "red": None},          # no AAR in 1944
-    "coldwar": {"blue": planes.KC_135, "red": None},
-    "modern": {"blue": planes.KC135MPRS, "red": None},
-}
 AWACS_TYPES = {
     "wwii": {"blue": None, "red": None},          # no AWACS in 1944
     "coldwar": {"blue": planes.E_3A, "red": planes.A_50},
     "modern": {"blue": planes.E_3A, "red": planes.A_50},
 }
+# Receivers that take the flying BOOM (need a boom tanker, e.g. KC-135); everything
+# else refuels probe-and-drogue. Giving an F-16 a drogue tanker (the old bug) left
+# it unable to refuel at all.
+BOOM_RECEIVERS = {
+    "F-16C_50", "F-16A", "F-16A MLU", "F-15C", "F-15E", "F-15ESE",
+    "A-10C", "A-10C_2", "A-10A", "F-4E-45MC", "B-1B", "B-52H", "F-117A",
+}
+
+
+def tanker_type(era, side, player_id):
+    """Match the tanker to the PLAYER's receiver: boom -> KC-135, probe -> drogue."""
+    if era == "wwii" or side != "blue":
+        return None                               # no blue-only asset for this case
+    if player_id in BOOM_RECEIVERS:
+        return planes.KC_135                       # flying boom (USAF)
+    return planes.KC135MPRS if era == "modern" else planes.KC130  # probe-and-drogue
+
+
+def awacs_type(era, side):
+    return AWACS_TYPES[era][side]
+
+
 # knots/feet converted: pydcs wants m and km/h-ish speeds; keep its sane defaults where possible
 TANKER_ALT = 6096   # 20,000 ft
 AWACS_ALT = 9144    # 30,000 ft
 
 
-def add_tanker(m, country, era, side, anchor, heading_away_deg, comms, gfx=None):
-    ttype = TANKERS[era][side]
+def add_tanker(m, country, ttype, anchor, heading_away_deg, comms, gfx=None):
     if ttype is None:
         return None
     tk_cfg = comms.cfg("tanker")
@@ -40,8 +56,7 @@ def add_tanker(m, country, era, side, anchor, heading_away_deg, comms, gfx=None)
     return tk
 
 
-def add_awacs(m, country, era, side, anchor, heading_away_deg, comms, gfx=None):
-    atype = AWACS_TYPES[era][side]
+def add_awacs(m, country, atype, anchor, heading_away_deg, comms, gfx=None):
     if atype is None:
         return None
     freq = comms.freq("awacs")

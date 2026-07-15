@@ -316,14 +316,29 @@ class StarterBuilder:
             if cap:
                 stats.setdefault("enemy_cap", []).extend(cap)
 
+        # Support flights fly under a nation that actually OPERATES the airframe
+        # (US AWACS/tankers, Russian A-50) — added to the coalition if the lead
+        # nation doesn't fly it. So an Israeli- or UK-led blue force still gets a
+        # valid, ME-editable KC-135/E-3 instead of an airframe its country can't
+        # operate. The tanker also matches the PLAYER's receiver (boom vs drogue).
+        if r.bb_tanker or r.bb_awacs:
+            support_country = _get_country(
+                "USA" if r.coalition == "blue" else "Russia", r.coalition)
+            try:
+                player_id = self._resolve_aircraft(r.aircraft).id
+            except Exception:
+                player_id = None
         if r.bb_tanker:
-            tk = support_air.add_tanker(m, own_country, r.era, r.coalition,
-                                        own_center, away_bearing, comms, gfx=gfx)
+            tk = support_air.add_tanker(
+                m, support_country,
+                support_air.tanker_type(r.era, r.coalition, player_id),
+                own_center, away_bearing, comms, gfx=gfx)
             if tk:
                 stats["support"].append(tk.name)
         if r.bb_awacs:
-            aw = support_air.add_awacs(m, own_country, r.era, r.coalition,
-                                       own_center, away_bearing, comms, gfx=gfx)
+            aw = support_air.add_awacs(
+                m, support_country, support_air.awacs_type(r.era, r.coalition),
+                own_center, away_bearing, comms, gfx=gfx)
             if aw:
                 stats["support"].append(aw.name)
 
@@ -493,15 +508,30 @@ class StarterBuilder:
 
     def _briefing(self, map_cfg, era_cfg, preset, home, comms, stats, template_brief):
         r = self.recipe
+        carrier_home = getattr(self, "_carrier_home", False) and self._csg
+        where = self._csg.units[0].name if carrier_home else home.name
+        if r.template:
+            flight_line = ">> YOUR FLIGHT: see the template briefing below."
+        else:
+            try:
+                ac = self._resolve_aircraft(r.aircraft).id
+            except Exception:
+                ac = r.aircraft
+            flight_line = (f">> YOUR FLIGHT: {ac} at {where}, {r.start} start. "
+                           f"It's parked and ready — click Fly, or find it in the "
+                           f"Mission Editor.")
         lines = [
             f"=== DCS MISSION STARTER ===",
             f"{map_cfg['label']} | {era_cfg['label']} | {preset['frontline_hint']}",
             "",
-            "This is a STARTER mission: airfields are dressed, air defenses are up,",
-            "and support aircraft are on station. No player waypoints have been placed -",
-            "open it in the Mission Editor and build your mission on top.",
+            flight_line,
             "",
-            f"Home plate: {self._csg.units[0].name if getattr(self, '_carrier_home', False) and self._csg else home.name}",
+            "This is a STARTER, not a scripted mission: the theater is dressed, air",
+            "defenses are up, and tanker/AWACS are on station - but there are NO",
+            "objectives, tasking or waypoints (no A/A, A/G, SEAD packages). Take off",
+            "and free-fly, or open it in the Mission Editor and build your mission on top.",
+            "",
+            f"Home plate: {where}",
             f"Static objects placed: {stats['statics']}",
             f"Air defense groups: {len(stats['sam_sites'])}",
             f"Support flights: {', '.join(stats['support']) or 'none'}",

@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.8.6] — 2026-07-14
+
+### Fixed / Changed — user-feedback pass: clarity + support-flight correctness
+Three issues from a first-time user's feedback:
+
+- **"I expected a mission, got a sandbox."** Added a prominent, unmissable **banner** at
+  the top of the page: *"This builds a mission STARTER — a ready-to-fly world, not a
+  scripted mission… no objectives, tasking or waypoints."* Dismissible (remembered), but
+  shown to every new user. The generated **briefing** now leads with **">> YOUR FLIGHT:
+  <aircraft> at <base>, <start> start"** and states plainly that there are no objectives.
+- **"I couldn't find my plane."** The briefing's YOUR FLIGHT line names the actual base —
+  including when the flight falls back to another field because the chosen home had no free
+  parking for that type.
+- **Support flights were the wrong faction / wrong tanker.** Tanker and AWACS now fly under
+  a nation that actually operates the airframe (US KC-135/E-3, Russian A-50), added to the
+  coalition if the lead nation doesn't fly it — so an Israel- or UK-led blue force gets a
+  valid, ME-editable KC-135/E-3 instead of an airframe its country can't operate. The
+  **tanker also matches the player's receiver**: boom jets (F-16/F-15/A-10) get the boom
+  **KC-135**, probe jets (Hornet/Tomcat/Mirage) get a drogue tanker — fixing an F-16 being
+  handed a drogue-only KC135MPRS it can't use.
+
+Verified on Sinai (Israel-led): F-16 → KC-135 under USA, Hornet → KC135MPRS under USA,
+both with the E-3 under USA. (Mission *tasking* — A/A, A/G, SEAD objective packages — is a
+larger future feature; noted on the roadmap.)
+
+---
+
 ## [1.8.5] — 2026-07-14
 
 ### Changed — the "seed" is explained and gets a re-roll button

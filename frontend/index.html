@@ -113,6 +113,14 @@
      &nbsp;·&nbsp; <a href="/api/guide" style="color:var(--accent)">Download the user guide</a>
      &nbsp;·&nbsp; <a href="/api/roadmap" style="color:var(--accent)">Roadmap</a></p>
 </header>
+<div id="whatbanner" style="background:linear-gradient(90deg,#1c2f4a,#182338);border-bottom:2px solid var(--accent);padding:14px 32px;display:flex;gap:16px;align-items:flex-start">
+  <div style="font-size:22px;line-height:1.1">🛠️</div>
+  <div style="flex:1;font-size:13.5px;line-height:1.5">
+    <b style="font-size:15px;color:#fff">This builds a mission <span style="color:var(--accent)">STARTER</span> — a ready-to-fly world, not a scripted mission.</b><br>
+    You get a dressed, living theater (airfields, air defenses, tanker &amp; AWACS, optional carrier) with <b>your flight parked and ready to fly</b> — but <b>no objectives, tasking or waypoints</b> (no A/A, A/G, SEAD packages). Take off and free-fly, or open the <b>.miz</b> in the DCS Mission Editor and build your mission on top. Want a scripted scenario instead? Use a <b>Template pack</b> (screen&nbsp;8).
+  </div>
+  <button id="whatbanner_x" title="Got it — hide this" style="background:none;border:1px solid var(--line);color:var(--dim);border-radius:6px;cursor:pointer;padding:4px 9px;font-size:12px">Got it ✕</button>
+</div>
 <div class="app">
 <nav id="rail">
   <div id="railsteps"></div>
@@ -401,6 +409,11 @@ async function init(){
   document.getElementById('reroll').onclick = ()=>{
     document.getElementById('seed').value = Math.floor(Math.random()*99999)+1;
     sum();
+  };
+  try { if (localStorage.getItem('ms_gotit')==='1') document.getElementById('whatbanner').style.display='none'; } catch(e){}
+  document.getElementById('whatbanner_x').onclick = ()=>{
+    document.getElementById('whatbanner').style.display='none';
+    try { localStorage.setItem('ms_gotit','1'); } catch(e){}
   };
   document.getElementById('dress_aircraft_mode').onchange = function(){
     document.getElementById('dress_mode_warn').style.display =

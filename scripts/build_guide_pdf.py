@@ -260,6 +260,11 @@ story += [
       "AWACS, ambient traffic, FARPs), <b>targets &amp; ranges</b> (strike packages, a practice "
       "range), and <b>briefing aids</b> (the comms card, in-jet kneeboards, named nav reference "
       "points). Turn on what the mission needs — sensible defaults are already set."),
+    P("The <b>tanker matches your jet</b>: a boom receiver (F-16, F-15, A-10) gets a KC-135; a "
+      "probe-and-drogue jet (Hornet, Tomcat, Mirage) gets a drogue tanker. Support aircraft fly "
+      "under a nation that actually operates them (US AWACS/tankers, Russian A-50), added to your "
+      "coalition if your lead nation doesn't — so an Israeli- or UK-led force still gets a valid, "
+      "editable KC-135 and E-3 rather than an airframe its country can't fly."),
 
     P("6 · Carrier (when the carrier is home)", "h2"),
     P("Shown only when you chose the carrier as your home base. Pick a hull, a real-world deck "
