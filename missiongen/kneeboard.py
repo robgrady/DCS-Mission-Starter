@@ -46,9 +46,14 @@ def _page(title, subtitle):
     return img, d, f
 
 
-def page_comms(comms, map_label, era_label, home_name):
+def page_comms(comms, map_label, era_label, home_name, qnh_hpa=None):
     img, d, f = _page("COMMS / NAV", f"{map_label}  ·  {era_label}  ·  home: {home_name}")
     y = 150
+    if qnh_hpa:
+        from .pressure import format_qnh
+        d.text((40, y), f"ALTIMETER (QNH)  {format_qnh(qnh_hpa)}",
+               font=f["mono_b"], fill=ACCENT)
+        y += 50
     has_ch = bool(getattr(comms, "channels", None))
     ch_hdr = f"{'CHAN':<6}" if has_ch else ""
     d.text((40, y), f"{'AGENCY':<14}{'C/S':<14}{'FREQ':<10}{ch_hdr}{'TACAN'}",
@@ -134,9 +139,9 @@ def inject_kneeboard(miz_path, pages):
 
 def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
                     map_label, era_label, era_year, home_name, support_names,
-                    nav_points=None):
+                    nav_points=None, qnh_hpa=None):
     pages = [
-        page_comms(comms, map_label, era_label, home_name),
+        page_comms(comms, map_label, era_label, home_name, qnh_hpa),
         page_airfields(own_fields, enemy_fields, era_year),
         page_theater(own_fields, enemy_fields, bullseye, map_label, support_names,
                      nav_points),

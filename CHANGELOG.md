@@ -17,6 +17,23 @@ guide cover.
 
 ---
 
+## [1.9.3] — 2026-07-16
+
+### Added — realistic altimeter setting (QNH) in the briefing
+Every mission used to ship DCS's default `weather.qnh = 760 mmHg` — which is
+exactly 29.92 inHg / 1013 hPa, the ISA standard — so the briefed altimeter was
+always standard. Now (`missiongen/pressure.py`):
+
+- A **seeded QNH** correlated to the weather preset: clear ~1018–1028 hPa,
+  scattered ~1010–1018, overcast ~1000–1010, storm ~992–1002. Derived from the
+  mission seed, so it's reproducible and matches the Variation number.
+- Baked into the mission (`m.weather.qnh`, mmHg) and printed in **all three
+  altimeter units** on the briefing and the kneeboard comms page:
+  *"Altimeter (QNH): 29.77 inHg / 1008 hPa / 756 mmHg — set it before you taxi."*
+  inHg for US jets, hPa for the metric jets, mmHg for the Russian/DCS-native side.
+- Verified: QNH varies by weather and seed (never a flat 760), unit conversions
+  round-trip, and the line renders in briefing + kneeboard.
+
 ## [1.9.2] — 2026-07-16
 
 ### Fixed — carrier F10 arrow rendered perpendicular to the ship's track

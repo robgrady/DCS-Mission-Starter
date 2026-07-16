@@ -467,6 +467,7 @@ class StarterBuilder:
             "home_name": (csg.units[0].name if carrier_home and csg else home.name),
             "support_names": stats["support"],
             "nav_points": [(n, p) for n, p, _t, _note in nav_pts],
+            "qnh_hpa": getattr(self, "_qnh_hpa", None),
         }
         return m
 
@@ -518,6 +519,13 @@ class StarterBuilder:
                 m.weather.wind_at_2000.speed = 12
         except AttributeError as e:
             self.warnings.append(f"weather preset partial: {e}")
+        # BB-20: realistic, seeded QNH instead of the flat 760 mmHg (=29.92) default
+        from . import pressure
+        self._qnh_hpa = pressure.roll_qnh_hpa(w, self.rng)
+        try:
+            m.weather.qnh = pressure.qnh_mmhg(self._qnh_hpa)
+        except AttributeError:
+            pass
 
     def _briefing(self, map_cfg, era_cfg, preset, home, comms, stats, template_brief):
         r = self.recipe
@@ -553,6 +561,13 @@ class StarterBuilder:
             "and free-fly, or open it in the Mission Editor and build your mission on top.",
             "",
             f"Home plate: {where}",
+        ]
+        qnh_hpa = getattr(self, "_qnh_hpa", None)
+        if qnh_hpa:
+            from . import pressure
+            lines.append(f"Altimeter (QNH): {pressure.format_qnh(qnh_hpa)} "
+                         f"- set it before you taxi.")
+        lines += [
             f"Static objects placed: {stats['statics']}",
             f"Air defense groups: {len(stats['sam_sites'])}",
             f"Support flights: {', '.join(stats['support']) or 'none'}",
