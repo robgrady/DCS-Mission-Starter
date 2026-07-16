@@ -117,7 +117,7 @@
   <div style="font-size:22px;line-height:1.1">🛠️</div>
   <div style="flex:1;font-size:13.5px;line-height:1.5">
     <b style="font-size:15px;color:#fff">This builds a mission <span style="color:var(--accent)">STARTER</span> — a ready-to-fly world, not a scripted mission.</b><br>
-    You get a dressed, living theater (airfields, air defenses, tanker &amp; AWACS, optional carrier) with <b>your flight parked and ready to fly</b> — but <b>no objectives, tasking or waypoints</b> (no A/A, A/G, SEAD packages). Take off and free-fly, or open the <b>.miz</b> in the DCS Mission Editor and build your mission on top. Want a scripted scenario instead? Use a <b>Template pack</b> (screen&nbsp;8).
+    You get a dressed, living theater (airfields, air defenses, tanker &amp; AWACS, optional carrier) with <b>your flight parked and ready to fly</b> — but <b>no objectives, tasking or waypoints</b> (no A/A, A/G, SEAD packages). Take off and free-fly, or open the <b>.miz</b> in the DCS Mission Editor and build your mission on top. Want a ready-made mission with suggested tasking instead? Pick a <b>Scenario</b> (step&nbsp;2).
   </div>
   <button id="whatbanner_x" title="Got it — hide this" style="background:none;border:1px solid var(--line);color:var(--dim);border-radius:6px;cursor:pointer;padding:4px 9px;font-size:12px">Got it ✕</button>
 </div>
@@ -275,7 +275,8 @@
       <label class="block"><input type="checkbox" id="carrier_aew"><span><b>Launch Hawkeye (AAW)</b><small>Air-wing E-2 AEW orbit covering the strike group</small></span></label>
     </div>
   </div>
-  <div class="step" id="sec_template"><h2><span class="n">8</span>Template pack <span class="pill">optional</span><span class="hdrval" id="hv_template"></span></h2>
+  <div class="step" id="sec_template"><h2><span class="n">2</span>Scenario <span class="pill">optional</span><span class="hdrval" id="hv_template"></span></h2>
+    <p style="color:var(--dim);margin:2px 0 10px">Pick a ready-made scenario for this theater and it fills the rest of the wizard for you — or "Build your own" and configure everything yourself. Either way you can tweak every screen after this.</p>
     <div class="cards" id="templates"></div>
     <div class="row" style="margin-top:10px"><div style="max-width:280px">
       <label>Crew difficulty (for WSO/RIO templates)</label>
@@ -390,12 +391,17 @@ async function init(){
   }
   document.getElementById('bb_carrier').addEventListener('change', ()=>{ refreshCarrierUI(); updateRail(); });
   const tp = document.getElementById('templates');
-  const none = el(`<div class="card sel" data-k=""><b>None — pure starter</b><small>You build the mission on top</small></div>`);
-  none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); };
+  const none = el(`<div class="card sel" data-k=""><b>Build your own</b><small>No scenario — you configure everything below</small></div>`);
+  none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); updateRail(); };
   tp.appendChild(none);
   for (const [k,v] of Object.entries(OPT.templates)){
-    const c = el(`<div class="card" data-k="${k}" data-eras="${v.eras.join(',')}"><b>${v.label}</b><small>Curated scripted scenario</small></div>`);
-    c.onclick = ()=>{ S.template=k; sel(tp,c); sum(); };
+    const reqs = [];
+    if (v.needs_carrier) reqs.push('needs a carrier map');
+    if (v.needs_acls) reqs.push('SuperCarrier for ACLS');
+    if (v.maps && v.maps.length) reqs.push(v.maps.map(m=>(OPT.maps[m]?.label||m)).join('/'));
+    const hint = v.recipe ? 'Presets your setup — tweak anything below' : 'Crew-ops scenario (locks the jet)';
+    const c = el(`<div class="card" data-k="${k}" data-eras="${(v.eras||[]).join(',')}"><b>${v.label}</b><small>${hint}${reqs.length?' · '+reqs.join(' · '):''}</small></div>`);
+    c.onclick = ()=>{ applyScenarioPreset(k); sel(tp,c); };
     tp.appendChild(c);
   }
   // carrier deck configuration UI
@@ -512,6 +518,52 @@ function sel(container, card){
   container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
   card.classList.add('sel');
 }
+// Scenario = a preset that FILLS the wizard, then you tweak. Applied here so the
+// downstream screens (flight, airfields, threats, carrier) show the scenario's
+// choices ready to review — never a late override.
+function applyScenarioPreset(k){
+  S.template = k;
+  const v = OPT.templates[k] || {};
+  const rc = v.recipe || {};
+  // carrier first — it changes the home list and the jet roster
+  if ('bb_carrier' in rc){ const cb=document.getElementById('bb_carrier'); cb.checked=!!rc.bb_carrier; refreshCarrierUI(); }
+  if (rc.carrier_hull){ const ch=document.getElementById('carrier_hull'); if([...ch.options].some(o=>o.value===rc.carrier_hull)) ch.value=rc.carrier_hull; }
+  if (rc.carrier_layout){ const clay=document.getElementById('carrier_layout'); if([...clay.options].some(o=>o.value===rc.carrier_layout)) clay.value=rc.carrier_layout; }
+  if (rc.bb_carrier){ fillHome(); const h=document.getElementById('home');
+    if([...h.options].some(o=>o.value==='CARRIER')) h.value='CARRIER'; }
+  // basing enums
+  for (const key of ['start','time_of_day','weather','density']) if (rc[key]){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
+  // building blocks
+  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','carrier_cap','carrier_aew'])
+    if (key in rc){ const e=document.getElementById(key); if(e) e.checked=!!rc[key]; }
+  // threats
+  if ('threat_intensity' in rc){ const e=document.getElementById('threat_intensity'); if(e){ e.value=rc.threat_intensity; setIntensityLabel(rc.threat_intensity); } }
+  if (rc.threat_tier){ const e=document.getElementById('threat_tier'); if(e) e.value=rc.threat_tier; }
+  // aircraft suggestion last (roster depends on carrier/era) — only if offered
+  refreshAircraft();
+  if (rc.aircraft){ const a=document.getElementById('aircraft'); if([...a.options].some(o=>o.value===rc.aircraft)) a.value=rc.aircraft; }
+  refreshCarrierUI(); refreshDressUI(); sum(); updateRail();
+}
+// Only offer scenarios that fit the chosen map + era (contextual filter). A
+// scenario that stops being valid (era/map change) silently resets to "Build
+// your own" rather than fighting the user's theater choice.
+function filterScenarios(){
+  const mapHasCarrier = S.map && OPT.maps[S.map] && OPT.maps[S.map].has_carrier;
+  document.querySelectorAll('#templates .card').forEach(c=>{
+    const k = c.dataset.k;
+    if (!k){ c.style.display=''; return; }               // "Build your own" always shows
+    const v = OPT.templates[k] || {};
+    let ok = true;
+    if (v.eras && v.eras.length) ok = ok && v.eras.includes(S.era);
+    if (v.maps && v.maps.length)  ok = ok && v.maps.includes(S.map);
+    if (v.needs_carrier)          ok = ok && !!mapHasCarrier;
+    c.style.display = ok ? '' : 'none';
+    if (!ok && S.template===k){
+      S.template=null; c.classList.remove('sel');
+      document.querySelector('#templates .card[data-k=""]').classList.add('sel');
+    }
+  });
+}
 const INTENSITY_NAMES = {1:"Minimal",2:"Light",3:"Moderate",4:"Heavy",5:"Maximum"};
 function setIntensityLabel(v){
   const e = document.getElementById('threat_intensity_label');
@@ -583,13 +635,7 @@ function refreshEraGating(){
   refreshCarrierUI();
   // hard era gate: roster, templates, and maps all follow the period
   refreshAircraft();
-  document.querySelectorAll('#templates .card[data-eras]').forEach(c=>{
-    const ok = c.dataset.eras.split(',').includes(S.era);
-    c.classList.toggle('dis', !ok);
-    if (!ok && S.template===c.dataset.k){ S.template=null;
-      document.querySelector('#templates .card[data-k=""]').classList.add('sel');
-      c.classList.remove('sel'); }
-  });
+  filterScenarios();
   // era-first UX: maps grey out under the chosen era; eras themselves never grey
   document.querySelectorAll('#maps .card').forEach(c=>{
     const ok = !!OPT.maps[c.dataset.k].presets[S.era];
@@ -665,11 +711,14 @@ const SCREENS = [
   {key:"theater", num:1, label:"Theater", steps:["sec_era","sec_map"], val:()=>{
       if(!S.era) return null;
       return OPT.eras[S.era].label + (S.map? ` · ${OPT.maps[S.map].label}`:''); }},
-  {key:"flight", num:2, label:"Flight", steps:["sec_basing"], val:()=>{
+  {key:"template", num:2, label:"Scenario", steps:["sec_template"], val:()=>{
+      const c = document.querySelector('#templates .card.sel');
+      return c && c.dataset.k ? c.querySelector('b').textContent.split(' —')[0] : "build your own"; }},
+  {key:"flight", num:3, label:"Flight", steps:["sec_basing"], val:()=>{
       const a = document.getElementById('aircraft').selectedOptions[0];
       const h = document.getElementById('home').selectedOptions[0];
       return a ? `${document.getElementById('coalition').value} · ${a.text.split(' (')[0]}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') : null; }},
-  {key:"airfields", num:3, label:"Airfields", steps:["dressstep"], val:()=>{
+  {key:"airfields", num:4, label:"Airfields", steps:["dressstep"], val:()=>{
       if (!document.getElementById('bb_dressing')?.checked) return "off";
       if (typeof dressMode==='function' && dressMode()==='compose'){
         const tot = Object.values(composerMix()).reduce((a,b)=>a+b,0);
@@ -677,25 +726,22 @@ const SCREENS = [
       const t = document.getElementById('dress_theme');
       const name = t.selectedOptions[0] ? t.selectedOptions[0].text.replace('Auto for this map — ','') : '';
       return `${name} · ${document.getElementById('dress_fill').value}%`; }},
-  {key:"threats", num:4, label:"Threats", steps:["threatstep"], val:()=>{
+  {key:"threats", num:5, label:"Threats", steps:["threatstep"], val:()=>{
       if (!document.getElementById('bb_sams')?.checked) return "defenses off";
       const lab = document.getElementById('threat_intensity_label')?.textContent || '';
       const t = document.getElementById('threat_tier');
       const tl = t && t.selectedOptions[0] ? t.selectedOptions[0].text.split(' —')[0] : '';
       return `${lab} · ${tl}`; }},
-  {key:"support", num:5, label:"Support & extras", steps:["sec_support"], val:()=>{
+  {key:"support", num:6, label:"Support & extras", steps:["sec_support"], val:()=>{
       const on = BLOCKS.filter(([k,,,,tg]) => tg && tg.startsWith('sup_') && document.getElementById(k)?.checked).length;
       return `${on} on`; }},
-  {key:"carrier", num:6, label:"Carrier", steps:["carrierstep"],
+  {key:"carrier", num:7, label:"Carrier", steps:["carrierstep"],
       cond:()=>document.getElementById('bb_carrier')?.checked, val:()=>{
       const h = document.getElementById('carrier_hull').selectedOptions[0];
       return h ? h.text.split(' (')[0] : "on"; }},
-  {key:"graphics", num:7, label:"Map & graphics", steps:["gfxstep"], val:()=>{
+  {key:"graphics", num:8, label:"Map & graphics", steps:["gfxstep"], val:()=>{
       const gl = [...document.querySelectorAll('.gfxl')];
       return `${gl.filter(c=>c.checked).length}/${gl.length} layers`; }},
-  {key:"template", num:8, label:"Template", steps:["sec_template"], val:()=>{
-      const c = document.querySelector('#templates .card.sel');
-      return c && c.dataset.k ? c.querySelector('b').textContent : "none"; }},
   {key:"review", num:9, label:"Review & generate", steps:["sec_review"], val:()=>"ready"},
 ];
 const ALL_STEP_IDS = [...new Set(SCREENS.flatMap(s=>s.steps))];

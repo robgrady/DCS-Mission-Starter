@@ -86,12 +86,18 @@ def options():
                  for k, v in eras.items()},
         "aircraft": flyable_aircraft(),
         "templates": {
+            **{k: {"label": v["label"], "eras": v.get("eras", []),
+                   "maps": v.get("maps"), "needs_carrier": v.get("needs_carrier", False),
+                   "needs_acls": v.get("needs_acls", False),
+                   "recipe": v.get("recipe", {})}
+               for k, v in load_json("mission_templates").items()
+               if not k.startswith("_")},
             "backseat_izlid": {"label": "F-14B(U) Pilot + Jester: IZLID Strike — you fly, Jester designates on your call (⏳ pre-release module)",
-                               "eras": ["modern"]},
+                               "eras": ["modern"], "aircraft_locked": True},
             "backseat_intercept": {"label": "F-14B(U) RIO + Iceman: GCI Intercept — Iceman flies YOUR calls from the back seat (⏳ pre-release module)",
-                                   "eras": ["modern"]},
+                                   "eras": ["modern"], "aircraft_locked": True},
             "rio_fleet_defense": {"label": "F-14 RIO: Fleet Defense — the AWG-9 vs a Backfire raid (solo or MP crew, works today)",
-                                  "eras": ["coldwar", "modern"]},
+                                  "eras": ["coldwar", "modern"], "aircraft_locked": True},
         },
         "ramp_themes": {
             era: {side: {k: {"label": t["label"], "desc": t["desc"],

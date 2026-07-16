@@ -16,12 +16,33 @@ from . import dressing, airdefense, support_air, backseat
 START_TYPES = {"cold": StartType.Cold, "warm": StartType.Warm, "runway": StartType.Runway}
 TIME_PRESETS = {"dawn": 5, "day": 12, "dusk": 18, "night": 22}
 
+# CREW-OPS templates own the player flight themselves (backseat/RIO branches).
+# SCENARIO templates (mission_templates.json) are lighter: a recipe preset the
+# frontend pre-fills + a suggested-tasking briefing block, with a NORMAL player
+# flight. Keep the two sets distinct so scenario templates don't skip the flight.
+CREW_OPS_TEMPLATES = ("backseat_izlid", "backseat_intercept", "rio_fleet_defense")
+
 # templates are era-gated too. F-14B(U) flag-API missions are modern-only
 # (the B(U) upgrade is a mid-90s+ airframe); fleet defense runs on today's
-# F-14A (coldwar) / F-14B (modern).
+# F-14A (coldwar) / F-14B (modern). Scenario templates carry their own eras.
 TEMPLATE_ERAS = {"backseat_izlid": ("modern",),
                  "backseat_intercept": ("modern",),
                  "rio_fleet_defense": ("coldwar", "modern")}
+
+
+def _scenario_templates():
+    try:
+        return {k: v for k, v in load_json("mission_templates").items()
+                if not k.startswith("_")}
+    except Exception:
+        return {}
+
+
+def _template_eras(key):
+    """Allowed eras for any template key (crew-ops table or scenario data)."""
+    if key in TEMPLATE_ERAS:
+        return tuple(TEMPLATE_ERAS[key])
+    return tuple(_scenario_templates().get(key, {}).get("eras", ()))
 
 
 class EraViolation(Exception):
@@ -64,12 +85,13 @@ class StarterBuilder:
         # --- hard era gates (FR: period accuracy is the product) ------------
         if r.era not in map_cfg["presets"]:
             raise EraViolation(f"{map_cfg['label']} has no {r.era} preset")
-        if not r.template and not aircraft_in_era(r.aircraft, era_cfg):
+        crew_ops = r.template in CREW_OPS_TEMPLATES
+        if not crew_ops and not aircraft_in_era(r.aircraft, era_cfg):
             svc = load_json("aircraft_service").get(r.aircraft)
             raise EraViolation(
                 f"{r.aircraft} was not in service during {era_cfg['label']} "
                 f"(service {svc[0]}-{svc[1] or 'present'}). Pick a period-correct aircraft.")
-        if r.template and r.era not in TEMPLATE_ERAS.get(r.template, ()):
+        if r.template and r.era not in _template_eras(r.template):
             raise EraViolation(f"Template '{r.template}' is not available in {era_cfg['label']}")
 
         terrain = resolve_terrain(map_cfg["terrain_class"])
@@ -174,14 +196,14 @@ class StarterBuilder:
 
         # --- player flight (unless a template pack owns the player) ---------
         player_group = None
-        if not r.template and carrier_home:
+        if not crew_ops and carrier_home:
             aircraft = self._resolve_aircraft(r.aircraft)
             self._check_carrier_capable(r.aircraft, aircraft, hull_key)
             player_group = m.flight_group_from_unit(
                 own_country, "Anytime 1", aircraft, csg,
                 start_type=START_TYPES[r.start],
                 group_size=max(1, min(4, r.slots)))
-        elif not r.template:
+        elif not crew_ops:
             aircraft = self._resolve_aircraft(r.aircraft)
             from dcs.terrain.terrain import NoParkingSlotError
             player_group = None
@@ -421,6 +443,11 @@ class StarterBuilder:
                                                  home, target_area, self.rng, comms,
                                                  r.era, csg=self._csg if carrier_home else None)
                 template_brief = backseat.RIO_BRIEFING_BLOCK
+        elif r.template:
+            # SCENARIO template: append its suggested-tasking block (no waypoints).
+            sc = _scenario_templates().get(r.template)
+            if sc and sc.get("brief"):
+                template_brief = "\n".join(sc["brief"])
 
         # --- bullseye ---------------------------------------------------------
         midpoint = mapping.Point((own_center.x + enemy_center.x) / 2,
@@ -531,7 +558,7 @@ class StarterBuilder:
         r = self.recipe
         carrier_home = getattr(self, "_carrier_home", False) and self._csg
         where = self._csg.units[0].name if carrier_home else home.name
-        if r.template:
+        if r.template in CREW_OPS_TEMPLATES:
             flight_line = ">> YOUR FLIGHT: see the template briefing below."
         else:
             try:

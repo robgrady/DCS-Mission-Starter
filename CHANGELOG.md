@@ -17,6 +17,24 @@ guide cover.
 
 ---
 
+## [1.10.0] — 2026-07-16
+
+### Added — Template Library (scenario presets) + Scenario-step UX rework
+Requirements/UX in the roadmap; Rob greenlit the first batch + the contextual-filter model.
+
+**Four scenario templates** (`missiongen/data/mission_templates.json`) — opinionated
+presets that arrange the sandbox into a recognizable mission, with SUGGESTED tasking
+in the briefing and NO forced waypoints (the Starter rule holds):
+- **Carrier Qualification (CQ)** — boat into the wind, recovery deck, tanker overhead, calm threat picture. Case I/III currency.
+- **ACLS Practice** — SuperCarrier (auto-gated to ACLS-capable hulls), Link4 + ACLS, night/weather, Mode I/IA coupled approaches.
+- **CAP / Alert-5** — enemy air picture up (intensity 4, mixed), AWACS + tanker; hold the line.
+- **SEAD / Wild Weasel Range** — heavy SAM belt (intensity 4), targets on, AWACS + tanker; roll back the defenses.
+
+**Scenario-step UX rework** (contextual filter):
+- The template picker moved from the LAST screen to a **"Scenario" step right after Theater** (map+era), and is **filtered to only scenarios valid for that theater** — carrier scenarios hide on landlocked maps, modern-only ones vanish in WWII. Fixes the late-override anti-pattern (a preset arriving after you'd already configured everything).
+- Picking a scenario **pre-fills the downstream wizard** (carrier/home, blocks, threats, weather, suggested aircraft), all still editable — a fast-fill, not a separate track. "Build your own" is the default.
+- Builder: scenario templates fall through to a NORMAL player flight (only crew-ops templates own their own), get their tasking briefing block, and are era-gated from data. Verified all four generate a player flight + tasking; filtering verified across Nevada (no carrier), caucasus/coldwar, and WWII.
+
 ## [1.9.3] — 2026-07-16
 
 ### Added — realistic altimeter setting (QNH) in the briefing

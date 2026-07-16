@@ -1,0 +1,83 @@
+{
+  "_comment": "Scenario templates: opinionated PRESETS that arrange the sandbox into a recognizable mission, filtered by map/era/needs_carrier. Each carries a recipe preset (applied by the frontend to pre-fill the wizard, editable) and a 'brief' tasking block (appended to the mission briefing by the builder - suggested tasking only, NO forced waypoints). These are distinct from the crew-ops templates (backseat_*/rio_fleet_defense) which are handled by dedicated builder branches.",
+  "carrier_qual": {
+    "label": "Carrier Qualification (CQ) — Case I/III recovery practice at the boat",
+    "eras": ["coldwar", "modern"],
+    "needs_carrier": true,
+    "recipe": {
+      "bb_carrier": true, "carrier_layout": "recovery",
+      "bb_tanker": true, "bb_awacs": false,
+      "threat_intensity": 1, "threat_tier": "light",
+      "bb_targets": false, "bb_range": false,
+      "start": "warm", "time_of_day": "day", "weather": "clear"
+    },
+    "brief": [
+      "=== TASKING (suggested) — CARRIER QUALIFICATION ===",
+      "The boat is steaming into the wind with the pattern open. Fly the case:",
+      " - CASE I (day/VMC): overhead break, downwind, groove. Fuel state to Marshal.",
+      " - CASE III (night/IMC): Marshal stack, push on time, CATCC/ACLS approach.",
+      "Recovery tanker is overhead for your bolters and low-state passes. No enemy",
+      "tasking - this is currency and traps. Grade yourself: bolter, 1-wire to OK-3."
+    ]
+  },
+  "acls_practice": {
+    "label": "ACLS Practice — Mode I/IA coupled approaches (SuperCarrier)",
+    "eras": ["modern"],
+    "needs_carrier": true,
+    "needs_acls": true,
+    "recipe": {
+      "bb_carrier": true, "carrier_hull": "cvn_73", "carrier_layout": "recovery",
+      "bb_tanker": true, "bb_awacs": false,
+      "threat_intensity": 1, "threat_tier": "light",
+      "bb_targets": false, "bb_range": false,
+      "start": "warm", "time_of_day": "night", "weather": "scattered"
+    },
+    "brief": [
+      "=== TASKING (suggested) — ACLS PRACTICE ===",
+      "SuperCarrier boat, Link4 + ACLS radiating (see the Boat Card for channels).",
+      "Work the coupled approach:",
+      " - Fly to Marshal, set Link4 (F/A-18: DL20; F-14 RIO enters the freq), ICLS on.",
+      " - Commence, needles/ACLS: Mode II (needles, you fly) then Mode I (coupled,",
+      "   hands-off to touchdown) once you trust the datalink.",
+      "Tanker overhead for the go-arounds. Night/weather is set to make it count.",
+      "Note: ACLS needs an ACLS-capable hull (SuperCarrier / Stennis) - keep the",
+      "carrier on a supercarrier and don't swap to the Forrestal for this one."
+    ]
+  },
+  "cap_alert5": {
+    "label": "CAP / Alert-5 — hold the line, intercept inbound raiders",
+    "eras": ["coldwar", "modern"],
+    "recipe": {
+      "bb_awacs": true, "bb_tanker": true,
+      "threat_intensity": 4, "threat_tier": "mixed",
+      "bb_targets": false, "bb_range": false,
+      "start": "runway", "time_of_day": "day", "weather": "scattered"
+    },
+    "brief": [
+      "=== TASKING (suggested) — COMBAT AIR PATROL ===",
+      "You own a CAP station on the threat axis. AWACS has the picture; check in and",
+      "work the intercepts. Enemy CAP is up and probing - expect commit calls.",
+      "Tanker on station to keep you on the wall. ROE: your call - this is a training",
+      "furball, not a scored engagement. Hold the line, protect the rear, RTB with gas."
+    ]
+  },
+  "sead_range": {
+    "label": "SEAD / Wild Weasel Range — work a defended target complex",
+    "eras": ["coldwar", "modern"],
+    "recipe": {
+      "bb_awacs": true, "bb_tanker": true,
+      "threat_intensity": 4, "threat_tier": "heavy",
+      "bb_targets": true, "bb_range": false,
+      "start": "runway", "time_of_day": "day", "weather": "scattered"
+    },
+    "brief": [
+      "=== TASKING (suggested) — SEAD / WILD WEASEL ===",
+      "A defended target area is up ahead - SAM belt around the enemy fields (see the",
+      "F10 threat rings and the kneeboard). Roll back the air defenses:",
+      " - First on the RWR, sort the emitters, respect the rings.",
+      " - HARM/Shrike the acquisition and TR radars; re-attack the shooters.",
+      "AWACS has the picture, tanker's behind you. No fixed waypoints - build your own",
+      "ingress around the threats. Success = you can fly the target area without a launch."
+    ]
+  }
+}

@@ -194,7 +194,20 @@ story += [
       "plates (USAF fields; even the captured MiGs there flew as USAF units)."),
     shot("theater.png", "Theater: era across the top, then the maps valid for it."),
 
-    P("2 · Flight — side, jet, home base", "h2"),
+    P("2 · Scenario — a ready-made mission, or build your own", "h2"),
+    P("Right after you've set the theater, the <b>Scenario</b> step offers ready-made missions "
+      "that fit <i>this map and era</i> — pick one and it fills the rest of the wizard for you, "
+      "which you can then tweak on any screen. Choose <b>Carrier Qualification</b> or <b>ACLS "
+      "Practice</b> and the boat, deck state, tanker and a calm threat picture drop into place; "
+      "choose <b>SEAD / Wild Weasel Range</b> and a heavy SAM belt with AWACS and a tanker are "
+      "set up for you; <b>CAP / Alert-5</b> stands up an enemy air picture to intercept. Only "
+      "scenarios valid for your theater appear — carrier scenarios stay hidden on a landlocked "
+      "map, modern-only ones vanish in WWII. Each writes its <b>suggested tasking into the "
+      "briefing</b> (targets and the threat picture) — never forced waypoints, so the Starter "
+      "principle holds. Prefer to configure everything yourself? Leave it on <b>Build your "
+      "own</b>. The F-14 <b>Crew Ops</b> scenarios also live here (see that section)."),
+
+    P("3 · Flight — side, jet, home base", "h2"),
     P("Pick your side, home airfield, and aircraft from the full DCS flyable roster (period-"
       "filtered), plus single- or multiplayer slots, start type, time, weather, and world "
       "density. On coastal maps <b>the carrier</b> is offered here as a home base (last in the "
@@ -212,7 +225,7 @@ story += [
       "it — and generate again. You never have to think about the actual value; treat 🎲 as "
       "\"give me another version.\""),
 
-    P("3 · Airfields — populate your ramps", "h2"),
+    P("4 · Airfields — populate your ramps", "h2"),
     P("Fill your side's fields with parked aircraft, ground equipment and infrastructure. "
       "There are two ways to do it, chosen with the toggle at the top of the screen."),
 
@@ -245,7 +258,7 @@ story += [
       "enemy fields dress themselves with their own era-correct theme."),
     shot("airfields_place.png", "Placement mode (Static is recommended for performance) and the object-type toggles.", max_h=2.4 * inch),
 
-    P("4 · Threats — defenses and the Threat Dial", "h2"),
+    P("5 · Threats — defenses and the Threat Dial", "h2"),
     P("Turn on <b>Air defenses</b> (era-correct SAM sites + SHORAD at every enemy field), then "
       "set the <b>Threat Dial</b>. <b>Intensity</b> (Minimal → Maximum) adds extra area SAM "
       "sites and airborne enemy CAP on top of the base defenses — the count is rolled off the "
@@ -255,7 +268,7 @@ story += [
       "inbound; the area SAMs form a belt to plan around."),
     shot("threats.png", "Threats: air defenses plus the intensity dial and system-level tiers."),
 
-    P("5 · Support & extras", "h2"),
+    P("6 · Support & extras", "h2"),
     P("On-station assets and briefing aids, grouped by what they do: <b>air support</b> (tanker, "
       "AWACS, ambient traffic, FARPs), <b>targets &amp; ranges</b> (strike packages, a practice "
       "range), and <b>briefing aids</b> (the comms card, in-jet kneeboards, named nav reference "
@@ -266,23 +279,19 @@ story += [
       "coalition if your lead nation doesn't — so an Israeli- or UK-led force still gets a valid, "
       "editable KC-135 and E-3 rather than an airframe its country can't fly."),
 
-    P("6 · Carrier (when the carrier is home)", "h2"),
+    P("7 · Carrier (when the carrier is home)", "h2"),
     P("Shown only when you chose the carrier as your home base. Pick a hull, a real-world deck "
       "state (recovery, launch, underway, packed), the aircraft spotted on deck, and optionally "
       "launch the air wing's CAP and Hawkeye. All approach systems come pre-activated."),
     shot("carrier.png", "Carrier deck configuration — hull, deck state, air wing."),
 
-    P("7 · Map &amp; graphics (F10)", "h2"),
+    P("8 · Map &amp; graphics (F10)", "h2"),
     P("Each layer draws real mission geometry on the F10 map: the tanker's racetrack with its "
       "freq/TACAN label, the AWACS orbit, carrier CAP and Hawkeye stations, the strike group's "
       "ops box, amber rings over targets and the range, FARP service rings, bullseye, and the "
       "intel picture — known enemy SAM rings at doctrinal radii. Friendly orbits and threat "
       "rings render on YOUR coalition's layer only, so multiplayer stays fair. Zones inform — "
       "they never route you."),
-
-    P("8 · Template pack (optional)", "h2"),
-    P("Keep the pure starter, or drop into a curated scenario (the F-14 Crew Ops packs). Crew "
-      "difficulty sets whether the back-seat AI hints your next call."),
 
     P("9 · Review &amp; generate", "h2"),
     P("A one-glance summary of every choice. Hit <b>GENERATE .MIZ</b> (here or from the pinned "
@@ -418,8 +427,10 @@ story += [t(deck_rows, [1.2*inch, 5.4*inch]), Spacer(1, 6),
             "air wing's <b>CAP</b> (two-ship on the threat axis at 25,000 ft — e.g. VFA-146 Blue "
             "Diamonds) and an <b>E-2 Hawkeye</b> AEW orbit covering the force."),
 
-          P("Templates are the one exception to the no-waypoints rule — the AI pilot needs "
-            "steerpoints to fly. See the Crew Ops section for the WSO/RIO scenarios.", "note"),
+          P("Scenario templates keep the no-waypoints rule: they preset the world and write "
+            "<i>suggested</i> tasking into the briefing, never your flight plan. The F-14 Crew "
+            "Ops scenarios are the one exception — the AI pilot needs steerpoints to fly. See "
+            "the Crew Ops section.", "note"),
 
           P("Share links and recipes", "h1"),
           P("A starter is defined by its <b>recipe</b> — your wizard selections plus a seed. Share "
