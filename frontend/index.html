@@ -527,7 +527,11 @@ function applyScenarioPreset(k){
   const rc = v.recipe || {};
   // carrier first — it changes the home list and the jet roster
   if ('bb_carrier' in rc){ const cb=document.getElementById('bb_carrier'); cb.checked=!!rc.bb_carrier; refreshCarrierUI(); }
+  // Pin the scenario's hull, or force a CATOBAR deck for a carrier scenario that
+  // doesn't specify one (e.g. CQ) — otherwise it can inherit a previously-picked
+  // V/STOL Invincible and collapse the jet list to the AV-8B.
   if (rc.carrier_hull){ const ch=document.getElementById('carrier_hull'); if([...ch.options].some(o=>o.value===rc.carrier_hull)) ch.value=rc.carrier_hull; }
+  else if (rc.bb_carrier){ const ch=document.getElementById('carrier_hull'); const def=eraHull(); if(def && [...ch.options].some(o=>o.value===def)) ch.value=def; }
   if (rc.carrier_layout){ const clay=document.getElementById('carrier_layout'); if([...clay.options].some(o=>o.value===rc.carrier_layout)) clay.value=rc.carrier_layout; }
   if (rc.bb_carrier){ fillHome(); const h=document.getElementById('home');
     if([...h.options].some(o=>o.value==='CARRIER')) h.value='CARRIER'; }
@@ -605,7 +609,12 @@ function refreshCarrierUI(){
     if (k === '_layouts' || (S.era && !v.eras.includes(S.era))) continue;
     hs.appendChild(el(`<option value="${k}">${v.label}${v.module?` — ${v.module}`:''}</option>`));
   }
+  // Default to a CATOBAR deck (full fixed-wing air wing), NOT the first option
+  // in the list — in Cold War that's the V/STOL Invincible, which silently
+  // collapses the jet roster to the AV-8B. eraHull() prefers a catobar hull;
+  // the Invincible/Harrier is still selectable for a deliberate V/STOL mission.
   if ([...hs.options].some(o=>o.value===prev)) hs.value = prev;
+  else { const def = eraHull(); if (def && [...hs.options].some(o=>o.value===def)) hs.value = def; }
   refreshDeckAircraft();
 }
 function refreshDeckAircraft(){

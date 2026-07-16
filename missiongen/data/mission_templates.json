@@ -6,6 +6,7 @@
     "needs_carrier": true,
     "recipe": {
       "bb_carrier": true, "carrier_layout": "recovery",
+      "aircraft": "FA_18C_hornet",
       "bb_tanker": true, "bb_awacs": false,
       "threat_intensity": 1, "threat_tier": "light",
       "bb_targets": false, "bb_range": false,
@@ -27,6 +28,7 @@
     "needs_acls": true,
     "recipe": {
       "bb_carrier": true, "carrier_hull": "cvn_73", "carrier_layout": "recovery",
+      "aircraft": "FA_18C_hornet",
       "bb_tanker": true, "bb_awacs": false,
       "threat_intensity": 1, "threat_tier": "light",
       "bb_targets": false, "bb_range": false,

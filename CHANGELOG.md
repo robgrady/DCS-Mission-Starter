@@ -17,6 +17,23 @@ guide cover.
 
 ---
 
+## [1.10.2] — 2026-07-16
+
+### Fixed — carrier aircraft dropdown collapsed to the AV-8B
+Selecting the carrier in **Cold War** defaulted the hull to the first era option —
+the **V/STOL Invincible** — which restricts the jet roster to the AV-8B only.
+`eraHull()` already preferred a CATOBAR deck but was only a fallback, never used
+once the dropdown had picked Invincible.
+- `refreshCarrierUI()` now defaults the hull to a **CATOBAR deck** (full fixed-wing
+  air wing → Forrestal in Cold War, a CVN in modern), not the first list entry.
+  The Invincible/Harrier stays selectable for a deliberate V/STOL mission (and
+  still correctly shows only the AV-8B when chosen).
+- `applyScenarioPreset()` forces a CATOBAR hull for a carrier scenario that
+  doesn't pin one (Carrier Qualification), so it can't inherit a previously
+  picked Invincible and collapse to the AV-8B.
+- ACLS Practice and Carrier Qualification now default to the **F/A-18C** (the
+  canonical boat trainer) instead of an arbitrary carrier-capable jet.
+
 ## [1.10.1] — 2026-07-16
 
 ### Fixed — v1.9.1 code review: reproducibility, placement, presets, validation, ops
