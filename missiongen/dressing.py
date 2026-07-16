@@ -243,6 +243,35 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     keepout = AirfieldKeepOut(airport)
     placed = 0
 
+    # --- occupancy registry (collision fix, v1.10.x) ---------------------
+    # Everything this field places records a (x, y, radius) footprint, and
+    # every later placement must clear it. Before this, each object class
+    # only checked the runway corridors — so a GSE truck could spawn INSIDE
+    # a B-52 (28 m half-span vs a 4-9 m stand-based offset) and the infra
+    # cluster could land on a dispersal row. pydcs exposes real per-type
+    # dimensions (width=span, length), so footprints are exact.
+    _occ = []
+
+    def _occ_register(pos, radius):
+        _occ.append((pos.x, pos.y, radius))
+
+    def _occ_clear(pos, radius):
+        return all(math.hypot(pos.x - ox, pos.y - oy) > radius + orad
+                   for ox, oy, orad in _occ)
+
+    def _half_extent(unit_type):
+        """Circumscribing half-extent of an aircraft footprint (m)."""
+        w = getattr(unit_type, "width", None) or 10.0   # width = wingspan
+        l = getattr(unit_type, "length", None) or 12.0
+        return max(w, l) / 2.0
+
+    # Stands already claimed by OTHER systems (player flight, ambient AI) hold
+    # aircraft we didn't place and can't size — register them from the stand's
+    # own dimensions so our statics/GSE/infra keep clear of them too.
+    for s in airport.parking_slots:
+        if s.unit_id is not None:
+            _occ_register(s.position, max(s.length, s.width) / 2.0 * 0.5)
+
     # measured painted-line facing (parking_headings.json). Accept either
     #   number                -> one dominant heading for the whole field, OR
     #   {"default": n,          -> field default + exact per-spot overrides
@@ -285,6 +314,13 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         # naming groups by it makes DCS reject the duplicate-named units and
         # silently drops aircraft. slot_key() (crossroad_idx) is unique.
         skey = slot_key(slot)
+        # COLLISION GATE: a heavy on one stand can overhang its neighbours (a
+        # B-52 spans 56 m). 0.6× the circumscribing half-extent allows the
+        # tight wingtip-to-wingtip spacing of a real ramp while rejecting
+        # gross overlap (one aircraft inside another).
+        ac_half = _half_extent(unit_type)
+        if not _occ_clear(slot.position, ac_half * 0.6):
+            return False                   # neighbour's footprint reaches here
         if aircraft_mode == "parked_ai":
             # EXACT facing: uncontrolled flight at the real slot (DCS aligns it to
             # the painted line). Cost: live AI unit (FPS, map contact, pop-in).
@@ -321,18 +357,21 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                                   rng, livery_style)
         if livery:
             grp.units[0].livery_id = livery
-        # BB-2: GSE truck on the aircraft's OWN pad — offset scaled to the stand
-        # half-width (4-9 m), so it never spills into the taxilane or onto a
-        # sunshade canopy the way a fixed 12-16 m offset did on small stands.
+        _occ_register(slot.position, ac_half * 0.6)
+        # BB-2: GSE truck beside the aircraft — offset from the AIRCRAFT
+        # FOOTPRINT, not the stand. The old stand-based 4-9 m put the truck
+        # INSIDE any airframe bigger than a fighter (B-52 half-span is 28 m).
+        # Clear the wingtip by 3-6 m, and verify against the registry so it
+        # can't land inside a neighbour either.
         if include_gse and rng.random() < 0.5:
-            half = min(slot.length, slot.width) / 2.0
-            off = max(4.0, min(0.6 * half, 9.0)) * rng.uniform(0.85, 1.0)
+            off = ac_half + rng.uniform(3.0, 6.0)
             gse_pos = _offset(slot.position, off, gse_ref_hdg)
-            if keepout.clear(gse_pos, avoid_stands=False):
+            if keepout.clear(gse_pos, avoid_stands=False) and _occ_clear(gse_pos, 3.0):
                 gse_type = fuel_truck if rng.random() < 0.5 else rng.choice(utility)
                 m.static_group(country, f"GSE {airport.name} {skey}",
                                _type=gse_type, position=gse_pos,
                                heading=rng.uniform(0, 360))
+                _occ_register(gse_pos, 3.0)
         return True
 
     if mix and include_aircraft:
@@ -398,9 +437,13 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             ]
             for i, (obj, dist) in enumerate(infra):
                 pos = _offset(anchor, dist, row)
-                if not keepout.clear(pos):
+                # clear of the movement area AND everything already placed —
+                # the anchor is pushed off the ramp, but dispersal stands with
+                # parked aircraft can sit out here too.
+                if not keepout.clear(pos) or not _occ_clear(pos, 12.0):
                     continue                      # belt and suspenders
                 m.static_group(country, f"INF {airport.name} {i}", _type=obj,
                                position=pos, heading=(row + 90) % 360)
+                _occ_register(pos, 12.0)
 
     return placed

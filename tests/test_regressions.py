@@ -88,11 +88,66 @@ def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
     assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
 
 
+# --- collision fixes (v1.10.3): GSE-inside-aircraft + occupancy registry ---
+
+def test_no_statics_inside_aircraft_footprints(tmp_path):
+    """GSE used a stand-based 4-9 m offset, spawning trucks INSIDE heavies
+    (B-52 half-span = 28 m), and object classes never checked each other.
+    The occupancy registry + footprint-aware GSE offset must keep every
+    non-aircraft static out of every aircraft footprint, and aircraft off
+    each other, including stands parked by ambient AI / the player."""
+    import math
+    import dcs
+    from dcs import planes, helicopters
+    from missiongen import generate, Recipe
+
+    fp_cache = {}
+    def footprint(tid):
+        if tid not in fp_cache:
+            r = None
+            for mod in (planes, helicopters):
+                for n in dir(mod):
+                    t = getattr(mod, n, None)
+                    if isinstance(t, type) and getattr(t, "id", None) == tid:
+                        r = max(getattr(t, "width", 0) or 0,
+                                getattr(t, "length", 0) or 0) / 2
+            fp_cache[tid] = r
+        return fp_cache[tid]
+
+    out = str(Path(tmp_path) / "c.miz")
+    generate(Recipe.from_dict({
+        "map": "nevada", "era": "modern", "coalition": "blue",
+        "aircraft": "F_16C_50", "dress_mix": {"B_52H": 6, "C_130": 6,
+                                              "F_16C_50": 12, "KC_135": 4},
+        "seed": 11}), out)
+    m = dcs.Mission(); m.load_file(out)
+    acs, oth = [], []
+    for coal in m.coalition.values():
+        for c in coal.countries.values():
+            for sg in c.static_group:
+                u = sg.units[0]; fp = footprint(u.type)
+                (acs if fp else oth).append((u.position.x, u.position.y, fp))
+            for pg in list(c.plane_group) + list(c.helicopter_group):
+                for u in pg.units:
+                    fp = footprint(u.type)
+                    if fp and pg.points and pg.points[0].type in (
+                            "TakeOffParking", "TakeOffParkingHot"):
+                        acs.append((u.position.x, u.position.y, fp))
+    inside = [1 for gx, gy, _ in oth for ax, ay, ah in acs
+              if math.hypot(gx - ax, gy - ay) < ah * 0.85]
+    assert not inside, f"{len(inside)} statics inside aircraft footprints"
+    overlaps = [1 for i in range(len(acs)) for j in range(i + 1, len(acs))
+                if math.hypot(acs[i][0] - acs[j][0], acs[i][1] - acs[j][1])
+                < 0.55 * (acs[i][2] + acs[j][2])]
+    assert not overlaps, f"{len(overlaps)} aircraft pairs grossly overlapping"
+
+
 if __name__ == "__main__":
     import tempfile
     failed = 0
     for fn in [test_no_duplicate_group_or_unit_names, test_ramat_david_places_all_stands,
-               test_vhf_only_aircraft_get_no_uhf_presets, test_uhf_ladder_lands_on_the_uhf_radio]:
+               test_vhf_only_aircraft_get_no_uhf_presets, test_uhf_ladder_lands_on_the_uhf_radio,
+               test_no_statics_inside_aircraft_footprints]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))

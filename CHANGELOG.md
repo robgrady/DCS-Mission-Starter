@@ -17,6 +17,30 @@ guide cover.
 
 ---
 
+## [1.10.3] — 2026-07-16
+
+### Fixed — statics spawning inside aircraft / on top of each other
+Rob's report: GSE trucks inside parked aircraft, statics stacked on other objects.
+Classified into three defect classes; two fixed here, one queued.
+
+- **GSE inside heavies (fixed).** The GSE truck offset was scaled to the STAND
+  (4–9 m) — but a B-52 half-span is 28 m, so the truck spawned inside any
+  airframe bigger than a fighter. The offset is now derived from the AIRCRAFT
+  footprint (pydcs exposes real width/length per type): wingtip + 3–6 m.
+- **Occupancy registry (fixed).** Placement classes only checked the runway
+  corridors, never each other. `dress_airfield` now keeps an (x, y, radius)
+  registry: every aircraft static (0.6× circumscribing half-extent — tight
+  ramp spacing allowed, gross overlap rejected), GSE truck, and infra object
+  registers and must clear it first; stands claimed by the player/ambient AI
+  are pre-registered from stand dimensions. Verified across seeds (pydcs-load
+  audit incl. parked AI): 0 statics inside aircraft footprints, 0 gross
+  aircraft overlaps. New regression test locks it.
+- **Statics on map buildings (queued, engine gap).** pydcs has NO scenery
+  database — terrain buildings are invisible at generation time (same class
+  of gap as land/water and parking headings). Plan on the roadmap: extend the
+  proven survey pattern (Lua `world.searchObjects` exporter → per-airfield
+  `scenery_keepout.json`), one survey flight per map.
+
 ## [1.10.2] — 2026-07-16
 
 ### Fixed — carrier aircraft dropdown collapsed to the AV-8B
