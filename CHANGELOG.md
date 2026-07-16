@@ -17,6 +17,36 @@ guide cover.
 
 ---
 
+## [1.9.0] — 2026-07-16
+
+### Added — carrier systems per hull + cockpit radio presets ("the boat is up, and your jet already knows it")
+Requirements doc: `docs/requirements-carrier-systems-alignment.md` (approved by Rob).
+
+- **Hull capability gating (FR-1).** Carrier systems now activate per what each
+  boat actually supports in DCS (`carrier_decks.json "systems"`): SuperCarrier
+  hulls + Stennis radiate TACAN/ICLS/Link4/ACLS; **Forrestal has no ACLS**;
+  **Invincible is TACAN-only**; **Essex (1944) radiates nothing** — era-true
+  visual recovery, noted on the comm card. The card never again advertises a
+  system the boat can't provide.
+- **Cockpit radio presets (FR-2), new `missiongen/presets.py`.** Player and
+  every client slot get COMM1 programmed from the mission's own comm ladder:
+  CH1 Flight · CH2 Mother · CH3 AWACS (or AEW) · CH4 Tanker · CH5 Angel ·
+  CH6 CAP · CH7 Tactical · last channel Guard 243.000. Only assets that exist
+  in the mission are programmed; unused channels keep module defaults. Radio 1
+  only, deliberately — it's the primary UHF on every supported module, while
+  radio 2/3 are VHF-only on some airframes. Works for carrier AND land starts.
+  Modules without ME-settable radios are skipped silently.
+- **CHAN column + Boat Card (FR-3).** The briefing comm card and kneeboard
+  comms page gain a CHAN column matching the cockpit; the carrier row lists
+  only real systems plus "F-14: RIO enters Link4 336". The YOUR FLIGHT line
+  now says "COMM1 presets are loaded — Mother is CH 2."
+- **Verified (FR-4):** all four hull system sets asserted in the .miz; Hornet
+  COMM1 CH1-CH20 exact to plan; 4-slot client group = 4 programmed radios;
+  Viper land start gets AWACS/Tanker/Guard with no Mother; COMM2 untouched.
+- **Known limit (engine, documented in guide):** aircraft-side TACAN/ICLS/
+  Link4 are cockpit state — no mission file can preset them. Boat Card carries
+  the values instead.
+
 ## [1.8.9] — 2026-07-15
 
 ### Fixed — three placement realism bugs (SAMs in the sea, carrier near land, Angel adrift)

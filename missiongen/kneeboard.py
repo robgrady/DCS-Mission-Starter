@@ -49,10 +49,14 @@ def _page(title, subtitle):
 def page_comms(comms, map_label, era_label, home_name):
     img, d, f = _page("COMMS / NAV", f"{map_label}  ·  {era_label}  ·  home: {home_name}")
     y = 150
-    d.text((40, y), f"{'AGENCY':<14}{'C/S':<14}{'FREQ':<10}{'TACAN'}", font=f["mono_b"], fill=ACCENT)
+    has_ch = bool(getattr(comms, "channels", None))
+    ch_hdr = f"{'CHAN':<6}" if has_ch else ""
+    d.text((40, y), f"{'AGENCY':<14}{'C/S':<14}{'FREQ':<10}{ch_hdr}{'TACAN'}",
+           font=f["mono_b"], fill=ACCENT)
     y += 44
     for agency, cs, freq, tacan, notes in comms.entries:
-        d.text((40, y), f"{agency:<14}{cs:<14}{freq:<10}{tacan}", font=f["mono"], fill=FG)
+        ch = f"{comms.chan_label(agency):<6}" if has_ch else ""
+        d.text((40, y), f"{agency:<14}{cs:<14}{freq:<10}{ch}{tacan}", font=f["mono"], fill=FG)
         if notes:
             d.text((60, y + 30), notes, font=f["small"], fill=DIM)
             y += 30

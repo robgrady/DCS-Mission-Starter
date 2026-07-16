@@ -82,21 +82,36 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     # steam 40km down BRC at ~25kts
     grp.add_waypoint(_offset(anchor, 40000, brc), speed=46)
 
-    # ALL boat systems active: TACAN, ICLS, Link4, ACLS
+    # Boat systems: activate ONLY what this hull actually supports in DCS
+    # (carrier_decks.json "systems"). Blanket activation advertised ICLS/ACLS
+    # on boats that can't provide them (1944 Essex, 1982 Invincible) — the
+    # comm card must never list a system the pilot can't use.
     cv = comms.cfg("carrier")
     ship_id = grp.units[0].id
-    tacan_ch = int(cv["tacan"][:-1])
+    systems = hull.get("systems", ["tacan", "icls", "link4", "acls"])
     wp = grp.points[0]
-    wp.tasks.append(ActivateBeaconCommand(channel=tacan_ch, modechannel=cv["tacan"][-1],
-                                          callsign=cv["tacan_callsign"],
-                                          unit_id=ship_id, aa=False))
-    wp.tasks.append(ActivateICLSCommand(channel=cv["icls"], unit_id=ship_id))
-    wp.tasks.append(ActivateLink4Command(unit_id=ship_id, frequency=int(cv["link4"])))
-    wp.tasks.append(ActivateACLSCommand(unit_id=ship_id))
+    notes = []
+    if "tacan" in systems:
+        wp.tasks.append(ActivateBeaconCommand(channel=int(cv["tacan"][:-1]),
+                                              modechannel=cv["tacan"][-1],
+                                              callsign=cv["tacan_callsign"],
+                                              unit_id=ship_id, aa=False))
+    if "icls" in systems:
+        wp.tasks.append(ActivateICLSCommand(channel=cv["icls"], unit_id=ship_id))
+        notes.append(f"ICLS {cv['icls']}")
+    if "link4" in systems:
+        wp.tasks.append(ActivateLink4Command(unit_id=ship_id, frequency=int(cv["link4"])))
+        notes.append(f"Link4 {cv['link4']:.0f} (F-14: RIO enters this)")
+    if "acls" in systems:
+        wp.tasks.append(ActivateACLSCommand(unit_id=ship_id))
+        notes.append("ACLS on")
+    if not systems:
+        notes.append("visual recovery - no shipboard nav/landing aids in this era")
     grp.set_frequency(cv["freq"])
-    comms.add("Carrier", cv["callsign"], f"{cv['freq']:.3f}", cv["tacan"],
-              f"{csg.get('flagship_name', hull['label'])} - ICLS {cv['icls']}, "
-              f"Link4 {cv['link4']:.0f}, ACLS on, BRC {int(brc):03d}")
+    comms.add("Carrier", cv["callsign"], f"{cv['freq']:.3f}",
+              cv["tacan"] if "tacan" in systems else "-",
+              f"{csg.get('flagship_name', hull['label'])} - "
+              + ", ".join(notes + [f"BRC {int(brc):03d}"]))
     return grp, brc
 
 

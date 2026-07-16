@@ -23,6 +23,7 @@ class CommsPlan:
     def __init__(self):
         self.plan = load_json("comms_plan")
         self.entries = []          # (agency, callsign, freq, tacan, notes)
+        self.channels = {}         # agency -> COMM1 preset channel (presets.py)
         self._uhf = 265.225        # fallback allocator base, above the ladder (on raster)
         self._uhf_step = 0.825     # 33 x 25 kHz — realistic separation, stays off round values
         self._tacan = 40
@@ -59,9 +60,28 @@ class CommsPlan:
     def add(self, agency, callsign, freq, tacan="-", notes=""):
         self.entries.append((agency, callsign, freq, tacan, notes))
 
+    # cockpit preset channels (presets.py) — {agency: channel}. When set, the
+    # card and kneeboard grow a CHAN column so cockpit and paper agree.
+    def set_channels(self, mapping: dict):
+        self.channels = dict(mapping)
+
+    def chan_label(self, agency) -> str:
+        ch = self.channels.get(agency)
+        if ch is None:
+            return "-"
+        return f"CH{ch}" if isinstance(ch, int) else str(ch)
+
     def card(self) -> str:
-        lines = ["COMMS / NAV CARD (standard ladder)", "-" * 48,
-                 f"{'AGENCY':<16}{'C/S':<14}{'FREQ':<9}{'TACAN':<7}NOTES"]
+        has_ch = bool(self.channels)
+        hdr = f"{'AGENCY':<16}{'C/S':<14}{'FREQ':<9}"
+        hdr += f"{'CHAN':<6}" if has_ch else ""
+        hdr += f"{'TACAN':<7}NOTES"
+        lines = ["COMMS / NAV CARD (standard ladder"
+                 + (" - presets loaded on COMM1" if has_ch else "") + ")",
+                 "-" * 48, hdr]
         for a, c, f, t, n in self.entries:
-            lines.append(f"{a:<16}{c:<14}{f:<9}{t:<7}{n}")
+            row = f"{a:<16}{c:<14}{f:<9}"
+            row += f"{self.chan_label(a):<6}" if has_ch else ""
+            row += f"{t:<7}{n}"
+            lines.append(row)
         return "\n".join(lines)

@@ -326,21 +326,31 @@ story += [
 ]
 
 comm_rows = [
-    ["AGENCY", "CALLSIGN", "FREQ (UHF)", "TACAN", "NOTES"],
-    ["Guard", "—", "243.000", "—", "monitored (fixed emergency)"],
-    ["Your flight", "(varies)", "305.725", "—", "flight common"],
-    ["Tactical", "—", "254.325", "—", "inter-flight coordination"],
-    ["AWACS", "Overlord", "251.475", "—", "land-based E-3 / A-50"],
-    ["Tanker", "Texaco", "253.625", "39Y", "speeds & altitudes per type"],
-    ["Carrier", "Mother", "264.425", "71X", "ICLS 11 · Link4 336 · ACLS on"],
-    ["CAP", "(squadron)", "258.175", "—", "carrier air wing"],
-    ["AEW Hawkeye", "(squadron)", "259.925", "—", "carrier air wing"],
-    ["FARPs", "(name)", "127.525+", "—", "0.25 steps per pad"],
+    ["AGENCY", "CALLSIGN", "FREQ (UHF)", "CHAN", "TACAN", "NOTES"],
+    ["Guard", "—", "243.000", "last", "—", "monitored (fixed emergency)"],
+    ["Your flight", "(varies)", "305.725", "CH1", "—", "flight common"],
+    ["Tactical", "—", "254.325", "CH7", "—", "inter-flight coordination"],
+    ["AWACS", "Overlord", "251.475", "CH3", "—", "land-based E-3 / A-50"],
+    ["Tanker", "Texaco", "253.625", "CH4", "39Y", "speeds & altitudes per type"],
+    ["Carrier", "Mother", "264.425", "CH2", "71X", "ICLS 11 · Link4 336 · ACLS"],
+    ["Plane guard", "Angel", "262.050", "CH5", "—", "Starboard Delta, flight ops"],
+    ["CAP", "(squadron)", "258.175", "CH6", "—", "carrier air wing"],
+    ["AEW Hawkeye", "(squadron)", "259.925", "CH3/8", "—", "CH3 if no AWACS in mission"],
+    ["FARPs", "(name)", "127.525+", "—", "—", "0.25 steps per pad"],
 ]
-story += [t(comm_rows, [1.15*inch, 1.05*inch, 1.0*inch, 0.7*inch, 2.7*inch]),
+story += [t(comm_rows, [1.1*inch, 0.95*inch, 0.95*inch, 0.55*inch, 0.6*inch, 2.4*inch]),
           Spacer(1, 6),
-          P("All carrier approach systems come pre-activated — TACAN 71X “STN”, ICLS channel 11, "
-            "Link4 on 336, and ACLS. Tune and go.", "note"),
+          P("<b>The comm plan is already in your jet.</b> COMM1 presets are programmed to this "
+            "ladder at generation time (only for assets that exist in your mission) — Mother is "
+            "CH2, gas is CH4, Guard rides the last channel. COMM2 keeps module defaults. The "
+            "kneeboard's CHAN column matches the cockpit.", "note"),
+          Spacer(1, 4),
+          P("Carrier systems activate at mission start per hull: SuperCarrier boats radiate "
+            "TACAN 71X “STN”, ICLS 11, Link4 336 and ACLS; the Forrestal has no ACLS in DCS; "
+            "the 1982 Invincible is TACAN-only; the 1944 Essex is visual recovery, era-true. "
+            "Aircraft-side TACAN/ICLS/Link4 are cockpit state — DCS does not allow presetting "
+            "them from a mission file; the values above are what you dial (F-14 crews: the RIO "
+            "enters Link4 336.0).", "note"),
 
           PageBreak(),
           P("Building blocks", "h1")]

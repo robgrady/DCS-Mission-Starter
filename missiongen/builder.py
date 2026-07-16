@@ -436,6 +436,18 @@ class StarterBuilder:
         if drawn:
             stats["map_layers"] = drawn
 
+        # --- cockpit radio presets (BB-19): put the comm plan IN the jet ------
+        # Derived from the ladder actually built above, so cockpit, briefing
+        # card and kneeboard agree by construction. Radio 1 (primary UHF) only.
+        if player_group is not None:
+            from . import presets
+            chan_rows, guard = presets.plan_from_comms(comms)
+            if presets.apply(player_group, chan_rows, guard):
+                chmap = {a: ch for ch, a, _f in chan_rows}
+                chmap["Guard"] = "last ch"     # per-module (CH20 on the Hornet)
+                comms.set_channels(chmap)
+                stats["radio_presets"] = [f"CH{ch} {a}" for ch, a, _f in chan_rows]
+
         # --- briefing ----------------------------------------------------------
         if r.bb_briefing:
             brief = self._briefing(map_cfg, era_cfg, preset, home,
@@ -521,6 +533,10 @@ class StarterBuilder:
             flight_line = (f">> YOUR FLIGHT: {ac} at {where}, {r.start} start. "
                            f"It's parked and ready — click Fly, or find it in the "
                            f"Mission Editor.")
+            if getattr(comms, "channels", None):
+                mother = " Mother is CH 2." if comms.channels.get("Carrier") == 2 else ""
+                flight_line += (f" COMM1 presets are loaded — see the CHAN column "
+                                f"on the comms card.{mother}")
         lines = [
             f"=== DCS MISSION STARTER ===",
             f"{map_cfg['label']} | {era_cfg['label']} | {preset['frontline_hint']}",
