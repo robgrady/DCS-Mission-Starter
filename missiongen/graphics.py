@@ -106,8 +106,13 @@ def draw_layers(m, gfx, layers, side):
         p2 = _offset(anchor, 48000, brc)
         own.add_oblong(p1, p2, 14000, color=CARRIER, fill=CARRIER_FILL,
                        line_thickness=3)
-        own.add_arrow(anchor, brc, 9000, color=CARRIER, fill=CARRIER_FILL,
-                      line_thickness=2)
+        # DCS drawing arrow: its default point set (Arrow.get_default_arrow_points)
+        # points along +Y = due EAST (090) at angle 0, and the angle field is in
+        # DEGREES measured clockwise. BRC is a compass bearing FROM NORTH, so
+        # passing brc directly rendered the arrow 90° off (perpendicular to the
+        # track). Convert compass-from-North to the shape's East-zero frame:
+        own.add_arrow(anchor, (brc - 90) % 360, 9000, color=CARRIER,
+                      fill=CARRIER_FILL, line_thickness=2)
         _label(own, _offset(anchor, 17000, (brc + 90) % 360),
                f"⚓ {name} — BRC {int(brc):03d}", CARRIER)
         drawn.append("carrier_box")

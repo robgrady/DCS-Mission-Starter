@@ -17,6 +17,17 @@ guide cover.
 
 ---
 
+## [1.9.2] — 2026-07-16
+
+### Fixed — carrier F10 arrow rendered perpendicular to the ship's track
+`graphics.draw_layers` passed the compass BRC straight into pydcs
+`layer.add_arrow(angle=...)`. The DCS arrow's default point set points along
+**+Y (due East / 090)** at angle 0 and the angle field is degrees-clockwise,
+while BRC is a compass bearing from North — a clean 90° mismatch, so the arrow
+drew across the track. Fix: `angle = (brc - 90) % 360` at the single call site.
+Verified in the .miz (BRC 300 → arrow angle 210). The ops-box oblong was already
+correct (built from geometry, not the angle field).
+
 ## [1.9.1] — 2026-07-16
 
 ### Added — carrier identity: real callsigns, hull-matched TACAN, 3-letter idents
