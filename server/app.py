@@ -3,13 +3,15 @@
 Run:  uvicorn server.app:app --reload
 Then open http://127.0.0.1:8000
 """
-import io
+import logging
+import shutil
 import sys
 import tempfile
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse, HTMLResponse
+from starlette.background import BackgroundTask
 from pydantic import BaseModel
 
 _root = Path(__file__).parent.parent
@@ -17,9 +19,40 @@ sys.path.insert(0, str(_root))
 if (_root / "vendor" / "dcs").exists():          # vendored pydcs (Mac/no-network installs)
     sys.path.insert(0, str(_root / "vendor"))
 from missiongen import Recipe, generate, __version__
-from missiongen.resolver import load_json, validate_data_packs
+from missiongen.recipe import RecipeError
+from missiongen.builder import EraViolation
+from missiongen.resolver import load_json, validate_data_packs, UnknownUnitError
+from missiongen import deck as _deck
+
+log = logging.getLogger("missionstarter")
 
 app = FastAPI(title="DCS Mission Starter", version=__version__)
+
+# Errors that are the USER's fault → 400 with the real message. Anything else is
+# a bug and must surface as a 500 (logged, generic message) so monitoring sees
+# it and we never leak a server path to the client.
+USER_ERRORS = (RecipeError, EraViolation, UnknownUnitError, KeyError)
+
+
+def _build_and_respond(recipe: Recipe):
+    """Single build path shared by /api/generate and /api/dl so their error
+    contracts and temp-file cleanup can't drift. Temp dir is removed after the
+    response is sent (BackgroundTask) — the old code leaked ~93 KB per request."""
+    try:
+        recipe.validate()
+        tag = recipe.template or "starter"
+        fname = f"{recipe.map}_{recipe.era}_{recipe.aircraft}_{tag}_{recipe.seed}.miz"
+        tmpdir = tempfile.mkdtemp()
+        out = Path(tmpdir) / fname
+        result = generate(recipe, str(out))
+    except USER_ERRORS as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception:
+        log.exception("mission generation failed")
+        raise HTTPException(status_code=500, detail="Internal error generating the mission.")
+    return FileResponse(str(out), filename=fname, media_type="application/zip",
+                        headers={"X-Warnings": "; ".join(result["warnings"])[:900]},
+                        background=BackgroundTask(shutil.rmtree, tmpdir, ignore_errors=True))
 
 FRONTEND = Path(__file__).parent.parent / "frontend" / "index.html"
 
@@ -110,7 +143,7 @@ def options():
             mk: {e: {s: p.get(f"{s}_theme") for s in ("blue", "red")}
                  for e, p in mv["presets"].items()}
             for mk, mv in maps.items()},
-        "carriers": __import__("missiongen.deck", fromlist=["hulls_for_options"]).hulls_for_options(),
+        "carriers": _deck.hulls_for_options(),
         "carrier_capable": load_json("carrier_capable"),
         "static_catalog": load_json("static_catalog"),
         "enums": {
@@ -151,18 +184,15 @@ def health():
 
 @app.get("/api/dl")
 def api_download_by_code(r: str):
-    """A share link IS the mission: /api/dl?r=<code> regenerates and downloads it."""
+    """A share link IS the mission: /api/dl?r=<code> regenerates and downloads it.
+    Uses the SAME build+error path as /api/generate, so a hand-edited or
+    truncated share link returns a clean 400, not an unhandled 500."""
     from missiongen.share import decode_recipe
     try:
         recipe = decode_recipe(r)
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid share code")
-    tag = recipe.template or "starter"
-    fname = f"{recipe.map}_{recipe.era}_{recipe.aircraft}_{tag}_{recipe.seed}.miz"
-    out = Path(tempfile.mkdtemp()) / fname
-    result = generate(recipe, str(out))
-    return FileResponse(str(out), filename=fname, media_type="application/zip",
-                        headers={"X-Warnings": "; ".join(result["warnings"])[:900]})
+    return _build_and_respond(recipe)
 
 
 class GenerateRequest(BaseModel):
@@ -172,13 +202,7 @@ class GenerateRequest(BaseModel):
 @app.post("/api/generate")
 def api_generate(req: GenerateRequest):
     try:
-        recipe = Recipe.from_dict(req.recipe)
-        tag = recipe.template or "starter"
-        fname = f"{recipe.map}_{recipe.era}_{recipe.aircraft}_{tag}_{recipe.seed}.miz"
-        out = Path(tempfile.mkdtemp()) / fname
-        result = generate(recipe, str(out))
-        return FileResponse(str(out), filename=fname,
-                            media_type="application/zip",
-                            headers={"X-Warnings": "; ".join(result["warnings"])[:900]})
-    except Exception as e:
+        recipe = Recipe.from_dict(req.recipe)     # validates enums/bounds
+    except USER_ERRORS as e:
         raise HTTPException(status_code=400, detail=str(e))
+    return _build_and_respond(recipe)

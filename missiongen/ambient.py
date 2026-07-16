@@ -25,7 +25,10 @@ def add_ambient_traffic(m, country, fields, era_side_cfg, density,
             fg = m.flight_group_from_airport(
                 country, f"Ambient {tag} {i+1}", actype, origin,
                 start_type=StartType.Warm, group_size=1)
-            fg.add_runway_waypoint(origin)
+            # pass distance from the SEEDED rng — pydcs's default arg is a
+            # random value frozen at import (per-process), which breaks
+            # cross-process reproducibility. See missiongen/_determinism.py.
+            fg.add_runway_waypoint(origin, distance=rng.randrange(6000, 8000, 100))
             mid = mapping.Point((origin.position.x + dest.position.x) / 2,
                                 (origin.position.y + dest.position.y) / 2, m.terrain)
             fg.add_waypoint(mid, altitude=3000)

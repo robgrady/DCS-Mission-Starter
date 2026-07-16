@@ -78,13 +78,18 @@ class StarterBuilder:
 
     def build(self) -> dcs.Mission:
         r = self.recipe
+        # --- clear guards BEFORE any lookup (else a bad map/era surfaces as a
+        # bare KeyError -> a confusing 400 with just the key name) ------------
+        if r.map not in self.maps:
+            raise EraViolation(f"Unknown map '{r.map}'.")
+        if r.era not in self.eras:
+            raise EraViolation(f"Unknown era '{r.era}'.")
         map_cfg = self.maps[r.map]
         era_cfg = self.eras[r.era]
-        preset = map_cfg["presets"][r.era]
-
-        # --- hard era gates (FR: period accuracy is the product) ------------
         if r.era not in map_cfg["presets"]:
             raise EraViolation(f"{map_cfg['label']} has no {r.era} preset")
+        preset = map_cfg["presets"][r.era]
+
         crew_ops = r.template in CREW_OPS_TEMPLATES
         if not crew_ops and not aircraft_in_era(r.aircraft, era_cfg):
             svc = load_json("aircraft_service").get(r.aircraft)
@@ -130,6 +135,13 @@ class StarterBuilder:
 
         own_fields = blue_fields if r.coalition == "blue" else red_fields
         enemy_fields = red_fields if r.coalition == "blue" else blue_fields
+        # every preset airbase failed to resolve (pydcs terrain drift) — fail
+        # clearly instead of an opaque IndexError/ZeroDivisionError downstream
+        if not own_fields or not enemy_fields:
+            raise EraViolation(
+                f"No {'friendly' if not own_fields else 'enemy'} airbases resolved "
+                f"on {map_cfg['label']} ({r.era}) — the terrain data may have "
+                f"changed. This is a data issue, not your selection.")
         own_country = blue_country if r.coalition == "blue" else red_country
         enemy_country = red_country if r.coalition == "blue" else blue_country
 
@@ -464,16 +476,18 @@ class StarterBuilder:
             stats["map_layers"] = drawn
 
         # --- cockpit radio presets (BB-19): put the comm plan IN the jet ------
-        # Derived from the ladder actually built above, so cockpit, briefing
-        # card and kneeboard agree by construction. Radio 1 (primary UHF) only.
+        # Programs the module's UHF radio from the ladder actually built above.
+        # apply() returns ONLY what it really wrote, so the card/kneeboard CHAN
+        # column matches the cockpit exactly (no advertising channels a module
+        # doesn't have, and no clobbering an agency with Guard).
         if player_group is not None:
             from . import presets
             chan_rows, guard = presets.plan_from_comms(comms)
-            if presets.apply(player_group, chan_rows, guard):
-                chmap = {a: ch for ch, a, _f in chan_rows}
-                chmap["Guard"] = "last ch"     # per-module (CH20 on the Hornet)
-                comms.set_channels(chmap)
-                stats["radio_presets"] = [f"CH{ch} {a}" for ch, a, _f in chan_rows]
+            programmed = presets.apply(player_group, chan_rows, guard)
+            if programmed:
+                comms.set_channels(programmed)
+                stats["radio_presets"] = [
+                    f"CH{ch} {a}" for a, ch in programmed.items() if a != "Guard"]
 
         # --- briefing ----------------------------------------------------------
         if r.bb_briefing:

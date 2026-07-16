@@ -19,6 +19,20 @@ Placement strategy (defense in depth):
 import math
 from dcs import mapping
 
+
+def slot_key(slot):
+    """Stable, UNIQUE identity for a parking stand.
+
+    `slot_name` is NOT unique on some terrains (Syria's Ramat David has six
+    distinct stands all named "02"), so using it as a dict/set key silently
+    collapses twins — under-placing ramps, emitting duplicate DCS unit names
+    (which DCS rejects), and applying one twin's facing to the others.
+    `crossroad_idx` is unique per airport in the pydcs terrain data; fall back
+    to slot_name only if a terrain ever omits it.
+    """
+    cidx = getattr(slot, "crossroad_idx", None)
+    return f"x{cidx}" if cidx is not None else f"n{slot.slot_name}"
+
 RUNWAY_HALF_LEN = 1900.0    # covers 12,000 ft runways + overrun
 RUNWAY_HALF_WIDTH = 150.0   # runway + shoulders + parallel taxiway + magvar slack
 STAND_CLEARANCE = 40.0      # don't drop free objects onto a parking stand
@@ -95,12 +109,16 @@ class AirfieldKeepOut:
            ready to taxi for takeoff.
         3. Isolated slots (revetments, dispersal pads, shelters) face the
            runway directly — the taxi track runs that way.
-        Returns {slot_name: heading_deg}.
+        Returns {slot_key: heading_deg}, keyed by the STABLE UNIQUE slot key
+        (crossroad_idx) — NOT slot_name, which is not unique on some maps
+        (Syria: six stands named "02"), where a name-keyed dict is last-twin-
+        wins and parks the other five backwards.
         """
         slots = list(self.airport.parking_slots)
         pts = [(s.position.x, s.position.y) for s in slots]
         out = {}
         for i, s in enumerate(slots):
+            key = slot_key(s)
             x0, y0 = pts[i]
             neigh = []
             for j, (px, py) in enumerate(pts):
@@ -119,11 +137,11 @@ class AirfieldKeepOut:
                 row = math.degrees(math.atan2(neigh[0][1], neigh[0][0]))
             else:
                 # isolated pad: face the runway
-                out[s.slot_name] = self._bearing_to_runway(s.position)
+                out[key] = self._bearing_to_runway(s.position)
                 continue
             # perpendicular to the row, nose toward the runway
             h1, h2 = (row + 90.0) % 360.0, (row - 90.0) % 360.0
-            out[s.slot_name] = min(
+            out[key] = min(
                 (h1, h2),
                 key=lambda h: self.dist_to_runway(self._probe(s.position, 120.0, h)))
         return out

@@ -17,6 +17,48 @@ guide cover.
 
 ---
 
+## [1.10.1] — 2026-07-16
+
+### Fixed — v1.9.1 code review: reproducibility, placement, presets, validation, ops
+An external review (executed, not inferred) found the core "a share link IS the
+mission" promise was broken across processes, plus placement/preset correctness
+bugs. All P0/P1/P2/P3 items fixed and locked with a test suite + CI.
+
+- **P0 — share links now reproduce byte-for-byte across processes.** Two pydcs
+  non-determinism sources, both independent of our seeded rng: an import-frozen
+  `random` default in `add_runway_waypoint` (fixed at the ambient call site by
+  passing `distance` from the rng), and `Country.next_onboard_num` popping a set
+  of strings (PYTHONHASHSEED-dependent → patched to `min()` in
+  `missiongen/_determinism.py`). Verified identical across 4 processes / varied
+  hash seeds.
+- **P0b — `slot_name` is not unique (Syria).** Six Ramat David stands are named
+  "02"; keying on the name under-placed ramps (86→69), emitted duplicate DCS
+  unit names (which DCS rejects), and applied one twin's facing to the others.
+  Now keyed on the unique `crossroad_idx` (`placement.slot_key`) for dedup,
+  unit/group names, and geometric headings. All 86 stands placeable; names
+  unique; no backwards parking.
+- **P0c — radio presets wrote UHF into VHF radios.** The premise "radio 1 is
+  always UHF" was inverted for the A-10C (UHF is radio 2), Apache, and others,
+  and VHF-only jets (Spitfire, MiG-21, Ka-50, Gazelle) got invalid UHF presets.
+  `presets.py` now picks the module's actual UHF radio by band, skips airframes
+  with no UHF radio, reserves Guard before agencies (no more CH8 clobber), and
+  the card advertises only channels actually programmed.
+- **P1 — tests + CI.** `tests/test_determinism.py` (cross-process byte-identity,
+  round-trip, data packs) and `tests/test_regressions.py` (the P0b/P0c bugs).
+  `.github/workflows/ci.yml` runs them on every push. `requirements.txt` pinned;
+  dead `pyproj` dep removed.
+- **P2 — recipe validation + error contract.** `Recipe.validate()` rejects bad
+  enums/bounds with field-level messages — `coalition="purple"` no longer
+  silently flies you from the RED side. `/api/generate` and `/api/dl` share one
+  build path: user errors → 400 with a clean message, real bugs → 500 (logged,
+  no leaked server paths). A hand-edited share link now 400s instead of 500.
+- **P3 — ops.** Temp dirs cleaned up after each response (BackgroundTask; was
+  leaking ~93 KB/request). Dockerfile no longer pip-installs an unpinned pydcs
+  that the vendored copy shadowed (dead + non-reproducible); container runs as a
+  non-root user.
+- **P4 — clean guards** for unknown map/era and unresolved airbases (no more bare
+  KeyError/IndexError); removed a dead `__import__` and unused import.
+
 ## [1.10.0] — 2026-07-16
 
 ### Added — Template Library (scenario presets) + Scenario-step UX rework

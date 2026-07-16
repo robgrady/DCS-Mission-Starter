@@ -2,25 +2,26 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# fonts for kneeboard rendering
+# fonts for kneeboard rendering (no git — pydcs is vendored, see below)
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    fonts-dejavu-core git && rm -rf /var/lib/apt/lists/*
+    fonts-dejavu-core && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# pydcs from GitHub master (PyPI release is outdated); vendor the package if the
-# wheel build fails (it's pure python)
-RUN pip install --no-cache-dir "pydcs @ git+https://github.com/pydcs/dcs.git" || ( \
-    git clone --depth 1 https://github.com/pydcs/dcs.git /tmp/pydcs && \
-    cp -r /tmp/pydcs/dcs "$(python -c 'import site; print(site.getsitepackages()[0])')/" && \
-    rm -rf /tmp/pydcs )
-
+# pydcs is VENDORED in vendor/dcs and put on sys.path by server/app.py. Do NOT
+# pip-install it: the vendored copy always wins (sys.path.insert), so a pip
+# install would pull an unpinned upstream at build time and then never be used —
+# non-reproducible AND inert. The vendored tree is the single source of truth.
 COPY missiongen ./missiongen
 COPY vendor ./vendor
 COPY docs ./docs
 COPY server ./server
 COPY frontend ./frontend
+
+# run unprivileged
+RUN useradd --create-home --uid 10001 appuser && chown -R appuser /app
+USER appuser
 
 EXPOSE 8080
 CMD ["uvicorn", "server.app:app", "--host", "0.0.0.0", "--port", "8080"]

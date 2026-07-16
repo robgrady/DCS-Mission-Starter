@@ -16,7 +16,7 @@ from dcs.mission import StartType
 import dcs.statics as statics
 
 from .resolver import resolve, load_json
-from .placement import AirfieldKeepOut
+from .placement import AirfieldKeepOut, slot_key
 
 DENSITY_FILL = {"sparse": 0.25, "normal": 0.45, "busy": 0.70}
 # Two ways to place parked aircraft — a genuine tradeoff (pydcs does NOT expose
@@ -167,7 +167,7 @@ def _place_mix(airport, mix, place_fn, rng, used):
         return 0
 
     free_all = [s for s in airport.parking_slots
-                if s.unit_id is None and s.slot_name not in used]
+                if s.unit_id is None and slot_key(s) not in used]
     rng.shuffle(free_all)
     taken = set()
 
@@ -181,8 +181,8 @@ def _place_mix(airport, mix, place_fn, rng, used):
         else:
             order = [s for s in free_all if s.airplanes]
         for s in order:
-            if s.slot_name not in taken and s.unit_id is None:
-                taken.add(s.slot_name)
+            if slot_key(s) not in taken and s.unit_id is None:
+                taken.add(slot_key(s))
                 return s
         return None
 
@@ -271,7 +271,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             return bool(plane_w or large_w)
         return bool(helo_w)          # helo-only pad
     free = [s for s in airport.parking_slots
-            if s.unit_id is None and s.slot_name not in used and _can_fill(s)]
+            if s.unit_id is None and slot_key(s) not in used and _can_fill(s)]
     rng.shuffle(free)
     # best-effort per-slot facing (static mode only; AI mode lets DCS decide)
     slot_hdgs = keepout.slot_headings() if (free and aircraft_mode == "static") else {}
@@ -281,12 +281,16 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         """Place one aircraft static (or parked_ai) + its GSE. Returns placed?"""
         if slot.unit_id is not None:      # claimed by player/ambient meanwhile
             return False
+        # UNIQUE stand id — slot_name is not unique on some maps (Syria "02" ×6);
+        # naming groups by it makes DCS reject the duplicate-named units and
+        # silently drops aircraft. slot_key() (crossroad_idx) is unique.
+        skey = slot_key(slot)
         if aircraft_mode == "parked_ai":
             # EXACT facing: uncontrolled flight at the real slot (DCS aligns it to
             # the painted line). Cost: live AI unit (FPS, map contact, pop-in).
             try:
                 grp = m.flight_group_from_airport(
-                    country, f"RAMP {airport.name} {slot.slot_name} {unit_type.id}",
+                    country, f"RAMP {airport.name} {skey} {unit_type.id}",
                     unit_type, airport, start_type=StartType.Cold, group_size=1,
                     parking_slots=[slot])
             except Exception:
@@ -295,18 +299,18 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             gse_ref_hdg = keepout.away_side_bearing(slot.position)
         else:
             # STATIC. Facing priority: exact per-spot measured heading (by slot
-            # name) > field-wide measured heading > per-slot geometric guess >
-            # runway-axis fallback.
+            # name) > field-wide measured heading > per-slot geometric guess
+            # (keyed by the unique slot_key so twins don't inherit each other's
+            # facing) > runway-axis fallback.
             if slot.slot_name in slot_hdg_overrides:
                 base_hdg = slot_hdg_overrides[slot.slot_name]
             elif field_default_hdg is not None:
                 base_hdg = field_default_hdg
             else:
-                base_hdg = slot_hdgs.get(slot.slot_name,
-                                         keepout.runway_axis_heading())
+                base_hdg = slot_hdgs.get(skey, keepout.runway_axis_heading())
             heading = (base_hdg + rng.uniform(-3, 3)) % 360.0
             grp = m.static_group(
-                country, f"ST {airport.name} {slot.slot_name} {unit_type.id}",
+                country, f"ST {airport.name} {skey} {unit_type.id}",
                 _type=unit_type, position=slot.position, heading=heading)
             gse_ref_hdg = heading + rng.uniform(60, 120)
         # Explicit theme/mix livery wins; otherwise steer to a nation-correct
@@ -326,7 +330,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             gse_pos = _offset(slot.position, off, gse_ref_hdg)
             if keepout.clear(gse_pos, avoid_stands=False):
                 gse_type = fuel_truck if rng.random() < 0.5 else rng.choice(utility)
-                m.static_group(country, f"GSE {airport.name} {slot.slot_name}",
+                m.static_group(country, f"GSE {airport.name} {skey}",
                                _type=gse_type, position=gse_pos,
                                heading=rng.uniform(0, 360))
         return True

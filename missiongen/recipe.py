@@ -3,6 +3,26 @@ from dataclasses import dataclass, field, asdict
 from typing import Optional, List
 
 
+class RecipeError(ValueError):
+    """A recipe field is invalid (bad enum value or out-of-range). User error →
+    the API turns this into a 400/422 with the field message, never a 500."""
+
+
+# Allowed values for the enum-like fields. Kept here (next to the dataclass) as
+# the single source of truth; the server surfaces the same lists in /api/options.
+RECIPE_ENUMS = {
+    "coalition": ("blue", "red"),
+    "start": ("cold", "warm", "runway"),
+    "time_of_day": ("dawn", "day", "dusk", "night"),
+    "weather": ("clear", "scattered", "overcast", "storm"),
+    "density": ("sparse", "normal", "busy"),
+    "threat_tier": ("auto", "light", "heavy", "mixed"),
+    "dress_aircraft_mode": ("static", "parked_ai"),
+    "dress_livery_style": ("squadron", "aggressors", "clean", "random"),
+    "crew_difficulty": ("trainee", "qualified"),
+}
+
+
 @dataclass
 class Recipe:
     map: str = "caucasus"              # key into maps.json
@@ -94,6 +114,32 @@ class Recipe:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: dict) -> "Recipe":
+    def from_dict(cls, d: dict, validate: bool = True) -> "Recipe":
         known = {f for f in cls.__dataclass_fields__}
-        return cls(**{k: v for k, v in d.items() if k in known})
+        r = cls(**{k: v for k, v in d.items() if k in known})
+        if validate:
+            r.validate()
+        return r
+
+    def validate(self) -> "Recipe":
+        """Reject invalid enum values and out-of-range numbers with a clear,
+        field-level message BEFORE the engine runs. Catches the silent bugs the
+        review found — e.g. coalition='purple' used to fall through to the RED
+        side ('blue' if coalition=='blue' else red), and weather='banana' was
+        applied as nothing. Returns self so it can be chained."""
+        for field_name, allowed in RECIPE_ENUMS.items():
+            val = getattr(self, field_name)
+            if val not in allowed:
+                raise RecipeError(
+                    f"{field_name}={val!r} is not valid; expected one of "
+                    f"{', '.join(allowed)}.")
+        if not isinstance(self.seed, int) or isinstance(self.seed, bool):
+            raise RecipeError(f"seed must be an integer, got {self.seed!r}.")
+        if not (1 <= self.slots <= 4):
+            raise RecipeError(f"slots must be 1-4, got {self.slots!r}.")
+        if self.dress_fill is not None and not (0 <= self.dress_fill <= 100):
+            raise RecipeError(f"dress_fill must be 0-100, got {self.dress_fill!r}.")
+        if not (1 <= self.threat_intensity <= 5):
+            raise RecipeError(
+                f"threat_intensity must be 1-5, got {self.threat_intensity!r}.")
+        return self

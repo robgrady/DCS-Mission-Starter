@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install runtime deps
+        run: pip install -r requirements.txt
+      - name: Data-pack validation (the data packs are the product)
+        run: python -c "import sys; sys.path[:0]=['vendor','.']; from missiongen.resolver import validate_data_packs as v; e=v(); print('OK' if not e else '\n'.join(e)); sys.exit(1 if e else 0)"
+      - name: Determinism + round-trip guards (share links must reproduce)
+        run: python tests/test_determinism.py
+      - name: Regression guards (v1.9.1 review — P0b/P0c)
+        run: python tests/test_regressions.py
