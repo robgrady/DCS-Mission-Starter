@@ -17,6 +17,30 @@ guide cover.
 
 ---
 
+## [1.9.1] — 2026-07-16
+
+### Added — carrier identity: real callsigns, hull-matched TACAN, 3-letter idents
+Requirements doc: `docs/requirements-carrier-identity.md` (approved; Forrestal = "Fid").
+
+- **Verified voice callsigns (ACP 113(AI))**: Rough Rider (CVN-71), Union
+  (CVN-72), Warfighter (CVN-73), Courage (CVN-74 Stennis), Lone Warrior
+  (CVN-75). Forrestal answers to **Fid** — her documented fleet nickname
+  ("First In Defense"), marked as convention. Essex (WWII calls rotated per op)
+  and Invincible (RN, undocumented) keep "Mother". The comm card shows
+  "Warfighter (Mother)" — the identity AND the brevity word pilots actually say.
+- **TACAN channel = hull number**: 71X–75X, Forrestal 59X, Invincible 5X
+  (pennant R05). 3-letter Morse idents: TDR, ABE, GWN, STN, HST, FID, INV.
+  No conflicts: boats live on the X band, tanker (39Y) and the fallback
+  allocator (40Y+) on Y. pydcs derives the correct paired beacon frequency
+  from the channel (73X → 1160 MHz, verified in the .miz).
+- **Wiring**: identity lives per hull in `carrier_decks.json`
+  (`voice_callsign`, `tacan_channel`, `tacan_ident`, `callsign_verified`);
+  `comms_plan.json` is the fallback. Briefing YOUR FLIGHT line now names the
+  boat ("Warfighter is on CH 2"); guide comm section lists all callsigns and
+  the hull-number rule.
+- **Verified in .miz** for all 8 hulls: beacon channel/ident exact per table;
+  Essex radiates nothing; voice callsign present on the comm card.
+
 ## [1.9.0] — 2026-07-16
 
 ### Added — carrier systems per hull + cockpit radio presets ("the boat is up, and your jet already knows it")

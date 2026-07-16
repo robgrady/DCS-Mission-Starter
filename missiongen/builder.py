@@ -534,7 +534,11 @@ class StarterBuilder:
                            f"It's parked and ready — click Fly, or find it in the "
                            f"Mission Editor.")
             if getattr(comms, "channels", None):
-                mother = " Mother is CH 2." if comms.channels.get("Carrier") == 2 else ""
+                mother = ""
+                if comms.channels.get("Carrier") == 2:
+                    boat = next((cs for ag, cs, *_ in comms.entries
+                                 if ag == "Carrier"), "Mother")
+                    mother = f" {boat} is on CH 2."
                 flight_line += (f" COMM1 presets are loaded — see the CHAN column "
                                 f"on the comms card.{mother}")
         lines = [

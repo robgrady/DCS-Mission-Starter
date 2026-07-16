@@ -332,7 +332,7 @@ comm_rows = [
     ["Tactical", "—", "254.325", "CH7", "—", "inter-flight coordination"],
     ["AWACS", "Overlord", "251.475", "CH3", "—", "land-based E-3 / A-50"],
     ["Tanker", "Texaco", "253.625", "CH4", "39Y", "speeds & altitudes per type"],
-    ["Carrier", "Mother", "264.425", "CH2", "71X", "ICLS 11 · Link4 336 · ACLS"],
+    ["Carrier", "(her callsign)", "264.425", "CH2", "hull # X", "ICLS 11 · Link4 336 · ACLS"],
     ["Plane guard", "Angel", "262.050", "CH5", "—", "Starboard Delta, flight ops"],
     ["CAP", "(squadron)", "258.175", "CH6", "—", "carrier air wing"],
     ["AEW Hawkeye", "(squadron)", "259.925", "CH3/8", "—", "CH3 if no AWACS in mission"],
@@ -345,12 +345,19 @@ story += [t(comm_rows, [1.1*inch, 0.95*inch, 0.95*inch, 0.55*inch, 0.6*inch, 2.4
             "CH2, gas is CH4, Guard rides the last channel. COMM2 keeps module defaults. The "
             "kneeboard's CHAN column matches the cockpit.", "note"),
           Spacer(1, 4),
-          P("Carrier systems activate at mission start per hull: SuperCarrier boats radiate "
-            "TACAN 71X “STN”, ICLS 11, Link4 336 and ACLS; the Forrestal has no ACLS in DCS; "
-            "the 1982 Invincible is TACAN-only; the 1944 Essex is visual recovery, era-true. "
-            "Aircraft-side TACAN/ICLS/Link4 are cockpit state — DCS does not allow presetting "
-            "them from a mission file; the values above are what you dial (F-14 crews: the RIO "
-            "enters Link4 336.0).", "note"),
+          P("Carrier systems activate at mission start per hull, and every boat answers to her "
+            "real name: <b>Rough Rider</b> (CVN-71), <b>Union</b> (CVN-72), <b>Warfighter</b> "
+            "(CVN-73), <b>Courage</b> (CVN-74), <b>Lone Warrior</b> (CVN-75) — official voice "
+            "callsigns per ACP 113. The Forrestal flies her fleet nickname <b>Fid</b> (“First In "
+            "Defense”, convention). “Mother” still works — it's the brevity word for whichever "
+            "boat is yours. <b>TACAN channel = hull number</b>: 73X on the George Washington, "
+            "59X on the Forrestal, 5X on Invincible (pennant R05). SuperCarrier boats also "
+            "radiate ICLS 11, Link4 336 and ACLS; the Forrestal has no ACLS in DCS; the 1982 "
+            "Invincible is TACAN-only; the 1944 Essex is visual recovery, era-true.", "note"),
+          Spacer(1, 4),
+          P("Aircraft-side TACAN/ICLS/Link4 are cockpit state — DCS does not allow presetting "
+            "them from a mission file; the kneeboard values are what you dial (F-14 crews: the "
+            "RIO enters Link4 336.0).", "note"),
 
           PageBreak(),
           P("Building blocks", "h1")]

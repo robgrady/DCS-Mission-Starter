@@ -89,12 +89,22 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     cv = comms.cfg("carrier")
     ship_id = grp.units[0].id
     systems = hull.get("systems", ["tacan", "icls", "link4", "acls"])
+    # Per-hull identity (carrier_decks.json): real voice callsign (ACP 113 for
+    # the five CVNs), TACAN CHANNEL = HULL NUMBER (CVN-73 -> 73X, CV-59 -> 59X,
+    # R05 -> 5X), 3-letter Morse ident. comms_plan.json is the fallback for
+    # anything a hull doesn't declare. "Mother" stays alongside the callsign —
+    # it's the brevity word pilots actually say on Marshal.
+    voice = hull.get("voice_callsign")
+    tac_ch = hull.get("tacan_channel", int(cv["tacan"][:-1]))
+    tac_ident = hull.get("tacan_ident", cv["tacan_callsign"])
+    tacan_str = f"{tac_ch}X {tac_ident}"
+    callsign_str = f"{voice} (Mother)" if voice else cv["callsign"]
     wp = grp.points[0]
     notes = []
     if "tacan" in systems:
-        wp.tasks.append(ActivateBeaconCommand(channel=int(cv["tacan"][:-1]),
-                                              modechannel=cv["tacan"][-1],
-                                              callsign=cv["tacan_callsign"],
+        wp.tasks.append(ActivateBeaconCommand(channel=tac_ch,
+                                              modechannel="X",
+                                              callsign=tac_ident,
                                               unit_id=ship_id, aa=False))
     if "icls" in systems:
         wp.tasks.append(ActivateICLSCommand(channel=cv["icls"], unit_id=ship_id))
@@ -108,8 +118,8 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
     if not systems:
         notes.append("visual recovery - no shipboard nav/landing aids in this era")
     grp.set_frequency(cv["freq"])
-    comms.add("Carrier", cv["callsign"], f"{cv['freq']:.3f}",
-              cv["tacan"] if "tacan" in systems else "-",
+    comms.add("Carrier", callsign_str, f"{cv['freq']:.3f}",
+              tacan_str if "tacan" in systems else "-",
               f"{csg.get('flagship_name', hull['label'])} - "
               + ", ".join(notes + [f"BRC {int(brc):03d}"]))
     return grp, brc

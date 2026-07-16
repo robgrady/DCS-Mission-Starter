@@ -338,7 +338,11 @@
     "icls",
     "link4",
     "acls"
-   ]
+   ],
+   "voice_callsign": "Rough Rider",
+   "tacan_channel": 71,
+   "tacan_ident": "TDR",
+   "callsign_verified": true
   },
   "cvn_72": {
    "label": "CVN-72 Abraham Lincoln (CSG-3)",
@@ -395,7 +399,11 @@
     "icls",
     "link4",
     "acls"
-   ]
+   ],
+   "voice_callsign": "Union",
+   "tacan_channel": 72,
+   "tacan_ident": "ABE",
+   "callsign_verified": true
   },
   "cvn_73": {
    "label": "CVN-73 George Washington (CSG-5)",
@@ -452,7 +460,11 @@
     "icls",
     "link4",
     "acls"
-   ]
+   ],
+   "voice_callsign": "Warfighter",
+   "tacan_channel": 73,
+   "tacan_ident": "GWN",
+   "callsign_verified": true
   },
   "cvn_75": {
    "label": "CVN-75 Harry S. Truman (CSG-8)",
@@ -509,7 +521,11 @@
     "icls",
     "link4",
     "acls"
-   ]
+   ],
+   "voice_callsign": "Lone Warrior",
+   "tacan_channel": 75,
+   "tacan_ident": "HST",
+   "callsign_verified": true
   },
   "stennis": {
    "label": "CVN-74 John C. Stennis (CSG-3, base game)",
@@ -566,7 +582,11 @@
     "icls",
     "link4",
     "acls"
-   ]
+   ],
+   "voice_callsign": "Courage",
+   "tacan_channel": 74,
+   "tacan_ident": "STN",
+   "callsign_verified": true
   },
   "essex": {
    "label": "CV-9 USS Essex (TF 58, 1944)",
@@ -636,7 +656,8 @@
     ]
    },
    "equipment": [],
-   "systems": []
+   "systems": [],
+   "identity_note": "1944: no TACAN existed; WWII voice calls rotated per operation - keeps 'Mother'"
   },
   "invincible": {
    "label": "R05 HMS Invincible (1982 Task Force)",
@@ -737,7 +758,10 @@
    ],
    "systems": [
     "tacan"
-   ]
+   ],
+   "tacan_channel": 5,
+   "tacan_ident": "INV",
+   "identity_note": "pennant R05 -> TACAN 5X; RN voice callsign not publicly documented - keeps 'Mother'"
   },
   "forrestal": {
    "label": "CV-59 Forrestal (CVW-6, 1980s Med)",
@@ -986,7 +1010,12 @@
     "tacan",
     "icls",
     "link4"
-   ]
+   ],
+   "voice_callsign": "Fid",
+   "tacan_channel": 59,
+   "tacan_ident": "FID",
+   "callsign_verified": false,
+   "identity_note": "voice callsign from documented fleet nickname 'FID' (First In Defense) - convention, not record"
   }
  },
  "layouts": {
