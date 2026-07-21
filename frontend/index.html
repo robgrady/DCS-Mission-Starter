@@ -1249,8 +1249,31 @@ const ROLES={
  historic:{label:"Historic",c:"var(--historic)",ic:"🕰️"},
 };
 let libState={role:"all",own:false,era:null,crew:"qualified",seed:1,cur:null};
-function libItems(){ return Object.entries(OPT.templates).filter(([k,v])=>v&&v.library)
-  .map(([k,v])=>({k,...v,...v.library})); }
+// EVERY template gets a Library card — the Library is the only home for
+// scenarios now (no wizard step), so a template with no hand-written card
+// metadata still shows up, with sensible synthesized defaults.
+function inferRole(k,v){
+  const s=(k+' '+(v.label||'')).toLowerCase();
+  if(v.needs_carrier||/carrier|acls|recovery|trap/.test(s)) return 'carrier';
+  if(/sead|weasel|dead|sam/.test(s)) return 'sead';
+  if(/cap|alert|intercept|defense|sweep|bfm/.test(s)) return 'a2a';
+  if(/strike|izlid|bomb/.test(s)) return 'strike';
+  if(/cas|jtac|kill box/.test(s)) return 'cas';
+  if(/corridor|berlin|historic|'44|1944/.test(s)) return 'historic';
+  return 'training';
+}
+function libItems(){ return Object.entries(OPT.templates)
+  .filter(([k,v])=>v&&!k.startsWith('_'))
+  .map(([k,v])=>{
+    const lib=v.library||{};
+    const parts=(v.label||k).split(' — ');
+    return {k,...v,
+      role: lib.role||inferRole(k,v),
+      premise: lib.premise||parts[1]||parts[0],
+      threat: lib.threat!=null?lib.threat:(v.recipe&&v.recipe.threat_intensity)||1,
+      players: lib.players||'SP',
+      featured: !!lib.featured, new: !!lib.new};
+  }); }
 function mapOwned(mk){ return !!(OPT.maps[mk]&&OPT.maps[mk].free); }  // heuristic: free maps = owned
 function libReq(t){ const mk=t.default_map; return (mk&&!mapOwned(mk))?(OPT.maps[mk]?.label||mk):null; }
 function thrBar(n){ let s='<span class="thr">'; for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>'; return s+'</span>'; }

@@ -38,9 +38,38 @@ warranty. Not affiliated with Eagle Dynamics or Heatblur.
   targets, practice range, comms card on the **25 kHz radio raster**, in-jet kneeboards,
   nav reference points, F10 map-graphics layers.
 - **Crew Ops (F-14) template packs** using the Heatblur Jester/Iceman PROXY flag API.
+- **Mission Library:** two paths at entry — *Pick from the Library* (curated,
+  role-colour-coded scenario cards with era/threat/difficulty filters,
+  pick → preview → generate or open-in-builder) or *Build a Mission* (the full
+  wizard). **All scenario templates live in the Library**; the builder has no
+  scenario step.
 - **Section-navigation UI:** one focused screen at a time with a progress rail, completion
   checkmarks, a live preview, and share links (recipe+seed → same starter, always
   regenerable; a share link *is* the mission).
+
+## Deploying / hosting (IMPORTANT — read before re-generating anything)
+
+This package is a **complete, runnable application** — do NOT rebuild it from
+scratch. Run it as-is: `pip install -r requirements.txt`, then
+`PYTHONPATH=vendor uvicorn server.app:app` (the included `.replit` already does
+this). The frontend is served by the server at `/` from `frontend/index.html`.
+
+If a hosting agent re-skins or regenerates the UI anyway, these product
+requirements are **non-negotiable** and must be preserved exactly:
+
+1. **Two paths at entry:** "Pick from the Library" and "Build a Mission".
+2. **ALL scenario templates live in the Mission Library** (card gallery with
+   role/era/difficulty filters, pick → preview → Generate or Open-in-Builder).
+   **There is NO Scenario/Template step inside the builder wizard** — do not add
+   one back. Template data comes from `/api/options` → `templates` (each entry's
+   `library` block carries role/premise/threat card metadata).
+3. The **builder keeps every existing step and option** (era, map, basing,
+   airfields/ramp composer, threats, support, carrier, F10 graphics, review) —
+   nothing simplified or removed.
+4. Generation is **on-demand** via `POST /api/generate` (recipe JSON); missions
+   are never pre-baked. Share links regenerate via `/api/dl?r=<code>`.
+5. Display the backend version from `/api/options` (`version`) in the UI so
+   deployments are verifiable against the CHANGELOG.
 
 ## Quick start (macOS)
 

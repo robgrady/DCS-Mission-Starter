@@ -17,6 +17,21 @@ guide cover.
 
 ---
 
+## [1.19.1] — 2026-07-21 — every template is guaranteed a Library card
+
+- **Library completeness:** the Library now renders **all** scenario templates,
+  not just those with hand-written card metadata — a template with no `library`
+  block gets a synthesized card (role inferred from its key/label, premise from
+  the label, threat from its recipe). Since the wizard no longer has a Scenario
+  step, this guarantees no template can become unreachable.
+- **README deployment contract:** explicit hosting instructions (run the app
+  as-is; do not regenerate) plus non-negotiable product requirements for any
+  agent that re-skins the UI — two entry paths, ALL templates in the Mission
+  Library, no scenario step in the builder, full builder preserved, on-demand
+  generation, visible backend version. Written for the Replit upload workflow.
+
+---
+
 ## [1.19.0] — 2026-07-21 — Mission Library (two paths: pick or build)
 
 ### Added — Library front door
