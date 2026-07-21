@@ -108,10 +108,23 @@ class StarterBuilder:
 
         # --- coalitions & airbase ownership ---------------------------------
         def _get_country(name, side):
-            c = m.country(resolve_country(name)().name)
-            if c is None:  # not in the mission's default coalitions (e.g. Argentina)
-                c = resolve_country(name)()
+            """Return the pydcs Country for `name`, GUARANTEED to live in the
+            requested coalition. pydcs' default mission pre-sorts many countries
+            into fixed coalitions (Germany, UK, USA all default to BLUE). On maps
+            where the historical alignment differs — WWII Normandy/Channel put
+            Germany on RED — we must MOVE the country, not accept pydcs' default
+            side. The old code took whatever side pydcs had it on, so red German
+            airfields spawned their aircraft under a blue-coalition Germany."""
+            cname = resolve_country(name)().name
+            other = "red" if side == "blue" else "blue"
+            if cname in m.coalition[other].countries:      # default put it on the wrong side
+                c = m.coalition[other].remove_country(cname)
                 m.coalition[side].add_country(c)
+                return c
+            if cname in m.coalition[side].countries:        # already correct
+                return m.coalition[side].countries[cname]
+            c = resolve_country(name)()                     # in neither (e.g. Japan, Argentina)
+            m.coalition[side].add_country(c)
             return c
 
         blue_country = _get_country(preset["blue_country"], "blue")

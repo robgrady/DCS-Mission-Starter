@@ -6,8 +6,11 @@ pillow==12.2.0
 # pydcs is VENDORED in vendor/dcs (server/app.py adds it to sys.path) because
 # PyPI 0.15.0 lacks F-4E-45MC and current units. No pip install needed.
 #
-# pyproj was REMOVED: nothing imports it at runtime (survey coordinates are
-# baked into data packs), and it's a heavy build dependency.
+# pyproj IS required: vendored pydcs imports it at import time
+# (vendor/dcs/terrain/terrain.py and .../projections/transversemercator.py).
+# Removing it makes a clean install crash on `import dcs`; the container only
+# worked because pyproj happened to be pre-installed.
+pyproj==3.7.2
 #
 # The PDF guide is a BUILD-TIME artifact, not a runtime dependency. To rebuild
 # it: pip install reportlab==4.4.10 playwright && playwright install chromium

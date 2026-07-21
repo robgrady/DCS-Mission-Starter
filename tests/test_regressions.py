@@ -249,6 +249,24 @@ def test_nation_rosters_place_correct_types(tmp_path):
     assert "F-14A-135-GR" in pg.get("Iran", set()), "Iran did not park the F-14A"
 
 
+# --- WWII coalition alignment (code review HIGH) ---------------------------
+# pydcs defaults Germany/UK/USA to the BLUE coalition. On WWII Normandy/Channel
+# Germany is RED; the old _get_country accepted pydcs' default side, so red
+# German airfields spawned aircraft under a blue-coalition Germany. Assert the
+# country is forced onto the historically-correct side.
+def test_wwii_germany_is_red_not_blue(tmp_path):
+    from missiongen import Recipe
+    from missiongen.builder import StarterBuilder
+    for mp, home in (("normandy", None), ("thechannel", None)):
+        m = StarterBuilder(Recipe.from_dict(
+            dict(map=mp, era="wwii", coalition="blue",
+                 aircraft="SpitfireLFMkIX", seed=7))).build()
+        red = set(m.coalition["red"].countries)
+        blue = set(m.coalition["blue"].countries)
+        assert "Germany" in red, f"{mp}: Germany not in RED coalition (got red={red})"
+        assert "Germany" not in blue, f"{mp}: Germany leaked into BLUE coalition"
+
+
 if __name__ == "__main__":
     import tempfile
     failed = 0
@@ -257,7 +275,8 @@ if __name__ == "__main__":
                test_no_statics_inside_aircraft_footprints,
                test_berlin_corridors_draw_and_brief,
                test_alignment_dresses_bases_by_owning_nation,
-               test_nation_rosters_place_correct_types]:
+               test_nation_rosters_place_correct_types,
+               test_wwii_germany_is_red_not_blue]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))

@@ -91,4 +91,47 @@ def validate_data_packs() -> list:
                             errors.append(f"theme {era}/{side}/{tkey}: {e}")
                         if era == "wwii" and any(t in ref for t in _WWII_FORBIDDEN):
                             errors.append(f"ANACHRONISM theme wwii/{side}/{tkey}: {ref}")
+
+    # nation rosters (Theater Identity P1): every plane ref must resolve, the
+    # nation must be a real pydcs country, and wwii rosters obey the anachronism
+    # guard. These are 100+ refs the old validator never touched.
+    rosters = load_json("nation_rosters")
+    for era, nations in rosters.items():
+        if not isinstance(nations, dict) or era.startswith("_"):
+            continue
+        for nation, body in nations.items():
+            try:
+                resolve_country(nation)
+            except UnknownUnitError as e:
+                errors.append(f"roster {era}/{nation}: {e}")
+            for ref, _w in body.get("planes", []):
+                try:
+                    resolve(ref)
+                except UnknownUnitError as e:
+                    errors.append(f"roster {era}/{nation}: {e}")
+                if era == "wwii" and any(t in ref for t in _WWII_FORBIDDEN):
+                    errors.append(f"ANACHRONISM roster wwii/{nation}: {ref}")
+
+    # theater identity: every base owner must be a real pydcs country, or the
+    # builder crashes when it tries to dress that base under a bogus country.
+    identity = load_json("theater_identity")
+    for mapk, eras_i in identity.items():
+        if not isinstance(eras_i, dict) or mapk.startswith("_"):
+            continue
+        for era, block in eras_i.items():
+            for base, nation in (block or {}).get("bases", {}).items():
+                try:
+                    resolve_country(nation)
+                except UnknownUnitError as e:
+                    errors.append(f"identity {mapk}/{era}/{base}: {e}")
+
+    # carrier data: hull_class entries must reference a defined deck class
+    # (internal consistency). Aircraft keys are NOT strict-resolved here because
+    # the roster intentionally lists pre-release modules (e.g. the F-14B(U)).
+    carrier = load_json("carrier_capable")
+    classes = set(carrier.get("classes", {}))
+    for hull, cls in carrier.get("hull_class", {}).items():
+        if cls not in classes:
+            errors.append(f"carrier hull_class {hull}: unknown deck class '{cls}'")
+
     return errors

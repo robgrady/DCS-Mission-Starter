@@ -39,6 +39,8 @@ RECIPES = {
                        "seed": 11, "bb_carrier": True, "home_airbase": "CARRIER"},
     "composed_ramp": {"map": "nevada", "era": "modern", "aircraft": "F_16C_50", "seed": 5,
                       "dress_mix": {"F_16C_50": 6, "A_10C_2": 4}},
+    "template_sead": {"map": "caucasus", "era": "modern", "aircraft": "F_16C_50",
+                      "template": "sead_range", "seed": 13},
 }
 
 # Child process: build one .miz and print the hash of its inner `mission` entry.

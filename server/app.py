@@ -9,7 +9,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Response
 from fastapi.responses import FileResponse, HTMLResponse
 from starlette.background import BackgroundTask
 from pydantic import BaseModel
@@ -31,23 +31,30 @@ app = FastAPI(title="DCS Mission Starter", version=__version__)
 # Errors that are the USER's fault → 400 with the real message. Anything else is
 # a bug and must surface as a 500 (logged, generic message) so monitoring sees
 # it and we never leak a server path to the client.
-USER_ERRORS = (RecipeError, EraViolation, UnknownUnitError, KeyError)
+#
+# KeyError is deliberately NOT here: it used to mask real internal bugs (a
+# missing data-pack key, a logic error) as a 400 "bad request". User-facing
+# bad input (unknown map/era/enum) is now caught explicitly in Recipe.validate
+# and raised as RecipeError, so a stray KeyError is genuinely a server bug → 500.
+USER_ERRORS = (RecipeError, EraViolation, UnknownUnitError)
 
 
 def _build_and_respond(recipe: Recipe):
     """Single build path shared by /api/generate and /api/dl so their error
     contracts and temp-file cleanup can't drift. Temp dir is removed after the
     response is sent (BackgroundTask) — the old code leaked ~93 KB per request."""
+    tmpdir = tempfile.mkdtemp()
     try:
         recipe.validate()
         tag = recipe.template or "starter"
         fname = f"{recipe.map}_{recipe.era}_{recipe.aircraft}_{tag}_{recipe.seed}.miz"
-        tmpdir = tempfile.mkdtemp()
         out = Path(tmpdir) / fname
         result = generate(recipe, str(out))
     except USER_ERRORS as e:
+        shutil.rmtree(tmpdir, ignore_errors=True)
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
+        shutil.rmtree(tmpdir, ignore_errors=True)
         log.exception("mission generation failed")
         raise HTTPException(status_code=500, detail="Internal error generating the mission.")
     return FileResponse(str(out), filename=fname, media_type="application/zip",
@@ -174,10 +181,15 @@ def guide_download():
 
 
 @app.get("/api/health")
-def health():
+def health(response: Response):
+    """Readiness probe. Data-pack errors mean the product cannot build correct
+    missions, so return 503 (not a 200 with ok:false) — a load balancer or
+    monitor treats it as unhealthy and stops sending traffic."""
     errors = validate_data_packs()
     service = load_json("aircraft_service")
     gaps = [a["key"] for a in flyable_aircraft() if a["key"] not in service]
+    if errors:
+        response.status_code = 503
     return {"ok": not errors, "version": __version__,
             "data_pack_errors": errors, "service_data_gaps": gaps}
 
@@ -215,10 +227,10 @@ def api_brief(req: GenerateRequest):
     Stateless by design: the determinism contract means the same recipe rebuilds
     the identical mission, so the brief regenerates on demand — no server-side
     storage, and the .miz download flow is untouched."""
+    tmpdir = tempfile.mkdtemp()
     try:
         recipe = Recipe.from_dict(req.recipe)
         recipe.validate()
-        tmpdir = tempfile.mkdtemp()
         miz = Path(tmpdir) / "m.miz"
         result = generate(recipe, str(miz), brief_dir=tmpdir)
         if "brief_pdf" not in result:
@@ -231,8 +243,10 @@ def api_brief(req: GenerateRequest):
             z.write(result["brief_pdf"], f"{stem}_brief.pdf")
             z.write(result["brief_md"], f"{stem}_brief.md")
     except USER_ERRORS as e:
+        shutil.rmtree(tmpdir, ignore_errors=True)
         raise HTTPException(status_code=400, detail=str(e))
     except Exception:
+        shutil.rmtree(tmpdir, ignore_errors=True)
         log.exception("brief generation failed")
         raise HTTPException(status_code=500, detail="Internal error generating the brief.")
     return FileResponse(str(pack), filename=f"{stem}_briefing_pack.zip",

@@ -17,6 +17,53 @@ guide cover.
 
 ---
 
+## [1.16.3] — 2026-07-21
+
+### Fixed — code-review remediation (release blockers + reliability)
+
+External code review of 1.16.2 returned "request changes." This release clears
+the blocking and high-severity findings.
+
+- **CRITICAL — restored `pyproj`.** Vendored pydcs imports pyproj at import time
+  (`vendor/dcs/terrain/terrain.py`), but 1.16.2 had removed it from
+  `requirements.txt`. A clean `pip install` produced an app that crashed on
+  `import dcs`; the dev container only worked because pyproj happened to be
+  pre-installed. Re-pinned `pyproj==3.7.2`. Added a CI **import smoke test**
+  (`import server.app`) so a missing startup dependency fails the build.
+- **HIGH — WWII coalition assignment.** pydcs' default mission pre-sorts Germany
+  (and UK/USA) into the **blue** coalition. On WWII Normandy and The Channel,
+  Germany is **red** — but `builder._get_country` accepted pydcs' default side,
+  so red German airfields spawned their aircraft under a blue-coalition Germany.
+  It now force-moves a country into the requested coalition. New regression test
+  asserts Germany lands on red (and never leaks to blue) for both maps.
+- **HIGH — temp-dir leak on failure.** `/api/generate`, `/api/dl` and `/api/brief`
+  created a temp directory inside the `try` and only cleaned it up on success;
+  any generation error leaked the directory. Cleanup now runs on every failure
+  path.
+- **HIGH — strict request validation.** `Recipe.from_dict` silently dropped
+  unknown fields (a typo'd/renamed option vanished, so you got a *different*
+  mission than you asked for) — it now rejects them. `map` and `era` are now
+  validated against the data packs with a clear message. `KeyError` is no longer
+  treated as a user error (400), so a genuine internal bug surfaces as a logged
+  500 instead of a misleading "bad request."
+
+### Changed
+
+- **Data-pack validation extended.** `validate_data_packs` now also resolves
+  `nation_rosters` (100+ refs + WWII anachronism guard + country check),
+  `theater_identity` base owners, and carrier `hull_class` consistency — not
+  just eras and ramp themes. `/api/health` returns **503** (not 200 + ok:false)
+  when the packs are invalid, so a monitor/load-balancer treats it as unhealthy.
+- **Versioned share links.** Share codes now carry a schema version in a small
+  envelope. Legacy (pre-envelope) codes still decode; a code from a *newer*
+  schema is refused with a clear "update to open it" message instead of silently
+  mis-decoding into a different mission.
+- **Test coverage.** Added a template-based recipe (`sead_range`) to the
+  cross-process determinism suite, which previously claimed template coverage
+  but had none.
+
+---
+
 ## [1.16.2] — 2026-07-20
 
 ### Changed — make the seed's meaning explicit to the end user

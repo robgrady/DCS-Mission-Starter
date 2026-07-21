@@ -117,7 +117,15 @@ class Recipe:
 
     @classmethod
     def from_dict(cls, d: dict, validate: bool = True) -> "Recipe":
+        # Reject unknown fields instead of silently dropping them: a typo'd or
+        # stale field (e.g. a renamed option) used to vanish without a trace,
+        # so the caller got a *different* mission than they described. Fail loud.
         known = {f for f in cls.__dataclass_fields__}
+        unknown = [k for k in d if k not in known]
+        if unknown:
+            raise RecipeError(
+                f"Unknown recipe field(s): {', '.join(sorted(unknown))}. "
+                f"Check for typos or an outdated client.")
         r = cls(**{k: v for k, v in d.items() if k in known})
         if validate:
             r.validate()
@@ -135,6 +143,15 @@ class Recipe:
                 raise RecipeError(
                     f"{field_name}={val!r} is not valid; expected one of "
                     f"{', '.join(allowed)}.")
+        # map/era are keys into the data packs. Validate here with a clear
+        # message; otherwise a bad key KeyErrors deep in the builder, which
+        # (now that KeyError is no longer treated as a user error) would surface
+        # as an opaque 500 instead of "unknown theater".
+        from .resolver import load_json
+        if self.map not in load_json("maps"):
+            raise RecipeError(f"map={self.map!r} is not a known theater.")
+        if self.era not in load_json("eras"):
+            raise RecipeError(f"era={self.era!r} is not a known era.")
         if not isinstance(self.seed, int) or isinstance(self.seed, bool):
             raise RecipeError(f"seed must be an integer, got {self.seed!r}.")
         if not (1 <= self.slots <= 4):
