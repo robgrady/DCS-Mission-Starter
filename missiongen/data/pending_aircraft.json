@@ -1,10 +1,12 @@
 {
-  "F_14B_U": {
-    "label": "F-14B(U) Tomcat (upcoming - Heatblur)",
-    "provisional_id": "F-14B-U",
-    "inherits": "planes.F_14B",
-    "kind": "plane",
-    "note": "Pre-order as of 2026-07. UPDATE provisional_id to the real DCS type id on release day, then move to normal roster. Until then generated missions carry a warning.",
-    "backseat_capable": true
-  }
+ "F_14B_U": {
+  "label": "F-14B(U) Tomcat (Heatblur)",
+  "provisional_id": "F-14BU",
+  "verified": true,
+  "verified_on": "2026-07-21",
+  "inherits": "planes.F_14B",
+  "kind": "plane",
+  "note": "RELEASED 2026-07-22. Real DCS type id 'F-14BU' verified from an in-sim survey (saved .miz + dcs.log: spawnLocalPlayer F-14BU / 'Forced loading of F-14B(U) by Heatblur Simulations'). pydcs has no native class yet, so we inherit F-14B flight/loft data (same airframe) and register the verified id at runtime. Radio presets live on radio [1] (UHF). Carrier: catobar. DTM cartridge: DTC/*.dtc JSON sidecar, type 'F-14BU'.",
+  "backseat_capable": true
+ }
 }

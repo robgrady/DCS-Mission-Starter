@@ -17,6 +17,43 @@ guide cover.
 
 ---
 
+## [1.18.0] — 2026-07-21 — F-14B(U) launch-ready + full DTM cartridge injection
+
+Release cut for the F-14B(U) launch (Jul 22). Folds in three in-sim survey
+findings and completes the Data Transfer System.
+
+### Added — real DTM cartridge injection (`dtc.emit_dtm`)
+
+Reverse-engineered the DTM format from a plain-vs-cartridge `.miz` pair: DCS
+stores the F-14B(U) cartridge as a **JSON sidecar** at `DTC/<name>.dtc`, matched
+to the jet by its internal `"type": "F-14BU"`. Mission Starter now **writes that
+sidecar** so a generated mission opens with the cartridge pre-loaded in the DTM
+page — no hand-transcription.
+
+- Populates only **NAV** reference data — `additional_points` (bullseye,
+  homeplate, CDNU fix points, threat centres, support anchors) and `lines`
+  (threat WEZ rings as closed plot lines, point-budget-simplified). **Waypoints
+  stay empty and JDAM/weapon targets stay empty** — never the player's route or
+  loadout (regression-tested). CMDS/TIS come from a scrubbed template skeleton.
+- Deterministic (sorted-key JSON, fixed zip timestamp): same recipe+seed → a
+  byte-identical cartridge, so share links reproduce it.
+- The `.dtc` setup card still ships alongside for reference.
+
+### Fixed — verified F-14B(U) type id + real footprint
+
+- Real DCS type id is **`F-14BU`** (survey-confirmed); the pre-release guess
+  `F-14B-U` would have broken every generated B(U) mission. Marked verified;
+  flight data inherits F-14B until pydcs adds a native class. Radio presets (UHF
+  radio [1]) and carrier catobar confirmed end-to-end.
+- Applied the surveyed real bounding box (19.62 × 20.34 × 6.29 m) to the whole
+  flyable Tomcat family via `airframe_dimensions.json`; pydcs understated span as
+  10.15 m (swept), so parked Tomcats could get GSE/statics under the wingtips.
+  **⚠ Byte-affecting** for existing parked-F-14 missions (accepted during beta).
+- `airframe_dimensions.json` validated in `validate_data_packs` (fails
+  `/api/health` on a bad entry).
+
+---
+
 ## [1.17.0] — 2026-07-21
 
 ### Added — F-14B(U) DTC setup card (`missiongen/dtc.py`)

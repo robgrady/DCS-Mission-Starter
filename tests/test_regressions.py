@@ -298,9 +298,46 @@ def test_dtc_card_only_for_bu_and_is_reference_only(tmp_path):
     low = card.lower()
     for forbidden in ("waypoint", "steerpoint", "ingress", "egress", "loadout", "target run"):
         assert forbidden not in low, f"card leaked player-plan content: {forbidden!r}"
-    # .miz bytes must be unaffected — the card is a sidecar (determinism intact)
+    # the real DTM cartridge is injected into the .miz as the JSON sidecar
+    import zipfile as _zf, json as _json
+    z = _zf.ZipFile(out2)
+    assert z.read("mission"), "mission entry unreadable after DTC"
+    member = "DTC/F-14B(U) DTC_1.dtc"
+    assert member in z.namelist(), "DTM cartridge sidecar not injected"
+    dtm = _json.loads(z.read(member))
+    assert dtm["type"] == "F-14BU", "cartridge not typed to the F-14B(U)"
+    assert len(dtm["data"]["NAV"]) == 12, "NAV must have 12 slots (DCS schema)"
+    nav0 = dtm["data"]["NAV"][0]
+    assert nav0["additional_points"], "no reference points written to the cartridge"
+    # north star: the cartridge must NEVER carry the player's route or weapons
+    assert all(not s["waypoints"] for s in dtm["data"]["NAV"]), "cartridge wrote player waypoints"
+    assert all(not st["targets"] for st in dtm["data"]["JDAM"]["stations"]), "cartridge wrote weapon targets"
+
+
+def test_dtc_injection_is_deterministic(tmp_path):
+    """Same recipe+seed must inject a byte-identical cartridge (share links)."""
+    import zipfile as _zf, hashlib
+    from missiongen import Recipe, generate
+    def _dtc_hash(p):
+        generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
+                 aircraft="F_14B_U", home_airbase="Al Dhafra AFB",
+                 threat_intensity=4, threat_tier="heavy", seed=22)), p)
+        return hashlib.sha256(_zf.ZipFile(p).read("DTC/F-14B(U) DTC_1.dtc")).hexdigest()
+    assert _dtc_hash(str(tmp_path / "a.miz")) == _dtc_hash(str(tmp_path / "b.miz")), \
+        "DTM cartridge is not deterministic"
+
+
+def test_f14bu_uses_verified_type_id(tmp_path):
+    """Survey-confirmed DCS type id is F-14BU; the old guess F-14B-U would break
+    every generated B(U) mission. Lock it into the serialized mission."""
     import zipfile as _zf
-    assert _zf.ZipFile(out2).read("mission"), "mission entry unreadable after DTC"
+    from missiongen import Recipe, generate
+    out = str(tmp_path / "bu.miz")
+    generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
+             aircraft="F_14B_U", home_airbase="Al Dhafra AFB", seed=7)), out)
+    mission = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
+    assert '"F-14BU"' in mission, "F-14B(U) did not serialize the verified type id"
+    assert "F-14B-U" not in mission, "old bad provisional id F-14B-U leaked in"
 
 
 if __name__ == "__main__":
@@ -318,7 +355,9 @@ if __name__ == "__main__":
                test_alignment_dresses_bases_by_owning_nation,
                test_nation_rosters_place_correct_types,
                test_wwii_germany_is_red_not_blue,
-               test_dtc_card_only_for_bu_and_is_reference_only]:
+               test_dtc_card_only_for_bu_and_is_reference_only,
+               test_dtc_injection_is_deterministic,
+               test_f14bu_uses_verified_type_id]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))

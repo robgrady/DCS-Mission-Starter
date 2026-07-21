@@ -63,6 +63,22 @@ def _weighted(rng, pairs):
 
 _STATIC_CATALOG = None
 _LIVERY_PACK = None
+_AIRFRAME_DIMS = None
+
+
+def _airframe_dims():
+    """Cached surveyed real bounding boxes keyed by DCS type id (ignores the
+    underscore comment/source keys)."""
+    global _AIRFRAME_DIMS
+    if _AIRFRAME_DIMS is None:
+        try:
+            raw = load_json("airframe_dimensions")
+            _AIRFRAME_DIMS = {k: v for k, v in raw.items()
+                              if not k.startswith("_") and isinstance(v, dict)
+                              and "span" in v and "length" in v}
+        except Exception:
+            _AIRFRAME_DIMS = {}
+    return _AIRFRAME_DIMS
 
 
 _AGGR_RE = None
@@ -260,7 +276,12 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                    for ox, oy, orad in _occ)
 
     def _half_extent(unit_type):
-        """Circumscribing half-extent of an aircraft footprint (m)."""
+        """Circumscribing half-extent of an aircraft footprint (m). Prefers a
+        surveyed real bounding box where pydcs understates the envelope (e.g. the
+        F-14's real 20.34 m span vs pydcs' 10.15 m swept value)."""
+        override = _airframe_dims().get(getattr(unit_type, "id", None))
+        if override:
+            return max(override["span"], override["length"]) / 2.0
         w = getattr(unit_type, "width", None) or 10.0   # width = wingspan
         l = getattr(unit_type, "length", None) or 12.0
         return max(w, l) / 2.0

@@ -134,4 +134,20 @@ def validate_data_packs() -> list:
         if cls not in classes:
             errors.append(f"carrier hull_class {hull}: unknown deck class '{cls}'")
 
+    # surveyed airframe dimensions: positive numeric length/span/height, else the
+    # occupancy registry does maths on garbage and mis-places statics.
+    try:
+        dims = load_json("airframe_dimensions")
+    except Exception as e:
+        dims = {}
+        errors.append(f"airframe_dimensions: unreadable ({e})")
+    for tid, box in dims.items():
+        if tid.startswith("_"):
+            continue
+        if not isinstance(box, dict) or not all(
+                isinstance(box.get(k), (int, float)) and box.get(k, 0) > 0
+                for k in ("length", "span", "height")):
+            errors.append(f"airframe_dimensions/{tid}: needs positive numeric "
+                          "length, span, height")
+
     return errors

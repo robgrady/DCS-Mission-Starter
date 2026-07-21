@@ -97,8 +97,9 @@ def flyable_aircraft():
     # pending (announced/pre-order) modules, flagged for the UI
     from missiongen.pending import pending_aircraft
     for key, cfg in pending_aircraft().items():
+        # a verified/released module is a normal selectable jet, not "upcoming"
         out.append({"key": key, "id": cfg["label"], "kind": cfg["kind"],
-                    "upcoming": True})
+                    "upcoming": not cfg.get("verified", False)})
     return out
 
 

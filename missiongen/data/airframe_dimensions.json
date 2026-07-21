@@ -1,0 +1,10 @@
+{
+ "_comment": "Real in-sim aircraft bounding boxes (metres) from BUSURVEY exports, used by the occupancy registry when pydcs understates a footprint. pydcs models the F-14 span as 10.15 m (swept); the real envelope is 20.34 m, so GSE/statics were spawning under parked Tomcats' wingtips. Keyed by DCS type id. Byte-affecting for the listed types.",
+ "_source": "f14bu_survey2 dcs.log BUSURVEY_OUT (F-14B & F-14BU: len=19.62 span=20.34 hgt=6.29, 2026-07-21). Applied to the whole flyable Tomcat family (one airframe).",
+ "F-14BU": {"length": 19.62, "span": 20.34, "height": 6.29},
+ "F-14B": {"length": 19.62, "span": 20.34, "height": 6.29},
+ "F-14A-135-GR": {"length": 19.62, "span": 20.34, "height": 6.29},
+ "F-14A-135-GR-Early": {"length": 19.62, "span": 20.34, "height": 6.29},
+ "F-14A-95-GR": {"length": 19.62, "span": 20.34, "height": 6.29},
+ "F-14A": {"length": 19.62, "span": 20.34, "height": 6.29}
+}

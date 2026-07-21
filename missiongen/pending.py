@@ -32,7 +32,12 @@ def get_pending(key: str):
             planes.plane_map[cfg["provisional_id"]] = cls
         except Exception:
             pass
-    warning = (f"{cfg['label']}: module not released yet - using provisional DCS type id "
-               f"'{cfg['provisional_id']}' (inherits {cfg['inherits']} flight data). "
-               f"Verify/update pending_aircraft.json when Heatblur ships.")
+    if cfg.get("verified"):
+        warning = (f"{cfg['label']}: verified DCS type id '{cfg['provisional_id']}' "
+                   f"(flight model inherits {cfg['inherits']} until pydcs adds a "
+                   f"native class).")
+    else:
+        warning = (f"{cfg['label']}: module not released yet - using provisional DCS type id "
+                   f"'{cfg['provisional_id']}' (inherits {cfg['inherits']} flight data). "
+                   f"Verify/update pending_aircraft.json when Heatblur ships.")
     return _registry[key], warning
