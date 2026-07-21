@@ -13,3 +13,8 @@ parking_survey.txt
 *dcs*.log
 fake_*.log
 surveys/
+
+# Scratch brief/DTC outputs
+Mission_Brief_Sample.*
+dtc_payload.lua
+dtc_member_*

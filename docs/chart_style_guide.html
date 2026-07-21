@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tactical Chart Style Guide</title>
+<style>
+  @page { size: A4; margin: 14mm 14mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: "Helvetica Neue", Arial, sans-serif;
+    color: #1a1f26; margin: 0; font-size: 10.5px; line-height: 1.5;
+  }
+  .mono { font-family: "DejaVu Sans Mono", "Courier New", monospace; }
+  h1,h2,h3 { margin: 0 0 6px; line-height: 1.15; letter-spacing: .02em; }
+  h2 { font-size: 18px; color: #0d1b2a; border-bottom: 2px solid #c8a24a;
+       padding-bottom: 5px; margin-top: 4px; text-transform: uppercase; letter-spacing:.06em;}
+  h3 { font-size: 12.5px; color: #7a1f1f; text-transform: uppercase; letter-spacing:.05em; margin-top:14px;}
+  p { margin: 0 0 8px; }
+  .page { page-break-after: always; padding-top: 2px; }
+  .page:last-child { page-break-after: auto; }
+  .dim { color:#5c6672; }
+  .tag { display:inline-block; font-size:8.5px; text-transform:uppercase; letter-spacing:.08em;
+         padding:1px 6px; border:1px solid #b9c0c9; border-radius:3px; color:#5c6672; }
+  /* cover */
+  .cover { background:#0d1b2a; color:#e9edf2; height:266mm; margin:-2px -0 0; padding:34mm 20mm 0;
+           position:relative; }
+  .cover .grid { position:absolute; inset:0; background-image:
+      linear-gradient(rgba(200,162,74,.10) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,162,74,.10) 1px, transparent 1px);
+      background-size: 14mm 14mm; }
+  .cover .inner { position:relative; }
+  .cover .kicker { color:#c8a24a; letter-spacing:.28em; text-transform:uppercase; font-size:11px; }
+  .cover h1 { font-size:40px; margin:14px 0 6px; color:#fff; letter-spacing:.01em; }
+  .cover .sub { font-size:15px; color:#9fb0c3; max-width:130mm; }
+  .cover .rule { height:2px; width:60mm; background:#c8a24a; margin:22px 0; }
+  .cover .meta { position:absolute; bottom:24mm; left:20mm; right:20mm; color:#7f93a8; font-size:10px;
+                 display:flex; justify-content:space-between; border-top:1px solid #24384c; padding-top:8px;}
+  /* chart panel (terrain-tan mockups) */
+  .chart { background:#e7dfce; border:1px solid #b7ab90; border-radius:3px; position:relative;
+           background-image:
+             linear-gradient(rgba(120,110,85,.14) 1px, transparent 1px),
+             linear-gradient(90deg, rgba(120,110,85,.14) 1px, transparent 1px);
+           background-size: 9px 9px; }
+  table { width:100%; border-collapse:collapse; font-size:9.5px; }
+  th,td { text-align:left; padding:5px 7px; border-bottom:1px solid #dfe3e8; vertical-align:top; }
+  th { background:#12283d; color:#dfe8f1; text-transform:uppercase; letter-spacing:.05em; font-size:8.5px; }
+  tr:nth-child(even) td { background:#f6f4ee; }
+  .swatch { width:20px; height:12px; border-radius:2px; display:inline-block; vertical-align:middle; border:1px solid rgba(0,0,0,.25); }
+  .cols { display:flex; gap:14px; }
+  .col { flex:1; }
+  .card { border:1px solid #d7dbe1; border-radius:5px; padding:9px 11px; margin-bottom:9px; background:#fff; }
+  .card h4 { margin:0 0 6px; font-size:11.5px; color:#0d1b2a; text-transform:uppercase; letter-spacing:.04em;}
+  .kv { font-size:9px; }
+  .kv b { color:#7a1f1f; }
+  ol.steps { margin:6px 0 0 0; padding-left:18px; }
+  ol.steps li { margin-bottom:5px; }
+  .note { background:#fbf6e9; border-left:3px solid #c8a24a; padding:7px 10px; font-size:9.5px; margin:8px 0; }
+  .principle { display:flex; gap:9px; margin-bottom:9px; }
+  .principle .n { flex:0 0 22px; height:22px; border-radius:50%; background:#0d1b2a; color:#c8a24a;
+                  font-weight:bold; text-align:center; line-height:22px; font-size:11px; }
+  .foot { position:running(footer); }
+  svg { display:block; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="page cover">
+  <div class="grid"></div>
+  <div class="inner">
+    <div class="kicker">DCS Mission Starter · Cartographic Standard</div>
+    <h1>Tactical Chart<br>Style Guide</h1>
+    <div class="rule"></div>
+    <div class="sub">How to draw F10 map overlays that read like a military
+      aviation planning chart — corridors, special-use airspace, threat laydowns
+      and control measures — using the DCS Mission Editor drawing tools.
+      Includes the palette, the line-style library, per-element specifications,
+      and step-by-step manual instructions.</div>
+  </div>
+  <div class="meta">
+    <span>Visual design &amp; military aviation cartography standard</span>
+    <span class="mono">v2 · as-built · chart-style module (chartstyle.py) v1.13.0</span>
+  </div>
+</div>
+
+<!-- ============ PHILOSOPHY ============ -->
+<div class="page">
+  <h2>1 · The principle: line-work, not colored glass</h2>
+  <p>A military chart conveys meaning through <b>boundary style, line weight, and
+  restraint</b> — colour is a secondary cue. The DCS drawing engine is capable of
+  this register: it is closer to a FalconView/JMPS planning overlay than a video-game
+  minimap, <i>if</i> we use its full line-style set instead of flat translucent fills.
+  Every rule in this guide maps a real cartographic convention onto a setting that
+  exists in the Mission Editor and has been verified to save correctly.</p>
+
+  <div class="principle"><div class="n">1</div><div><b>Boundary style carries the airspace type.</b>
+    Prohibited/no-fly gets a heavy hatched border; restricted/MOA a lighter border or dash;
+    a corridor gets a thin solid edge with a dot-dash centerline. The <i>edge</i> tells the
+    reader what the area <i>is</i>.</div></div>
+  <div class="principle"><div class="n">2</div><div><b>Weight sets the hierarchy.</b>
+    Hard boundaries heavy (5–6), corridors medium (3), centerlines and annotations thin (1–2).
+    Weight alone creates the read order.</div></div>
+  <div class="principle"><div class="n">3</div><div><b>Fill is almost invisible.</b>
+    Opacity 0–12%. Large areas are <i>outlined</i>, not flooded. A whisper of tint only for
+    small emphasis. Saturated line over near-transparent fill.</div></div>
+  <div class="principle"><div class="n">4</div><div><b>One disciplined palette.</b>
+    Red = threat/hostile/no-fly. Cyan-blue = friendly/controlled/corridors.
+    Magenta = special-use/advisory. Desaturated white/gold = neutral reference.</div></div>
+  <div class="principle"><div class="n">5</div><div><b>Type like a chart.</b>
+    ALL CAPS, condensed font, altitude blocks (<span class="mono">100/GND</span>),
+    labels rotated to the route axis, tight black halo for legibility.</div></div>
+  <div class="principle"><div class="n">6</div><div><b>Symbols for points.</b>
+    Use the built-in tactical icons (Air Defense, Search Radar) at SAM sites — a glyph inside
+    the ring reads as a threat instantly; a plain circle does not.</div></div>
+
+  <div class="note"><b>Scope &amp; honesty.</b> DCS has no true fill hatching (texture lives
+  only in the line style), only circles/ovals for curves (no arcs/sectors), and text is a
+  rotatable box, not path-following. Authenticity therefore comes from <b>edge styling + weight +
+  restraint + icons</b>, never from fill.</div>
+</div>
+
+<!-- ============ PALETTE ============ -->
+<div class="page">
+  <h2>2 · Palette</h2>
+  <p>Line colour is fully saturated; fill uses the same hue at very low opacity.
+  Values are given as DCS colour strings <span class="mono">0xRRGGBBAA</span> (the last
+  byte is alpha) and as RGBA for the Mission Editor colour picker.</p>
+  <table>
+    <tr><th>Role</th><th>Swatch</th><th>Line RGBA</th><th>DCS line string</th><th>Fill opacity</th></tr>
+    <tr><td><b>Threat / hostile / no-fly</b></td>
+        <td><span class="swatch" style="background:#e05050"></span></td>
+        <td class="mono">224, 80, 80, 235</td><td class="mono">0xe05050eb</td><td>0–8%</td></tr>
+    <tr><td><b>Friendly / controlled / corridor</b></td>
+        <td><span class="swatch" style="background:#5aaaff"></span></td>
+        <td class="mono">90, 170, 255, 235</td><td class="mono">0x5aaaffeb</td><td>0–8%</td></tr>
+    <tr><td><b>Special-use / advisory</b></td>
+        <td><span class="swatch" style="background:#b48cff"></span></td>
+        <td class="mono">180, 140, 255, 235</td><td class="mono">0xb48cffeb</td><td>0–8%</td></tr>
+    <tr><td><b>Deconfliction / caution</b></td>
+        <td><span class="swatch" style="background:#f0aa3c"></span></td>
+        <td class="mono">240, 170, 60, 235</td><td class="mono">0xf0aa3ceb</td><td>0%</td></tr>
+    <tr><td><b>Neutral reference (bullseye/nav)</b></td>
+        <td><span class="swatch" style="background:#e6e6e6;border-color:#999"></span></td>
+        <td class="mono">230, 230, 230, 235</td><td class="mono">0xe6e6e6eb</td><td>4–6%</td></tr>
+  </table>
+  <div class="note">Alpha in the ME picker is a 0–100% opacity slider. A DCS alpha byte of
+  <span class="mono">0x14</span> ≈ 8%, <span class="mono">0x00</span> = fully transparent (outline only).
+  For line colour keep opacity high (≈90%); for fill keep it in the 0–12% band.</div>
+</div>
+
+<!-- ============ LINE-STYLE LIBRARY ============ -->
+<div class="page">
+  <h2>3 · Line-style library</h2>
+  <p>The DCS line-style dropdown offers the styles below (enum name → what it renders →
+  what to use it for). Samples are drawn to scale.</p>
+  <table>
+    <tr><th style="width:150px">Sample</th><th>DCS style</th><th>Reads as</th><th>Use for</th></tr>
+    <tr><td><svg width="150" height="16"><line x1="4" y1="8" x2="146" y2="8" stroke="#12283d" stroke-width="3"/></svg></td>
+        <td class="mono">solid</td><td>hard, definite edge</td><td>control-zone rings, corridor sides, bullseye</td></tr>
+    <tr><td><svg width="150" height="16"><line x1="4" y1="8" x2="146" y2="8" stroke="#12283d" stroke-width="3" stroke-dasharray="10 6"/></svg></td>
+        <td class="mono">dash</td><td>advisory / soft boundary</td><td>MOA, ADIZ, deconfliction line</td></tr>
+    <tr><td><svg width="150" height="16"><line x1="4" y1="8" x2="146" y2="8" stroke="#12283d" stroke-width="3" stroke-dasharray="2 5"/></svg></td>
+        <td class="mono">dot / dot2</td><td>informational limit</td><td>ADIZ, sector lines, range fans</td></tr>
+    <tr><td><svg width="150" height="16"><line x1="4" y1="8" x2="146" y2="8" stroke="#12283d" stroke-width="3" stroke-dasharray="12 4 2 4"/></svg></td>
+        <td class="mono">dotdash</td><td>route / airway centerline</td><td>corridor &amp; airway centerlines</td></tr>
+    <tr><td>
+        <svg width="150" height="16"><line x1="4" y1="11" x2="146" y2="11" stroke="#7a1f1f" stroke-width="2.5"/>
+        <g stroke="#7a1f1f" stroke-width="2.5">
+        <line x1="12" y1="11" x2="12" y2="4"/><line x1="30" y1="11" x2="30" y2="4"/><line x1="48" y1="11" x2="48" y2="4"/>
+        <line x1="66" y1="11" x2="66" y2="4"/><line x1="84" y1="11" x2="84" y2="4"/><line x1="102" y1="11" x2="102" y2="4"/>
+        <line x1="120" y1="11" x2="120" y2="4"/><line x1="138" y1="11" x2="138" y2="4"/></g></svg></td>
+        <td class="mono">boundry1–5</td><td>hatched restricted boundary (directional ticks)</td><td>Prohibited / Restricted / <b>No-Fly</b> zones, FEBA</td></tr>
+    <tr><td>
+        <svg width="150" height="16"><line x1="4" y1="8" x2="146" y2="8" stroke="#12283d" stroke-width="2.5"/>
+        <g fill="#12283d"><circle cx="18" cy="8" r="2.6"/><circle cx="46" cy="8" r="2.6"/><circle cx="74" cy="8" r="2.6"/>
+        <circle cx="102" cy="8" r="2.6"/><circle cx="130" cy="8" r="2.6"/></g></svg></td>
+        <td class="mono">strongpoint</td><td>fortified / tactical line</td><td>FLOT / FSCL / defended line</td></tr>
+    <tr><td>
+        <svg width="150" height="16"><line x1="4" y1="8" x2="146" y2="8" stroke="#12283d" stroke-width="2.5"/>
+        <g stroke="#12283d" stroke-width="2"><line x1="14" y1="4" x2="14" y2="12"/><line x1="38" y1="4" x2="38" y2="12"/>
+        <line x1="62" y1="4" x2="62" y2="12"/><line x1="86" y1="4" x2="86" y2="12"/><line x1="110" y1="4" x2="110" y2="12"/>
+        <line x1="134" y1="4" x2="134" y2="12"/></g></svg></td>
+        <td class="mono">wirefence</td><td>obstacle / barrier</td><td>minefield edge, barrier, exclusion fence</td></tr>
+  </table>
+  <div class="note">The <span class="mono">boundry</span> styles are the workhorse of authenticity:
+  they render perpendicular ticks on one side of the line, exactly like a published Restricted-Area
+  boundary. Reserve them for areas you must <i>stay out of</i>.</div>
+</div>
+
+<!-- ============ ELEMENT SPECS ============ -->
+<div class="page">
+  <h2>4 · Element specifications</h2>
+  <p class="dim">Each control measure has one correct recipe. Mock-ups are shown on a terrain-tan
+  panel to preview how the line-work reads over the map.</p>
+
+  <div class="cols">
+    <div class="col">
+      <div class="card">
+        <h4>Air corridor</h4>
+        <div class="chart" style="height:70px;margin-bottom:6px">
+          <svg width="100%" height="70" viewBox="0 0 250 70" preserveAspectRatio="none">
+            <polygon points="6,14 244,26 244,44 6,32" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+            <line x1="6" y1="23" x2="244" y2="35" stroke="#5aaaff" stroke-width="1.4" stroke-dasharray="12 4 2 4"/>
+          </svg>
+        </div>
+        <div class="kv mono"><b>color</b> cyan · <b>fill</b> 0% · <b>weight</b> 3 (sides), 1 (centerline)<br>
+        <b>style</b> solid sides + dotdash centerline<br>
+        <b>label</b> » NORTH · 100/GND (rotate to axis)</div>
+      </div>
+
+      <div class="card">
+        <h4>No-fly zone</h4>
+        <div class="chart" style="height:70px;margin-bottom:6px">
+          <svg width="100%" height="70" viewBox="0 0 250 70">
+            <line x1="10" y1="40" x2="240" y2="40" stroke="#e05050" stroke-width="3"/>
+            <g stroke="#e05050" stroke-width="3"><line x1="24" y1="40" x2="24" y2="27"/><line x1="52" y1="40" x2="52" y2="27"/>
+            <line x1="80" y1="40" x2="80" y2="27"/><line x1="108" y1="40" x2="108" y2="27"/><line x1="136" y1="40" x2="136" y2="27"/>
+            <line x1="164" y1="40" x2="164" y2="27"/><line x1="192" y1="40" x2="192" y2="27"/><line x1="220" y1="40" x2="220" y2="27"/></g>
+            <text x="12" y="56" font-family="monospace" font-size="9" fill="#7a1f1f">OSW NO-FLY — S OF N32°</text>
+          </svg>
+        </div>
+        <div class="kv mono"><b>color</b> red · <b>fill</b> 0% · <b>weight</b> 6<br>
+        <b>style</b> boundry3 (ticks face inside)<br>
+        <b>label</b> zone name + limiting parallel/alt</div>
+      </div>
+
+      <div class="card">
+        <h4>Restricted area / MOA</h4>
+        <div class="chart" style="height:60px;margin-bottom:6px">
+          <svg width="100%" height="60" viewBox="0 0 250 60">
+            <rect x="30" y="12" width="190" height="34" fill="rgba(180,140,255,.05)" stroke="#b48cff" stroke-width="2.5" stroke-dasharray="9 5"/>
+            <text x="38" y="33" font-family="monospace" font-size="9" fill="#5a3fb0">R-4807  SFC–100</text>
+          </svg>
+        </div>
+        <div class="kv mono"><b>color</b> magenta · <b>fill</b> 0–5% · <b>weight</b> 3<br>
+        <b>style</b> boundry1 or dash · <b>label</b> ID + vertical block</div>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <h4>Threat WEZ (SAM ring)</h4>
+        <div class="chart" style="height:96px;margin-bottom:6px">
+          <svg width="100%" height="96" viewBox="0 0 250 96">
+            <circle cx="125" cy="48" r="38" fill="rgba(224,80,80,.05)" stroke="#e05050" stroke-width="2.5"/>
+            <!-- air-defense glyph -->
+            <circle cx="125" cy="48" r="9" fill="none" stroke="#7a1f1f" stroke-width="2"/>
+            <path d="M117,52 L125,38 L133,52" fill="none" stroke="#7a1f1f" stroke-width="2"/>
+            <text x="150" y="30" font-family="monospace" font-size="9" fill="#7a1f1f">SA-6 · 25KM</text>
+          </svg>
+        </div>
+        <div class="kv mono"><b>color</b> red · <b>fill</b> 0% · <b>weight</b> 3<br>
+        <b>style</b> solid ring + Air-Defense icon at center<br>
+        <b>label</b> system · max range</div>
+      </div>
+
+      <div class="card">
+        <h4>FLOT / FSCL</h4>
+        <div class="chart" style="height:56px;margin-bottom:6px">
+          <svg width="100%" height="56" viewBox="0 0 250 56">
+            <path d="M8,34 C60,18 90,44 130,30 S210,20 242,32" fill="none" stroke="#12283d" stroke-width="2.5"/>
+            <g fill="#12283d"><circle cx="40" cy="27" r="2.6"/><circle cx="95" cy="36" r="2.6"/><circle cx="150" cy="26" r="2.6"/><circle cx="205" cy="27" r="2.6"/></g>
+            <text x="10" y="50" font-family="monospace" font-size="9" fill="#12283d">FSCL — EFF 1200Z</text>
+          </svg>
+        </div>
+        <div class="kv mono"><b>color</b> side colour · <b>weight</b> 4<br>
+        <b>style</b> strongpoint · <b>label</b> name + effective time</div>
+      </div>
+
+      <div class="card">
+        <h4>Bullseye</h4>
+        <div class="chart" style="height:64px;margin-bottom:6px">
+          <svg width="100%" height="64" viewBox="0 0 250 64">
+            <circle cx="125" cy="32" r="24" fill="rgba(230,230,230,.04)" stroke="#c9ccd0" stroke-width="1.6"/>
+            <circle cx="125" cy="32" r="6" fill="rgba(230,230,230,.16)" stroke="#c9ccd0" stroke-width="1.6"/>
+            <text x="152" y="22" font-family="monospace" font-size="9" fill="#555">◎ BULLSEYE</text>
+          </svg>
+        </div>
+        <div class="kv mono"><b>color</b> white · <b>fill</b> 4–6% · <b>weight</b> 2<br>
+        <b>style</b> solid, dual concentric ring</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ WORKED EXAMPLE: BERLIN ============ -->
+<div class="page">
+  <h2>5 · Worked example — Berlin Air Corridors</h2>
+  <p class="dim">The full language composed on a map: three corridors converging on the control
+  zone, over stylised Cold-War Germany terrain with a lat/long graticule. This is the register to
+  aim for — saturated line-work, near-zero fill, chart typography.</p>
+
+  <div class="chart" style="height:150mm;border-width:1px;background:#d8d1bb;background-image:none;position:relative">
+    <svg width="100%" height="100%" viewBox="0 0 520 560" preserveAspectRatio="xMidYMid meet">
+      <!-- water -->
+      <rect x="0" y="0" width="520" height="70" fill="#aebfc7"/>
+      <path d="M0,70 Q130,58 240,74 T520,66 L520,0 L0,0 Z" fill="#aebfc7"/>
+      <text x="40" y="30" font-family="monospace" font-size="11" fill="#6d8894" letter-spacing="2">N O R T H   S E A</text>
+      <!-- graticule -->
+      <g stroke="rgba(90,80,55,.22)" stroke-width="0.6" font-family="monospace" font-size="8" fill="#6b6045">
+        <line x1="0" y1="150" x2="520" y2="150"/><text x="4" y="146">N54°</text>
+        <line x1="0" y1="290" x2="520" y2="290"/><text x="4" y="286">N53°</text>
+        <line x1="0" y1="430" x2="520" y2="430"/><text x="4" y="426">N52°</text>
+        <line x1="130" y1="70" x2="130" y2="560"/><text x="133" y="552">E09°</text>
+        <line x1="270" y1="70" x2="270" y2="560"/><text x="273" y="552">E11°</text>
+        <line x1="410" y1="70" x2="410" y2="560"/><text x="413" y="552">E13°</text>
+      </g>
+      <!-- inner German border (dashed) -->
+      <path d="M300,70 C290,180 320,260 300,340 C285,410 300,480 295,560" fill="none"
+            stroke="#7a6f50" stroke-width="1.4" stroke-dasharray="7 5" opacity="0.7"/>
+      <text x="305" y="500" font-family="monospace" font-size="8" fill="#6b6045" transform="rotate(6 305 500)">INNER GERMAN BORDER</text>
+
+      <!-- CORRIDORS (cyan swaths + dotdash centerline) converging on Berlin CTZ -->
+      <g>
+        <!-- North: Hamburg -> Berlin -->
+        <polygon points="150,130 430,300 424,330 138,158" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+        <line x1="144" y1="144" x2="427" y2="315" stroke="#5aaaff" stroke-width="1.2" stroke-dasharray="11 4 2 4"/>
+        <text x="200" y="188" font-family="monospace" font-size="10" fill="#1f5fa8" transform="rotate(31 200 188)">» NORTH (HAMBURG) · 100/GND</text>
+        <!-- Center: Hannover -> Berlin -->
+        <polygon points="150,300 430,312 430,340 150,328" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+        <line x1="150" y1="314" x2="430" y2="326" stroke="#5aaaff" stroke-width="1.2" stroke-dasharray="11 4 2 4"/>
+        <text x="185" y="309" font-family="monospace" font-size="10" fill="#1f5fa8">» CENTER (HANNOVER) · 100/GND</text>
+        <!-- South: Frankfurt -> Berlin -->
+        <polygon points="150,470 430,330 436,358 158,498" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+        <line x1="156" y1="484" x2="433" y2="344" stroke="#5aaaff" stroke-width="1.2" stroke-dasharray="11 4 2 4"/>
+        <text x="200" y="440" font-family="monospace" font-size="10" fill="#1f5fa8" transform="rotate(-27 200 440)">» SOUTH (FRANKFURT) · 100/GND</text>
+      </g>
+
+      <!-- Berlin Control Zone -->
+      <circle cx="432" cy="325" r="34" fill="rgba(90,170,255,.09)" stroke="#5aaaff" stroke-width="3"/>
+      <text x="432" y="286" font-family="monospace" font-size="9" fill="#1f5fa8" text-anchor="middle">BERLIN CTZ · 20SM · ≤100</text>
+
+      <!-- cities / airfields -->
+      <g font-family="monospace" font-size="9" fill="#2a2a2a">
+        <g stroke="#2a2a2a" stroke-width="1.4">
+          <circle cx="150" cy="130" r="3" fill="#2a2a2a"/><circle cx="150" cy="314" r="3" fill="#2a2a2a"/>
+          <circle cx="150" cy="484" r="3" fill="#2a2a2a"/><circle cx="432" cy="325" r="3.5" fill="#7a1f1f"/>
+        </g>
+        <text x="118" y="124">HAMBURG</text>
+        <text x="112" y="310">HANNOVER</text>
+        <text x="112" y="480">FRANKFURT</text>
+        <text x="444" y="330" fill="#7a1f1f">BERLIN</text>
+      </g>
+    </svg>
+  </div>
+  <div class="cols" style="margin-top:8px">
+    <div class="col kv"><b style="color:#7a1f1f">READS AS</b> — three published lanes into a hard
+      control zone. Cyan = friendly/controlled; the dot-dash centerline marks each airway; fill is a
+      whisper so the terrain and border stay legible beneath.</div>
+    <div class="col kv"><b style="color:#7a1f1f">SETTINGS</b> — corridor sides
+      <span class="mono">solid, w3</span>; centerline <span class="mono">dotdash, w1</span>; CTZ
+      <span class="mono">solid, w3, fill 8%</span>; labels axis-rotated with altitude block
+      <span class="mono">100/GND</span>.</div>
+  </div>
+</div>
+
+<!-- ============ WORKED EXAMPLE: THREAT LAYDOWN ============ -->
+<div class="page">
+  <h2>5b · Worked example — strike &amp; threat laydown</h2>
+  <p class="dim">The whole palette working together: a red IADS belt, a no-fly box, targets, a
+  fire-support line, and the friendly picture (ingress corridor, CAP, bullseye).</p>
+
+  <div class="chart" style="height:150mm;border-width:1px;background:#d8d1bb;background-image:none;position:relative">
+    <svg width="100%" height="100%" viewBox="0 0 520 560" preserveAspectRatio="xMidYMid meet">
+      <!-- coastline / water bottom-right -->
+      <path d="M520,560 L520,360 Q420,400 400,470 T300,560 Z" fill="#aebfc7"/>
+      <text x="430" y="520" font-family="monospace" font-size="10" fill="#6d8894" transform="rotate(-40 430 520)">GULF</text>
+      <!-- graticule -->
+      <g stroke="rgba(90,80,55,.20)" stroke-width="0.6" font-family="monospace" font-size="8" fill="#6b6045">
+        <line x1="0" y1="180" x2="520" y2="180"/><line x1="0" y1="360" x2="520" y2="360"/>
+        <line x1="175" y1="0" x2="175" y2="560"/><line x1="350" y1="0" x2="350" y2="560"/>
+      </g>
+
+      <!-- FLOT / FSCL (strongpoint) dividing friendly (W) from hostile (E) -->
+      <path d="M70,20 C110,120 60,200 120,300 C160,380 110,470 150,548" fill="none" stroke="#12283d" stroke-width="3"/>
+      <g fill="#12283d"><circle cx="92" cy="90" r="3"/><circle cx="86" cy="240" r="3"/><circle cx="128" cy="360" r="3"/><circle cx="132" cy="470" r="3"/></g>
+      <text x="40" y="18" font-family="monospace" font-size="9" fill="#12283d">FSCL — EFF 1200Z</text>
+
+      <!-- friendly side: ingress corridor + CAP + bullseye -->
+      <polygon points="40,300 250,250 254,276 44,326" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+      <line x1="42" y1="313" x2="252" y2="263" stroke="#5aaaff" stroke-width="1.1" stroke-dasharray="11 4 2 4"/>
+      <text x="60" y="300" font-family="monospace" font-size="9" fill="#1f5fa8" transform="rotate(-13 60 300)">» INGRESS LANE · 250/100</text>
+      <!-- CAP racetrack -->
+      <g>
+        <rect x="60" y="120" width="150" height="44" rx="22" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+        <text x="66" y="112" font-family="monospace" font-size="9" fill="#1f5fa8">CAP ARCO · FL200–250</text>
+      </g>
+      <!-- bullseye -->
+      <circle cx="120" cy="420" r="22" fill="rgba(230,230,230,.05)" stroke="#7d7d7d" stroke-width="1.5"/>
+      <circle cx="120" cy="420" r="6" fill="rgba(230,230,230,.18)" stroke="#7d7d7d" stroke-width="1.5"/>
+      <text x="120" y="458" font-family="monospace" font-size="9" fill="#555" text-anchor="middle">◎ BULLSEYE</text>
+
+      <!-- hostile IADS belt: overlapping SAM rings + air-defense glyphs -->
+      <g>
+        <!-- long-range -->
+        <circle cx="400" cy="200" r="95" fill="rgba(224,80,80,.045)" stroke="#e05050" stroke-width="2.5"/>
+        <g transform="translate(400,200)"><circle r="9" fill="none" stroke="#7a1f1f" stroke-width="2"/><path d="M-8,4 L0,-10 L8,4" fill="none" stroke="#7a1f1f" stroke-width="2"/></g>
+        <text x="400" y="92" font-family="monospace" font-size="9" fill="#7a1f1f" text-anchor="middle">SA-10 · 40KM</text>
+        <!-- medium -->
+        <circle cx="300" cy="330" r="55" fill="rgba(224,80,80,.05)" stroke="#e05050" stroke-width="2.5"/>
+        <g transform="translate(300,330)"><circle r="8" fill="none" stroke="#7a1f1f" stroke-width="2"/><path d="M-7,3.5 L0,-9 L7,3.5" fill="none" stroke="#7a1f1f" stroke-width="2"/></g>
+        <text x="300" y="392" font-family="monospace" font-size="9" fill="#7a1f1f" text-anchor="middle">SA-6 · 25KM</text>
+        <!-- point -->
+        <circle cx="440" cy="380" r="34" fill="rgba(224,80,80,.05)" stroke="#e05050" stroke-width="2.5"/>
+        <g transform="translate(440,380)"><circle r="7" fill="none" stroke="#7a1f1f" stroke-width="2"/><path d="M-6,3 L0,-8 L6,3" fill="none" stroke="#7a1f1f" stroke-width="2"/></g>
+        <text x="440" y="422" font-family="monospace" font-size="8" fill="#7a1f1f" text-anchor="middle">SA-15 · 12KM</text>
+        <!-- EWR search radar glyph -->
+        <g transform="translate(470,150)">
+          <circle r="6" fill="none" stroke="#7a1f1f" stroke-width="1.8"/>
+          <path d="M-10,-2 A10,10 0 0 1 10,-2" fill="none" stroke="#7a1f1f" stroke-width="1.5"/>
+          <path d="M-14,-6 A14,14 0 0 1 14,-6" fill="none" stroke="#7a1f1f" stroke-width="1.2"/>
+        </g>
+        <text x="470" y="128" font-family="monospace" font-size="8" fill="#7a1f1f" text-anchor="middle">EWR</text>
+      </g>
+
+      <!-- no-fly / restricted box around a target complex (red boundry ticks) -->
+      <g>
+        <rect x="330" y="255" width="120" height="70" fill="none" stroke="#e05050" stroke-width="2.5"/>
+        <g stroke="#e05050" stroke-width="2.5">
+          <line x1="350" y1="255" x2="350" y2="245"/><line x1="380" y1="255" x2="380" y2="245"/><line x1="410" y1="255" x2="410" y2="245"/><line x1="440" y1="255" x2="440" y2="245"/>
+        </g>
+        <text x="335" y="250" font-family="monospace" font-size="8" fill="#7a1f1f">KEEP-OUT — SFC/UNL</text>
+      </g>
+      <!-- targets (amber) inside -->
+      <g>
+        <circle cx="368" cy="290" r="9" fill="rgba(240,170,60,.10)" stroke="#c8862a" stroke-width="2"/>
+        <text x="380" y="288" font-family="monospace" font-size="8" fill="#9c6410">TGT1 POL</text>
+        <circle cx="415" cy="300" r="9" fill="rgba(240,170,60,.10)" stroke="#c8862a" stroke-width="2"/>
+        <text x="427" y="304" font-family="monospace" font-size="8" fill="#9c6410">TGT2 C2</text>
+      </g>
+    </svg>
+  </div>
+  <div class="cols" style="margin-top:8px">
+    <div class="col kv"><b style="color:#7a1f1f">READS AS</b> — at a glance: where the shooters are
+      (red rings + AD glyphs), what to avoid (hatched keep-out), what to hit (amber), where the line
+      is (FSCL), and your own lane/CAP/bullseye in cyan &amp; white. No two elements share an edge style.</div>
+    <div class="col kv"><b style="color:#7a1f1f">DISCIPLINE</b> — every ring is
+      <span class="mono">solid, w2.5, fill ≤5%</span> with an icon; the keep-out uses
+      <span class="mono">boundry, w2.5</span>; friendly work stays cyan. Colour + edge + icon do all
+      the talking — no floods.</div>
+  </div>
+</div>
+
+<!-- ============ MISSION CHART PATTERNS 1 ============ -->
+<div class="page">
+  <h2>5c · Mission chart patterns — counter-air</h2>
+  <p class="dim">Ready-to-copy overlays for real mission types. Each is drawn in the
+  same language; the labels show the control measures to place.</p>
+
+  <div class="card">
+    <h4>Defensive counter-air — CAP station</h4>
+    <div class="chart" style="height:95mm;background:#d8d1bb;background-image:none">
+      <svg width="100%" height="100%" viewBox="0 0 520 300" preserveAspectRatio="xMidYMid meet">
+        <g stroke="rgba(90,80,55,.18)" stroke-width="0.6"><line x1="0" y1="100" x2="520" y2="100"/><line x1="0" y1="200" x2="520" y2="200"/><line x1="180" y1="0" x2="180" y2="300"/><line x1="360" y1="0" x2="360" y2="300"/></g>
+        <!-- ADIZ (dashed) across the threat axis -->
+        <line x1="10" y1="70" x2="510" y2="58" stroke="#b48cff" stroke-width="2.5" stroke-dasharray="10 6"/>
+        <text x="14" y="52" font-family="monospace" font-size="10" fill="#5a3fb0">ADIZ</text>
+        <!-- hostile rings north of the ADIZ -->
+        <g><circle cx="150" cy="34" r="30" fill="rgba(224,80,80,.05)" stroke="#e05050" stroke-width="2.5"/>
+          <g transform="translate(150,34)"><circle r="7" fill="none" stroke="#7a1f1f" stroke-width="2"/><path d="M-6,3 L0,-8 L6,3" fill="none" stroke="#7a1f1f" stroke-width="2"/></g></g>
+        <!-- CAP racetracks on the threat axis -->
+        <g><rect x="120" y="120" width="140" height="42" rx="21" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+          <text x="126" y="113" font-family="monospace" font-size="10" fill="#1f5fa8">CAP ALPHA · FL200–250</text></g>
+        <g><rect x="300" y="150" width="140" height="42" rx="21" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+          <text x="306" y="143" font-family="monospace" font-size="10" fill="#1f5fa8">CAP BRAVO · FL200–250</text></g>
+        <!-- AWACS + tanker orbits (rear) -->
+        <g><rect x="80" y="235" width="120" height="34" rx="17" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+          <text x="86" y="229" font-family="monospace" font-size="9" fill="#1f5fa8">AWACS MAGIC · FL300</text></g>
+        <g><rect x="330" y="245" width="120" height="30" rx="15" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+          <text x="336" y="239" font-family="monospace" font-size="9" fill="#1f5fa8">TANKER TEXACO · 6Y</text></g>
+        <!-- bullseye -->
+        <circle cx="250" cy="205" r="18" fill="rgba(230,230,230,.05)" stroke="#7d7d7d" stroke-width="1.5"/><circle cx="250" cy="205" r="5" fill="rgba(230,230,230,.18)" stroke="#7d7d7d" stroke-width="1.5"/>
+        <text x="272" y="203" font-family="monospace" font-size="9" fill="#555">◎ BULLSEYE</text>
+      </svg>
+    </div>
+    <div class="kv" style="margin-top:5px"><b style="color:#7a1f1f">MEASURES</b> — CAP racetracks (cyan) on the threat axis · AWACS &amp; tanker orbits to the rear · ADIZ as a dashed advisory line · hostile WEZ rings + AD glyph north of it · bullseye for calls. Hold the line; no routed waypoints.</div>
+  </div>
+
+  <div class="card">
+    <h4>Offensive strike package (COMAO)</h4>
+    <div class="chart" style="height:95mm;background:#d8d1bb;background-image:none">
+      <svg width="100%" height="100%" viewBox="0 0 520 300" preserveAspectRatio="xMidYMid meet">
+        <g stroke="rgba(90,80,55,.18)" stroke-width="0.6"><line x1="0" y1="100" x2="520" y2="100"/><line x1="0" y1="200" x2="520" y2="200"/><line x1="180" y1="0" x2="180" y2="300"/><line x1="360" y1="0" x2="360" y2="300"/></g>
+        <!-- ingress MRR (square lane) friendly SW -> IP -->
+        <polygon points="30,250 300,150 306,168 36,268" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+        <line x1="33" y1="259" x2="303" y2="159" stroke="#5aaaff" stroke-width="1.1" stroke-dasharray="11 4 2 4"/>
+        <text x="60" y="243" font-family="monospace" font-size="9" fill="#1f5fa8" transform="rotate(-20 60 243)">» MRR IN · 250/100</text>
+        <!-- IP -->
+        <path d="M300,148 l6,10 -12,0 z" fill="#1f5fa8"/><text x="285" y="140" font-family="monospace" font-size="9" fill="#1f5fa8">IP BULLDOG</text>
+        <!-- target box (amber) NE -->
+        <rect x="360" y="90" width="110" height="70" fill="none" stroke="#c8862a" stroke-width="2.5" stroke-dasharray="9 5"/>
+        <circle cx="392" cy="120" r="8" fill="rgba(240,170,60,.10)" stroke="#c8862a" stroke-width="2"/><circle cx="435" cy="135" r="8" fill="rgba(240,170,60,.10)" stroke="#c8862a" stroke-width="2"/>
+        <text x="362" y="84" font-family="monospace" font-size="9" fill="#9c6410">ROZ / TARGET COMPLEX — DMPI 1–2</text>
+        <!-- threat ring to route around -->
+        <g><circle cx="300" cy="70" r="42" fill="rgba(224,80,80,.05)" stroke="#e05050" stroke-width="2.5"/>
+          <g transform="translate(300,70)"><circle r="7" fill="none" stroke="#7a1f1f" stroke-width="2"/><path d="M-6,3 L0,-8 L6,3" fill="none" stroke="#7a1f1f" stroke-width="2"/></g>
+          <text x="300" y="22" font-family="monospace" font-size="9" fill="#7a1f1f" text-anchor="middle">SA-6 · 25KM</text></g>
+        <!-- SEAD support -->
+        <circle cx="250" cy="120" r="4" fill="#7a1f1f"/><text x="180" y="118" font-family="monospace" font-size="9" fill="#7a1f1f">SEAD JACKAL</text>
+        <!-- egress lane -->
+        <polygon points="415,165 470,250 452,258 397,173" fill="rgba(90,170,255,.05)" stroke="#5aaaff" stroke-width="2"/>
+        <text x="420" y="215" font-family="monospace" font-size="9" fill="#1f5fa8" transform="rotate(57 420 215)">» MRR OUT</text>
+      </svg>
+    </div>
+    <div class="kv" style="margin-top:5px"><b style="color:#7a1f1f">MEASURES</b> — ingress/egress minimum-risk routes (cyan lanes + centerline) · IP marker · target ROZ (amber) with DMPIs · threat ring to skirt · SEAD position. The chart plans the geometry; the pilot flies it.</div>
+  </div>
+</div>
+
+<!-- ============ MISSION CHART PATTERNS 2 ============ -->
+<div class="page">
+  <h2>5d · Mission chart patterns — CAS &amp; carrier</h2>
+
+  <div class="card">
+    <h4>Close air support — kill box &amp; fire-support lines</h4>
+    <div class="chart" style="height:95mm;background:#d8d1bb;background-image:none">
+      <svg width="100%" height="100%" viewBox="0 0 520 300" preserveAspectRatio="xMidYMid meet">
+        <g stroke="rgba(90,80,55,.18)" stroke-width="0.6"><line x1="0" y1="150" x2="520" y2="150"/><line x1="260" y1="0" x2="260" y2="300"/></g>
+        <!-- FLOT (strongpoint) + FSCL (line) vertical-ish -->
+        <path d="M150,10 C170,90 140,160 165,240 C178,275 165,290 168,300" fill="none" stroke="#12283d" stroke-width="3"/>
+        <g fill="#12283d"><circle cx="160" cy="70" r="3"/><circle cx="150" cy="150" r="3"/><circle cx="168" cy="230" r="3"/></g>
+        <text x="60" y="30" font-family="monospace" font-size="9" fill="#12283d">FLOT</text>
+        <line x1="230" y1="10" x2="245" y2="300" stroke="#7a1f1f" stroke-width="2.5" stroke-dasharray="12 5"/>
+        <text x="248" y="26" font-family="monospace" font-size="9" fill="#7a1f1f">FSCL — EFF 1200Z</text>
+        <!-- kill box (red boundry) east of FSCL -->
+        <rect x="320" y="70" width="150" height="120" fill="none" stroke="#e05050" stroke-width="2.5"/>
+        <g stroke="#e05050" stroke-width="2.5"><line x1="345" y1="70" x2="345" y2="60"/><line x1="380" y1="70" x2="380" y2="60"/><line x1="415" y1="70" x2="415" y2="60"/><line x1="450" y1="70" x2="450" y2="60"/></g>
+        <text x="322" y="64" font-family="monospace" font-size="9" fill="#7a1f1f">KILL BOX 88AS — OPEN</text>
+        <!-- no-fire area inside -->
+        <circle cx="395" cy="140" r="24" fill="rgba(90,170,255,.05)" stroke="#5aaaff" stroke-width="2" stroke-dasharray="4 4"/>
+        <text x="372" y="143" font-family="monospace" font-size="8" fill="#1f5fa8">NFA (village)</text>
+        <!-- IP -> run-in + contact point -->
+        <path d="M290,235 l6,10 -12,0 z" fill="#1f5fa8"/><text x="270" y="258" font-family="monospace" font-size="9" fill="#1f5fa8">CP / IP</text>
+        <line x1="290" y1="235" x2="360" y2="175" stroke="#5aaaff" stroke-width="1.1" stroke-dasharray="11 4 2 4"/>
+      </svg>
+    </div>
+    <div class="kv" style="margin-top:5px"><b style="color:#7a1f1f">MEASURES</b> — FLOT (strongpoint) &amp; FSCL (dashed) frame the fight · kill box (red boundry, ticks in) opens the area beyond the FSCL · no-fire area protects the village · contact point + run-in centerline. The JTAC talks you on; the chart holds the geometry.</div>
+  </div>
+
+  <div class="card">
+    <h4>Carrier recovery — Case III</h4>
+    <div class="chart" style="height:95mm;background:#d8d1bb;background-image:none">
+      <svg width="100%" height="100%" viewBox="0 0 520 300" preserveAspectRatio="xMidYMid meet">
+        <!-- water -->
+        <rect x="0" y="0" width="520" height="300" fill="#aebfc7" opacity="0.5"/>
+        <g stroke="rgba(60,80,90,.18)" stroke-width="0.6"><line x1="0" y1="150" x2="520" y2="150"/><line x1="260" y1="0" x2="260" y2="300"/></g>
+        <!-- CVOA box -->
+        <rect x="60" y="60" width="400" height="190" fill="rgba(90,170,255,.04)" stroke="#5aaaff" stroke-width="2"/>
+        <text x="66" y="54" font-family="monospace" font-size="9" fill="#1f5fa8">CVOA — CARRIER OPS AREA</text>
+        <!-- carrier + BRC arrow -->
+        <g transform="translate(180,190)"><rect x="-6" y="-14" width="12" height="28" fill="#12283d"/>
+          <line x1="0" y1="-14" x2="0" y2="-46" stroke="#1f5fa8" stroke-width="2.5"/><path d="M-5,-40 L0,-50 L5,-40" fill="none" stroke="#1f5fa8" stroke-width="2.5"/></g>
+        <text x="150" y="215" font-family="monospace" font-size="9" fill="#1f5fa8">⚓ MOTHER · BRC 310</text>
+        <!-- marshal stack -->
+        <circle cx="360" cy="110" r="26" fill="none" stroke="#5aaaff" stroke-width="2" stroke-dasharray="5 4"/>
+        <text x="352" y="80" font-family="monospace" font-size="9" fill="#1f5fa8" text-anchor="middle">MARSHAL 21 DME</text>
+        <!-- recovery corridor marshal -> ship -->
+        <polygon points="342,128 196,182 190,168 336,114" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="2"/>
+        <line x1="360" y1="120" x2="185" y2="178" stroke="#5aaaff" stroke-width="1.1" stroke-dasharray="11 4 2 4"/>
+        <text x="235" y="150" font-family="monospace" font-size="9" fill="#1f5fa8" transform="rotate(-18 235 150)">» FINAL BEARING</text>
+        <!-- plane guard (starboard) + tanker overhead -->
+        <circle cx="210" cy="215" r="4" fill="#1f5fa8"/><text x="216" y="228" font-family="monospace" font-size="8" fill="#1f5fa8">PLANE GUARD</text>
+        <rect x="120" y="95" width="90" height="26" rx="13" fill="rgba(90,170,255,.06)" stroke="#5aaaff" stroke-width="1.6"/>
+        <text x="126" y="90" font-family="monospace" font-size="8" fill="#1f5fa8">TANKER · overhead</text>
+      </svg>
+    </div>
+    <div class="kv" style="margin-top:5px"><b style="color:#7a1f1f">MEASURES</b> — CVOA box · carrier with BRC arrow · marshal stack (dashed circle at DME) · recovery corridor + final-bearing centerline back to the ship · plane guard to starboard · recovery tanker overhead. Airspace + procedure, not a routed approach.</div>
+  </div>
+</div>
+
+<!-- ============ MANUAL WORKFLOW ============ -->
+<div class="page">
+  <h2>6 · Drawing it manually in the Mission Editor</h2>
+  <p>The F10-map drawing layer is authored in the DCS <b>Mission Editor</b>. Overlays saved with a
+  mission appear on every player's F10 map. Work in this order for each object.</p>
+
+  <h3>A · Enter draw mode &amp; pick the layer</h3>
+  <ol class="steps">
+    <li>Open your mission in the Mission Editor. On the <b>left vertical toolbar</b>, select the
+      <b>Draw</b> tool (pencil icon).</li>
+    <li>In the drawing panel, set the <b>visibility layer first</b>: <span class="mono">All</span>
+      for shared/published airspace (corridors, no-fly zones, bullseye), or
+      <span class="mono">Blue</span>/<span class="mono">Red</span> for a coalition-private intel
+      picture (your own threat rings). This is the single most-forgotten step.</li>
+  </ol>
+
+  <h3>B · Draw the geometry</h3>
+  <ol class="steps">
+    <li>Choose the primitive: <b>Line</b> (segment / segments / freehand), <b>Polygon</b>
+      (circle, oval, rectangle, free), <b>Icon</b>, or <b>Text</b>.</li>
+    <li><b>Corridor:</b> draw a closed <b>free polygon</b> as a long swath, then a separate
+      <b>segments line</b> down the middle for the centerline. <b>Zone/ring:</b> a <b>circle</b>
+      at the point, radius to scale. <b>No-fly/restricted:</b> a <b>rectangle</b> or free polygon.</li>
+    <li>Place points by clicking; double-click / Enter to finish.</li>
+  </ol>
+
+  <h3>C · Apply the style (the authenticity step)</h3>
+  <ol class="steps">
+    <li>With the object selected, open its <b>properties</b> panel and set, in order:
+      <b>Line colour</b> (from §2, opacity ≈90%), <b>Line thickness</b> (from the element card),
+      <b>Line style</b> (the dropdown — pick from §3), then <b>Fill colour</b> at the low opacity
+      in §2 (or fully transparent).</li>
+    <li>Give the object a <b>Name</b> that matches the label convention — it doubles as the on-map
+      caption and keeps the layer list readable.</li>
+  </ol>
+
+  <h3>D · Label like a chart</h3>
+  <ol class="steps">
+    <li>Add a <b>Text</b> object at the feature. Use ALL CAPS and the altitude-block notation
+      (<span class="mono">100/GND</span> = 10,000&nbsp;ft ceiling to ground;
+      <span class="mono">FL240/8000</span>). Keep a small font and a dark fill for a halo.</li>
+    <li>For corridors, set the text <b>angle</b> to the corridor's heading so the label runs
+      along the route, not across it.</li>
+    <li>At SAM sites add an <b>Icon</b> → <b>Air Defense</b> (or Search Radar) at the ring centre,
+      scaled small.</li>
+  </ol>
+
+  <div class="note"><b>Consistency beats effort.</b> Draw one of each element correctly, then
+  <b>copy-paste and re-shape</b> — pasted objects keep the colour, thickness, style and fill, so the
+  whole chart stays in one visual language. Build a small "master" mission with one styled example of
+  every element and reuse it as your palette.</div>
+
+  <h3>Quick reference — element → settings</h3>
+  <table>
+    <tr><th>Element</th><th>Colour</th><th>Fill</th><th>Weight</th><th>Line style</th></tr>
+    <tr><td>Air corridor (sides)</td><td>cyan</td><td>0%</td><td>3</td><td class="mono">solid</td></tr>
+    <tr><td>Air corridor (centerline)</td><td>cyan</td><td>—</td><td>1</td><td class="mono">dotdash</td></tr>
+    <tr><td>Control zone</td><td>cyan</td><td>8%</td><td>4</td><td class="mono">solid</td></tr>
+    <tr><td>No-fly zone</td><td>red</td><td>0%</td><td>6</td><td class="mono">boundry3</td></tr>
+    <tr><td>Restricted / MOA</td><td>magenta</td><td>0–5%</td><td>3</td><td class="mono">boundry1 / dash</td></tr>
+    <tr><td>Threat WEZ ring (+icon)</td><td>red</td><td>0%</td><td>3</td><td class="mono">solid</td></tr>
+    <tr><td>FLOT / FSCL</td><td>side colour</td><td>—</td><td>4</td><td class="mono">strongpoint</td></tr>
+    <tr><td>Deconfliction line</td><td>amber</td><td>—</td><td>3</td><td class="mono">dash</td></tr>
+    <tr><td>Bullseye</td><td>white</td><td>4–6%</td><td>2</td><td class="mono">solid (dual ring)</td></tr>
+  </table>
+</div>
+
+<!-- ============ BASIS & REFERENCES ============ -->
+<div class="page">
+  <h2>7 · Basis &amp; references</h2>
+  <p>This standard is not invented — it is a DCS-drawing-tool subset of the real
+  military and aeronautical charting authorities, implemented within the tool's
+  limits. Each element traces to a governing document.</p>
+
+  <table>
+    <tr><th>What it governs</th><th>Authority</th><th>Backs (in this guide)</th></tr>
+    <tr><td>Military symbology — unit/threat icons, boundaries, tactical graphics</td>
+        <td><b>MIL-STD-2525D</b> (US DoD Joint Military Symbology). Harmonized with
+        <b>NATO APP-6(D)</b> / STANAG 2019 — 2525D is the free stand-in for the
+        controlled APP-6.</td>
+        <td>Air-Defense / Search-Radar glyphs at SAM sites; FLOT/FSCL symbology</td></tr>
+    <tr><td>Airspace control measures — corridors, no-fly, ROZ, deconfliction</td>
+        <td><b>JP 3-52</b>, <i>Joint Airspace Control</i>; <b>ATP 3-52.1</b> (multiservice);
+        NATO <b>AJP-3.3.5</b></td>
+        <td>Air corridors, no-fly zones, restricted/MOA, the deconfliction line</td></tr>
+    <tr><td>Aeronautical charting — line styles, special-use airspace, typography</td>
+        <td><b>FAA Aeronautical Chart Users' Guide</b>; <b>ICAO Annex 4</b></td>
+        <td>Line-style semantics, magenta special-use, altitude-block notation</td></tr>
+  </table>
+
+  <div class="note"><b>As-built note (v1.13.0).</b> The palette, weights and line
+  styles above are the exact values in the shipped chart-style module
+  (<span class="mono">chartstyle.py</span>) — one source of truth consumed by every
+  F10 overlay. Two authenticity corrections are live: <b>corridors are square-ended
+  lanes</b> (a racetrack oblong is wrong for a corridor) whose terminating end
+  nests into the control-zone circle, and <b>threat WEZ rings carry an Air-Defense
+  glyph</b> at the shooter so a ring reads as a SAM site at a glance.</div>
+
+  <h3>Where to obtain the source documents</h3>
+  <p class="kv">FM 1-02.2 <span class="mono">armypubs.army.mil</span> · MIL-STD-2525D
+  <span class="mono">mapsymbs.com/MilStd2525D.pdf</span> · JP 3-52
+  <span class="mono">irp.fas.org/doddir/dod/jp3_52.pdf</span> · FAA Chart Users' Guide
+  <span class="mono">aeronav.faa.gov/user_guide/</span>. APP-6(D) is distributed via
+  the NATO Standardization Office and is not freely posted; MIL-STD-2525D covers the
+  same symbol set.</p>
+</div>
+
+</body>
+</html>

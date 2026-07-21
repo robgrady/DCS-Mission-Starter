@@ -309,6 +309,7 @@
 <div class="genbar">
   <div id="summary"></div><div id="status"></div>
   <button id="share" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer;">COPY SHARE LINK</button>
+  <button id="brief" title="Printable pre-flight brief: theater chart, comms, forces (PDF + MD)" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer;">BRIEFING PACK</button>
   <button id="gen">GENERATE .MIZ</button>
 </div>
 <script>
@@ -1081,6 +1082,23 @@ document.getElementById('gen').onclick = async ()=>{
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = fname; a.click();
     st.textContent = warn ? ('Done, with warnings: '+warn) : 'Done — check your downloads.';
+  } catch(e){ st.textContent = 'Error: '+e; }
+  finally { btn.disabled = false; }
+};
+document.getElementById('brief').onclick = async ()=>{
+  const btn = document.getElementById('brief'), st = document.getElementById('status');
+  btn.disabled = true; st.textContent = 'Building briefing pack…';
+  try{
+    const res = await fetch('/api/brief', {method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({recipe: recipe()})});
+    if(!res.ok){ st.textContent = 'Error: ' + (await res.json()).detail; return; }
+    const blob = await res.blob();
+    const cd = res.headers.get('Content-Disposition')||'';
+    const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'briefing_pack.zip';
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
+    st.textContent = 'Briefing pack downloaded — PDF + Markdown.';
   } catch(e){ st.textContent = 'Error: '+e; }
   finally { btn.disabled = false; }
 };

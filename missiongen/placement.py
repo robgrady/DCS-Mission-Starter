@@ -38,10 +38,26 @@ RUNWAY_HALF_WIDTH = 150.0   # runway + shoulders + parallel taxiway + magvar sla
 STAND_CLEARANCE = 40.0      # don't drop free objects onto a parking stand
 
 
-class AirfieldKeepOut:
-    """Keep-out geometry for one airfield: runway corridors + parking stands."""
+def _load_scenery_keepout(map_key, airfield_name):
+    """Building/hangar keep-out circles [(x, y, radius), ...] for one field.
 
-    def __init__(self, airport):
+    Baked by scripts/import_scenery.py from a scenery survey (Class-3 fix). Absent
+    file / map / field => empty (no-op) — purely additive, nothing regresses."""
+    if not map_key:
+        return []
+    try:
+        from .resolver import load_json
+        data = load_json("scenery_keepout")
+    except Exception:
+        return []
+    return [tuple(c) for c in data.get(map_key, {}).get(airfield_name, [])]
+
+
+class AirfieldKeepOut:
+    """Keep-out geometry for one airfield: runway corridors + parking stands +
+    (when a scenery survey has been baked for the map) building footprints."""
+
+    def __init__(self, airport, map_key=None):
         self.airport = airport
         self.corridors = []          # ((ax, ay), (bx, by)) per runway
         p = airport.position
@@ -55,6 +71,13 @@ class AirfieldKeepOut:
         if not self.corridors:       # data gap: treat the reference point as hot
             self.corridors.append(((p.x, p.y), (p.x, p.y)))
         self._stands = [(s.position.x, s.position.y) for s in airport.parking_slots]
+        # building footprints (x, y, radius) — empty until a survey is baked
+        self._scenery = _load_scenery_keepout(map_key, airport.name)
+
+    def on_scenery(self, pos) -> bool:
+        """True if pos falls inside a surveyed building footprint."""
+        return any(math.hypot(pos.x - sx, pos.y - sy) < r
+                   for sx, sy, r in self._scenery)
 
     @staticmethod
     def _seg_dist(px, py, a, b):
@@ -78,10 +101,13 @@ class AirfieldKeepOut:
                    for sx, sy in self._stands)
 
     def clear(self, pos, margin=0.0, avoid_stands=True) -> bool:
-        """True if pos is safely off the movement area (and off stands)."""
+        """True if pos is safely off the movement area, off stands, and off any
+        surveyed building footprint."""
         if self.dist_to_runway(pos) < RUNWAY_HALF_WIDTH + margin:
             return False
         if avoid_stands and self.on_stand(pos):
+            return False
+        if self.on_scenery(pos):
             return False
         return True
 

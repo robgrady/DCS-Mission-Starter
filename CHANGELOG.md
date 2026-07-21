@@ -17,6 +17,211 @@ guide cover.
 
 ---
 
+## [1.16.2] — 2026-07-20
+
+### Changed — make the seed's meaning explicit to the end user
+
+The web UI already explained it ("Variation (seed)" + 🎲 re-roll), but the brief
+and the in-game briefing printed a bare "SEED 7". Now, everywhere it reaches a
+user, it says what it does:
+
+- **Brief PDF**: data card field is "VARIATION (SEED)"; the GET FLYING strip
+  gains the plain-language rule — *same settings + seed rebuild THIS exact
+  mission (share it and a friend flies the identical flight); new seed = a fresh
+  layout of the same setup*. Chart title block says "VARIATION 7".
+- **Brief Markdown**: same explainer as a callout under the header.
+- **In-game briefing footer**: "recipe seed 7" → the full plain-language line.
+
+## [1.16.1] — 2026-07-20
+
+### Changed — Brief theater chart: cartographic rework (Rob: "looks bad")
+
+Review verdict: the v1.16.0 chart was symbols floating in tan void — no land/
+water, unlabeled grid, label collisions, no symbology discrimination. Fixes:
+
+- **Land/water base** (`data/coastlines.json`): hand-authored schematic
+  coastlines in lat/lon — the Med + Cyprus for Syria (the carrier now sits in
+  water, Cyprus fields sit on the island), provisional Persian Gulf. Data-only
+  per map; maps without data render all-land as before.
+- **Labeled graticule** at whole degrees (N36° / E38°), equal-scale panel
+  letterboxed to the data aspect.
+- **MIL-STD-2525 discrimination**: friendly fields = circles, hostile = diamonds.
+- **Label declutter**: greedy placement against occupied boxes; threat sites are
+  **numbered** on-chart with a THREAT ORDER OF BATTLE table below (the mil-chart
+  answer to clustered SAM rings).
+- **Bullseye range rings** at 20/40/60 nm — the bullseye is now usable for calls.
+- **Chart title block** (mil-chart margin data): theater/era, DTG, seed,
+  "SCHEMATIC · NOT FOR NAVIGATION", ticked scale bar.
+- Still byte-deterministic; no-coastline maps verified unchanged-safe.
+
+## [1.16.0] — 2026-07-20
+
+### Added — Mission Starter Brief (pre-flight briefing pack: PDF + Markdown)
+
+- **`missiongen/brief.py`** — a printable 4-page brief that rides alongside the
+  .miz: **mission data card** (map/era/aircraft/start/weather/QNH/threat/seed +
+  aligned coalition nations + a "get flying" strip) · **THEATER CHART** drawn to
+  the tactical chart standard (chartstyle palette on terrain-tan: cyan fields
+  and support orbits, scale-true red WEZ rings with the AD glyph, amber targets,
+  carrier + BRC arrow, gold home star, dual-ring bullseye, graticule, scale bar,
+  legend) · **comms/nav card** (full ladder with C/S, freq, cockpit CHAN, TACAN;
+  QNH in 3 units; nav points) · **airfields & forces** (own/enemy fields with
+  aligned owner nations and runway headings, threat level, support airborne).
+- **Format decision (UX):** PIL-rendered pages → native multi-page PDF — the
+  same machinery as the in-cockpit kneeboard, zero new runtime deps, and the
+  paper chart matches the F10/kneeboard visual language. HTML→Chromium rejected
+  for server runtime (container weight); reportlab unnecessary (chart is an
+  image either way). Markdown emitted alongside for Discord/forum sharing.
+- **Delivery decision (UX):** the .miz stays the untouched primary download;
+  **`POST /api/brief`** returns a briefing-pack zip (PDF + MD) **statelessly** —
+  the determinism contract regenerates the identical mission from the recipe, so
+  nothing is stored server-side. Frontend gains a "BRIEFING PACK" button beside
+  GENERATE.
+- **Determinism extended to paper:** PDF metadata (title/dates) pinned to the
+  recipe/mission date — same recipe ⇒ **byte-identical brief**. Also fixed a
+  Pillow gotcha: its PDF writer needs `Image.init()` before save or RGB pages
+  hit KeyError('JPEG') / bloat to 20 MB+ ASCIIHex (556 KB with JPEG pages).
+- `generate(recipe, out, brief_dir=...)` renders the pack alongside the mission.
+
+## [1.15.0] — 2026-07-19
+
+### Added — Per-nation ramp rosters (International Alignment, second slice)
+
+- Aligned bases now park **nation-correct TYPES**, not just skins. An Israeli
+  base flies **F-15/F-16** (IDF), RAF Akrotiri the **Tornado**, Syria **MiGs**,
+  GDR/USSR the right **MiG-21/MiG-29/Su-25/Su-27** mix, Germany/RAF the **Tornado**
+  in Cold War, and **Iran parks the F-14A Tomcat**. Finland Hornet, Norway F-16,
+  Georgia Su-25, Turkey F-16/F-5 also wired.
+- **`data/nation_rosters.json`** — per-nation, era-gated fast-jet rosters. Only
+  the `planes` list is nation-specific; transports/tankers and helos inherit from
+  the side theme (a C-130 is a C-130). Every ref verified to exist as a DCS module
+  and fit its era window (e.g. GDR's MiG-29G excluded from the ≤1985 Cold-War block).
+- **`alignment.roster_theme(era, nation, side_theme)`** merges the roster over the
+  side theme; wired into the builder's dress loop per base. **Additive**: a nation
+  with no roster for the era falls back to the side theme (livery still nation-
+  correct via the aligned country). Determinism preserved; same recipe reproducible.
+- **Regression guard** `test_nation_rosters_place_correct_types`: Israel parks
+  F-15/F-16, Syria parks MiGs, Iran parks the F-14A.
+
+## [1.14.1] — 2026-07-19
+
+### Added — International Alignment: more theaters (data-only)
+
+- Alignment data for **Caucasus** (Georgia vs Russia), **Kola** (Norway/Finland/
+  Sweden vs Russia), **Persian Gulf** (USA/Oman/UAE vs Iran), and **Normandy WWII**
+  (USA/RAF vs Germany) — on top of Syria and Germany. Each is a pure
+  `theater_identity.json` add, proving the pillar scales by data alone.
+
+### Known issue (pre-existing, logged)
+
+- On some maps whose enemy `preset` country is a pydcs default-blue nation (e.g.
+  **Normandy**, red = Germany), enemy statics can land in the blue coalition.
+  This predates alignment (it's the `enemy_country` path, not the alignment
+  lookup) — queued as a NOW patch.
+
+## [1.14.0] — 2026-07-19
+
+### Added — International Alignment (Theater Identity pillar 1, first slice)
+
+- **The spine of Theater Identity**: each airbase is now dressed with its **real
+  owning nation's** DCS country instead of one country per side. On Syria modern
+  the blue coalition dresses as **Turkey** (Incirlik/Hatay/Gaziantep/Adana),
+  **Israel** (Ramat David), and **UK** (RAF Akrotiri); Germany Cold War dresses
+  as **USA / UK / Germany** (USAFE + RAF + Luftwaffe) vs **USSR / GDR**. Statics
+  carry the correct national identity and liveries — an Israeli base draws IDF/AF
+  squadron skins, Syrian bases draw Syrian, RAF bases draw RAF.
+- **`data/theater_identity.json`** — per-map/era base→nation ownership (Syria
+  modern + coldwar, Germany coldwar shipped). Adding a theater is data-only.
+- **`missiongen/alignment.py`** + `bb_alignment` recipe flag (default on).
+  **Purely additive**: a base with no entry falls back to the side's preset
+  country, and a map/era with no block is a full no-op — so unaligned maps are
+  byte-identical and same-recipe output stays deterministic.
+- Aircraft *types* still come from the side ramp theme; per-nation rosters are a
+  later ramp-themes expansion — this slice sets COUNTRY + LIVERY (the visible win).
+- **Regression guard** `test_alignment_dresses_bases_by_owning_nation`: Syria's
+  blue side carries Israel/Turkey/UK; an unaligned map uses a single side country.
+
+## [1.13.0] — 2026-07-18
+
+### Added — Chart-style system + authenticity fixes (Theater Identity P3)
+
+- **`missiongen/chartstyle.py`** — one shared tactical-chart style system (a
+  DCS-drawing subset of MIL-STD-2525D / JP 3-52 / FAA conventions): semantic
+  palette + category→(color, fill, weight, line_style) table + tactical-icon and
+  corridor-geometry helpers. `graphics.py` and `airspace.py` now draw from it so
+  the whole F10 chart reads as one system.
+- **Corridors are now SQUARE-ended lanes**, nested into the Berlin Control Zone
+  at the terminating end, with a **dot-dash centerline** — replaces the rounded
+  `oblong` (which read as a racetrack orbit, not a lane; Rob flagged it). Locked
+  by a regression assertion.
+- **Threat WEZ rings now carry a MIL-STD-2525 Air-Defense glyph** at the shooter
+  and use the chart-style threat spec — a ring + icon reads as a SAM site
+  instantly instead of a plain red disc.
+- **Syria Euphrates deconfliction line** (modern era) — first data-only Historical
+  Airspace add beyond Berlin: an amber dashed coordination line with the US/Russia
+  flight-safety MOU briefing. Proves the P3 pattern travels via `historical_airspace.json` alone.
+
+## [1.12.0] — 2026-07-18
+
+### Added — Scenery keep-out framework (Class-3 fix: statics on buildings)
+
+- **The gap**: pydcs exposes runways and parking slots but **no building/hangar
+  geometry**, so free-placed GSE/infra could land on top of a hangar (Rob's
+  Nellis report). The occupancy registry only keeps our own objects off each
+  other — it can't see map scenery. On Nellis the `shelter` flag is no help
+  (sunshades/hangars report `shelter=False`), so the definitive fix is a survey.
+- **`scripts/build_scenery_survey.py`** — builds a throwaway `.miz` that sweeps a
+  sphere around each preset field with `world.searchObjects(SCENERY)` and logs one
+  `SCNKEEP|field|type|x|z|radius` line per building to `dcs.log` (Su-25T player
+  slot so it's flyable; same offline-tool pattern as the parking survey).
+- **`scripts/import_scenery.py`** — bakes the big footprints into
+  `data/scenery_keepout.json`, filtering out small props (< 12 m) and capping
+  absurd boxes; falls back to a type-name size table when DCS reports no box.
+- **`AirfieldKeepOut`** now loads building footprints for the map/field (when a
+  survey is baked) and `clear()` rejects any free-placed object inside one —
+  threaded through `dress_airfield(map_key=…)`. **Purely additive**: with no
+  data file present it's a no-op, so generation is byte-identical until a survey
+  is baked (determinism preserved). Scenery survey for **Nellis delivered to Rob**.
+
+## [1.11.1] — 2026-07-17
+
+### Changed — Berlin corridor briefing: historical accuracy
+
+- Enriched the Berlin Air Corridors briefing block with researched dates and
+  terminal detail: agreed ~30 Nov 1945; controlled by the four-power **Berlin
+  Air Safety Centre** (est. 12 Dec 1945); in force until **BASC closed 31 Dec
+  1990** at reunification (a Cold-War-only feature). Ceiling note now includes
+  the occasional raise to 13,000 ft for Soviet exercises, and each corridor
+  lists its principal West-German terminals (Northern=Hamburg, Central=Hanover/
+  early "Bückeburg", Southern=Frankfurt). Confirms the overlay's `coldwar` gate
+  is historically correct — corridors did not exist post-reunification.
+- Reference note saved (`berlin-corridors-history.md`); wiki updated.
+
+## [1.11.0] — 2026-07-17
+
+### Added — Historical Airspace (Theater Identity pillar 3, first slice)
+
+- **Berlin Air Corridors overlay** on the Cold War Germany map. The three
+  20-statute-mile corridors (North/Hamburg, Center/Hannover, South/Frankfurt)
+  and the 20 sm Berlin Control Zone are drawn on the **F10 Common** layer —
+  corridors as stadium swaths, the zone as a circle — with a BASC airspace note
+  appended to the briefing (lateral limits, 10,000 ft ceiling, interception
+  risk). A circular trigger zone is laid at the Control Zone for a future
+  scoring layer. **Information, not routing — no player waypoints.**
+- **`berlin_corridor_transit` scenario template** (Germany · Cold War · F-4E):
+  turns the overlay on, disables SAMs/threats, and carries an airspace-
+  discipline tasking block ("fly the lanes, respect the ceiling, clean transit").
+- **New data + module:** `data/historical_airspace.json` (geometry in lat/lon,
+  widths in statute miles; projection-independent) and `missiongen/airspace.py`
+  (reads the data, projects, draws, returns the briefing block). Adding Iraq
+  Northern/Southern Watch or the Syria deconfliction line is now a data-only
+  edit against the same machinery.
+- **New recipe flag `bb_historical_airspace`** — default **off**, so existing
+  share links stay byte-identical (determinism contract preserved).
+- **Regression guard** `test_berlin_corridors_draw_and_brief`: asserts the
+  corridors/zone draw + the BASC brief when on, and that the overlay stays off
+  by default.
+
 ## [1.10.3] — 2026-07-16
 
 ### Fixed — statics spawning inside aircraft / on top of each other

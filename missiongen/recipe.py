@@ -88,6 +88,8 @@ class Recipe:
     bb_ambient: bool = True            # BB-13 ambient AI traffic between friendly fields
 
     bb_navpoints: bool = True          # BB-22 named geo reference points (F10 map + kneeboard)
+    bb_alignment: bool = True          # Theater Identity P1: dress each base with its real owning nation (country + liveries). No-op where no theater_identity data.
+    bb_historical_airspace: bool = False  # Theater Identity P3: real corridors/no-fly zones (F10 + brief). Default off = determinism-safe for existing share links.
     bb_farps: bool = False             # BB-4 functional FARPs (helo ops; not WWII)
     bb_targets: bool = False           # BB-16 strike target packages in the enemy rear
     bb_range: bool = False             # BB-17 practice range in the friendly rear

@@ -1,0 +1,108 @@
+{
+  "_comment": "Theater Identity pillar 1 — International Alignment. Per-map/era REAL national ownership of each airbase. The builder dresses each base with its owning nation's DCS country, so statics carry the correct national identity + liveries (an Israeli base shows Israeli jets, RAF Akrotiri shows RAF, Syrian bases show Syrian) instead of one country per side. Nation values are pydcs country class names (USA, Turkey, Israel, Syria, UK, Cyprus, Germany, GDR, USSR, ...). Additive: a base with no entry falls back to the side's preset country, and a map/era with no block is a full no-op. Aircraft TYPES still come from the side ramp theme (per-nation rosters are a later ramp-themes expansion); alignment sets COUNTRY + LIVERY today.",
+
+  "syria": {
+    "modern": {
+      "bases": {
+        "Incirlik": "Turkey", "Hatay": "Turkey", "Gaziantep": "Turkey", "Adana Sakirpasa": "Turkey",
+        "Ramat David": "Israel",
+        "Akrotiri": "UK",
+        "Paphos": "Cyprus", "Larnaca": "Cyprus",
+        "Bassel Al-Assad": "Syria", "Damascus": "Syria", "Aleppo": "Syria", "Palmyra": "Syria",
+        "Shayrat": "Syria", "Tiyas": "Syria", "Hama": "Syria", "Deir ez-Zor": "Syria"
+      }
+    },
+    "coldwar": {
+      "bases": {
+        "Ramat David": "Israel", "Rosh Pina": "Israel", "Megiddo": "Israel",
+        "Haifa": "Israel", "Eyn Shemer": "Israel", "Kiryat Shmona": "Israel",
+        "Damascus": "Syria", "Mezzeh": "Syria", "Khalkhalah": "Syria",
+        "Marj Ruhayyil": "Syria", "Al-Dumayr": "Syria", "Sayqal": "Syria",
+        "An Nasiriyah": "Syria", "Tha'lah": "Syria"
+      }
+    }
+  },
+
+  "germany": {
+    "coldwar": {
+      "bases": {
+        "Ramstein": "USA", "Bitburg": "USA", "Spangdahlem": "USA", "Hahn": "USA",
+        "Sembach": "USA", "Zweibrucken": "USA", "Wiesbaden": "USA",
+        "Gutersloh": "UK",
+        "Norvenich": "Germany", "Fassberg": "Germany",
+        "Templin": "GDR", "Neuruppin": "GDR", "Parchim": "GDR", "Falkenberg": "GDR",
+        "Sperenberg": "USSR", "Werneuchen": "USSR", "Altes Lager": "USSR",
+        "Merseburg": "USSR", "Wittstock": "USSR", "Finow": "USSR"
+      }
+    }
+  },
+
+  "persiangulf": {
+    "coldwar": {
+      "bases": {
+        "Al Dhafra AFB": "USA", "Al Minhad AFB": "USA", "Liwa AFB": "USA",
+        "Sharjah Intl": "UnitedArabEmirates", "Fujairah Intl": "UnitedArabEmirates",
+        "Abu Dhabi Intl": "UnitedArabEmirates", "Al Ain Intl": "UnitedArabEmirates",
+        "Dubai Intl": "UnitedArabEmirates",
+        "Bandar Abbas Intl": "Iran", "Havadarya": "Iran", "Bandar Lengeh": "Iran",
+        "Lar": "Iran", "Shiraz Intl": "Iran", "Kerman": "Iran",
+        "Bandar-e-Jask": "Iran", "Qeshm Island": "Iran"
+      }
+    },
+    "modern": {
+      "bases": {
+        "Al Dhafra AFB": "USA", "Al Minhad AFB": "USA", "Liwa AFB": "USA",
+        "Khasab": "Oman",
+        "Sharjah Intl": "UnitedArabEmirates", "Fujairah Intl": "UnitedArabEmirates",
+        "Al Ain Intl": "UnitedArabEmirates", "Dubai Intl": "UnitedArabEmirates",
+        "Bandar Abbas Intl": "Iran", "Havadarya": "Iran", "Kish Intl": "Iran",
+        "Qeshm Island": "Iran", "Shiraz Intl": "Iran", "Bandar Lengeh": "Iran",
+        "Lar": "Iran", "Bandar-e-Jask": "Iran"
+      }
+    }
+  },
+
+  "caucasus": {
+    "coldwar": {
+      "bases": {
+        "Kutaisi": "Georgia", "Senaki-Kolkhi": "Georgia", "Batumi": "Georgia",
+        "Vaziani": "Georgia", "Kobuleti": "Georgia", "Tbilisi-Lochini": "Georgia",
+        "Soganlug": "Georgia"
+      }
+    },
+    "modern": {
+      "bases": {
+        "Kutaisi": "Georgia", "Senaki-Kolkhi": "Georgia", "Batumi": "Georgia",
+        "Vaziani": "Georgia", "Kobuleti": "Georgia", "Tbilisi-Lochini": "Georgia",
+        "Soganlug": "Georgia"
+      }
+    }
+  },
+
+  "kola": {
+    "coldwar": {
+      "bases": {
+        "Bodo": "Norway", "Bardufoss": "Norway", "Andoya": "Norway", "Evenes": "Norway",
+        "Banak": "Norway", "Kirkenes": "Norway", "Alta": "Norway"
+      }
+    },
+    "modern": {
+      "bases": {
+        "Bodo": "Norway", "Bardufoss": "Norway", "Andoya": "Norway", "Evenes": "Norway",
+        "Banak": "Norway", "Kirkenes": "Norway",
+        "Rovaniemi": "Finland", "Kallax": "Sweden", "Kiruna": "Sweden"
+      }
+    }
+  },
+
+  "normandy": {
+    "wwii": {
+      "bases": {
+        "Saint Pierre du Mont": "USA", "Cricqueville-en-Bessin": "USA",
+        "Sainte-Laurent-sur-Mer": "USA", "Lessay": "USA", "Maupertus": "USA",
+        "Picauville": "USA", "Carpiquet": "USA",
+        "Tangmere": "UK", "Ford": "UK", "Sainte-Croix-sur-Mer": "UK"
+      }
+    }
+  }
+}

@@ -142,12 +142,122 @@ def test_no_statics_inside_aircraft_footprints(tmp_path):
     assert not overlaps, f"{len(overlaps)} aircraft pairs grossly overlapping"
 
 
+# --- Theater Identity P3: historical airspace (Berlin corridors) -----------
+
+def test_berlin_corridors_draw_and_brief(tmp_path):
+    """The Berlin Corridor Transit overlay must draw the corridors + control
+    zone on the F10 Common layer AND brief the BASC rule — and stay OFF by
+    default so existing share links are byte-identical (determinism contract)."""
+    base = dict(map="germany", era="coldwar", coalition="blue",
+                aircraft="F_4E_45MC", home_airbase=None, seed=5)
+    # default OFF: no airspace artifacts, reproducible
+    off = _mission_text(_gen(tmp_path, **base))
+    assert "BERLIN CONTROL ZONE" not in off, "airspace drew while flag was off"
+
+    # overlay ON via the template
+    on_miz = _gen(tmp_path, **base, template="berlin_corridor_transit",
+                  bb_historical_airspace=True, bb_sams=False)
+    on = _mission_text(on_miz)
+    for name in ("NORTH (Hamburg)", "CENTER (Hannover)", "SOUTH (Frankfurt)",
+                 "BERLIN CONTROL ZONE"):
+        assert name in on, f"corridor/zone '{name}' not drawn on the map"
+    # trigger zone for a future scoring layer
+    assert "AIRSPACE BERLIN CONTROL ZONE" in on, "control-zone trigger missing"
+    # the BASC rule is briefed (lives in the miz translation dictionary)
+    dic = zipfile.ZipFile(on_miz).read("l10n/DEFAULT/dictionary").decode("utf-8", "ignore")
+    assert "BERLIN AIR CORRIDORS" in dic and "Berlin Air Safety Centre" in dic, \
+        "airspace briefing block missing"
+
+    # corridors must be SQUARE-ended lanes (4 corners + close = 5 pts), NOT
+    # rounded oblongs (~44 pts) — the fix Rob flagged. Plus a dot-dash centerline.
+    import dcs as _dcs
+    from dcs.drawing.polygon import FreeFormPolygon
+    from dcs.drawing.line import LineDrawing
+    mm = _dcs.Mission(); mm.load_file(on_miz)
+    common = mm.drawings.get_layer_by_name("Common")
+    polys = [o for o in common.objects if isinstance(o, FreeFormPolygon)]
+    lines = [o for o in common.objects if isinstance(o, LineDrawing)]
+    assert polys and all(len(p.points) <= 6 for p in polys), \
+        "corridors are not square-ended (rounded oblong regressed)"
+    assert any(l.line_style.value == "dotdash" for l in lines), "no dot-dash centerline"
+
+
+# --- Theater Identity P1: International Alignment -------------------------
+
+def test_alignment_dresses_bases_by_owning_nation(tmp_path):
+    """Syria's blue side is a coalition — Ramat David (Israel), Turkish bases
+    (Turkey), Akrotiri (UK) — so statics must carry the OWNING nation's country,
+    not one country per side. And a map with no alignment data must be unchanged
+    (single side country) — additive, no regression."""
+    import dcs
+    from missiongen import generate, Recipe
+
+    def nations_with_statics(**recipe):
+        out = str(Path(tmp_path) / "a.miz")
+        generate(Recipe.from_dict(recipe), out)
+        m = dcs.Mission(); m.load_file(out)
+        by_side = {}
+        for side, coal in m.coalition.items():
+            got = {cn for cn, c in coal.countries.items() if any(c.static_group)}
+            if got:
+                by_side[side] = got
+        return by_side
+
+    syr = nations_with_statics(map="syria", era="modern", coalition="blue",
+                               aircraft="FA_18C_hornet", home_airbase="Incirlik",
+                               dress_fill=70, seed=4)
+    assert {"Israel", "Turkey", "UK"} <= syr.get("blue", set()), \
+        f"blue coalition not nation-aligned: {syr.get('blue')}"
+    assert "Syria" in syr.get("red", set()), "red side not Syria"
+
+    # a map with NO theater_identity block dresses with a single side country
+    cauc = nations_with_statics(map="caucasus", era="modern", coalition="blue",
+                                aircraft="F_16C_50", home_airbase=None,
+                                dress_fill=60, seed=4)
+    assert len(cauc.get("blue", set())) == 1, \
+        f"unaligned map should use one blue country, got {cauc.get('blue')}"
+
+
+def test_nation_rosters_place_correct_types(tmp_path):
+    """Aligned bases park nation-correct TYPES, not just skins: Israel flies
+    F-15/F-16, Syria flies MiGs, Iran parks the F-14A Tomcat."""
+    import dcs
+    from missiongen import generate, Recipe
+
+    def types_by_country(**recipe):
+        out = str(Path(tmp_path) / "r.miz")
+        generate(Recipe.from_dict(recipe), out)
+        m = dcs.Mission(); m.load_file(out)
+        res = {}
+        for coal in m.coalition.values():
+            for cn, c in coal.countries.items():
+                res.setdefault(cn, set()).update(
+                    sg.units[0].type for sg in c.static_group)
+        return res
+
+    syr = types_by_country(map="syria", era="modern", coalition="blue",
+                           aircraft="FA_18C_hornet", home_airbase="Incirlik",
+                           dress_fill=80, seed=4)
+    assert syr.get("Israel", set()) & {"F-15E", "F-15C", "F-16C_50"}, \
+        "Israeli base did not park F-15/F-16"
+    assert any(t.startswith("MiG-") for t in syr.get("Syria", set())), \
+        "Syrian base did not park MiGs"
+
+    pg = types_by_country(map="persiangulf", era="modern", coalition="blue",
+                          aircraft="FA_18C_hornet", home_airbase="Al Dhafra AFB",
+                          dress_fill=80, seed=5)
+    assert "F-14A-135-GR" in pg.get("Iran", set()), "Iran did not park the F-14A"
+
+
 if __name__ == "__main__":
     import tempfile
     failed = 0
     for fn in [test_no_duplicate_group_or_unit_names, test_ramat_david_places_all_stands,
                test_vhf_only_aircraft_get_no_uhf_presets, test_uhf_ladder_lands_on_the_uhf_radio,
-               test_no_statics_inside_aircraft_footprints]:
+               test_no_statics_inside_aircraft_footprints,
+               test_berlin_corridors_draw_and_brief,
+               test_alignment_dresses_bases_by_owning_nation,
+               test_nation_rosters_place_correct_types]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))

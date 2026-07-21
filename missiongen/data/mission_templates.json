@@ -81,5 +81,29 @@
       "AWACS has the picture, tanker's behind you. No fixed waypoints - build your own",
       "ingress around the threats. Success = you can fly the target area without a launch."
     ]
+  },
+  "berlin_corridor_transit": {
+    "label": "Berlin Corridor Transit — fly the Cold War air corridors to Berlin",
+    "eras": ["coldwar"],
+    "maps": ["germany"],
+    "recipe": {
+      "aircraft": "F_4E_45MC",
+      "bb_historical_airspace": true,
+      "bb_awacs": false, "bb_tanker": false,
+      "bb_sams": false, "threat_intensity": 1, "threat_tier": "light",
+      "bb_targets": false, "bb_range": false,
+      "start": "runway", "time_of_day": "day", "weather": "scattered"
+    },
+    "brief": [
+      "=== TASKING (suggested) — BERLIN CORRIDOR TRANSIT ===",
+      "Three 20-mile-wide corridors run across GDR airspace to West Berlin, ceiling",
+      "10,000 ft, all converging on the Berlin Control Zone (see the F10 map — violet",
+      "swaths — and the airspace note below). This is an airspace-discipline sortie:",
+      " - Pick a corridor (North/Hamburg, Center/Hannover, South/Frankfurt) and hold",
+      "   inside its lateral limits, below the ceiling, all the way to the Control Zone.",
+      " - Straying out over GDR territory is what got you intercepted historically —",
+      "   the win here is a clean transit, not a fight.",
+      "No enemy tasking, no fixed waypoints. Fly the lanes, respect the ceiling, RTB."
+    ]
   }
 }

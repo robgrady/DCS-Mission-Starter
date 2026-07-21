@@ -14,6 +14,7 @@ Zones inform, they don't route — no player waypoints, ever.
 import math
 from dcs import mapping
 from dcs.drawing.drawing import Rgba
+from . import chartstyle as cs
 
 # one visual language across all zones
 FRIENDLY = Rgba(90, 170, 255, 230)     # support orbits — blue
@@ -144,10 +145,14 @@ def draw_layers(m, gfx, layers, side):
         # the INTEL PICTURE: known enemy area-SAM engagement rings, drawn on
         # the PLAYER's layer only — you brief known threats; red MP players
         # don't get their own SAMs highlighted
+        # MIL-STD-2525 register: a solid WEZ ring with an Air-Defense glyph at
+        # the shooter's location reads as a threat instantly (chart-style spec).
+        tcol, tfill, twt, tstyle = cs.spec("threat")
         for pos, wez_m, label in gfx["threats"]:
-            own.add_circle(pos, radius=wez_m, color=THREAT, fill=THREAT_FILL,
-                           line_thickness=3)
-            _label(own, _offset(pos, wez_m * 0.75, 315), f"⚠ {label}", THREAT,
+            own.add_circle(pos, radius=wez_m, color=tcol, fill=tfill,
+                           line_thickness=twt, line_style=tstyle)
+            cs.air_defense_icon(own, pos, scale=0.6)
+            _label(own, _offset(pos, wez_m * 0.75, 315), f"⚠ {label}", tcol,
                    size=12)
         drawn.append("threats")
 

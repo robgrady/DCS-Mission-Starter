@@ -206,3 +206,35 @@ def api_generate(req: GenerateRequest):
     except USER_ERRORS as e:
         raise HTTPException(status_code=400, detail=str(e))
     return _build_and_respond(recipe)
+
+
+@app.post("/api/brief")
+def api_brief(req: GenerateRequest):
+    """Mission Starter Brief — the pre-flight briefing pack (PDF + MD, zipped).
+
+    Stateless by design: the determinism contract means the same recipe rebuilds
+    the identical mission, so the brief regenerates on demand — no server-side
+    storage, and the .miz download flow is untouched."""
+    try:
+        recipe = Recipe.from_dict(req.recipe)
+        recipe.validate()
+        tmpdir = tempfile.mkdtemp()
+        miz = Path(tmpdir) / "m.miz"
+        result = generate(recipe, str(miz), brief_dir=tmpdir)
+        if "brief_pdf" not in result:
+            raise RuntimeError("; ".join(result["warnings"]) or "brief failed")
+        import zipfile as _zf
+        tag = recipe.template or "starter"
+        stem = f"{recipe.map}_{recipe.era}_{tag}_{recipe.seed}"
+        pack = Path(tmpdir) / "briefing_pack.zip"
+        with _zf.ZipFile(pack, "w", _zf.ZIP_DEFLATED) as z:
+            z.write(result["brief_pdf"], f"{stem}_brief.pdf")
+            z.write(result["brief_md"], f"{stem}_brief.md")
+    except USER_ERRORS as e:
+        raise HTTPException(status_code=400, detail=str(e))
+    except Exception:
+        log.exception("brief generation failed")
+        raise HTTPException(status_code=500, detail="Internal error generating the brief.")
+    return FileResponse(str(pack), filename=f"{stem}_briefing_pack.zip",
+                        media_type="application/zip",
+                        background=BackgroundTask(shutil.rmtree, tmpdir, ignore_errors=True))

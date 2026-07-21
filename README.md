@@ -106,9 +106,34 @@ Ships with the app: [docs/ROADMAP.md](docs/ROADMAP.md), served at `/api/roadmap`
 linked from the web UI. Next: livery picker, mission-import → template, Crew Ops II, and a
 v2.0 Live Mission Scripting pillar.
 
+## Contributing
+
+The **data packs are the product**, and most of them are community-extendable
+without touching engine code: parking-heading & scenery surveys, coastline
+outlines, per-map/era **theater alignment** (who owns which base) and **nation
+rosters**, historical-airspace overlays, ramp themes, and scenario templates.
+The survey tooling under `scripts/` lets you export exact data from your own DCS
+install for a map that isn't fully covered yet. See
+**[CONTRIBUTING.md](CONTRIBUTING.md)** for the workflow, the determinism/testing
+expectations, and where each data pack lives. In-game validation reports (with a
+screenshot and the recipe/seed) are just as valuable as code.
+
+## License
+
+- **This project's own code** (everything outside `vendor/`) — **MIT**, see
+  [LICENSE](LICENSE). © Authentic Media LLC.
+- **`vendor/dcs/` is [pydcs](https://github.com/pydcs/dcs)** — vendored
+  **unmodified** under **LGPL-3.0** (`vendor/dcs/COPYING.LESSER` + `COPYING`;
+  provenance in `vendor/dcs/PYDCS_PROVENANCE.md`). Runtime behaviour tweaks are
+  monkey-patched in `missiongen/_determinism.py`, never edited into pydcs source,
+  so the library stays separable and replaceable per LGPL.
+- Full attribution for pydcs, Redkite's deck templates, fonts and DCS data
+  references is in **[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md)**.
+
 ## About
 
 Developed by **Authentic Media LLC**. Free community tool — provided **as-is, with
 no warranty and no liability of any kind**, including for third-party modified or
-redistributed copies (see [LICENSE](LICENSE), MIT + additional disclaimer). Not affiliated
-with or endorsed by Eagle Dynamics or Heatblur.
+redistributed copies. **Unofficial** — not affiliated with or endorsed by Eagle
+Dynamics or Heatblur; DCS World and its modules are their respective owners'
+property.

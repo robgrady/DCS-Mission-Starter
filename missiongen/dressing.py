@@ -227,7 +227,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                    used_slot_names=None, theme=None, fill=None,
                    include_aircraft=True, include_gse=True, include_infra=True,
                    aircraft_mode="static", field_heading=None, mix=None,
-                   livery_style="squadron"):
+                   livery_style="squadron", map_key=None):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
@@ -240,7 +240,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     include_*: user-selected object classes (aircraft / GSE / infrastructure).
     """
     used = used_slot_names or set()
-    keepout = AirfieldKeepOut(airport)
+    keepout = AirfieldKeepOut(airport, map_key=map_key)
     placed = 0
 
     # --- occupancy registry (collision fix, v1.10.x) ---------------------

@@ -1,0 +1,26 @@
+{
+  "_comment": "Per-nation ramp rosters — Theater Identity P1, second slice. When a base is aligned to a nation (theater_identity.json), the fast-jet TYPES parked there come from that nation's roster instead of the generic side theme, so an Israeli base flies F-15/F-16 (IDF skins), Iran flies the F-14A, GDR flies MiGs, RAF/Luftwaffe fly the Tornado. Only the 'planes' list is nation-specific; transports/tankers ('large') and helos fall back to the side theme (a C-130 is a C-130). Refs are pydcs module paths, era-gated by the block they sit in — every ref verified to exist and fit its era window. A nation with no roster for an era falls back to the side theme (livery is still nation-correct via the aligned country).",
+
+  "modern": {
+    "Israel":  {"planes": [["planes.F_16C_50", 4], ["planes.F_15E", 2], ["planes.F_15C", 2]]},
+    "Turkey":  {"planes": [["planes.F_16C_50", 5], ["planes.F_5E_3", 1]]},
+    "UK":      {"planes": [["planes.Tornado_IDS", 3]]},
+    "Norway":  {"planes": [["planes.F_16C_50", 4]]},
+    "Finland": {"planes": [["planes.FA_18C_hornet", 4]]},
+    "Georgia": {"planes": [["planes.Su_25", 3], ["planes.Su_25T", 1]]},
+    "Syria":   {"planes": [["planes.MiG_21Bis", 3], ["planes.MiG_29A", 2], ["planes.Su_25", 2]]},
+    "Iran":    {"planes": [["planes.F_14A_135_GR", 2], ["planes.F_4E_45MC", 2], ["planes.F_5E_3", 2]]},
+    "Egypt":   {"planes": [["planes.F_16C_50", 3], ["planes.MiG_21Bis", 2]]}
+  },
+
+  "coldwar": {
+    "UK":      {"planes": [["planes.Tornado_IDS", 3]]},
+    "Germany": {"planes": [["planes.Tornado_IDS", 3], ["planes.F_4E_45MC", 2]]},
+    "USSR":    {"planes": [["planes.MiG_29A", 2], ["planes.Su_27", 2], ["planes.MiG_21Bis", 2], ["planes.Su_25", 2]]},
+    "GDR":     {"planes": [["planes.MiG_21Bis", 4], ["planes.Su_25", 1]]},
+    "Israel":  {"planes": [["planes.F_4E_45MC", 3], ["planes.F_5E_3", 2]]},
+    "Syria":   {"planes": [["planes.MiG_21Bis", 4]]},
+    "Egypt":   {"planes": [["planes.MiG_21Bis", 3]]},
+    "Norway":  {"planes": [["planes.F_5E_3", 3]]}
+  }
+}
