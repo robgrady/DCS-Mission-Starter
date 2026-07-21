@@ -17,6 +17,35 @@ guide cover.
 
 ---
 
+## [1.17.0] — 2026-07-21
+
+### Added — F-14B(U) DTC setup card (`missiongen/dtc.py`)
+
+First slice of the F-14B(U) Data Transfer System support, timed to the module's
+release week. Ships the **schema-independent** half now; the actual DTM byte
+injection stays gated on the (undocumented) cartridge format.
+
+- **DTC Setup Card** — a printable "punch this into the DTM" reference the RIO
+  would otherwise transcribe by hand from the map: **bullseye**, **homeplate +
+  TACAN**, **CDNU fix points** (from BB-22 nav points), **threat areas** (SAM
+  WEZ rings), **support anchors** (tanker/AWACS/CV), and the **comm/TACAN plan**
+  mirroring the generated card. Written as a sidecar `DTC_Setup_Card.md` and
+  bundled into the `/api/brief` pack.
+- **Philosophy-safe by construction:** the card emits battlespace *reference*
+  only — never the player's waypoints, ingress/egress route, target run, or
+  loadout. A regression test asserts none of those tokens can appear.
+- **Point-budget simplifier** — Douglas–Peucker decimation (`dtc.simplify`) so
+  plot-line geometry fits the DTM's group/point limits; over-budget threats are
+  logged, never silently dropped.
+- **Gating & determinism:** new `bb_dtc` recipe flag, default *auto* (on only for
+  the F-14B(U)). The card is a sidecar file, so `.miz` bytes — and the share-link
+  determinism contract — are unchanged.
+- `dtc.emit_dtm()` is a deliberate, documented stub: it raises rather than
+  fabricate a DTM byte format. Unblocks once a plain-vs-cartridge `.miz` pair is
+  run through `scripts/dtc_inspect.py`. Design spec: `claude/f14bu-dtc-design.md`.
+
+---
+
 ## [1.16.3] — 2026-07-21
 
 ### Fixed — code-review remediation (release blockers + reliability)

@@ -267,16 +267,58 @@ def test_wwii_germany_is_red_not_blue(tmp_path):
         assert "Germany" not in blue, f"{mp}: Germany leaked into BLUE coalition"
 
 
+# --- F-14B(U) DTC setup card ------------------------------------------------
+def test_dtc_simplify_respects_point_budget():
+    from missiongen.dtc import simplify
+    ring = [(i, (i * 7) % 5) for i in range(50)]          # 50-point jagged path
+    out = simplify(ring, 9)
+    assert 2 <= len(out) <= 9, f"simplify didn't meet budget: {len(out)}"
+    assert out[0] == (0.0, 0.0) and out[-1] == (49.0, (49 * 7) % 5), \
+        "simplify dropped the endpoints"
+
+
+def test_dtc_card_only_for_bu_and_is_reference_only(tmp_path):
+    from missiongen import Recipe, generate
+    from missiongen.dtc import is_bu
+    assert is_bu("F_14B_U") and not is_bu("FA_18C_hornet")
+    # a non-B(U) jet writes NO card (auto-gate off)
+    out = str(tmp_path / "hornet.miz")
+    r1 = generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
+                  aircraft="FA_18C_hornet", home_airbase="Al Dhafra AFB",
+                  threat_intensity=4, threat_tier="heavy", seed=22)), out)
+    assert "dtc_card" not in r1, "DTC card written for a non-B(U) jet"
+    # the B(U) writes a card with reference sections and NO player route/loadout
+    out2 = str(tmp_path / "bu.miz")
+    r2 = generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
+                  aircraft="F_14B_U", home_airbase="Al Dhafra AFB",
+                  threat_intensity=4, threat_tier="heavy", seed=22)), out2)
+    assert r2.get("dtc_card"), "no DTC card for the F-14B(U)"
+    card = Path(r2["dtc_card"]).read_text()
+    assert "Bullseye" in card and "Comm / TACAN" in card, "card missing reference sections"
+    low = card.lower()
+    for forbidden in ("waypoint", "steerpoint", "ingress", "egress", "loadout", "target run"):
+        assert forbidden not in low, f"card leaked player-plan content: {forbidden!r}"
+    # .miz bytes must be unaffected — the card is a sidecar (determinism intact)
+    import zipfile as _zf
+    assert _zf.ZipFile(out2).read("mission"), "mission entry unreadable after DTC"
+
+
 if __name__ == "__main__":
     import tempfile
     failed = 0
+    for _extra in (test_dtc_simplify_respects_point_budget,):
+        try:
+            _extra(); print(f"PASS  {_extra.__name__}")
+        except Exception as e:
+            failed += 1; print(f"FAIL  {_extra.__name__}\n      {type(e).__name__}: {e}")
     for fn in [test_no_duplicate_group_or_unit_names, test_ramat_david_places_all_stands,
                test_vhf_only_aircraft_get_no_uhf_presets, test_uhf_ladder_lands_on_the_uhf_radio,
                test_no_statics_inside_aircraft_footprints,
                test_berlin_corridors_draw_and_brief,
                test_alignment_dresses_bases_by_owning_nation,
                test_nation_rosters_place_correct_types,
-               test_wwii_germany_is_red_not_blue]:
+               test_wwii_germany_is_red_not_blue,
+               test_dtc_card_only_for_bu_and_is_reference_only]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))

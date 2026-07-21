@@ -242,6 +242,8 @@ def api_brief(req: GenerateRequest):
         with _zf.ZipFile(pack, "w", _zf.ZIP_DEFLATED) as z:
             z.write(result["brief_pdf"], f"{stem}_brief.pdf")
             z.write(result["brief_md"], f"{stem}_brief.md")
+            if result.get("dtc_card"):        # F-14B(U): include the DTC setup card
+                z.write(result["dtc_card"], f"{stem}_dtc_setup_card.md")
     except USER_ERRORS as e:
         shutil.rmtree(tmpdir, ignore_errors=True)
         raise HTTPException(status_code=400, detail=str(e))

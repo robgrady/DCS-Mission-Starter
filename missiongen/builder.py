@@ -708,6 +708,28 @@ def generate(recipe: Recipe, out_path: str, brief_dir: str = None) -> dict:
         except Exception as e:
             b.warnings.append(f"kneeboard rendering failed: {e}")
     result = {"stats": b.stats, "warnings": b.warnings, "path": out_path}
+
+    # F-14B(U) DTC setup card (schema-independent Day-0 artifact). Defensive:
+    # any failure is a warning, never a broken mission. Auto-on for the B(U).
+    from . import dtc as _dtc
+    _dtc_on = recipe.bb_dtc if recipe.bb_dtc is not None else _dtc.is_bu(recipe.aircraft)
+    if _dtc_on:
+        try:
+            from pathlib import Path as _P
+            cart = _dtc.build_cartridge(b.brief_ctx["gfx"], b.kb_ctx, recipe)
+            card_md = _dtc.cartridge_card_md(cart)
+            dest = _P(brief_dir) if brief_dir else _P(out_path).parent
+            card_path = str(dest / "DTC_Setup_Card.md")
+            with open(card_path, "w") as _f:
+                _f.write(card_md)
+            result["dtc_card"] = card_path
+            b.stats["dtc_card"] = {
+                "fix_points": len(cart["fix_points"]),
+                "threat_areas": len(cart["threat_areas"]),
+                "comms": len(cart["comms"])}
+        except Exception as e:
+            b.warnings.append(f"DTC setup card failed: {e}")
+
     if brief_dir:
         # Mission Starter Brief: printable PDF + shareable MD alongside the .miz
         try:
