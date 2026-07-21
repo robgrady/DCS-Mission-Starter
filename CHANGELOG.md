@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.19.0] — 2026-07-21 — Mission Library (two paths: pick or build)
+
+### Added — Library front door
+
+A new entry with two paths: **Pick from the Library** (curated, ready-to-fly
+scenarios) or **Build a Mission** (the full builder, unchanged). The **Scenario
+step is removed from the wizard** and now lives entirely in the Library.
+
+- **Library gallery** — card per scenario, colour-coded by role (air-to-air,
+  strike, SEAD, CAS, carrier, training, historic), with a fantasy-forward title,
+  one-line premise, and scannable chips (era · threat meter · SP/MP · carrier).
+  Role tabs + Era + Difficulty filters, plus an "only what I own" toggle
+  (heuristic on free maps) that surfaces "requires <map>" honestly.
+- **Detail → pick/preview/tweak** — era selector (Era shapes both paths), crew
+  difficulty for crew-ops, "what's set up for you", then **Generate & Download**
+  or **Open in Builder to tweak**. Both reuse the existing engine: generation is
+  **on-demand** (recipe is the artifact; preserves seed/re-roll variation and the
+  tweak handoff — not pre-baked).
+- **Initial library (8 missions):** Carrier Qualification, ACLS Practice, CAP /
+  Alert-5, SEAD / Wild Weasel, Berlin Corridor Transit, plus the F-14B(U) crew-ops
+  (Jester IZLID, Iceman GCI Intercept) and F-14 Fleet Defense. Each is a real,
+  tested preset that generates a valid `.miz` (verified 8/8).
+- Backend: `mission_templates.json` entries carry `library` card metadata +
+  `default_map`; `/api/options` exposes it. Builder wizard otherwise untouched.
+
+---
+
 ## [1.18.0] — 2026-07-21 — F-14B(U) launch-ready + full DTM cartridge injection
 
 Release cut for the F-14B(U) launch (Jul 22). Folds in three in-sim survey

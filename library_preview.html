@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>DCS Mission Starter — Library / Build preview</title>
+<style>
+  :root{
+    --bg:#0d1017; --panel:#141a22; --card:#1a212b; --card2:#1f2733;
+    --line:#28323f; --line2:#33404f; --ink:#e8eef5; --mut:#8a97a8;
+    --a2a:#3fa9f5; --strike:#ff8a4c; --sead:#ff5c6c; --cas:#ffc24b;
+    --carrier:#2dd4bf; --training:#5bd66e; --historic:#b388ff;
+    --focus:#4a9eff;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);
+    font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  .wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+  .hidden{display:none!important}
+
+  /* top bar */
+  .top{position:sticky;top:0;z-index:20;background:rgba(13,16,23,.86);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .top .wrap{display:flex;align-items:center;gap:18px;height:58px}
+  .brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.2px}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--carrier);
+    box-shadow:0 0 12px var(--carrier)}
+  .brand small{font-weight:500;color:var(--mut);font-size:11.5px;letter-spacing:.06em;
+    text-transform:uppercase}
+  .pathtoggle{margin-left:auto;display:flex;background:var(--card);border:1px solid var(--line2);
+    border-radius:9px;padding:3px}
+  .pathtoggle button{all:unset;cursor:pointer;padding:7px 15px;border-radius:7px;
+    font-weight:600;font-size:13px;color:var(--mut);display:flex;align-items:center;gap:7px}
+  .pathtoggle button.on{background:var(--card2);color:var(--ink);
+    box-shadow:inset 0 0 0 1px var(--line2)}
+  .pathtoggle svg{width:15px;height:15px}
+
+  /* entry */
+  #screen-entry{padding:66px 0 90px}
+  .hero{text-align:center;margin-bottom:46px}
+  .hero h1{font-size:40px;line-height:1.1;margin:0 0 12px;letter-spacing:-.5px}
+  .hero h1 .g{background:linear-gradient(90deg,var(--carrier),var(--a2a));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--mut);font-size:16px;margin:0 auto;max-width:560px}
+  .paths{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:840px;margin:0 auto}
+  .pathcard{position:relative;background:var(--card);border:1px solid var(--line2);
+    border-radius:16px;padding:28px;cursor:pointer;transition:.16s;overflow:hidden}
+  .pathcard:hover{transform:translateY(-3px);border-color:var(--focus);
+    box-shadow:0 14px 40px rgba(0,0,0,.4)}
+  .pathcard .ic{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;
+    margin-bottom:16px}
+  .pathcard.lib .ic{background:rgba(45,212,191,.14);color:var(--carrier)}
+  .pathcard.build .ic{background:rgba(63,169,245,.14);color:var(--a2a)}
+  .pathcard .ic svg{width:24px;height:24px}
+  .pathcard h3{margin:0 0 6px;font-size:20px}
+  .pathcard p{margin:0 0 16px;color:var(--mut);min-height:42px}
+  .pathcard .go{font-weight:600;font-size:13px;display:flex;align-items:center;gap:6px}
+  .pathcard.lib .go{color:var(--carrier)} .pathcard.build .go{color:var(--a2a)}
+  .pathcard .tag{position:absolute;top:18px;right:18px;font-size:10.5px;font-weight:700;
+    letter-spacing:.08em;text-transform:uppercase;color:var(--mut);
+    border:1px solid var(--line2);border-radius:20px;padding:3px 9px}
+  .entryfoot{text-align:center;color:var(--mut);font-size:12.5px;margin-top:34px}
+  .entryfoot b{color:var(--ink);font-weight:600}
+
+  /* library */
+  #screen-library{padding:26px 0 80px}
+  .lhead{display:flex;align-items:baseline;gap:12px;margin-bottom:18px}
+  .lhead h2{margin:0;font-size:23px}
+  .lhead span{color:var(--mut);font-size:13px}
+  .filters{position:sticky;top:58px;z-index:10;background:var(--bg);
+    padding:12px 0 14px;margin-bottom:8px;border-bottom:1px solid var(--line)}
+  .roletabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+  .rtab{all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;
+    padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--mut);
+    border:1px solid transparent}
+  .rtab:hover{color:var(--ink)}
+  .rtab.on{color:var(--ink);background:var(--card);border-color:var(--line2)}
+  .rtab .rc{width:8px;height:8px;border-radius:50%}
+  .subfilters{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  .sel{position:relative}
+  .sel label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;
+    color:var(--mut);display:block;margin-bottom:3px}
+  select{appearance:none;background:var(--card);color:var(--ink);border:1px solid var(--line2);
+    border-radius:8px;padding:8px 30px 8px 11px;font-size:13px;font-family:var(--sans);cursor:pointer}
+  .sel::after{content:"▾";position:absolute;right:11px;bottom:9px;color:var(--mut);
+    pointer-events:none;font-size:11px}
+  .owntoggle{margin-left:auto;display:flex;align-items:center;gap:9px;font-size:12.5px;
+    color:var(--mut);cursor:pointer;user-select:none}
+  .switch{width:38px;height:22px;border-radius:20px;background:var(--line2);position:relative;
+    transition:.16s}
+  .switch::after{content:"";position:absolute;width:16px;height:16px;border-radius:50%;
+    background:#cdd7e2;top:3px;left:3px;transition:.16s}
+  .owntoggle.on .switch{background:var(--carrier)}
+  .owntoggle.on .switch::after{left:19px;background:#04211d}
+  .owntoggle.on{color:var(--ink)}
+
+  .sechead{display:flex;align-items:center;gap:9px;margin:22px 0 12px;font-size:12px;
+    text-transform:uppercase;letter-spacing:.1em;color:var(--mut);font-weight:700}
+  .sechead::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:16px}
+  .card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:13px;
+    overflow:hidden;cursor:pointer;transition:.15s;display:flex;flex-direction:column}
+  .card:hover{transform:translateY(-3px);border-color:var(--line2);
+    box-shadow:0 12px 30px rgba(0,0,0,.38)}
+  .card .bar{height:3px;width:100%}
+  .card .body{padding:15px 16px 14px;display:flex;flex-direction:column;flex:1}
+  .card .rowtop{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .card .ric{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex:none}
+  .card .ric svg{width:18px;height:18px}
+  .card .role{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+  .card h3{margin:0 0 5px;font-size:16px;line-height:1.25}
+  .card .prem{color:var(--mut);font-size:12.7px;line-height:1.45;margin:0 0 13px;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:37px}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+  .chip{font-size:11px;color:#c7d2de;background:#222c38;border:1px solid var(--line2);
+    border-radius:6px;padding:3px 8px;font-weight:500;display:flex;align-items:center;gap:5px}
+  .chip.mono{font-family:var(--mono);letter-spacing:-.2px}
+  .threat{display:flex;gap:2px;align-items:center}
+  .threat i{width:5px;height:11px;border-radius:1px;background:var(--line2)}
+  .threat i.f1{background:#5bd66e}.threat i.f2{background:#b7d64a}
+  .threat i.f3{background:var(--cas)}.threat i.f4{background:var(--strike)}
+  .threat i.f5{background:var(--sead)}
+  .card.locked{opacity:.62}
+  .card.locked:hover{transform:none;box-shadow:none;border-color:var(--line)}
+  .req{position:absolute;top:11px;right:11px;font-size:10px;font-weight:700;color:#ffd27a;
+    background:rgba(255,183,58,.12);border:1px solid rgba(255,183,58,.3);border-radius:20px;
+    padding:3px 8px;display:flex;align-items:center;gap:4px}
+  .req svg{width:10px;height:10px}
+  .new{position:absolute;top:11px;left:11px;font-size:10px;font-weight:800;color:#04211d;
+    background:var(--carrier);border-radius:20px;padding:3px 8px;letter-spacing:.04em}
+  .empty{grid-column:1/-1;text-align:center;color:var(--mut);padding:56px 0}
+
+  /* detail */
+  #screen-detail{padding:22px 0 90px}
+  .back{all:unset;cursor:pointer;color:var(--mut);font-size:13px;display:inline-flex;
+    align-items:center;gap:6px;margin-bottom:18px;font-weight:600}
+  .back:hover{color:var(--ink)}
+  .dgrid{display:grid;grid-template-columns:1.25fr .9fr;gap:26px}
+  .drole{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .drole .ric{width:34px;height:34px;border-radius:9px;display:grid;place-items:center}
+  .drole .ric svg{width:19px;height:19px}
+  .drole .role{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  #d-title{font-size:29px;margin:0 0 10px;line-height:1.15}
+  #d-prem{font-size:15.5px;color:#c3cfdb;margin:0 0 20px;max-width:52ch}
+  .block{margin-bottom:22px}
+  .block h4{margin:0 0 10px;font-size:11.5px;text-transform:uppercase;letter-spacing:.09em;
+    color:var(--mut)}
+  .eras{display:flex;gap:8px;flex-wrap:wrap}
+  .erabtn{all:unset;cursor:pointer;padding:8px 14px;border-radius:9px;font-size:13px;
+    font-weight:600;color:var(--mut);border:1px solid var(--line2);background:var(--card)}
+  .erabtn.on{color:var(--ink);border-color:var(--focus);background:rgba(74,158,255,.12)}
+  .erabtn.solo{cursor:default;opacity:.9}
+  .incl{list-style:none;padding:0;margin:0;display:grid;gap:9px}
+  .incl li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:#cdd8e3}
+  .incl .k{color:var(--carrier);margin-top:2px}
+  .incl .k svg{width:15px;height:15px}
+  .metrow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+
+  .side{background:var(--panel);border:1px solid var(--line2);border-radius:14px;
+    padding:18px;position:sticky;top:78px;align-self:start}
+  .ao{border-radius:10px;overflow:hidden;border:1px solid var(--line);margin-bottom:16px;
+    background:#0b1a24}
+  .seedrow{display:flex;align-items:center;justify-content:space-between;
+    background:var(--card);border:1px solid var(--line2);border-radius:9px;padding:9px 12px;
+    margin-bottom:14px;font-size:12.5px}
+  .seedrow .v{font-family:var(--mono);color:var(--ink)}
+  .reroll{all:unset;cursor:pointer;color:var(--a2a);font-weight:600;font-size:12.5px;
+    display:flex;align-items:center;gap:5px}
+  .reroll svg{width:13px;height:13px}
+  .cta{width:100%;border:none;border-radius:10px;padding:13px;font-size:14px;font-weight:700;
+    cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:var(--sans)}
+  .cta.prime{background:linear-gradient(90deg,var(--carrier),#28b6a6);color:#04211d;margin-bottom:10px}
+  .cta.prime:hover{filter:brightness(1.07)}
+  .cta.ghost{background:var(--card);color:var(--ink);border:1px solid var(--line2)}
+  .cta.ghost:hover{border-color:var(--focus)}
+  .cta svg{width:16px;height:16px}
+  .sidenote{font-size:11.5px;color:var(--mut);text-align:center;margin-top:11px;line-height:1.5}
+
+  /* build */
+  #screen-build{padding:26px 0 90px}
+  .bgrid{display:grid;grid-template-columns:220px 1fr;gap:26px}
+  .rail{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:10px}
+  .step{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:9px;cursor:pointer;
+    color:var(--mut);font-weight:600;font-size:13.5px}
+  .step:hover{color:var(--ink)}
+  .step.on{background:var(--card2);color:var(--ink)}
+  .step .n{width:22px;height:22px;border-radius:50%;border:1px solid var(--line2);
+    display:grid;place-items:center;font-size:11px;flex:none}
+  .step.on .n{background:var(--a2a);border-color:var(--a2a);color:#03121f}
+  .step.done .n{background:var(--training);border-color:var(--training);color:#04210c}
+  .step.era .n{box-shadow:0 0 0 3px rgba(179,136,255,.25)}
+  .bpanel{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:24px;min-height:340px}
+  .bpanel h3{margin:0 0 4px;font-size:20px}
+  .bpanel .sub{color:var(--mut);margin:0 0 20px;font-size:13.5px}
+  .optgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:11px}
+  .opt{background:var(--card2);border:1px solid var(--line2);border-radius:11px;padding:15px;
+    cursor:pointer;transition:.13s}
+  .opt:hover{border-color:var(--focus)}
+  .opt.sel{border-color:var(--a2a);background:rgba(63,169,245,.1)}
+  .opt .t{font-weight:600;margin-bottom:3px}
+  .opt .d{font-size:11.5px;color:var(--mut)}
+  .buildnote{margin-top:18px;padding:12px 14px;border-radius:10px;font-size:12.5px;
+    background:rgba(179,136,255,.08);border:1px solid rgba(179,136,255,.25);color:#d9c8ff}
+
+  /* toast */
+  .toast{position:fixed;left:50%;bottom:30px;transform:translateX(-50%) translateY(20px);
+    background:var(--card2);border:1px solid var(--carrier);border-radius:12px;
+    padding:15px 20px;display:flex;align-items:center;gap:13px;opacity:0;pointer-events:none;
+    transition:.25s;box-shadow:0 16px 40px rgba(0,0,0,.5);z-index:50;max-width:90vw}
+  .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .toast .ic{width:34px;height:34px;border-radius:9px;background:rgba(45,212,191,.15);
+    color:var(--carrier);display:grid;place-items:center;flex:none}
+  .toast .t{font-weight:700} .toast .s{font-size:12px;color:var(--mut)}
+  @media(max-width:820px){.paths{grid-template-columns:1fr}.dgrid{grid-template-columns:1fr}
+    .bgrid{grid-template-columns:1fr}.side{position:static}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top"><div class="wrap">
+  <div class="brand"><span class="dot"></span>DCS Mission Starter <small>preview</small></div>
+  <div class="pathtoggle" id="pathToggle" style="display:none">
+    <button data-path="build" onclick="go('build')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M6 21V9l6-4 6 4v12M9 21v-6h6v6"/></svg>Build</button>
+    <button data-path="library" class="on" onclick="go('library')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Library</button>
+  </div>
+</div></div>
+
+<!-- ENTRY -->
+<section id="screen-entry"><div class="wrap">
+  <div class="hero">
+    <h1><span class="g">Select</span>, don't search.</h1>
+    <p>Get a living, period-accurate DCS mission in under a minute. Pick a ready-to-fly scenario, or build one exactly your way.</p>
+  </div>
+  <div class="paths">
+    <div class="pathcard lib" onclick="go('library')">
+      <span class="tag">fastest</span>
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h7v16H4zM13 4h7v16h-7z"/></svg></div>
+      <h3>Pick from the Library</h3>
+      <p>Curated, period-correct scenarios — CAP, strike, SEAD, carrier ops, historic. Choose one and you're airborne.</p>
+      <div class="go">Browse the Library
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    </div>
+    <div class="pathcard build" onclick="go('build')">
+      <span class="tag">full control</span>
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M4 20l1-4 11-11 3 3L8 19z"/></svg></div>
+      <h3>Build a Mission</h3>
+      <p>Set theater, era, coalition, aircraft, threats, support and comms yourself. Total control, still in minutes.</p>
+      <div class="go">Open the Builder
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    </div>
+  </div>
+  <div class="entryfoot"><b>Era</b> shapes both paths — filter the Library by it, or set it as a step in the Builder. Every mission opens in the editor for you to keep building.</div>
+</div></section>
+
+<!-- LIBRARY -->
+<section id="screen-library" class="hidden"><div class="wrap">
+  <div class="lhead"><h2>Mission Library</h2><span id="libcount"></span></div>
+  <div class="filters">
+    <div class="roletabs" id="roletabs"></div>
+    <div class="subfilters">
+      <div class="sel"><label>Era</label>
+        <select id="fEra" onchange="applyFilters()">
+          <option value="all">All eras</option><option>WWII</option>
+          <option>Cold War</option><option>Modern</option></select></div>
+      <div class="sel"><label>Theater</label>
+        <select id="fTheater" onchange="applyFilters()"><option value="all">All theaters</option></select></div>
+      <div class="sel"><label>Difficulty</label>
+        <select id="fDiff" onchange="applyFilters()">
+          <option value="all">Any threat</option><option value="lo">Low (1–2)</option>
+          <option value="md">Medium (3)</option><option value="hi">High (4–5)</option></select></div>
+      <div class="owntoggle" id="ownToggle" onclick="toggleOwn()">
+        <span class="switch"></span>Only what I own</div>
+    </div>
+  </div>
+  <div id="featwrap">
+    <div class="sechead">★ Start here</div>
+    <div class="grid" id="featgrid"></div>
+  </div>
+  <div class="sechead" id="allhead">All scenarios</div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<!-- DETAIL -->
+<section id="screen-detail" class="hidden"><div class="wrap">
+  <button class="back" onclick="go('library')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>Library</button>
+  <div class="dgrid">
+    <div>
+      <div class="drole"><div class="ric" id="d-ric"></div><div class="role" id="d-role"></div></div>
+      <h1 id="d-title"></h1>
+      <p id="d-prem"></p>
+      <div class="metrow" id="d-met"></div>
+      <div class="block" id="d-erablock">
+        <h4>Era</h4><div class="eras" id="d-eras"></div>
+      </div>
+      <div class="block">
+        <h4>What's set up for you</h4>
+        <ul class="incl" id="d-incl"></ul>
+      </div>
+    </div>
+    <aside class="side">
+      <div class="ao" id="d-ao"></div>
+      <div class="seedrow"><span>Variation <span class="v" id="d-seed">#4128</span></span>
+        <button class="reroll" onclick="reroll()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-3-6.7M21 3v6h-6"/></svg>Re-roll</button></div>
+      <button class="cta prime" onclick="toast('Generating .miz','Downloads + starter PDF · same seed rebuilds it')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>Generate &amp; Download</button>
+      <button class="cta ghost" onclick="go('build')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M4 20l1-4 11-11 3 3L8 19z"/></svg>Open in Builder to tweak</button>
+      <div class="sidenote">Pre-fills every builder step — change anything, keep the rest. We set the stage, you write the play.</div>
+    </aside>
+  </div>
+</div></section>
+
+<!-- BUILD -->
+<section id="screen-build" class="hidden"><div class="wrap">
+  <div class="lhead"><h2>Build a Mission</h2><span>Full control · one focused step at a time</span></div>
+  <div class="bgrid">
+    <div class="rail" id="rail"></div>
+    <div class="bpanel" id="bpanel"></div>
+  </div>
+</div></section>
+
+<div class="toast" id="toast"><div class="ic">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+  <div><div class="t" id="toastT"></div><div class="s" id="toastS"></div></div></div>
+
+<script>
+const ROLES={
+  a2a:{label:"Air-to-Air",c:"var(--a2a)",ic:'<path d="M12 2l3 8-3-1.6L9 10z"/><path d="M4 20l8-6 8 6-8-3z"/>'},
+  strike:{label:"Strike",c:"var(--strike)",ic:'<path d="M12 3v10M12 13l-3 4h6zM6 21h12"/>'},
+  sead:{label:"SEAD",c:"var(--sead)",ic:'<circle cx="12" cy="18" r="2"/><path d="M12 18L5 6M12 4a8 8 0 0 1 8 8M12 8a4 4 0 0 1 4 4"/>'},
+  cas:{label:"CAS",c:"var(--cas)",ic:'<circle cx="12" cy="12" r="7"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>'},
+  carrier:{label:"Carrier",c:"var(--carrier)",ic:'<path d="M3 15h18l-3 5H6zM12 3v9M8 8h8"/>'},
+  training:{label:"Training",c:"var(--training)",ic:'<path d="M3 8l9-4 9 4-9 4zM7 11v5c0 1 2.5 2.5 5 2.5s5-1.5 5-2.5v-5"/>'},
+  historic:{label:"Historic",c:"var(--historic)",ic:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>'}
+};
+const T=[
+ {id:1,role:"a2a",feat:1,title:"Alert-5 CAP: Backfire Raid",prem:"Two Tu-22M Backfires inbound high and fast — you're the last CAP between them and the fleet.",theater:"Persian Gulf",eras:["Cold War","Modern"],threat:4,sp:"SP · MP",base:"Carrier",ac:"F-14 / F/A-18",req:null},
+ {id:2,role:"sead",feat:1,title:"Red Flag: SEAD Push",prem:"Roll back a modern SAM belt so the strikers can get to the target — Wild Weasel work over the range.",theater:"Nevada",eras:["Modern"],threat:4,sp:"SP · MP",base:"Land",ac:"F-16CM",req:null},
+ {id:3,role:"carrier",feat:1,title:"Case III Night Recovery",prem:"Low ceiling, black water, marshal stack. Fly the approach and trap at the boat under the worst of it.",theater:"Persian Gulf",eras:["Modern"],threat:1,sp:"SP",base:"Carrier",ac:"F/A-18C",req:null},
+ {id:13,role:"strike",feat:0,new:1,title:"F-14B(U): Jester IZLID Strike",prem:"You fly, Jester works the back seat — run the IZLID designation on your call through the crew menu.",theater:"Syria",eras:["Modern"],threat:3,sp:"SP",base:"Land",ac:"F-14B(U)",req:"Syria"},
+ {id:4,role:"historic",feat:0,title:"Berlin Corridor Transit",prem:"Thread the real Cold-War air corridors into Berlin — stay in the lane, the whole world is watching.",theater:"Germany",eras:["Cold War"],threat:1,sp:"SP · MP",base:"Land",ac:"F-4E",req:null},
+ {id:5,role:"sead",feat:0,title:"SA-10 Belt DEAD",prem:"An S-300 site is anchoring the enemy IADS. Find it, bait it, kill it. High risk, high value.",theater:"Syria",eras:["Modern"],threat:5,sp:"SP · MP",base:"Land",ac:"F-16CM",req:"Syria"},
+ {id:6,role:"cas",feat:0,title:"CAS Kill Box",prem:"Troops in contact. Check in with the JTAC, work the kill box, and put steel on target — carefully.",theater:"Syria",eras:["Modern"],threat:3,sp:"SP · MP",base:"Land",ac:"A-10C II",req:"Syria"},
+ {id:7,role:"training",feat:0,title:"Aggressor BFM",prem:"Pure sensor-off dogfight setup vs an aggressor bandit — merge, fight, repeat. No threats, just guns.",theater:"Nevada",eras:["Modern"],threat:2,sp:"SP · MP",base:"Land",ac:"Any fighter",req:null},
+ {id:8,role:"carrier",feat:0,title:"Carrier Qualification",prem:"Daytime, calm seas, empty jet. Pattern work and traps until the boarding rate is where you want it.",theater:"Persian Gulf",eras:["Cold War","Modern"],threat:1,sp:"SP",base:"Carrier",ac:"F/A-18C",req:null},
+ {id:9,role:"a2a",feat:0,title:"Channel Sweep '44",prem:"Fighter sweep over the Channel — bounce the Luftwaffe before they reach the bomber stream.",theater:"The Channel",eras:["WWII"],threat:3,sp:"SP · MP",base:"Land",ac:"Spitfire LF Mk IX",req:"The Channel"},
+ {id:10,role:"strike",feat:0,title:"Normandy Rail Strike",prem:"Hit a marshalling yard behind the beachhead — flak's up, escort's thin, get in and out.",theater:"Normandy",eras:["WWII"],threat:3,sp:"SP · MP",base:"Land",ac:"P-47D",req:"Normandy"},
+ {id:11,role:"a2a",feat:0,title:"Kola QRA Intercept",prem:"Scramble on an unknown contact probing the border. Identify, shadow, and be ready if it turns hostile.",theater:"Kola",eras:["Cold War","Modern"],threat:2,sp:"SP",base:"Land",ac:"F-16C",req:"Kola"},
+ {id:12,role:"a2a",feat:0,title:"Fleet Defense: AWG-9",prem:"Classic Tomcat outer-air-battle — Phoenix picture management vs a saturating raid on the carrier.",theater:"Persian Gulf",eras:["Cold War","Modern"],threat:4,sp:"SP · MP",base:"Carrier",ac:"F-14A / F-14B",req:null},
+ {id:14,role:"training",feat:0,title:"Marianas Free Flight",prem:"Empty skies, big blue Pacific. A calm sandbox to learn systems, navigate, or just go fly.",theater:"Marianas",eras:["Modern"],threat:1,sp:"SP · MP",base:"Land",ac:"Any",req:"Marianas"},
+ {id:15,role:"a2a",feat:0,title:"Falklands CAP",prem:"Stand a combat air patrol over the task force — long legs, cold water, few divert fields.",theater:"Falklands",eras:["Modern"],threat:2,sp:"SP · MP",base:"Carrier",ac:"Sea Harrier / F/A-18",req:"Falklands"}
+];
+const OWNED=new Set(["Nevada","Persian Gulf","Caucasus"]); // demo: free/base maps
+const INCL={
+ a2a:["Enemy CAP + AWACS picture on the threat axis","Tanker on station with TACAN / freq","Bullseye + nav reference points","F10 map: threat rings, corridors, bullseye"],
+ strike:["Target package in the enemy rear","Doctrinal SAM/AAA defending it","Tanker + AWACS support","Ingress reference geometry (you route the attack)"],
+ sead:["Layered enemy IADS at real sites","Threat rings + emitter locations on the F10 map","HARM-friendly bullseye + steer references","Tanker / AWACS on station"],
+ cas:["JTAC + troops-in-contact scenario","Kill box drawn on the F10 map","SHORAD threat tuned to difficulty","Comms plan on the 25 kHz raster"],
+ carrier:["Full carrier strike group, measured deck","Marshal + approach reference, TACAN/ICLS","Plane-guard + optional AEW","Recovery-state weather"],
+ training:["Clean, low-threat airspace","Bandit or range set up for the drill","Comms + nav references","Everything tunable in the Builder"],
+ historic:["Historically-correct airspace / corridors","Period aircraft, statics + liveries","Era-appropriate threats only","Kneeboard + F10 briefing overlays"]
+};
+let state={path:"entry",role:"all",own:false,cur:null,era:null,seed:4128,bstep:1};
+
+function svg(ic){return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">'+ic+'</svg>'}
+function threatBar(n){let s='<span class="threat">';for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>';return s+'</span>'}
+
+// ---- library render ----
+function buildTabs(){
+  const el=document.getElementById('roletabs');
+  let h='<button class="rtab '+(state.role==='all'?'on':'')+'" onclick="setRole(\'all\')">All</button>';
+  for(const k in ROLES)h+='<button class="rtab '+(state.role===k?'on':'')+'" onclick="setRole(\''+k+'\')">'+
+    '<span class="rc" style="background:'+ROLES[k].c+'"></span>'+ROLES[k].label+'</button>';
+  el.innerHTML=h;
+  const th=[...new Set(T.map(t=>t.theater))].sort();
+  document.getElementById('fTheater').innerHTML='<option value="all">All theaters</option>'+th.map(x=>'<option>'+x+'</option>').join('');
+}
+function card(t){
+  const r=ROLES[t.role], locked=state.own&&t.req&&!OWNED.has(t.req);
+  const cls="card"+(t.req&&!OWNED.has(t.req)?" locked":"");
+  return '<div class="'+cls+'" onclick="openDetail('+t.id+')">'+
+    '<div class="bar" style="background:'+r.c+'"></div>'+
+    (t.new?'<span class="new">NEW</span>':'')+
+    (t.req&&!OWNED.has(t.req)?'<span class="req">'+svg('<path d="M6 10V7a6 6 0 0112 0v3"/><rect x="4" y="10" width="16" height="10" rx="2"/>')+t.req+'</span>':'')+
+    '<div class="body"><div class="rowtop">'+
+      '<div class="ric" style="background:'+r.c+'22;color:'+r.c+'">'+svg(r.ic)+'</div>'+
+      '<div><div class="role" style="color:'+r.c+'">'+r.label+'</div></div></div>'+
+      '<h3>'+t.title+'</h3><p class="prem">'+t.prem+'</p>'+
+      '<div class="chips"><span class="chip">'+t.theater+'</span>'+
+        '<span class="chip">'+t.eras.join(' · ')+'</span>'+
+        '<span class="chip">'+threatBar(t.threat)+'</span>'+
+        '<span class="chip mono">'+t.sp+'</span></div>'+
+    '</div></div>';
+}
+function passes(t){
+  if(state.role!=='all'&&t.role!==state.role)return false;
+  const e=document.getElementById('fEra').value; if(e!=='all'&&!t.eras.includes(e))return false;
+  const th=document.getElementById('fTheater').value; if(th!=='all'&&t.theater!==th)return false;
+  const d=document.getElementById('fDiff').value;
+  if(d==='lo'&&t.threat>2)return false; if(d==='md'&&t.threat!==3)return false; if(d==='hi'&&t.threat<4)return false;
+  if(state.own&&t.req&&!OWNED.has(t.req))return false;
+  return true;
+}
+function applyFilters(){
+  const anyFilter=state.role!=='all'||document.getElementById('fEra').value!=='all'||
+    document.getElementById('fTheater').value!=='all'||document.getElementById('fDiff').value!=='all'||state.own;
+  document.getElementById('featwrap').style.display=anyFilter?'none':'';
+  document.getElementById('allhead').textContent=anyFilter?'Results':'All scenarios';
+  document.getElementById('featgrid').innerHTML=T.filter(t=>t.feat).map(card).join('');
+  const list=T.filter(passes);
+  document.getElementById('grid').innerHTML=list.length?list.map(card).join(''):
+    '<div class="empty">No scenarios match those filters. Loosen a filter, or switch to <b>Build</b> to make it from scratch.</div>';
+  document.getElementById('libcount').textContent=list.length+' scenario'+(list.length!==1?'s':'');
+}
+function setRole(r){state.role=r;buildTabs();applyFilters();}
+function toggleOwn(){state.own=!state.own;document.getElementById('ownToggle').classList.toggle('on',state.own);applyFilters();}
+
+// ---- detail ----
+function aoMap(t){
+  const r=ROLES[t.role].c;
+  return '<svg viewBox="0 0 320 190" width="100%">'+
+    '<rect width="320" height="190" fill="#0b1a24"/>'+
+    '<path d="M0 120 Q60 100 120 118 T240 112 T320 128 L320 190 L0 190Z" fill="#12333f"/>'+
+    '<path d="M0 120 Q60 100 120 118 T240 112 T320 128" fill="none" stroke="#1d5566" stroke-width="1.5"/>'+
+    // graticule
+    '<g stroke="#173241" stroke-width="1">'+[60,120,180,240].map(x=>'<line x1="'+x+'" y1="0" x2="'+x+'" y2="190"/>').join('')+
+      [50,100,150].map(y=>'<line x1="0" y1="'+y+'" x2="320" y2="'+y+'"/>').join('')+'</g>'+
+    // threat rings
+    (t.threat>=3?'<circle cx="215" cy="70" r="'+(18+t.threat*7)+'" fill="'+r+'12" stroke="'+r+'" stroke-width="1.3" stroke-dasharray="4 3"/>':'')+
+    '<circle cx="120" cy="95" r="24" fill="none" stroke="#3fa9f5" stroke-width="1.2" stroke-dasharray="3 3"/>'+
+    '<circle cx="120" cy="95" r="3" fill="#3fa9f5"/><text x="128" y="98" fill="#8ab8e0" font-size="9" font-family="monospace">BULLSEYE</text>'+
+    // home/friendly
+    '<path d="M60 150l5-9 5 9z" fill="#5bd66e"/><text x="48" y="168" fill="#8fca97" font-size="8.5" font-family="monospace">'+(t.base==='Carrier'?'CVN':'HOME')+'</text>'+
+    (t.threat>=3?'<path d="M211 70l4 7h-8z" fill="'+r+'"/><text x="200" y="92" fill="'+r+'" font-size="8.5" font-family="monospace">THREAT</text>':'')+
+    '<text x="10" y="18" fill="#5f7183" font-size="9" font-family="monospace">'+t.theater.toUpperCase()+' · AO (schematic)</text>'+
+  '</svg>';
+}
+function openDetail(id){
+  const t=T.find(x=>x.id===id); state.cur=t; state.era=t.eras[0]; state.seed=1000+Math.floor(Math.random()*8999);
+  const r=ROLES[t.role];
+  document.getElementById('d-ric').style.background=r.c+'22';
+  document.getElementById('d-ric').style.color=r.c;
+  document.getElementById('d-ric').innerHTML=svg(r.ic);
+  document.getElementById('d-role').textContent=r.label; document.getElementById('d-role').style.color=r.c;
+  document.getElementById('d-title').textContent=t.title;
+  document.getElementById('d-prem').textContent=t.prem;
+  document.getElementById('d-met').innerHTML=
+    '<span class="chip">'+t.theater+'</span>'+
+    '<span class="chip">Aircraft: '+t.ac+'</span>'+
+    '<span class="chip mono">'+t.sp+'</span>'+
+    '<span class="chip">'+t.base+'</span>'+
+    '<span class="chip">Threat '+threatBar(t.threat)+'</span>'+
+    (t.req?'<span class="chip" style="color:#ffd27a">Requires '+t.req+'</span>':'');
+  // era selector (era in both paths)
+  const eb=document.getElementById('d-eras');
+  if(t.eras.length>1) eb.innerHTML=t.eras.map(e=>'<button class="erabtn '+(e===state.era?'on':'')+'" onclick="pickEra(\''+e+'\')">'+e+'</button>').join('');
+  else eb.innerHTML='<button class="erabtn solo on">'+t.eras[0]+'</button>';
+  document.getElementById('d-incl').innerHTML=INCL[t.role].map(x=>'<li><span class="k">'+
+    svg('<path d="M20 6L9 17l-5-5"/>')+'</span>'+x+'</li>').join('');
+  document.getElementById('d-ao').innerHTML=aoMap(t);
+  document.getElementById('d-seed').textContent='#'+state.seed;
+  go('detail');
+}
+function pickEra(e){state.era=e;document.querySelectorAll('#d-eras .erabtn').forEach(b=>b.classList.toggle('on',b.textContent===e));}
+function reroll(){state.seed=1000+Math.floor(Math.random()*8999);document.getElementById('d-seed').textContent='#'+state.seed;
+  toast('New variation #'+state.seed,'Same scenario, fresh threat placement & details');}
+
+// ---- build (condensed) ----
+const STEPS=[["Theater","Where you fly"],["Era","WWII · Cold War · Modern"],["Coalition","Which side"],
+  ["Aircraft","Your jet"],["Threats","SAM density + intensity"],["Support & Comms","Tanker, AWACS, radios"],["Review","Generate"]];
+function renderBuild(){
+  document.getElementById('rail').innerHTML=STEPS.map((s,i)=>{
+    const n=i+1, cls="step"+(n===state.bstep?" on":"")+(n<state.bstep?" done":"")+(s[0]==="Era"?" era":"");
+    return '<div class="'+cls+'" onclick="setStep('+n+')"><span class="n">'+(n<state.bstep?'✓':n)+'</span>'+s[0]+'</div>';
+  }).join('');
+  const s=STEPS[state.bstep-1]; const p=document.getElementById('bpanel');
+  let opts='';
+  if(s[0]==="Theater")opts=optGrid(["Caucasus","Persian Gulf","Nevada","Syria","Germany","The Channel"],"Persian Gulf");
+  else if(s[0]==="Era")opts=optGrid([["WWII","1944"],["Cold War","1965–85"],["Modern","2000s+"]],"Modern",1);
+  else if(s[0]==="Coalition")opts=optGrid(["Blue","Red"],"Blue");
+  else if(s[0]==="Aircraft")opts=optGrid(["F/A-18C","F-16CM","F-14B","F-14B(U)","A-10C II","F-15E"],"F/A-18C");
+  else if(s[0]==="Threats")opts=optGrid([["Light","SA-2/3, low"],["Medium","SA-6/11"],["Heavy","SA-10/11 belt"]],"Medium",1);
+  else if(s[0]==="Support & Comms")opts=optGrid(["Tanker","AWACS","Carrier group","FARPs"],"Tanker");
+  else opts='<div class="opt sel"><div class="t">Ready to generate</div><div class="d">Recipe + seed → a downloadable .miz + starter PDF</div></div>';
+  p.innerHTML='<h3>'+s[0]+'</h3><p class="sub">'+s[1]+'</p><div class="optgrid">'+opts+'</div>'+
+    (s[0]==="Era"?'<div class="buildnote">Era is the master filter — it lives here in Build, and as a quick filter in the Library. It gates maps, aircraft, statics, SAMs and support so nothing is anachronistic.</div>':'')+
+    (s[0]==="Review"?'<div style="margin-top:18px"><button class="cta prime" style="max-width:260px" onclick="toast(\'Generating .miz\',\'Your custom mission is downloading\')">Generate &amp; Download</button></div>':'');
+}
+function optGrid(items,sel,two){return items.map(it=>{const t=Array.isArray(it)?it[0]:it,d=Array.isArray(it)?it[1]:'';
+  return '<div class="opt'+(t===sel?' sel':'')+'" onclick="this.parentNode.querySelectorAll(\'.opt\').forEach(o=>o.classList.remove(\'sel\'));this.classList.add(\'sel\')"><div class="t">'+t+'</div>'+(d?'<div class="d">'+d+'</div>':'')+'</div>';}).join('')}
+function setStep(n){state.bstep=n;renderBuild();}
+
+// ---- nav ----
+function go(p){
+  state.path=p;
+  ["entry","library","detail","build"].forEach(s=>document.getElementById('screen-'+s).classList.toggle('hidden',s!==p));
+  document.getElementById('pathToggle').style.display=(p==="entry")?'none':'flex';
+  document.querySelectorAll('#pathToggle button').forEach(b=>b.classList.toggle('on',
+     (b.dataset.path==='library'&&(p==='library'||p==='detail'))||(b.dataset.path==='build'&&p==='build')));
+  if(p==="library")applyFilters();
+  if(p==="build")renderBuild();
+  window.scrollTo(0,0);
+}
+let toastTimer;
+function toast(t,s){document.getElementById('toastT').textContent=t;document.getElementById('toastS').textContent=s;
+  const el=document.getElementById('toast');el.classList.add('show');clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2600);}
+buildTabs();
+</script>
+</body>
+</html>

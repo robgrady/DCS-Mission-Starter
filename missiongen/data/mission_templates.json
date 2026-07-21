@@ -1,109 +1,191 @@
 {
-  "_comment": "Scenario templates: opinionated PRESETS that arrange the sandbox into a recognizable mission, filtered by map/era/needs_carrier. Each carries a recipe preset (applied by the frontend to pre-fill the wizard, editable) and a 'brief' tasking block (appended to the mission briefing by the builder - suggested tasking only, NO forced waypoints). These are distinct from the crew-ops templates (backseat_*/rio_fleet_defense) which are handled by dedicated builder branches.",
-  "carrier_qual": {
-    "label": "Carrier Qualification (CQ) — Case I/III recovery practice at the boat",
-    "eras": ["coldwar", "modern"],
-    "needs_carrier": true,
-    "recipe": {
-      "bb_carrier": true, "carrier_layout": "recovery",
-      "aircraft": "FA_18C_hornet",
-      "bb_tanker": true, "bb_awacs": false,
-      "threat_intensity": 1, "threat_tier": "light",
-      "bb_targets": false, "bb_range": false,
-      "start": "warm", "time_of_day": "day", "weather": "clear"
-    },
-    "brief": [
-      "=== TASKING (suggested) — CARRIER QUALIFICATION ===",
-      "The boat is steaming into the wind with the pattern open. Fly the case:",
-      " - CASE I (day/VMC): overhead break, downwind, groove. Fuel state to Marshal.",
-      " - CASE III (night/IMC): Marshal stack, push on time, CATCC/ACLS approach.",
-      "Recovery tanker is overhead for your bolters and low-state passes. No enemy",
-      "tasking - this is currency and traps. Grade yourself: bolter, 1-wire to OK-3."
-    ]
+ "_comment": "Scenario templates: opinionated PRESETS that arrange the sandbox into a recognizable mission, filtered by map/era/needs_carrier. Each carries a recipe preset (applied by the frontend to pre-fill the wizard, editable) and a 'brief' tasking block (appended to the mission briefing by the builder - suggested tasking only, NO forced waypoints). These are distinct from the crew-ops templates (backseat_*/rio_fleet_defense) which are handled by dedicated builder branches.",
+ "carrier_qual": {
+  "label": "Carrier Qualification (CQ) \u2014 Case I/III recovery practice at the boat",
+  "eras": [
+   "coldwar",
+   "modern"
+  ],
+  "needs_carrier": true,
+  "recipe": {
+   "bb_carrier": true,
+   "carrier_layout": "recovery",
+   "aircraft": "FA_18C_hornet",
+   "bb_tanker": true,
+   "bb_awacs": false,
+   "threat_intensity": 1,
+   "threat_tier": "light",
+   "bb_targets": false,
+   "bb_range": false,
+   "start": "warm",
+   "time_of_day": "day",
+   "weather": "clear"
   },
-  "acls_practice": {
-    "label": "ACLS Practice — Mode I/IA coupled approaches (SuperCarrier)",
-    "eras": ["modern"],
-    "needs_carrier": true,
-    "needs_acls": true,
-    "recipe": {
-      "bb_carrier": true, "carrier_hull": "cvn_73", "carrier_layout": "recovery",
-      "aircraft": "FA_18C_hornet",
-      "bb_tanker": true, "bb_awacs": false,
-      "threat_intensity": 1, "threat_tier": "light",
-      "bb_targets": false, "bb_range": false,
-      "start": "warm", "time_of_day": "night", "weather": "scattered"
-    },
-    "brief": [
-      "=== TASKING (suggested) — ACLS PRACTICE ===",
-      "SuperCarrier boat, Link4 + ACLS radiating (see the Boat Card for channels).",
-      "Work the coupled approach:",
-      " - Fly to Marshal, set Link4 (F/A-18: DL20; F-14 RIO enters the freq), ICLS on.",
-      " - Commence, needles/ACLS: Mode II (needles, you fly) then Mode I (coupled,",
-      "   hands-off to touchdown) once you trust the datalink.",
-      "Tanker overhead for the go-arounds. Night/weather is set to make it count.",
-      "Note: ACLS needs an ACLS-capable hull (SuperCarrier / Stennis) - keep the",
-      "carrier on a supercarrier and don't swap to the Forrestal for this one."
-    ]
+  "brief": [
+   "=== TASKING (suggested) \u2014 CARRIER QUALIFICATION ===",
+   "The boat is steaming into the wind with the pattern open. Fly the case:",
+   " - CASE I (day/VMC): overhead break, downwind, groove. Fuel state to Marshal.",
+   " - CASE III (night/IMC): Marshal stack, push on time, CATCC/ACLS approach.",
+   "Recovery tanker is overhead for your bolters and low-state passes. No enemy",
+   "tasking - this is currency and traps. Grade yourself: bolter, 1-wire to OK-3."
+  ],
+  "library": {
+   "role": "carrier",
+   "premise": "Traps at the boat \u2014 pattern work until your boarding rate is where you want it. Calm deck, empty jet.",
+   "threat": 1,
+   "players": "SP",
+   "featured": true
   },
-  "cap_alert5": {
-    "label": "CAP / Alert-5 — hold the line, intercept inbound raiders",
-    "eras": ["coldwar", "modern"],
-    "recipe": {
-      "bb_awacs": true, "bb_tanker": true,
-      "threat_intensity": 4, "threat_tier": "mixed",
-      "bb_targets": false, "bb_range": false,
-      "start": "runway", "time_of_day": "day", "weather": "scattered"
-    },
-    "brief": [
-      "=== TASKING (suggested) — COMBAT AIR PATROL ===",
-      "You own a CAP station on the threat axis. AWACS has the picture; check in and",
-      "work the intercepts. Enemy CAP is up and probing - expect commit calls.",
-      "Tanker on station to keep you on the wall. ROE: your call - this is a training",
-      "furball, not a scored engagement. Hold the line, protect the rear, RTB with gas."
-    ]
+  "default_map": "caucasus"
+ },
+ "acls_practice": {
+  "label": "ACLS Practice \u2014 Mode I/IA coupled approaches (SuperCarrier)",
+  "eras": [
+   "modern"
+  ],
+  "needs_carrier": true,
+  "needs_acls": true,
+  "recipe": {
+   "bb_carrier": true,
+   "carrier_hull": "cvn_73",
+   "carrier_layout": "recovery",
+   "aircraft": "FA_18C_hornet",
+   "bb_tanker": true,
+   "bb_awacs": false,
+   "threat_intensity": 1,
+   "threat_tier": "light",
+   "bb_targets": false,
+   "bb_range": false,
+   "start": "warm",
+   "time_of_day": "night",
+   "weather": "scattered"
   },
-  "sead_range": {
-    "label": "SEAD / Wild Weasel Range — work a defended target complex",
-    "eras": ["coldwar", "modern"],
-    "recipe": {
-      "bb_awacs": true, "bb_tanker": true,
-      "threat_intensity": 4, "threat_tier": "heavy",
-      "bb_targets": true, "bb_range": false,
-      "start": "runway", "time_of_day": "day", "weather": "scattered"
-    },
-    "brief": [
-      "=== TASKING (suggested) — SEAD / WILD WEASEL ===",
-      "A defended target area is up ahead - SAM belt around the enemy fields (see the",
-      "F10 threat rings and the kneeboard). Roll back the air defenses:",
-      " - First on the RWR, sort the emitters, respect the rings.",
-      " - HARM/Shrike the acquisition and TR radars; re-attack the shooters.",
-      "AWACS has the picture, tanker's behind you. No fixed waypoints - build your own",
-      "ingress around the threats. Success = you can fly the target area without a launch."
-    ]
+  "brief": [
+   "=== TASKING (suggested) \u2014 ACLS PRACTICE ===",
+   "SuperCarrier boat, Link4 + ACLS radiating (see the Boat Card for channels).",
+   "Work the coupled approach:",
+   " - Fly to Marshal, set Link4 (F/A-18: DL20; F-14 RIO enters the freq), ICLS on.",
+   " - Commence, needles/ACLS: Mode II (needles, you fly) then Mode I (coupled,",
+   "   hands-off to touchdown) once you trust the datalink.",
+   "Tanker overhead for the go-arounds. Night/weather is set to make it count.",
+   "Note: ACLS needs an ACLS-capable hull (SuperCarrier / Stennis) - keep the",
+   "carrier on a supercarrier and don't swap to the Forrestal for this one."
+  ],
+  "library": {
+   "role": "carrier",
+   "premise": "Mode I/IA coupled approach \u2014 fly the needles down to a hands-off night trap in the weather.",
+   "threat": 1,
+   "players": "SP"
   },
-  "berlin_corridor_transit": {
-    "label": "Berlin Corridor Transit — fly the Cold War air corridors to Berlin",
-    "eras": ["coldwar"],
-    "maps": ["germany"],
-    "recipe": {
-      "aircraft": "F_4E_45MC",
-      "bb_historical_airspace": true,
-      "bb_awacs": false, "bb_tanker": false,
-      "bb_sams": false, "threat_intensity": 1, "threat_tier": "light",
-      "bb_targets": false, "bb_range": false,
-      "start": "runway", "time_of_day": "day", "weather": "scattered"
-    },
-    "brief": [
-      "=== TASKING (suggested) — BERLIN CORRIDOR TRANSIT ===",
-      "Three 20-mile-wide corridors run across GDR airspace to West Berlin, ceiling",
-      "10,000 ft, all converging on the Berlin Control Zone (see the F10 map — violet",
-      "swaths — and the airspace note below). This is an airspace-discipline sortie:",
-      " - Pick a corridor (North/Hamburg, Center/Hannover, South/Frankfurt) and hold",
-      "   inside its lateral limits, below the ceiling, all the way to the Control Zone.",
-      " - Straying out over GDR territory is what got you intercepted historically —",
-      "   the win here is a clean transit, not a fight.",
-      "No enemy tasking, no fixed waypoints. Fly the lanes, respect the ceiling, RTB."
-    ]
-  }
+  "default_map": "caucasus"
+ },
+ "cap_alert5": {
+  "label": "CAP / Alert-5 \u2014 hold the line, intercept inbound raiders",
+  "eras": [
+   "coldwar",
+   "modern"
+  ],
+  "recipe": {
+   "bb_awacs": true,
+   "bb_tanker": true,
+   "threat_intensity": 4,
+   "threat_tier": "mixed",
+   "bb_targets": false,
+   "bb_range": false,
+   "start": "runway",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "=== TASKING (suggested) \u2014 COMBAT AIR PATROL ===",
+   "You own a CAP station on the threat axis. AWACS has the picture; check in and",
+   "work the intercepts. Enemy CAP is up and probing - expect commit calls.",
+   "Tanker on station to keep you on the wall. ROE: your call - this is a training",
+   "furball, not a scored engagement. Hold the line, protect the rear, RTB with gas."
+  ],
+  "library": {
+   "role": "a2a",
+   "premise": "Hold the line. Sit Alert-5 and scramble to intercept inbound raiders before they reach the fleet.",
+   "threat": 4,
+   "players": "SP \u00b7 MP",
+   "featured": true
+  },
+  "default_map": "caucasus"
+ },
+ "sead_range": {
+  "label": "SEAD / Wild Weasel Range \u2014 work a defended target complex",
+  "eras": [
+   "coldwar",
+   "modern"
+  ],
+  "recipe": {
+   "bb_awacs": true,
+   "bb_tanker": true,
+   "threat_intensity": 4,
+   "threat_tier": "heavy",
+   "bb_targets": true,
+   "bb_range": false,
+   "start": "runway",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "=== TASKING (suggested) \u2014 SEAD / WILD WEASEL ===",
+   "A defended target area is up ahead - SAM belt around the enemy fields (see the",
+   "F10 threat rings and the kneeboard). Roll back the air defenses:",
+   " - First on the RWR, sort the emitters, respect the rings.",
+   " - HARM/Shrike the acquisition and TR radars; re-attack the shooters.",
+   "AWACS has the picture, tanker's behind you. No fixed waypoints - build your own",
+   "ingress around the threats. Success = you can fly the target area without a launch."
+  ],
+  "library": {
+   "role": "sead",
+   "premise": "Wild Weasel work over a defended target \u2014 bait the SAMs, kill the radars, open the door for the strikers.",
+   "threat": 4,
+   "players": "SP \u00b7 MP",
+   "featured": true
+  },
+  "default_map": "caucasus"
+ },
+ "berlin_corridor_transit": {
+  "label": "Berlin Corridor Transit \u2014 fly the Cold War air corridors to Berlin",
+  "eras": [
+   "coldwar"
+  ],
+  "maps": [
+   "germany"
+  ],
+  "recipe": {
+   "aircraft": "F_4E_45MC",
+   "bb_historical_airspace": true,
+   "bb_awacs": false,
+   "bb_tanker": false,
+   "bb_sams": false,
+   "threat_intensity": 1,
+   "threat_tier": "light",
+   "bb_targets": false,
+   "bb_range": false,
+   "start": "runway",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "=== TASKING (suggested) \u2014 BERLIN CORRIDOR TRANSIT ===",
+   "Three 20-mile-wide corridors run across GDR airspace to West Berlin, ceiling",
+   "10,000 ft, all converging on the Berlin Control Zone (see the F10 map \u2014 violet",
+   "swaths \u2014 and the airspace note below). This is an airspace-discipline sortie:",
+   " - Pick a corridor (North/Hamburg, Center/Hannover, South/Frankfurt) and hold",
+   "   inside its lateral limits, below the ceiling, all the way to the Control Zone.",
+   " - Straying out over GDR territory is what got you intercepted historically \u2014",
+   "   the win here is a clean transit, not a fight.",
+   "No enemy tasking, no fixed waypoints. Fly the lanes, respect the ceiling, RTB."
+  ],
+  "library": {
+   "role": "historic",
+   "premise": "Thread the real Cold-War air corridors into Berlin \u2014 stay in the lane, the whole world is watching.",
+   "threat": 1,
+   "players": "SP \u00b7 MP"
+  },
+  "default_map": "germany"
+ }
 }
