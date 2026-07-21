@@ -58,7 +58,7 @@
 
 - AWG-9 sort drill (pure sensor gym, solo-friendly) · TARPS recce · LANTIRN FAC(A)
 - Instructor difficulty tier (injected failures: lase windows, notching bandits, EMCON)
-- F-14B(U) release day: swap provisional type id for the real one, verify Jester/Iceman flags in-game, drop pending-module warnings — the izlid/intercept templates go "works today"
+- ✅ F-14B(U) shipped (v1.18.0): verified DCS type id `F-14BU`, real footprint, DTM cartridge injection; izlid/intercept templates work today
 
 ## ✅ SHIPPED as v1.5.0: Visual fidelity (pulled forward)
 

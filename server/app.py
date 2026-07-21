@@ -94,7 +94,7 @@ def flyable_aircraft():
     service = load_json("aircraft_service")
     for a in out:
         a["service"] = service.get(a["key"])   # [from, to|null] or null=unknown
-    # pending (announced/pre-order) modules, flagged for the UI
+    # modules pydcs has no native class for; verified ones list as normal jets
     from missiongen.pending import pending_aircraft
     for key, cfg in pending_aircraft().items():
         # a verified/released module is a normal selectable jet, not "upcoming"
@@ -133,9 +133,9 @@ def options():
                    "recipe": v.get("recipe", {})}
                for k, v in load_json("mission_templates").items()
                if not k.startswith("_")},
-            "backseat_izlid": {"label": "F-14B(U) Pilot + Jester: IZLID Strike — you fly, Jester designates on your call (⏳ pre-release module)",
+            "backseat_izlid": {"label": "F-14B(U) Pilot + Jester: IZLID Strike — you fly, Jester designates on your call",
                                "eras": ["modern"], "aircraft_locked": True},
-            "backseat_intercept": {"label": "F-14B(U) RIO + Iceman: GCI Intercept — Iceman flies YOUR calls from the back seat (⏳ pre-release module)",
+            "backseat_intercept": {"label": "F-14B(U) RIO + Iceman: GCI Intercept — Iceman flies YOUR calls from the back seat",
                                    "eras": ["modern"], "aircraft_locked": True},
             "rio_fleet_defense": {"label": "F-14 RIO: Fleet Defense — the AWG-9 vs a Backfire raid (solo or MP crew, works today)",
                                   "eras": ["coldwar", "modern"], "aircraft_locked": True},

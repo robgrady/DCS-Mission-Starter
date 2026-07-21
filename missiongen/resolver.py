@@ -127,7 +127,8 @@ def validate_data_packs() -> list:
 
     # carrier data: hull_class entries must reference a defined deck class
     # (internal consistency). Aircraft keys are NOT strict-resolved here because
-    # the roster intentionally lists pre-release modules (e.g. the F-14B(U)).
+    # the roster lists modules pydcs has no native class for (e.g. the F-14B(U),
+    # added at runtime via the pending-module pattern).
     carrier = load_json("carrier_capable")
     classes = set(carrier.get("classes", {}))
     for hull, cls in carrier.get("hull_class", {}).items():

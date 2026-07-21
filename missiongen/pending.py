@@ -1,12 +1,14 @@
-"""Pending-module support: aircraft announced/pre-order but not yet in pydcs.
+"""Pending-module support: aircraft that pydcs has no native class for yet.
 
-A pending aircraft inherits flight data from its closest released airframe and uses a
-provisional DCS type id. Selecting one works end-to-end, but generation attaches a
-warning until the real id is confirmed on release day (edit pending_aircraft.json).
+Covers both released modules newer than the vendored pydcs (e.g. the F-14B(U),
+whose real type id is verified from an in-sim survey) and any not-yet-shipped
+module. A pending aircraft inherits flight data from its closest released airframe
+and uses the DCS type id from pending_aircraft.json; a `verified` entry generates
+cleanly, an unverified one attaches a "not released yet" warning.
 
 This keeps FR-1 (full roster, including day-one support for new modules) honest with
-FR-2 (never silently produce a broken .miz): the risk is explicit, loud, and one JSON
-edit away from resolved.
+FR-2 (never silently produce a broken .miz): the type id is explicit and one JSON
+edit away from corrected.
 """
 from .resolver import load_json, resolve
 

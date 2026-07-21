@@ -602,7 +602,7 @@ class StarterBuilder:
                 return resolve(f"{mod}.{name}")
             except UnknownUnitError:
                 continue
-        # pending (announced/pre-order) modules with provisional type ids
+        # modules pydcs has no native class for (verified DCS type ids)
         from .pending import get_pending
         cls, warning = get_pending(name)
         if cls is not None:

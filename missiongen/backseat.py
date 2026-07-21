@@ -19,8 +19,8 @@ Two genres on the F-14B(U):
 F-14A/B (today, no flag API): rio_fleet_defense — solo via in-cockpit Iceman
 (A-menu) or multiplayer human crew.
 
-The F-14B(U) is pre-release: templates use the provisional type id (pending-
-module pattern) and generation attaches a warning until Heatblur ships.
+The F-14B(U) uses the verified DCS type id via the pending-module pattern
+(pydcs has no native class yet); it inherits F-14B flight data.
 
 NOTE: templates are the sanctioned exception to the no-waypoints principle —
 the AI crew needs steerpoints. These are template waypoints, not user plans.
@@ -105,7 +105,6 @@ BRIEFING_BLOCK = """
 You fly; Jester works the back seat. Ingress to steerpoint 2, then run the
 designation from the F10 CREW menu: IZLID on, confirm effect, cease. The
 mission commands Jester through the Heatblur flag API on your calls.
-NOTE: F-14B(U) is pre-release - this mission uses the provisional type id.
 """
 
 
@@ -180,8 +179,6 @@ INTERCEPT_BRIEFING_BLOCK = """
 You are the RIO; Iceman (AI pilot) flies your calls through the F10 CREW
 menu: commit on the raid, hold, or recommit CAP. Two Backfires inbound high
 and fast - find them on the AWG-9, build the geometry, run the intercept.
-NOTE: F-14B(U) is pre-release - provisional type id; Iceman flag value units
-(kts/ft assumed) pending Heatblur confirmation.
 """
 
 
