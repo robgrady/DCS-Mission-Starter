@@ -1,4 +1,4 @@
-__version__ = "1.17.0"
+__version__ = "1.17.1"
 
 from . import _determinism  # noqa: F401  (patches pydcs for cross-process reproducibility)
 from .recipe import Recipe

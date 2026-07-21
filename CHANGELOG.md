@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.17.1] — 2026-07-21 — F-14B(U) Day-0 (verified type id)
+
+### Fixed — real F-14B(U) DCS type id (release-day blocker)
+
+In-sim survey of the shipped module (saved `.miz` + `dcs.log`) confirmed the real
+DCS type id is **`F-14BU`** — our pre-release guess was `F-14B-U`, which would
+have made **every** generated B(U) mission fail to load.
+
+- `pending_aircraft.json`: `provisional_id` `F-14B-U` → **`F-14BU`**; marked
+  `verified` (released 2026-07-22). Flight/loft data still inherits `F-14B` (same
+  airframe) until pydcs ships a native class; dimensions feed the occupancy
+  registry correctly via that inheritance.
+- Survey confirmed: **radio presets** live on radio [1] (UHF) — our comm-preset
+  programming targets it correctly; **carrier** start (catobar) builds with no
+  clearance warning. Both verified end-to-end.
+- A verified pending module now emits an informational note instead of the
+  "module not released yet" warning, and the API lists it as a normal selectable
+  jet (not `upcoming`).
+- Regression test locks `F-14BU` into the serialized mission and asserts the old
+  bad id can never reappear.
+
+Beta observation (Heatblur, not ours): the survey log showed `No property record
+for cell "WHEEL_F"/"collision_belly"/"WHEEL_R/L"` on the B(U) — model warnings to
+watch when parking it as a static, not a generator issue.
+
+---
+
 ## [1.17.0] — 2026-07-21
 
 ### Added — F-14B(U) DTC setup card (`missiongen/dtc.py`)

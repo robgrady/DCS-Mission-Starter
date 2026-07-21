@@ -303,6 +303,20 @@ def test_dtc_card_only_for_bu_and_is_reference_only(tmp_path):
     assert _zf.ZipFile(out2).read("mission"), "mission entry unreadable after DTC"
 
 
+# --- F-14B(U) verified type id (survey-confirmed 2026-07-21) ----------------
+# The real DCS type id is "F-14BU". Our pre-release guess was "F-14B-U", which
+# would make every generated B(U) mission fail to load. Lock the real id.
+def test_f14bu_uses_verified_type_id(tmp_path):
+    import zipfile as _zf
+    from missiongen import Recipe, generate
+    out = str(tmp_path / "bu.miz")
+    generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
+             aircraft="F_14B_U", home_airbase="Al Dhafra AFB", seed=7)), out)
+    mission = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
+    assert '"F-14BU"' in mission, "F-14B(U) did not serialize the verified type id F-14BU"
+    assert "F-14B-U" not in mission, "the old bad provisional id F-14B-U leaked into the mission"
+
+
 if __name__ == "__main__":
     import tempfile
     failed = 0
@@ -318,7 +332,8 @@ if __name__ == "__main__":
                test_alignment_dresses_bases_by_owning_nation,
                test_nation_rosters_place_correct_types,
                test_wwii_germany_is_red_not_blue,
-               test_dtc_card_only_for_bu_and_is_reference_only]:
+               test_dtc_card_only_for_bu_and_is_reference_only,
+               test_f14bu_uses_verified_type_id]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))
