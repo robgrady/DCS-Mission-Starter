@@ -1,0 +1,6 @@
+{
+ "_comment": "Real in-sim aircraft bounding boxes (metres) from BUSURVEY exports, used by the occupancy registry when pydcs understates a footprint. pydcs 'width' is often a swept/stored span; DCS reports the model's true envelope (e.g. F-14 span 20.34 m vs pydcs 10.15 m), so GSE/statics were spawning under spread wingtips. Keyed by DCS type id. Only entries here override pydcs; everything else falls back to pydcs width/length. Adding an entry changes generated placement for that type (byte-affecting) — for a type already in released missions, call it out as a versioned change.",
+ "_source": "f14bu_survey / f14bu_survey2 dcs.log BUSURVEY_OUT lines, 2026-07-21",
+ "F-14BU": {"length": 19.62, "span": 20.34, "height": 6.29},
+ "_F-14B_observed": {"length": 19.62, "span": 20.34, "height": 6.29, "note": "pydcs says 16.6 x 10.15; real box larger. NOT applied yet — changing it alters existing F-14B missions' bytes; do as a deliberate versioned data pass."}
+}
