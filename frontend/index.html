@@ -214,7 +214,7 @@
 <body>
 <header>
   <h1>DCS <span>MISSION STARTER</span> <span id="appver" style="font-size:12px;color:var(--dim);font-weight:normal"></span></h1>
-  <p>Select, don't search. We set the stage — you write the play. No waypoints, ever.
+  <p>Select, don't search. Instant, period-accurate DCS missions — pick one ready to fly, or build your own in minutes.
      &nbsp;·&nbsp; <a href="/api/guide" style="color:var(--accent)">Download the user guide</a>
      &nbsp;·&nbsp; <a href="/api/roadmap" style="color:var(--accent)">Roadmap</a></p>
 </header>
@@ -225,11 +225,11 @@
 
 <section id="entry"><div class="entrywrap">
   <div class="ehero"><h1><span>Select</span>, don't search.</h1>
-    <p>Get a living, period-accurate DCS mission in under a minute. Pick a ready-to-fly scenario, or build one exactly your way.</p></div>
+    <p>Instant, period-accurate DCS missions. Pick one ready to fly, or build your own — either way you're airborne in under a minute.</p></div>
   <div class="epaths">
     <div class="epath lib" onclick="showView('library')"><span class="tg">fastest</span>
       <div class="ei">📚</div><h3>Pick from the Library</h3>
-      <p>Curated, period-correct scenarios — CAP, SEAD, carrier ops, crew ops, historic. Choose one and you're airborne.</p>
+      <p>Curated, ready-to-fly missions — CAP, SEAD, CAS, carrier and crew ops, historic. Pick one and fly.</p>
       <div class="go">Browse the Library →</div></div>
     <div class="epath bld" onclick="showView('builder')"><span class="tg">full control</span>
       <div class="ei">🛠️</div><h3>Build a Mission</h3>
@@ -268,7 +268,7 @@
     </div>
     <div id="lmodules"></div>
     <div id="lfeatwrap"><div class="sechead">★ Start here</div><div class="lgrid" id="lfeat"></div></div>
-    <div class="sechead" id="lallhead">All scenarios</div>
+    <div class="sechead" id="lallhead">All missions</div>
     <div class="lgrid" id="lgrid"></div>
   </div>
 </section>
@@ -278,8 +278,8 @@
 <div id="whatbanner" style="background:linear-gradient(90deg,#1c2f4a,#182338);border-bottom:2px solid var(--accent);padding:14px 32px;display:flex;gap:16px;align-items:flex-start">
   <div style="font-size:22px;line-height:1.1">🛠️</div>
   <div style="flex:1;font-size:13.5px;line-height:1.5">
-    <b style="font-size:15px;color:#fff">This builds a mission <span style="color:var(--accent)">STARTER</span> — a ready-to-fly world, not a scripted mission.</b><br>
-    You get a dressed, living theater (airfields, air defenses, tanker &amp; AWACS, optional carrier) with <b>your flight parked and ready to fly</b> — but <b>no objectives, tasking or waypoints</b> (no A/A, A/G, SEAD packages). Take off and free-fly, or open the <b>.miz</b> in the DCS Mission Editor and build your mission on top. Want a ready-made mission with suggested tasking instead? Browse the <b><a href="#" onclick="showView('library');return false" style="color:var(--accent)">Library</a></b>.
+    <b style="font-size:15px;color:#fff">The Builder gives you a living, ready-to-fly theater — set up exactly your way.</b><br>
+    Your flight fueled and parked, with period-correct airfields, air defenses, tanker &amp; AWACS and an optional carrier. Take off and fly it, or open the <b>.miz</b> in the DCS Mission Editor to add objectives and make it your own. Want a ready-made mission instead? Browse the <b><a href="#" onclick="showView('library');return false" style="color:var(--accent)">Library</a></b>.
   </div>
   <button id="whatbanner_x" title="Got it — hide this" style="background:none;border:1px solid var(--line);color:var(--dim);border-radius:6px;cursor:pointer;padding:4px 9px;font-size:12px">Got it ✕</button>
 </div>
@@ -438,7 +438,7 @@
     </div>
   </div>
   <div class="step" id="sec_template" style="display:none"><h2><span class="n">·</span>Scenario<span class="hdrval" id="hv_template"></span></h2>
-    <p style="color:var(--dim);margin:2px 0 10px">Pick a ready-made scenario for this theater and it fills the rest of the wizard for you — or "Build your own" and configure everything yourself. Either way you can tweak every screen after this.</p>
+    <p style="color:var(--dim);margin:2px 0 10px">Pick a ready-made mission for this theater and it fills the rest of the wizard for you — or "Build your own" and configure everything yourself. Either way you can tweak every screen after this.</p>
     <div class="cards" id="templates"></div>
     <div class="row" style="margin-top:10px"><div style="max-width:280px">
       <label>Crew difficulty (for WSO/RIO templates)</label>
@@ -557,7 +557,7 @@ async function init(){
   }
   document.getElementById('bb_carrier').addEventListener('change', ()=>{ refreshCarrierUI(); updateRail(); });
   const tp = document.getElementById('templates');
-  const none = el(`<div class="card sel" data-k=""><b>Build your own</b><small>No scenario — you configure everything below</small></div>`);
+  const none = el(`<div class="card sel" data-k=""><b>Build your own</b><small>Start from scratch — you configure everything below</small></div>`);
   none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); updateRail(); };
   tp.appendChild(none);
   for (const [k,v] of Object.entries(OPT.templates)){
@@ -565,7 +565,7 @@ async function init(){
     if (v.needs_carrier) reqs.push('needs a carrier map');
     if (v.needs_acls) reqs.push('SuperCarrier for ACLS');
     if (v.maps && v.maps.length) reqs.push(v.maps.map(m=>(OPT.maps[m]?.label||m)).join('/'));
-    const hint = v.recipe ? 'Presets your setup — tweak anything below' : 'Crew-ops scenario (locks the jet)';
+    const hint = v.recipe ? 'Presets your setup — tweak anything below' : 'Crew-ops mission (locks the jet)';
     const c = el(`<div class="card" data-k="${k}" data-eras="${(v.eras||[]).join(',')}"><b>${v.label}</b><small>${hint}${reqs.length?' · '+reqs.join(' · '):''}</small></div>`);
     c.onclick = ()=>{ applyScenarioPreset(k); sel(tp,c); };
     tp.appendChild(c);
@@ -1486,7 +1486,7 @@ function openDetail(k){
       inclLines(t).map(x=>'<li><span class="k">✓</span>'+x+'</li>').join('')+'</ul></div>'+
     '<div class="dcta"><button class="prime" id="dgen" onclick="generateFromLib(\''+k+'\')">⬇ Generate &amp; Download</button>'+
       '<button class="ghost" onclick="openInBuilder(\''+k+'\')">🛠 Open in Builder to tweak</button></div>'+
-    '<div class="dnote">Pre-fills every builder step — change anything, keep the rest. We set the stage, you write the play.</div>';
+    '<div class="dnote">Pre-fills every builder step — change anything, keep the rest, then fly.</div>';
   document.getElementById('libdetail').classList.add('on');
 }
 function prettyAc(key){ const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
