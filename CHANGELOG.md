@@ -17,6 +17,20 @@ guide cover.
 
 ---
 
+## [1.21.2] — 2026-07-22 — Afghanistan parking survey baked (Kandahar + Bagram)
+
+Rob's survey flight (460/460 spots reported) also delivered the first in-sim
+proof that a mission built on our Afghanistan terrain module loads and runs.
+
+- `parking_headings.json` += **Kandahar (281 spots, default 54°)** and **Bagram
+  (179 spots, default 116°)** — parked statics on both fields now face their
+  exact painted lines (verified: generated headings cluster in the real ramp
+  orientations instead of a geometric guess).
+- Remaining Afghanistan fields fall back to the geometric guess until surveyed;
+  Falklands + The Channel remain the only wholly-unsurveyed maps.
+
+---
+
 ## [1.21.1] — 2026-07-22 — Afghanistan projection calibrated: beta tag dropped
 
 The in-sim projection probe came back and the computed transverse-mercator
