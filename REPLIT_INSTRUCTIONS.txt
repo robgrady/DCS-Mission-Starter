@@ -1,0 +1,30 @@
+Import this GitHub repository and RUN IT EXACTLY AS-IS. Do not generate, rewrite,
+re-scaffold, or "improve" any code, and do not create a new app from scratch.
+
+Repository: https://github.com/robgrady/DCS-Mission-Starter
+
+This is a complete, tested Python application (FastAPI). Setup is:
+
+1. Import the repo (Import from GitHub). Keep every file unchanged, including
+   the vendor/ directory and frontend/index.html.
+2. Install dependencies: pip install -r requirements.txt
+3. Run: uvicorn server.app:app --host 0.0.0.0 --port $PORT
+   (the included .replit file already configures Run and Deployment; use it.)
+4. Deploy with Autoscale. The app is stateless — no database, no persistent
+   disk, nothing else to configure.
+
+Do NOT:
+- Rebuild or restyle the frontend. Serve frontend/index.html exactly as shipped.
+- Add, remove, or rename any API endpoints or UI screens.
+- Modify anything in vendor/ (LGPL-licensed third-party library, must stay intact).
+- Add a database, ORM, or auth. None are needed.
+
+Verify success:
+- GET /api/health returns 200 with "ok": true.
+- The home page shows two choices: "Pick from the Library" and "Build a Mission",
+  and the header version matches the top entry in CHANGELOG.md (v1.19.1).
+- The Mission Library shows 8 scenario cards; the builder wizard has NO
+  scenario/template step.
+
+If anything fails to start, report the exact error instead of rewriting code.
+Full product background: see REPLIT.md in the repo root.
