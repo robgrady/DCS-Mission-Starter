@@ -17,6 +17,27 @@ guide cover.
 
 ---
 
+## [1.27.0] — 2026-07-22 — Redesign Phase 0: instrument-panel visual language
+
+Visual foundation of the v2 redesign — all in vanilla CSS/HTML, no framework.
+Because the app themes off CSS custom properties, the whole UI re-tints by
+remapping the root variables:
+
+- **Palette** → instrument-panel: tarmac base `#0B0E11`, signal-amber primary
+  `#FFB020` (was blue), HUD-cyan secondary `#3FB8AF`, with a fixed radial-gradient
+  field. Threat/coalition/ownership colors aligned to the redesign tokens. Every
+  component (Library, Builder, modals) picks this up automatically.
+- **Typography** → Archivo (display), Barlow (body), IBM Plex Mono (data/labels)
+  via Google Fonts.
+- **Landing refresh** → new hero "Get airborne fast. / Fly it your way.", a
+  pure-value "why us" strip (no competitor names, per Rob's call), and a "Two
+  flavors of mission" callout that teaches FULL MISSION vs OPEN STARTER.
+- **Primary CTAs** (Generate) → amber with a soft glow; success/tick states stay
+  green.
+
+Frontend only; no engine/recipe/determinism change. Next: Phase 2 (full My
+Install catalog) and Phase 3 (single-page Builder + live brief).
+
 ## [1.26.0] — 2026-07-22 — Redesign Phase 1: Full/Open kind badges + Type filter
 
 First slice of the v2 UX redesign (implemented in vanilla JS in the existing
