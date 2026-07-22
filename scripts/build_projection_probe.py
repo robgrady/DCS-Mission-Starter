@@ -45,12 +45,18 @@ def main():
     import missiongen  # registers extension terrains + loader patch
     from dcs.mission import Mission
     from dcs.triggers import TriggerStart
-    from dcs.action import DoScript
+    from dcs.action import DoScriptFile
     from missiongen.resolver import resolve_terrain, load_json
     terrain_cls = resolve_terrain(load_json("maps")[key]["terrain_class"])
     m = Mission(terrain_cls())
+    import tempfile
+    lua_path = Path(tempfile.mkdtemp()) / "projprobe.lua"
+    lua_path.write_text(LUA)
     t = TriggerStart(comment="Projection probe (env.info -> dcs.log)")
-    t.add_action(DoScript(m.string(LUA)))
+    # resource-file + DoScriptFile is the PROVEN execution path (v1 ran this
+    # way); inline DoScript via m.string() serializes as a dictionary key that
+    # DCS compiles literally -> "'=' expected near '<eof>'".
+    t.add_action(DoScriptFile(m.map_resource.add_resource_file(str(lua_path))))
     m.triggerrules.triggers.append(t)
     out = ROOT / f"probe_{key}.miz"
     m.save(str(out))
