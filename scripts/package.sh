@@ -18,6 +18,7 @@ MANIFEST=(
   samples
   vendor
   run_mac.command          # macOS double-click launcher
+  REPLIT.md                # implementation brief for Replit / hosting agents
   README.md
   CHANGELOG.md
   LICENSE
