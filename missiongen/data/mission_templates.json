@@ -326,5 +326,280 @@
    "The terrain is the second enemy: MSA in the passes is unforgiving.",
    "Bagram's SAM umbrella is active - respect the rings on the F10 map."
   ]
+ },
+ "f100_victor_alert": {
+  "label": "Victor Alert \u2014 Nuclear QRA (Bitburg F-100D)",
+  "eras": [
+   "coldwar"
+  ],
+  "maps": [
+   "germany"
+  ],
+  "default_map": "germany",
+  "library": {
+   "role": "strike",
+   "threat": 4,
+   "players": "SP",
+   "new": true,
+   "featured": true,
+   "module": "F-100D",
+   "premise": "The Hun's Cold War job: cocked on strip alert with a special weapon, ready to run a low-level strike deep into Warsaw Pact territory. You write the toss."
+  },
+  "recipe": {
+   "aircraft": "F_100D",
+   "home_airbase": "Bitburg",
+   "start": "warm",
+   "bb_targets": true,
+   "bb_tanker": false,
+   "bb_awacs": false,
+   "bb_historical_airspace": true,
+   "threat_intensity": 4,
+   "threat_tier": "heavy",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "== TASKING (suggested): VICTOR ALERT \u2014 NUCLEAR QRA ==",
+   "You are the alert bird at Bitburg, weapon on the centerline. The klaxon just went.",
+   "A designated target sits deep behind the front (DGZ ring on the F10 map).",
+   " - Get airborne and go LOW \u2014 the SA-2/SA-3 belt owns the medium altitudes.",
+   " - Run the corridor on the deck, pop for the toss/LADD delivery, egress low and fast.",
+   "No fixed waypoints: pick your own run-in around the threat rings. GCI only \u2014 no AWACS.",
+   "The whole sortie is about the profile: get in low, deliver, survive the egress."
+  ]
+ },
+ "f100_fulda_cas": {
+  "label": "Fulda Gap CAS \u2014 Stop the Armor (Hahn F-100D)",
+  "eras": [
+   "coldwar"
+  ],
+  "maps": [
+   "germany"
+  ],
+  "default_map": "germany",
+  "library": {
+   "role": "cas",
+   "threat": 3,
+   "players": "SP \u00b7 MP",
+   "new": true,
+   "featured": true,
+   "module": "F-100D",
+   "premise": "A Warsaw Pact armor column is pushing through the gap. Low-level guns, bombs and napalm \u2014 the fighter-bomber mission the Hun was built for."
+  },
+  "recipe": {
+   "aircraft": "F_100D",
+   "home_airbase": "Hahn",
+   "start": "warm",
+   "bb_targets": true,
+   "bb_tanker": false,
+   "bb_awacs": false,
+   "threat_intensity": 3,
+   "threat_tier": "mixed",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "== TASKING (suggested): BATTLEFIELD CAS \u2014 STOP THE ARMOR ==",
+   "Red armor is rolling through the target area (F10 + kneeboard). Blunt it.",
+   " - Work low and fast with guns, snakeye/napalm and rockets \u2014 first pass counts.",
+   " - Threats are ZSU-23/SA-9 SHORAD class down low: jink, don't loiter, re-attack from a new axis.",
+   "No JTAC datalink in this era \u2014 talk-on off the F10 picture and your own eyes.",
+   "Kill the lead vehicles, break the column's momentum, and get home."
+  ]
+ },
+ "f100_iron_hand": {
+  "label": "Iron Hand \u2014 Flak Suppression Escort (Spangdahlem F-100D)",
+  "eras": [
+   "coldwar"
+  ],
+  "maps": [
+   "germany"
+  ],
+  "default_map": "germany",
+  "library": {
+   "role": "sead",
+   "threat": 4,
+   "players": "SP \u00b7 MP",
+   "new": true,
+   "module": "F-100D",
+   "premise": "Ride shotgun for the strikers \u2014 bait the guns, roll in on the SAM sites and flak that come up. The dangerous, low-tech ancestor of Wild Weasel."
+  },
+  "recipe": {
+   "aircraft": "F_100D",
+   "home_airbase": "Spangdahlem",
+   "start": "runway",
+   "bb_targets": true,
+   "bb_tanker": false,
+   "bb_awacs": false,
+   "threat_intensity": 4,
+   "threat_tier": "heavy",
+   "time_of_day": "day",
+   "weather": "clear"
+  },
+  "brief": [
+   "== TASKING (suggested): IRON HAND \u2014 FLAK SUPPRESSION ==",
+   "A defended target complex is ringed with guns and SAMs (threat rings on the F10 map).",
+   " - You are the flak-suppression flight: draw the defenses, then roll in on whatever shoots.",
+   " - Rockets, bombs and the four 20mm on the AAA sites and SAM launchers \u2014 kill the shooters.",
+   "No RWR-cued HARM here: this is eyeballs, the RHAW gear and nerve. Respect the rings.",
+   "Success = the strikers get their pass without a launch coming up at them."
+  ]
+ },
+ "f100_sabre_dance_bfm": {
+  "label": "Sabre Dance \u2014 Gunfighter BFM (Nevada F-100D)",
+  "eras": [
+   "coldwar"
+  ],
+  "maps": [
+   "nevada"
+  ],
+  "default_map": "nevada",
+  "library": {
+   "role": "a2a",
+   "threat": 2,
+   "players": "SP \u00b7 MP",
+   "new": true,
+   "module": "F-100D",
+   "premise": "Guns-only day fighter work over the range \u2014 learn to fly the Hun on the edge, no missiles, just the pipper and energy."
+  },
+  "recipe": {
+   "aircraft": "F_100D",
+   "home_airbase": "Nellis AFB",
+   "start": "runway",
+   "bb_targets": false,
+   "bb_range": true,
+   "bb_tanker": false,
+   "bb_awacs": false,
+   "threat_intensity": 2,
+   "threat_tier": "light",
+   "time_of_day": "day",
+   "weather": "clear"
+  },
+  "brief": [
+   "== TASKING (suggested): GUNFIGHTER BFM ==",
+   "Adversary flight is up over the range for basic fighter maneuvers. Guns only.",
+   " - This is an energy fight: the Hun bleeds speed in the turn \u2014 fly it smart, don't get slow.",
+   " - Merge, fight, knock it off, reset. No missiles, no score \u2014 just stick-and-rudder.",
+   "A practice range is laid on if you want to warm up on strafe first. RTB with gas."
+  ]
+ },
+ "f14_tarps_recon": {
+  "label": "TARPS Recon Run \u2014 Photo Pass on a Defended Target (F-14B(U))",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "caucasus"
+  ],
+  "default_map": "caucasus",
+  "library": {
+   "role": "strike",
+   "threat": 3,
+   "players": "SP \u00b7 MP",
+   "new": true,
+   "featured": true,
+   "module": "F-14B(U)",
+   "premise": "The Tomcat's other job: run the TARPS camera pod over a defended target and get the imagery out. No shooting \u2014 speed, timing and a clean pass are the mission."
+  },
+  "recipe": {
+   "aircraft": "F_14B_U",
+   "home_airbase": "Kutaisi",
+   "start": "warm",
+   "bb_targets": true,
+   "bb_tanker": true,
+   "bb_awacs": true,
+   "threat_intensity": 3,
+   "threat_tier": "mixed",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "== TASKING (suggested): TARPS RECONNAISSANCE ==",
+   "You're carrying the recon pod. A target complex needs imagery (F10 + kneeboard).",
+   " - Plan a straight, steady run-in across the target for the cameras \u2014 wings level, on speed.",
+   " - Threat rings are up: time your pass, come in fast, and don't linger for a second look.",
+   "AWACS has the picture and a tanker is on the wall. No fixed waypoints \u2014 build your run.",
+   "Win = a clean photo pass and a live jet on the ramp. Don't trade the airframe for a picture."
+  ]
+ },
+ "f14_bombcat_strike": {
+  "label": "Bombcat Precision Strike \u2014 Self-Designate a Point Target (F-14B(U))",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "persiangulf"
+  ],
+  "default_map": "persiangulf",
+  "library": {
+   "role": "strike",
+   "threat": 4,
+   "players": "SP \u00b7 MP",
+   "new": true,
+   "featured": true,
+   "module": "F-14B(U)",
+   "premise": "Bombcat. A hardened point target sits inside a SAM ring \u2014 lase it yourself and put a LGB through the roof. The multirole Tomcat at its best."
+  },
+  "recipe": {
+   "aircraft": "F_14B_U",
+   "home_airbase": "Al Dhafra AFB",
+   "start": "warm",
+   "bb_targets": true,
+   "bb_tanker": true,
+   "bb_awacs": true,
+   "threat_intensity": 4,
+   "threat_tier": "heavy",
+   "time_of_day": "day",
+   "weather": "clear"
+  },
+  "brief": [
+   "== TASKING (suggested): PRECISION STRIKE ==",
+   "A defended point target is marked on the F10 map, ringed by air defenses.",
+   " - Ingress around the threat rings, self-designate with the pod and drop LGBs.",
+   " - Medium-altitude work above the SHORAD, but the SA belt reaches up \u2014 respect it.",
+   "AWACS and a tanker are laid on. No fixed waypoints \u2014 pick the axis that keeps you alive.",
+   "One good pass beats three sloppy ones. Confirm the hit, then egress."
+  ]
+ },
+ "f14_case3_night": {
+  "label": "Case III Night Recovery \u2014 Bring It Aboard in the Weather (F-14B(U))",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "caucasus"
+  ],
+  "default_map": "caucasus",
+  "needs_carrier": true,
+  "library": {
+   "role": "carrier",
+   "threat": 1,
+   "players": "SP",
+   "new": true,
+   "module": "F-14B(U)",
+   "premise": "The hardest thing in naval aviation: a big-wing Tomcat, a pitching deck, and a black night. Fly the Marshal stack and bring it aboard."
+  },
+  "recipe": {
+   "bb_carrier": true,
+   "carrier_layout": "recovery",
+   "aircraft": "F_14B_U",
+   "start": "warm",
+   "bb_tanker": true,
+   "bb_awacs": false,
+   "threat_intensity": 1,
+   "threat_tier": "light",
+   "bb_targets": false,
+   "bb_range": false,
+   "time_of_day": "night",
+   "weather": "scattered"
+  },
+  "brief": [
+   "== TASKING (suggested): CASE III NIGHT RECOVERY ==",
+   "Night, weather, the boat below the overcast. This is a currency-and-nerve sortie.",
+   " - Hold the Marshal stack, push on time, fly the TACAN/ICLS approach down the chute.",
+   " - Big-wing Tomcat on the ball: fly the deck, keep it on speed, don't chase the meatball.",
+   "Recovery tanker is overhead for your bolters and low-state passes. No enemy tasking.",
+   "Grade yourself, tank if you need to, and go again until the traps are where you want them."
+  ]
  }
 }
