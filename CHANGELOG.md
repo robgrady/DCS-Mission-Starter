@@ -17,6 +17,19 @@ guide cover.
 
 ---
 
+## [1.29.0] — 2026-07-22 — Redesign Phase 3: Advanced disclosure in the Builder
+
+Addresses the audit's P1 density finding — essentials and expert controls no
+longer share the same weight. The Builder rail now shows only the **four
+essentials + Review** by default (Theater, Flight, Threats, Support); an
+**Advanced options** toggle reveals the expert screens (Airfields ramp/themes,
+Map & F10 graphics), which carry a cyan step number to mark them as advanced.
+The "airborne in a minute" user isn't confronted with ramp-fill and layer
+geometry; veterans flip one switch. Screen-nav, progress, and jump behavior all
+respect the toggle; you're never stranded on a hidden screen.
+
+Frontend only; the Builder's existing screen model and recipe are unchanged.
+
 ## [1.28.0] — 2026-07-22 — Redesign Phase 2: full "My Install" module catalog
 
 The ownership picker grows from a flat maps+aircraft list into the redesign's

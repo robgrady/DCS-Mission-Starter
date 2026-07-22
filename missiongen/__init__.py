@@ -1,4 +1,4 @@
-__version__ = "1.28.0"
+__version__ = "1.29.0"
 
 # Preflight: vendored pydcs imports pyproj at import time (terrain projections).
 # Fail with instructions instead of a bare ModuleNotFoundError deep in pydcs.

@@ -79,6 +79,15 @@
           border-right: 1px solid var(--line); background: var(--panel);
           display: flex; flex-direction: column; padding-top: 10px; }
   #railsteps { flex: 1; overflow-y: auto; }
+  #advtoggle { display:flex; align-items:center; gap:9px; margin:8px 4px; padding:9px 10px; border:1px solid var(--line);
+    border-radius:9px; cursor:pointer; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
+    text-transform:uppercase; color:var(--dim); user-select:none; }
+  #advtoggle:hover { color:var(--text); }
+  #advtoggle .advsw { width:32px; height:18px; border-radius:20px; background:var(--line); position:relative; transition:.15s; flex:none; }
+  #advtoggle .advsw::after { content:""; position:absolute; width:13px; height:13px; border-radius:50%; background:#cdd7e2; top:2.5px; left:3px; transition:.15s; }
+  #advtoggle.on { color:var(--carrier); border-color:rgba(63,184,175,.4); }
+  #advtoggle.on .advsw { background:var(--carrier); } #advtoggle.on .advsw::after { left:16px; }
+  .rstep .dot.adv { background:rgba(63,184,175,.16); color:var(--carrier); }
   .rstep { display: flex; gap: 10px; padding: 9px 14px; cursor: pointer;
            border-left: 3px solid transparent; align-items: flex-start; user-select: none; }
   .rstep:hover { background: var(--panel2); }
@@ -364,6 +373,8 @@
 <div class="app">
 <nav id="rail">
   <div id="railsteps"></div>
+  <div id="advtoggle" onclick="toggleAdvanced()" title="Show expert options (airfields, map graphics)">
+    <span class="advsw"></span><span>Advanced options</span></div>
   <div class="railfoot">
     <button id="railreset" title="Clear saved state and start over">Reset wizard</button>
   </div>
@@ -554,7 +565,16 @@
   <button id="gen">GENERATE .MIZ</button>
 </div>
 <script>
-const S = { map:null, era:null, template:null };
+const S = { map:null, era:null, template:null, advanced:false };
+function toggleAdvanced(){
+  S.advanced = !S.advanced;
+  buildRail();
+  if (S.advanced === false && typeof CUR_SCREEN==='string'){
+    const scr = SCREENS.find(s=>s.key===CUR_SCREEN);
+    if (scr && scr.adv) showScreen('theater');   // don't sit on a now-hidden screen
+  }
+  updateRail(); updateScreenNav();
+}
 // each block renders into a target container on its screen (5th field)
 const BLOCKS = [
   ["bb_dressing","Airfield dressing","Static aircraft, GSE, infrastructure on real stands", true, "tog_dress"],
@@ -975,7 +995,7 @@ const SCREENS = [
       const a = document.getElementById('aircraft').selectedOptions[0];
       const h = document.getElementById('home').selectedOptions[0];
       return a ? `${document.getElementById('coalition').value} · ${a.text.split(' (')[0]}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') : null; }},
-  {key:"airfields", num:3, label:"Airfields", steps:["dressstep"], val:()=>{
+  {key:"airfields", num:3, label:"Airfields", adv:true, steps:["dressstep"], val:()=>{
       if (!document.getElementById('bb_dressing')?.checked) return "off";
       if (typeof dressMode==='function' && dressMode()==='compose'){
         const tot = Object.values(composerMix()).reduce((a,b)=>a+b,0);
@@ -996,7 +1016,7 @@ const SCREENS = [
       cond:()=>document.getElementById('bb_carrier')?.checked, val:()=>{
       const h = document.getElementById('carrier_hull').selectedOptions[0];
       return h ? h.text.split(' (')[0] : "on"; }},
-  {key:"graphics", num:7, label:"Map & graphics", steps:["gfxstep"], val:()=>{
+  {key:"graphics", num:7, label:"Map & graphics", adv:true, steps:["gfxstep"], val:()=>{
       const gl = [...document.querySelectorAll('.gfxl')];
       return `${gl.filter(c=>c.checked).length}/${gl.length} layers`; }},
   {key:"review", num:8, label:"Review & generate", steps:["sec_review"], val:()=>"ready"},
@@ -1017,7 +1037,7 @@ function showScreen(key){
   updateScreenNav();
 }
 
-function visScreens(){ return SCREENS.filter(s => !s.cond || s.cond()); }
+function visScreens(){ return SCREENS.filter(s => (!s.cond || s.cond()) && (!s.adv || (S && S.advanced))); }
 function screenDone(scr){
   let v=null; try{ v=scr.val(); }catch(e){}
   return !!v && !['off','none','ready','defenses off'].includes(v);
@@ -1043,11 +1063,13 @@ function updateScreenNav(){
 function buildRail(){
   const c = document.getElementById('railsteps');
   c.innerHTML = '';
-  for (const scr of SCREENS){
-    const r = el(`<div class="rstep" data-key="${scr.key}"><div class="dot">${scr.num}</div><div><b>${scr.label}</b><small>—</small></div></div>`);
+  for (const scr of visScreens()){
+    const r = el(`<div class="rstep" data-key="${scr.key}"><div class="dot${scr.adv?' adv':''}">${scr.num}</div><div><b>${scr.label}</b><small>—</small></div></div>`);
     r.onclick = () => { if(!r.classList.contains('dim')) showScreen(scr.key); };
     c.appendChild(r);
   }
+  const at = document.getElementById('advtoggle');
+  if (at) at.classList.toggle('on', !!(S && S.advanced));
   document.getElementById('railreset').onclick = () => {
     try { localStorage.removeItem('ms_recipe'); } catch(e){}
     location.href = location.pathname;
