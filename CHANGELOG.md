@@ -17,6 +17,22 @@ guide cover.
 
 ---
 
+## [1.22.1] — 2026-07-22 — Crew Ops honour the start setting (no more forced air start)
+
+**Fix.** All three Crew Ops templates (`backseat_izlid`, `backseat_intercept`,
+`rio_fleet_defense`, land-base path) always spawned the player flight *airborne*
+via `flight_group_inflight`, ignoring the wizard's Start choice. Selecting Cold,
+Warm (ramp), or Runway still put you in the air — the exact bug Rob hit on the
+F-14B(U) IZLID mission, where the brief said "Start warm · Kandahar" but the jet
+launched already flying. New `backseat._player_flight()` helper ground-starts the
+flight from the home base honouring `recipe.start` (cold/warm/runway), then flies
+the same steerpoint route; it falls back to an air start only if the base has no
+free parking. Fleet-defense solo start messages and the RIO briefing block now
+describe the ground start instead of assuming an air start.
+
+Byte-affecting for Crew Ops recipes (player group start type + first waypoint
+change). Determinism preserved: same recipe+seed → byte-identical `.miz`.
+
 ## [1.22.0] — 2026-07-22 — Afghanistan Theater Identity + 4 COIN-era Library missions
 
 ### Added — Afghanistan gets its real identity (Theater Identity P1/P3)

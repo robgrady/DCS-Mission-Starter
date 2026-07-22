@@ -29,9 +29,53 @@ import math
 import random
 from dcs import mapping, vehicles
 from dcs.action import SetFlagValue
+from dcs.mission import StartType
 
 from .crewops import CrewFlow
 from .pending import get_pending
+
+_START_TYPES = {"cold": StartType.Cold, "warm": StartType.Warm,
+                "runway": StartType.Runway}
+
+
+def _player_flight(m, recipe, country, name, cls, home_airport, route,
+                   group_size=1):
+    """Build the player crew-ops flight honoring recipe.start.
+
+    The Crew Ops wizard only ever offers a GROUND start (cold / warm / runway) -
+    there is no "air start" option - so the flight must spawn on the ground at the
+    home base and fly its route from there. (The old builders always air-started,
+    which is why cold/runway/ramp selections were ignored and the jet appeared
+    already airborne.)
+
+    route: list of (point, altitude_m, speed_kmh) steerpoints for the air task.
+    Ground-starts from home_airport per the wizard when parking is free; only if
+    the base has no free parking does it fall back to an air start on the first
+    route point. Assigns player/client seats and returns (flight_group, ground).
+    """
+    from dcs.terrain.terrain import NoParkingSlotError
+    gs = max(1, min(2, group_size))
+    st = _START_TYPES.get(recipe.start, StartType.Cold)
+    ground = True
+    try:
+        fg = m.flight_group_from_airport(country, name, cls, home_airport,
+                                         start_type=st, group_size=gs)
+        for pt, alt, spd in route:
+            fg.add_waypoint(pt, altitude=alt, speed=spd)
+    except NoParkingSlotError:
+        ground = False
+        first_pt, first_alt, first_spd = route[0]
+        fg = m.flight_group_inflight(country, name, cls, first_pt,
+                                     altitude=first_alt, speed=first_spd,
+                                     group_size=gs)
+        for pt, alt, spd in route[1:]:
+            fg.add_waypoint(pt, altitude=alt, speed=spd)
+    if recipe.slots <= 1:
+        fg.units[0].set_player()
+    else:
+        for u in fg.units:
+            u.set_client()
+    return fg, ground
 
 FLAGS = {
     "zone_target": 10019, "ggw_target": 10046, "izlid_lase": 10047,
@@ -67,11 +111,13 @@ def build_backseat_izlid(m, recipe, blue_country, red_country, home_airport,
     m.triggers.add_triggerzone(convoy_pos, radius=2000, name="IZLID ZONE")
 
     ingress = _pt(target_area, -27000, -5000)
-    f14 = m.flight_group_inflight(blue_country, "Victory 1", cls,
-                                  ingress, altitude=4572, speed=760, group_size=1)
-    f14.add_waypoint(target_area, altitude=4572)          # STPT 2: target
-    f14.add_waypoint(_pt(target_area, -30000, 15000), altitude=5486)  # STPT 3: egress
-    f14.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f14.units]
+    egress = _pt(target_area, -30000, 15000)
+    # STPT 1 ingress, 2 target, 3 egress. Ground-start from home per the wizard.
+    f14, _ground = _player_flight(
+        m, recipe, blue_country, "Victory 1", cls, home_airport,
+        route=[(ingress, 4572, 760), (target_area, 4572, 600),
+               (egress, 5486, 600)],
+        group_size=1)
 
     flow = CrewFlow(m, recipe.crew_difficulty)
     flow.message_at_start(
@@ -124,11 +170,11 @@ def build_backseat_intercept(m, recipe, blue_country, red_country, home_airport,
         _pt(target_area, 60000, 40000), altitude=9000, speed=900, group_size=2)
     bombers.add_waypoint(home_airport.position, altitude=9000)
 
-    f14 = m.flight_group_inflight(blue_country, "Anytime 1", cls,
-                                  cap, altitude=6096, speed=740, group_size=1)
-    f14.add_waypoint(cap, altitude=6096)          # STPT 2: CAP anchor
-    f14.add_waypoint(target_area, altitude=7620)  # STPT 3: threat axis
-    f14.units[0].set_player() if recipe.slots <= 1 else [u.set_client() for u in f14.units]
+    # STPT 1 ingress, 2 CAP anchor, 3 threat axis. Ground-start from home.
+    f14, _ground = _player_flight(
+        m, recipe, blue_country, "Anytime 1", cls, home_airport,
+        route=[(cap, 6096, 740), (cap, 6096, 600), (target_area, 7620, 600)],
+        group_size=1)
 
     threat_brg = round(math.degrees(math.atan2(
         target_area.y - cap.y, target_area.x - cap.x)) % 360)
@@ -201,32 +247,43 @@ def build_rio_fleet_defense(m, recipe, blue_country, red_country, home_airport,
     raid.add_waypoint(home_airport.position, altitude=10000)
 
     solo = recipe.slots <= 1
+    from_deck = False
     if csg is not None:
         f14 = m.flight_group_from_unit(
             blue_country, "Anytime 1", cat, csg,
             start_type=StartType.Warm, group_size=1 if solo else 2)
+        f14.add_waypoint(cap, altitude=7620)
+        f14.add_waypoint(target_area, altitude=9144)
+        if solo:
+            f14.units[0].set_player()
+        else:
+            for u in f14.units:
+                u.set_client()
+        from_deck = True
+        ground = True
     else:
-        f14 = m.flight_group_inflight(blue_country, "Anytime 1", cat,
-                                      cap, altitude=7620, speed=740,
-                                      group_size=1 if solo else 2)
-    f14.add_waypoint(cap, altitude=7620)
-    f14.add_waypoint(target_area, altitude=9144)
-    if solo:
-        f14.units[0].set_player()
-    else:
-        for u in f14.units:
-            u.set_client()
+        # Land base: ground-start from home per the wizard (cold/warm/runway).
+        f14, ground = _player_flight(
+            m, recipe, blue_country, "Anytime 1", cat, home_airport,
+            route=[(cap, 7620, 740), (cap, 7620, 600), (target_area, 9144, 600)],
+            group_size=1 if solo else 2)
 
     threat_brg = round(math.degrees(math.atan2(
         target_area.y - cap.y, target_area.x - cap.x)) % 360)
 
     flow = CrewFlow(m, recipe.crew_difficulty)
-    if solo and csg is not None:
+    if solo and from_deck:
         flow.message_at_start(
             "CREW OPS - FLEET DEFENSE (SOLO RIO, CARRIER START). You're on the boat.\n"
             "Cat-shot yourself, climb out, get level and trimmed - then JUMP TO THE\n"
             "BACK SEAT and Iceman takes the stick (A-menu: heading/altitude/speed).\n"
             "Run the AWG-9, sort the raid in TWS. GCI on the F10 menu.")
+    elif solo and ground:
+        flow.message_at_start(
+            "CREW OPS - FLEET DEFENSE (SOLO RIO). You start on the ramp at home:\n"
+            "start up, take off, get level and trimmed on the CAP leg - then JUMP\n"
+            "TO THE BACK SEAT and Iceman takes the stick (A-menu: heading/altitude/\n"
+            "speed). Run the AWG-9, sort the raid in TWS. GCI on the F10 menu.")
     elif solo:
         flow.message_at_start(
             "CREW OPS - FLEET DEFENSE (SOLO RIO). You're air-started level on CAP:\n"
@@ -259,8 +316,9 @@ RIO_BRIEFING_BLOCK = """
 Four Backfires inbound on the force. The RIO owns the AWG-9: build the
 picture in TWS, sort the raid, time the shots. GCI on the F10 menu.
 
-SOLO (slots=1): you air-start level on CAP (or cat-shot from the boat if the
-carrier is home). Trim, jump to the back seat, and Iceman holds it - command
+SOLO (slots=1): you start on the ground at home (cold/warm/runway per your
+pick) - take off and get level on the CAP leg, or cat-shot from the boat if the
+carrier is home. Trim, jump to the back seat, and Iceman holds it - command
 him with the A-menu (Ctrl+1-8). MULTIPLAYER (slots=2): two crew jets, human
 pilot + human RIO each. (F-14B(U) adds full mission-scripted crew AI.)
 """
