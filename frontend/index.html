@@ -129,6 +129,15 @@
   .corraxis { font-family:var(--font-mono); font-size:11.5px; color:var(--dim); margin-bottom:4px; }
   .correnemy { font-size:11.5px; color:var(--strike); }
   .corrempty { color:var(--dim); font-size:13px; border:1px dashed var(--line); border-radius:10px; padding:14px; }
+  .revlist { display:flex; flex-direction:column; gap:7px; }
+  .revrow { display:flex; align-items:center; gap:12px; background:var(--panel2); border:1px solid var(--line);
+    border-radius:9px; padding:11px 14px; cursor:pointer; transition:.13s; }
+  .revrow:hover { border-color:var(--accent); }
+  .revnum { font-family:var(--font-mono); font-size:12px; color:var(--accent); font-weight:600; }
+  .revkey { font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:.07em; color:var(--dim); width:130px; flex:none; }
+  .revval { flex:1; font-size:13.5px; color:var(--text); }
+  .revedit { color:var(--dim); font-size:14px; }
+  .revrow:hover .revedit { color:var(--accent); }
   @media (max-width: 900px) { #rail { position:static; width:100%; height:auto; }
     .app { flex-direction: column; } .genbar { left: 0; } }
   #summary { line-height: 1.4; }
@@ -551,7 +560,7 @@
   </div>
   <div class="step" id="sec_review"><h2><span class="n">9</span>Review &amp; generate<span class="hdrval"></span></h2>
     <p class="screenhint">One glance, then build. Any rail item jumps you back to tweak.</p>
-    <div id="review_box" style="background:var(--panel2);border-left:3px solid var(--green);border-radius:6px;padding:12px 14px;font-size:13px;line-height:1.7"></div>
+    <div id="review_box" class="revlist"></div>
     <div style="display:flex;gap:12px;margin-top:14px">
       <button id="gen2" style="background:var(--green);color:#04150a;font-weight:700;border:none;border-radius:8px;padding:12px 28px;font-size:15px;cursor:pointer">GENERATE .MIZ</button>
       <button id="share2" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 22px;font-size:14px;cursor:pointer">Copy share link</button>
@@ -1133,22 +1142,17 @@ function updateRail(){
 
 function buildReview(){
   if(!OPT || !S.map || !S.era) return;
-  const r = recipe();
-  const g = id => document.getElementById(id);
-  const home = r.home_airbase || (g('home').selectedOptions[0]?.text||'').replace('⚓ ','');
-  const parts = [];
-  parts.push(`<b>${OPT.eras[S.era].label} · ${OPT.maps[S.map].label} · ${r.coalition} · ${r.aircraft} from ${home}</b>`);
-  const air = !g('bb_dressing').checked ? 'airfields: off'
-    : (dressMode()==='compose' ? `airfields: composed ${Object.values(composerMix()).reduce((a,b)=>a+b,0)}/field`
-       : `airfields: ${(g('dress_theme').selectedOptions[0]?.text||'').replace('Auto for this map — ','')} ${g('dress_fill').value}%`);
-  parts.push(air + ` · placement ${g('dress_aircraft_mode').value==='static'?'static (light)':'AI (heavier)'}`);
-  parts.push(`threats: ${g('bb_sams').checked ? (g('threat_intensity_label').textContent+' / '+(g('threat_tier').selectedOptions[0]?.text.split(' —')[0]||'')) : 'off'}`);
-  const sup = BLOCKS.filter(([k,,,,tg])=>tg&&tg.startsWith('sup_')&&g(k)?.checked).map(b=>b[1]);
-  parts.push('support: ' + (sup.join(', ')||'none'));
-  const gl=[...document.querySelectorAll('.gfxl')];
-  parts.push(`map graphics: ${gl.filter(c=>c.checked).length}/${gl.length} layers · seed ${r.seed}`);
-  if (S.template) parts.push(`template: ${S.template}`);
-  g('review_box').innerHTML = parts.join('<br>');
+  // One clickable row per Builder screen (reuses each screen's live value);
+  // clicking a row jumps back to that section to tweak it.
+  const rows = visScreens().filter(s=>s.key!=='review').map(s=>{
+    let v=null; try{ v=s.val(); }catch(e){}
+    return {num:s.num, key:s.key, label:s.label, val:(v==null||v==='')?'—':v}; });
+  document.getElementById('review_box').innerHTML = rows.map(r=>
+    '<div class="revrow" onclick="showScreen(\''+r.key+'\')" title="Edit ' + r.label + '">'+
+      '<span class="revnum">'+String(r.num).padStart(2,'0')+'</span>'+
+      '<span class="revkey">'+r.label+'</span>'+
+      '<span class="revval">'+r.val+'</span>'+
+      '<span class="revedit">✎</span></div>').join('');
 }
 
 // --- autosave (survives refresh/crash; share links take precedence) ---

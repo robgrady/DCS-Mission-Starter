@@ -17,6 +17,15 @@ guide cover.
 
 ---
 
+## [1.31.0] — 2026-07-22 — Redesign Phase 4: Review screen jump-back rows
+
+The Review & Generate screen becomes the redesign's scannable, editable summary:
+one row per Builder section (numbered key + live value + ✎), and **clicking any
+row jumps straight back to that section** to tweak it. Rows reuse each screen's
+live value function, so the review always matches the mission, and respect the
+Advanced toggle (expert rows appear only when advanced is on). Replaces the flat
+text blob. Frontend only.
+
 ## [1.30.0] — 2026-07-22 — Redesign Phase 5: Air Corridors (threat-axis driver)
 
 The redesign's standout feature — and the first that reaches the engine.
