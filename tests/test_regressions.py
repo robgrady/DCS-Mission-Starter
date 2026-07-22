@@ -88,6 +88,26 @@ def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
     assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
 
 
+def test_brand_splash_embeds_and_toggles(tmp_path):
+    """The mission-start brand splash embeds the logo image + a Picture-to-All
+    (a_out_picture) trigger; toggling it off removes both. Cosmetic only."""
+    import zipfile as _zf
+    from missiongen import Recipe, generate
+    on = str(Path(tmp_path) / "on.miz")
+    r = generate(Recipe.from_dict(dict(map="caucasus", era="modern", coalition="blue",
+                aircraft="F_16C_50", bb_branding=True, seed=1)), on)
+    z = _zf.ZipFile(on)
+    assert any(n.lower().endswith(".png") and "authentic" in n.lower()
+               for n in z.namelist()), "logo image not embedded in the .miz"
+    assert "a_out_picture" in z.read("mission").decode("utf-8", "ignore"), \
+        "no Picture-to-All trigger at mission start"
+    assert r["stats"].get("branding") is True
+    off = str(Path(tmp_path) / "off.miz")
+    generate(Recipe.from_dict(dict(map="caucasus", era="modern", coalition="blue",
+             aircraft="F_16C_50", bb_branding=False, seed=1)), off)
+    assert "a_out_picture" not in _zf.ZipFile(off).read("mission").decode("utf-8", "ignore")
+
+
 def test_air_corridors_orient_the_mission(tmp_path):
     """Selecting an Air Corridor re-anchors the enemy focus down its bearing, so
     the threat axis + CAP/SAM concentration follow the lane. Must change the .miz,

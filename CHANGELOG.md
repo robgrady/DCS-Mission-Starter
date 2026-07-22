@@ -17,6 +17,25 @@ guide cover.
 
 ---
 
+## [1.32.0] — 2026-07-22 — Brand splash: logo on mission launch
+
+Generated missions now show an **Authentic Media logo for a few seconds when the
+mission launches**, then it clears — the same "Picture to All" trigger
+(`a_out_picture`) campaign creators use for intro logos. Cosmetic only: no units,
+no waypoints, no gameplay effect.
+
+- `missiongen/branding.py` — embeds the logo as a mission resource + a
+  mission-start Picture-to-All trigger. Coerces pydcs's alignment/size enums to
+  their string values (pydcs serialised them as bare identifiers like
+  `HorzAlignment.Center`, which is invalid Lua — the .miz wouldn't even reload).
+- `data/brand/authentic_media.png` — a clean placeholder splash (amber reticle +
+  wordmark); drop-in replaceable with the real logo.
+- `recipe.bb_branding` (default on) + a "Brand splash on launch" toggle in the
+  Briefing aids block. Off = no logo, no trigger.
+
+Byte-affecting (adds a resource + trigger); determinism preserved. New regression
+covers embed + toggle.
+
 ## [1.31.2] — 2026-07-22 — Fix: target packages no longer spawn in the sea
 
 On coastal maps (Syria with the player on Cyprus, Sinai, Marianas) the `bb_targets`

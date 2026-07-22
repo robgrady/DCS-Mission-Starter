@@ -91,6 +91,7 @@ class Recipe:
     bb_alignment: bool = True          # Theater Identity P1: dress each base with its real owning nation (country + liveries). No-op where no theater_identity data.
     bb_historical_airspace: bool = False  # Theater Identity P3: real corridors/no-fly zones (F10 + brief). Default off = determinism-safe for existing share links.
     corridors: List[str] = field(default_factory=list)  # selected Air Corridor names: orient the threat axis + concentrate enemy AD/CAP down the lane. Empty = open theater.
+    bb_branding: bool = True             # show the Authentic Media logo splash for a few seconds at mission start (cosmetic only)
     bb_dtc: Optional[bool] = None      # F-14B(U) DTC setup card (reference nav/threat/comms for the DTM). None = auto (on only for the F-14B(U)); True/False forces it.
     bb_farps: bool = False             # BB-4 functional FARPs (helo ops; not WWII)
     bb_targets: bool = False           # BB-16 strike target packages in the enemy rear

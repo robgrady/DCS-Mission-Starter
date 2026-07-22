@@ -640,6 +640,15 @@ class StarterBuilder:
                 brief += "\n" + airspace_brief
             m.set_description_text(brief)
 
+        # --- brand splash (cosmetic logo on launch) --------------------------
+        if getattr(r, "bb_branding", True):
+            try:
+                from . import branding
+                if branding.add_brand_splash(m):
+                    stats["branding"] = True
+            except Exception as _e:
+                self.warnings.append(f"brand splash skipped: {_e}")
+
         self.stats = stats
         # context the Mission Brief (PDF/MD) renderer needs — kb_ctx plus the
         # chart geometry (gfx) and the recipe/stats picture (brief.py).
