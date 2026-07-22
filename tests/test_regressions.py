@@ -340,6 +340,26 @@ def test_f14bu_uses_verified_type_id(tmp_path):
     assert "F-14B-U" not in mission, "old bad provisional id F-14B-U leaked in"
 
 
+# --- Afghanistan extension terrain (generated from Rob's install export) ----
+def test_afghanistan_terrain_generates_and_reloads(tmp_path):
+    """The extension-terrain path: full engine generation on Afghanistan, then a
+    pydcs round-trip through the patched theatre loader."""
+    import dcs
+    from missiongen import Recipe, generate
+    out = str(tmp_path / "afghan.miz")
+    res = generate(Recipe.from_dict(dict(map="afghanistan", era="modern",
+              coalition="blue", aircraft="A_10C_2", home_airbase="Kandahar",
+              dress_fill=30, seed=9)), out)
+    assert not [w for w in res["warnings"] if "failed" in w.lower()], res["warnings"]
+    m = dcs.Mission(); m.load_file(out)          # needs the loader patch
+    assert type(m.terrain).__name__ == "Afghanistan"
+    assert len(m.terrain.airports) == 25
+    statics = sum(len(c.static_group) for co in m.coalition.values()
+                  for c in co.countries.values())
+    assert statics > 50, f"Afghanistan field barely dressed ({statics} statics)"
+
+
+
 if __name__ == "__main__":
     import tempfile
     failed = 0
@@ -357,7 +377,8 @@ if __name__ == "__main__":
                test_wwii_germany_is_red_not_blue,
                test_dtc_card_only_for_bu_and_is_reference_only,
                test_dtc_injection_is_deterministic,
-               test_f14bu_uses_verified_type_id]:
+               test_f14bu_uses_verified_type_id,
+               test_afghanistan_terrain_generates_and_reloads]:
         try:
             with tempfile.TemporaryDirectory() as d:
                 fn(Path(d))

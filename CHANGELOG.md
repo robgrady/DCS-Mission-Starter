@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.21.0] — 2026-07-22 — ★ AFGHANISTAN — first Mission Starter-authored map
+
+### Added — Afghanistan terrain (beta), generated from a real install export
+
+Rob's `standlist.lua` export (pydcs's own ME exporter) parsed clean on the first
+try: **25 airports** — Bagram, Kandahar (316 stands), Kabul, Camp Bastion,
+Jalalabad, FOB Salerno, Khost… — with runways, parking stands, and ATC radios,
+generated via upstream `tools/airport_import.py`.
+
+- **`missiongen/terrains/afghanistan/`** — the terrain lives in OUR package;
+  `vendor/dcs` stays a pristine pydcs copy (LGPL provenance). A documented
+  runtime patch (same pattern as `_determinism`) teaches pydcs's theatre loader
+  about extension terrains, with graceful degradation if pydcs drifts.
+- **Selectable map:** "Afghanistan (beta — nav coords pending calibration)",
+  modern era; USA (Kandahar/Bastion/Shindand/Dwyer/Herat) vs Russia
+  (Bagram/Kabul/Jalalabad/Gardez). Full engine verified: dressing (618 statics),
+  SAMs, support air, comms, kneeboards — zero warnings; save + reload
+  round-trips. Regression test added.
+- **Provisional projection:** placement geometry is exact; lat/lon-derived
+  output (kneeboard coords, brief, DTC points) is approximate until the Part B
+  probe (`export_afghanistan.miz`) computes the true transverse-mercator
+  parameters. Marked clearly in the map label.
+- Upstream: files generated exactly per pydcs convention → PR-ready once the
+  projection lands. Iraq next, same runbook.
+
+---
+
 ## [1.20.0] — 2026-07-22 — squadron-block ramps + real squadron identities
 
 ### Changed — ramps now look like squadrons live there (⚠ byte-affecting)

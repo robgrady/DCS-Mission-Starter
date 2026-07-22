@@ -725,5 +725,35 @@
     ]
    }
   }
+ },
+ "afghanistan": {
+  "label": "Afghanistan (beta \u2014 nav coords pending calibration)",
+  "terrain_class": "missiongen.terrains.afghanistan.Afghanistan",
+  "free": false,
+  "presets": {
+   "modern": {
+    "blue_country": "USA",
+    "red_country": "Russia",
+    "blue_airbases": [
+     "Kandahar",
+     "Camp Bastion",
+     "Shindand",
+     "Dwyer",
+     "Herat"
+    ],
+    "red_airbases": [
+     "Bagram",
+     "Kabul",
+     "Jalalabad",
+     "Gardez"
+    ],
+    "frontline_hint": "Hindu Kush / Kabul basin",
+    "civilian_airbases": [
+     "Herat"
+    ],
+    "blue_theme": null,
+    "red_theme": null
+   }
+  }
  }
 }
