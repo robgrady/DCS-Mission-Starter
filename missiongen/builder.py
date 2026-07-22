@@ -516,12 +516,28 @@ class StarterBuilder:
 
         if r.bb_targets:
             from . import targets as tgt
-            enemy_side = "red" if r.coalition == "blue" else "blue"
+            from .dressing import _offset as _pt_offset
             picks = self.rng.sample(list(tgt.TARGET_PACKAGES), k=2)
+            # LAND-SAFE: anchor each package to a real enemy airbase (always on
+            # land) and push a few km deeper inland (away from friendly lines),
+            # instead of the old enemy_center±15km which could drop a C2 site
+            # into the sea on coastal maps (Syria/Cyprus, Sinai, Marianas). pydcs
+            # exposes no land/water query, so anchoring to airbases is the pattern
+            # (see threats.py). Falls back to the centroid if there are no fields.
+            ef = list(enemy_fields)
+            if ef:
+                bases = self.rng.sample(ef, k=min(len(picks), len(ef)))
+                while len(bases) < len(picks):
+                    bases.append(self.rng.choice(ef))
             for i, pk in enumerate(picks):
-                center = mapping.Point(
-                    enemy_center.x + self.rng.uniform(-15000, 15000),
-                    enemy_center.y + self.rng.uniform(-15000, 15000), m.terrain)
+                if ef:
+                    base = bases[i].position
+                    inland = _bearing(own_center, base)   # friendly -> base = inland
+                    center = _pt_offset(base, self.rng.uniform(4000, 10000), inland)
+                else:
+                    center = mapping.Point(
+                        enemy_center.x + self.rng.uniform(-15000, 15000),
+                        enemy_center.y + self.rng.uniform(-15000, 15000), m.terrain)
                 label = tgt.add_target_package(m, enemy_country, r.era, pk,
                                                center, self.rng, f"TGT{i+1}")
                 stats.setdefault("targets", []).append(label)

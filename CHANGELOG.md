@@ -17,6 +17,17 @@ guide cover.
 
 ---
 
+## [1.31.2] — 2026-07-22 — Fix: target packages no longer spawn in the sea
+
+On coastal maps (Syria with the player on Cyprus, Sinai, Marianas) the `bb_targets`
+packages — including "Command & control site" — could land in open water, because
+they were placed at `enemy_center ± 15 km` with no land check (pydcs exposes no
+land/water query). Now each package **anchors to a real enemy airbase** (always on
+land) and is pushed a few km deeper inland, matching the land-safe pattern already
+used for SAM placement (threats.py). Verified: targets now sit ~5–9 km from the
+nearest enemy airbase instead of floating offshore. Byte-affecting for bb_targets
+missions (target positions move); determinism preserved.
+
 ## [1.31.1] — 2026-07-22 — Fix: Air Corridor axis actually draws on the F10 map
 
 The corridor feature (v1.30.0) re-anchored the threat axis and briefed it, but
