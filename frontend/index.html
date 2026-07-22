@@ -137,6 +137,28 @@
   .rtab{all:unset;cursor:pointer;display:flex;align-items:center;gap:7px;padding:7px 12px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--dim);border:1px solid transparent}
   .rtab:hover{color:var(--text)}.rtab.on{color:var(--text);background:var(--panel);border-color:var(--line)}
   .rtab .rc{width:8px;height:8px;border-radius:50%}
+  .lsearchrow{display:flex;gap:10px;align-items:flex-end}
+  .lsearchwrap{position:relative;flex:1}
+  .lsi{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:16px;pointer-events:none}
+  .lsearch{width:100%;box-sizing:border-box;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:9px;padding:11px 12px 11px 34px;font-size:14px}
+  .lsearch:focus{outline:none;border-color:var(--accent)}
+  .lsort{display:flex;flex-direction:column}
+  .lsort label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);margin-bottom:3px}
+  .lsort select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 11px;font-size:13px}
+  .lchipbar{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+  .lchipbar:empty{display:none}
+  .fchip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius:20px;padding:4px 10px;cursor:pointer}
+  .fchip:hover{border-color:var(--accent)}.fchip b{color:var(--dim);font-weight:600}.fchip .x{color:var(--dim);font-size:13px}
+  .fclear{all:unset;cursor:pointer;font-size:11.5px;font-weight:600;color:var(--accent);padding:4px 6px}
+  .lmodrail{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px;margin:4px 0 6px}
+  .lmodcard{position:relative;overflow:hidden;border-radius:14px;padding:18px 20px;cursor:pointer;border:1px solid var(--line);
+    background:linear-gradient(120deg,rgba(45,212,191,.10),rgba(88,166,255,.07));transition:.16s}
+  .lmodcard:hover{transform:translateY(-3px);border-color:var(--carrier);box-shadow:0 12px 30px rgba(0,0,0,.34)}
+  .lmodtag{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#04211d;background:var(--carrier);border-radius:20px;padding:3px 9px}
+  .lmodcard h3{margin:11px 0 5px;font-size:20px}
+  .lmodcard p{margin:0 0 12px;color:#b9c4d0;font-size:12.7px;line-height:1.45;max-width:44ch}
+  .lmodcard .mgo{font-size:12px;font-weight:700;color:var(--carrier)}
+  .acbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#cfe8ff;background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.28);border-radius:6px;padding:3px 8px}
   .subf{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
   .subf label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);display:block;margin-bottom:3px}
   .subf select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font-size:13px}
@@ -223,8 +245,17 @@
   <div class="libwrap">
     <div class="lhead"><h2>Mission Library</h2><span id="libcount"></span></div>
     <div class="lfilters">
+      <div class="lsearchrow">
+        <div class="lsearchwrap"><span class="lsi">⌕</span>
+          <input id="lfSearch" class="lsearch" type="search" placeholder="Search missions, aircraft, role…" oninput="renderLib()" autocomplete="off"></div>
+        <div class="lsort"><label>Sort</label><select id="lfSort" onchange="renderLib()">
+          <option value="featured">Featured first</option><option value="new">Newest</option>
+          <option value="threat">Difficulty</option><option value="az">A–Z</option></select></div>
+      </div>
       <div class="roletabs" id="roletabs"></div>
       <div class="subf">
+        <div><label>Aircraft</label><select id="lfAc" onchange="renderLib()"><option value="all">All aircraft</option></select></div>
+        <div><label>Map</label><select id="lfMap" onchange="renderLib()"><option value="all">All maps</option></select></div>
         <div><label>Era</label><select id="lfEra" onchange="renderLib()">
           <option value="all">All eras</option><option value="wwii">WWII</option>
           <option value="coldwar">Cold War</option><option value="modern">Modern</option></select></div>
@@ -233,7 +264,9 @@
           <option value="md">Medium (3)</option><option value="hi">High (4–5)</option></select></div>
         <div class="owntg" id="lown" onclick="toggleOwn()"><span class="sw"></span>Only what I own</div>
       </div>
+      <div class="lchipbar" id="lchipbar"></div>
     </div>
+    <div id="lmodules"></div>
     <div id="lfeatwrap"><div class="sechead">★ Start here</div><div class="lgrid" id="lfeat"></div></div>
     <div class="sechead" id="lallhead">All scenarios</div>
     <div class="lgrid" id="lgrid"></div>
@@ -1254,7 +1287,7 @@ const ROLES={
  training:{label:"Training",c:"var(--training)",ic:"🎓"},
  historic:{label:"Historic",c:"var(--historic)",ic:"🕰️"},
 };
-let libState={role:"all",own:false,era:null,crew:"qualified",seed:1,cur:null};
+let libState={role:"all",own:false,era:null,crew:"qualified",seed:1,cur:null,module:null,initd:false};
 // EVERY template gets a Library card — the Library is the only home for
 // scenarios now (no wizard step), so a template with no hand-written card
 // metadata still shows up, with sensible synthesized defaults.
@@ -1278,8 +1311,69 @@ function libItems(){ return Object.entries(OPT.templates)
       premise: lib.premise||parts[1]||parts[0],
       threat: lib.threat!=null?lib.threat:(v.recipe&&v.recipe.threat_intensity)||1,
       players: lib.players||'SP',
+      aircraft: (v.recipe&&v.recipe.aircraft)||null,
+      module: lib.module||null,
       featured: !!lib.featured, new: !!lib.new};
   }); }
+function acLabel(key){ if(!key) return null; const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
+function mapKeyOf(t){ return t.default_map || (t.maps&&t.maps[0]) || null; }
+function mapLabel(mk){ return (OPT.maps[mk]&&OPT.maps[mk].label)||mk; }
+function initLibFilters(){
+  if(libState.initd) return; libState.initd=true;
+  const items=libItems();
+  const add=(selId,pairs)=>{const s=document.getElementById(selId);
+    pairs.forEach(([k,lab])=>{const o=document.createElement('option');o.value=k;o.textContent=lab;s.appendChild(o);});};
+  add('lfAc',[...new Set(items.map(t=>t.aircraft).filter(Boolean))].map(k=>[k,acLabel(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
+  add('lfMap',[...new Set(items.map(mapKeyOf).filter(Boolean))].map(k=>[k,mapLabel(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
+}
+function libSort(a,b){
+  const s=document.getElementById('lfSort').value;
+  if(s==='az') return a.label.localeCompare(b.label);
+  if(s==='new') return (b.new-a.new)||a.label.localeCompare(b.label);
+  if(s==='threat') return (b.threat-a.threat)||a.label.localeCompare(b.label);
+  return (b.featured-a.featured)||(b.new-a.new)||a.label.localeCompare(b.label);
+}
+const MOD_PITCH={
+  'F-100D':'“The Hun” — America’s first supersonic fighter-bomber, just released for DCS. Cold-War nuclear alert, battlefield CAS, flak suppression and gunfighter BFM.',
+  'F-14B(U)':'The upgraded Tomcat with full crew AI — Jester and Iceman fly your calls on the F10 menu. Outer-air-battle, buddy-lase strike, TARPS recon and the boat.'};
+function renderModuleRail(items,anyF){
+  const rail=document.getElementById('lmodules');
+  if(anyF){ rail.innerHTML=''; return; }
+  const mods={}; items.forEach(t=>{ if(t.module)(mods[t.module]=mods[t.module]||[]).push(t); });
+  const order=Object.keys(mods).sort();
+  if(!order.length){ rail.innerHTML=''; return; }
+  let h='<div class="sechead">🆕 New in DCS</div><div class="lmodrail">';
+  h+=order.map(m=>{ const n=mods[m].length;
+    return '<div class="lmodcard" onclick="filterModule(\''+m.replace(/'/g,"\\'")+'\')">'+
+      '<span class="lmodtag">New module</span><h3>'+m+'</h3>'+
+      '<p>'+(MOD_PITCH[m]||'')+'</p>'+
+      '<span class="mgo">'+n+' mission'+(n!==1?'s':'')+' &nbsp;→</span></div>'; }).join('');
+  rail.innerHTML=h+'</div>';
+}
+function filterModule(m){ libState.module=m; renderLib(); window.scrollTo(0,0); }
+function renderChips(anyF){
+  const bar=document.getElementById('lchipbar'); if(!anyF){ bar.innerHTML=''; return; }
+  const chips=[];
+  if(libState.module) chips.push(['Module',libState.module,"clearModule()"]);
+  if(libState.role!=='all') chips.push(['Role',(ROLES[libState.role]||{}).label||libState.role,"setRole('all')"]);
+  const g=id=>document.getElementById(id);
+  if(g('lfAc').value!=='all') chips.push(['Aircraft',acLabel(g('lfAc').value),"clearFilter('lfAc')"]);
+  if(g('lfMap').value!=='all') chips.push(['Map',mapLabel(g('lfMap').value),"clearFilter('lfMap')"]);
+  if(g('lfEra').value!=='all') chips.push(['Era',g('lfEra').options[g('lfEra').selectedIndex].text,"clearFilter('lfEra')"]);
+  if(g('lfDiff').value!=='all') chips.push(['Threat',g('lfDiff').options[g('lfDiff').selectedIndex].text,"clearFilter('lfDiff')"]);
+  if(g('lfSearch').value.trim()) chips.push(['Search','“'+g('lfSearch').value.trim()+'”',"clearFilter('lfSearch')"]);
+  if(libState.own) chips.push(['','Only what I own',"toggleOwn()"]);
+  let h=chips.map(([k,v,fn])=>'<span class="fchip" onclick="'+fn+'">'+(k?'<b>'+k+':</b> ':'')+v+' <span class="x">✕</span></span>').join('');
+  if(chips.length) h+='<button class="fclear" onclick="clearFilters()">Clear all</button>';
+  bar.innerHTML=h;
+}
+function clearModule(){ libState.module=null; renderLib(); }
+function clearFilter(id){ const e=document.getElementById(id); if(e.type==='search') e.value=''; else e.value='all'; renderLib(); }
+function clearFilters(){ libState.role='all'; libState.own=false; libState.module=null;
+  document.getElementById('lown').classList.remove('on');
+  ['lfAc','lfMap','lfEra','lfDiff'].forEach(i=>document.getElementById(i).value='all');
+  document.getElementById('lfSearch').value=''; document.getElementById('lfSort').value='featured';
+  buildRoleTabs(); renderLib(); }
 function mapOwned(mk){ return !!(OPT.maps[mk]&&OPT.maps[mk].free); }  // heuristic: free maps = owned
 function libReq(t){ const mk=t.default_map; return (mk&&!mapOwned(mk))?(OPT.maps[mk]?.label||mk):null; }
 function thrBar(n){ let s='<span class="thr">'; for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>'; return s+'</span>'; }
@@ -1315,31 +1409,43 @@ function libCard(t){
     '<div class="cbody"><div class="rt"><div class="ric" style="background:'+r.c+'22">'+r.ic+'</div>'+
       '<div class="role" style="color:'+r.c+'">'+r.label+'</div></div>'+
       '<h3>'+t.label.split(' —')[0]+'</h3><p class="prem">'+(t.premise||'')+'</p>'+
-      '<div class="lchips"><span class="lchip">'+eraLabels(t.eras)+'</span>'+
+      '<div class="lchips">'+
+        (t.aircraft?'<span class="acbadge">✈ '+acLabel(t.aircraft)+'</span>':'')+
+        '<span class="lchip">'+eraLabels(t.eras)+'</span>'+
         '<span class="lchip">'+thrBar(t.threat||1)+'</span>'+
         '<span class="lchip">'+(t.players||'SP')+'</span>'+
         (t.needs_carrier?'<span class="lchip">⚓ Carrier</span>':'')+'</div>'+
     '</div></div>';
 }
 function libPasses(t){
+  if(libState.module&&t.module!==libState.module) return false;
   if(libState.role!=='all'&&t.role!==libState.role) return false;
   const e=document.getElementById('lfEra').value; if(e!=='all'&&!(t.eras||[]).includes(e)) return false;
   const d=document.getElementById('lfDiff').value, th=t.threat||1;
   if(d==='lo'&&th>2) return false; if(d==='md'&&th!==3) return false; if(d==='hi'&&th<4) return false;
+  const ac=document.getElementById('lfAc').value; if(ac!=='all'&&t.aircraft!==ac) return false;
+  const mp=document.getElementById('lfMap').value; if(mp!=='all'&&mapKeyOf(t)!==mp) return false;
+  const q=(document.getElementById('lfSearch').value||'').trim().toLowerCase();
+  if(q){ const hay=((t.label||'')+' '+(t.premise||'')+' '+(acLabel(t.aircraft)||'')+' '+
+    (t.module||'')+' '+((ROLES[t.role]||{}).label||'')).toLowerCase();
+    if(!hay.includes(q)) return false; }
   if(libState.own&&libReq(t)) return false;
   return true;
 }
 function renderLib(){
-  const items=libItems();
-  const anyF=libState.role!=='all'||document.getElementById('lfEra').value!=='all'||
-    document.getElementById('lfDiff').value!=='all'||libState.own;
-  document.getElementById('lfeatwrap').style.display=anyF?'none':'';
-  document.getElementById('lallhead').textContent=anyF?'Results':'All scenarios';
-  document.getElementById('lfeat').innerHTML=items.filter(t=>t.featured).map(libCard).join('');
-  const list=items.filter(libPasses);
-  document.getElementById('lgrid').innerHTML=list.length?list.map(libCard).join(''):
-    '<div class="lempty">No scenarios match those filters. Loosen a filter, or switch to <b>Build</b> to make one from scratch.</div>';
-  document.getElementById('libcount').textContent=list.length+' scenario'+(list.length!==1?'s':'');
+  initLibFilters();
+  const items=libItems(), g=id=>document.getElementById(id);
+  const anyF=libState.module||libState.role!=='all'||g('lfEra').value!=='all'||g('lfDiff').value!=='all'||
+    g('lfAc').value!=='all'||g('lfMap').value!=='all'||g('lfSearch').value.trim()||libState.own;
+  renderModuleRail(items,anyF);
+  g('lfeatwrap').style.display=anyF?'none':'';
+  g('lallhead').textContent=anyF?'Results':'All missions';
+  g('lfeat').innerHTML=items.filter(t=>t.featured).sort(libSort).map(libCard).join('');
+  const list=items.filter(libPasses).sort(libSort);
+  g('lgrid').innerHTML=list.length?list.map(libCard).join(''):
+    '<div class="lempty">No missions match those filters. Loosen a filter, clear the search, or switch to <b>Build</b> to make one from scratch.</div>';
+  g('libcount').textContent=list.length+' mission'+(list.length!==1?'s':'');
+  renderChips(anyF);
 }
 function inclLines(t){
   const rc=t.recipe||{}, L=[];

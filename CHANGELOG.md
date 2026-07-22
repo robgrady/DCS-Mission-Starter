@@ -17,6 +17,29 @@ guide cover.
 
 ---
 
+## [1.23.0] — 2026-07-22 — Library: promote F-100D + F-14B(U), redesign for search & scan
+
+**New modules promoted.** The F-100D Super Sabre (released for DCS June 2026;
+native pydcs type, Cold War) and the F-14B(U) both get a Library push.
+
+F-100D — 4 Cold War missions: Victor Alert nuclear QRA (Bitburg), Fulda Gap CAS
+(Hahn), Iron Hand flak suppression (Spangdahlem), Sabre Dance gunfighter BFM
+(Nellis). F-14B(U) — the 3 crew-ops missions (IZLID / GCI intercept / fleet
+defense) are now featured, plus 3 new scenario missions: TARPS recon, Bombcat
+precision strike, Case III night recovery. All carry a `library.module` tag.
+
+**Library UX redesign** (frontend):
+- **"New in DCS" spotlight rail** — a hero card per new module (F-100D,
+  F-14B(U)) with a pitch and mission count; click to filter to that module.
+- **Aircraft is now first-class** — shown as a badge on every card and a filter
+  facet, alongside a new Map facet (plus the existing Role / Era / Difficulty).
+- **Search box** over title / premise / aircraft / role / module.
+- **Active-filter chips** with per-filter removal and Clear-all.
+- **Sort** control (Featured / Newest / Difficulty / A–Z).
+
+Pure additive: no recipe or engine changes, determinism untouched. Backend just
+passes `library.module` and `recipe.aircraft` through `/api/options` (already did).
+
 ## [1.22.4] — 2026-07-22 — No GSE trucks on Kandahar shelters (covered-ramp gate)
 
 **Fix.** At Kandahar the parking stands sit under arched sun-shelters. The
