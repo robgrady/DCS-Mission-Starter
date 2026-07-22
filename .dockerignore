@@ -1,0 +1,18 @@
+# Keep the build context small & the image clean.
+.git
+.github
+.gitignore
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.venv
+venv
+tests
+*.miz
+*.zip
+node_modules
+.DS_Store
+# scratch / local-only
+tmp
+*.log
+REPLIT*.txt

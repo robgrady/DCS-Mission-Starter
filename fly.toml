@@ -1,5 +1,5 @@
-# Fly.io deploy config — `fly launch --copy-config` then `fly deploy`
-app = "dcs-mission-starter"
+# Fly.io deploy config — `fly launch --copy-config --no-deploy` then `fly deploy`
+app = "sortiestarter"
 primary_region = "dfw"
 
 [build]
@@ -12,6 +12,14 @@ primary_region = "dfw"
   auto_start_machines = true
   min_machines_running = 0
 
+  # Fly restarts a machine that fails this; also gates traffic on cold start.
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/health"
+
 [[vm]]
   size = "shared-cpu-1x"
-  memory = "512mb"
+  memory = "512mb"   # bump to 1024mb if mission builds ever OOM
