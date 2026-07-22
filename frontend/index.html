@@ -78,7 +78,7 @@
   #rail { position: sticky; top: 0; width: 232px; flex: none; height: calc(100vh - 0px);
           border-right: 1px solid var(--line); background: var(--panel);
           display: flex; flex-direction: column; padding-top: 10px; }
-  #railsteps { flex: 1; overflow-y: auto; }
+  #railsteps { flex: 0 1 auto; overflow-y: auto; }
   #advtoggle { display:flex; align-items:center; gap:9px; margin:8px 4px; padding:9px 10px; border:1px solid var(--line);
     border-radius:9px; cursor:pointer; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em;
     text-transform:uppercase; color:var(--dim); user-select:none; }
@@ -99,12 +99,13 @@
   .rstep b { display: block; font-size: 12.5px; line-height: 1.25; }
   .rstep small { color: var(--dim); font-size: 11px; display: block;
                  max-width: 160px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .railfoot { padding: 12px 14px calc(12px + 64px); border-top: 1px solid var(--line); }
-  #railgen { width: 100%; background: var(--accent); color: #0B0E11; font-weight: 700;
-             border: none; border-radius: 8px; padding: 11px; font-size: 13px; cursor: pointer; }
-  #railshare, #railreset { width: 100%; background: none; border: 1px solid var(--line);
-             color: var(--dim); border-radius: 8px; padding: 6px; margin-top: 7px;
+  .railfoot { padding: 12px 14px 16px; border-top: 1px solid var(--line); margin-top: 10px; }
+  .railfoot button { width: 100%; background: none; border: 1px solid var(--line);
+             color: var(--dim); border-radius: 8px; padding: 8px; margin-top: 7px;
              font-size: 12px; cursor: pointer; }
+  .railfoot button:first-child { margin-top: 0; }
+  .railfoot button:hover { color: var(--text); border-color: var(--dim); }
+  .railfoot #railreset { margin-top: 12px; color: var(--dim); opacity: .8; }
   .hdrval { color: var(--green); font-size: 12px; text-transform: none;
             letter-spacing: 0; margin-left: 10px; font-weight: normal; }
   .chev { display: none; }
@@ -393,6 +394,8 @@
   <div id="advtoggle" onclick="toggleAdvanced()" title="Show expert options (airfields, map graphics)">
     <span class="advsw"></span><span>Advanced options</span></div>
   <div class="railfoot">
+    <button id="share" title="Copy a link that regenerates this exact starter">Copy share link</button>
+    <button id="brief" title="Printable pre-flight brief: theater chart, comms, forces (PDF + MD)">Briefing pack</button>
     <button id="railreset" title="Clear saved state and start over">Reset wizard</button>
   </div>
 </nav>
@@ -580,8 +583,6 @@
 </div>
 <div class="genbar">
   <div id="summary"></div><div id="status"></div>
-  <button id="share" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer;">COPY SHARE LINK</button>
-  <button id="brief" title="Printable pre-flight brief: theater chart, comms, forces (PDF + MD)" style="background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:12px 20px;font-size:14px;cursor:pointer;">BRIEFING PACK</button>
   <button id="gen">GENERATE .MIZ</button>
 </div>
 <script>

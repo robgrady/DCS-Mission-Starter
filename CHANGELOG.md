@@ -17,6 +17,20 @@ guide cover.
 
 ---
 
+## [1.32.5] — 2026-07-22 — Left-rail layout: secondary actions no longer buried
+
+The left rail's `#railsteps` used `flex: 1`, stretching the (short) step list to
+fill the full-height rail and pushing **Advanced options** and **Reset wizard**
+below the fold — offset by the header/banner, the rail bottom sat ~226px off
+screen. Fixed the stretch and grouped the secondary actions in the rail.
+
+- `#railsteps` → `flex: 0 1 auto` so the step list takes its natural height;
+  Advanced options + the rail foot now sit directly beneath it, on screen.
+- Moved **Copy share link** and **Briefing pack** out of the bottom action bar
+  into the rail foot (IDs unchanged, so all handlers — including the review
+  screen's `share2` → `#share` — keep working). The bottom bar keeps the
+  preview line and **GENERATE .MIZ** as the single primary CTA.
+
 ## [1.32.4] — 2026-07-22 — Brand splash: real Authentic Media logo
 
 The mission-launch splash now uses the **actual Authentic Media logo art** (navy
