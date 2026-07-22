@@ -17,6 +17,14 @@ guide cover.
 
 ---
 
+## [1.32.8] — 2026-07-22 — Drop the Advanced-options toggle
+
+There aren't enough options to warrant hiding any, so the "Advanced options"
+toggle is gone and the two previously-gated steps (Airfields, Map & graphics)
+are now always visible in the builder rail. Removed `#advtoggle`,
+`toggleAdvanced()`, and the `.adv` dot styling; `S.advanced` defaults true so
+`visScreens()` shows every step.
+
 ## [1.32.7] — 2026-07-22 — Brand splash is not a user option
 
 The sponsor/brand splash is a business decision, not something users opt out of.
