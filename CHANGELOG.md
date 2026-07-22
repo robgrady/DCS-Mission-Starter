@@ -17,6 +17,18 @@ guide cover.
 
 ---
 
+## [1.32.4] — 2026-07-22 — Brand splash: real Authentic Media logo
+
+The mission-launch splash now uses the **actual Authentic Media logo art** (navy
+"AUTHENTIC" + sage-green brush-script "media"), not a font recreation. The white
+background is knocked out to transparent and the wordmark sits on a
+semi-transparent white rounded panel so it stays legible over any F10 map
+background.
+
+- `data/brand/authentic_media.png` — regenerated from Rob's original
+  `Authentic-Media-Logo600x300.png`: white→transparent, cropped to the wordmark,
+  composited on a ~70% white rounded panel, downscaled to 1600px wide.
+
 ## [1.32.0] — 2026-07-22 — Brand splash: logo on mission launch
 
 Generated missions now show an **Authentic Media logo for a few seconds when the
