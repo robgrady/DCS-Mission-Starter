@@ -671,6 +671,9 @@ function applyScenarioPreset(k){
   if (rc.carrier_layout){ const clay=document.getElementById('carrier_layout'); if([...clay.options].some(o=>o.value===rc.carrier_layout)) clay.value=rc.carrier_layout; }
   if (rc.bb_carrier){ fillHome(); const h=document.getElementById('home');
     if([...h.options].some(o=>o.value==='CARRIER')) h.value='CARRIER'; }
+  // map-locked scenarios can pin a home field (e.g. Bastion Scramble)
+  if (rc.home_airbase && !rc.bb_carrier){ fillHome(); const h=document.getElementById('home');
+    if([...h.options].some(o=>o.value===rc.home_airbase)) h.value=rc.home_airbase; }
   // basing enums
   for (const key of ['start','time_of_day','weather','density']) if (rc[key]){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
   // building blocks

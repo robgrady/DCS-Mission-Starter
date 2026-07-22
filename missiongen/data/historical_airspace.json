@@ -1,59 +1,181 @@
 {
-  "_comment": "Historical airspace overlays (Theater Identity pillar 3): real corridors, no-fly zones and deconfliction lines for a given map+era, drawn on the F10 Common draw layer + briefed on the kneeboard. INFORMATION, NOT ROUTING - no player waypoints. Geometry is lat/lon so it is projection-independent; the renderer (airspace.py) projects to map meters at build time. width_sm / radius_sm are STATUTE MILES (the historical unit for Berlin airspace). Coordinates for corridor terminals are curated approximations of the historical structure - tune against the in-game F10 map.",
-
-  "germany": {
-    "berlin_corridors": {
-      "label": "Berlin Air Corridors (BASC)",
-      "eras": ["coldwar"],
-      "brief_title": "BERLIN AIR CORRIDORS — BASC CONTROLLED AIRSPACE",
-      "brief": [
-        "Three 20-statute-mile-wide corridors connect the West German air system to",
-        "West Berlin across GDR airspace, all terminating in the Berlin Control Zone.",
-        "Agreed by the Allied Control Authority ~30 Nov 1945; controlled by the four-",
-        "power Berlin Air Safety Centre (BASC, est. 12 Dec 1945). In force until the",
-        "BASC closed 31 Dec 1990 at reunification — a Cold-War feature only.",
-        "Ceiling 10,000 ft (raised to 13,000 ft at times for Soviet exercises).",
-        "RULE: remain WITHIN a corridor and BELOW the ceiling. Straying out of the",
-        "lateral or vertical limits over GDR territory risks interception. These are",
-        "drawn on the F10 map for reference — they are airspace, not a routed plan.",
-        " - NORTH  corridor: Hamburg (Bremen / Northern Europe) → Berlin",
-        " - CENTER corridor: Hannover, early 'Bückeburg' (Düsseldorf/Köln) → Berlin",
-        " - SOUTH  corridor: Frankfurt (Stuttgart/Munich/Nuremberg) → Berlin",
-        " - BERLIN CONTROL ZONE: 20 sm radius over the city, all corridors converge."
-      ],
-      "features": [
-        {"kind": "corridor", "name": "NORTH (Hamburg)",
-         "from": [53.60, 10.00], "to": [52.484, 13.351],
-         "width_sm": 20, "ceiling_ft": 10000},
-        {"kind": "corridor", "name": "CENTER (Hannover)",
-         "from": [52.30, 9.10], "to": [52.484, 13.351],
-         "width_sm": 20, "ceiling_ft": 10000},
-        {"kind": "corridor", "name": "SOUTH (Frankfurt)",
-         "from": [50.05, 8.60], "to": [52.484, 13.351],
-         "width_sm": 20, "ceiling_ft": 10000},
-        {"kind": "zone", "name": "BERLIN CONTROL ZONE",
-         "center": [52.484, 13.351], "radius_sm": 20, "ceiling_ft": 10000}
-      ]
+ "_comment": "Historical airspace overlays (Theater Identity pillar 3): real corridors, no-fly zones and deconfliction lines for a given map+era, drawn on the F10 Common draw layer + briefed on the kneeboard. INFORMATION, NOT ROUTING - no player waypoints. Geometry is lat/lon so it is projection-independent; the renderer (airspace.py) projects to map meters at build time. width_sm / radius_sm are STATUTE MILES (the historical unit for Berlin airspace). Coordinates for corridor terminals are curated approximations of the historical structure - tune against the in-game F10 map.",
+ "germany": {
+  "berlin_corridors": {
+   "label": "Berlin Air Corridors (BASC)",
+   "eras": [
+    "coldwar"
+   ],
+   "brief_title": "BERLIN AIR CORRIDORS \u2014 BASC CONTROLLED AIRSPACE",
+   "brief": [
+    "Three 20-statute-mile-wide corridors connect the West German air system to",
+    "West Berlin across GDR airspace, all terminating in the Berlin Control Zone.",
+    "Agreed by the Allied Control Authority ~30 Nov 1945; controlled by the four-",
+    "power Berlin Air Safety Centre (BASC, est. 12 Dec 1945). In force until the",
+    "BASC closed 31 Dec 1990 at reunification \u2014 a Cold-War feature only.",
+    "Ceiling 10,000 ft (raised to 13,000 ft at times for Soviet exercises).",
+    "RULE: remain WITHIN a corridor and BELOW the ceiling. Straying out of the",
+    "lateral or vertical limits over GDR territory risks interception. These are",
+    "drawn on the F10 map for reference \u2014 they are airspace, not a routed plan.",
+    " - NORTH  corridor: Hamburg (Bremen / Northern Europe) \u2192 Berlin",
+    " - CENTER corridor: Hannover, early 'B\u00fcckeburg' (D\u00fcsseldorf/K\u00f6ln) \u2192 Berlin",
+    " - SOUTH  corridor: Frankfurt (Stuttgart/Munich/Nuremberg) \u2192 Berlin",
+    " - BERLIN CONTROL ZONE: 20 sm radius over the city, all corridors converge."
+   ],
+   "features": [
+    {
+     "kind": "corridor",
+     "name": "NORTH (Hamburg)",
+     "from": [
+      53.6,
+      10.0
+     ],
+     "to": [
+      52.484,
+      13.351
+     ],
+     "width_sm": 20,
+     "ceiling_ft": 10000
+    },
+    {
+     "kind": "corridor",
+     "name": "CENTER (Hannover)",
+     "from": [
+      52.3,
+      9.1
+     ],
+     "to": [
+      52.484,
+      13.351
+     ],
+     "width_sm": 20,
+     "ceiling_ft": 10000
+    },
+    {
+     "kind": "corridor",
+     "name": "SOUTH (Frankfurt)",
+     "from": [
+      50.05,
+      8.6
+     ],
+     "to": [
+      52.484,
+      13.351
+     ],
+     "width_sm": 20,
+     "ceiling_ft": 10000
+    },
+    {
+     "kind": "zone",
+     "name": "BERLIN CONTROL ZONE",
+     "center": [
+      52.484,
+      13.351
+     ],
+     "radius_sm": 20,
+     "ceiling_ft": 10000
     }
-  },
-
-  "syria": {
-    "euphrates_deconfliction": {
-      "label": "Euphrates Deconfliction Line",
-      "eras": ["modern"],
-      "brief_title": "EUPHRATES DECONFLICTION LINE — US/RUSSIA FLIGHT-SAFETY MOU",
-      "brief": [
-        "The Euphrates River valley is the de-facto deconfliction line between the",
-        "coalition (east of the river) and Russian/Syrian forces (west), under the",
-        "US-Russia flight-safety memorandum. It is a COORDINATION line, not a border.",
-        "RULE: coordinate before crossing; hold your side unless deconflicted. Drawn",
-        "on the F10 map (amber dashed) for reference — airspace, not a routed plan.",
-        " - Runs NW→SE: Turkish border → Raqqa → Deir ez-Zor → Abu Kamal (Iraq border)."
-      ],
-      "features": [
-        {"kind": "line", "name": "EUPHRATES DECONFLICTION LINE", "category": "deconfliction",
-         "points": [[36.82, 38.01], [35.95, 39.01], [35.33, 40.14], [34.45, 40.92]]}
-      ]
-    }
+   ]
   }
+ },
+ "syria": {
+  "euphrates_deconfliction": {
+   "label": "Euphrates Deconfliction Line",
+   "eras": [
+    "modern"
+   ],
+   "brief_title": "EUPHRATES DECONFLICTION LINE \u2014 US/RUSSIA FLIGHT-SAFETY MOU",
+   "brief": [
+    "The Euphrates River valley is the de-facto deconfliction line between the",
+    "coalition (east of the river) and Russian/Syrian forces (west), under the",
+    "US-Russia flight-safety memorandum. It is a COORDINATION line, not a border.",
+    "RULE: coordinate before crossing; hold your side unless deconflicted. Drawn",
+    "on the F10 map (amber dashed) for reference \u2014 airspace, not a routed plan.",
+    " - Runs NW\u2192SE: Turkish border \u2192 Raqqa \u2192 Deir ez-Zor \u2192 Abu Kamal (Iraq border)."
+   ],
+   "features": [
+    {
+     "kind": "line",
+     "name": "EUPHRATES DECONFLICTION LINE",
+     "category": "deconfliction",
+     "points": [
+      [
+       36.82,
+       38.01
+      ],
+      [
+       35.95,
+       39.01
+      ],
+      [
+       35.33,
+       40.14
+      ],
+      [
+       34.45,
+       40.92
+      ]
+     ]
+    }
+   ]
+  }
+ },
+ "afghanistan": {
+  "oef_airspace_control": {
+   "label": "OEF Airspace Control (Kabul TMA + ROZ)",
+   "eras": [
+    "modern"
+   ],
+   "brief_title": "OEF AIRSPACE CONTROL \u2014 KABUL TMA / RESTRICTED OPERATING ZONE",
+   "brief": [
+    "Coalition air operations over Afghanistan ran under a daily Airspace Control",
+    "Order (ACO): terminal areas around the major fields, and Restricted Operating",
+    "Zones (ROZs) deconflicting fires, ISR orbits and CAS stacks over the fight.",
+    "KABUL TMA: terminal control area around Kabul/OAKB \u2014 remain clear unless",
+    "arriving/departing; the valley funnels all traffic over the city.",
+    "ROZ HELMAND (representative of the OEF ACO): active fires and CAS stack \u2014",
+    "contact the controlling agency before entry; keep SAFE altitudes above the",
+    "small-arms/MANPADS envelope except when working a tasking inside the ROZ.",
+    "Drawn for reference \u2014 airspace, not a routed plan."
+   ],
+   "features": [
+    {
+     "kind": "zone",
+     "name": "KABUL TMA",
+     "center": [
+      34.566,
+      69.212
+     ],
+     "radius_sm": 30
+    },
+    {
+     "kind": "line",
+     "name": "ROZ HELMAND",
+     "category": "deconfliction",
+     "points": [
+      [
+       31.9,
+       63.9
+      ],
+      [
+       31.9,
+       64.6
+      ],
+      [
+       31.3,
+       64.6
+      ],
+      [
+       31.3,
+       63.9
+      ],
+      [
+       31.9,
+       63.9
+      ]
+     ]
+    }
+   ]
+  }
+ }
 }

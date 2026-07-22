@@ -17,6 +17,35 @@ guide cover.
 
 ---
 
+## [1.22.0] — 2026-07-22 — Afghanistan Theater Identity + 4 COIN-era Library missions
+
+### Added — Afghanistan gets its real identity (Theater Identity P1/P3)
+
+- **Alignment** (`theater_identity.json`): ISAF-era south/west — Kandahar,
+  Camp Bastion and Dwyer dress as **USA**; Shindand and Herat as the **Afghan
+  Air Force** (US-supplied types under the Afghanistan country — historically
+  right for the ANA).
+- **Real squadrons** (`squadrons.json`): the **74th EFS "Flying Tigers"**
+  (A-10Cs, Kandahar — they really flew from KAF) and **VMA-211 "Wake Island
+  Avengers"** (AV-8Bs, Camp Bastion). Contiguous squadron rows, tagged groups.
+- **OEF airspace control** (`historical_airspace.json`): **Kabul TMA** (30 sm
+  terminal zone) + **ROZ HELMAND** (representative ACO restricted operating
+  zone), drawn on the F10 map and briefed. Toggle: Historical airspace.
+
+### Added — 4 Afghanistan Library missions (map-locked, all verified)
+
+- **Troops in Contact — Ridge-Line CAS** (A-10C, Kandahar; JTAC tasking,
+  SHORAD/MANPADS threat, featured card)
+- **Bastion Scramble — Harrier Alert** (AV-8B, runway alert from Camp Bastion)
+- **Helmand Convoy Overwatch** (F-16 night, tight-ROE tasking)
+- **Hindu Kush QRA — Northern Intercept** (air-to-air over the passes)
+
+All four generate cleanly (0 warnings) with tasking briefs, no player waypoints.
+Scenario recipes can now pin a **home airbase** (Bastion card starts you at
+Bastion) — applies to all future map-locked templates.
+
+---
+
 ## [1.21.2] — 2026-07-22 — Afghanistan parking survey baked (Kandahar + Bagram)
 
 Rob's survey flight (460/460 spots reported) also delivered the first in-sim

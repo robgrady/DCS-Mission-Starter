@@ -187,5 +187,144 @@
    "players": "SP \u00b7 MP"
   },
   "default_map": "germany"
+ },
+ "af_tic_cas": {
+  "label": "Troops in Contact \u2014 Ridge-Line CAS (Kandahar A-10)",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "afghanistan"
+  ],
+  "default_map": "afghanistan",
+  "library": {
+   "role": "cas",
+   "threat": 2,
+   "players": "SP \u00b7 MP",
+   "featured": true,
+   "premise": "A JTAC has troops pinned on a ridge in the green zone. Check in, get eyes on, and put warheads on foreheads \u2014 danger close."
+  },
+  "recipe": {
+   "aircraft": "A_10C_2",
+   "home_airbase": "Kandahar",
+   "start": "warm",
+   "bb_targets": true,
+   "bb_tanker": true,
+   "bb_awacs": true,
+   "threat_intensity": 2,
+   "threat_tier": "light",
+   "bb_historical_airspace": true,
+   "time_of_day": "day",
+   "weather": "clear"
+  },
+  "brief": [
+   "== TASKING: TROOPS IN CONTACT ==",
+   "Friendly patrol in contact in the target area (see F10 + kneeboard).",
+   "Check in with AWACS, work the target package as your JTAC talk-on.",
+   "Threats are SHORAD/MANPADS class - keep smart altitudes between attacks."
+  ]
+ },
+ "af_bastion_scramble": {
+  "label": "Bastion Scramble \u2014 Harrier Alert (VMA-211)",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "afghanistan"
+  ],
+  "default_map": "afghanistan",
+  "library": {
+   "role": "strike",
+   "threat": 2,
+   "players": "SP",
+   "premise": "Alert Harrier at Camp Bastion. The QRF needs air NOW \u2014 runway alert, first pass counts."
+  },
+  "recipe": {
+   "aircraft": "AV8BNA",
+   "home_airbase": "Camp Bastion",
+   "start": "runway",
+   "bb_targets": true,
+   "bb_tanker": true,
+   "bb_awacs": false,
+   "threat_intensity": 2,
+   "threat_tier": "light",
+   "time_of_day": "dusk",
+   "weather": "clear"
+  },
+  "brief": [
+   "== TASKING: ALERT LAUNCH ==",
+   "Immediate launch from Bastion alert. Strike package in the target area.",
+   "Fuel is tight - Texaco is airborne if you need it."
+  ]
+ },
+ "af_convoy_overwatch": {
+  "label": "Helmand Convoy Overwatch (F-16 night)",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "afghanistan"
+  ],
+  "default_map": "afghanistan",
+  "library": {
+   "role": "cas",
+   "threat": 2,
+   "players": "SP \u00b7 MP",
+   "premise": "A logistics convoy is threading the Helmand river road after dark. Own the overhead, find the ambush before it happens."
+  },
+  "recipe": {
+   "aircraft": "F_16C_50",
+   "home_airbase": "Kandahar",
+   "start": "cold",
+   "bb_targets": true,
+   "bb_tanker": true,
+   "bb_awacs": true,
+   "threat_intensity": 2,
+   "threat_tier": "light",
+   "bb_historical_airspace": true,
+   "time_of_day": "night",
+   "weather": "clear"
+  },
+  "brief": [
+   "== TASKING: CONVOY OVERWATCH ==",
+   "Convoy route and target package marked on the F10 map.",
+   "Work the targeting pod down the route ahead of the convoy;",
+   "strike only positively identified threats - ROE is tight tonight."
+  ]
+ },
+ "af_hindu_kush_qra": {
+  "label": "Hindu Kush QRA \u2014 Northern Intercept",
+  "eras": [
+   "modern"
+  ],
+  "maps": [
+   "afghanistan"
+  ],
+  "default_map": "afghanistan",
+  "library": {
+   "role": "a2a",
+   "threat": 3,
+   "players": "SP \u00b7 MP",
+   "premise": "Fast movers pushing south over the Hindu Kush. Scramble from Kandahar, climb hard, and meet them in the high passes."
+  },
+  "recipe": {
+   "aircraft": "F_16C_50",
+   "home_airbase": "Kandahar",
+   "start": "runway",
+   "bb_targets": false,
+   "bb_range": false,
+   "bb_tanker": true,
+   "bb_awacs": true,
+   "threat_intensity": 3,
+   "threat_tier": "auto",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "== TASKING: QUICK REACTION ALERT ==",
+   "Overlord holds the picture - expect bandits from the northern fields.",
+   "The terrain is the second enemy: MSA in the passes is unforgiving.",
+   "Bagram's SAM umbrella is active - respect the rings on the F10 map."
+  ]
  }
 }
