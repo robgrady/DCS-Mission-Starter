@@ -18,3 +18,7 @@ surveys/
 Mission_Brief_Sample.*
 dtc_payload.lua
 dtc_member_*
+
+# Generated validation packages
+afghan_pkg/
+probe_*.miz
