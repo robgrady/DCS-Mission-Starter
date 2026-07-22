@@ -27,7 +27,7 @@ def add_brand_splash(m, seconds: int = 8, start_delay: int = 1, logo_path=None):
         start_delay=int(start_delay),
         horz_alignment=PictureAction.HorzAlignment.Center,
         vert_alignment=PictureAction.VertAlignment.Center,
-        size=60,
+        size=30,
         size_units=PictureAction.SizeUnits.WindowSize)
     # pydcs serialises the alignment/size enums as bare identifiers
     # (e.g. `HorzAlignment.Center`), which is invalid Lua — the .miz won't even

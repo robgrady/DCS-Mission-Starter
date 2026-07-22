@@ -17,6 +17,13 @@ guide cover.
 
 ---
 
+## [1.32.6] — 2026-07-22 — Brand splash: lighter panel, smaller on screen
+
+- `data/brand/authentic_media.png` — white panel opacity halved (alpha 180 → 90,
+  ~70% → ~35%) so it reads as a light translucent backing rather than a solid card.
+- `branding.py` — splash render size 60 → 30 (% of window), so the logo shows at
+  half the previous size on mission launch.
+
 ## [1.32.5] — 2026-07-22 — Left-rail layout: secondary actions no longer buried
 
 The left rail's `#railsteps` used `flex: 1`, stretching the (short) step list to
