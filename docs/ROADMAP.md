@@ -60,6 +60,73 @@ discipline; opt-in, never intrusive.
 upload-a-mission → dissect → reusable recipe, owned-modules profile stored on
 your account. The generator itself stays free.
 
+## 💡 Idea board — unprioritized brainstorm (DCS-player wishlist)
+
+*Not commitments. Anything here can be promoted into Next when it earns it.
+Everything respects the north star: reference and stage-setting, never player
+waypoints.*
+
+**Mission & scenario depth**
+- **COIN / Afghanistan-era ops** — convoy overwatch, FOB resupply, ridge-line CAS,
+  CSAR with a survivor radio; the map is begging for them.
+- **COMAO packages** — the player as one element of a timed strike package (AI
+  SEAD sweep ahead, escort flank, stand-off jamming) without routing the player.
+- **Naval strike scenarios** — ASuW: shadow, ID, and strike a surface group;
+  era-correct (Styx-era boats vs modern SAG).
+- **Campaign-lite chains** — the outcome seed of one mission feeds the next
+  recipe: lose a SAM site today, it's gone tomorrow. Recipes make this cheap.
+- **Seeded wildcards** — optional "something may happen" toggle: SAM ambush,
+  zombie contact, diverted tanker, engine-start abort drill.
+- **Helicopter-first templates** — Petrovich/George crew-ops, sling-load
+  logistics chains, dustoff medevac under SHORAD.
+- **Training syllabus track** — a progressive qual ladder (nav → BFM → BVR →
+  SEAD → package lead) with each rung a Library card.
+
+**Realism & environment**
+- **Historical-date weather** — pick a real date: archived METAR-style weather,
+  correct moon phase and sun times for the theater.
+- **Weather fronts & winds aloft** — multi-layer wind profiles and moving cells
+  instead of one static preset; icing bands in the right eras.
+- **Era-correct night ops** — airfield lighting states, NVG-era gating, dark-ramp
+  cold starts with follow-me truck.
+- **Doctrine-true red air** — Soviet GCI-grid CAP behavior vs Western sweep
+  patterns per era, not just skill sliders.
+- **Period callsign packs** — nation- and era-correct callsigns end to end
+  (no "Texaco" over the GDR in 1975).
+- **Tail-code & BuNo sequencing** — squadron blocks numbered like a real flight
+  line (already half-built via onboard numbers).
+
+**Briefing, nav & comms**
+- **Auto approach plates** — TACAN/ILS approach plates for home + divert fields,
+  drawn to our chart standard, in the kneeboard.
+- **Divert card** — nearest suitable fields with headings, distances, and fuel
+  estimates from home/AO.
+- **SRS export** — the comms plan as a SimpleRadio channel preset file next to
+  the .miz.
+- **QR brief handoff** — QR code on the PDF brief that opens the mission data
+  card on your phone/tablet kneeboard.
+- **TacView debrief pack** — auto-enable the right flags and ship a debrief
+  checklist keyed to the mission's objectives.
+
+**Carrier & fleet**
+- **Cyclic ops schedule** — event-driven deck: launch cycle, recovery window,
+  Case III stack times printed on the kneeboard.
+- **Recovery tanker + LSO picture** — hawking tanker overhead, era-correct
+  CV NATOPS numbers on the brief.
+- **Escort stations that react** — plane-guard helo and shotgun destroyer
+  repositioning with deck state.
+
+**Product & platform**
+- **Loadout presets (opt-in)** — era-authentic stores presets for the player
+  flight; never forced, never a route.
+- **MP server pack** — one click: mission set + rotation manifest ready for a
+  dedicated server.
+- **Mission date picker** — full date (not just era) driving weather, daylight,
+  moon, and roster gating.
+- **Range scoring lite** — strafe/bomb scoring triggers on the practice range
+  (a v2.0 appetizer that works today).
+- **In-app "what changed"** — release-notes card in the UI fed from CHANGELOG.
+
 ## 🗺 New maps
 
 **Afghanistan — SHIPPED** (v1.21): 25 airports authored from a real install
