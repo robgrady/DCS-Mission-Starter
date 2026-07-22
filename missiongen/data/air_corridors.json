@@ -1,0 +1,39 @@
+{
+ "_comment": "Air Corridors (UX redesign v2): curated tactical lanes per map+era. Selecting one orients the mission's THREAT AXIS down the lane and concentrates enemy air defenses + CAP toward its far (enemy) end. Geometry is a compass BEARING (degrees, from the friendly side toward the enemy) + REACH (metres to the enemy focus), so it is map-agnostic and needs no per-corridor lat/lon. 'axis'/'enemy' are briefing text. NO player waypoints are placed — this shapes the ENEMY picture and the threat axis only.",
+ "caucasus": [
+  {"name": "Black Sea Coastal Push", "eras": ["coldwar", "modern"], "bearing": 285, "reach": 95000,
+   "axis": "Ingress up the Black Sea littoral", "enemy": "Coastal SA-6/SA-11 belt + MiG CAP"},
+  {"name": "Kutaisi–Krasnodar Corridor", "eras": ["coldwar", "modern"], "bearing": 315, "reach": 110000,
+   "axis": "Northwest over the Caucasus ridge", "enemy": "Su-27 barrier CAP + inland SA-10"}
+ ],
+ "persiangulf": [
+  {"name": "Strait of Hormuz CAP", "eras": ["modern"], "bearing": 110, "reach": 90000,
+   "axis": "Barrier CAP across the strait", "enemy": "IRIAF F-4/F-14 + coastal SA-6"},
+  {"name": "Bandar Abbas Strike Lane", "eras": ["modern"], "bearing": 60, "reach": 105000,
+   "axis": "Gulf to the coast naval base", "enemy": "SA-10 site + Tor SHORAD + AAA"}
+ ],
+ "syria": [
+  {"name": "Damascus Approach", "eras": ["modern"], "bearing": 200, "reach": 95000,
+   "axis": "Southbound toward the capital SAM ring", "enemy": "SA-17/SA-22 + MiG-29 CAP"},
+  {"name": "Golan–Bekaa Line", "eras": ["modern"], "bearing": 250, "reach": 80000,
+   "axis": "West along the Golan/Bekaa seam", "enemy": "SA-8/SA-13 SHORAD + AAA"}
+ ],
+ "germany": [
+  {"name": "Fulda Gap", "eras": ["coldwar"], "bearing": 75, "reach": 85000,
+   "axis": "Low-level push through the gap", "enemy": "Warsaw Pact armor + SA-6/SA-8"},
+  {"name": "Inner-German Border", "eras": ["coldwar"], "bearing": 90, "reach": 95000,
+   "axis": "East to the IGB defensive belt", "enemy": "SA-3/SA-6 belt + MiG-23 CAP"},
+  {"name": "Ruhr Industrial Strike", "eras": ["coldwar"], "bearing": 60, "reach": 110000,
+   "axis": "Northeast toward the industrial targets", "enemy": "Dense AAA + SA-2/SA-3 rings"}
+ ],
+ "nevada": [
+  {"name": "Range 74 Threat Axis", "eras": ["coldwar", "modern"], "bearing": 20, "reach": 70000,
+   "axis": "North into the training threat ranges", "enemy": "Layered SAM ranges + aggressor CAP"}
+ ],
+ "afghanistan": [
+  {"name": "Helmand River Corridor", "eras": ["modern"], "bearing": 45, "reach": 80000,
+   "axis": "Up the river valley to the green zone", "enemy": "SHORAD/MANPADS + technicals"},
+  {"name": "Hindu Kush Passes", "eras": ["modern"], "bearing": 20, "reach": 95000,
+   "axis": "North through the high passes", "enemy": "MANPADS + fast-mover CAP"}
+ ]
+}

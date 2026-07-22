@@ -164,6 +164,24 @@ class StarterBuilder:
         home = next((a for a in own_fields if a.name == r.home_airbase), own_fields[0])
         own_center = _centroid([a.position for a in own_fields], m.terrain)
         enemy_center = _centroid([a.position for a in enemy_fields], m.terrain)
+        # Air Corridors (v2): a selected lane re-anchors the enemy focus down its
+        # compass bearing, so the threat axis and the CAP/SAM concentration follow
+        # the corridor instead of the raw base-centroid line. No player waypoints.
+        self._corridors = []
+        if r.corridors:
+            try:
+                _corr = load_json("air_corridors").get(r.map, [])
+                chosen = [c for c in _corr if c["name"] in r.corridors
+                          and r.era in c.get("eras", [])]
+                if chosen:
+                    from .dressing import _offset
+                    fxs = [_offset(own_center, c["reach"], c["bearing"]) for c in chosen]
+                    enemy_center = mapping.Point(
+                        sum(p.x for p in fxs) / len(fxs),
+                        sum(p.y for p in fxs) / len(fxs), m.terrain)
+                    self._corridors = chosen
+            except Exception as _e:
+                self.warnings.append(f"air corridor apply failed: {_e}")
         threat_bearing = _bearing(own_center, enemy_center)
         away_bearing = (threat_bearing + 180) % 360
 
@@ -546,6 +564,19 @@ class StarterBuilder:
             sc = _scenario_templates().get(r.template)
             if sc and sc.get("brief"):
                 template_brief = "\n".join(sc["brief"])
+
+        # --- air corridors: brief the lane + enemy picture, draw the axis ------
+        if self._corridors:
+            names = ", ".join(c["name"] for c in self._corridors)
+            lines = ["== AIR CORRIDOR" + ("S" if len(self._corridors) > 1 else "") +
+                     ": " + names + " =="]
+            for c in self._corridors:
+                lines.append(f" {c['name']} — {c.get('axis','')}. Enemy: {c.get('enemy','')}.")
+            lines.append("The threat axis and enemy air defenses are oriented down "
+                         "the corridor. Build your own ingress around them.")
+            template_brief = (template_brief + "\n\n" if template_brief else "") + "\n".join(lines)
+            stats["corridors"] = [c["name"] for c in self._corridors]
+            gfx.setdefault("routes", []).append((own_center, enemy_center, f"AXIS · {names}"))
 
         # --- bullseye ---------------------------------------------------------
         midpoint = mapping.Point((own_center.x + enemy_center.x) / 2,

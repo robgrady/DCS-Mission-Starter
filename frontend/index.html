@@ -121,6 +121,14 @@
   .subcat { font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
             color: var(--dim); margin: 14px 0 6px; }
   .screenhint { color: var(--dim); font-size: 13px; margin: -4px 0 14px; }
+  .corrgrid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:10px; }
+  .corrcard { background:var(--panel2); border:1px solid var(--line); border-radius:10px; padding:12px 14px; cursor:pointer; transition:.14s; }
+  .corrcard:hover { border-color:var(--dim); }
+  .corrcard.on { border-color:var(--accent); background:rgba(255,176,32,.08); box-shadow:0 0 0 1px var(--accent); }
+  .corrname { font-family:var(--font-display); font-weight:700; font-size:15px; margin-bottom:5px; }
+  .corraxis { font-family:var(--font-mono); font-size:11.5px; color:var(--dim); margin-bottom:4px; }
+  .correnemy { font-size:11.5px; color:var(--strike); }
+  .corrempty { color:var(--dim); font-size:13px; border:1px dashed var(--line); border-radius:10px; padding:14px; }
   @media (max-width: 900px) { #rail { position:static; width:100%; height:auto; }
     .app { flex-direction: column; } .genbar { left: 0; } }
   #summary { line-height: 1.4; }
@@ -382,6 +390,9 @@
 <main>
   <div class="step" id="sec_era"><h2><span class="n">1</span>Era<span class="hdrval" id="hv_era"></span><span class="chev">▾</span></h2><div class="cards" id="eras"></div></div>
   <div class="step" id="sec_map"><h2><span class="n">2</span>Map<span class="hdrval" id="hv_map"></span><span class="chev">▾</span></h2><div class="cards" id="maps"></div></div>
+  <div class="step" id="sec_corridors"><h2><span class="n">2</span>Air corridors<span class="hdrval" id="hv_corridors"></span><span class="chev">▾</span></h2>
+    <p class="screenhint">Curated tactical lanes for this map &amp; era. Pick one or more to orient the threat axis and concentrate enemy air defenses &amp; CAP down the lane. None = open theater (free-fly). No player waypoints, ever.</p>
+    <div class="corrgrid" id="corridors"></div></div>
   <div class="step" id="sec_basing"><h2><span class="n">3</span>Coalition &amp; basing<span class="hdrval" id="hv_basing"></span><span class="chev">▾</span></h2>
     <div class="row">
       <div><label>Your side</label><select id="coalition">
@@ -565,7 +576,7 @@
   <button id="gen">GENERATE .MIZ</button>
 </div>
 <script>
-const S = { map:null, era:null, template:null, advanced:false };
+const S = { map:null, era:null, template:null, advanced:false, corridors:[] };
 function toggleAdvanced(){
   S.advanced = !S.advanced;
   buildRail();
@@ -626,7 +637,7 @@ async function init(){
   const maps = document.getElementById('maps');
   for (const [k,v] of Object.entries(OPT.maps)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
-    c.onclick = ()=>{ S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); sum(); };
+    c.onclick = ()=>{ S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
     maps.appendChild(c);
   }
   const eras = document.getElementById('eras');
@@ -640,7 +651,7 @@ async function init(){
         S.map = valid;
         sel(document.getElementById('maps'), document.querySelector(`#maps .card[data-k="${valid}"]`));
       }
-      refreshEraGating(); fillHome(); refreshDressUI(); sum(); };
+      refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
     eras.appendChild(c);
   }
   refreshAircraft();
@@ -779,6 +790,8 @@ function applyRecipe(r){
   }
   document.querySelectorAll('.gfxl').forEach(c =>
     c.checked = r.map_layers == null || r.map_layers.includes(c.value));
+  if (Array.isArray(r.corridors)) S.corridors = r.corridors.slice();
+  renderCorridors();
   const tsel = document.querySelector(`#templates .card[data-k="${r.template||''}"]`);
   if (tsel) tsel.click();
 }
@@ -817,6 +830,8 @@ function applyScenarioPreset(k){
   // aircraft suggestion last (roster depends on carrier/era) — only if offered
   refreshAircraft();
   if (rc.aircraft){ const a=document.getElementById('aircraft'); if([...a.options].some(o=>o.value===rc.aircraft)) a.value=rc.aircraft; }
+  if (Array.isArray(rc.corridors)) S.corridors = rc.corridors.slice();
+  renderCorridors();
   refreshCarrierUI(); refreshDressUI(); sum(); updateRail();
 }
 // Only offer scenarios that fit the chosen map + era (contextual filter). A
@@ -988,9 +1003,11 @@ function initGfxUI(){
 //      take precedence over the autosave. "Reset wizard" clears it.
 // ===== section-navigation: the rail SWITCHES the single visible screen =====
 const SCREENS = [
-  {key:"theater", num:1, label:"Theater", steps:["sec_era","sec_map"], val:()=>{
+  {key:"theater", num:1, label:"Theater", steps:["sec_era","sec_map","sec_corridors"], val:()=>{
       if(!S.era) return null;
-      return OPT.eras[S.era].label + (S.map? ` · ${OPT.maps[S.map].label}`:''); }},
+      let s = OPT.eras[S.era].label + (S.map? ` · ${OPT.maps[S.map].label}`:'');
+      if(S.corridors&&S.corridors.length) s += ` · ${S.corridors.length} corridor${S.corridors.length>1?'s':''}`;
+      return s; }},
   {key:"flight", num:2, label:"Flight", steps:["sec_basing"], val:()=>{
       const a = document.getElementById('aircraft').selectedOptions[0];
       const h = document.getElementById('home').selectedOptions[0];
@@ -1037,6 +1054,24 @@ function showScreen(key){
   updateScreenNav();
 }
 
+function corridorsFor(){ if(!OPT||!OPT.air_corridors||!S.map||!S.era) return [];
+  return (OPT.air_corridors[S.map]||[]).filter(c=>(c.eras||[]).includes(S.era)); }
+function renderCorridors(){
+  const box=document.getElementById('corridors'); if(!box) return;
+  const list=corridorsFor(), valid=new Set(list.map(c=>c.name));
+  S.corridors=(S.corridors||[]).filter(n=>valid.has(n));
+  const hv=document.getElementById('hv_corridors');
+  if(hv) hv.textContent = S.corridors.length? S.corridors.join(', ') : (list.length?'open theater':'—');
+  if(!list.length){ box.innerHTML='<div class="corrempty">No curated corridors for this map &amp; era yet — open theater. Free-fly, or the Builder places threats on the base-to-base axis.</div>'; return; }
+  box.innerHTML=list.map(c=>{ const on=S.corridors.includes(c.name);
+    return '<div class="corrcard'+(on?' on':'')+'" onclick="toggleCorridor(\''+c.name.replace(/'/g,"\\'")+'\')">'+
+      '<div class="corrname">'+c.name+'</div>'+
+      '<div class="corraxis">↳ '+c.axis+'</div>'+
+      '<div class="correnemy">◈ Enemy: '+c.enemy+'</div></div>'; }).join('');
+}
+function toggleCorridor(name){ const i=S.corridors.indexOf(name);
+  if(i>=0) S.corridors.splice(i,1); else S.corridors.push(name);
+  renderCorridors(); sum(); }
 function visScreens(){ return SCREENS.filter(s => (!s.cond || s.cond()) && (!s.adv || (S && S.advanced))); }
 function screenDone(scr){
   let v=null; try{ v=scr.val(); }catch(e){}
@@ -1326,6 +1361,7 @@ function recipe(){
     r.carrier_aew = document.getElementById('carrier_aew').checked;
     r.carrier_strike = document.getElementById('carrier_strike').checked;
   }
+  r.corridors = (S.corridors||[]).slice();
   return r;
 }
 function sum(){

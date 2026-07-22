@@ -131,6 +131,8 @@ def options():
         "eras": {k: {"label": v["label"], "window": v.get("window")}
                  for k, v in eras.items()},
         "aircraft": flyable_aircraft(),
+        "air_corridors": {k: v for k, v in load_json("air_corridors").items()
+                          if not k.startswith("_")},
         "templates": {
             # kind: "full" = the .miz places a flown route/waypoints (crew-ops);
             # "open" = a dressed theater, no waypoints placed (you fly/build it).

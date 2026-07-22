@@ -17,6 +17,28 @@ guide cover.
 
 ---
 
+## [1.30.0] — 2026-07-22 — Redesign Phase 5: Air Corridors (threat-axis driver)
+
+The redesign's standout feature — and the first that reaches the engine.
+Selecting a curated **Air Corridor** in the Builder's Theater section now
+*shapes the mission*, not just the F10 map: the enemy focus re-anchors down the
+corridor's compass bearing, so the **threat axis and the CAP/SAM concentration
+follow the lane** instead of the raw base-to-base centroid. The corridor's axis
++ enemy picture are briefed, and the axis is drawn on the F10 map.
+
+- New `air_corridors.json` — curated lanes per map/era (Fulda Gap, Strait of
+  Hormuz CAP, Damascus Approach, Helmand River, …), each a bearing + reach +
+  axis/enemy text. Map-agnostic geometry (no fragile per-corridor lat/lon).
+- New `recipe.corridors` (list of names); multi-select UI filtered to the
+  current map+era, with the redesign's card styling. Applies from scenario
+  presets and share links.
+- **North-star safe:** shapes the *enemy* picture and the threat axis only —
+  never places player waypoints. Unknown names are ignored gracefully.
+
+Byte-affecting when corridors are selected (empty list = unchanged output, so
+existing share links reproduce exactly). Determinism preserved; new regression
+covers axis shift, briefing, determinism, and graceful unknown-name handling.
+
 ## [1.29.0] — 2026-07-22 — Redesign Phase 3: Advanced disclosure in the Builder
 
 Addresses the audit's P1 density finding — essentials and expert controls no

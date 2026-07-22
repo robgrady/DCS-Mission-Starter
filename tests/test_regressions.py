@@ -88,6 +88,33 @@ def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
     assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
 
 
+def test_air_corridors_orient_the_mission(tmp_path):
+    """Selecting an Air Corridor re-anchors the enemy focus down its bearing, so
+    the threat axis + CAP/SAM concentration follow the lane. Must change the .miz,
+    name the corridor in the brief, and stay deterministic. No player waypoints."""
+    import zipfile as _zf, hashlib
+    from missiongen import Recipe, generate
+    def gen(corr, out):
+        generate(Recipe.from_dict(dict(map="germany", era="coldwar", coalition="blue",
+                 aircraft="F_4E_45MC", corridors=corr, threat_intensity=3,
+                 threat_tier="mixed", seed=5)), out)
+        return out
+    a = gen([], str(Path(tmp_path) / "a.miz"))
+    b = gen(["Fulda Gap"], str(Path(tmp_path) / "b.miz"))
+    h = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
+    assert h(a) != h(b), "corridor selection did not change the mission"
+    dic = _zf.ZipFile(b).read("l10n/DEFAULT/dictionary").decode("utf-8", "ignore")
+    assert "Fulda Gap" in dic, "corridor not named in the briefing"
+    # determinism: same recipe+corridor twice → identical per entry
+    c1 = gen(["Fulda Gap"], str(Path(tmp_path) / "c1.miz"))
+    c2 = gen(["Fulda Gap"], str(Path(tmp_path) / "c2.miz"))
+    parts = lambda p: {n: hashlib.sha256(_zf.ZipFile(p).read(n)).hexdigest()
+                       for n in _zf.ZipFile(p).namelist()}
+    assert parts(c1) == parts(c2), "corridor mission is not deterministic"
+    # an unknown corridor name is ignored gracefully (no crash, open theater)
+    gen(["No Such Lane"], str(Path(tmp_path) / "d.miz"))
+
+
 def test_a6_intruder_carrier_roles(tmp_path):
     """A-6E (AI-only Heatblur module) integrated into the Cold War carrier air
     wing three ways: deck dressing, KA-6D organic tanker, and an AI strike package
