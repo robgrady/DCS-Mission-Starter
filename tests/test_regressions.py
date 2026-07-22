@@ -88,6 +88,22 @@ def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
     assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
 
 
+def test_covered_ramp_bases_get_no_gse(tmp_path):
+    """At bases with sun-shelters over the stands (Kandahar) the per-aircraft GSE
+    truck is offset to the side of the jet and lands on the shelter roof — DCS
+    clamps it to the sloped mesh so it sits tilted on top (Rob, 2026-07-22). Those
+    bases must get NO GSE, while open bases keep theirs."""
+    import re, zipfile as _zf
+    from missiongen import Recipe, generate
+    out = str(Path(tmp_path) / "afg.miz")
+    generate(Recipe.from_dict(dict(map="afghanistan", era="modern", coalition="blue",
+             aircraft="F_14B_U", home_airbase="Kandahar", seed=1)), out)
+    mis = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
+    gse = re.findall(r'"GSE ([^"]+?) ', mis)
+    assert gse, "no GSE placed anywhere (gate too broad)"
+    assert not any(b == "Kandahar" for b in gse), "GSE placed at a covered-ramp base"
+
+
 def test_crew_ops_jet_is_radio_programmed_to_the_comm_plan(tmp_path):
     """Crew-ops templates own the player jet (player_group is None), so the BB-19
     preset step used to skip them: the kneeboard advertised the comm plan while

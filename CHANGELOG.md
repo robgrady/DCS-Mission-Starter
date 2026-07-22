@@ -17,6 +17,22 @@ guide cover.
 
 ---
 
+## [1.22.4] — 2026-07-22 — No GSE trucks on Kandahar shelters (covered-ramp gate)
+
+**Fix.** At Kandahar the parking stands sit under arched sun-shelters. The
+per-aircraft GSE truck is offset to the SIDE of the jet, which lands on the
+shelter's curved roof — DCS clamps the truck to that sloped mesh, so it spawns
+tilted on top of the shelter (Rob's screenshots, 2026-07-22). The occupancy /
+keep-out checks validate against aircraft and runway corridors but have no
+knowledge of map scenery like shelters.
+
+New per-map `covered_ramp` list in `maps.json` (Afghanistan → `["Kandahar"]`).
+`builder` suppresses per-aircraft GSE at listed bases while still placing the
+aircraft (which sit AT the stand, fitting under the arch). Open bases —
+Shindand, Bagram, Camp Bastion, etc. — keep their GSE. New regression asserts
+Kandahar gets no GSE while other bases do. Easy to extend the list if other
+sheltered bases show the same clipping.
+
 ## [1.22.3] — 2026-07-22 — Crew Ops jets get radio presets (cockpit matches kneeboard)
 
 **Fix.** On Crew Ops missions the cockpit radio channels did not match the

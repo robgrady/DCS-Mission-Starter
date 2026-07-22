@@ -730,6 +730,9 @@
   "label": "Afghanistan",
   "terrain_class": "missiongen.terrains.afghanistan.Afghanistan",
   "free": false,
+  "covered_ramp": [
+   "Kandahar"
+  ],
   "presets": {
    "modern": {
     "blue_country": "USA",

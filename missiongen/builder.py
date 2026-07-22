@@ -308,6 +308,14 @@ class StarterBuilder:
                 field_hdgs = {}
             skipped = []
 
+            # Bases with covered parking (sun-shelters over the stands, e.g.
+            # Kandahar): the per-aircraft GSE truck is offset to the side of the
+            # jet and lands on the shelter's curved roof — DCS clamps it to that
+            # sloped mesh so the truck sits tilted on top. We have no scenery
+            # geometry to place around, so GSE is suppressed at these bases;
+            # aircraft (placed AT the stand, which fits under the arch) are kept.
+            covered_ramp = set(map_cfg.get("covered_ramp", []))
+
             def _dress(ap, country, cfg, theme, mix=None):
                 ov = overrides.get(ap.name)
                 # civilian fields stay empty UNLESS explicitly overridden
@@ -317,6 +325,8 @@ class StarterBuilder:
                 if ov == 0:
                     skipped.append(ap.name); return 0
                 kw = dict(dress_kw)
+                if ap.name in covered_ramp:
+                    kw["include_gse"] = False       # trucks would clip the shelters
                 if ov is not None:
                     kw["fill"] = ov
                 kw["field_heading"] = field_hdgs.get(ap.name)
