@@ -727,7 +727,7 @@
   }
  },
  "afghanistan": {
-  "label": "Afghanistan (beta \u2014 nav coords pending calibration)",
+  "label": "Afghanistan",
   "terrain_class": "missiongen.terrains.afghanistan.Afghanistan",
   "free": false,
   "presets": {

@@ -1,4 +1,4 @@
-__version__ = "1.21.0"
+__version__ = "1.21.1"
 
 from . import _determinism  # noqa: F401  (patches pydcs for cross-process reproducibility)
 from .terrains import install as _install_terrains

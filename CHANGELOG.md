@@ -17,6 +17,22 @@ guide cover.
 
 ---
 
+## [1.21.1] — 2026-07-22 — Afghanistan projection calibrated: beta tag dropped
+
+The in-sim projection probe came back and the computed transverse-mercator
+parameters (central meridian 63, false easting −300150, false northing
+−3759657) validate against all 28 probed airbases with **0.00 m** worst-case
+reprojection error. Cross-checked against real-world coordinates: pydcs now
+places Kandahar at 31.5058N 65.8477E vs the real 31.5058N 65.8478E.
+
+- `terrains/afghanistan/projection.py` — probe-derived values installed.
+- Map label is now just **"Afghanistan"** — kneeboard coordinates, the brief
+  chart, and DTC lat/lon points are exact.
+- The terrain module is complete and upstream-PR-ready (airports + projection +
+  metadata, all generated per pydcs convention from a real install).
+
+---
+
 ## [1.21.0] — 2026-07-22 — ★ AFGHANISTAN — first Mission Starter-authored map
 
 ### Added — Afghanistan terrain (beta), generated from a real install export

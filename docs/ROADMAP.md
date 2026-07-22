@@ -62,6 +62,7 @@ your account. The generator itself stays free.
 
 ## 🗺 New maps
 
-**Afghanistan, then Iraq** — authored from real install data and contributed
-upstream to pydcs. Iraq unlocks the Northern/Southern Watch no-fly-zone
-scenarios.
+**Afghanistan — SHIPPED** (v1.21): 25 airports authored from a real install
+export, projection probe-calibrated to 0 m error. **Iraq next** — same runbook;
+unlocks the Northern/Southern Watch no-fly-zone scenarios. Both headed upstream
+to pydcs.
