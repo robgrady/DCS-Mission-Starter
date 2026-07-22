@@ -17,6 +17,24 @@ guide cover.
 
 ---
 
+## [1.28.0] — 2026-07-22 — Redesign Phase 2: full "My Install" module catalog
+
+The ownership picker grows from a flat maps+aircraft list into the redesign's
+categorized catalog, driven by the backend's real supported content (so nobody
+"owns" a module the engine can't build for):
+
+- **Categories** — Terrains, Modern jets, Cold War jets, WWII warbirds,
+  Helicopters (aircraft bucketed by service dates; helos split out).
+- **Nickname search** — type "Warthog", "Hornet", "Fulda" and it matches via an
+  alias map, not just the designation.
+- **Select all / Clear per category** + a live "N owned" count per section and a
+  running total in the footer.
+- **Free content** (Caucasus/Marianas, Su-25T/TF-51D) is always checked and
+  tagged, never counted against you.
+
+Extends the existing on-device `ms_owned` store; the Library's lock badges,
+status rows, and "Only what I own" all read from it. Frontend only.
+
 ## [1.27.0] — 2026-07-22 — Redesign Phase 0: instrument-panel visual language
 
 Visual foundation of the v2 redesign — all in vanilla CSS/HTML, no framework.
