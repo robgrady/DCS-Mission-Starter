@@ -132,26 +132,33 @@ def options():
                  for k, v in eras.items()},
         "aircraft": flyable_aircraft(),
         "templates": {
+            # kind: "full" = the .miz places a flown route/waypoints (crew-ops);
+            # "open" = a dressed theater, no waypoints placed (you fly/build it).
+            # tasked = ships a suggested-tasking brief. Scenario templates are open
+            # starters (north star: we never place the player's waypoints), most
+            # with a suggested-tasking brief; crew-ops are full missions.
             **{k: {"label": v["label"], "eras": v.get("eras", []),
                    "maps": v.get("maps"), "needs_carrier": v.get("needs_carrier", False),
                    "needs_acls": v.get("needs_acls", False),
                    "recipe": v.get("recipe", {}),
+                   "kind": (v.get("library") or {}).get("kind", "open"),
+                   "tasked": bool(v.get("brief")),
                    "library": v.get("library"), "default_map": v.get("default_map")}
                for k, v in load_json("mission_templates").items()
                if not k.startswith("_")},
-            "backseat_izlid": {"label": "F-14B(U) Pilot + Jester: IZLID Strike — you fly, Jester designates on your call",
+            "backseat_izlid": {"kind": "full", "tasked": True, "label": "F-14B(U) Pilot + Jester: IZLID Strike — you fly, Jester designates on your call",
                                "eras": ["modern"], "aircraft_locked": True, "default_map": "caucasus",
                                "recipe": {"aircraft": "F_14B_U"},
                                "library": {"role": "strike", "new": True, "featured": True, "module": "F-14B(U)",
                                            "threat": 3, "players": "SP",
                                            "premise": "You fly, Jester works the back seat — run the IZLID designation on your call through the F10 crew menu."}},
-            "backseat_intercept": {"label": "F-14B(U) RIO + Iceman: GCI Intercept — Iceman flies YOUR calls from the back seat",
+            "backseat_intercept": {"kind": "full", "tasked": True, "label": "F-14B(U) RIO + Iceman: GCI Intercept — Iceman flies YOUR calls from the back seat",
                                    "eras": ["modern"], "aircraft_locked": True, "default_map": "caucasus",
                                    "recipe": {"aircraft": "F_14B_U"},
                                    "library": {"role": "a2a", "new": True, "featured": True, "module": "F-14B(U)",
                                                "threat": 3, "players": "SP",
                                                "premise": "You're the RIO; Iceman flies your calls from the front seat — build the AWG-9 picture and commit on the raid."}},
-            "rio_fleet_defense": {"label": "F-14 RIO: Fleet Defense — the AWG-9 vs a Backfire raid (solo or MP crew, works today)",
+            "rio_fleet_defense": {"kind": "full", "tasked": True, "label": "F-14 RIO: Fleet Defense — the AWG-9 vs a Backfire raid (solo or MP crew, works today)",
                                   "eras": ["coldwar", "modern"], "aircraft_locked": True, "default_map": "caucasus",
                                   "recipe": {"aircraft": "F_14B"},
                                   "library": {"role": "a2a", "new": True, "featured": True, "module": "F-14B(U)",

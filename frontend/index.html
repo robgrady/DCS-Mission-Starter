@@ -159,6 +159,12 @@
   .lmodcard p{margin:0 0 12px;color:#b9c4d0;font-size:12.7px;line-height:1.45;max-width:44ch}
   .lmodcard .mgo{font-size:12px;font-weight:700;color:var(--carrier)}
   .acbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:#cfe8ff;background:rgba(88,166,255,.12);border:1px solid rgba(88,166,255,.28);border-radius:6px;padding:3px 8px}
+  .kindb{margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.06em;border-radius:20px;padding:3px 8px;white-space:nowrap}
+  .kindb.full{color:#7fd8cf;background:rgba(63,184,175,.13);border:1px solid rgba(63,184,175,.34)}
+  .kindb.open{color:#ffc457;background:rgba(255,176,32,.12);border:1px solid rgba(255,176,32,.32)}
+  .ownrow{margin-top:10px;font-size:11.5px;font-weight:600;border-radius:8px;padding:6px 9px;display:flex;align-items:center;gap:7px}
+  .ownrow.have{color:#8FD14F;background:rgba(143,209,79,.08);border:1px solid rgba(143,209,79,.22)}
+  .ownrow.needs{color:#FF9d5c;background:rgba(255,157,92,.09);border:1px solid rgba(255,157,92,.26)}
   .subf{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
   .subf label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);display:block;margin-bottom:3px}
   .subf select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:8px 11px;font-size:13px}
@@ -269,6 +275,9 @@
       <div class="subf">
         <div><label>Aircraft</label><select id="lfAc" onchange="renderLib()"><option value="all">All aircraft</option></select></div>
         <div><label>Map</label><select id="lfMap" onchange="renderLib()"><option value="all">All maps</option></select></div>
+        <div><label>Type</label><select id="lfType" onchange="renderLib()">
+          <option value="all">All types</option><option value="full">Full mission</option>
+          <option value="open">Open starter</option></select></div>
         <div><label>Era</label><select id="lfEra" onchange="renderLib()">
           <option value="all">All eras</option><option value="wwii">WWII</option>
           <option value="coldwar">Cold War</option><option value="modern">Modern</option></select></div>
@@ -1332,8 +1341,16 @@ function libItems(){ return Object.entries(OPT.templates)
       players: lib.players||'SP',
       aircraft: (v.recipe&&v.recipe.aircraft)||null,
       module: lib.module||null,
+      kind: v.kind||'open', tasked: !!v.tasked,
       featured: !!lib.featured, new: !!lib.new};
   }); }
+function ownRow(t){
+  if(!ownSetP()) return '';                    // ownership not declared yet
+  const req=libReq(t);
+  return req
+    ? '<div class="ownrow needs">🔒 Needs: '+reqLabel(req)+'</div>'
+    : '<div class="ownrow have">✓ You own the terrain &amp; aircraft</div>';
+}
 function acLabel(key){ if(!key) return null; const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
 function mapKeyOf(t){ return t.default_map || (t.maps&&t.maps[0]) || null; }
 function mapLabel(mk){ return (OPT.maps[mk]&&OPT.maps[mk].label)||mk; }
@@ -1378,6 +1395,7 @@ function renderChips(anyF){
   if(libState.module) chips.push(['Module',libState.module,"clearModule()"]);
   if(libState.role!=='all') chips.push(['Role',(ROLES[libState.role]||{}).label||libState.role,"setRole('all')"]);
   const g=id=>document.getElementById(id);
+  if(g('lfType').value!=='all') chips.push(['Type',g('lfType').options[g('lfType').selectedIndex].text,"clearFilter('lfType')"]);
   if(g('lfAc').value!=='all') chips.push(['Aircraft',acLabel(g('lfAc').value),"clearFilter('lfAc')"]);
   if(g('lfMap').value!=='all') chips.push(['Map',mapLabel(g('lfMap').value),"clearFilter('lfMap')"]);
   if(g('lfEra').value!=='all') chips.push(['Era',g('lfEra').options[g('lfEra').selectedIndex].text,"clearFilter('lfEra')"]);
@@ -1392,7 +1410,7 @@ function clearModule(){ libState.module=null; renderLib(); }
 function clearFilter(id){ const e=document.getElementById(id); if(e.type==='search') e.value=''; else e.value='all'; renderLib(); }
 function clearFilters(){ libState.role='all'; libState.own=false; libState.module=null;
   document.getElementById('lown').classList.remove('on');
-  ['lfAc','lfMap','lfEra','lfDiff'].forEach(i=>document.getElementById(i).value='all');
+  ['lfType','lfAc','lfMap','lfEra','lfDiff'].forEach(i=>document.getElementById(i).value='all');
   document.getElementById('lfSearch').value=''; document.getElementById('lfSort').value='featured';
   buildRoleTabs(); renderLib(); }
 // ---- ownership: the user declares which maps + modules they own (stored on
@@ -1470,19 +1488,23 @@ function libCard(t){
     '<div class="bar" style="background:'+r.c+'"></div>'+
     (t.new?'<span class="lnew">NEW</span>':'')+(req?'<span class="lreq">🔒 '+reqLabel(req)+'</span>':'')+
     '<div class="cbody"><div class="rt"><div class="ric" style="background:'+r.c+'22">'+r.ic+'</div>'+
-      '<div class="role" style="color:'+r.c+'">'+r.label+'</div></div>'+
+      '<div class="role" style="color:'+r.c+'">'+r.label+'</div>'+
+      '<span class="kindb '+(t.kind==='full'?'full':'open')+'">'+(t.kind==='full'?'FULL MISSION':'OPEN STARTER')+'</span></div>'+
       '<h3>'+t.label.split(' —')[0]+'</h3><p class="prem">'+(t.premise||'')+'</p>'+
       '<div class="lchips">'+
         (t.aircraft?'<span class="acbadge">✈ '+acLabel(t.aircraft)+'</span>':'')+
         '<span class="lchip">'+eraLabels(t.eras)+'</span>'+
         '<span class="lchip">'+thrBar(t.threat||1)+'</span>'+
         '<span class="lchip">'+(t.players||'SP')+'</span>'+
+        (t.tasked?'<span class="lchip">📋 Tasking brief</span>':'')+
         (t.needs_carrier?'<span class="lchip">⚓ Carrier</span>':'')+'</div>'+
+      ownRow(t)+
     '</div></div>';
 }
 function libPasses(t){
   if(libState.module&&t.module!==libState.module) return false;
   if(libState.role!=='all'&&t.role!==libState.role) return false;
+  const ty=document.getElementById('lfType').value; if(ty!=='all'&&(t.kind||'open')!==ty) return false;
   const e=document.getElementById('lfEra').value; if(e!=='all'&&!(t.eras||[]).includes(e)) return false;
   const d=document.getElementById('lfDiff').value, th=t.threat||1;
   if(d==='lo'&&th>2) return false; if(d==='md'&&th!==3) return false; if(d==='hi'&&th<4) return false;
@@ -1499,7 +1521,7 @@ function renderLib(){
   initLibFilters();
   const items=libItems(), g=id=>document.getElementById(id);
   const anyF=libState.module||libState.role!=='all'||g('lfEra').value!=='all'||g('lfDiff').value!=='all'||
-    g('lfAc').value!=='all'||g('lfMap').value!=='all'||g('lfSearch').value.trim()||libState.own;
+    g('lfType').value!=='all'||g('lfAc').value!=='all'||g('lfMap').value!=='all'||g('lfSearch').value.trim()||libState.own;
   renderModuleRail(items,anyF);
   g('lfeatwrap').style.display=anyF?'none':'';
   g('lallhead').textContent=anyF?'Results':'All missions';

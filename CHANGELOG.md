@@ -17,6 +17,27 @@ guide cover.
 
 ---
 
+## [1.26.0] — 2026-07-22 — Redesign Phase 1: Full/Open kind badges + Type filter
+
+First slice of the v2 UX redesign (implemented in vanilla JS in the existing
+single-file frontend — no framework adopted, per the plan in
+`claude/ux-redesign-v2-review.md`). Resolves the audit's P0 "starter vs mission"
+confusion:
+
+- **Kind badge on every Library card** — FULL MISSION (cyan) when the `.miz`
+  places a flown route/waypoints (crew-ops), OPEN STARTER (amber) for a dressed
+  theater with no waypoints placed (all scenario templates + the Builder). Honest
+  to how the engine actually works and the never-place-player-waypoints north star.
+- **"Tasking brief" chip** on open starters that ship a suggested-tasking brief,
+  so a curated scenario isn't undersold as "just a sandbox."
+- **Type filter** (All / Full mission / Open starter) with a removable chip.
+- **Ownership status row** on cards once you've set My Content: green "✓ You own
+  the terrain & aircraft" or amber "🔒 Needs: {module}".
+
+Backend: `/api/options` now sends a per-template `kind` (full|open) + `tasked`
+flag; crew-ops are full, scenario templates are open. No engine/recipe/
+determinism change.
+
 ## [1.25.0] — 2026-07-22 — A-6E Intruder joins the carrier air wing
 
 Heatblur's A-6E is an **AI-only** DCS release (the flyable module is still in
