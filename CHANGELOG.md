@@ -17,6 +17,28 @@ guide cover.
 
 ---
 
+## [1.24.0] — 2026-07-22 — Library: "what I own" filtering + instant-missions copy
+
+**Ownership filtering.** DCS locks content behind paid modules and map terrains,
+so a mission you can't fly is noise. There's no purchase API, so the user now
+**declares what they own** once (a "⚙ My content" editor in the Library — check
+your maps and aircraft modules; stored on this device only; free content like
+Caucasus/Marianas and Su-25T/TF-51D is always included). Then:
+- Every mission that needs an unowned map or module shows a 🔒 badge naming it
+  (e.g. "🔒 F-100D" or "🔒 Persian Gulf").
+- "Only what I own" hides locked missions; when unset, the toggle opens the
+  editor first.
+- Owned missions always sort ahead of locked ones.
+The old toggle was a heuristic (free maps = owned, aircraft ignored); it now
+checks both the required map AND the required aircraft against what you own.
+
+**Copy reframe.** Front-end no longer promises "no objectives, tasking or
+waypoints, ever" globally (only true of the Builder starter). Header/entry now
+lead with "instant, period-accurate DCS missions — pick one ready to fly, or
+build your own"; Builder banner reframed positively; "scenarios" → "missions".
+
+Frontend only; no engine/recipe/determinism changes.
+
 ## [1.23.0] — 2026-07-22 — Library: promote F-100D + F-14B(U), redesign for search & scan
 
 **New modules promoted.** The F-100D Super Sabre (released for DCS June 2026;

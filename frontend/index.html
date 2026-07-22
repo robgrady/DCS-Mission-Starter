@@ -185,7 +185,20 @@
   .thr i.f1{background:#3fb950}.thr i.f2{background:#9bd449}.thr i.f3{background:#e3a72f}.thr i.f4{background:#ff8a4c}.thr i.f5{background:#ff5c6c}
   .lnew{position:absolute;top:11px;left:11px;font-size:10px;font-weight:800;color:#04211d;background:var(--carrier);border-radius:20px;padding:3px 8px}
   .lreq{position:absolute;top:11px;right:11px;font-size:10px;font-weight:700;color:#ffd27a;background:rgba(226,167,47,.14);border:1px solid rgba(226,167,47,.32);border-radius:20px;padding:3px 8px}
-  .libcard.locked{opacity:.6}.libcard.locked:hover{transform:none;box-shadow:none}
+  .libcard.locked{opacity:.55}.libcard.locked:hover{transform:none;box-shadow:none}
+  .ownwrap{margin-left:auto;display:flex;align-items:center;gap:10px}
+  .ownedit{all:unset;cursor:pointer;font-size:12px;font-weight:600;color:var(--dim);border:1px solid var(--line);border-radius:8px;padding:7px 11px}
+  .ownedit:hover{color:var(--text);border-color:var(--accent)}
+  #ownmodal{position:fixed;inset:0;background:rgba(5,8,12,.72);z-index:65;display:none;align-items:center;justify-content:center;padding:24px}
+  #ownmodal.on{display:flex}
+  .ocard{background:var(--panel);border:1px solid var(--line);border-radius:16px;max-width:660px;width:100%;max-height:86vh;overflow-y:auto;padding:24px}
+  .ogrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin-top:4px}
+  .ochk{display:flex;align-items:center;gap:8px;font-size:12.5px;padding:8px 9px;border:1px solid var(--line);border-radius:8px;cursor:pointer;background:var(--panel2);user-select:none}
+  .ochk:hover{border-color:var(--dim)}
+  .ochk.on{border-color:var(--carrier);background:rgba(45,212,191,.10);color:var(--text)}
+  .ochk .ck{width:15px;height:15px;flex:none;border-radius:4px;border:1px solid var(--line);display:grid;place-items:center;font-size:10px;color:#04211d}
+  .ochk.on .ck{background:var(--carrier);border-color:var(--carrier)}
+  @media(max-width:560px){.ogrid{grid-template-columns:1fr 1fr}}
   .lempty{grid-column:1/-1;text-align:center;color:var(--dim);padding:50px 0}
   #libdetail{position:fixed;inset:0;background:rgba(5,8,12,.72);z-index:60;display:none;align-items:center;justify-content:center;padding:24px}
   #libdetail.on{display:flex}
@@ -262,7 +275,10 @@
         <div><label>Difficulty</label><select id="lfDiff" onchange="renderLib()">
           <option value="all">Any threat</option><option value="lo">Low (1–2)</option>
           <option value="md">Medium (3)</option><option value="hi">High (4–5)</option></select></div>
-        <div class="owntg" id="lown" onclick="toggleOwn()"><span class="sw"></span>Only what I own</div>
+        <div class="ownwrap">
+          <div class="owntg" id="lown" onclick="toggleOwn()"><span class="sw"></span>Only what I own</div>
+          <button class="ownedit" onclick="openOwn()" title="Choose your maps &amp; modules">⚙ My content</button>
+        </div>
       </div>
       <div class="lchipbar" id="lchipbar"></div>
     </div>
@@ -274,6 +290,7 @@
 </section>
 
 <div id="libdetail" onclick="if(event.target===this)closeDetail()"><div class="dcard" id="dcardinner"></div></div>
+<div id="ownmodal" onclick="if(event.target===this)closeOwn()"><div class="ocard" id="ocardinner"></div></div>
 
 <div id="whatbanner" style="background:linear-gradient(90deg,#1c2f4a,#182338);border-bottom:2px solid var(--accent);padding:14px 32px;display:flex;gap:16px;align-items:flex-start">
   <div style="font-size:22px;line-height:1.1">🛠️</div>
@@ -1328,6 +1345,8 @@ function initLibFilters(){
 }
 function libSort(a,b){
   const s=document.getElementById('lfSort').value;
+  const la=libReq(a)?1:0, lb=libReq(b)?1:0;   // owned first, locked sink
+  if(la!==lb) return la-lb;
   if(s==='az') return a.label.localeCompare(b.label);
   if(s==='new') return (b.new-a.new)||a.label.localeCompare(b.label);
   if(s==='threat') return (b.threat-a.threat)||a.label.localeCompare(b.label);
@@ -1374,8 +1393,24 @@ function clearFilters(){ libState.role='all'; libState.own=false; libState.modul
   ['lfAc','lfMap','lfEra','lfDiff'].forEach(i=>document.getElementById(i).value='all');
   document.getElementById('lfSearch').value=''; document.getElementById('lfSort').value='featured';
   buildRoleTabs(); renderLib(); }
-function mapOwned(mk){ return !!(OPT.maps[mk]&&OPT.maps[mk].free); }  // heuristic: free maps = owned
-function libReq(t){ const mk=t.default_map; return (mk&&!mapOwned(mk))?(OPT.maps[mk]?.label||mk):null; }
+// ---- ownership: the user declares which maps + modules they own (stored on
+// this device). Until they do, nothing is locked. Free content is always owned.
+const BASE_AC=new Set(['Su_25T','TF_51D']);   // ship free with DCS
+function ownStore(){ try{return JSON.parse(localStorage.getItem('ms_owned')||'null')}catch(e){return null} }
+function ownSetP(){ const o=ownStore(); return !!(o&&o.set); }
+function ownedMaps(){ const o=ownStore(); if(!(o&&o.set)) return null;   // null = treat all as owned
+  const free=Object.keys(OPT.maps).filter(k=>OPT.maps[k].free);
+  return new Set([...free,...(o.maps||[])]); }
+function ownedAc(){ const o=ownStore(); if(!(o&&o.set)) return null;
+  return new Set([...BASE_AC,...(o.aircraft||[])]); }
+// returns {map,ac} of what a mission needs but the user doesn't own, or null
+function libReq(t){
+  const om=ownedMaps(), oa=ownedAc(); const mk=mapKeyOf(t);
+  let mReq=(om&&mk&&!om.has(mk))?mapLabel(mk):null;
+  let aReq=(oa&&t.aircraft&&!oa.has(t.aircraft))?acLabel(t.aircraft):null;
+  return (mReq||aReq)?{map:mReq,ac:aReq}:null;
+}
+function reqLabel(req){ return [req.ac,req.map].filter(Boolean).join(' · '); }
 function thrBar(n){ let s='<span class="thr">'; for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>'; return s+'</span>'; }
 function eraLabels(er){ return (er||[]).map(e=>OPT.eras[e]?OPT.eras[e].label:e).join(' · '); }
 
@@ -1400,12 +1435,38 @@ function buildRoleTabs(){
   document.getElementById('roletabs').innerHTML=h;
 }
 function setRole(r){ libState.role=r; buildRoleTabs(); renderLib(); }
-function toggleOwn(){ libState.own=!libState.own; document.getElementById('lown').classList.toggle('on',libState.own); renderLib(); }
+function toggleOwn(){
+  if(!ownSetP()){ openOwn(); return; }   // first use: pick what you own
+  libState.own=!libState.own; document.getElementById('lown').classList.toggle('on',libState.own); renderLib(); }
+// ---- "what I own" editor ----
+let ownEdit=null;
+function openOwn(){ const o=ownStore();
+  ownEdit={maps:new Set((o&&o.maps)||[]), aircraft:new Set((o&&o.aircraft)||[])};
+  renderOwn(); document.getElementById('ownmodal').classList.add('on'); }
+function closeOwn(){ document.getElementById('ownmodal').classList.remove('on'); }
+function toggleOwnItem(kind,key){ const s=ownEdit[kind]; s.has(key)?s.delete(key):s.add(key); renderOwn(); }
+function renderOwn(){
+  const maps=Object.entries(OPT.maps).filter(([k,v])=>!v.free).map(([k,v])=>[k,v.label]).sort((a,b)=>a[1].localeCompare(b[1]));
+  const freeMaps=Object.entries(OPT.maps).filter(([k,v])=>v.free).map(([k,v])=>v.label);
+  const acs=[...new Set(libItems().map(t=>t.aircraft).filter(Boolean))].filter(k=>!BASE_AC.has(k))
+    .map(k=>[k,acLabel(k)]).sort((a,b)=>a[1].localeCompare(b[1]));
+  const chip=(kind,k,lab)=>'<div class="ochk'+(ownEdit[kind].has(k)?' on':'')+'" onclick="toggleOwnItem(\''+kind+'\',\''+k+'\')"><span class="ck">'+(ownEdit[kind].has(k)?'✓':'')+'</span>'+lab+'</div>';
+  let h='<button class="dclose" onclick="closeOwn()">×</button>';
+  h+='<h2 style="margin:0 0 4px;font-size:22px">What DCS content do you own?</h2>';
+  h+='<p class="dprem" style="font-size:13.5px">Check your maps and aircraft modules. We\'ll flag any mission that needs something you don\'t have, and "Only what I own" hides them. Saved on this device only.</p>';
+  h+='<div class="dblock"><h4>Terrain maps'+(freeMaps.length?' <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">· '+freeMaps.join(', ')+' included free</span>':'')+'</h4><div class="ogrid">'+maps.map(([k,l])=>chip('maps',k,l)).join('')+'</div></div>';
+  h+='<div class="dblock"><h4>Aircraft modules <span style="color:var(--dim);text-transform:none;letter-spacing:0;font-weight:400">· needed by Library missions</span></h4><div class="ogrid">'+acs.map(([k,l])=>chip('aircraft',k,l)).join('')+'</div></div>';
+  h+='<div class="dcta"><button class="prime" onclick="saveOwn()">Save what I own</button><button class="ghost" onclick="closeOwn()">Cancel</button></div>';
+  document.getElementById('ocardinner').innerHTML=h;
+}
+function saveOwn(){ ownSet_({set:true, maps:[...ownEdit.maps], aircraft:[...ownEdit.aircraft]});
+  libState.own=true; document.getElementById('lown').classList.add('on'); closeOwn(); renderLib(); }
+function ownSet_(o){ try{localStorage.setItem('ms_owned',JSON.stringify(o))}catch(e){} }
 function libCard(t){
   const r=ROLES[t.role]||ROLES.training, req=libReq(t), locked=libState.own&&req;
   return '<div class="libcard'+(locked?' locked':'')+'" onclick="openDetail(\''+t.k+'\')">'+
     '<div class="bar" style="background:'+r.c+'"></div>'+
-    (t.new?'<span class="lnew">NEW</span>':'')+(req?'<span class="lreq">🔒 '+req+'</span>':'')+
+    (t.new?'<span class="lnew">NEW</span>':'')+(req?'<span class="lreq">🔒 '+reqLabel(req)+'</span>':'')+
     '<div class="cbody"><div class="rt"><div class="ric" style="background:'+r.c+'22">'+r.ic+'</div>'+
       '<div class="role" style="color:'+r.c+'">'+r.label+'</div></div>'+
       '<h3>'+t.label.split(' —')[0]+'</h3><p class="prem">'+(t.premise||'')+'</p>'+
