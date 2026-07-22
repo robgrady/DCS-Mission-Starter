@@ -81,6 +81,26 @@ def _airframe_dims():
     return _AIRFRAME_DIMS
 
 
+_SQUADRONS = None
+
+
+def _squadron_plan(map_key, airport_name, country_name):
+    """Real squadron identities for this base (squadrons.json), as a mutable
+    plan list. Entries with a 'nation' only apply when the base is owned by
+    that nation (alignment can flip ownership), so the wrong side never parks
+    someone else's squadron. Empty list = fall back to theme blocks."""
+    global _SQUADRONS
+    if _SQUADRONS is None:
+        try:
+            _SQUADRONS = {k: v for k, v in load_json("squadrons").items()
+                          if not k.startswith("_")}
+        except Exception:
+            _SQUADRONS = {}
+    entries = (_SQUADRONS.get(map_key) or {}).get(airport_name) or []
+    return [dict(e) for e in entries
+            if not e.get("nation") or e["nation"] == country_name]
+
+
 _AGGR_RE = None
 
 
@@ -320,14 +340,17 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         if s.airplanes:
             return bool(plane_w or large_w)
         return bool(helo_w)          # helo-only pad
-    free = [s for s in airport.parking_slots
-            if s.unit_id is None and slot_key(s) not in used and _can_fill(s)]
-    rng.shuffle(free)
+    # ADJACENCY ORDER, not shuffle: crossroad indexes run along the ramp rows,
+    # so filling stands in slot_key order produces contiguous same-type rows —
+    # the "a squadron lives here" look — instead of a shuffled yard sale.
+    free = sorted([s for s in airport.parking_slots
+                   if s.unit_id is None and slot_key(s) not in used and _can_fill(s)],
+                  key=slot_key)
     # best-effort per-slot facing (static mode only; AI mode lets DCS decide)
     slot_hdgs = keepout.slot_headings() if (free and aircraft_mode == "static") else {}
 
     # --- placement body shared by theme-fill and custom-mix paths --------
-    def _place(slot, unit_type, livery):
+    def _place(slot, unit_type, livery, tag=None):
         """Place one aircraft static (or parked_ai) + its GSE. Returns placed?"""
         if slot.unit_id is not None:      # claimed by player/ambient meanwhile
             return False
@@ -367,7 +390,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                 base_hdg = slot_hdgs.get(skey, keepout.runway_axis_heading())
             heading = (base_hdg + rng.uniform(-3, 3)) % 360.0
             grp = m.static_group(
-                country, f"ST {airport.name} {skey} {unit_type.id}",
+                country, f"ST {airport.name} {skey} {unit_type.id}"
+                         + (f" · {tag}" if tag else ""),
                 _type=unit_type, position=slot.position, heading=heading)
             gse_ref_hdg = heading + rng.uniform(60, 120)
         # Explicit theme/mix livery wins; otherwise steer to a nation-correct
@@ -407,25 +431,57 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         else:
             target = min(int(len(free) * DENSITY_FILL[density]),
                          AUTO_CAP_PER_FIELD[aircraft_mode][density])
+        # SQUADRON BLOCKS: real ramps are rows of same-type, same-livery jets
+        # (a squadron lives here), not per-stand dice rolls. Fill contiguous
+        # runs: pick a type + ONE livery per block, place 4-8 (fighters),
+        # 2-3 (heavies), 2-4 (helos) in adjacent stands, then start a new
+        # block. Real squadron identities (squadrons.json) fill first.
+        squad_plan = _squadron_plan(map_key, airport.name,
+                                    getattr(country, "name", None))
+
+        def _next_block(cls, pool):
+            if cls == "plane" and squad_plan:
+                e = squad_plan.pop(0)
+                ut = resolve(e["ref"])
+                liv = e.get("livery") or _pick_livery(
+                    ut.id, getattr(country, "name", None), rng, livery_style)
+                return [ut, liv, e.get("name"), max(1, int(e.get("count", 6)))]
+            if not pool:
+                return None
+            ref, theme_liv = _weighted(rng, pool)
+            ut = resolve(ref)
+            liv = theme_liv or _pick_livery(
+                ut.id, getattr(country, "name", None), rng, livery_style)
+            size = (rng.randint(2, 4) if cls == "helo"
+                    else rng.randint(2, 3) if cls == "large"
+                    else rng.randint(4, 8))
+            return [ut, liv, None, size]
+
+        blocks = {}                    # stand class -> [type, livery, tag, left]
         for slot in free:
             if placed >= target:
                 break
-            # pick a type that fits the stand (helo lists can be empty, e.g. WWII)
+            # classify the stand (helo lists can be empty, e.g. WWII)
             if slot.helicopter and not slot.airplanes:
-                if not helo_w:
-                    continue
-                ref, livery = _weighted(rng, helo_w)
+                cls, pool = "helo", helo_w
             elif slot.large or (slot.airplanes and slot.length >= 60 and slot.width >= 55):
-                ref, livery = _weighted(rng, large_w + plane_w)
+                cls, pool = "large", large_w + plane_w
             elif slot.airplanes:
                 small = [p for p in plane_w if p[0] not in large_set]
-                ref, livery = _weighted(rng, small or plane_w)
+                cls, pool = "plane", (small or plane_w)
             else:
-                if not helo_w:
+                cls, pool = "helo", helo_w
+            if not pool and not (cls == "plane" and squad_plan):
+                continue
+            b = blocks.get(cls)
+            if not b or b[3] <= 0:
+                b = _next_block(cls, pool)
+                if b is None:
                     continue
-                ref, livery = _weighted(rng, helo_w)
-            if _place(slot, resolve(ref), livery):
+                blocks[cls] = b
+            if _place(slot, b[0], b[1], tag=b[2]):
                 placed += 1
+                b[3] -= 1
 
     # BB-3: infrastructure cluster near the ramp. The ramp sits BESIDE the
     # runway, so a random bearing from its centroid used to land the cluster

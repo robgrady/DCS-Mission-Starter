@@ -135,6 +135,29 @@ def validate_data_packs() -> list:
         if cls not in classes:
             errors.append(f"carrier hull_class {hull}: unknown deck class '{cls}'")
 
+    # squadron identities: every ref must resolve, counts positive, nations real
+    try:
+        squads = load_json("squadrons")
+    except Exception as e:
+        squads = {}
+        errors.append(f"squadrons: unreadable ({e})")
+    for mapk, bases in squads.items():
+        if mapk.startswith("_"):
+            continue
+        for base, entries in bases.items():
+            for e in entries:
+                try:
+                    resolve(e["ref"])
+                except (UnknownUnitError, KeyError) as ex:
+                    errors.append(f"squadrons {mapk}/{base}: {ex}")
+                if not isinstance(e.get("count", 1), int) or e.get("count", 1) < 1:
+                    errors.append(f"squadrons {mapk}/{base}: count must be a positive int")
+                if e.get("nation"):
+                    try:
+                        resolve_country(e["nation"])
+                    except UnknownUnitError as ex:
+                        errors.append(f"squadrons {mapk}/{base}: {ex}")
+
     # surveyed airframe dimensions: positive numeric length/span/height, else the
     # occupancy registry does maths on garbage and mis-places statics.
     try:
