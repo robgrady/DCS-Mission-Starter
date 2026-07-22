@@ -772,6 +772,7 @@
    ],
    "deck_aircraft": [
     "planes.F_14A",
+    "planes.A6E",
     "planes.E_2C",
     "planes.S_3B"
    ],
@@ -814,6 +815,14 @@
      "helo": {
       "type": "helicopters.SH_60B",
       "squadron": "HS-15 Red Lions"
+     },
+     "strike": {
+      "squadron": "VA-176 Thunderbolts",
+      "type": "planes.A6E"
+     },
+     "tanker": {
+      "squadron": "VA-176 Thunderbolts (KA-6D)",
+      "type": "planes.A6E"
      }
     }
    },
@@ -1020,7 +1029,7 @@
  },
  "layouts": {
   "underway": {
-   "label": "Underway \u2014 cruise deck, light park aft of the island",
+   "label": "Underway — cruise deck, light park aft of the island",
    "fill_zones": [
     "sixpack",
     "street",
@@ -1031,7 +1040,7 @@
    "note": "Transit/cruise: bow, cats, and LA all clear; a light park aft of the island. On Supercarrier hulls this uses editor-measured positions (Redkite data); on other hulls a light zone fill."
   },
   "recovery": {
-   "label": "Recovery \u2014 LA clear, bow packed in tight rows",
+   "label": "Recovery — LA clear, bow packed in tight rows",
    "fill_zones": [
     "point",
     "bow_row_stbd",
@@ -1049,7 +1058,7 @@
    "note": "Cyclic recovery: everything inside the LA foul lines clear (waist cats, EL4, port stern ramp). The bow is the pack: three tight rows at uniform 40deg herringbone across the cat tracks and the starboard edge, E-2s nose-out on the point, six-pack nose-in, helos in the corral, tails over the round-down on the stbd fantail only."
   },
   "launch": {
-   "label": "Launch \u2014 cats and taxi flow clear, deck spotted aft",
+   "label": "Launch — cats and taxi flow clear, deck spotted aft",
    "fill_zones": [
     "sixpack",
     "street",
@@ -1062,7 +1071,7 @@
    "note": "Launch cycle: bow cat tracks, JBDs, the point, and the LA clear; spares hold aft in uniform rows. EL1/EL4 not used adjacent to active cats."
   },
   "packed": {
-   "label": "Packed deck \u2014 port visit / no-fly, LA fouled",
+   "label": "Packed deck — port visit / no-fly, LA fouled",
    "fill_zones": [
     "point",
     "bow_row_stbd",

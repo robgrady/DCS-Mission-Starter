@@ -212,6 +212,12 @@ class StarterBuilder:
                                                     comms, self.warnings, gfx=gfx)
                         if aew:
                             stats["support"].append(aew.name)
+                    if r.carrier_strike:
+                        stk = naval.add_carrier_strike(m, own_country, hull_key,
+                                                       carrier_pos, brc, threat_bearing,
+                                                       comms, self.warnings, gfx=gfx)
+                        if stk:
+                            stats["support"].append(stk.name)
             else:
                 self.warnings.append("carrier group is blue-only for now - skipped")
         if carrier_home and csg is None:
@@ -424,12 +430,18 @@ class StarterBuilder:
             except Exception:
                 player_id = None
         if r.bb_tanker:
+            ttype = support_air.tanker_type(r.era, r.coalition, player_id,
+                                            carrier_home=carrier_home)
             tk = support_air.add_tanker(
-                m, support_country,
-                support_air.tanker_type(r.era, r.coalition, player_id),
+                m, support_country, ttype,
                 own_center, away_bearing, comms, gfx=gfx)
             if tk:
                 stats["support"].append(tk.name)
+                if getattr(ttype, "id", None) == "A6E":
+                    self.warnings.append(
+                        "Carrier tanker is the KA-6D (A-6E) — the air wing's own "
+                        "gas. Confirm the buddy-refueling store in-sim (A-6 is an "
+                        "AI-only module for now).")
         if r.bb_awacs:
             aw = support_air.add_awacs(
                 m, support_country, support_air.awacs_type(r.era, r.coalition),

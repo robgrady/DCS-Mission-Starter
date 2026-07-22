@@ -452,6 +452,7 @@
     <div class="blocks" style="margin-top:10px">
       <label class="block"><input type="checkbox" id="carrier_cap"><span><b>Launch CAP</b><small>Air-wing 2-ship on station toward the threat axis</small></span></label>
       <label class="block"><input type="checkbox" id="carrier_aew"><span><b>Launch Hawkeye (AAW)</b><small>Air-wing E-2 AEW orbit covering the strike group</small></span></label>
+      <label class="block"><input type="checkbox" id="carrier_strike"><span><b>Launch strike package</b><small>Air-wing A-6 Intruders outbound on the threat axis — you escort (Cold War air wings)</small></span></label>
     </div>
   </div>
   <div class="step" id="sec_template" style="display:none"><h2><span class="n">·</span>Scenario<span class="hdrval" id="hv_template"></span></h2>
@@ -523,7 +524,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   bb_historical_airspace:false,bb_alignment:true,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
-  carrier_cap:false,carrier_aew:false,template:null,crew_difficulty:"qualified",seed:1};
+  carrier_cap:false,carrier_aew:false,carrier_strike:false,template:null,crew_difficulty:"qualified",seed:1};
 function encodeRecipe(r){
   const diff = {};
   for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;
@@ -727,7 +728,7 @@ function applyScenarioPreset(k){
   // basing enums
   for (const key of ['start','time_of_day','weather','density']) if (rc[key]){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
   // building blocks
-  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','bb_historical_airspace','bb_alignment','carrier_cap','carrier_aew'])
+  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','bb_historical_airspace','bb_alignment','carrier_cap','carrier_aew','carrier_strike'])
     if (key in rc){ const e=document.getElementById(key); if(e) e.checked=!!rc[key]; }
   // threats
   if ('threat_intensity' in rc){ const e=document.getElementById('threat_intensity'); if(e){ e.value=rc.threat_intensity; setIntensityLabel(rc.threat_intensity); } }
@@ -1240,6 +1241,7 @@ function recipe(){
     r.carrier_equipment = document.getElementById('carrier_equipment').checked;
     r.carrier_cap = document.getElementById('carrier_cap').checked;
     r.carrier_aew = document.getElementById('carrier_aew').checked;
+    r.carrier_strike = document.getElementById('carrier_strike').checked;
   }
   return r;
 }

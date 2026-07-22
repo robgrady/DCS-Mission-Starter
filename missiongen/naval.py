@@ -209,6 +209,42 @@ def add_carrier_cap(m, country, hull_key, carrier_pos, brc, threat_bearing,
     return fg
 
 
+def add_carrier_strike(m, country, hull_key, carrier_pos, brc, threat_bearing,
+                       comms, warnings, gfx=None):
+    """Air-wing medium-attack package (A-6 Intruders) outbound on the threat axis.
+    The air wing's strikers going downtown — the player flies escort/TARCAP. AI
+    flight, so it carries steerpoints (the sanctioned no-player-waypoints exception)."""
+    from .resolver import resolve
+    from .deck import _load_hull
+    airwing = _load_hull(hull_key).get("csg", {}).get("airwing")
+    if not airwing:
+        warnings.append("no air wing data for this hull - strike package skipped")
+        return None
+    st_cfg = airwing.get("strike")
+    if not st_cfg:
+        warnings.append("this air wing has no medium-attack squadron - "
+                        "strike package skipped")
+        return None
+    st_type = resolve(st_cfg["type"])
+    ingress = _offset(carrier_pos, 28000, threat_bearing)          # form up ahead of the boat
+    push = _offset(ingress, 65000, threat_bearing)                 # outbound toward the beach
+    fg = m.flight_group_inflight(
+        country, f"STRIKE {st_cfg['squadron']}", st_type, ingress,
+        altitude=4572, speed=780, group_size=2)
+    fg.add_waypoint(push, altitude=3000)                          # ingress low toward the target axis
+    freq = comms.freq("flight_common")
+    try:
+        fg.set_frequency(freq)
+    except Exception:
+        pass
+    comms.add("Strike", st_cfg["squadron"].split()[0], f"{freq:.3f}", "-",
+              f"{airwing['label']} {st_type.id} x2 outbound - your escort")
+    if gfx is not None:
+        gfx.setdefault("routes", []).append(
+            (ingress, push, f"STRIKE {st_cfg['squadron']}"))
+    return fg
+
+
 def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
                     comms, warnings, gfx=None):
     """Air-wing E-2 Hawkeye AEW orbit behind the CSG (AAW picture for the group)."""

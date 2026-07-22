@@ -601,5 +601,51 @@
    "Recovery tanker is overhead for your bolters and low-state passes. No enemy tasking.",
    "Grade yourself, tank if you need to, and go again until the traps are where you want them."
   ]
+ },
+ "cv_alpha_strike_escort": {
+  "label": "Alpha Strike Escort \u2014 TARCAP for the Intruders (Forrestal F-14A)",
+  "eras": [
+   "coldwar"
+  ],
+  "maps": [
+   "caucasus"
+  ],
+  "default_map": "caucasus",
+  "needs_carrier": true,
+  "library": {
+   "role": "a2a",
+   "threat": 4,
+   "players": "SP \u00b7 MP",
+   "new": true,
+   "featured": true,
+   "premise": "The air wing's A-6 Intruders are going downtown. Fly TARCAP off the Forrestal, sanitize the threat axis and keep the MiGs off the strike package."
+  },
+  "recipe": {
+   "bb_carrier": true,
+   "carrier_hull": "forrestal",
+   "carrier_layout": "launch",
+   "aircraft": "F_14A_135_GR",
+   "carrier_cap": false,
+   "carrier_aew": true,
+   "carrier_strike": true,
+   "bb_tanker": true,
+   "bb_awacs": false,
+   "bb_targets": true,
+   "threat_intensity": 4,
+   "threat_tier": "mixed",
+   "start": "warm",
+   "time_of_day": "day",
+   "weather": "scattered"
+  },
+  "brief": [
+   "== TASKING (suggested): ALPHA STRIKE ESCORT (TARCAP) ==",
+   "The air wing is launching a medium-attack package \u2014 VA-176's A-6 Intruders,",
+   "outbound on the threat axis (see the F10 map). You are their fighter cover.",
+   " - Launch, sanitize ahead of and around the strike, and hold the CAP between",
+   "   the Intruders and the enemy fields. Bandits are up \u2014 expect commit calls.",
+   " - The KA-6D is your gas on the way home (Texaco). AEW has the picture.",
+   "No fixed waypoints for you: work the escort geometry off the strike's ingress.",
+   "Win = the Intruders get feet-dry and back with no losses to air threats."
+  ]
  }
 }

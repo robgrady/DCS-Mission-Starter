@@ -88,6 +88,34 @@ def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
     assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
 
 
+def test_a6_intruder_carrier_roles(tmp_path):
+    """A-6E (AI-only Heatblur module) integrated into the Cold War carrier air
+    wing three ways: deck dressing, KA-6D organic tanker, and an AI strike package
+    the player escorts. Forrestal (CVW-6) is its home."""
+    import zipfile as _zf, re
+    from missiongen import Recipe, generate
+    out = str(Path(tmp_path) / "a6.miz")
+    res = generate(Recipe.from_dict(dict(
+        map="caucasus", era="coldwar", coalition="blue", home_airbase="CARRIER",
+        bb_carrier=True, carrier_hull="forrestal", carrier_layout="recovery",
+        aircraft="F_14A_135_GR",
+        carrier_deck_aircraft=["F_14A", "A6E", "E_2C", "S_3B"],
+        carrier_strike=True, bb_tanker=True, seed=3)), out)
+    mis = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
+    # 1) deck dressing — A-6s parked on the deck
+    assert mis.count('"A6E"') >= 3, "no A-6E on the carrier deck / air wing"
+    # 2) strike package flew from the air wing
+    assert "STRIKE VA-176" in mis, "no A-6 strike package launched"
+    assert "STRIKE VA-176 Thunderbolts" in " ".join(res["stats"].get("support", []))
+    # 3) organic KA-6D tanker (A-6E), with the in-sim verification note
+    assert any("KA-6D" in w for w in res["warnings"]), "KA-6D tanker note missing"
+    # A-6 stays AI-only: it must NOT be offered as a player-flyable
+    import sys, os
+    sys.path.insert(0, os.path.join(str(Path(__file__).resolve().parent.parent), "server"))
+    from app import flyable_aircraft
+    assert "A6E" not in [a["key"] for a in flyable_aircraft()], "A-6E wrongly flyable"
+
+
 def test_covered_ramp_bases_get_no_gse(tmp_path):
     """At bases with sun-shelters over the stands (Kandahar) the per-aircraft GSE
     truck is offset to the side of the jet and lands on the shelter roof — DCS

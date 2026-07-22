@@ -17,6 +17,27 @@ guide cover.
 
 ---
 
+## [1.25.0] — 2026-07-22 — A-6E Intruder joins the carrier air wing
+
+Heatblur's A-6E is an **AI-only** DCS release (the flyable module is still in
+development), so it's integrated as an air-wing asset, not a player jet. Home is
+CV-59 Forrestal (CVW-6, 1980s Med), whose deck was historically missing its
+Intruder squadron — now **VA-176 "Thunderbolts"**. Three roles:
+
+- **Deck dressing** — A6E added to the Forrestal deckable roster; parks on deck
+  alongside the F-14As (checked by default when you pick the hull).
+- **KA-6D organic tanker** — in the Cold War, a carrier-home mission's Texaco is
+  now the A-6's tanker variant (the air wing's own gas) instead of a land KC-130.
+  Carries an in-sim note to confirm the buddy-refueling store (A-6 is AI-only).
+- **AI strike package** — new "Launch strike package" carrier toggle
+  (`carrier_strike`) sends a 2-ship A-6 medium-attack flight outbound on the
+  threat axis; the player flies escort. `naval.add_carrier_strike()`.
+
+Plus a Library mission: **"Alpha Strike Escort — TARCAP for the Intruders"**
+(F-14A off the Forrestal, escort the A-6 package). Non-Forrestal air wings with
+no medium-attack squadron skip the strike/tanker gracefully. A-6E stays out of
+the player-flyable roster. New regression locks all three roles in.
+
 ## [1.24.0] — 2026-07-22 — Library: "what I own" filtering + instant-missions copy
 
 **Ownership filtering.** DCS locks content behind paid modules and map terrains,

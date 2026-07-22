@@ -18,10 +18,14 @@ BOOM_RECEIVERS = {
 }
 
 
-def tanker_type(era, side, player_id):
-    """Match the tanker to the PLAYER's receiver: boom -> KC-135, probe -> drogue."""
+def tanker_type(era, side, player_id, carrier_home=False):
+    """Match the tanker to the PLAYER's receiver: boom -> KC-135, probe -> drogue.
+    Off the boat in the Cold War the organic tanker is the KA-6D (the A-6's tanker
+    variant) — the real carrier air wing's own gas, not a land-based KC-135."""
     if era == "wwii" or side != "blue":
         return None                               # no blue-only asset for this case
+    if carrier_home and era == "coldwar":
+        return planes.A6E                          # KA-6D organic carrier tanker
     if player_id in BOOM_RECEIVERS:
         return planes.KC_135                       # flying boom (USAF)
     return planes.KC135MPRS if era == "modern" else planes.KC130  # probe-and-drogue

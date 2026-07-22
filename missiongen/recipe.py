@@ -102,6 +102,7 @@ class Recipe:
     carrier_equipment: bool = True              # tugs, MJ-1s, crash gear
     carrier_cap: bool = False                   # air wing launches a 2-ship CAP on the threat axis
     carrier_aew: bool = False                   # air wing launches an E-2 Hawkeye AEW orbit (AAW picture)
+    carrier_strike: bool = False                # air wing launches an A-6 medium-attack package on the threat axis (you escort)
 
     # F10 map graphics layers (v1.2.0): None = auto (draw everything that has
     # geometry); explicit list = only those keys (see graphics.LAYER_KEYS)
