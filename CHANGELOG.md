@@ -17,6 +17,24 @@ guide cover.
 
 ---
 
+## [1.22.3] — 2026-07-22 — Crew Ops jets get radio presets (cockpit matches kneeboard)
+
+**Fix.** On Crew Ops missions the cockpit radio channels did not match the
+kneeboard: dialing a channel showed a different frequency than the card
+advertised (Rob, 2026-07-22). Cause: crew-ops templates own the player jet, so
+`player_group` is `None` and the BB-19 preset step (`presets.apply`) was gated on
+`player_group is not None` — it never ran for crew flights. The F-14B(U) kept
+factory Tomcat defaults (CH1=225, CH3=260…) while the comm plan / kneeboard
+showed the mission frequencies (CH1 Flight 305.725, CH3 AWACS 251.475…).
+
+`builder` now captures the returned crew flight and programs it through the same
+`presets.apply` path, so cockpit and card agree by construction. Standard
+(non-crew-ops) missions were already correct and are unchanged. New regression
+asserts every planned channel matches the in-jet value on a crew-ops F-14B(U).
+
+Byte-affecting for Crew Ops recipes (player jet radio channels change).
+Determinism preserved.
+
 ## [1.22.2] — 2026-07-22 — DTC now actually loads (unit-level cartridge link)
 
 **Fix.** The F-14B(U) DTM page loaded EMPTY in-sim even though the `DTC/*.dtc`

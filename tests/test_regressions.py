@@ -88,6 +88,40 @@ def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
     assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
 
 
+def test_crew_ops_jet_is_radio_programmed_to_the_comm_plan(tmp_path):
+    """Crew-ops templates own the player jet (player_group is None), so the BB-19
+    preset step used to skip them: the kneeboard advertised the comm plan while
+    the F-14B(U) cockpit kept factory Tomcat defaults (Rob, 2026-07-22 — 'channel
+    doesn't match the frequency'). The crew flight must be programmed so cockpit
+    and card agree."""
+    from missiongen.builder import StarterBuilder
+    from missiongen import Recipe, presets
+    b = StarterBuilder(Recipe.from_dict(dict(
+        map="afghanistan", era="modern", coalition="blue",
+        aircraft="F_14B_U", template="backseat_izlid", start="warm",
+        slots=1, seed=4553)))
+    m = b.build()
+    rows, guard = presets.plan_from_comms(b.kb_ctx["comms"])
+    plan = {ch: mhz for ch, _ag, mhz in rows}
+    assert plan, "comm plan had no rows to program"
+    # find the player F-14BU in-jet channels
+    chans = None
+    for coal in m.coalition.values():
+        for c in coal.countries.values():
+            for pg in c.plane_group:
+                for u in pg.units:
+                    if getattr(u, "type", None) == "F-14BU" and u.radio:
+                        uhf = presets._uhf_radio_id(u.radio)
+                        if uhf:
+                            chans = u.radio[uhf]["channels"]
+    assert chans is not None, "no programmed UHF radio on the crew-ops jet"
+    for ch, mhz in plan.items():
+        assert chans.get(ch) == mhz, (
+            f"CH{ch} in-jet={chans.get(ch)} != comm plan {mhz} "
+            f"(cockpit/kneeboard disagree)")
+    assert chans[max(chans)] == guard, "Guard not on the last channel"
+
+
 # --- collision fixes (v1.10.3): GSE-inside-aircraft + occupancy registry ---
 
 def test_no_statics_inside_aircraft_footprints(tmp_path):

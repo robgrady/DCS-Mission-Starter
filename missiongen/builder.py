@@ -498,24 +498,26 @@ class StarterBuilder:
 
         # --- template packs ---------------------------------------------------
         template_brief = ""
+        crew_flight = None                     # crew-ops flight owns the player jet
         if r.template in ("backseat_izlid", "backseat_intercept", "rio_fleet_defense"):
             target_area = mapping.Point(
                 enemy_center.x + self.rng.uniform(-8000, 8000),
                 enemy_center.y + self.rng.uniform(-8000, 8000), m.terrain)
             if r.template == "backseat_izlid":
-                backseat.build_backseat_izlid(m, r, blue_country, red_country, home,
-                                              target_area, self.rng, comms,
-                                              self.warnings)
+                crew_flight = backseat.build_backseat_izlid(
+                    m, r, blue_country, red_country, home,
+                    target_area, self.rng, comms, self.warnings)
                 template_brief = backseat.BRIEFING_BLOCK
             elif r.template == "backseat_intercept":
-                backseat.build_backseat_intercept(m, r, blue_country, red_country,
-                                                  home, target_area, self.rng, comms,
-                                                  self.warnings)
+                crew_flight = backseat.build_backseat_intercept(
+                    m, r, blue_country, red_country,
+                    home, target_area, self.rng, comms, self.warnings)
                 template_brief = backseat.INTERCEPT_BRIEFING_BLOCK
             else:
-                backseat.build_rio_fleet_defense(m, r, blue_country, red_country,
-                                                 home, target_area, self.rng, comms,
-                                                 r.era, csg=self._csg if carrier_home else None)
+                crew_flight = backseat.build_rio_fleet_defense(
+                    m, r, blue_country, red_country,
+                    home, target_area, self.rng, comms,
+                    r.era, csg=self._csg if carrier_home else None)
                 template_brief = backseat.RIO_BRIEFING_BLOCK
         elif r.template:
             # SCENARIO template: append its suggested-tasking block (no waypoints).
@@ -541,11 +543,15 @@ class StarterBuilder:
         # Programs the module's UHF radio from the ladder actually built above.
         # apply() returns ONLY what it really wrote, so the card/kneeboard CHAN
         # column matches the cockpit exactly (no advertising channels a module
-        # doesn't have, and no clobbering an agency with Guard).
-        if player_group is not None:
+        # doesn't have, and no clobbering an agency with Guard). Crew-ops flights
+        # own the player jet (player_group is None) but still need programming —
+        # otherwise the kneeboard advertises the comm plan while the cockpit keeps
+        # factory defaults (cockpit/card disagree). Program whichever we built.
+        radio_group = player_group if player_group is not None else crew_flight
+        if radio_group is not None:
             from . import presets
             chan_rows, guard = presets.plan_from_comms(comms)
-            programmed = presets.apply(player_group, chan_rows, guard)
+            programmed = presets.apply(radio_group, chan_rows, guard)
             if programmed:
                 comms.set_channels(programmed)
                 stats["radio_presets"] = [
