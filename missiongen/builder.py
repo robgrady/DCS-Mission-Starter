@@ -699,6 +699,15 @@ class StarterBuilder:
 def generate(recipe: Recipe, out_path: str, brief_dir: str = None) -> dict:
     b = StarterBuilder(recipe)
     m = b.build()
+    # F-14B(U) DTC: tag the player unit(s) BEFORE save so the mission tree carries
+    # the unit-level DTC.Cartridges link that pairs with the injected sidecar.
+    from . import dtc as _dtc0
+    _dtc_on = recipe.bb_dtc if recipe.bb_dtc is not None else _dtc0.is_bu(recipe.aircraft)
+    if _dtc_on:
+        try:
+            b.stats["dtc_units_tagged"] = _dtc0.tag_player_cartridge(m)
+        except Exception as e:
+            b.warnings.append(f"DTC unit tag failed: {e}")
     m.save(out_path)
     if recipe.bb_kneeboard:
         try:

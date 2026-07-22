@@ -314,6 +314,27 @@ def test_dtc_card_only_for_bu_and_is_reference_only(tmp_path):
     assert all(not st["targets"] for st in dtm["data"]["JDAM"]["stations"]), "cartridge wrote weapon targets"
 
 
+def test_dtc_sidecar_is_linked_from_the_mission_tree(tmp_path):
+    """The sidecar `DTC/*.dtc` only loads if the player unit references it via
+    `DTC.Cartridges[].name`. Reverse-engineering first missed this and the DTM
+    page loaded EMPTY in-sim (Rob, 2026-07-22). Lock the unit-level link in, and
+    that its name matches the sidecar member so DCS can pair them."""
+    import zipfile as _zf
+    from missiongen import Recipe, generate
+    out = str(tmp_path / "bu.miz")
+    r = generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
+                 aircraft="F_14B_U", home_airbase="Al Dhafra AFB",
+                 threat_intensity=4, threat_tier="heavy", seed=22)), out)
+    assert r["stats"].get("dtc_units_tagged", 0) >= 1, "no F-14B(U) player unit tagged"
+    mission = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
+    assert "Cartridges" in mission, "mission tree has no DTC.Cartridges link"
+    assert "F-14B(U) DTC_1" in mission, "cartridge name not referenced by the unit"
+    member = "DTC/F-14B(U) DTC_1.dtc"
+    assert member in _zf.ZipFile(out).namelist(), "sidecar missing"
+    # the unit reference name must equal the sidecar member (minus dir/extension)
+    assert member == f"DTC/{'F-14B(U) DTC_1'}.dtc"
+
+
 def test_dtc_injection_is_deterministic(tmp_path):
     """Same recipe+seed must inject a byte-identical cartridge (share links)."""
     import zipfile as _zf, hashlib

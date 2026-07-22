@@ -33,7 +33,53 @@ THREAT_AREA_MAX = 3
 
 _BU_KEYS = {"F_14B_U", "F_14BU", "F-14B_U"}
 _BU_TYPE_ID = "F-14BU"          # verified DCS type id
-_DTC_MEMBER = "DTC/F-14B(U) DTC_1.dtc"   # sidecar path the ME uses for one B(U)
+_CARTRIDGE_NAME = "F-14B(U) DTC_1"       # ME's cartridge name for one B(U)
+_DTC_MEMBER = f"DTC/{_CARTRIDGE_NAME}.dtc"   # sidecar path the ME uses
+
+
+def install_unit_dtc():
+    """Runtime-patch pydcs so a player/client unit carrying a `_dtc_cartridge`
+    attribute serialises the unit-level DTC link DCS actually reads:
+
+        ["DTC"] = { ["Cartridges"] = { [1] = { ["name"]=..., ["default"]=true } } }
+
+    Verified against an ME-made cartridge `.miz` (2026-07-22): the sidecar file is
+    matched to the jet by THIS unit reference, not by type alone. Without it the
+    `DTC/*.dtc` file is an orphan and the DTM page loads empty. Vendor stays
+    pristine; this wraps FlyingUnit.dict at import (idempotent)."""
+    from dcs.flyingunit import FlyingUnit
+    if getattr(FlyingUnit.dict, "_dtc_patched", False):
+        return
+    _orig = FlyingUnit.dict
+
+    def dict_with_dtc(self):
+        d = _orig(self)
+        name = getattr(self, "_dtc_cartridge", None)
+        if name:
+            d["DTC"] = {"Cartridges": [{"name": name, "default": True}]}
+        return d
+
+    dict_with_dtc._dtc_patched = True
+    FlyingUnit.dict = dict_with_dtc
+
+
+def tag_player_cartridge(m, name: str = _CARTRIDGE_NAME) -> int:
+    """Attach the cartridge reference to every player/client F-14B(U) unit in the
+    built mission, so `m.save()` writes the unit-level DTC link that pairs with the
+    injected `DTC/*.dtc` sidecar. Returns the number of units tagged."""
+    from dcs.unit import Skill
+    n = 0
+    for coal in m.coalition.values():
+        for country in coal.countries.values():
+            for pg in getattr(country, "plane_group", []):
+                for u in pg.units:
+                    tid = getattr(getattr(u, "unit_type", None), "id", None) \
+                        or getattr(u, "type", None)
+                    if tid == _BU_TYPE_ID and getattr(u, "skill", None) in (
+                            Skill.Player, Skill.Client):
+                        u._dtc_cartridge = name
+                        n += 1
+    return n
 
 
 def is_bu(aircraft_key: str) -> bool:

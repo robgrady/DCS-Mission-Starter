@@ -17,6 +17,29 @@ guide cover.
 
 ---
 
+## [1.22.2] — 2026-07-22 — DTC now actually loads (unit-level cartridge link)
+
+**Fix.** The F-14B(U) DTM page loaded EMPTY in-sim even though the `DTC/*.dtc`
+sidecar was present and populated. Root cause: the sidecar was an orphan — the
+mission tree had no reference to it. Re-diffing an ME-made cartridge `.miz`
+against its plain twin (which the original reverse-engineering got wrong) showed
+DCS pairs the sidecar to the jet through a **unit-level** field on the player
+aircraft, not by type alone:
+
+```
+["DTC"] = { ["Cartridges"] = { [1] = { ["name"]="F-14B(U) DTC_1", ["default"]=true } } }
+```
+
+New `dtc.install_unit_dtc()` runtime-patches pydcs (vendor stays pristine) so a
+unit carrying a `_dtc_cartridge` attribute serialises that block, and
+`dtc.tag_player_cartridge()` (called in `generate()` before save) tags every
+player/client F-14B(U) unit with the cartridge name that matches the sidecar
+member. The sidecar content, name fields, and determinism are unchanged; only
+the mission tree gains the link. New regression test locks the linkage in.
+
+Byte-affecting for F-14B(U) recipes (mission tree gains the unit DTC block).
+Determinism preserved (per-entry content identical across processes).
+
 ## [1.22.1] — 2026-07-22 — Crew Ops honour the start setting (no more forced air start)
 
 **Fix.** All three Crew Ops templates (`backseat_izlid`, `backseat_intercept`,
