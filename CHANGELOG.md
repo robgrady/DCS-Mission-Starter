@@ -17,6 +17,14 @@ guide cover.
 
 ---
 
+## [1.32.7] — 2026-07-22 — Brand splash is not a user option
+
+The sponsor/brand splash is a business decision, not something users opt out of.
+Removed the "Brand splash on launch" toggle from the builder (BLOCKS +
+RECIPE_DEFAULTS). Server-side `recipe.bb_branding` still defaults on, so the
+splash is now always applied; it will be governed globally by the admin/sponsor
+setting rather than per-mission by the user.
+
 ## [1.32.6] — 2026-07-22 — Brand splash: lighter panel, smaller on screen
 
 - `data/brand/authentic_media.png` — white panel opacity halved (alpha 180 → 90,
