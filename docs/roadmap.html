@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Roadmap — DCS Mission Starter</title>
+<style>
+  :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--line:#2d3748;--text:#e6edf3;
+    --dim:#8b949e;--accent:#58a6ff;--green:#3fb950;--teal:#2dd4bf;--violet:#b388ff;--amber:#d29922}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{max-width:880px;margin:0 auto;padding:40px 24px 90px}
+  a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+  header h1{font-size:32px;margin:0 0 4px;letter-spacing:-.5px}
+  header h1 span{background:linear-gradient(90deg,var(--teal),var(--accent));
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  header p{color:var(--dim);margin:0 0 8px;font-size:14px}
+  .north{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--teal);
+    border-radius:10px;padding:14px 18px;margin:22px 0 34px;font-size:15px}
+  .north b{color:var(--teal)}
+  section{margin-bottom:34px}
+  h2{font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);
+    display:flex;align-items:center;gap:10px;margin:0 0 14px}
+  h2::after{content:"";flex:1;height:1px;background:var(--line)}
+  h2 .tag{font-size:16px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:700px){.grid{grid-template-columns:1fr}}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .card b{display:block;margin-bottom:4px;font-size:14.5px}
+  .card p{margin:0;color:var(--dim);font-size:13px}
+  .card.shipped{border-left:3px solid var(--green)}
+  .card.now{border-left:3px solid var(--accent)}
+  .card.next{border-left:3px solid var(--amber)}
+  .pillar{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--violet);
+    border-radius:10px;padding:16px 18px;margin-bottom:12px}
+  .pillar b{font-size:15px}
+  .pillar p{margin:6px 0 0;color:var(--dim);font-size:13.5px}
+  .free{color:var(--green);font-weight:600}
+  footer{color:var(--dim);font-size:12px;border-top:1px solid var(--line);padding-top:16px}
+</style>
+</head>
+<body><div class="wrap">
+<header>
+  <h1>DCS <span>Mission Starter</span> — Roadmap</h1>
+  <p>July 2026 · release notes in <a href="https://github.com/robgrady/DCS-Mission-Starter/blob/main/CHANGELOG.md">CHANGELOG.md</a> · open source (MIT)</p>
+</header>
+
+<div class="north"><b>North star: "Select, don't search."</b> A living, period-accurate
+DCS mission in under a minute — no editor, no Lua. We set the stage, you write the
+play. <b>Never player waypoints.</b></div>
+
+<section>
+  <h2><span class="tag">✅</span> Shipped — highlights through v1.19.x</h2>
+  <div class="grid">
+    <div class="card shipped"><b>Mission Library + two paths</b>
+      <p>Pick a curated scenario — role-coded cards, era &amp; threat filters, preview →
+      generate or open-in-builder — or build from scratch in the full wizard.</p></div>
+    <div class="card shipped"><b>F-14B(U) day-one support</b>
+      <p>Verified type id, real footprint, radio presets, carrier ops, DTM cartridge
+      auto-loaded (bullseye, fix points, threat plot lines — never your route),
+      Jester/Iceman crew-ops scenarios.</p></div>
+    <div class="card shipped"><b>Theater Identity</b>
+      <p>Each airbase dresses as its real owning nation — country, aircraft types,
+      liveries — with per-nation ramp rosters.</p></div>
+    <div class="card shipped"><b>Historical Airspace (first slices)</b>
+      <p>Berlin Air Corridors and the Syria Euphrates deconfliction line, drawn to a
+      MIL-STD-2525-based chart standard.</p></div>
+    <div class="card shipped"><b>Mission Starter Brief</b>
+      <p>Pre-flight pack: cartographic theater chart, comms/nav, forces (PDF + MD),
+      plus in-jet kneeboards.</p></div>
+    <div class="card shipped"><b>The foundation</b>
+      <p>11 era-gated theaters, dressing on real stands with measured parking headings,
+      doctrinal SAMs + Threat Dial, carrier groups with measured decks, real comms
+      plans, deterministic share links — a link <i>is</i> the mission.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="tag">▶</span> Now</h2>
+  <div class="grid">
+    <div class="card now"><b>In-game validation pass</b>
+      <p>Corridors, nation ramps, Tomcat spacing, and the DTM cartridge verified in the sim.</p></div>
+    <div class="card now"><b>Scenery keep-out + final surveys</b>
+      <p>Falklands and The Channel parking surveys; building keep-outs so statics
+      never touch scenery.</p></div>
+    <div class="card now"><b>DTC v3</b>
+      <p>Historical-airspace corridors as PTID plot lines; kneeboard "cartridge
+      contents" page.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="tag">⏭</span> Next</h2>
+  <div class="grid">
+    <div class="card next"><b>More Library missions</b>
+      <p>Theater-specific scenarios: Syria SA-10 hunt, Channel sweep '44, Kola QRA,
+      Normandy rail strike…</p></div>
+    <div class="card next"><b>Owned-modules profile</b>
+      <p>Tell the Library what maps and jets you own once — it filters honestly
+      everywhere.</p></div>
+    <div class="card next"><b>Mission-pattern scenarios</b>
+      <p>From the chart plates: DCA/CAP, strike COMAO, CAS kill box, carrier
+      recovery.</p></div>
+    <div class="card next"><b>Polish &amp; depth</b>
+      <p>More nation-alignment theaters, nation support-air callsigns, CSG ship
+      paint, livery picker, saveable ramp mixes.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2><span class="tag">★</span> Pillars</h2>
+  <div class="pillar"><b>Theater Identity</b>
+    <p>Every map gets its real geopolitical and historical character with zero
+    configuration. Next slice: <b>Theater IADS</b> — nation- and era-correct
+    integrated air-defense laydowns at real sites.</p></div>
+  <div class="pillar"><b>v2.0 — Live Mission Scripting</b>
+    <p>BRAA calls, in-mission scoring, corridor discipline. Opt-in, never
+    intrusive.</p></div>
+  <div class="pillar"><b>v3.0 — Community</b>
+    <p>Accounts via Patreon: save missions to a private library (recipes — tiny and
+    permanent, never stale files), stable share permalinks, upload-a-mission →
+    dissect → reusable recipe, and your owned-modules profile stored on the
+    account. <span class="free">The generator itself stays free.</span></p></div>
+</section>
+
+<section>
+  <h2><span class="tag">🗺</span> New maps</h2>
+  <div class="card"><b>Afghanistan, then Iraq</b>
+    <p>Authored from real install data and contributed upstream to pydcs. Iraq
+    unlocks the Northern/Southern Watch no-fly-zone scenarios.</p></div>
+</section>
+
+<footer>Developed by Authentic Media LLC · free community tool, provided as-is ·
+not affiliated with Eagle Dynamics or Heatblur ·
+<a href="https://github.com/robgrady/DCS-Mission-Starter">GitHub</a></footer>
+</div></body>
+</html>

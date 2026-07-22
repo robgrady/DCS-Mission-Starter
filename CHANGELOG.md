@@ -17,6 +17,33 @@ guide cover.
 
 ---
 
+## [1.19.3] — 2026-07-22 — F-14B(U) roster fixes + HTML roadmap
+
+### Fixed — "the F-14B(U) isn't always available"
+
+Two causes, both real:
+
+- **Era mismatch between UI and server.** Pending-module roster entries carried
+  no `service` dates, so the UI offered the F-14B(U) in **every** era — but the
+  server correctly rejected non-modern eras (`EraViolation` → 400), so the
+  download failed. The UI now receives the same service data the server
+  validates with, and era-filters the B(U) identically (Modern only, by design).
+- **Sort-order discoverability.** Pending modules were appended *after* the
+  roster sort, so the B(U) dangled at the bottom of the aircraft dropdown
+  instead of alphabetizing into the F-14 cluster. Roster now re-sorts after
+  appending.
+
+(Also by design: on a carrier start the B(U) only appears for catapult decks —
+not the Invincible or the Essex.)
+
+### Changed — roadmap is now a styled HTML page
+
+`/api/roadmap` serves `docs/roadmap.html` — a dark-themed, card-based page
+matching the app (shipped / now / next / pillars / new maps), refreshed to
+v1.19.x reality. `docs/ROADMAP.md` remains the plain-text source for GitHub.
+
+---
+
 ## [1.19.2] — 2026-07-22 — surface Historical Airspace + Theater Identity in the UI
 
 ### Fixed

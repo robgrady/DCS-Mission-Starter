@@ -99,7 +99,12 @@ def flyable_aircraft():
     for key, cfg in pending_aircraft().items():
         # a verified/released module is a normal selectable jet, not "upcoming"
         out.append({"key": key, "id": cfg["label"], "kind": cfg["kind"],
+                    "service": service.get(key),
                     "upcoming": not cfg.get("verified", False)})
+    # re-sort AFTER appending pending modules so e.g. the F-14B(U) alphabetizes
+    # into the F-14 cluster instead of dangling at the bottom of the dropdown
+    # where nobody scanning the roster finds it.
+    out.sort(key=lambda a: a["id"])
     return out
 
 
@@ -177,9 +182,15 @@ DOCS_PDF = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pd
 ROADMAP_MD = Path(__file__).parent.parent / "docs" / "ROADMAP.md"
 
 
+ROADMAP_HTML = Path(__file__).parent.parent / "docs" / "roadmap.html"
+
+
 @app.get("/api/roadmap")
 def roadmap():
-    """The product roadmap ships WITH the product (published manifest)."""
+    """The product roadmap ships WITH the product — served as a styled HTML
+    page (falls back to the Markdown source if the page is missing)."""
+    if ROADMAP_HTML.exists():
+        return HTMLResponse(ROADMAP_HTML.read_text())
     return FileResponse(str(ROADMAP_MD), filename="ROADMAP.md",
                         media_type="text/markdown")
 
