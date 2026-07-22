@@ -458,6 +458,8 @@ const BLOCKS = [
   ["bb_briefing","Starter briefing","Situation + contents summary", true, "sup_brief"],
   ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true, "sup_brief"],
   ["bb_navpoints","Nav reference points","Named landmarks (Belted Peak, Student Gap...) on F10 map + kneeboard", true, "sup_brief"],
+  ["bb_historical_airspace","Historical airspace","Real corridors & deconfliction zones for this map+era (Berlin Air Corridors, Syria Euphrates line) — drawn on the F10 map + briefed", false, "sup_brief"],
+  ["bb_alignment","Theater identity (nation alignment)","Each airbase dresses as its real owning nation — country, aircraft types, liveries (Akrotiri = RAF, Ramat David = Israel...)", true, "tog_dress"],
 ];
 
 // --- share links: recipe <-> base64url(JSON of non-default fields) ---
@@ -469,6 +471,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   threat_intensity:3,threat_tier:"auto",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
+  bb_historical_airspace:false,bb_alignment:true,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
   carrier_cap:false,carrier_aew:false,template:null,crew_difficulty:"qualified",seed:1};
 function encodeRecipe(r){
@@ -671,7 +674,7 @@ function applyScenarioPreset(k){
   // basing enums
   for (const key of ['start','time_of_day','weather','density']) if (rc[key]){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
   // building blocks
-  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','carrier_cap','carrier_aew'])
+  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','bb_historical_airspace','bb_alignment','carrier_cap','carrier_aew'])
     if (key in rc){ const e=document.getElementById(key); if(e) e.checked=!!rc[key]; }
   // threats
   if ('threat_intensity' in rc){ const e=document.getElementById('threat_intensity'); if(e){ e.value=rc.threat_intensity; setIntensityLabel(rc.threat_intensity); } }

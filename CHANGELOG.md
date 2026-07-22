@@ -17,6 +17,29 @@ guide cover.
 
 ---
 
+## [1.19.2] — 2026-07-22 — surface Historical Airspace + Theater Identity in the UI
+
+### Fixed
+
+- **Air-corridor graphics were unreachable from the web UI.** The engine's
+  `bb_historical_airspace` flag (Berlin Air Corridors, Syria Euphrates
+  deconfliction) was never exposed as a frontend toggle, and the scenario-preset
+  copier didn't include it — so even the Berlin Corridor Transit card generated
+  **without** its corridors when built through the UI (engine tests passed
+  because they bypass the frontend). Now: a **Historical airspace** toggle under
+  Briefing aids, included in share-link defaults, and copied from template
+  recipes — the Berlin card generates its corridors again.
+- **`bb_alignment` surfaced** as a "Theater identity (nation alignment)" toggle
+  on the Airfields screen (default on), so users can see/control why Akrotiri
+  parks RAF jets.
+- `bb_dtc` intentionally remains auto (on for the F-14B(U)) rather than a UI
+  toggle — its None/auto default is tri-state.
+
+Verified end-to-end in a headless browser: toggles render, and the Library's
+Berlin card now carries `bb_historical_airspace: true` into the generated recipe.
+
+---
+
 ## [1.19.1] — 2026-07-21 — every template is guaranteed a Library card
 
 - **Library completeness:** the Library now renders **all** scenario templates,
