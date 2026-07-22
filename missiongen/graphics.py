@@ -33,7 +33,10 @@ LABEL_BG = Rgba(0, 0, 0, 90)
 # every drawable layer this module owns (nav points live in navpoints.py but
 # are part of the same user-facing "Map graphics" checklist)
 LAYER_KEYS = ["tanker", "awacs", "cap", "aew", "carrier_box",
-              "targets", "farps", "bullseye", "threats"]
+              "targets", "farps", "bullseye", "threats", "corridors"]
+
+CORRIDOR = Rgba(255, 176, 32, 235)      # air-corridor threat axis — signal amber
+CORRIDOR_FILL = Rgba(255, 176, 32, 18)
 
 
 def effective_layers(recipe_layers):
@@ -155,5 +158,26 @@ def draw_layers(m, gfx, layers, side):
             _label(own, _offset(pos, wez_m * 0.75, 315), f"⚠ {label}", tcol,
                    size=12)
         drawn.append("threats")
+
+    if "corridors" in layers and gfx.get("corridors"):
+        # AIR CORRIDOR: the chosen threat axis, drawn friendly->enemy as an amber
+        # arrowed lane on the player's layer, labelled at the enemy end. Informs
+        # the ingress; it is NOT a player route (no waypoints attached).
+        for a, b, label in gfx["corridors"]:
+            base = mapping.Point(a.x, a.y, a._terrain)
+            own.add_line_segments(
+                base, [mapping.Point(0, 0, a._terrain),
+                       mapping.Point(b.x - a.x, b.y - a.y, a._terrain)],
+                color=CORRIDOR, line_thickness=4)
+            brg = math.atan2(b.y - a.y, b.x - a.x)          # arrowhead at the enemy end
+            for da in (math.radians(148), math.radians(-148)):
+                own.add_line_segments(
+                    mapping.Point(b.x, b.y, b._terrain),
+                    [mapping.Point(0, 0, b._terrain),
+                     mapping.Point(16000 * math.cos(brg + da),
+                                   16000 * math.sin(brg + da), b._terrain)],
+                    color=CORRIDOR, line_thickness=4)
+            _label(own, _offset(b, 11000, 90), label, CORRIDOR, size=12)
+        drawn.append("corridors")
 
     return drawn

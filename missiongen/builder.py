@@ -576,7 +576,8 @@ class StarterBuilder:
                          "the corridor. Build your own ingress around them.")
             template_brief = (template_brief + "\n\n" if template_brief else "") + "\n".join(lines)
             stats["corridors"] = [c["name"] for c in self._corridors]
-            gfx.setdefault("routes", []).append((own_center, enemy_center, f"AXIS · {names}"))
+            gfx.setdefault("corridors", []).append(
+                (own_center, enemy_center, f"CORRIDOR · {names}"))
 
         # --- bullseye ---------------------------------------------------------
         midpoint = mapping.Point((own_center.x + enemy_center.x) / 2,
@@ -588,6 +589,8 @@ class StarterBuilder:
         # --- F10 map graphics layers (the map briefs the mission) -------------
         from . import graphics
         layers = graphics.effective_layers(r.map_layers)
+        if self._corridors:
+            layers = set(layers) | {"corridors"}   # a chosen corridor always draws
         drawn = graphics.draw_layers(m, gfx, layers, r.coalition)
         if drawn:
             stats["map_layers"] = drawn

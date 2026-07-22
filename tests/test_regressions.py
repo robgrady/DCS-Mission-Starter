@@ -99,10 +99,24 @@ def test_air_corridors_orient_the_mission(tmp_path):
                  aircraft="F_4E_45MC", corridors=corr, threat_intensity=3,
                  threat_tier="mixed", seed=5)), out)
         return out
+    from missiongen import Recipe as _R, generate as _g
     a = gen([], str(Path(tmp_path) / "a.miz"))
     b = gen(["Fulda Gap"], str(Path(tmp_path) / "b.miz"))
     h = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
     assert h(a) != h(b), "corridor selection did not change the mission"
+    # the corridor must DRAW on the F10 map (regression: it was appended to an
+    # unhandled 'routes' gfx key and silently never rendered)
+    res = _g(_R.from_dict(dict(map="germany", era="coldwar", coalition="blue",
+             aircraft="F_4E_45MC", corridors=["Fulda Gap"], seed=5)),
+             str(Path(tmp_path) / "draw.miz"))
+    assert "corridors" in (res["stats"].get("map_layers") or []), \
+        "corridor axis was not drawn on the F10 map"
+    # even with a custom layer subset that omits it, a chosen corridor still draws
+    res2 = _g(_R.from_dict(dict(map="germany", era="coldwar", coalition="blue",
+              aircraft="F_4E_45MC", corridors=["Fulda Gap"],
+              map_layers=["threats"], seed=5)), str(Path(tmp_path) / "draw2.miz"))
+    assert "corridors" in (res2["stats"].get("map_layers") or []), \
+        "chosen corridor was filtered out by custom map_layers"
     dic = _zf.ZipFile(b).read("l10n/DEFAULT/dictionary").decode("utf-8", "ignore")
     assert "Fulda Gap" in dic, "corridor not named in the briefing"
     # determinism: same recipe+corridor twice → identical per entry

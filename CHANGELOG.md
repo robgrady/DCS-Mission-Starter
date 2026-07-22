@@ -17,6 +17,17 @@ guide cover.
 
 ---
 
+## [1.31.1] — 2026-07-22 — Fix: Air Corridor axis actually draws on the F10 map
+
+The corridor feature (v1.30.0) re-anchored the threat axis and briefed it, but
+the axis **line never appeared on the F10 map**: the builder appended it to a
+`gfx["routes"]` key that `graphics.draw_layers()` has no handler for, so it was
+silently dropped. Added a real **`corridors` layer** — an amber, arrowed lane
+drawn friendly→enemy on the player's layer and labelled at the enemy end — and
+pointed the builder at it. A chosen corridor now always draws, even if the F10
+layer toggles are customised to a subset that omits it. Regression hardened to
+assert the layer renders (default and custom-subset). Determinism preserved.
+
 ## [1.31.0] — 2026-07-22 — Redesign Phase 4: Review screen jump-back rows
 
 The Review & Generate screen becomes the redesign's scannable, editable summary:
