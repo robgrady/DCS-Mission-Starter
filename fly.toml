@@ -1,25 +1,28 @@
-# Fly.io deploy config — `fly launch --copy-config --no-deploy` then `fly deploy`
-app = "sortiestarter"
-primary_region = "dfw"
+# fly.toml app configuration file generated for dcs-mission-starter on 2026-07-23T23:07:15Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'dcs-mission-starter'
+primary_region = 'dfw'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
 
-  # Fly restarts a machine that fails this; also gates traffic on cold start.
   [[http_service.checks]]
-    interval = "30s"
-    timeout = "5s"
-    grace_period = "10s"
-    method = "GET"
-    path = "/api/health"
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '10s'
+    method = 'GET'
+    path = '/api/health'
 
 [[vm]]
-  size = "shared-cpu-1x"
-  memory = "512mb"   # bump to 1024mb if mission builds ever OOM
+  size = 'shared-cpu-1x'
+  memory = '512mb'
