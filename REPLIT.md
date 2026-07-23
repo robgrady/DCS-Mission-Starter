@@ -1,4 +1,4 @@
-# DCS Mission Starter — Replit Implementation Brief
+# DCS Sortie Starter — Replit Implementation Brief
 
 *For the Replit agent (and any hosting/re-skinning agent). Read this fully before
 touching anything. Package version: see `missiongen/__init__.py` (`__version__`),
@@ -8,7 +8,7 @@ also served at `/api/options` → `version`.*
 
 ## 1. What this application is
 
-**DCS Mission Starter** generates ready-to-fly missions for DCS World. A user
+**DCS Sortie Starter** generates ready-to-fly missions for DCS World. A user
 either picks a curated scenario from the **Mission Library** or configures one in
 the **Builder** wizard; the server generates a downloadable `.miz` on demand from
 a small "recipe" (map, era, coalition, aircraft, threats, seed…). Same recipe +

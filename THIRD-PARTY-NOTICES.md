@@ -1,6 +1,6 @@
 # Third-Party Notices
 
-DCS Mission Starter's own source code (everything outside `vendor/`) is licensed
+DCS Sortie Starter's own source code (everything outside `vendor/`) is licensed
 **MIT** — see `LICENSE`. It also includes and depends on third-party components,
 listed here with their licenses and attribution.
 

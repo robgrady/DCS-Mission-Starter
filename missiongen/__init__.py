@@ -1,4 +1,4 @@
-__version__ = "1.33.0"
+__version__ = "1.33.1"
 
 # Preflight: vendored pydcs imports pyproj at import time (terrain projections).
 # Fail with instructions instead of a bare ModuleNotFoundError deep in pydcs.
@@ -6,7 +6,7 @@ try:
     import pyproj  # noqa: F401
 except ImportError as _e:
     raise ImportError(
-        "DCS Mission Starter requires 'pyproj' (used by pydcs terrain "
+        "DCS Sortie Starter requires 'pyproj' (used by pydcs terrain "
         "projections). Install it with:  pip install -r requirements.txt  "
         "(or: pip install pyproj)") from _e
 

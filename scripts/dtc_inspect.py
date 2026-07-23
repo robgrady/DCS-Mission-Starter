@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """DTC / DTM inspector — reverse-engineer where DCS stores the Data Transfer
-Cartridge inside a .miz, so Mission Starter can emit it.
+Cartridge inside a .miz, so Sortie Starter can emit it.
 
 DCS stores the cartridge "as data within the mission itself" (default), but the
 exact schema is undocumented and brand-new for the F-14B(U)'s DTM. This tool

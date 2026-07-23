@@ -1,4 +1,4 @@
-# DCS Mission Starter
+# DCS Sortie Starter
 
 **Select, don't search.** A web-based mission *starter* for DCS World: pick a theater,
 era, coalition and aircraft, and get a downloadable `.miz` with airfields dressed in

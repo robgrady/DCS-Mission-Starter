@@ -1,4 +1,4 @@
-# Contributing to DCS Mission Starter
+# Contributing to DCS Sortie Starter
 
 Thanks for helping! The single most useful principle here: **the data packs are
 the product, the code is plumbing.** Most improvements are JSON edits or exported

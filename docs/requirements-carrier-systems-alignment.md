@@ -6,7 +6,7 @@
 
 ## 1. Problem statement
 
-A carrier mission is only "ready to fly" if the ship's approach and navigation systems are radiating **and** the aircraft's cockpit is set up to use them. Today the Mission Starter handles the first half; the second half is left to the pilot, who must build radio presets by hand or dial frequencies from the kneeboard mid-flight. The Mission Author (our generator) should deliver both halves aligned, with zero user configuration.
+A carrier mission is only "ready to fly" if the ship's approach and navigation systems are radiating **and** the aircraft's cockpit is set up to use them. Today the Sortie Starter handles the first half; the second half is left to the pilot, who must build radio presets by hand or dial frequencies from the kneeboard mid-flight. The Mission Author (our generator) should deliver both halves aligned, with zero user configuration.
 
 ## 2. Current state (audited v1.8.9)
 

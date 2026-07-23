@@ -1,4 +1,4 @@
-"""Guard tests for the DCS Mission Starter's core promise:
+"""Guard tests for the DCS Sortie Starter's core promise:
 
     "recipe + seed = the same starter, always regenerable; a share link IS the mission"
 

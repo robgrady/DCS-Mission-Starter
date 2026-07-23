@@ -56,7 +56,7 @@ def header_footer(canvas, doc):
     canvas.rect(0, H - 0.55 * inch, W, 0.55 * inch, fill=1, stroke=0)
     canvas.setFillColor(white)
     canvas.setFont("Helvetica-Bold", 10)
-    canvas.drawString(0.75 * inch, H - 0.36 * inch, "DCS MISSION STARTER")
+    canvas.drawString(0.75 * inch, H - 0.36 * inch, "DCS SORTIE STARTER")
     canvas.setFillColor(GOLD)
     canvas.setFont("Helvetica", 9)
     canvas.drawRightString(W - 0.75 * inch, H - 0.36 * inch, "USER GUIDE")
@@ -157,7 +157,7 @@ story = [PageBreak()]
 
 story += [
     P("Welcome aboard", "h1"),
-    P("<b>Select, don't search.</b> The DCS Mission Starter builds a living world for you: "
+    P("<b>Select, don't search.</b> The DCS Sortie Starter builds a living world for you: "
       "airfields dressed with period-correct aircraft and equipment, working SAM sites, "
       "support flights on station, and a carrier strike group with a properly spotted deck. "
       "You download a ready <b>.miz</b> file and build <i>your</i> mission on top in the "
@@ -165,7 +165,7 @@ story += [
     P("<b>We set the stage — you write the play.</b> The Starter never places your waypoints. "
       "Flight planning is always yours."),
 
-    shot("hero.png", "The Mission Starter wizard."),
+    shot("hero.png", "The Sortie Starter wizard."),
 
     P("Finding your way", "h2"),
     P("The app works as a set of <b>focused screens</b>, not one long page. The <b>rail</b> on "
@@ -452,7 +452,7 @@ story += [t(deck_rows, [1.2*inch, 5.4*inch]), Spacer(1, 6),
 doc = BaseDocTemplate(str(OUT), pagesize=letter,
                       leftMargin=0.75 * inch, rightMargin=0.75 * inch,
                       topMargin=0.85 * inch, bottomMargin=0.8 * inch,
-                      title="DCS Mission Starter — User Guide",
+                      title="DCS Sortie Starter — User Guide",
                       author="Rob Grady")
 frame = Frame(0.75 * inch, 0.8 * inch, W - 1.5 * inch, H - 1.65 * inch, id="main")
 doc.addPageTemplates([

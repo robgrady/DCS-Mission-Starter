@@ -1,4 +1,4 @@
-# DCS Mission Starter — User Guide
+# DCS Sortie Starter — User Guide
 
 **Select, don't search.** Pick a map, an era, and an aircraft; download a `.miz` where the
 world is already alive — airfields dressed with period-correct aircraft and equipment,

@@ -1,4 +1,4 @@
-"""Mission Starter terrain extensions — maps not yet in upstream pydcs.
+"""Sortie Starter terrain extensions — maps not yet in upstream pydcs.
 
 These live OUTSIDE vendor/dcs (which stays a pristine, unmodified pydcs copy per
 its LGPL provenance). Each terrain is generated from a real DCS install export

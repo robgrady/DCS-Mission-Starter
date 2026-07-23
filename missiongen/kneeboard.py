@@ -67,7 +67,7 @@ def page_comms(comms, map_label, era_label, home_name, qnh_hpa=None):
             y += 30
         y += 46
         d.line([40, y - 8, W - 40, y - 8], fill=LINE, width=1)
-    d.text((40, H - 60), "DCS MISSION STARTER — no waypoints placed; you own the flight plan",
+    d.text((40, H - 60), "DCS SORTIE STARTER — no waypoints placed; you own the flight plan",
            font=f["small"], fill=DIM)
     return img
 

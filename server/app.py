@@ -1,4 +1,4 @@
-"""DCS Mission Starter — API server.
+"""DCS Sortie Starter — API server.
 
 Run:  uvicorn server.app:app --reload
 Then open http://127.0.0.1:8000
@@ -26,7 +26,7 @@ from missiongen import deck as _deck
 
 log = logging.getLogger("missionstarter")
 
-app = FastAPI(title="DCS Mission Starter", version=__version__)
+app = FastAPI(title="DCS Sortie Starter", version=__version__)
 
 # Password-gated sponsor-ad admin (/admin). Disabled unless ADMIN_PASSWORD is set.
 from server.admin import router as admin_router  # noqa: E402
@@ -219,7 +219,7 @@ def roadmap():
 
 @app.get("/api/guide")
 def guide_download():
-    """Downloadable Mission Starter documentation (professional PDF)."""
+    """Downloadable Sortie Starter documentation (professional PDF)."""
     return FileResponse(str(DOCS_PDF), filename="DCS_Mission_Starter_Guide.pdf",
                         media_type="application/pdf")
 
@@ -266,7 +266,7 @@ def api_generate(req: GenerateRequest):
 
 @app.post("/api/brief")
 def api_brief(req: GenerateRequest):
-    """Mission Starter Brief — the pre-flight briefing pack (PDF + MD, zipped).
+    """Sortie Starter Brief — the pre-flight briefing pack (PDF + MD, zipped).
 
     Stateless by design: the determinism contract means the same recipe rebuilds
     the identical mission, so the brief regenerates on demand — no server-side

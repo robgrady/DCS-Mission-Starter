@@ -1,6 +1,6 @@
 # How a pydcs terrain module works
 
-A reference for understanding what a DCS map looks like to pydcs (and therefore to Mission Starter), how the data gets there, and what actually matters for our product. Written against the real Syria module and pydcs's own `airport_import.py`.
+A reference for understanding what a DCS map looks like to pydcs (and therefore to Sortie Starter), how the data gets there, and what actually matters for our product. Written against the real Syria module and pydcs's own `airport_import.py`.
 
 ---
 
@@ -54,7 +54,7 @@ Field by field:
 
 ---
 
-## 3. Parking slots — the load-bearing data for Mission Starter
+## 3. Parking slots — the load-bearing data for Sortie Starter
 
 Every dressing and placement decision we make keys off `parking_slots`. Each slot:
 
@@ -118,7 +118,7 @@ This is also why the build order is airports → terrain stub → projection: th
 
 ---
 
-## 7. What Mission Starter actually reads vs. ignores
+## 7. What Sortie Starter actually reads vs. ignores
 
 Not all terrain data matters to us. The map of what we touch:
 

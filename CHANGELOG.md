@@ -1,4 +1,4 @@
-# Changelog — DCS Mission Starter
+# Changelog — DCS Sortie Starter
 
 All notable changes are documented here. This project follows
 [Semantic Versioning](https://semver.org/) as of 1.0.0.
@@ -16,6 +16,14 @@ is surfaced in the web UI header, `/api/options`, `/api/health`, and the PDF
 guide cover.
 
 ---
+
+## [1.33.1] — 2026-07-23 — Rename: DCS Mission Starter → DCS Sortie Starter
+
+Product rename across all user-facing surfaces (web header/title, in-mission
+briefing text, in-jet kneeboard footer, briefing pack PDF/MD, user-guide PDF,
+API title, docs). The generator, package (`missiongen`) and repo name are
+unchanged; "mission" as a common noun is untouched. Historical changelog
+entries keep their original wording.
 
 ## [1.33.0] — 2026-07-22 — Sponsor Ads MVP (admin-managed launch splash)
 

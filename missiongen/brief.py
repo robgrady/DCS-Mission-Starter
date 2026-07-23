@@ -1,4 +1,4 @@
-"""Mission Starter Brief — the pre-flight briefing pack (PDF + Markdown).
+"""Sortie Starter Brief — the pre-flight briefing pack (PDF + Markdown).
 
 The download that rides alongside the .miz: a printable 4-page brief with the
 mission data card, a THEATER CHART drawn in the tactical chart standard
@@ -68,7 +68,7 @@ def _page(title, subtitle):
     d.text((60, 34), title, font=f["h2"], fill=(255, 255, 255))
     d.text((60, 96), subtitle, font=f["small"], fill=(159, 176, 195))
     d.rectangle([0, 150, W, 156], fill=GOLD)
-    d.text((W - 320, H - 46), f"Mission Starter v{__version__}",
+    d.text((W - 320, H - 46), f"Sortie Starter v{__version__}",
            font=f["mono_s"], fill=DIM)
     return img, d, f
 
@@ -468,7 +468,7 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
         for name, p in nav_points:
             ll = p.latlng()
             L.append(f"- {name}: {ll.lat:.4f}, {ll.lng:.4f}")
-    L += ["", f"*Mission Starter v{__version__} — brief pairs with the .miz; "
+    L += ["", f"*Sortie Starter v{__version__} — brief pairs with the .miz; "
               "same charts ride the in-jet kneeboard.*"]
     return "\n".join(L)
 
@@ -500,7 +500,7 @@ def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
     stamp = time.struct_time((ctx["era_year"], 6, 21, 12, 0, 0, 0, 173, 0))
     meta = dict(
         title=f"Mission Brief - {ctx['map_label']} {ctx['era_label']} seed {r.seed}",
-        author="DCS Mission Starter", producer=f"Mission Starter v{__version__}",
+        author="DCS Sortie Starter", producer=f"Sortie Starter v{__version__}",
         creationDate=stamp, modDate=stamp)
     try:
         pages[0].save(pdf_path, save_all=True, append_images=pages[1:],

@@ -1,4 +1,4 @@
-# DCS Mission Starter — Roadmap
+# DCS Sortie Starter — Roadmap
 
 *July 2026 · lives in the app at `/api/roadmap` · versions in CHANGELOG.md*
 
@@ -19,7 +19,7 @@ play. **Never player waypoints.**
   (country, aircraft types, liveries); per-nation ramp rosters.
 - **Historical Airspace (first slices)** — Berlin Air Corridors, Syria Euphrates
   deconfliction line, drawn to a MIL-STD-2525-based chart standard.
-- **Mission Starter Brief** — pre-flight pack: cartographic theater chart,
+- **Sortie Starter Brief** — pre-flight pack: cartographic theater chart,
   comms/nav, forces (PDF + Markdown), plus in-jet kneeboards.
 - **The foundation** — 11 era-gated theaters, airfield dressing on real stands
   with measured parking headings, doctrinal SAMs + Threat Dial, carrier strike
