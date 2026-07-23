@@ -640,12 +640,19 @@ class StarterBuilder:
                 brief += "\n" + airspace_brief
             m.set_description_text(brief)
 
-        # --- brand splash (cosmetic logo on launch) --------------------------
+        # --- brand splash (cosmetic sponsor logo on launch) ------------------
+        # The active sponsor (admin-managed) is baked in; with no sponsor store
+        # or branding disabled globally, falls back to the shipped Authentic art.
         if getattr(r, "bb_branding", True):
             try:
-                from . import branding
-                if branding.add_brand_splash(m):
-                    stats["branding"] = True
+                from . import branding, sponsors
+                if sponsors.branding_enabled():
+                    sp = sponsors.active_splash()
+                    if sp:
+                        if branding.add_brand_splash(m, logo_path=sp["path"], size=sp["size"]):
+                            stats["branding"] = sp["id"]     # sponsor id → impressions
+                    elif branding.add_brand_splash(m):
+                        stats["branding"] = True             # shipped Authentic default
             except Exception as _e:
                 self.warnings.append(f"brand splash skipped: {_e}")
 

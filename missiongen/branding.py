@@ -13,9 +13,13 @@ from dcs.action import PictureToAll, PictureAction
 _LOGO = Path(__file__).parent / "data" / "brand" / "authentic_media.png"
 
 
-def add_brand_splash(m, seconds: int = 8, start_delay: int = 1, logo_path=None):
+def add_brand_splash(m, seconds: int = 8, start_delay: int = 1, logo_path=None,
+                     size: int = 30):
     """Add a mission-start logo splash to the mission. Returns True if added,
-    False if the logo asset is missing (never raises — branding is optional)."""
+    False if the logo asset is missing (never raises — branding is optional).
+
+    `logo_path` defaults to the shipped Authentic asset; the sponsor store passes
+    the active sponsor's cached splash. `size` is the % of window (PictureToAll)."""
     path = Path(logo_path) if logo_path else _LOGO
     if not path.exists():
         return False
@@ -27,7 +31,7 @@ def add_brand_splash(m, seconds: int = 8, start_delay: int = 1, logo_path=None):
         start_delay=int(start_delay),
         horz_alignment=PictureAction.HorzAlignment.Center,
         vert_alignment=PictureAction.VertAlignment.Center,
-        size=30,
+        size=int(size),
         size_units=PictureAction.SizeUnits.WindowSize)
     # pydcs serialises the alignment/size enums as bare identifiers
     # (e.g. `HorzAlignment.Center`), which is invalid Lua — the .miz won't even

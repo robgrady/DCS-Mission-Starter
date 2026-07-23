@@ -28,6 +28,10 @@ log = logging.getLogger("missionstarter")
 
 app = FastAPI(title="DCS Mission Starter", version=__version__)
 
+# Password-gated sponsor-ad admin (/admin). Disabled unless ADMIN_PASSWORD is set.
+from server.admin import router as admin_router  # noqa: E402
+app.include_router(admin_router)
+
 # Errors that are the USER's fault → 400 with the real message. Anything else is
 # a bug and must surface as a 500 (logged, generic message) so monitoring sees
 # it and we never leak a server path to the client.
@@ -50,6 +54,12 @@ def _build_and_respond(recipe: Recipe):
         fname = f"{recipe.map}_{recipe.era}_{recipe.aircraft}_{tag}_{recipe.seed}.miz"
         out = Path(tmpdir) / fname
         result = generate(recipe, str(out))
+        # Count a sponsor impression when the active sponsor was actually baked
+        # in (stats["branding"] holds the sponsor id; True = shipped default).
+        _bid = result.get("stats", {}).get("branding")
+        if isinstance(_bid, str):
+            from missiongen import sponsors
+            sponsors.increment_impressions(_bid)
     except USER_ERRORS as e:
         shutil.rmtree(tmpdir, ignore_errors=True)
         raise HTTPException(status_code=400, detail=str(e))

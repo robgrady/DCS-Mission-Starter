@@ -46,12 +46,30 @@ Then in **Hover → your domain → Edit DNS**:
 - `fly certs show sortiestarter.com` flips to **issued** once DNS resolves; Fly
   auto-provisions Let's Encrypt TLS. `force_https` is already on.
 
-## Later — for the sponsor-ads feature
+## Sponsor-ads admin (`/admin`)
+
+The sponsor-ads feature is live but the admin is **disabled until you set a
+password**:
 
 ```bash
-fly volumes create data --size 1 --region dfw     # small cache/manifest home
-fly secrets set ADMIN_PASSWORD='...'              # gates /admin
-# then add a [mounts] block to fly.toml pointing at /data and redeploy
+fly secrets set ADMIN_PASSWORD='choose-a-strong-one'   # unlocks /admin
+```
+
+Then visit `https://sortiestarter.com/admin`, sign in, and add a sponsor by URL
+or upload. Without a password the section shows a "not configured" notice and
+can't be used.
+
+**Persistence** — sponsors are stored under `SPONSOR_DATA_DIR` (default
+`instance/sponsors`, which is ephemeral on Fly). For sponsors to survive
+redeploys, mount a volume and point the env at it:
+
+```bash
+fly volumes create sponsors --size 1 --region dfw
+fly secrets set SPONSOR_DATA_DIR=/data/sponsors
+# add to fly.toml, then redeploy:
+#   [mounts]
+#     source = "sponsors"
+#     destination = "/data"
 ```
 
 ## Redeploys

@@ -1,6 +1,7 @@
 # Runtime dependencies — pinned for reproducible CI and deploys.
 fastapi==0.139.0
 uvicorn[standard]==0.46.0
+python-multipart==0.0.20
 pillow==12.2.0
 
 # pydcs is VENDORED in vendor/dcs (server/app.py adds it to sys.path) because

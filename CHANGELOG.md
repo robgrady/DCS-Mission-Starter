@@ -17,6 +17,31 @@ guide cover.
 
 ---
 
+## [1.33.0] — 2026-07-22 — Sponsor Ads MVP (admin-managed launch splash)
+
+New capability: an admin-managed sponsor logo baked into every mission's launch
+splash, so the ad can be swapped (Authentic ↔ Pimax ↔ …) with no code change.
+See `claude/sponsor-ads-design.md`.
+
+- `missiongen/sponsors.py` — sponsor library: a small `manifest.json` + a
+  regenerable PNG cache. One sponsor is *active* at a time. Sourced from an
+  image **URL** (pulled server-side, SSRF-guarded: https-only, image
+  content-type, size cap, private/loopback/metadata addresses blocked) or an
+  uploaded file. Reusable `render_splash()` (PIL-only — no numpy) does the
+  white-knockout → crop → translucent panel → downscale, which also sanitises
+  uploads. Per-sponsor `splash_size`/`panel_opacity` and an `impressions` counter.
+- `server/admin.py` — `/admin`, gated by the `ADMIN_PASSWORD` env var (signed
+  session cookie; the section is disabled entirely when unset, so a
+  misconfigured deploy can't expose it). Add/activate/refresh/delete sponsors,
+  a global on/off toggle, thumbnails, and impression counts.
+- `missiongen/builder.py` — the launch splash now uses the active sponsor (with
+  its size), falling back to the shipped Authentic asset when there's no store
+  or branding is globally off. Impressions are counted at the server boundary
+  (`/api/generate`, `/api/dl`) so the builder stays pure/deterministic.
+- `requirements.txt` — add `python-multipart` (FastAPI form/file uploads).
+- Store location is `SPONSOR_DATA_DIR` (default `instance/sponsors`); point it
+  at a Fly volume for persistence across deploys.
+
 ## [1.32.8] — 2026-07-22 — Drop the Advanced-options toggle
 
 There aren't enough options to warrant hiding any, so the "Advanced options"
