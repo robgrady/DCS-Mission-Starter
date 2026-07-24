@@ -1,36 +1,35 @@
 # Deploying to Fly.io
 
-The app is a stateless FastAPI service; `fly.toml` and `Dockerfile` are already
-in the repo and verified to build/boot on `python:3.11-slim`.
+The app is a stateless FastAPI service; `fly.toml` and `Dockerfile` are in the
+repo. **The Fly app is named `dcs-mission-starter`** (created by `fly launch`;
+served at `dcs-mission-starter.fly.dev`). The app name is internal — it does not
+affect the `sortiestarter.com` domain.
 
-## One-time setup
+## First-time setup (already done)
 
 ```bash
-# 1. Install flyctl and log in
 brew install flyctl                 # macOS  (or: curl -L https://fly.io/install.sh | sh)
 fly auth login
-
-# 2. Create the app from the existing config (do NOT let it re-scaffold)
-cd /path/to/DCS-Mission-Starter
+cd ~/Projects/DCS-Mission-Starter
 fly launch --copy-config --no-deploy
-#   - Uses fly.toml as-is, app name "sortiestarter".
-#   - If that name is taken globally, pick another and update `app =` in fly.toml.
-
-# 3. Deploy
 fly deploy
-fly open                            # or: curl https://sortiestarter.fly.dev/api/health  -> {"status":"ok",...}
+fly open                            # curl https://dcs-mission-starter.fly.dev/api/health -> {"status":"ok",...}
 ```
 
 Scale-to-zero is on (`min_machines_running = 0`), so it costs ~nothing idle and
-cold-starts on the first request.
+cold-starts on the first request. After this, `git push` to `main` auto-deploys
+via the GitHub Action (needs the `FLY_API_TOKEN` repo secret).
 
 ## Custom domain (sortiestarter.com, registrar = Hover)
 
+Run from the repo dir (so fly.toml supplies the app), or pass `-a
+dcs-mission-starter` explicitly:
+
 ```bash
-fly certs add sortiestarter.com
-fly certs add www.sortiestarter.com
-fly ips list                        # note the shared IPv4 (v4) and IPv6 (v6)
-fly certs show sortiestarter.com    # prints the exact A / AAAA records to add
+fly certs add sortiestarter.com -a dcs-mission-starter
+fly certs add www.sortiestarter.com -a dcs-mission-starter
+fly ips list -a dcs-mission-starter          # note the IPv4 (v4) and IPv6 (v6)
+fly certs show sortiestarter.com -a dcs-mission-starter   # exact records + status
 ```
 
 Then in **Hover → your domain → Edit DNS**:
@@ -39,7 +38,7 @@ Then in **Hover → your domain → Edit DNS**:
 |-------|----------|--------------------------------|
 | A     | `@`      | Fly IPv4 (from `fly ips list`) |
 | AAAA  | `@`      | Fly IPv6 (from `fly ips list`) |
-| CNAME | `www`    | `sortiestarter.fly.dev`        |
+| CNAME | `www`    | `dcs-mission-starter.fly.dev`  |
 
 - Delete any default Hover **parking A record** on `@` first.
 - TTL: default is fine (drop to 15 min while testing).
