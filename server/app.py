@@ -196,6 +196,8 @@ def options():
             "time_of_day": ["dawn", "day", "dusk", "night"],
             "weather": ["clear", "scattered", "overcast", "storm"],
             "density": ["sparse", "normal", "busy"],
+            "pattern_mode": ["landing", "takeoff", "both"],
+            "pattern_kind": ["fighter", "cargo", "helicopter", "mixed"],
         },
     }
 

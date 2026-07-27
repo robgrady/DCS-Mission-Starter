@@ -301,6 +301,20 @@ class StarterBuilder:
                 m, enemy_country, enemy_fields, era_cfg[enemy_side], r.density,
                 self.rng, "enemy")
 
+        # BB-23: aircraft in the pattern at the player's own field. Also before
+        # dressing, so departing traffic gets its parking stand first. Skipped
+        # when home plate is the boat (no runway pattern to fly).
+        if getattr(r, "bb_pattern", False) and not carrier_home and home is not None:
+            from . import pattern
+            names = pattern.add_pattern_traffic(
+                m, own_country, home, era_cfg[r.coalition],
+                r.pattern_mode, r.pattern_kind, r.pattern_count,
+                self.rng, self.warnings)
+            if names:
+                stats["pattern"] = {
+                    "names": names, "mode": r.pattern_mode,
+                    "kind": r.pattern_kind, "field": home.name}
+
         if r.bb_dressing:
             enemy_side = "red" if r.coalition == "blue" else "blue"
             # ramp themes: player's choice for own fields; enemy fields always
@@ -778,8 +792,18 @@ class StarterBuilder:
             f"Static objects placed: {stats['statics']}",
             f"Air defense groups: {len(stats['sam_sites'])}",
             f"Support flights: {', '.join(stats['support']) or 'none'}",
-            "",
         ]
+        pat = stats.get("pattern")
+        if pat:
+            from .pattern import KIND_LABELS
+            what = {"landing": "recovering", "takeoff": "departing",
+                    "both": "in the pattern"}[pat["mode"]]
+            lines.append(
+                f"Field activity: {len(pat['names'])}x "
+                f"{KIND_LABELS.get(pat['kind'], pat['kind'])} {what} at "
+                f"{pat['field']} - expect traffic on the approach and in the "
+                f"overhead.")
+        lines += [""]
         if r.bb_comms:
             lines.append(comms.card())
         if template_brief:

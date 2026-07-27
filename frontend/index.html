@@ -424,6 +424,28 @@
     <p class="screenhint">On-station assets and briefing aids — turn on what the mission needs.</p>
     <div class="subcat">Air support</div>
     <div class="blocks" id="sup_air"></div>
+    <div class="row" id="pattern_opts" style="display:none;margin:2px 0 6px">
+      <div><label>Pattern traffic is</label>
+        <select id="pattern_mode">
+          <option value="landing">Landing — recovering on the approach</option>
+          <option value="takeoff">Taking off — turning and burning on the ramp</option>
+          <option value="both">Both — a live pattern, in and out</option>
+        </select></div>
+      <div><label>Aircraft type</label>
+        <select id="pattern_kind">
+          <option value="fighter">Fighters</option>
+          <option value="cargo">Cargo / transport</option>
+          <option value="helicopter">Helicopters</option>
+          <option value="mixed">Mixed</option>
+        </select></div>
+      <div><label>How many</label>
+        <select id="pattern_count">
+          <option value="1">1 aircraft</option>
+          <option value="2" selected>2 aircraft</option>
+          <option value="3">3 aircraft</option>
+          <option value="4">4 aircraft</option>
+        </select></div>
+    </div>
     <div class="subcat">Targets &amp; ranges</div>
     <div class="blocks" id="sup_tgt"></div>
     <div class="subcat">Briefing aids</div>
@@ -584,6 +606,7 @@ const BLOCKS = [
   ["bb_tanker","Tanker","Racetrack, TACAN + freq assigned", true, "sup_air"],
   ["bb_awacs","AWACS","On station behind friendly lines", true, "sup_air"],
   ["bb_ambient","Ambient air traffic","AI transports starting up and flying between friendly fields", true, "sup_air"],
+  ["bb_pattern","Aircraft in the pattern","A few AI aircraft recovering or departing at YOUR field as the mission starts — pick the leg, the type and how many", false, "sup_air"],
   ["bb_farps","Functional FARPs","Pads + fuel/ammo/command/comms so rearm-refuel works (helo eras)", false, "sup_air"],
   ["bb_targets","Strike target packages","Depot / convoy / C2 site placed in the enemy rear with trigger zones", false, "sup_tgt"],
   ["bb_range","Practice range","Bombing ring + strafe line in the friendly rear", false, "sup_tgt"],
@@ -604,6 +627,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   threat_intensity:3,threat_tier:"auto",
   bb_dressing:true,bb_sams:true,bb_tanker:true,bb_awacs:true,bb_comms:true,bb_briefing:true,
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
+  bb_pattern:false,pattern_mode:"landing",pattern_kind:"fighter",pattern_count:2,
   bb_historical_airspace:false,bb_alignment:true,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
   carrier_cap:false,carrier_aew:false,carrier_strike:false,template:null,crew_difficulty:"qualified",seed:1};
@@ -656,6 +680,10 @@ async function init(){
     if (box) box.appendChild(el(`<label class="block"><input type="checkbox" id="${k}" ${on?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`));
   }
   document.getElementById('bb_carrier').addEventListener('change', ()=>{ refreshCarrierUI(); updateRail(); });
+  document.getElementById('bb_pattern').addEventListener('change', ()=>{ refreshPatternUI(); sum(); });
+  for (const k of ['pattern_mode','pattern_kind','pattern_count'])
+    document.getElementById(k).addEventListener('change', sum);
+  refreshPatternUI();
   const tp = document.getElementById('templates');
   const none = el(`<div class="card sel" data-k=""><b>Build your own</b><small>Start from scratch — you configure everything below</small></div>`);
   none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); updateRail(); };
@@ -745,6 +773,9 @@ function applyRecipe(r){
   for (const k of ['start','time_of_day','weather','density']) document.getElementById(k).value = r[k];
   document.getElementById('seed').value = r.seed;
   for (const [k] of BLOCKS) document.getElementById(k).checked = !!r[k];
+  for (const k of ['pattern_mode','pattern_kind','pattern_count'])
+    if (r[k] != null) document.getElementById(k).value = r[k];
+  refreshPatternUI();
   refreshDressUI();
   if (r.dress_fill != null){
     document.getElementById('dress_fill').value = r.dress_fill;
@@ -812,8 +843,11 @@ function applyScenarioPreset(k){
   // basing enums
   for (const key of ['start','time_of_day','weather','density']) if (rc[key]){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
   // building blocks
-  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','bb_historical_airspace','bb_alignment','carrier_cap','carrier_aew','carrier_strike'])
+  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','bb_historical_airspace','bb_alignment','bb_pattern','carrier_cap','carrier_aew','carrier_strike'])
     if (key in rc){ const e=document.getElementById(key); if(e) e.checked=!!rc[key]; }
+  for (const key of ['pattern_mode','pattern_kind','pattern_count'])
+    if (key in rc){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
+  refreshPatternUI();
   // threats
   if ('threat_intensity' in rc){ const e=document.getElementById('threat_intensity'); if(e){ e.value=rc.threat_intensity; setIntensityLabel(rc.threat_intensity); } }
   if (rc.threat_tier){ const e=document.getElementById('threat_tier'); if(e) e.value=rc.threat_tier; }
@@ -893,6 +927,17 @@ function refreshCarrierUI(){
   else { const def = eraHull(); if (def && [...hs.options].some(o=>o.value===def)) hs.value = def; }
   refreshDeckAircraft();
 }
+function refreshPatternUI(){
+  const on = !!document.getElementById('bb_pattern')?.checked;
+  document.getElementById('pattern_opts').style.display = on ? '' : 'none';
+  // no helicopters in 1944 — the era packs have none, so don't offer the choice
+  const kind = document.getElementById('pattern_kind');
+  const helo = [...kind.options].find(o=>o.value==='helicopter');
+  if (helo){
+    helo.disabled = (S.era === 'wwii');
+    if (helo.disabled && kind.value === 'helicopter') kind.value = 'fighter';
+  }
+}
 function refreshDeckAircraft(){
   const hull = OPT.carriers[document.getElementById('carrier_hull').value];
   const da = document.getElementById('deck_aircraft');
@@ -918,6 +963,7 @@ function refreshEraGating(){
     }
   }
   refreshCarrierUI();
+  refreshPatternUI();
   // hard era gate: roster, templates, and maps all follow the period
   refreshAircraft();
   filterScenarios();
@@ -1316,6 +1362,11 @@ function recipe(){
   for (const [k] of BLOCKS) r[k]=document.getElementById(k).checked;
   r.threat_intensity = +document.getElementById('threat_intensity').value;
   r.threat_tier = document.getElementById('threat_tier').value;
+  if (r.bb_pattern){
+    r.pattern_mode = document.getElementById('pattern_mode').value;
+    r.pattern_kind = document.getElementById('pattern_kind').value;
+    r.pattern_count = +document.getElementById('pattern_count').value;
+  }
   if (r.bb_dressing){
     const fill = +document.getElementById('dress_fill').value;
     if (fill !== 45) r.dress_fill = fill;

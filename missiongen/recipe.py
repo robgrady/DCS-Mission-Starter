@@ -20,6 +20,8 @@ RECIPE_ENUMS = {
     "dress_aircraft_mode": ("static", "parked_ai"),
     "dress_livery_style": ("squadron", "aggressors", "clean", "random"),
     "crew_difficulty": ("trainee", "qualified"),
+    "pattern_mode": ("landing", "takeoff", "both"),
+    "pattern_kind": ("fighter", "cargo", "helicopter", "mixed"),
 }
 
 
@@ -86,6 +88,10 @@ class Recipe:
     bb_kneeboard: bool = True          # BB-19 nav chart kneeboard pages
     bb_carrier: bool = False           # BB-9 carrier strike group (blue, coastal maps)
     bb_ambient: bool = True            # BB-13 ambient AI traffic between friendly fields
+    bb_pattern: bool = False           # BB-23 aircraft in the pattern at YOUR field
+    pattern_mode: str = "landing"      # landing | takeoff | both
+    pattern_kind: str = "fighter"      # fighter | cargo | helicopter | mixed
+    pattern_count: int = 2             # how many aircraft in the pattern (1-4)
 
     bb_navpoints: bool = True          # BB-22 named geo reference points (F10 map + kneeboard)
     bb_alignment: bool = True          # Theater Identity P1: dress each base with its real owning nation (country + liveries). No-op where no theater_identity data.
@@ -162,6 +168,10 @@ class Recipe:
             raise RecipeError(f"slots must be 1-4, got {self.slots!r}.")
         if self.dress_fill is not None and not (0 <= self.dress_fill <= 100):
             raise RecipeError(f"dress_fill must be 0-100, got {self.dress_fill!r}.")
+        from .pattern import MAX_COUNT as _PATTERN_MAX
+        if not (1 <= self.pattern_count <= _PATTERN_MAX):
+            raise RecipeError(
+                f"pattern_count must be 1-{_PATTERN_MAX}, got {self.pattern_count!r}.")
         if not (1 <= self.threat_intensity <= 5):
             raise RecipeError(
                 f"threat_intensity must be 1-5, got {self.threat_intensity!r}.")

@@ -17,6 +17,27 @@ guide cover.
 
 ---
 
+## [1.34.0] — 2026-07-27 — Aircraft in the pattern
+
+New building block, **Aircraft in the pattern** (Support section, off by
+default): a few AI aircraft recovering into or departing from *your* home field
+as the mission starts, so the base you walk out onto is visibly operational
+instead of dead.
+
+Three knobs: the leg (`landing`, `takeoff` or `both`), the traffic type
+(`fighter`, `cargo`, `helicopter` or `mixed`) and how many aircraft (1-4,
+default 2). Arriving aircraft spawn airborne on the extended centreline,
+stacked in trail on a ~3 degree profile, and land at the field; departing
+aircraft start hot on the ramp, roll, fly a closed circuit and recover. Types
+come from the era packs, so a 1944 pattern is period aircraft - the helicopter
+category is disabled in WWII rather than silently substituting something wrong.
+
+Skipped when home plate is the boat. Placed before airfield dressing so
+departing traffic claims its parking stand first; if the ramp is full the
+generator tries the rest of the category and warns about anything it could not
+fit. Adds a "Field activity" line to the mission briefing. The player's own
+route is never touched, as always.
+
 ## [1.33.1] — 2026-07-23 — Rename: DCS Mission Starter → DCS Sortie Starter
 
 Product rename across all user-facing surfaces (web header/title, in-mission
