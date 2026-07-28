@@ -18,6 +18,7 @@ MANIFEST=(
   samples
   vendor
   run_mac.command          # macOS double-click launcher
+  run_windows.bat          # Windows double-click launcher
   REPLIT.md                # implementation brief for Replit / hosting agents
   README.md
   CHANGELOG.md
@@ -33,11 +34,13 @@ rm -f "$OUT"
 zip -q -r "$OUT" "${MANIFEST[@]}" \
   -x '*/__pycache__/*' '*.pyc' '*/.DS_Store'
 
-# Fail loudly if the launcher didn't make it in.
-if ! unzip -l "$OUT" | grep -q 'run_mac.command'; then
-  echo "ERROR: run_mac.command missing from $OUT" >&2
-  exit 1
-fi
+# Fail loudly if either launcher didn't make it in.
+for launcher in run_mac.command run_windows.bat; do
+  if ! unzip -l "$OUT" | grep -q "$launcher"; then
+    echo "ERROR: $launcher missing from $OUT" >&2
+    exit 1
+  fi
+done
 
-echo "built $OUT ($(du -h "$OUT" | cut -f1)) — includes run_mac.command"
-unzip -l "$OUT" | grep -E 'run_mac.command|README|Dockerfile|fly.toml|.replit' || true
+echo "built $OUT ($(du -h "$OUT" | cut -f1)) — includes both launchers"
+unzip -l "$OUT" | grep -E 'run_mac.command|run_windows.bat|README|Dockerfile|fly.toml|.replit' || true
