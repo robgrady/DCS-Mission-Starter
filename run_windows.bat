@@ -23,12 +23,14 @@ if not exist .venv (
 )
 call .venv\Scripts\activate.bat
 
-REM 3. Dependencies
-python -c "import fastapi, uvicorn, PIL, pyproj" >nul 2>&1
+REM 3. Dependencies - installed from requirements.txt, which is the single
+REM source of truth. A hand-maintained list here drifts: it silently missed
+REM python-multipart (needed by the admin login form) and the app refused to boot.
+python -c "import fastapi, uvicorn, PIL, pyproj, multipart" >nul 2>&1
 if errorlevel 1 (
   echo Installing dependencies ^(one-time, ~1 minute^)...
   python -m pip install --quiet --upgrade pip
-  python -m pip install --quiet fastapi "uvicorn[standard]" pillow pyproj
+  python -m pip install --quiet -r requirements.txt
 )
 
 REM 4. pydcs ships vendored in this package (vendor\dcs) - no extra install.

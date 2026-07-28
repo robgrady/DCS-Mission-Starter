@@ -1,11 +1,11 @@
 #!/bin/bash
-# DCS Mission Starter — macOS launcher.
+# DCS Sortie Starter — macOS launcher.
 # Double-click this file in Finder (or run it in Terminal). First run sets
 # everything up (needs internet); later runs start instantly.
 set -e
 cd "$(dirname "$0")"
 
-echo "=== DCS Mission Starter ==="
+echo "=== DCS Sortie Starter ==="
 
 # 1. Python check (macOS will offer to install Command Line Tools if missing)
 if ! command -v python3 >/dev/null 2>&1; then
@@ -20,11 +20,13 @@ if [ ! -d .venv ]; then
 fi
 source .venv/bin/activate
 
-# 3. Dependencies
-python -c "import fastapi, uvicorn, PIL, pyproj" 2>/dev/null || {
+# 3. Dependencies — installed from requirements.txt, which is the single source
+# of truth. A hand-maintained list here drifts: it silently missed
+# python-multipart (needed by the admin login form) and the app refused to boot.
+python -c "import fastapi, uvicorn, PIL, pyproj, multipart" 2>/dev/null || {
   echo "Installing dependencies (one-time, ~1 minute)..."
   pip install --quiet --upgrade pip
-  pip install --quiet fastapi "uvicorn[standard]" pillow pyproj
+  pip install --quiet -r requirements.txt
 }
 
 # 4. pydcs ships vendored in this package (vendor/dcs) — no extra install.
@@ -33,7 +35,7 @@ python -c "from dcs import planes; assert hasattr(planes,'F_4E_45MC'); print('py
 
 # 5. Launch and open the browser
 echo ""
-echo "Starting DCS Mission Starter at http://127.0.0.1:8000"
+echo "Starting DCS Sortie Starter at http://127.0.0.1:8000"
 echo "Leave this window open while you use it. Ctrl+C to stop."
 ( sleep 2 && open "http://127.0.0.1:8000" ) &
 exec uvicorn server.app:app --host 127.0.0.1 --port 8000

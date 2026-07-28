@@ -17,6 +17,29 @@ guide cover.
 
 ---
 
+## [1.34.1] — 2026-07-28 — Fix: local install would not boot
+
+**The downloadable release could not start on a clean machine.** Both
+double-click launchers installed a hand-typed package list instead of
+`requirements.txt`, and that list had drifted — it never gained
+`python-multipart`, which FastAPI requires for the admin login form. On any
+computer without the package already present, the app died at import with
+`RuntimeError: Form data requires "python-multipart" to be installed`. The dev
+container had it pre-installed, so nothing caught it. Affects every release
+that shipped the admin section (1.33.0 onward).
+
+Both launchers now `pip install -r requirements.txt`, so there is one source of
+truth for runtime dependencies and no list to drift. The preflight `import`
+guard that decides whether to install at all was missing the same package, and
+now covers every requirement.
+
+Also new: **`run_windows.bat`**, a double-click launcher for Windows mirroring
+the macOS one. `package.sh` fails the build if either launcher is missing.
+
+`tests/test_launchers.py` pins all of this: both launchers ship, both install
+from `requirements.txt`, the preflight guard names every requirement, and
+`server.app` actually imports with only the declared dependencies.
+
 ## [1.34.0] — 2026-07-27 — Aircraft in the pattern
 
 New building block, **Aircraft in the pattern** (Support section, off by
