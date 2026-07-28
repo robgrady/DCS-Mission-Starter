@@ -395,6 +395,9 @@
     <p class="screenhint">Curated tactical lanes for this map &amp; era. Pick one or more to orient the threat axis and concentrate enemy air defenses &amp; CAP down the lane. None = open theater (free-fly). No player waypoints, ever.</p>
     <div class="corrgrid" id="corridors"></div></div>
   <div class="step" id="sec_basing"><h2><span class="n">3</span>Coalition &amp; basing<span class="hdrval" id="hv_basing"></span><span class="chev">▾</span></h2>
+    <div class="subcat" style="margin-top:0">Who's flying</div>
+    <div class="cards" id="flightmode"></div>
+    <input type="hidden" id="slots" value="1">
     <div class="row">
       <div><label>Your side</label><select id="coalition">
         <option value="blue">Blue</option><option value="red">Red</option></select></div>
@@ -402,7 +405,6 @@
       <div><label>Aircraft (full DCS roster)</label><select id="aircraft"></select></div>
     </div>
     <div class="row">
-      <div><label>Slots (1 = single player)</label><input type="number" id="slots" min="1" max="4" value="1"></div>
       <div><label>Start</label><select id="start"></select></div>
       <div><label>Time</label><select id="time_of_day"></select></div>
       <div><label>Weather</label><select id="weather"></select></div>
@@ -527,7 +529,9 @@
       bullseye and nav points are shared. Zones inform — they never route you.</small>
   </div>
   <div class="step" id="threatstep"><h2><span class="n">4</span>Threats<span class="hdrval" id="hv_threat"></span></h2>
-    <p class="screenhint">Air defenses plus the Threat Dial — how hard the mission pushes back.</p>
+    <p class="screenhint">Pick how hard the mission pushes back. Everything below is the manual override.</p>
+    <div class="cards" id="threatpresets"></div>
+    <div class="subcat">Fine tuning</div>
     <div class="blocks" id="tog_threat" style="margin-bottom:12px"></div>
     <div class="row">
       <div style="flex:2">
@@ -644,6 +648,178 @@ let OPT = null;
 
 function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
 
+// Minimal, no-PII demand signal (see claude/analytics-plan.md: server-side,
+// no IP, no identifiers). Fire-and-forget — a 404 or an ad-blocked request is
+// harmless and must never affect the wizard.
+function track(ev){
+  try{
+    const body = JSON.stringify({event: ev});
+    if (navigator.sendBeacon)
+      navigator.sendBeacon('/api/ev', new Blob([body], {type:'application/json'}));
+    else
+      fetch('/api/ev', {method:'POST', headers:{'Content-Type':'application/json'},
+                        body, keepalive:true}).catch(()=>{});
+  }catch(e){}
+}
+
+// ===== R1: aircraft have names, not just designations =====
+// The picker rendered raw pydcs type ids ("AV8BNA", "F_15ESE"), so people
+// scanned 75 designations looking for "the Harrier". One table, used by the
+// picker and by Library search — designation stays, the name comes with it.
+const AC_NAME = {
+  A_10A:"Warthog", A_10C:"Warthog", A_10C_2:"Warthog II",
+  AH_64D_BLK_II:"Apache", AJS37:"Viggen", AV8BNA:"Harrier",
+  Bf_109K_4:"Messerschmitt", C_101CC:"Aviojet", C_101EB:"Aviojet",
+  C_130J_30:"Super Hercules", CH_47Fbl1:"Chinook", F_100D:"Super Sabre",
+  F_14A_135_GR:"Tomcat", F_14A_135_GR_Early:"Tomcat", F_14A_95_GR:"Tomcat",
+  F_14B:"Tomcat", F_15C:"Eagle", F_15ESE:"Strike Eagle", F_16C_50:"Viper",
+  F_4E_45MC:"Phantom II", F_5E_3:"Tiger II", F_5E_3_FC:"Tiger II",
+  F_86F_FC:"Sabre", F4U_1D:"Corsair", FA_18C_hornet:"Hornet",
+  FW_190A8:"Butcher Bird", FW_190D9:"Dora", I_16:"Ishak", J_11A:"Flanker-B+",
+  JF_17:"Thunder", Ka_50:"Black Shark", Ka_50_3:"Black Shark 3",
+  L_39C:"Albatros", L_39ZA:"Albatros", La_7:"Lavochkin", M_2000C:"Mirage 2000",
+  MB_339APAN:"Frecce Tricolori", Mi_24P:"Hind", Mi_8MT:"Hip",
+  MiG_15bis:"Fagot", MiG_15bis_FC:"Fagot", MiG_19P:"Farmer",
+  MiG_21Bis:"Fishbed", MiG_29A:"Fulcrum", MiG_29G:"Fulcrum", MiG_29S:"Fulcrum",
+  Mirage_F1BE:"Mirage F1", Mirage_F1CE:"Mirage F1", Mirage_F1EE:"Mirage F1",
+  MosquitoFBMkVI:"Mosquito", OH58D:"Kiowa Warrior",
+  P_47D_30:"Thunderbolt (Jug)", P_47D_30bl1:"Thunderbolt (Jug)",
+  P_47D_40:"Thunderbolt (Jug)", P_51D:"Mustang", P_51D_30_NA:"Mustang",
+  SA342L:"Gazelle", SA342M:"Gazelle", SA342Minigun:"Gazelle",
+  SA342Mistral:"Gazelle", SpitfireLFMkIX:"Spitfire", SpitfireLFMkIXCW:"Spitfire",
+  Su_25:"Frogfoot", Su_25T:"Frogfoot", Su_27:"Flanker", Su_33:"Flanker-D",
+  TF_51D:"Mustang (two-seat)", UH_1H:"Huey",
+};
+// Picker/filter text: designation first (so the list still sorts and clusters
+// the way a pilot expects), name second.
+function acDisplay(key, id){ return AC_NAME[key] ? `${id} · ${AC_NAME[key]}` : id; }
+
+// ===== R3: "Who's flying" =====
+// Multiplayer used to hide behind a numeric "Slots" box, so nobody found it.
+// It's a card group now — same shape as Era, on the front of the Flight screen.
+// The hidden #slots input stays the DOM source of truth: recipe() reads it and
+// applyRecipe() writes it, so share links and scenario presets are untouched.
+const FLIGHT_MODES = [
+  [1, "Just me",  "Single player. Fly it solo, offline."],
+  [2, "2-ship",   "You + 1 client seat, same airframe. Host it in multiplayer."],
+  [3, "3-ship",   "You + 2 client seats, same airframe. Host it in multiplayer."],
+  [4, "4-ship",   "You + 3 client seats, same airframe. Host it in multiplayer."],
+];
+function initFlightMode(){
+  const box = document.getElementById('flightmode');
+  for (const [n, label, hint] of FLIGHT_MODES){
+    const c = el(`<div class="card" data-k="${n}"><b>${label}</b><small>${hint}</small></div>`);
+    c.onclick = ()=>{ setFlightMode(n); sum(); };
+    box.appendChild(c);
+  }
+  // Mixed flight is real demand from feedback but has no engine support yet —
+  // the builder makes ONE group of ONE airframe. Show it greyed so people stop
+  // hunting for it, and log the click as a demand signal for the flights[] work.
+  const mixed = el(`<div class="card dis" id="fm_mixed"><b>Mixed flight</b>` +
+                   `<small>Different aircraft in one flight — not yet</small></div>`);
+  mixed.style.pointerEvents = 'auto';       // .dis kills clicks; we want this one
+  mixed.style.cursor = 'not-allowed';
+  mixed.onclick = ()=>{
+    track('want_mixed_flight');
+    mixed.querySelector('small').textContent = 'Noted — logged as a vote for this';
+  };
+  box.appendChild(mixed);
+  setFlightMode(1);
+}
+function setFlightMode(n){
+  document.getElementById('slots').value = n;
+  document.querySelectorAll('#flightmode .card').forEach(c =>
+    c.classList.toggle('sel', c.dataset.k === String(n)));
+}
+function flightModeLabel(){
+  const n = +document.getElementById('slots').value || 1;
+  const m = FLIGHT_MODES.find(f=>f[0]===n);
+  return m ? m[1] : `${n}-ship`;
+}
+
+// ===== R4: threat presets =====
+// "No threats" was reachable only by knowing to untick a building block, and
+// "make it hard" meant reasoning about a 1-5 dial plus a system-level dropdown.
+// These four cards set both at once; the dial below stays as the override.
+// Sandbox also turns on strike target packages — an empty sky with nothing to
+// shoot at isn't a sandbox, it's an empty map.
+const THREAT_PRESETS = [
+  ["sandbox","Sandbox","Nothing shoots back. Targets in the enemy rear to practice on.",
+   {sams:false, intensity:1, tier:"auto", targets:true}],
+  ["light","Light","A token CAP and older SAMs. Room to make mistakes.",
+   {sams:true, intensity:2, tier:"light"}],
+  ["standard","Standard","Period-correct defenses at normal density.",
+   {sams:true, intensity:3, tier:"auto"}],
+  ["contested","Contested","Layered belts and heavy CAP. Bring a plan.",
+   {sams:true, intensity:5, tier:"heavy"}],
+];
+function initThreatPresets(){
+  const box = document.getElementById('threatpresets');
+  for (const [k,label,hint] of THREAT_PRESETS){
+    const c = el(`<div class="card" data-k="${k}"><b>${label}</b><small>${hint}</small></div>`);
+    c.onclick = ()=>applyThreatPreset(k);
+    box.appendChild(c);
+  }
+  syncThreatPreset();
+}
+function applyThreatPreset(k){
+  const p = THREAT_PRESETS.find(x=>x[0]===k); if(!p) return;
+  const v = p[3];
+  document.getElementById('bb_sams').checked = v.sams;
+  const inten = document.getElementById('threat_intensity');
+  inten.value = v.intensity; setIntensityLabel(v.intensity);
+  document.getElementById('threat_tier').value = v.tier;
+  if (v.targets) document.getElementById('bb_targets').checked = true;
+  syncThreatPreset(); sum();
+}
+// Keep the cards honest: if someone moves the dial by hand, or a share link
+// lands on a combination no preset produces, no card claims to be selected.
+function syncThreatPreset(){
+  const sams = document.getElementById('bb_sams')?.checked;
+  const inten = +document.getElementById('threat_intensity').value;
+  const tier = document.getElementById('threat_tier').value;
+  const hit = THREAT_PRESETS.find(([,,,v]) =>
+    v.sams === !!sams && (!v.sams || (v.intensity === inten && v.tier === tier)));
+  document.querySelectorAll('#threatpresets .card').forEach(c =>
+    c.classList.toggle('sel', !!hit && c.dataset.k === hit[0]));
+}
+
+// ===== R5: name the support assets =====
+// The rail used to read "6 on", which tells you nothing and makes the screen
+// un-skippable. Name what's actually on station instead.
+const SUP_NAMES = {
+  bb_tanker:"Tanker", bb_awacs:"AWACS", bb_ambient:"Ambient traffic",
+  bb_pattern:"Pattern traffic", bb_farps:"FARPs", bb_targets:"Strike targets",
+  bb_range:"Practice range", bb_comms:"Comms card", bb_briefing:"Briefing",
+  bb_kneeboard:"Kneeboard", bb_navpoints:"Nav points",
+  bb_historical_airspace:"Historical airspace",
+};
+function supportSummary(max){
+  const on = Object.keys(SUP_NAMES)
+    .filter(k=>document.getElementById(k)?.checked).map(k=>SUP_NAMES[k]);
+  if (!on.length) return "nothing on";
+  return on.length <= max ? on.join(' · ')
+                          : on.slice(0,max).join(' · ') + ` +${on.length-max}`;
+}
+// Mode-aware close-out. Telling someone to drop a 2-ship build in Missions and
+// hit Fly is wrong — at 2+ slots the builder makes client seats, so it has to
+// be hosted. Also names the on-station assets, which used to go unmentioned.
+function postGenNote(){
+  const n = +document.getElementById('slots').value || 1;
+  const side = document.getElementById('coalition').value;
+  let s = n > 1
+    ? `${n} client seats — host it (Multiplayer → New Server) or put it on your server; there's no single-player slot.`
+    : 'Single-player — put it in Saved Games\\DCS\\Missions and hit Fly.';
+  const air = [];
+  if (document.getElementById('bb_tanker')?.checked && side==='blue' && S.era!=='wwii')
+    air.push('Texaco 1-1 (tanker)');
+  if (document.getElementById('bb_awacs')?.checked && S.era!=='wwii')
+    air.push(side==='blue' ? 'Overlord 1-1 (AWACS)' : 'Overlord 1-1 (A-50 AWACS)');
+  if (air.length)
+    s += ` On station: ${air.join(' and ')} — TACAN and frequencies are on the comms card in the briefing.`;
+  return s;
+}
+
 async function init(){
   initGfxUI();
   OPT = await (await fetch('/api/options')).json();
@@ -668,6 +844,7 @@ async function init(){
       refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
     eras.appendChild(c);
   }
+  initFlightMode();
   refreshAircraft();
   for (const key of ['start','time_of_day','weather','density']){
     const s = document.getElementById(key);
@@ -678,6 +855,13 @@ async function init(){
   for (const [k,t,d,on,target] of BLOCKS){
     const box = document.getElementById(target);
     if (box) box.appendChild(el(`<label class="block"><input type="checkbox" id="${k}" ${on?'checked':''}><span><b>${t}</b><small>${d}</small></span></label>`));
+  }
+  // The rail now NAMES the support assets (R5) and the threat cards mirror the
+  // block state (R4), so every block has to keep the summary live — previously
+  // only bb_carrier/bb_pattern did, and the rail went stale.
+  for (const [k] of BLOCKS){
+    const cb = document.getElementById(k);
+    if (cb) cb.addEventListener('change', sum);
   }
   document.getElementById('bb_carrier').addEventListener('change', ()=>{ refreshCarrierUI(); updateRail(); });
   document.getElementById('bb_pattern').addEventListener('change', ()=>{ refreshPatternUI(); sum(); });
@@ -741,7 +925,8 @@ async function init(){
     setIntensityLabel(this.value); };
   document.getElementById('threat_intensity').addEventListener('change', sum);
   document.getElementById('threat_tier').onchange = sum;
-  ['aircraft','slots','seed'].forEach(id=>document.getElementById(id).onchange=sum);
+  initThreatPresets();
+  ['aircraft','seed'].forEach(id=>document.getElementById(id).onchange=sum);
   // defaults, or prefill from a share link (?r=<code>)
   const code = new URLSearchParams(location.search).get('r');
   buildRail();
@@ -769,7 +954,7 @@ function applyRecipe(r){
   document.getElementById('coalition').value = r.coalition; fillHome();
   if (r.home_airbase) document.getElementById('home').value = r.home_airbase;
   document.getElementById('aircraft').value = r.aircraft;
-  document.getElementById('slots').value = r.slots;
+  setFlightMode(r.slots);
   for (const k of ['start','time_of_day','weather','density']) document.getElementById(k).value = r[k];
   document.getElementById('seed').value = r.seed;
   for (const [k] of BLOCKS) document.getElementById(k).checked = !!r[k];
@@ -902,7 +1087,7 @@ function refreshAircraft(){
     pool = pool.filter(a=>allowed.includes(a.key));
   }
   for (const a of pool)
-    ac.appendChild(el(`<option value="${a.key}">${a.upcoming?'⏳ ':''}${a.id}${a.kind==='helicopter'?' (helo)':''}</option>`));
+    ac.appendChild(el(`<option value="${a.key}">${a.upcoming?'⏳ ':''}${acDisplay(a.key,a.id)}${a.kind==='helicopter'?' (helo)':''}</option>`));
   ac.value = [...ac.options].some(o=>o.value===prev) ? prev
            : (pool.some(a=>a.key==='FA_18C_hornet') ? 'FA_18C_hornet'
               : S.era==='wwii' ? (pool.some(a=>a.key==='P_51D')?'P_51D':'') : 'F_16C_50');
@@ -1045,9 +1230,9 @@ const SCREENS = [
       if(S.corridors&&S.corridors.length) s += ` · ${S.corridors.length} corridor${S.corridors.length>1?'s':''}`;
       return s; }},
   {key:"flight", num:2, label:"Flight", steps:["sec_basing"], val:()=>{
-      const a = document.getElementById('aircraft').selectedOptions[0];
+      const k = document.getElementById('aircraft').value;
       const h = document.getElementById('home').selectedOptions[0];
-      return a ? `${document.getElementById('coalition').value} · ${a.text.split(' (')[0]}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') : null; }},
+      return k ? `${document.getElementById('coalition').value} · ${acLabel(k)}` + (h ? ` · ${h.text.replace('⚓ ','')}` : '') + ` · ${flightModeLabel()}` : null; }},
   {key:"airfields", num:3, label:"Airfields", adv:true, steps:["dressstep"], val:()=>{
       if (!document.getElementById('bb_dressing')?.checked) return "off";
       if (typeof dressMode==='function' && dressMode()==='compose'){
@@ -1063,8 +1248,7 @@ const SCREENS = [
       const tl = t && t.selectedOptions[0] ? t.selectedOptions[0].text.split(' —')[0] : '';
       return `${lab} · ${tl}`; }},
   {key:"support", num:5, label:"Support & extras", steps:["sec_support"], val:()=>{
-      const on = BLOCKS.filter(([k,,,,tg]) => tg && tg.startsWith('sup_') && document.getElementById(k)?.checked).length;
-      return `${on} on`; }},
+      return supportSummary(3); }},
   {key:"carrier", num:6, label:"Carrier", steps:["carrierstep"],
       cond:()=>document.getElementById('bb_carrier')?.checked, val:()=>{
       const h = document.getElementById('carrier_hull').selectedOptions[0];
@@ -1400,6 +1584,7 @@ function recipe(){
 }
 function sum(){
   if(!OPT) return;
+  syncThreatPreset();
   updateRail(); saveState();
   if(!S.map||!S.era) return;
   const r = recipe();
@@ -1421,7 +1606,8 @@ document.getElementById('gen').onclick = async ()=>{
     const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'starter.miz';
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob); a.download = fname; a.click();
-    st.textContent = warn ? ('Done, with warnings: '+warn) : 'Done — check your downloads.';
+    st.textContent = (warn ? 'Done, with warnings: '+warn+' ' : 'Done — check your downloads. ')
+                     + postGenNote();
   } catch(e){ st.textContent = 'Error: '+e; }
   finally { btn.disabled = false; }
 };
@@ -1496,6 +1682,10 @@ function ownRow(t){
     : '<div class="ownrow have">✓ You own the terrain &amp; aircraft</div>';
 }
 function acLabel(key){ if(!key) return null; const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
+// R1/R2: designation + name, for the filter dropdown and the search haystack.
+// Badges and chips keep the short designation so they stay one line.
+function acLabelFull(key){ if(!key) return null;
+  const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?acDisplay(a.key,a.id):key; }
 function mapKeyOf(t){ return t.default_map || (t.maps&&t.maps[0]) || null; }
 function mapLabel(mk){ return (OPT.maps[mk]&&OPT.maps[mk].label)||mk; }
 function initLibFilters(){
@@ -1503,7 +1693,7 @@ function initLibFilters(){
   const items=libItems();
   const add=(selId,pairs)=>{const s=document.getElementById(selId);
     pairs.forEach(([k,lab])=>{const o=document.createElement('option');o.value=k;o.textContent=lab;s.appendChild(o);});};
-  add('lfAc',[...new Set(items.map(t=>t.aircraft).filter(Boolean))].map(k=>[k,acLabel(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
+  add('lfAc',[...new Set(items.map(t=>t.aircraft).filter(Boolean))].map(k=>[k,acLabelFull(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
   add('lfMap',[...new Set(items.map(mapKeyOf).filter(Boolean))].map(k=>[k,mapLabel(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
 }
 function libSort(a,b){
@@ -1707,7 +1897,11 @@ function libPasses(t){
   const ac=document.getElementById('lfAc').value; if(ac!=='all'&&t.aircraft!==ac) return false;
   const mp=document.getElementById('lfMap').value; if(mp!=='all'&&mapKeyOf(t)!==mp) return false;
   const q=(document.getElementById('lfSearch').value||'').trim().toLowerCase();
-  if(q){ const hay=((t.label||'')+' '+(t.premise||'')+' '+(acLabel(t.aircraft)||'')+' '+
+  // R2: simmers search by callsign ("Warthog", "Viper"), not by DCS type id.
+  // Fold in the popular name AND the nickname list the "What do you own?" modal
+  // already used, so the same words work everywhere in the app.
+  if(q){ const hay=((t.label||'')+' '+(t.premise||'')+' '+(acLabelFull(t.aircraft)||'')+' '+
+    (OWN_ALIAS[t.aircraft]||'')+' '+(OWN_ALIAS[mapKeyOf(t)]||'')+' '+(mapKeyOf(t)?mapLabel(mapKeyOf(t)):'')+' '+
     (t.module||'')+' '+((ROLES[t.role]||{}).label||'')).toLowerCase();
     if(!hay.includes(q)) return false; }
   if(libState.own&&libReq(t)) return false;

@@ -237,7 +237,10 @@ def health(response: Response):
     if errors:
         response.status_code = 503
     return {"ok": not errors, "version": __version__,
-            "data_pack_errors": errors, "service_data_gaps": gaps}
+            "data_pack_errors": errors, "service_data_gaps": gaps,
+            # feature-interest tallies since this process started (see /api/ev).
+            # Aggregate counts only — no identifiers, nothing per-user.
+            "signals": dict(_event_counts)}
 
 
 @app.get("/api/dl")
@@ -255,6 +258,31 @@ def api_download_by_code(r: str):
 
 class GenerateRequest(BaseModel):
     recipe: dict
+
+
+class EventRequest(BaseModel):
+    event: str
+
+
+# Demand signals only — an allowlist, so this can never become a general
+# analytics sink. Per claude/analytics-plan.md: NO IP, NO identifiers, NO PII.
+# We log a counted line and hold a process-local tally; nothing is persisted,
+# which sidesteps the ephemeral-filesystem question entirely.
+EVENTS = ("want_mixed_flight",)
+_event_counts: dict = {}
+
+
+@app.post("/api/ev")
+def api_event(req: EventRequest):
+    """Record an interest click on a feature that doesn't exist yet.
+
+    Deliberately minimal: no request body beyond the event name, nothing about
+    who sent it. Unknown names are dropped silently so a stale client (or a
+    bot) can't fill the log."""
+    if req.event in EVENTS:
+        _event_counts[req.event] = _event_counts.get(req.event, 0) + 1
+        log.info("ev %s n=%d", req.event, _event_counts[req.event])
+    return {"ok": True}
 
 
 @app.post("/api/generate")
