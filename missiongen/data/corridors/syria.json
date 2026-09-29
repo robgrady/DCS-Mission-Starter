@@ -1,0 +1,4559 @@
+{
+ "_comment": "Levant corridors (v1.102.0) - the Authentic standard map detail for the Syria map. Written by scripts/gen_syria_corridors.py; edit there. See that script's docstring for what is documented and what is curated.",
+ "map": "syria",
+ "label": "Levant corridors",
+ "fixes": {
+  "RAMAT DAVID": {
+   "lat": 32.665,
+   "lon": 35.179,
+   "short": "RAMATD",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  },
+  "ROP": {
+   "lat": 32.9825,
+   "lon": 35.57278,
+   "short": "ROP",
+   "kind": "navaid",
+   "src": "AIP Israel ENR 3.1: ROSH-PINA VOR/DME 325857N 0353422E"
+  },
+  "BARZI": {
+   "lat": 32.83636,
+   "lon": 35.54339,
+   "short": "BARZI",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (J14)",
+   "minor": true
+  },
+  "GAFAZ": {
+   "lat": 32.56222,
+   "lon": 35.29222,
+   "short": "GAFAZ",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (J14)"
+  },
+  "MOCEV": {
+   "lat": 32.4,
+   "lon": 35.06222,
+   "short": "MOCEV",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (J14)",
+   "minor": true
+  },
+  "NAT": {
+   "lat": 32.33389,
+   "lon": 34.96889,
+   "short": "NAT",
+   "kind": "navaid",
+   "src": "AIP Israel ENR 3.1: NATANIA VOR/DME 322002N 0345808E"
+  },
+  "ATLIT": {
+   "lat": 32.69778,
+   "lon": 34.91528,
+   "short": "ATLIT",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (J15)"
+  },
+  "MERVA": {
+   "lat": 32.78167,
+   "lon": 34.54389,
+   "short": "MERVA",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (P42): Nicosia arrival/departure fix"
+  },
+  "KEREN": {
+   "lat": 32.37556,
+   "lon": 34.07917,
+   "short": "KEREN",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (N134): sea entry"
+  },
+  "MUVIN": {
+   "lat": 31.82667,
+   "lon": 35.50389,
+   "short": "MUVIN",
+   "kind": "fix",
+   "src": "AIP Israel ENR 3.1 (L53): Jordan border; CARC AMDT 19/2022 314858N 0353242E"
+  },
+  "HAIFA BLOCK": {
+   "lat": 32.95,
+   "lon": 34.72,
+   "short": "HAIFABLK",
+   "kind": "gate",
+   "src": "LLR01 offshore MIL training area (AIP Israel ENR 5.1: 7,000-40,000 ft) - the sea block off Haifa",
+   "approx": true
+  },
+  "ROSH HANIKRA": {
+   "lat": 33.09,
+   "lon": 35.1,
+   "short": "R HANIKR",
+   "kind": "landmark",
+   "src": "The coast at the Lebanon border (Blue Line western end); AIP Israel ENR 2.1 FIR corner 3306N 03506E",
+   "approx": true
+  },
+  "OFF SIDON": {
+   "lat": 33.55,
+   "lon": 35.15,
+   "short": "OFFSIDON",
+   "kind": "fix",
+   "src": "1982 Mole Cricket 19: 'Kfirs and Skyhawks were along the coastline from Sidon to the outskirts of Beirut' (Wikipedia); the coast off Sidon",
+   "approx": true,
+   "minor": true
+  },
+  "OFF BEIRUT": {
+   "lat": 33.92,
+   "lon": 35.3,
+   "short": "OFFBEIRU",
+   "kind": "fix",
+   "src": "1973 GHQ raid 'headed out over the Mediterranean, before turning north towards Lebanon and then east towards Damascus'; the coast off Beirut",
+   "approx": true,
+   "minor": true
+  },
+  "OFF TRIPOLI": {
+   "lat": 34.48,
+   "lon": 35.55,
+   "short": "OFFTRIPO",
+   "kind": "fix",
+   "src": "Al Jazeera 2 Jul 2022: strike 'from across the Mediterranean, west of Lebanon's northern city of Tripoli'; Yahoo: missiles 'from the north of the Lebanese city of Tripoli'",
+   "approx": true,
+   "minor": true
+  },
+  "W TRIPOLI": {
+   "lat": 34.75,
+   "lon": 35.35,
+   "short": "WTRIPOLI",
+   "kind": "gate",
+   "src": "The sea gate west of Tripoli for the Latakia/Tartus coast (Al Jazeera 2022; TASS/TWZ 2018 'approached Latakia at low altitude from the Mediterranean')",
+   "approx": true
+  },
+  "BEKAA": {
+   "lat": 33.83333,
+   "lon": 35.91667,
+   "short": "BEKAA",
+   "kind": "landmark",
+   "src": "Zahle 33°50'N 35°55'E (Wikipedia) - the Bekaa Valley, the 1982 SAM belt",
+   "approx": true
+  },
+  "BAALBEK": {
+   "lat": 34.00634,
+   "lon": 36.20732,
+   "short": "BAALBEK",
+   "kind": "landmark",
+   "src": "Baalbek 34°0'22.81\"N 36°12'26.36\"E (Wikipedia)"
+  },
+  "RAS BAALBEK": {
+   "lat": 34.26,
+   "lon": 36.42,
+   "short": "RASBAALB",
+   "kind": "gate",
+   "src": "Anadolu 2 Nov 2017: jets 'flew at low altitude over the Lebanese border towns of Ras Baalbek and Al-Fakhah' then struck rural Homs; the town",
+   "approx": true
+  },
+  "CHTAURA": {
+   "lat": 33.81472,
+   "lon": 35.85472,
+   "short": "CHTAURA",
+   "kind": "landmark",
+   "src": "Chtaura 33°48'53\"N 35°51'17\"E (Wikipedia) - Syrian Bekaa HQ 1982; halfway on the Beirut-Damascus highway"
+  },
+  "RAYAK": {
+   "lat": 33.85222,
+   "lon": 35.99028,
+   "short": "RAYAK",
+   "kind": "landmark",
+   "src": "Rayak Air Base 33°51'08\"N 35°59'25\"E (Wikipedia)"
+  },
+  "HERMON": {
+   "lat": 33.416,
+   "lon": 35.857,
+   "short": "HERMON",
+   "kind": "gate",
+   "src": "Al Jazeera 31 Jan 2013: 'The jets entered the Syrian airspace via Mount Hermon'; 1973: 'curve away west of Mount Hermon' (GlobalSecurity MML); the summit",
+   "approx": true
+  },
+  "TIBERIAS NE": {
+   "lat": 32.9,
+   "lon": 35.7,
+   "short": "TIBERNE",
+   "kind": "fix",
+   "src": "Al Jazeera 17 Sep 2022: 'a missile fired from the air from the northeastern direction of Lake Tiberias'; the launch area",
+   "approx": true
+  },
+  "KIRYAT SHMONA": {
+   "lat": 33.22,
+   "lon": 35.6,
+   "short": "K SHMONA",
+   "kind": "landmark",
+   "src": "DCS Syria map airfield; the Hula valley"
+  },
+  "GOLAN": {
+   "lat": 33.05,
+   "lon": 35.85,
+   "short": "GOLAN",
+   "kind": "landmark",
+   "src": "Al Jazeera 24 Nov 2020: raid 'from the direction of the occupied Golan Heights'; 1973 'quick pop up over the Golan plateau' (MML)",
+   "approx": true
+  },
+  "BEN GURION": {
+   "lat": 32.01,
+   "lon": 34.88,
+   "short": "BEN GUR",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  },
+  "BGN": {
+   "lat": 32.01306,
+   "lon": 34.87528,
+   "short": "BGN",
+   "kind": "navaid",
+   "src": "AIP Israel ENR 3.1: BEN-GURION VOR/DME 320047N 0345231E",
+   "minor": true
+  },
+  "NEVATIM": {
+   "lat": 31.21,
+   "lon": 35.01,
+   "short": "NEVATIM",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  },
+  "MZD": {
+   "lat": 31.33167,
+   "lon": 35.39167,
+   "short": "MZD",
+   "kind": "navaid",
+   "src": "AIP Israel ENR 3.1: METZADA VOR/DME 311954N 0352330E",
+   "minor": true
+  },
+  "OSAMA": {
+   "lat": 31.93056,
+   "lon": 35.61833,
+   "short": "OSAMA",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (A412/L200) 315550N 0353706E"
+  },
+  "AMN01": {
+   "lat": 32.00407,
+   "lon": 36.06599,
+   "short": "AMN01",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (L200)",
+   "minor": true
+  },
+  "LOXER": {
+   "lat": 32.02993,
+   "lon": 36.38096,
+   "short": "LOXER",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (L200/L513)"
+  },
+  "LUDAN": {
+   "lat": 32.04906,
+   "lon": 36.62036,
+   "short": "LUDAN",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (A412/L200)",
+   "minor": true
+  },
+  "ASLON": {
+   "lat": 32.20306,
+   "lon": 36.85312,
+   "short": "ASLON",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (A412/L200); 'Portion ASLON-NADEK is excluded from Prohibited area OJP9' - the Azraq corridor"
+  },
+  "NADEK": {
+   "lat": 32.45778,
+   "lon": 37.24139,
+   "short": "NADEK",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (A412/L200)"
+  },
+  "DAXEN": {
+   "lat": 32.74578,
+   "lon": 37.68479,
+   "short": "DAXEN",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (A412/L200)"
+  },
+  "KUMLO": {
+   "lat": 32.96995,
+   "lon": 38.4688,
+   "short": "KUMLO",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (L200)",
+   "minor": true
+  },
+  "DAPUK": {
+   "lat": 33.02762,
+   "lon": 38.67397,
+   "short": "DAPUK",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (L200), last fix before the Baghdad FIR"
+  },
+  "ZELAF": {
+   "lat": 32.94894,
+   "lon": 37.99979,
+   "short": "ZELAF",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022: Amman/Damascus FIR boundary (A412); Syria ENR 3: ZELAF N32.95 E38.00"
+  },
+  "BUSRA": {
+   "lat": 32.33333,
+   "lon": 36.61667,
+   "short": "BUSRA",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022: Amman/Damascus FIR boundary (L513) 322000N 0363700E; Syria ENR 4.4 BUSRA N32°20'00\" E36°37'00\""
+  },
+  "LOSAR": {
+   "lat": 32.15835,
+   "lon": 36.48049,
+   "short": "LOSAR",
+   "kind": "fix",
+   "src": "CARC AMDT 19/2022 (L513)",
+   "minor": true
+  },
+  "QAA": {
+   "lat": 31.73947,
+   "lon": 36.15698,
+   "short": "QAA",
+   "kind": "navaid",
+   "src": "CARC ENR 3.1 (2007): QUEEN ALIA VOR/DME 314422.09N 0360925.12E"
+  },
+  "MUWAFFAQ SALTI": {
+   "lat": 31.83417,
+   "lon": 36.78722,
+   "short": "AZRAQ",
+   "kind": "airport",
+   "src": "Muwaffaq Salti Air Base 31°50'03\"N 036°47'14\"E (Wikipedia) - Azraq; OIR fighter base"
+  },
+  "TAN": {
+   "lat": 33.48228,
+   "lon": 38.65314,
+   "short": "TAN",
+   "kind": "navaid",
+   "src": "CARC ENR 3.1 (2007): TANF VOR/DME 332856.19786N 383911.31296E; Syria ENR 4.1 TAN N33°29' E38°39'"
+  },
+  "AT TANF": {
+   "lat": 33.50583,
+   "lon": 38.61778,
+   "short": "AT TANF",
+   "kind": "gate",
+   "src": "Al-Tanf garrison 33°30'21\"N 38°37'04\"E (Wikipedia); center of the 55-km deconfliction zone; Times of Israel 2019 / Al Jazeera 2024: strikes 'from the direction of al-Tanf'"
+  },
+  "RUKBAN": {
+   "lat": 33.31419,
+   "lon": 38.70281,
+   "short": "RUKBAN",
+   "kind": "landmark",
+   "src": "Rukban camp 33°18'51.1\"N 38°42'10.1\"E (Wikipedia), inside the DCZ"
+  },
+  "DAM": {
+   "lat": 33.41139,
+   "lon": 36.51556,
+   "short": "DAM",
+   "kind": "navaid",
+   "src": "Syria eAIP ENR 4.1: DAM DVOR/DME N33°24'41\" E36°30'56\""
+  },
+  "RDIMA": {
+   "lat": 33.03333,
+   "lon": 36.53333,
+   "short": "RDIMA",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 4.4 (L513) N33°02'00\" E36°32'00\"",
+   "minor": true
+  },
+  "LOTAX": {
+   "lat": 33.9833,
+   "lon": 36.54,
+   "short": "LOTAX",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (L513/N310) N33.9833 E36.5400",
+   "minor": true
+  },
+  "LATEB": {
+   "lat": 34.0317,
+   "lon": 36.401,
+   "short": "LATEB",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (N310): the Beirut FIR entry toward Damascus N34.0317 E36.4010",
+   "minor": true
+  },
+  "KTN": {
+   "lat": 34.21667,
+   "lon": 37.26667,
+   "short": "KTN",
+   "kind": "navaid",
+   "src": "Syria eAIP ENR 4.1: KTN VOR/DME Kariatain N34°13'00\" E37°16'00\""
+  },
+  "SALIM": {
+   "lat": 35.4958,
+   "lon": 36.3111,
+   "short": "SALIM",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (L601/W6) N35.4958 E36.3111",
+   "minor": true
+  },
+  "LUBAM": {
+   "lat": 35.6667,
+   "lon": 36.5333,
+   "short": "LUBAM",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (W6) N35.6667 E36.5333",
+   "minor": true
+  },
+  "NIKAS": {
+   "lat": 35.1933,
+   "lon": 35.7167,
+   "short": "NIKAS",
+   "kind": "gate",
+   "src": "Syria eAIP ENR 3 (R785): the Nicosia FIR entry N35.1933 E35.7167; OSLK SID NIKAS 1-J"
+  },
+  "OFF LATAKIA": {
+   "lat": 35.45,
+   "lon": 35.45,
+   "short": "OFFLATAK",
+   "kind": "fix",
+   "src": "TASS 2018: F-16s 'approached the target from the Mediterranean at a low altitude'; Il-20 lost '35 km from the Syrian coast'",
+   "approx": true
+  },
+  "TUDMU": {
+   "lat": 34.5168,
+   "lon": 38.1261,
+   "short": "TUDMU",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (B544) N34.5168 E38.1261 - Palmyra"
+  },
+  "DEZ": {
+   "lat": 35.2853,
+   "lon": 40.1756,
+   "short": "DEZ",
+   "kind": "navaid",
+   "src": "Syria eAIP ENR 3 (L572/L602) DEZ N35.2853 E40.1756"
+  },
+  "ABBAS": {
+   "lat": 33.4333,
+   "lon": 37.725,
+   "short": "ABBAS",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (G202/R785) N33.4333 E37.7250",
+   "minor": true
+  },
+  "BASSEM": {
+   "lat": 33.56,
+   "lon": 37.6517,
+   "short": "BASSEM",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (N310/R785) N33.5600 E37.6517",
+   "minor": true
+  },
+  "TABQA": {
+   "lat": 35.7823,
+   "lon": 38.5664,
+   "short": "TABQA",
+   "kind": "fix",
+   "src": "Syria eAIP ENR 3 (M861/W5) N35.7823 E38.5664"
+  },
+  "DEIR EZ-ZOR W": {
+   "lat": 35.1,
+   "lon": 39.6,
+   "short": "DEZ WEST",
+   "kind": "gate",
+   "src": "The approach to Deir ez-Zor from the Al-Tanf axis (Times of Israel 2019: strikes on Al-Bukamal 'used Jordanian airspace ... aided by ... the Tanf garrison'); the desert west of the city",
+   "approx": true
+  },
+  "AKROTIRI": {
+   "lat": 34.59037,
+   "lon": 32.98778,
+   "short": "AKROTIRI",
+   "kind": "airport",
+   "src": "UK Mil AIP LCRA: ARP N34 35 25.34 E032 59 16.01"
+  },
+  "AKR": {
+   "lat": 34.58396,
+   "lon": 33.01254,
+   "short": "AKR",
+   "kind": "navaid",
+   "src": "UK Mil AIP LCRA: TACAN AKR Ch 107X N34 35 02.25 E033 00 45.13",
+   "minor": true
+  },
+  "IREFA": {
+   "lat": 34.4175,
+   "lon": 33.41889,
+   "short": "IREFA",
+   "kind": "fix",
+   "src": "UK Mil AIP LCRA: 'Aircraft departing Akrotiri going Eastbound are to be flight planned by IREFA (N34 25 03 E033 25 08)'"
+  },
+  "ANANE": {
+   "lat": 34.29861,
+   "lon": 32.72806,
+   "short": "ANANE",
+   "kind": "fix",
+   "src": "UK Mil AIP LCRA: westbound departures 'by ANANE (N34 17 55 E032 43 41)'"
+  },
+  "MEZUS": {
+   "lat": 34.4175,
+   "lon": 32.0588,
+   "short": "MEZUS",
+   "kind": "fix",
+   "src": "UK Mil AIP LCRA SID WEST 2: MEZUS N34 25.05 E032 03.53",
+   "minor": true
+  },
+  "AKR HOLD": {
+   "lat": 34.3948,
+   "lon": 32.9548,
+   "short": "AKR HOLD",
+   "kind": "fix",
+   "src": "UK Mil AIP LCRA TAC Rwy 28: IAF/hold 'AKR 189R/11.7d (N34 23.69 E032 57.29)', FL100-FL140"
+  },
+  "LARNACA": {
+   "lat": 34.87,
+   "lon": 33.62,
+   "short": "LARNACA",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  },
+  "PAPHOS": {
+   "lat": 34.72,
+   "lon": 32.48,
+   "short": "PAPHOS",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  },
+  "INCIRLIK": {
+   "lat": 37.00333,
+   "lon": 35.43222,
+   "short": "INCIRLIK",
+   "kind": "airport",
+   "src": "AIP Türkiye LTAG AD 2: ARP 370012N-0352556E"
+  },
+  "DAN": {
+   "lat": 37.01561,
+   "lon": 35.44819,
+   "short": "DAN",
+   "kind": "navaid",
+   "src": "AIP Türkiye LTAG: TACAN DAN CH21X 370056.2N 0352653.5E",
+   "minor": true
+  },
+  "ADA": {
+   "lat": 36.94056,
+   "lon": 35.21028,
+   "short": "ADA",
+   "kind": "navaid",
+   "src": "AIP Türkiye ENR 4.4: ADANA VOR ADA 365626N-0351237E"
+  },
+  "MILBA": {
+   "lat": 36.95139,
+   "lon": 36.47944,
+   "short": "MILBA",
+   "kind": "fix",
+   "src": "AIP Türkiye ENR 4.4 (W74) 365705N-0362846E"
+  },
+  "BABLI": {
+   "lat": 36.95333,
+   "lon": 36.86306,
+   "short": "BABLI",
+   "kind": "fix",
+   "src": "AIP Türkiye ENR 4.4 (W74)",
+   "minor": true
+  },
+  "GAZ": {
+   "lat": 36.95161,
+   "lon": 37.47297,
+   "short": "GAZ",
+   "kind": "navaid",
+   "src": "AIP Türkiye ENR 4.4: GAZİANTEP VOR/DME GAZ 365705.8N 0372822.7E"
+  },
+  "NIZIP": {
+   "lat": 36.98472,
+   "lon": 37.76667,
+   "short": "NIZIP",
+   "kind": "fix",
+   "src": "AIP Türkiye ENR 4.4 (W74)",
+   "minor": true
+  },
+  "SURUC": {
+   "lat": 37.06333,
+   "lon": 38.54,
+   "short": "SURUC",
+   "kind": "fix",
+   "src": "AIP Türkiye ENR 4.4 (W74) 370348N-0383224E"
+  },
+  "OZBEY": {
+   "lat": 37.24194,
+   "lon": 39.1,
+   "short": "OZBEY",
+   "kind": "fix",
+   "src": "AIP Türkiye ENR 4.4 (W74)",
+   "minor": true
+  },
+  "ATLOM": {
+   "lat": 37.38556,
+   "lon": 39.34861,
+   "short": "ATLOM",
+   "kind": "fix",
+   "src": "AIP Türkiye ENR 4.4 (W74)",
+   "minor": true
+  },
+  "DYB": {
+   "lat": 37.87361,
+   "lon": 40.20833,
+   "short": "DYB",
+   "kind": "navaid",
+   "src": "AIP Türkiye ENR 4.4: DİYARBAKIR VOR DYB 375225N-0401230E; the Northern Watch 'ROZ over eastern Turkey' where the package refuelled (A&SF Feb 2000; Ricks/WaPo 2000)"
+  },
+  "HTY": {
+   "lat": 36.36278,
+   "lon": 36.29,
+   "short": "HTY",
+   "kind": "navaid",
+   "src": "AIP Türkiye ENR 4.4: HATAY VOR HTY 362146N-0361724E"
+  },
+  "TUNLA": {
+   "lat": 35.88333,
+   "lon": 36.03333,
+   "short": "TUNLA",
+   "kind": "gate",
+   "src": "AIP Türkiye ENR 4.4: TUNLA 355300N-0360200E, Ankara/Damascus FIR boundary (UL601) south of Hatay; Syria ENR 3 L601 TUNLA-SALIM-KTN"
+  },
+  "NISAP": {
+   "lat": 36.78444,
+   "lon": 36.64139,
+   "short": "NISAP",
+   "kind": "gate",
+   "src": "AIP Türkiye ENR 4.4: NISAP 364704N-0363829E, FIR boundary (UM861) near Kilis; Syria M861 NISAP-ALE"
+  },
+  "TUSYR": {
+   "lat": 36.64889,
+   "lon": 37.38306,
+   "short": "TUSYR",
+   "kind": "gate",
+   "src": "AIP Türkiye ENR 4.4: TUSYR 363856N-0372259E, FIR boundary (UB36) south of Gaziantep; Syria B544 ALE-TUSYR"
+  },
+  "LESRI": {
+   "lat": 37.07222,
+   "lon": 41.23028,
+   "short": "LESRI",
+   "kind": "gate",
+   "src": "AIP Türkiye ENR 4.4: LESRI 370420N-0411349E, FIR boundary (UP975/UT333) near Nusaybin; Syria L573 KML-LESRI"
+  },
+  "ALE": {
+   "lat": 36.17694,
+   "lon": 37.22472,
+   "short": "ALE",
+   "kind": "navaid",
+   "src": "Syria eAIP ENR 4.1: ALE DVOR/DME Aleppo N36°10'37\" E37°13'29\""
+  },
+  "KML": {
+   "lat": 37.0167,
+   "lon": 41.2,
+   "short": "KML",
+   "kind": "navaid",
+   "src": "Syria eAIP ENR 4.1: KML DVOR/DME Kamishly N37°01' E41°12'"
+  },
+  "GAZIANTEP": {
+   "lat": 36.95,
+   "lon": 37.48,
+   "short": "GAZIANTP",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  },
+  "HATAY": {
+   "lat": 36.36,
+   "lon": 36.28,
+   "short": "HATAY",
+   "kind": "airport",
+   "src": "DCS Syria map"
+  }
+ },
+ "corridors": [
+  {
+   "id": "il_j14",
+   "name": "J14 north - Rosh Pina",
+   "role": "departure",
+   "points": [
+    "NAT",
+    "MOCEV",
+    "GAFAZ",
+    "BARZI",
+    "ROP"
+   ],
+   "block_ft": [
+    8000,
+    24000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "The published airway north from Netanya to the Rosh Pina VOR: NAT-MOCEV-GAFAZ-BARZI-ROP. The northern sector is IDFAF ACC 'PLUTO control'."
+   ],
+   "src": "AIP Israel ENR 3.1 (J14); ENR 2.1 (northern sector, PLUTO control)",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "il_coast",
+   "name": "The coast road north",
+   "role": "departure",
+   "points": [
+    "NAT",
+    "ATLIT",
+    "HAIFA BLOCK",
+    "ROSH HANIKRA"
+   ],
+   "block_ft": [
+    7000,
+    24000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Up the coast through LLR01, the IDF/AF offshore training area (7,000-40,000 ft), to the Lebanon border at Rosh HaNikra."
+   ],
+   "src": "AIP Israel ENR 3.1 (J15 ATLIT); ENR 5.1 LLR01",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "il_bekaa",
+   "name": "The Bekaa road",
+   "role": "transit",
+   "points": [
+    "ROSH HANIKRA",
+    "OFF SIDON",
+    "BEKAA",
+    "BAALBEK",
+    "RAS BAALBEK"
+   ],
+   "block_ft": [
+    10000,
+    26000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Over Lebanon: the coast, then the Bekaa - Zahle, Baalbek - to the border towns of Ras Baalbek and Al-Fakhah, from where Homs, Masyaf and T-4 are struck. Reported low over the border 2017; stand-off from Lebanese airspace 2018."
+   ],
+   "src": "Anadolu 2 Nov 2017; Times of Israel / Defense Post 9 Apr 2018 (T-4); Times of Israel 9 Apr 2022; Wikipedia Mole Cricket 19",
+   "label_seg": 2,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "il_sea",
+   "name": "The sea road - west of Tripoli",
+   "role": "transit",
+   "points": [
+    "ROSH HANIKRA",
+    "OFF SIDON",
+    "OFF BEIRUT",
+    "OFF TRIPOLI",
+    "W TRIPOLI"
+   ],
+   "block_ft": [
+    500,
+    20000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "Offshore all the way: Sidon, Beirut, Tripoli, then the gate west of Tripoli for the Latakia and Tartus coast. 'Approached Latakia at low altitude from the Mediterranean' (2018)."
+   ],
+   "src": "TASS 18 Sep 2018; The War Zone 2018; Al Jazeera 28 Dec 2021, 2 Jul 2022",
+   "label_seg": 3,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "il_golan",
+   "name": "The Golan road - Hermon",
+   "role": "transit",
+   "points": [
+    "ROP",
+    "KIRYAT SHMONA",
+    "HERMON"
+   ],
+   "block_ft": [
+    5000,
+    22000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Rosh Pina, the Hula valley, then over Mount Hermon into the Damascus basin. 1973: low over Jordan, pop up over the Golan, away west of Hermon; 2013: 'entered the Syrian airspace via Mount Hermon'."
+   ],
+   "src": "Al Jazeera 31 Jan 2013; GlobalSecurity MML (1973); Al Jazeera 24 Nov 2020, 17 Sep 2022",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "il_amman",
+   "name": "The Amman road - Al-Tanf",
+   "role": "transit",
+   "points": [
+    "MUVIN",
+    "OSAMA",
+    "LOXER",
+    "LUDAN",
+    "ASLON",
+    "NADEK",
+    "DAXEN",
+    "KUMLO",
+    "DAPUK",
+    "AT TANF"
+   ],
+   "block_ft": [
+    12000,
+    30000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "The published L200 airway across Jordan - Amman, past Azraq, to the Iraqi corner - and the Al-Tanf deconfliction zone: 'the planes used Jordanian airspace and were aided by American forces stationed at the Tanf garrison'. The route 'enables Israeli forces to avoid Syrian early-warning radar'."
+   ],
+   "src": "CARC AMDT 19/2022 (L200); Times of Israel 9 Sep 2019; Washington Institute; Al Jazeera 20 Nov 2024",
+   "label_seg": 4,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "il_home_coast",
+   "name": "Recovery down the coast",
+   "role": "recovery",
+   "points": [
+    "ROSH HANIKRA",
+    "HAIFA BLOCK",
+    "ATLIT",
+    "NAT"
+   ],
+   "block_ft": [
+    7000,
+    20000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Back through the LLR01 block to the Netanya VOR and home; 'TEL-AVIV control' 121.4 over the water."
+   ],
+   "src": "AIP Israel ENR 2.1 / 3.1 / 5.1",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "il_home_rop",
+   "name": "Recovery via Rosh Pina",
+   "role": "recovery",
+   "points": [
+    "HERMON",
+    "ROP",
+    "GAFAZ",
+    "NAT"
+   ],
+   "block_ft": [
+    6000,
+    18000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "Off Hermon back over the Rosh Pina VOR and down J14."
+   ],
+   "src": "AIP Israel ENR 3.1 (J14)",
+   "label_seg": 2,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "il_home_amman",
+   "name": "Recovery down the Amman road",
+   "role": "recovery",
+   "points": [
+    "AT TANF",
+    "DAPUK",
+    "DAXEN",
+    "NADEK",
+    "ASLON",
+    "LOXER",
+    "OSAMA",
+    "MUVIN"
+   ],
+   "block_ft": [
+    12000,
+    30000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "L200 westbound: the Iraqi corner, Azraq, Amman, the Jordan valley at MUVIN."
+   ],
+   "src": "CARC AMDT 19/2022 (L200)",
+   "label_seg": 4,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "cy_east",
+   "name": "EAST SID 3 - IREFA",
+   "role": "departure",
+   "points": [
+    "AKROTIRI",
+    "IREFA"
+   ],
+   "block_ft": [
+    2000,
+    9000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "Runway heading, no turns before DER, direct IREFA; 'Aircraft departing Akrotiri going Eastbound are to be flight planned by IREFA'. Flamingo Ops 234.05 outbound."
+   ],
+   "src": "UK Mil AIP LCRA AD 2.22 and SID EAST 3",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "cy_west",
+   "name": "WEST SID 1 - ANANE",
+   "role": "departure",
+   "points": [
+    "AKROTIRI",
+    "ANANE"
+   ],
+   "block_ft": [
+    2000,
+    9000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "Runway heading to 580/1880 ft, then direct ANANE - the westbound and the southern-sea departure."
+   ],
+   "src": "UK Mil AIP LCRA SID WEST 1",
+   "label_seg": 0,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "cy_levant",
+   "name": "The Levant sea road",
+   "role": "transit",
+   "points": [
+    "IREFA",
+    "NIKAS"
+   ],
+   "block_ft": [
+    15000,
+    30000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "IREFA to NIKAS, the Damascus FIR entry off Latakia - across the sea south of the Il-20 position of 2018. Russian sea-closure areas off Latakia are declared by NOTAM; their polygons are not published."
+   ],
+   "src": "UK Mil AIP LCRA; Syria eAIP ENR 3 (R785 NIKAS); safeairspace Cyprus",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "cy_amman",
+   "name": "The Amman run",
+   "role": "transit",
+   "points": [
+    "IREFA",
+    "MERVA",
+    "NAT",
+    "MUVIN"
+   ],
+   "block_ft": [
+    15000,
+    30000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "IREFA to the Israeli coast at MERVA, the Netanya VOR, and the Jordan border at MUVIN - the Akrotiri-to-Iraq run 'via downtown Amman'. Continues on the Amman road to Al-Tanf."
+   ],
+   "src": "The Aviationist 5 Feb 2019 (Tornado GR4, 'via downtown Amman Jordan'); AIP Israel ENR 3.1 (MERVA, NAT, MUVIN)",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "cy_home",
+   "name": "STAR ALPHA - the TACAN",
+   "role": "recovery",
+   "points": [
+    "IREFA",
+    "AKR HOLD",
+    "AKROTIRI"
+   ],
+   "block_ft": [
+    5000,
+    14000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "From IREFA 'AKR 291 to 15.7 DME', the 13.7 DME arc; hold AKR 189R/11.7d FL100-FL140; talkdown 125.7."
+   ],
+   "src": "UK Mil AIP LCRA STAR ALPHA / TAC Rwy 28",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "tr_w74",
+   "name": "W74 east - the Northern Watch road",
+   "role": "transit",
+   "points": [
+    "ADA",
+    "MILBA",
+    "GAZ",
+    "SURUC",
+    "OZBEY",
+    "DYB"
+   ],
+   "block_ft": [
+    9500,
+    28000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "The airway east across south-east Turkey to the Diyarbakır MTMA - the 'ROZ over eastern Turkey' where the Northern Watch package topped off before turning south, the Syrian border 20 miles to the right."
+   ],
+   "src": "AIP Türkiye ENR 3.1 (W74) / ENR 4.4; A&SF Feb 2000; Ricks/WaPo 25 Oct 2000; GAO OSI-98-4",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "tr_hatay",
+   "name": "The Hatay gate - TUNLA",
+   "role": "transit",
+   "points": [
+    "ADA",
+    "HTY",
+    "TUNLA"
+   ],
+   "block_ft": [
+    9500,
+    26000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Adana VOR, Hatay VOR, then TUNLA on the FIR boundary south of Hatay - the Syrian coast and the Orontes valley (L601 TUNLA-SALIM-KTN)."
+   ],
+   "src": "AIP Türkiye ENR 4.4 (TUNLA, HTY); Syria eAIP ENR 3 (L601)",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "tr_kilis",
+   "name": "The Kilis gate - NISAP",
+   "role": "transit",
+   "points": [
+    "ADA",
+    "MILBA",
+    "NISAP"
+   ],
+   "block_ft": [
+    9500,
+    26000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "W74 to MILBA then south to NISAP on the border near Kilis; Aleppo is 40 nm beyond (M861 NISAP-ALE)."
+   ],
+   "src": "AIP Türkiye ENR 4.4 (NISAP); Syria eAIP ENR 3 (M861)",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "tr_nusaybin",
+   "name": "The Nusaybin gate - LESRI",
+   "role": "transit",
+   "points": [
+    "DYB",
+    "LESRI"
+   ],
+   "block_ft": [
+    12000,
+    28000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "From the Diyarbakır MTMA south to LESRI on the border near Nusaybin; Qamishli, Hasakah and the Euphrates beyond (L573 KML-LESRI, L572 to Deir ez-Zor)."
+   ],
+   "src": "AIP Türkiye ENR 4.4 (LESRI); Syria eAIP ENR 3 (L572/L573)",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "tr_home",
+   "name": "Recovery to Incirlik",
+   "role": "recovery",
+   "points": [
+    "MILBA",
+    "ADA",
+    "INCIRLIK"
+   ],
+   "block_ft": [
+    6000,
+    15000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Back along W74 into the Adana MTMA (50 nm, FL280 down to 2,000): İncirlik Approach 120.2, TACAN DAN Ch 21X."
+   ],
+   "src": "AIP Türkiye ENR 2.1 (Adana MTMA); LTAG AD 2",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "tr_home_east",
+   "name": "Recovery from the east - the ROZ",
+   "role": "recovery",
+   "points": [
+    "LESRI",
+    "DYB",
+    "SURUC",
+    "GAZ",
+    "MILBA",
+    "ADA",
+    "INCIRLIK"
+   ],
+   "block_ft": [
+    9500,
+    28000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "Out through LESRI, into the ROZ at Diyarbakır for gas, then W74 westbound - the Northern Watch return."
+   ],
+   "src": "A&SF Feb 2000; AIP Türkiye ENR 3.1 (W74)",
+   "label_seg": 3,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "jo_amman",
+   "name": "Amman TMA departure",
+   "role": "departure",
+   "points": [
+    "MUWAFFAQ SALTI",
+    "ASLON"
+   ],
+   "block_ft": [
+    5500,
+    15500
+   ],
+   "width_nm": 4,
+   "notes": [
+    "Out of the Amman TMA (5,500-FL155, Class C, 128.9) to ASLON on the L200/A412 corridor that OJP9 leaves open."
+   ],
+   "src": "CARC ENR 2.1 (Amman TMA); AMDT 19/2022 (ASLON-NADEK excluded from OJP9)",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "jo_tanf",
+   "name": "L200 east - Al-Tanf",
+   "role": "transit",
+   "points": [
+    "ASLON",
+    "NADEK",
+    "DAXEN",
+    "KUMLO",
+    "DAPUK",
+    "AT TANF"
+   ],
+   "block_ft": [
+    12000,
+    30000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "The Amman-Baghdad airway to the Iraqi corner, then the Al-Tanf zone: 'a 55-kilometer radius from the al-Tanf base'. Muwaffaq Salti is 'significantly closer to At Tanf than Al Dhafra'."
+   ],
+   "src": "CARC AMDT 19/2022 (L200); VOA / Military Times 2017; TWZ 2019",
+   "label_seg": 3,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "jo_busra",
+   "name": "L513 north - Busra",
+   "role": "transit",
+   "points": [
+    "QAA",
+    "LOXER",
+    "LOSAR",
+    "BUSRA"
+   ],
+   "block_ft": [
+    12000,
+    28000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The Amman-Damascus airway north to BUSRA on the FIR boundary; RDIMA and Damascus beyond (L513)."
+   ],
+   "src": "CARC AMDT 19/2022 (L513); Syria eAIP ENR 3 (L513)",
+   "label_seg": 2,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "jo_zelaf",
+   "name": "A412 - Zelaf",
+   "role": "transit",
+   "points": [
+    "ASLON",
+    "NADEK",
+    "DAXEN",
+    "ZELAF"
+   ],
+   "block_ft": [
+    12000,
+    30000
+   ],
+   "width_nm": 8,
+   "notes": [
+    "A412 to ZELAF on the FIR boundary; Palmyra (TUDMU) and the central desert beyond (B544 TAN-TUDMU-ALE)."
+   ],
+   "src": "CARC AMDT 19/2022 (A412); Syria eAIP ENR 3",
+   "label_seg": 2,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "jo_home",
+   "name": "Recovery to Azraq",
+   "role": "recovery",
+   "points": [
+    "DAPUK",
+    "DAXEN",
+    "NADEK",
+    "ASLON",
+    "MUWAFFAQ SALTI"
+   ],
+   "block_ft": [
+    10000,
+    28000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "L200 westbound into the Amman TMA."
+   ],
+   "src": "CARC AMDT 19/2022 (L200)",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "jo_home_busra",
+   "name": "Recovery via Busra",
+   "role": "recovery",
+   "points": [
+    "BUSRA",
+    "LOSAR",
+    "LOXER",
+    "MUWAFFAQ SALTI"
+   ],
+   "block_ft": [
+    10000,
+    26000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "L513 southbound, then east into the Azraq field."
+   ],
+   "src": "CARC AMDT 19/2022 (L513)",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  }
+ ],
+ "gates": {
+  "RAS BAALBEK": "Homs, Masyaf, T-4 (Tiyas) and the Hama plain - the reported launch area over north-east Lebanon",
+  "W TRIPOLI": "the Syrian coast - Latakia, Bassel Al-Assad / Khmeimim, Tartus, Baniyas",
+  "HERMON": "the Damascus basin - Mezzeh, Damascus, Marj Ruhayyil, Dumayr, Sayqal, Khalkhalah",
+  "AT TANF": "the east - Deir ez-Zor, Al-Bukamal, Palmyra - and the central desert from the south-east",
+  "HAIFA BLOCK": "the offshore training block LLR01 (7,000-40,000 ft)",
+  "NIKAS": "the Latakia coast from the sea - Khmeimim, Latakia, Bassel Al-Assad; Hama and Aleppo inland",
+  "TUNLA": "the Orontes valley - Latakia coast, Hama, Homs (L601 to Kariatain)",
+  "NISAP": "Aleppo, Minakh, Kuweires, Jirah - 40 nm south",
+  "TUSYR": "Aleppo from the north-east",
+  "LESRI": "the north-east - Qamishli, Hasakah, the Euphrates at Deir ez-Zor",
+  "BUSRA": "the Damascus basin from the south - Khalkhalah, Tha'lah, Damascus",
+  "ZELAF": "Palmyra, Tiyas / T-4, the central desert",
+  "DEIR EZ-ZOR W": "Deir ez-Zor and Al-Bukamal from the Al-Tanf axis"
+ },
+ "clusters": {
+  "israel": {
+   "label": "northern Israel (Ramat David and the Galilee fields)",
+   "fields": [
+    "Ramat David",
+    "Rosh Pina",
+    "Megiddo",
+    "Haifa",
+    "Eyn Shemer",
+    "Kiryat Shmona",
+    "Ben Gurion",
+    "Hatzor",
+    "Palmachim",
+    "Nevatim",
+    "Kedem"
+   ],
+   "center": [
+    32.665,
+    35.179
+   ],
+   "local_nm": 22,
+   "join_from_outside": false
+  },
+  "cyprus": {
+   "label": "RAF Akrotiri and the Cyprus fields",
+   "fields": [
+    "Akrotiri",
+    "Paphos",
+    "Larnaca",
+    "Kingsfield",
+    "Lakatamia",
+    "Ercan",
+    "Gecitkale",
+    "Pinarbashi"
+   ],
+   "center": [
+    34.5904,
+    32.9878
+   ],
+   "local_nm": 20,
+   "join_from_outside": false
+  },
+  "turkey": {
+   "label": "Incirlik and the Adana MTMA",
+   "fields": [
+    "Incirlik",
+    "Adana Sakirpasa",
+    "Hatay",
+    "Gaziantep",
+    "Chukurova",
+    "Kahramanmaras"
+   ],
+   "center": [
+    37.0033,
+    35.4322
+   ],
+   "local_nm": 25,
+   "join_from_outside": false
+  },
+  "jordan": {
+   "label": "Muwaffaq Salti (Azraq) and the Jordanian fields",
+   "fields": [
+    "Muwaffaq Salti",
+    "Prince Hassan",
+    "King Hussein Air College",
+    "Marka",
+    "King Abdullah II",
+    "Zarqa",
+    "Ruwayshid"
+   ],
+   "center": [
+    31.83417,
+    36.78722
+   ],
+   "local_nm": 20,
+   "join_from_outside": false
+  }
+ },
+ "sectors": {
+  "_comment": "Which corridor family a TARGET belongs to. Checked in order. Targets in Israel, Jordan, Cyprus and Turkey match no rule and get the generic route.",
+  "rules": [
+   {
+    "sector": "lebanon",
+    "when": "lat >= 33.05 and lat <= 34.75 and lon >= 35.05 and lon <= 36.0"
+   },
+   {
+    "sector": "lebanon",
+    "when": "lat >= 33.95 and lat <= 34.75 and lon >= 36.0 and lon <= 36.5"
+   },
+   {
+    "sector": "damascus",
+    "when": "lat >= 32.85 and lat <= 34.05 and lon >= 36.0 and lon <= 37.6"
+   },
+   {
+    "sector": "coast",
+    "when": "lat >= 34.3 and lat <= 36.0 and lon >= 35.3 and lon <= 36.4"
+   },
+   {
+    "sector": "north",
+    "when": "lat >= 35.6 and lat <= 37.2 and lon >= 36.4 and lon <= 38.6"
+   },
+   {
+    "sector": "east",
+    "when": "lat >= 32.9 and lat <= 37.3 and lon >= 38.5 and lon <= 42.0"
+   },
+   {
+    "sector": "central",
+    "when": "lat >= 34.0 and lat <= 35.65 and lon >= 36.35 and lon <= 38.6"
+   }
+  ],
+  "default": "none",
+  "labels": {
+   "lebanon": "the Bekaa and Lebanon",
+   "damascus": "the Damascus basin",
+   "coast": "the Syrian coast",
+   "north": "northern Syria - Aleppo and Idlib",
+   "east": "the Euphrates and the east",
+   "central": "central Syria - Homs, Hama and the desert fields",
+   "local": "local"
+  }
+ },
+ "plans": {
+  "israel": {
+   "lebanon": {
+    "low": {
+     "out": [
+      "il_coast",
+      "il_bekaa"
+     ],
+     "gate_in": "RAS BAALBEK",
+     "gate_out": "RAS BAALBEK",
+     "back": "il_home_coast"
+    }
+   },
+   "damascus": {
+    "low": {
+     "out": [
+      "il_j14",
+      "il_golan"
+     ],
+     "gate_in": "HERMON",
+     "gate_out": "HERMON",
+     "back": "il_home_rop"
+    }
+   },
+   "coast": {
+    "low": {
+     "out": [
+      "il_coast",
+      "il_sea"
+     ],
+     "gate_in": "W TRIPOLI",
+     "gate_out": "W TRIPOLI",
+     "back": "il_home_coast"
+    }
+   },
+   "central": {
+    "low": {
+     "out": [
+      "il_coast",
+      "il_bekaa"
+     ],
+     "gate_in": "RAS BAALBEK",
+     "gate_out": "RAS BAALBEK",
+     "back": "il_home_coast"
+    }
+   },
+   "north": {
+    "low": {
+     "out": [
+      "il_coast",
+      "il_sea"
+     ],
+     "gate_in": "W TRIPOLI",
+     "gate_out": "W TRIPOLI",
+     "back": "il_home_coast"
+    }
+   },
+   "east": {
+    "low": {
+     "out": [
+      "il_amman"
+     ],
+     "gate_in": "AT TANF",
+     "gate_out": "AT TANF",
+     "back": "il_home_amman"
+    }
+   }
+  },
+  "cyprus": {
+   "coast": {
+    "low": {
+     "out": [
+      "cy_east",
+      "cy_levant"
+     ],
+     "gate_in": "NIKAS",
+     "gate_out": "NIKAS",
+     "back": "cy_home"
+    }
+   },
+   "north": {
+    "low": {
+     "out": [
+      "cy_east",
+      "cy_levant"
+     ],
+     "gate_in": "NIKAS",
+     "gate_out": "NIKAS",
+     "back": "cy_home"
+    }
+   },
+   "central": {
+    "low": {
+     "out": [
+      "cy_east",
+      "cy_levant"
+     ],
+     "gate_in": "NIKAS",
+     "gate_out": "NIKAS",
+     "back": "cy_home"
+    }
+   },
+   "lebanon": {
+    "low": {
+     "out": [
+      "cy_east",
+      "cy_levant"
+     ],
+     "gate_in": "NIKAS",
+     "gate_out": "NIKAS",
+     "back": "cy_home"
+    }
+   },
+   "damascus": {
+    "low": {
+     "out": [
+      "cy_east",
+      "cy_amman",
+      "il_amman"
+     ],
+     "gate_in": "AT TANF",
+     "gate_out": "AT TANF",
+     "back": "cy_home"
+    }
+   },
+   "east": {
+    "low": {
+     "out": [
+      "cy_east",
+      "cy_amman",
+      "il_amman"
+     ],
+     "gate_in": "AT TANF",
+     "gate_out": "AT TANF",
+     "back": "cy_home"
+    }
+   }
+  },
+  "turkey": {
+   "coast": {
+    "low": {
+     "out": [
+      "tr_hatay"
+     ],
+     "gate_in": "TUNLA",
+     "gate_out": "TUNLA",
+     "back": "tr_home"
+    }
+   },
+   "central": {
+    "low": {
+     "out": [
+      "tr_hatay"
+     ],
+     "gate_in": "TUNLA",
+     "gate_out": "TUNLA",
+     "back": "tr_home"
+    }
+   },
+   "lebanon": {
+    "low": {
+     "out": [
+      "tr_hatay"
+     ],
+     "gate_in": "TUNLA",
+     "gate_out": "TUNLA",
+     "back": "tr_home"
+    }
+   },
+   "damascus": {
+    "low": {
+     "out": [
+      "tr_hatay"
+     ],
+     "gate_in": "TUNLA",
+     "gate_out": "TUNLA",
+     "back": "tr_home"
+    }
+   },
+   "north": {
+    "low": {
+     "out": [
+      "tr_kilis"
+     ],
+     "gate_in": "NISAP",
+     "gate_out": "NISAP",
+     "back": "tr_home"
+    }
+   },
+   "east": {
+    "low": {
+     "out": [
+      "tr_w74",
+      "tr_nusaybin"
+     ],
+     "gate_in": "LESRI",
+     "gate_out": "LESRI",
+     "back": "tr_home_east"
+    }
+   }
+  },
+  "jordan": {
+   "east": {
+    "low": {
+     "out": [
+      "jo_amman",
+      "jo_tanf"
+     ],
+     "gate_in": "AT TANF",
+     "gate_out": "AT TANF",
+     "back": "jo_home"
+    }
+   },
+   "central": {
+    "low": {
+     "out": [
+      "jo_amman",
+      "jo_zelaf"
+     ],
+     "gate_in": "ZELAF",
+     "gate_out": "ZELAF",
+     "back": "jo_home"
+    }
+   },
+   "north": {
+    "low": {
+     "out": [
+      "jo_amman",
+      "jo_zelaf"
+     ],
+     "gate_in": "ZELAF",
+     "gate_out": "ZELAF",
+     "back": "jo_home"
+    }
+   },
+   "damascus": {
+    "low": {
+     "out": [
+      "jo_busra"
+     ],
+     "gate_in": "BUSRA",
+     "gate_out": "BUSRA",
+     "back": "jo_home_busra"
+    }
+   },
+   "lebanon": {
+    "low": {
+     "out": [
+      "jo_busra"
+     ],
+     "gate_in": "BUSRA",
+     "gate_out": "BUSRA",
+     "back": "jo_home_busra"
+    }
+   },
+   "coast": {
+    "low": {
+     "out": [
+      "jo_busra"
+     ],
+     "gate_in": "BUSRA",
+     "gate_out": "BUSRA",
+     "back": "jo_home_busra"
+    }
+   }
+  }
+ },
+ "text": {
+  "chart_title": "LEVANT CORRIDORS",
+  "md_line": "**{summary}** — {sector}, {mode} road. Entry gate **{gate_in}** (WP1), exit at **{gate_out}**. The flight plan is threaded through the published structure - the airways, the FIR fixes and the roads the IAF is reported to fly; nobody goes direct across the border.",
+  "md_title": "Levant corridors",
+  "chart_subtitle": "The Syria map - how a flight gets from Israel, Cyprus, Turkey or Jordan to the fight and back. Airways and FIR fixes from the AIPs; the reported IAF roads; the Al-Tanf zone. Not for real-world navigation.",
+  "kneeboard_subtitle": "The Levant - your road in red",
+  "brief_page_subtitle": "The Syria map — this mission's road in red",
+  "brief_title": "LEVANT CORRIDORS - HOW YOU GET TO THE FIGHT",
+  "brief_intro": [
+   "The flight plan is threaded through the published structure - the airways and",
+   "FIR boundary fixes of the Israeli, Jordanian, Turkish, Cypriot and Syrian AIPs -",
+   "and the roads the IAF is reported to fly: over the Bekaa, west of Tripoli, over",
+   "Hermon, via Al-Tanf. Israel's northern sector is PLUTO control; Jordan's Amman",
+   "TMA is Class C; Incirlik's MTMA is 50 nm; NATO's Akrotiri talks to Flamingo Ops."
+  ],
+  "brief_sources": [
+   "Sources: AIP Israel ENR 2.1/3.1/5.1; CARC Jordan ENR 2.1/3.1 and AMDT 19/2022; AIP",
+   "Turkiye ENR 2.1/3.1/4.4/5.1; UK Mil AIP LCRA; Syria GACA eAIP ENR 3/4; press",
+   "reporting of IAF strikes 2013-2024 (Al Jazeera, Times of Israel, TASS, TWZ, Anadolu);",
+   "GlobalSecurity MML (1973); Wikipedia (Mole Cricket 19, Al-Tanf)."
+  ],
+  "known_issues": [
+   "DCS draws no airways or FIR boundaries; the corridors and gates on the F10 map are ours, from the published structure. The AI controllers do not know PLUTO, Flamingo Ops or the Amman TMA exist."
+  ],
+  "sources_line": "AIP Israel · CARC Jordan · AIP Türkiye · UK Mil AIP LCRA · Syria GACA eAIP · Al Jazeera / ToI / TASS / TWZ 2013-2024 · GlobalSecurity MML 1973 · Wikipedia",
+  "legend": [
+   "Restricted area: navy, hatched (Israel's LLR training blocks, the Negev ranges; LLP prohibited areas cross-hatched). Control area / CTR: thin dashed blue. Firing area: dashed magenta. Deconfliction zone / line: dashed amber.",
+   "Gate ring = the entry/exit point of a road. Fix triangle = a published fix (AIP). ~ = curated: a reported road placed on the named town or summit, or an outline merged/approximated. Coast and borders are schematic."
+  ]
+ },
+ "chart": {
+  "bounds": {
+   "lat": [
+    30.9,
+    38.2
+   ],
+   "lon": [
+    31.8,
+    41.6
+   ]
+  },
+  "sea": true,
+  "land": [
+   [
+    [
+     31.55,
+     31.5
+    ],
+    [
+     31.3,
+     32.3
+    ],
+    [
+     31.1,
+     33.2
+    ],
+    [
+     31.1,
+     33.9
+    ],
+    [
+     31.25,
+     34.27
+    ],
+    [
+     31.5,
+     34.45
+    ],
+    [
+     31.8,
+     34.63
+    ],
+    [
+     32.08,
+     34.77
+    ],
+    [
+     32.48,
+     34.88
+    ],
+    [
+     32.82,
+     34.96
+    ],
+    [
+     32.92,
+     35.07
+    ],
+    [
+     33.09,
+     35.1
+    ],
+    [
+     33.27,
+     35.19
+    ],
+    [
+     33.56,
+     35.37
+    ],
+    [
+     33.9,
+     35.48
+    ],
+    [
+     34.12,
+     35.65
+    ],
+    [
+     34.43,
+     35.83
+    ],
+    [
+     34.65,
+     35.98
+    ],
+    [
+     34.89,
+     35.88
+    ],
+    [
+     35.18,
+     35.95
+    ],
+    [
+     35.52,
+     35.78
+    ],
+    [
+     35.85,
+     35.85
+    ],
+    [
+     36.08,
+     35.93
+    ],
+    [
+     36.4,
+     35.87
+    ],
+    [
+     36.58,
+     36.17
+    ],
+    [
+     36.75,
+     36.1
+    ],
+    [
+     36.72,
+     35.6
+    ],
+    [
+     36.55,
+     35.38
+    ],
+    [
+     36.72,
+     34.9
+    ],
+    [
+     36.8,
+     34.63
+    ],
+    [
+     36.6,
+     34.3
+    ],
+    [
+     36.3,
+     33.95
+    ],
+    [
+     36.05,
+     32.83
+    ],
+    [
+     36.27,
+     32.32
+    ],
+    [
+     36.54,
+     32.0
+    ],
+    [
+     36.6,
+     31.5
+    ],
+    [
+     38.5,
+     31.5
+    ],
+    [
+     38.5,
+     42.0
+    ],
+    [
+     30.5,
+     42.0
+    ],
+    [
+     30.5,
+     31.5
+    ]
+   ],
+   [
+    [
+     34.77,
+     32.42
+    ],
+    [
+     34.63,
+     32.65
+    ],
+    [
+     34.57,
+     32.95
+    ],
+    [
+     34.68,
+     33.04
+    ],
+    [
+     34.75,
+     33.3
+    ],
+    [
+     34.92,
+     33.63
+    ],
+    [
+     34.96,
+     34.08
+    ],
+    [
+     35.12,
+     33.94
+    ],
+    [
+     35.34,
+     34.0
+    ],
+    [
+     35.69,
+     34.58
+    ],
+    [
+     35.55,
+     34.2
+    ],
+    [
+     35.34,
+     33.32
+    ],
+    [
+     35.4,
+     32.92
+    ],
+    [
+     35.2,
+     32.95
+    ],
+    [
+     35.15,
+     32.57
+    ],
+    [
+     35.1,
+     32.28
+    ],
+    [
+     34.9,
+     32.3
+    ],
+    [
+     34.77,
+     32.42
+    ]
+   ]
+  ],
+  "page": [
+   1800,
+   1040
+  ],
+  "panel_cols": 2,
+  "panel_col_frac": 0.44,
+  "overview_title": "THEATRE OVERVIEW",
+  "hide_fixes": [
+   "RAMAT DAVID",
+   "BEN GURION",
+   "NEVATIM",
+   "AKROTIRI",
+   "INCIRLIK",
+   "LARNACA",
+   "PAPHOS",
+   "GAZIANTEP",
+   "HATAY",
+   "MUWAFFAQ SALTI"
+  ],
+  "overview_landmarks": [
+   "ROSH HANIKRA",
+   "BAALBEK"
+  ],
+  "labels": {
+   "cy_amman": {
+    "seg": 0,
+    "off": [
+     0,
+     1
+    ]
+   },
+   "il_amman": {
+    "seg": 6,
+    "off": [
+     0,
+     1
+    ],
+    "nudge": [
+     30,
+     6
+    ]
+   },
+   "jo_tanf": {
+    "hide": true
+   },
+   "il_golan": {
+    "hide": true
+   },
+   "jo_busra": {
+    "hide": true
+   },
+   "jo_zelaf": {
+    "hide": true
+   },
+   "il_bekaa": {
+    "seg": 3,
+    "off": [
+     -1,
+     0
+    ]
+   }
+  },
+  "areas": [
+   {
+    "id": "LLR01",
+    "kind": "restricted",
+    "label": "LLR01\nIDF/AF OFFSHORE TRAINING",
+    "alt": "7,000-40,000 ft",
+    "poly": [
+     [
+      33.08639,
+      34.91528
+     ],
+     [
+      32.89889,
+      34.91639
+     ],
+     [
+      32.44056,
+      34.77472
+     ],
+     [
+      32.49889,
+      34.44139
+     ],
+     [
+      32.64361,
+      34.32389
+     ],
+     [
+      32.6314,
+      34.3068
+     ],
+     [
+      32.6661,
+      34.3634
+     ],
+     [
+      32.6971,
+      34.423
+     ],
+     [
+      32.7241,
+      34.4851
+     ],
+     [
+      32.7471,
+      34.5495
+     ],
+     [
+      32.7659,
+      34.6158
+     ],
+     [
+      32.7804,
+      34.6835
+     ],
+     [
+      32.74778,
+      34.54694
+     ],
+     [
+      32.77667,
+      34.54333
+     ],
+     [
+      32.86333,
+      34.56167
+     ],
+     [
+      33.08833,
+      34.60833
+     ],
+     [
+      33.1,
+      34.71667
+     ]
+    ],
+    "label_at": [
+     32.55,
+     34.4
+    ],
+    "src": "AIP Israel ENR 5.1 (AIRAC 2025-10-02)"
+   },
+   {
+    "id": "LLR02",
+    "kind": "restricted",
+    "label": "LLR02\nIDF/AF TRAINING",
+    "alt": "5,000-FL400 H24",
+    "poly": [
+     [
+      31.70389,
+      34.45306
+     ],
+     [
+      31.41611,
+      34.18417
+     ],
+     [
+      31.40222,
+      34.17167
+     ],
+     [
+      31.84306,
+      33.97722
+     ],
+     [
+      32.0824,
+      33.9552
+     ],
+     [
+      32.1187,
+      33.96
+     ],
+     [
+      32.1547,
+      33.9667
+     ],
+     [
+      32.1904,
+      33.9754
+     ],
+     [
+      32.00278,
+      33.95528
+     ],
+     [
+      31.98611,
+      34.08361
+     ],
+     [
+      31.87806,
+      34.26889
+     ]
+    ],
+    "label_at": [
+     31.75,
+     34.05
+    ],
+    "src": "AIP Israel ENR 5.1"
+   },
+   {
+    "id": "LLP19",
+    "kind": "restricted_box",
+    "label": "LLP19\nGAZA - PROHIBITED",
+    "alt": "GND-UNL",
+    "poly": [
+     [
+      31.6494,
+      34.4881
+     ],
+     [
+      31.5725,
+      34.6194
+     ],
+     [
+      31.4917,
+      34.6033
+     ],
+     [
+      31.4092,
+      34.5383
+     ],
+     [
+      31.3333,
+      34.4694
+     ],
+     [
+      31.2597,
+      34.4139
+     ],
+     [
+      31.1731,
+      34.2839
+     ],
+     [
+      31.1897,
+      34.2361
+     ],
+     [
+      31.3425,
+      34.1958
+     ],
+     [
+      31.4625,
+      34.2875
+     ],
+     [
+      31.6494,
+      34.4881
+     ]
+    ],
+    "label_at": [
+     31.42,
+     34.15
+    ],
+    "src": "AIP Israel ENR 5.1"
+   },
+   {
+    "id": "LLP15",
+    "kind": "restricted_box",
+    "label": "LLP15\nDIMONA - PROHIBITED",
+    "alt": "GND-UNL",
+    "poly": [
+     [
+      31.0497,
+      35.1803
+     ],
+     [
+      31.0311,
+      35.1958
+     ],
+     [
+      30.9403,
+      35.1458
+     ],
+     [
+      30.9428,
+      35.1139
+     ],
+     [
+      30.9719,
+      35.0742
+     ],
+     [
+      31.0164,
+      35.0653
+     ],
+     [
+      31.0367,
+      35.0972
+     ],
+     [
+      31.0381,
+      35.1422
+     ]
+    ],
+    "label_at": [
+     30.9,
+     35.3
+    ],
+    "src": "AIP Israel ENR 5.1"
+   },
+   {
+    "id": "LLR83",
+    "kind": "restricted",
+    "label": "LLR83\nJORDAN VALLEY MIL",
+    "alt": "GND-11,000",
+    "poly": [
+     [
+      32.55056,
+      35.34833
+     ],
+     [
+      32.51194,
+      35.47167
+     ],
+     [
+      32.08389,
+      35.445
+     ],
+     [
+      32.18833,
+      35.22917
+     ],
+     [
+      32.26111,
+      35.04889
+     ],
+     [
+      32.29056,
+      35.05667
+     ],
+     [
+      32.37611,
+      35.15139
+     ]
+    ],
+    "label_at": [
+     31.95,
+     35.45
+    ],
+    "src": "AIP Israel ENR 5.1"
+   },
+   {
+    "id": "NEGEV",
+    "kind": "restricted",
+    "label": "LLR36 / 500-series / 801-805\nNEGEV RANGES",
+    "alt": "GND-14,500 (LLR36 UNL)",
+    "approx": true,
+    "poly": [
+     [
+      31.19,
+      34.33
+     ],
+     [
+      31.21,
+      34.48
+     ],
+     [
+      31.0,
+      34.75
+     ],
+     [
+      30.79,
+      34.98
+     ],
+     [
+      30.5,
+      34.93
+     ],
+     [
+      30.33,
+      35.04
+     ],
+     [
+      30.34,
+      34.82
+     ],
+     [
+      30.62,
+      34.68
+     ],
+     [
+      30.63,
+      34.47
+     ],
+     [
+      30.92,
+      34.44
+     ]
+    ],
+    "label_at": [
+     30.65,
+     34.35
+    ],
+    "src": "AIP Israel ENR 5.1 (LLR36, LLR500-618, LLR801-805) - merged outline"
+   },
+   {
+    "id": "AMMAN TMA",
+    "kind": "tma",
+    "label": "AMMAN TMA",
+    "alt": "5,500-FL155 Class C",
+    "poly": [
+     [
+      32.06556,
+      35.86639
+     ],
+     [
+      32.06556,
+      36.18306
+     ],
+     [
+      32.17389,
+      36.46639
+     ],
+     [
+      32.07389,
+      36.61639
+     ],
+     [
+      31.88222,
+      36.42472
+     ],
+     [
+      31.21556,
+      36.58306
+     ],
+     [
+      31.13222,
+      35.91639
+     ],
+     [
+      31.71556,
+      35.71639
+     ]
+    ],
+    "label_at": [
+     31.45,
+     36.15
+    ],
+    "src": "CARC ENR 2.1 (AMDT 45/2007)"
+   },
+   {
+    "id": "BEIRUT CTR",
+    "kind": "tma",
+    "label": "BEIRUT CTR",
+    "alt": "SFC-4,000, 20 NM",
+    "poly": [
+     [
+      34.1408,
+      35.486
+     ],
+     [
+      34.1294,
+      35.5898
+     ],
+     [
+      34.0961,
+      35.6866
+     ],
+     [
+      34.0431,
+      35.7696
+     ],
+     [
+      33.9741,
+      35.8334
+     ],
+     [
+      33.8937,
+      35.8735
+     ],
+     [
+      33.8074,
+      35.8871
+     ],
+     [
+      33.7211,
+      35.8735
+     ],
+     [
+      33.6408,
+      35.8334
+     ],
+     [
+      33.5717,
+      35.7696
+     ],
+     [
+      33.5187,
+      35.6866
+     ],
+     [
+      33.4854,
+      35.5898
+     ],
+     [
+      33.4741,
+      35.486
+     ],
+     [
+      33.4854,
+      35.3821
+     ],
+     [
+      33.5187,
+      35.2854
+     ],
+     [
+      33.5717,
+      35.2023
+     ],
+     [
+      33.6408,
+      35.1386
+     ],
+     [
+      33.7211,
+      35.0985
+     ],
+     [
+      33.8074,
+      35.0848
+     ],
+     [
+      33.8937,
+      35.0985
+     ],
+     [
+      33.9741,
+      35.1386
+     ],
+     [
+      34.0431,
+      35.2023
+     ],
+     [
+      34.0961,
+      35.2854
+     ],
+     [
+      34.1294,
+      35.3821
+     ]
+    ],
+    "label_at": [
+     33.95,
+     34.95
+    ],
+    "src": "DGCA Lebanon AD 2 OLBA (IVAO mirror): circle 20 NM on KAD VOR"
+   },
+   {
+    "id": "LATAKIA CTR",
+    "kind": "tma",
+    "label": "LATAKIA CTR",
+    "alt": "15 NM · 119.9",
+    "poly": [
+     [
+      35.7303,
+      35.9422
+     ],
+     [
+      35.7218,
+      36.0217
+     ],
+     [
+      35.6968,
+      36.0957
+     ],
+     [
+      35.6571,
+      36.1593
+     ],
+     [
+      35.6053,
+      36.2081
+     ],
+     [
+      35.545,
+      36.2388
+     ],
+     [
+      35.4803,
+      36.2492
+     ],
+     [
+      35.4156,
+      36.2388
+     ],
+     [
+      35.3553,
+      36.2081
+     ],
+     [
+      35.3035,
+      36.1593
+     ],
+     [
+      35.2638,
+      36.0957
+     ],
+     [
+      35.2388,
+      36.0217
+     ],
+     [
+      35.2303,
+      35.9422
+     ],
+     [
+      35.2388,
+      35.8628
+     ],
+     [
+      35.2638,
+      35.7887
+     ],
+     [
+      35.3035,
+      35.7251
+     ],
+     [
+      35.3553,
+      35.6763
+     ],
+     [
+      35.4156,
+      35.6457
+     ],
+     [
+      35.4803,
+      35.6352
+     ],
+     [
+      35.545,
+      35.6457
+     ],
+     [
+      35.6053,
+      35.6763
+     ],
+     [
+      35.6571,
+      35.7251
+     ],
+     [
+      35.6968,
+      35.7887
+     ],
+     [
+      35.7218,
+      35.8628
+     ]
+    ],
+    "label_at": [
+     35.85,
+     35.1
+    ],
+    "src": "Syria eAIP ENR 2.1"
+   },
+   {
+    "id": "DCZ",
+    "kind": "zone",
+    "label": "AL-TANF DECONFLICTION ZONE",
+    "alt": "55 km radius",
+    "poly": [
+     [
+      34.0008,
+      38.6178
+     ],
+     [
+      33.9933,
+      38.7209
+     ],
+     [
+      33.9709,
+      38.8208
+     ],
+     [
+      33.9345,
+      38.9146
+     ],
+     [
+      33.885,
+      38.9993
+     ],
+     [
+      33.824,
+      39.0725
+     ],
+     [
+      33.7533,
+      39.1319
+     ],
+     [
+      33.6751,
+      39.1756
+     ],
+     [
+      33.5918,
+      39.2024
+     ],
+     [
+      33.5058,
+      39.2114
+     ],
+     [
+      33.4199,
+      39.2024
+     ],
+     [
+      33.3365,
+      39.1756
+     ],
+     [
+      33.2583,
+      39.1319
+     ],
+     [
+      33.1877,
+      39.0725
+     ],
+     [
+      33.1267,
+      38.9993
+     ],
+     [
+      33.0772,
+      38.9146
+     ],
+     [
+      33.0407,
+      38.8208
+     ],
+     [
+      33.0184,
+      38.7209
+     ],
+     [
+      33.0109,
+      38.6178
+     ],
+     [
+      33.0184,
+      38.5147
+     ],
+     [
+      33.0407,
+      38.4148
+     ],
+     [
+      33.0772,
+      38.321
+     ],
+     [
+      33.1267,
+      38.2362
+     ],
+     [
+      33.1877,
+      38.1631
+     ],
+     [
+      33.2583,
+      38.1037
+     ],
+     [
+      33.3365,
+      38.06
+     ],
+     [
+      33.4199,
+      38.0332
+     ],
+     [
+      33.5058,
+      38.0242
+     ],
+     [
+      33.5918,
+      38.0332
+     ],
+     [
+      33.6751,
+      38.06
+     ],
+     [
+      33.7533,
+      38.1037
+     ],
+     [
+      33.824,
+      38.1631
+     ],
+     [
+      33.885,
+      38.2362
+     ],
+     [
+      33.9345,
+      38.321
+     ],
+     [
+      33.9709,
+      38.4148
+     ],
+     [
+      33.9933,
+      38.5147
+     ]
+    ],
+    "label_at": [
+     33.85,
+     38.62
+    ],
+    "src": "Wikipedia Al-Tanf; VOA / Military Times 2017; TASS 2019"
+   },
+   {
+    "id": "ADANA MTMA",
+    "kind": "tma",
+    "label": "ADANA MTMA",
+    "alt": "2,000-FL280 · İncirlik App 120.2",
+    "poly": [
+     [
+      37.8322,
+      35.4331
+     ],
+     [
+      37.8196,
+      35.6142
+     ],
+     [
+      37.782,
+      35.7899
+     ],
+     [
+      37.7206,
+      35.9548
+     ],
+     [
+      37.6373,
+      36.1038
+     ],
+     [
+      37.5345,
+      36.2324
+     ],
+     [
+      37.4156,
+      36.3367
+     ],
+     [
+      37.2839,
+      36.4136
+     ],
+     [
+      37.1436,
+      36.4606
+     ],
+     [
+      36.9989,
+      36.4765
+     ],
+     [
+      36.8542,
+      36.4606
+     ],
+     [
+      36.7139,
+      36.4136
+     ],
+     [
+      36.5822,
+      36.3367
+     ],
+     [
+      36.4632,
+      36.2324
+     ],
+     [
+      36.3605,
+      36.1038
+     ],
+     [
+      36.2772,
+      35.9548
+     ],
+     [
+      36.2158,
+      35.7899
+     ],
+     [
+      36.1782,
+      35.6142
+     ],
+     [
+      36.1656,
+      35.4331
+     ],
+     [
+      36.1782,
+      35.2519
+     ],
+     [
+      36.2158,
+      35.0762
+     ],
+     [
+      36.2772,
+      34.9113
+     ],
+     [
+      36.3605,
+      34.7624
+     ],
+     [
+      36.4632,
+      34.6337
+     ],
+     [
+      36.5822,
+      34.5294
+     ],
+     [
+      36.7139,
+      34.4526
+     ],
+     [
+      36.8542,
+      34.4055
+     ],
+     [
+      36.9989,
+      34.3896
+     ],
+     [
+      37.1436,
+      34.4055
+     ],
+     [
+      37.2839,
+      34.4526
+     ],
+     [
+      37.4156,
+      34.5294
+     ],
+     [
+      37.5345,
+      34.6337
+     ],
+     [
+      37.6373,
+      34.7624
+     ],
+     [
+      37.7206,
+      34.9113
+     ],
+     [
+      37.782,
+      35.0762
+     ],
+     [
+      37.8196,
+      35.2519
+     ]
+    ],
+    "label_at": [
+     37.65,
+     35.85
+    ],
+    "src": "AIP Türkiye ENR 2.1"
+   },
+   {
+    "id": "DIYARBAKIR MTMA",
+    "kind": "tma",
+    "label": "DİYARBAKIR MTMA\nthe Northern Watch ROZ",
+    "alt": "3,300-FL280",
+    "poly": [
+     [
+      38.6872,
+      40.2156
+     ],
+     [
+      38.6746,
+      40.3988
+     ],
+     [
+      38.637,
+      40.5765
+     ],
+     [
+      38.5756,
+      40.7433
+     ],
+     [
+      38.4923,
+      40.894
+     ],
+     [
+      38.3895,
+      41.0241
+     ],
+     [
+      38.2706,
+      41.1296
+     ],
+     [
+      38.1389,
+      41.2073
+     ],
+     [
+      37.9986,
+      41.2549
+     ],
+     [
+      37.8539,
+      41.271
+     ],
+     [
+      37.7092,
+      41.2549
+     ],
+     [
+      37.5689,
+      41.2073
+     ],
+     [
+      37.4372,
+      41.1296
+     ],
+     [
+      37.3182,
+      41.0241
+     ],
+     [
+      37.2155,
+      40.894
+     ],
+     [
+      37.1322,
+      40.7433
+     ],
+     [
+      37.0708,
+      40.5765
+     ],
+     [
+      37.0332,
+      40.3988
+     ],
+     [
+      37.0206,
+      40.2156
+     ],
+     [
+      37.0332,
+      40.0323
+     ],
+     [
+      37.0708,
+      39.8546
+     ],
+     [
+      37.1322,
+      39.6879
+     ],
+     [
+      37.2155,
+      39.5372
+     ],
+     [
+      37.3182,
+      39.4071
+     ],
+     [
+      37.4372,
+      39.3015
+     ],
+     [
+      37.5689,
+      39.2238
+     ],
+     [
+      37.7092,
+      39.1762
+     ],
+     [
+      37.8539,
+      39.1601
+     ],
+     [
+      37.9986,
+      39.1762
+     ],
+     [
+      38.1389,
+      39.2238
+     ],
+     [
+      38.2706,
+      39.3015
+     ],
+     [
+      38.3895,
+      39.4071
+     ],
+     [
+      38.4923,
+      39.5372
+     ],
+     [
+      38.5756,
+      39.6879
+     ],
+     [
+      38.637,
+      39.8546
+     ],
+     [
+      38.6746,
+      40.0323
+     ]
+    ],
+    "label_at": [
+     38.12,
+     39.95
+    ],
+    "src": "AIP Türkiye ENR 2.1; A&SF Feb 2000 (ROZ over eastern Turkey)"
+   },
+   {
+    "id": "GAZIANTEP TMA",
+    "kind": "tma",
+    "label": "GAZİANTEP TMA",
+    "alt": "3,500-FL240",
+    "poly": [
+     [
+      37.1989,
+      37.4664
+     ],
+     [
+      37.1904,
+      37.5474
+     ],
+     [
+      37.1654,
+      37.6228
+     ],
+     [
+      37.1257,
+      37.6876
+     ],
+     [
+      37.0739,
+      37.7373
+     ],
+     [
+      37.0136,
+      37.7686
+     ],
+     [
+      36.9489,
+      37.7792
+     ],
+     [
+      36.8842,
+      37.7686
+     ],
+     [
+      36.8239,
+      37.7373
+     ],
+     [
+      36.7721,
+      37.6876
+     ],
+     [
+      36.7324,
+      37.6228
+     ],
+     [
+      36.7074,
+      37.5474
+     ],
+     [
+      36.6989,
+      37.4664
+     ],
+     [
+      36.7074,
+      37.3854
+     ],
+     [
+      36.7324,
+      37.31
+     ],
+     [
+      36.7721,
+      37.2452
+     ],
+     [
+      36.8239,
+      37.1955
+     ],
+     [
+      36.8842,
+      37.1642
+     ],
+     [
+      36.9489,
+      37.1536
+     ],
+     [
+      37.0136,
+      37.1642
+     ],
+     [
+      37.0739,
+      37.1955
+     ],
+     [
+      37.1257,
+      37.2452
+     ],
+     [
+      37.1654,
+      37.31
+     ],
+     [
+      37.1904,
+      37.3854
+     ]
+    ],
+    "label_at": [
+     37.22,
+     37.47
+    ],
+    "src": "AIP Türkiye LTAJ AD 2"
+   },
+   {
+    "id": "LTD13",
+    "kind": "moa",
+    "label": "LTD13 ADANA\nair-to-air firing",
+    "alt": "MSL-35,000 by NOTAM",
+    "poly": [
+     [
+      36.43333,
+      35.48333
+     ],
+     [
+      36.28333,
+      35.4
+     ],
+     [
+      36.53333,
+      34.7
+     ],
+     [
+      36.66667,
+      34.86667
+     ]
+    ],
+    "label_at": [
+     36.3,
+     34.95
+    ],
+    "src": "AIP Türkiye ENR 5.1"
+   },
+   {
+    "id": "ARFA",
+    "kind": "tma",
+    "label": "AKROTIRI ARFA",
+    "alt": "SFC-3,000",
+    "poly": [
+     [
+      34.57028,
+      33.19056
+     ],
+     [
+      34.65722,
+      32.87111
+     ],
+     [
+      34.51417,
+      32.81417
+     ],
+     [
+      34.4384,
+      32.9216
+     ],
+     [
+      34.4628,
+      32.8676
+     ],
+     [
+      34.4994,
+      32.825
+     ],
+     [
+      34.5449,
+      32.7977
+     ],
+     [
+      34.595,
+      32.7884
+     ],
+     [
+      34.6451,
+      32.7977
+     ],
+     [
+      34.6906,
+      32.825
+     ],
+     [
+      34.7272,
+      32.8676
+     ],
+     [
+      34.7516,
+      32.9216
+     ]
+    ],
+    "label_at": [
+     34.05,
+     33.3
+    ],
+    "src": "UK Mil AIP LCRA"
+   },
+   {
+    "id": "LCD47",
+    "kind": "moa",
+    "label": "LCD47 SOTIA\nRAF/CNG military flying",
+    "alt": "SFC-FL280 by NOTAM",
+    "approx": true,
+    "poly": [
+     [
+      34.65,
+      33.017
+     ],
+     [
+      34.638,
+      33.1551
+     ],
+     [
+      34.6025,
+      33.2872
+     ],
+     [
+      34.545,
+      33.4074
+     ],
+     [
+      34.468,
+      33.5106
+     ],
+     [
+      34.375,
+      33.5922
+     ],
+     [
+      34.27,
+      33.6487
+     ],
+     [
+      34.1575,
+      33.6776
+     ],
+     [
+      34.0425,
+      33.6776
+     ],
+     [
+      33.93,
+      33.6487
+     ],
+     [
+      33.825,
+      33.5922
+     ],
+     [
+      33.732,
+      33.5106
+     ],
+     [
+      33.655,
+      33.4074
+     ],
+     [
+      33.5975,
+      33.2872
+     ],
+     [
+      33.562,
+      33.1551
+     ],
+     [
+      33.55,
+      33.017
+     ],
+     [
+      33.562,
+      32.8789
+     ],
+     [
+      33.5975,
+      32.7468
+     ],
+     [
+      33.655,
+      32.6266
+     ],
+     [
+      33.732,
+      32.5234
+     ],
+     [
+      33.825,
+      32.4418
+     ],
+     [
+      33.93,
+      32.3853
+     ],
+     [
+      34.0425,
+      32.3564
+     ],
+     [
+      34.1575,
+      32.3564
+     ],
+     [
+      34.27,
+      32.3853
+     ],
+     [
+      34.375,
+      32.4418
+     ],
+     [
+      34.468,
+      32.5234
+     ],
+     [
+      34.545,
+      32.6266
+     ],
+     [
+      34.6025,
+      32.7468
+     ],
+     [
+      34.638,
+      32.8789
+     ]
+    ],
+    "label_at": [
+     33.7,
+     33.0
+    ],
+    "src": "NOTAM LCCC Q-line 3406N03301E033 (a 33-NM circle; the polygon is not published)"
+   }
+  ],
+  "lines": [
+   {
+    "kind": "coast",
+    "name": "Levant coast",
+    "pts": [
+     [
+      31.25,
+      34.27
+     ],
+     [
+      31.5,
+      34.45
+     ],
+     [
+      31.8,
+      34.63
+     ],
+     [
+      32.08,
+      34.77
+     ],
+     [
+      32.48,
+      34.88
+     ],
+     [
+      32.82,
+      34.96
+     ],
+     [
+      32.92,
+      35.07
+     ],
+     [
+      33.09,
+      35.1
+     ],
+     [
+      33.27,
+      35.19
+     ],
+     [
+      33.56,
+      35.37
+     ],
+     [
+      33.9,
+      35.48
+     ],
+     [
+      34.12,
+      35.65
+     ],
+     [
+      34.43,
+      35.83
+     ],
+     [
+      34.65,
+      35.98
+     ],
+     [
+      34.89,
+      35.88
+     ],
+     [
+      35.18,
+      35.95
+     ],
+     [
+      35.52,
+      35.78
+     ],
+     [
+      35.85,
+      35.85
+     ],
+     [
+      36.08,
+      35.93
+     ],
+     [
+      36.4,
+      35.87
+     ],
+     [
+      36.58,
+      36.17
+     ],
+     [
+      36.75,
+      36.1
+     ],
+     [
+      36.72,
+      35.6
+     ],
+     [
+      36.55,
+      35.38
+     ],
+     [
+      36.72,
+      34.9
+     ],
+     [
+      36.8,
+      34.63
+     ],
+     [
+      36.6,
+      34.3
+     ],
+     [
+      36.3,
+      33.95
+     ],
+     [
+      36.05,
+      32.83
+     ],
+     [
+      36.27,
+      32.32
+     ],
+     [
+      36.54,
+      32.0
+     ]
+    ]
+   },
+   {
+    "kind": "coast",
+    "name": "Cyprus",
+    "pts": [
+     [
+      34.77,
+      32.42
+     ],
+     [
+      34.63,
+      32.65
+     ],
+     [
+      34.57,
+      32.95
+     ],
+     [
+      34.68,
+      33.04
+     ],
+     [
+      34.75,
+      33.3
+     ],
+     [
+      34.92,
+      33.63
+     ],
+     [
+      34.96,
+      34.08
+     ],
+     [
+      35.12,
+      33.94
+     ],
+     [
+      35.34,
+      34.0
+     ],
+     [
+      35.69,
+      34.58
+     ],
+     [
+      35.55,
+      34.2
+     ],
+     [
+      35.34,
+      33.32
+     ],
+     [
+      35.4,
+      32.92
+     ],
+     [
+      35.2,
+      32.95
+     ],
+     [
+      35.15,
+      32.57
+     ],
+     [
+      35.1,
+      32.28
+     ],
+     [
+      34.9,
+      32.3
+     ],
+     [
+      34.77,
+      32.42
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Israel-Lebanon (Blue Line)",
+    "pts": [
+     [
+      33.09,
+      35.1
+     ],
+     [
+      33.1,
+      35.3
+     ],
+     [
+      33.28,
+      35.55
+     ],
+     [
+      33.27,
+      35.62
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Golan / Syria-Lebanon",
+    "pts": [
+     [
+      33.27,
+      35.62
+     ],
+     [
+      33.42,
+      35.85
+     ],
+     [
+      33.8,
+      36.05
+     ],
+     [
+      34.3,
+      36.45
+     ],
+     [
+      34.62,
+      36.3
+     ],
+     [
+      34.65,
+      35.98
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Israel-Syria (1974 line)",
+    "pts": [
+     [
+      33.27,
+      35.62
+     ],
+     [
+      32.95,
+      35.75
+     ],
+     [
+      32.72,
+      35.65
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Israel/Jordan-Syria",
+    "pts": [
+     [
+      32.72,
+      35.65
+     ],
+     [
+      32.7,
+      36.0
+     ],
+     [
+      32.55,
+      36.5
+     ],
+     [
+      32.35,
+      37.0
+     ],
+     [
+      32.3,
+      37.5
+     ],
+     [
+      33.1,
+      38.3
+     ],
+     [
+      33.4,
+      38.8
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Syria-Iraq",
+    "pts": [
+     [
+      33.4,
+      38.8
+     ],
+     [
+      34.3,
+      40.85
+     ],
+     [
+      34.65,
+      41.1
+     ],
+     [
+      35.3,
+      41.35
+     ],
+     [
+      36.3,
+      41.3
+     ],
+     [
+      36.6,
+      41.4
+     ],
+     [
+      37.1,
+      42.35
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Syria-Turkey",
+    "pts": [
+     [
+      35.9,
+      36.0
+     ],
+     [
+      35.95,
+      36.15
+     ],
+     [
+      36.2,
+      36.42
+     ],
+     [
+      36.6,
+      36.45
+     ],
+     [
+      36.8,
+      36.6
+     ],
+     [
+      36.7,
+      37.0
+     ],
+     [
+      36.65,
+      37.4
+     ],
+     [
+      36.75,
+      38.0
+     ],
+     [
+      36.9,
+      38.4
+     ],
+     [
+      36.9,
+      39.0
+     ],
+     [
+      37.1,
+      40.1
+     ],
+     [
+      37.1,
+      41.2
+     ],
+     [
+      37.3,
+      42.0
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Israel-Jordan",
+    "pts": [
+     [
+      32.72,
+      35.65
+     ],
+     [
+      32.4,
+      35.57
+     ],
+     [
+      31.8,
+      35.55
+     ],
+     [
+      31.5,
+      35.48
+     ],
+     [
+      31.2,
+      35.35
+     ],
+     [
+      30.9,
+      35.2
+     ]
+    ]
+   },
+   {
+    "kind": "deconfliction",
+    "name": "Euphrates line",
+    "label": "EUPHRATES DECONFLICTION LINE (2017)",
+    "pts": [
+     [
+      35.83,
+      38.4
+     ],
+     [
+      35.7,
+      38.95
+     ],
+     [
+      35.55,
+      39.4
+     ],
+     [
+      35.35,
+      39.95
+     ],
+     [
+      35.05,
+      40.45
+     ],
+     [
+      34.7,
+      40.85
+     ]
+    ]
+   }
+  ],
+  "roads": [
+   {
+    "name": "Beirut-Damascus hwy",
+    "pts": [
+     [
+      33.89,
+      35.5
+     ],
+     [
+      33.815,
+      35.855
+     ],
+     [
+      33.72,
+      35.93
+     ],
+     [
+      33.51,
+      36.29
+     ]
+    ]
+   },
+   {
+    "name": "M2 - Baghdad hwy",
+    "pts": [
+     [
+      33.51,
+      36.4
+     ],
+     [
+      33.55,
+      37.2
+     ],
+     [
+      33.5,
+      38.0
+     ],
+     [
+      33.5,
+      38.61
+     ],
+     [
+      33.43,
+      38.93
+     ]
+    ]
+   },
+   {
+    "name": "M5",
+    "pts": [
+     [
+      33.51,
+      36.3
+     ],
+     [
+      34.2,
+      36.7
+     ],
+     [
+      34.73,
+      36.72
+     ],
+     [
+      35.13,
+      36.75
+     ],
+     [
+      35.6,
+      36.85
+     ],
+     [
+      36.2,
+      37.15
+     ]
+    ]
+   },
+   {
+    "name": "Hwy 4 - Euphrates",
+    "pts": [
+     [
+      34.45,
+      40.92
+     ],
+     [
+      35.0,
+      40.45
+     ],
+     [
+      35.33,
+      40.15
+     ],
+     [
+      35.85,
+      39.05
+     ],
+     [
+      35.95,
+      38.6
+     ]
+    ]
+   }
+  ],
+  "places": [
+   {
+    "name": "Damascus",
+    "lat": 33.51,
+    "lon": 36.29,
+    "kind": "city"
+   },
+   {
+    "name": "Beirut",
+    "lat": 33.89,
+    "lon": 35.5,
+    "kind": "city"
+   },
+   {
+    "name": "Aleppo",
+    "lat": 36.2,
+    "lon": 37.16,
+    "kind": "city"
+   },
+   {
+    "name": "Homs",
+    "lat": 34.73,
+    "lon": 36.72,
+    "kind": "city"
+   },
+   {
+    "name": "Latakia",
+    "lat": 35.52,
+    "lon": 35.79,
+    "kind": "city"
+   },
+   {
+    "name": "Amman",
+    "lat": 31.95,
+    "lon": 35.93,
+    "kind": "city"
+   },
+   {
+    "name": "Tel Aviv",
+    "lat": 32.08,
+    "lon": 34.78,
+    "kind": "city"
+   },
+   {
+    "name": "Haifa",
+    "lat": 32.82,
+    "lon": 34.99,
+    "kind": "city"
+   },
+   {
+    "name": "Nicosia",
+    "lat": 35.17,
+    "lon": 33.36,
+    "kind": "city"
+   },
+   {
+    "name": "Adana",
+    "lat": 37.0,
+    "lon": 35.32,
+    "kind": "city"
+   },
+   {
+    "name": "Diyarbakır",
+    "lat": 37.91,
+    "lon": 40.24,
+    "kind": "city"
+   },
+   {
+    "name": "Tripoli",
+    "lat": 34.43,
+    "lon": 35.84,
+    "kind": "town"
+   },
+   {
+    "name": "Sidon",
+    "minor": true,
+    "lat": 33.56,
+    "lon": 35.37,
+    "kind": "town"
+   },
+   {
+    "name": "Tyre",
+    "minor": true,
+    "lat": 33.27,
+    "lon": 35.2,
+    "kind": "town"
+   },
+   {
+    "name": "Zahle",
+    "minor": true,
+    "lat": 33.85,
+    "lon": 35.9,
+    "kind": "town"
+   },
+   {
+    "name": "Palmyra",
+    "lat": 34.56,
+    "lon": 38.28,
+    "kind": "town"
+   },
+   {
+    "name": "Deir ez-Zor",
+    "minor": true,
+    "lat": 35.33,
+    "lon": 40.14,
+    "kind": "town"
+   },
+   {
+    "name": "Al-Bukamal",
+    "lat": 34.45,
+    "lon": 40.92,
+    "kind": "town"
+   },
+   {
+    "name": "Hama",
+    "lat": 35.13,
+    "lon": 36.75,
+    "kind": "town"
+   },
+   {
+    "name": "Tartus",
+    "lat": 34.89,
+    "lon": 35.89,
+    "kind": "town"
+   },
+   {
+    "name": "Masyaf",
+    "lat": 35.06,
+    "lon": 36.34,
+    "kind": "town"
+   },
+   {
+    "name": "Azraq",
+    "lat": 31.83,
+    "lon": 36.83,
+    "kind": "town"
+   },
+   {
+    "name": "Mafraq",
+    "lat": 32.34,
+    "lon": 36.21,
+    "kind": "town"
+   },
+   {
+    "name": "Daraa",
+    "lat": 32.62,
+    "lon": 36.1,
+    "kind": "town"
+   },
+   {
+    "name": "Quneitra",
+    "lat": 33.13,
+    "lon": 35.82,
+    "kind": "town"
+   },
+   {
+    "name": "Raqqa",
+    "lat": 35.95,
+    "lon": 39.01,
+    "kind": "town"
+   },
+   {
+    "name": "Qamishli",
+    "lat": 37.05,
+    "lon": 41.22,
+    "kind": "town"
+   },
+   {
+    "name": "Gaziantep",
+    "minor": true,
+    "lat": 37.07,
+    "lon": 37.38,
+    "kind": "town"
+   },
+   {
+    "name": "Kilis",
+    "minor": true,
+    "lat": 36.72,
+    "lon": 37.12,
+    "kind": "town"
+   },
+   {
+    "name": "Limassol",
+    "minor": true,
+    "lat": 34.68,
+    "lon": 33.04,
+    "kind": "town"
+   },
+   {
+    "name": "Ramat David",
+    "lat": 32.665,
+    "lon": 35.179,
+    "kind": "airfield"
+   },
+   {
+    "name": "Rosh Pina",
+    "lat": 32.98,
+    "lon": 35.57,
+    "kind": "airfield"
+   },
+   {
+    "name": "Nevatim",
+    "lat": 31.21,
+    "lon": 35.01,
+    "kind": "airfield"
+   },
+   {
+    "name": "Akrotiri",
+    "lat": 34.59,
+    "lon": 32.99,
+    "kind": "airfield"
+   },
+   {
+    "name": "Incirlik",
+    "lat": 37.0,
+    "lon": 35.43,
+    "kind": "airfield"
+   },
+   {
+    "name": "Muwaffaq Salti",
+    "lat": 31.834,
+    "lon": 36.787,
+    "kind": "airfield"
+   },
+   {
+    "name": "Khmeimim",
+    "lat": 35.41,
+    "lon": 35.95,
+    "kind": "airfield"
+   },
+   {
+    "name": "Damascus Intl",
+    "lat": 33.41,
+    "lon": 36.51,
+    "kind": "airfield"
+   },
+   {
+    "name": "T-4 Tiyas",
+    "lat": 34.52,
+    "lon": 37.63,
+    "kind": "airfield"
+   },
+   {
+    "name": "Shayrat",
+    "lat": 34.49,
+    "lon": 36.91,
+    "kind": "airfield"
+   },
+   {
+    "name": "Al-Tanf",
+    "lat": 33.506,
+    "lon": 38.618,
+    "kind": "airfield"
+   },
+   {
+    "name": "Deir ez-Zor AB",
+    "lat": 35.285,
+    "lon": 40.176,
+    "kind": "airfield"
+   },
+   {
+    "name": "Rayak",
+    "minor": true,
+    "lat": 33.85,
+    "lon": 35.99,
+    "kind": "airfield"
+   },
+   {
+    "name": "Prince Hassan H-5",
+    "lat": 32.16,
+    "lon": 37.15,
+    "kind": "airfield"
+   }
+  ],
+  "panels": [
+   {
+    "id": "israel",
+    "cluster": "israel",
+    "title": "NORTHERN ISRAEL - the Galilee fields, J14 and the coast",
+    "tag": "NORTHERN ISRAEL - see panel",
+    "bounds": {
+     "lat": [
+      32.15,
+      33.55
+     ],
+     "lon": [
+      34.0,
+      36.3
+     ]
+    },
+    "grid": 0.25,
+    "declutter": true,
+    "labels": {
+     "il_coast": {
+      "seg": 2,
+      "off": [
+       -1,
+       0
+      ]
+     },
+     "il_golan": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "il_home_coast": {
+      "seg": 1,
+      "off": [
+       1,
+       0
+      ],
+      "nudge": [
+       8,
+       16
+      ]
+     }
+    },
+    "lanes": [
+     "il_j14",
+     "il_coast",
+     "il_golan",
+     "il_home_coast",
+     "il_home_rop"
+    ]
+   },
+   {
+    "id": "cyprus",
+    "cluster": "cyprus",
+    "title": "AKROTIRI - SIDs, the ARFA, the TACAN recovery",
+    "tag": "AKROTIRI - see panel",
+    "bounds": {
+     "lat": [
+      34.05,
+      35.05
+     ],
+     "lon": [
+      32.3,
+      33.8
+     ]
+    },
+    "grid": 0.25,
+    "declutter": true,
+    "labels": {
+     "cy_east": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ],
+      "nudge": [
+       40,
+       -10
+      ]
+     },
+     "cy_home": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ],
+      "nudge": [
+       0,
+       10
+      ]
+     },
+     "cy_west": {
+      "seg": 0,
+      "off": [
+       -1,
+       0
+      ],
+      "nudge": [
+       -10,
+       10
+      ]
+     }
+    },
+    "lanes": [
+     "cy_east",
+     "cy_west",
+     "cy_home",
+     "cy_levant",
+     "cy_amman"
+    ]
+   },
+   {
+    "id": "turkey",
+    "cluster": "turkey",
+    "title": "INCIRLIK - the Adana MTMA and the border gates",
+    "tag": "INCIRLIK - see panel",
+    "bounds": {
+     "lat": [
+      35.75,
+      37.45
+     ],
+     "lon": [
+      34.5,
+      38.0
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "labels": {
+     "tr_w74": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "tr_kilis": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ],
+      "nudge": [
+       -20,
+       14
+      ]
+     },
+     "tr_home": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ],
+      "nudge": [
+       -40,
+       12
+      ]
+     },
+     "tr_hatay": {
+      "seg": 1,
+      "off": [
+       -1,
+       0
+      ]
+     }
+    },
+    "lanes": [
+     "tr_w74",
+     "tr_hatay",
+     "tr_kilis",
+     "tr_home"
+    ]
+   },
+   {
+    "id": "jordan",
+    "cluster": "jordan",
+    "title": "AMMAN - the TMA and the L200 corridor",
+    "tag": "AMMAN - see panel",
+    "bounds": {
+     "lat": [
+      31.1,
+      32.7
+     ],
+     "lon": [
+      35.4,
+      37.9
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "labels": {
+     "jo_home": {
+      "seg": 3,
+      "off": [
+       1,
+       0
+      ],
+      "nudge": [
+       0,
+       14
+      ]
+     },
+     "jo_amman": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ],
+      "nudge": [
+       55,
+       -30
+      ]
+     },
+     "jo_busra": {
+      "seg": 2,
+      "off": [
+       -1,
+       0
+      ]
+     },
+     "jo_home_busra": {
+      "seg": 1,
+      "off": [
+       -1,
+       0
+      ]
+     }
+    },
+    "lanes": [
+     "jo_amman",
+     "jo_tanf",
+     "jo_busra",
+     "jo_zelaf",
+     "jo_home",
+     "jo_home_busra"
+    ]
+   }
+  ]
+ }
+}

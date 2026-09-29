@@ -1,0 +1,406 @@
+<title>Expert Mission Dossier</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  --ground:#EEF0F3; --paper:#FFFFFF; --ink:#1B222B; --muted:#5C6673; --rule:#C9CFD6;
+  --accent:#1F5F8B; --accent-soft:#DCE8F1; --alert:#B5352B; --alert-soft:#F5E1DE;
+  --ok:#2F6B3A; --ok-soft:#DFEBE0; --code-bg:#F3F5F7;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#12171D; --paper:#1A2027; --ink:#E5E9ED; --muted:#98A3AE; --rule:#333C46;
+    --accent:#7BB6E3; --accent-soft:#1E3346; --alert:#E5776B; --alert-soft:#3E2422;
+    --ok:#8CC79A; --ok-soft:#1F3324; --code-bg:#232B34;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#12171D; --paper:#1A2027; --ink:#E5E9ED; --muted:#98A3AE; --rule:#333C46;
+  --accent:#7BB6E3; --accent-soft:#1E3346; --alert:#E5776B; --alert-soft:#3E2422;
+  --ok:#8CC79A; --ok-soft:#1F3324; --code-bg:#232B34;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:"Source Serif 4",Georgia,"Times New Roman",serif;font-size:17px;line-height:1.55}
+.sheet{max-width:1040px;margin:0 auto;padding:32px 24px 80px}
+.mast{background:var(--paper);border:1px solid var(--rule);padding:22px 28px;display:grid;grid-template-columns:1fr auto;gap:12px 32px;align-items:end}
+.mast h1{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;font-size:44px;line-height:1;margin:0;letter-spacing:.01em;text-wrap:balance}
+.mast .sub{font-size:16px;color:var(--muted);margin-top:8px;max-width:62ch}
+.meta{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);display:grid;gap:4px;text-align:right}
+.meta b{color:var(--ink);font-weight:600}
+h2{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:700;font-size:30px;letter-spacing:.02em;text-transform:uppercase;margin:52px 0 6px;line-height:1.05;text-wrap:balance}
+h2 small{display:block;font-family:"Source Serif 4",Georgia,serif;font-weight:400;text-transform:none;letter-spacing:0;font-size:16px;color:var(--muted);margin-top:6px}
+h3{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:600;font-size:21px;letter-spacing:.04em;text-transform:uppercase;margin:30px 0 8px;color:var(--accent)}
+p{max-width:68ch;margin:0 0 14px}
+.lede{font-size:19px;max-width:66ch}
+code,.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;font-size:.86em;background:var(--code-bg);padding:1px 5px;border-radius:3px}
+table{border-collapse:collapse;width:100%;font-size:15px;background:var(--paper);border:1px solid var(--rule)}
+th{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:600;font-size:14px;letter-spacing:.07em;text-transform:uppercase;text-align:left;color:var(--muted);padding:10px 12px;border-bottom:2px solid var(--rule);vertical-align:bottom}
+td{padding:10px 12px;border-top:1px solid var(--rule);vertical-align:top}
+td.num{font-variant-numeric:tabular-nums;font-family:"IBM Plex Mono",monospace;font-size:.86em;white-space:nowrap}
+.wrap{overflow-x:auto;margin:10px 0 18px}
+.tag{display:inline-block;font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-size:13px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:3px;white-space:nowrap}
+.tag.have{background:var(--ok-soft);color:var(--ok)}
+.tag.gap{background:var(--alert-soft);color:var(--alert)}
+.tag.plan{background:var(--accent-soft);color:var(--accent)}
+.tag.na{background:var(--code-bg);color:var(--muted)}
+.callout{background:var(--paper);border-left:4px solid var(--accent);padding:14px 18px;margin:18px 0;max-width:72ch}
+.callout.alert{border-left-color:var(--alert)}
+.callout p:last-child{margin-bottom:0}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin:12px 0 20px}
+.card{background:var(--paper);border:1px solid var(--rule);padding:16px 18px}
+.card h4{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-size:19px;font-weight:600;letter-spacing:.03em;margin:0 0 6px;text-transform:uppercase}
+.card p{font-size:15.5px;margin-bottom:8px}
+.card .k{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--muted);display:block;margin-top:8px}
+.beats{list-style:none;padding:0;margin:0 0 16px;max-width:72ch}
+.beats li{padding:8px 0 8px 14px;border-left:2px solid var(--rule);margin-left:4px;font-size:16px}
+.beats li b{font-family:"Barlow Condensed","Arial Narrow",sans-serif;font-weight:600;letter-spacing:.04em;text-transform:uppercase;font-size:14px;color:var(--accent);display:block}
+.foot{margin-top:60px;padding-top:14px;border-top:1px solid var(--rule);color:var(--muted);font-size:14px;max-width:72ch}
+a{color:var(--accent)}
+@media (max-width:640px){.mast{grid-template-columns:1fr}.meta{text-align:left}.mast h1{font-size:34px}}
+</style>
+
+<div class="sheet">
+<header class="mast">
+  <div>
+    <h1>Expert Mission Dossier</h1>
+    <div class="sub">Techniques taken apart from five Fulda 1979 missions, one Sedlo multiplayer build, Reflected's Red Flag 81-2 and Baltic Dragon's Rampagers — and what each one means for Sortie Starter.</div>
+  </div>
+  <div class="meta">
+    <span>Missions scanned <b>97</b> · read in depth <b>8</b></span>
+    <span>Documents on hand <b>137</b> · read <b>7</b></span>
+    <span>Techniques cataloged <b>36</b></span>
+    <span>Updated <b>5 Sep 2026</b></span>
+  </div>
+</header>
+
+<p class="lede" style="margin-top:34px">Every finding below comes from the mission file, not the description page. Missions were opened with <code>scripts/dissect_miz.py</code> and the trigger tables read in full; where the briefing and the file disagree, the file is quoted. Nothing here is inferred from playing.</p>
+
+<h2>1. Fulda 1979, missions 2 · 3 · 5 · 6<small>Mission 1 was reviewed earlier. These four answer the question that review left open: how does a campaign carry state from one mission to the next?</small></h2>
+
+<h3>What the four missions actually are</h3>
+<div class="wrap"><table>
+<tr><th>Mission</th><th>Brief says</th><th>File does</th><th>Triggers</th><th>Voice</th></tr>
+<tr><td><b>M2</b> Guardian Talon II<br><span class="mono">25 Jul 1979 · 13:30</span></td><td>Scramble from an autobahn strip to intercept a drone in EDR-56, RTB Ramstein.</td><td>Cover story. At trigger <span class="mono">Mission change – 150</span> the exercise is cancelled and you escort a crippled C-130 (Eagle 21) up the Berlin corridor, argued with by MiG-21 "805", land or turn at Tempelhof by your own fuel call, and come back down the corridor under SAM rules. There is no drone in the file.</td><td class="num">141</td><td class="num">163 clips<br>176 player lines</td></tr>
+<tr><td><b>M3</b> Border Guardians<br><span class="mono">28 Jul 1979 · 17:15</span></td><td>Two-ship defensive CAP, sector Bravo-7, identify-only ROE.</td><td>Full cold-start (36 gated steps), 805 returns on guard to taunt you, his wingman "62" defects across the border under the PALADIN/VALOR code words, you escort him to Hahn. Border kept honest by a 2 nm warning zone.</td><td class="num">176</td><td class="num">210 clips<br>172 player lines</td></tr>
+<tr><td><b>M5</b> Iron Hammer<br><span class="mono">10 Aug 1979 · 18:35</span></td><td>Retaliatory strike on a radar site and armored column, "one pass, then haul ass".</td><td>Anchor → push → HAMMER; hit detected by group life &lt; 90 %, miss by a 30 s timer after bombs-in-zone; wingman's fuel-leak subplot is a timer, not damage; the crew chief's last line depends on hit/miss.</td><td class="num">155</td><td class="num">147 clips<br>217 player lines</td></tr>
+<tr><td><b>M6</b> Red Sky<br><span class="mono">21 Aug 1979 · 10:00</span></td><td>Reinforced CAP, sector Charlie-3.</td><td>106-second cinematic cold open (four briefing-room slides with VO), Hawk sites sabotaged, two bandit groups then a Tu-22M raid; Fox calls detected with <span class="mono">c_missile_in_zone</span> and voiced in six random variants; nine-trigger descent staircase home.</td><td class="num">169</td><td class="num">176 clips<br>235 player lines</td></tr>
+</table></div>
+
+<h3>How the campaign carries state: it doesn't — it narrates it</h3>
+<p>There is no mechanism. No flag, warehouse value, or score is read from a previous mission; none of the five files declares a campaign stage. Continuity is done entirely in prose and casting: M2's brief opens with "the morning landing at Autobahn Strip Alpha was executed successfully", M3's opens with the diplomatic fallout of M2, M5's with the defection from M3 and a retaliation for a radar site you never saw attacked. The one thing that recurs mechanically is a character: MiG-21 pilot 805 is a unit in M2, M3 and (by reference) M5, and his lines assume you remember him.</p>
+<div class="callout">
+<p><b>Read for Bet 5.</b> The best campaign in this set is a fixed, linear story with the illusion of consequence. The consequence a player feels — "I escorted him, now they've recalled the ambassadors" — costs the author one paragraph. A campaign engine that merely automates what Fulda does (next brief references last result) already matches the state of the art; anything that carries a real variable forward (the wingman who leaked fuel in M5 is not on the M6 line-up; the channel plan doesn't silently change) is beyond it.</p>
+</div>
+
+<h3>Say/do ledger — the experts' own gaps</h3>
+<p>Every one of these was found by machine in under a minute. That is the case for Bet 1.</p>
+<div class="wrap"><table>
+<tr><th>Where</th><th>Says</th><th>Does</th><th>Weight</th></tr>
+<tr><td>M3 brief §V</td><td>AWACS DARKSTAR <span class="mono">289.10</span></td><td>Every Darkstar transmission is on <span class="mono">284.5</span>; preset 10 is 284.5; the gate <span class="mono">301 – AWACS Freq set</span> demands <span class="mono">AUX_FREQ == 284.5</span>. Tune what the brief says and the story stalls.</td><td><span class="tag gap">Casmo's bug</span></td></tr>
+<tr><td>M5 brief §IV</td><td>BK11: 4× AGM-65, 4× Mk-82, 2× AIM-9J</td><td>Pylons carry CBU-87 ×5, Pave Spike, 3× AIM-7E-2. No Maverick, no Sidewinder.</td><td><span class="tag gap">Wrong loadout</span></td></tr>
+<tr><td>M5 brief §III</td><td>Start-up 0945, push 1025, RTB 1100 local</td><td>Mission clock starts 18:35; the sky is evening preset 6.</td><td><span class="tag gap">Wrong clock</span></td></tr>
+<tr><td>M2 brief §III</td><td>Alert standby "from 1000", scramble "~1015", intercept "1425–1440"</td><td>Clock starts 13:30. The brief's own timeline disagrees with itself.</td><td><span class="tag gap">Wrong clock</span></td></tr>
+<tr><td>M2 brief §III</td><td>"Takeoff within 5 minutes of scramble order"; kneeboard: &gt;10 min = NO-GO</td><td>No timer, no fail state. Nothing measures the scramble.</td><td><span class="tag gap">Unenforced rule</span></td></tr>
+<tr><td>M6 brief header</td><td>15 AUG 1979 (also chalked on the briefing slide)</td><td>File date 21 Aug 1979.</td><td><span class="tag gap">Date</span></td></tr>
+<tr><td>M2 → M3 presets</td><td>"Contact Doghouse on channel 6" (M2)</td><td>M3 moves Doghouse to channel 5 and Eifel from 5 to 7 without a word. Same squadron, three days later.</td><td><span class="tag gap">Channel-plan drift</span></td></tr>
+<tr><td>M3 brief §IV</td><td>4× AIM-9J, 4× AIM-7E</td><td>AIM-9L and AIM-7E-2. Minor, but the brief is the kind of document that names the dash number.</td><td><span class="tag na">Minor</span></td></tr>
+<tr><td>M3 trigger name</td><td><span class="mono">Squak SET – IFF 4551</span></td><td>The argument ranges encode 4-5-7-3 (drum position = digit ÷ 8), which is the briefed 4573. The name is stale from M1; the check is right. Trigger names lie, ranges don't.</td><td><span class="tag na">Cosmetic</span></td></tr>
+<tr><td>M2 corridor card</td><td>Corridor 240°/060° FUL–TOF, alt 2 500–10 000</td><td>Tower clears you out on "radial 235° from Tempelhof TACAN"; SAMs go red above 3 300 m (10 830 ft). Kneeboard and file agree, with a sensible buffer.</td><td><span class="tag have">Consistent</span></td></tr>
+<tr><td>M5 debrief line</td><td>"Twelve vehicles confirmed"</td><td>Fires when the column has lost 10 % of its life. One truck earns the same line as twelve.</td><td><span class="tag na">Design shortcut</span></td></tr>
+</table></div>
+
+<h2>1b. Reflected — Red Flag 81-2, Mission 2 (SEAD)<small>Nellis, 27 Jan 1981, 13:49. Rocket 11, F-4E with two AGM-45A and an ALQ-131, part of a nine-flight package. 40 MB, 398 files, 327 voice clips, 34 kneeboard pages.</small></h2>
+
+<div class="callout alert">
+<p><b>The logic is not in the file.</b> The .miz has an empty <span class="mono">trigrules</span>, empty <span class="mono">triggers</span>, zero zones and zero Lua. An <span class="mono">ext_loader</span> entry points at <span class="mono">Mods/campaigns/F-4E Red Flag 81-2/F-4E-RED-FLAG-81-2</span>: this is Eagle Dynamics' protected-campaign format, and the trigger tree lives in that encrypted library. So there is no trigger teardown here. What the file still exposes, and what this section is built from, is everything else: every unit, every route with its locked times, every radio preset, every kneeboard, and the entire dialogue script (4 043 dictionary entries, 466 subtitles) in authoring order.</p>
+</div>
+
+<h3>How the package is built</h3>
+<p>Nine flights are on the radio; five are in the file. Rocket (4× F-4E Weasel), Demon 1 and 2 (8× F-15C), Monkey (4× Tornado GR4 strikers) and Pepsi (4× A-10C) exist as units. Bluenose, Cougar, Hate and Rattler exist only as voice: they taxi, check in with Magic, call winchester and break over the field entirely in audio, with nothing flying. The player never sees them and never needs to; the package sounds twice its size for the cost of a few hundred clips. Against them: two four-ship F-5E aggressor groups plus eight single-ship F-5Es named MIG 1–4 and IVAN 1–4, two red C-130s, an SA-2 site, a Fan Song, Shilkas, KS-19s, and a 206-static target complex built from containers, T-walls and watchtowers.</p>
+<p>Every wingman and every Eagle is its own single-unit group, uncontrolled, started by the hidden logic. That is what lets Showtime kill "Rocket 12" by name and re-spawn Demons as "alive" after regeneration: a four-ship in one group can't be addressed one jet at a time. The player's HOLD waypoint carries a locked ETA of +46 minutes — 14:35, the push time on the mission data card — so the route itself holds the timeline.</p>
+
+<h3>The paperwork, checked against the file</h3>
+<p>The pilot's flight plan card (kneeboard 0202) lists sixteen checkpoints with lat/long, altitude, magnetic course, leg and remaining distance, leg and accumulated time, and ground speed. Every leg was recomputed from the route's coordinates with 15° E variation:</p>
+<div class="wrap"><table>
+<tr><th>Leg</th><th class="num">Card</th><th class="num">File</th><th>Leg</th><th class="num">Card</th><th class="num">File</th></tr>
+<tr><td>→ Apex</td><td class="num">025° / 9</td><td class="num">025° / 10.3</td><td>→ Target</td><td class="num">287° / 13</td><td class="num">288° / 12.9</td></tr>
+<tr><td>→ Plaza</td><td class="num">344° / 22</td><td class="num">347° / 22.2</td><td>→ Belted Pk</td><td class="num">060° / 39</td><td class="num">060° / 39.2</td></tr>
+<tr><td>→ Nuget</td><td class="num">344° / 24</td><td class="num">343° / 24.0</td><td>→ Mt Irish</td><td class="num">066° / 32</td><td class="num">066° / 32.4</td></tr>
+<tr><td>→ Marshal</td><td class="num">006° / 22</td><td class="num">006° / 21.9</td><td>→ Nuget</td><td class="num">125° / 39</td><td class="num">125° / 39.5</td></tr>
+<tr><td>→ Virginia</td><td class="num">255° / 10</td><td class="num">254° / 10.1</td><td>→ Plaza</td><td class="num">164° / 24</td><td class="num">163° / 23.9</td></tr>
+<tr><td>→ Crystal Spr</td><td class="num">269° / 16</td><td class="num">268° / 15.5</td><td>→ Craps</td><td class="num">120° / 15</td><td class="num">120° / 14.8</td></tr>
+<tr><td>→ FEBA</td><td class="num">260° / 40</td><td class="num">259° / 40.3</td><td>→ Apex → Nellis</td><td class="num">210° / 16 + 206° / 9</td><td class="num">207° / 25.9 (one leg)</td></tr>
+<tr><td>→ Dead Horse Well</td><td class="num">200° / 20</td><td class="num">200° / 20.2</td><td colspan="3" style="color:var(--muted)">Marshal, Target, Belted Pk coordinates on the card match the file to the tenth of a minute.</td></tr>
+<tr><td>→ IP Black Mt</td><td class="num">247° / 16</td><td class="num">247° / 15.6</td><td colspan="3"></td></tr>
+</table></div>
+<p>Sixteen legs, none more than 3° or 1.3 nm off; the only difference is that the card breaks the last 26 nm at Apex and the file doesn't. The mission data card holds too: engine start 1349 is the mission clock, Control 324.4 is preset 17 and the script's "push 17", armament 2× AGM-45A / ECM pod / 2× wing tanks is the pylon list, fuel 16.9 is 5 510 kg internal plus two 370-gallon tanks. The 18-channel channelization card matches the player's presets on 17 channels; channel 13 (Silverbow Tower) is 297.7 on the card and 274.2 in the jet. Unused this mission, but it is the one place this paperwork lies.</p>
+
+<div class="callout">
+<p><b>Read.</b> This is the honesty bar. Reflected's flight plan card is a mechanically-derived document — it reads as if the route was computed and then written down — and the ext_loader means the only thing a reader can ever verify is the paperwork against the world. That is precisely what Bet 1 does, and it would have passed this mission with one finding. The gaps in Fulda were authorial; the near-absence of gaps here is procedural. The product's job is to make the second kind free.</p>
+</div>
+
+<h2>1c. Baltic Dragon / Whipbird — The Rampagers, Mission 5<small>Syria, 7 Jun 2016, 04:05. Ram 2-1, F/A-18C off USS Truman: Case III launch, four countries' airspace, a tanker, a border ROZ with a Joint Strike Cell. 40 MB, 643 files, 514 voice clips, 34 kneeboard pages, 71 Lua scripts. Plus the campaign guide, the checklist book, and Mission 1's briefing and kneeboard.</small></h2>
+
+<div class="callout alert">
+<p><b>Protected, but the scripts are in the clear.</b> Same <span class="mono">ext_loader</span> format as Reflected — empty trigger tables, encrypted library in the campaign folder. The difference is that this campaign does its work in Lua, and the 71 script files sit unencrypted in <span class="mono">l10n/DEFAULT</span>. The trigger tree only decides <i>when</i> each script runs; the scripts are the mission. So this one is readable after all.</p>
+</div>
+
+<h3>What the scripts do</h3>
+<p>Every voice line is assembled at runtime rather than recorded whole. The jet's painted board number is read from its draw arguments (442, 31, 32) and spoken digit by digit from per-speaker sound banks — <span class="mono">playernos/</span>, <span class="mono">mothernos/</span>, <span class="mono">wingmannos/</span>, <span class="mono">departure/</span> — with "Start" and "End" variants of each digit so the last one falls. Fuel state comes from <span class="mono">unit:getFuel()</span> and altitude from <span class="mono">getPoint().y</span>, both spoken as numbers, so "Two, state 7.2" is true when it's said. A single flag (2) is the radio's busy line: every script sets it, queues its clips with per-clip delays through <span class="mono">timer.scheduleFunction</span>, and clears it at the end, so nothing steps on anything.</p>
+<p>The rules in the brief are enforced and scored. <span class="mono">Departure-Altitude/Heading/Speed.lua</span> each fire a Departure correction ("remain below 500 feet until 7 DME. Correct immediately") and set the departure flag; the restricted area escalates through four voices (wingman → Image → Magic → Strike); a weapons-event handler turns <span class="mono">S_EVENT_SHOT</span> into Pickle / Dart / Rifle / Guns by weapon category, debounced. <span class="mono">Mission-Debrief.lua</span> prints the scorecard at shutdown: base 50, targets itemised, departure 5, airspace 5, ROE 20, carrier recovery 10 or divert 5, and one flag (123, escalation with Syrian or Russian forces) that overrides everything with "mission failure". The windshield switch is bound as a push-to-check-in shortcut through <span class="mono">a_start_listen_command</span> called from mission-scope Lua — the guide's "Radio Options Shortcut", and the only place I've seen a cockpit switch wired to an F10 item.</p>
+<p>Fifty-four warehouses are limited. This is the only mission in the set modelling attrition.</p>
+
+<h3>The paperwork, checked against the file</h3>
+<p>The Mission 5 comms card lists forty presets across both radios and four TACANs. All forty match the jet (COMM 1: 137.4, 127.5, 265, 128.75, 261.5, 255, 262 … 260, 263; COMM 2: 305, 301.5 … 251.05, 260, 263). Texaco 51X, Shell 61X, Arco 71X and Mother 75X are the beacons in the file. Zero findings in the mission. The findings are in the documents: Mission 1's briefing says "Departure: CASE I at 0630" and its kneeboard overview says "Departure: 1230 (CASE I)" with a 0730–0830 recovery; the same brief names the player's element "1-3 / 1-4" in the text and "Ram-2-1 / Ram-2-2" on the overview card. Two edits apart, in two documents that ship together.</p>
+
+<div class="callout">
+<p><b>Read.</b> Rampagers is the highest bar in the set for the thing Sortie Starter is actually about: the paper matches the world because the world is generated to match the paper, the rules on the card are the rules the scripts enforce, and the debrief tells you which ones you broke. Its remaining gaps are exactly where a human copied a number between two documents by hand — the one step our generator doesn't have.</p>
+</div>
+
+<h2>1d. The whole shelf — 97 missions, four campaigns, scanned<small>Rob's Sample Missions folder holds the complete F-4 MIG Killers (45 missions), F-4E Red Flag 81-2 (15), F/A-18C Raven One (20) and F/A-18C The Rampagers (17), each with its <span class="mono">.cmp</span>, its Doc folder and its encrypted logic pak. <span class="mono">scripts/scan_corpus.py</span> read every mission's tables and wrote one record each to <span class="mono">docs/research/corpus_scan.json</span>.</small></h2>
+
+<div class="wrap"><table>
+<tr><th>Campaign</th><th class="num">Missions</th><th class="num">Protected</th><th class="num">Lua files</th><th class="num">Voice clips</th><th class="num">Kneeboard pages</th><th class="num">Player lines*</th><th>How the player starts</th></tr>
+<tr><td>F-4 MIG Killers (Reflected)</td><td class="num">45</td><td class="num">45</td><td class="num">0</td><td class="num">3 954</td><td class="num">644</td><td class="num">6 073</td><td>31 airborne, 12 from parking — the chained-sortie model</td></tr>
+<tr><td>F-4E Red Flag 81-2 (Reflected)</td><td class="num">15</td><td class="num">15</td><td class="num">0</td><td class="num">4 094</td><td class="num">424</td><td class="num">3 831</td><td>13 from parking</td></tr>
+<tr><td>Raven One (Baltic Dragon)</td><td class="num">20</td><td class="num">20</td><td class="num">4</td><td class="num">2 821</td><td class="num">103</td><td class="num">2 073</td><td>14 parking, 6 airborne; 3 alternate files</td></tr>
+<tr><td>The Rampagers (Baltic Dragon / Whipbird)</td><td class="num">17</td><td class="num">17</td><td class="num">1 000</td><td class="num">9 081</td><td class="num">622</td><td class="num">2 164†</td><td>17 from parking; all 17 with limited warehouses</td></tr>
+<tr><td><b>Total</b></td><td class="num"><b>97</b></td><td class="num"><b>97</b></td><td class="num"><b>1 004</b></td><td class="num"><b>19 950</b></td><td class="num"><b>1 793</b></td><td class="num"><b>~14 000</b></td><td></td></tr>
+</table></div>
+<p style="font-size:14px;color:var(--muted)">* Lines tagged [Player]/[YOU] in the mission dictionary. † Rampagers keeps its lines in Lua, not the dictionary: 5 357 subtitle lines across the scripts, 2 164 of them the player's.</p>
+
+<h3>Five things the scan settles</h3>
+<p><b>Every commercial mission is protected.</b> 97 of 97 carry <span class="mono">ext_loader</span> and an empty trigger table. Fulda, which sold on the same store, is the only trigger-readable expert work we have, and it stays the teardown reference. The commercial craft is readable only where an author left Lua in the clear — which Rampagers does, at scale: 1 000 script files, 594 distinct by content, and a <span class="mono">Temp-*</span> library of eight modules copied into all seventeen missions (restricted-area warning, declare emergency, activate north/south/global, debrief, wave-off). That is a campaign <i>framework</i>, parameterised per mission, and it is the closest thing in the corpus to what our generator is.</p>
+<p><b>Reflected carries state by hand, mission to mission, inside one sortie.</b> MIG Killers is thirteen events, each split into Departure → exercise(s) → RTB as separate files; the <span class="mono">.cmp</span> only lists the Departure file, so the chain is loaded by the hidden logic. Along each chain the author advanced the clock and burned the fuel himself:</p>
+<div class="wrap"><table>
+<tr><th>Event 02</th><th class="num">Clock</th><th class="num">Player fuel (kg)</th><th>Event 09</th><th class="num">Clock</th><th class="num">Fuel</th><th class="num">Pylons</th></tr>
+<tr><td>02a Departure</td><td class="num">14:45</td><td class="num">5 510</td><td>09a Departure</td><td class="num">07:15</td><td class="num">5 510</td><td class="num">3</td></tr>
+<tr><td>02b Pure Pursuit</td><td class="num">15:21</td><td class="num">4 629</td><td>09b Dive Bombing</td><td class="num">08:02</td><td class="num">4 133</td><td class="num">3</td></tr>
+<tr><td>02c Lag Pursuit</td><td class="num">15:32</td><td class="num">4 133</td><td>09c Loft Bombing</td><td class="num">08:24</td><td class="num">2 535</td><td class="num">2</td></tr>
+<tr><td>02d Lag Roll</td><td class="num">15:43</td><td class="num">3 582</td><td>09d RTB</td><td class="num">08:42</td><td class="num">2 314</td><td class="num">1</td></tr>
+<tr><td>02e The Egg</td><td class="num">15:56</td><td class="num">3 582</td><td colspan="4" style="color:var(--muted)">Ordnance expended between files, by hand. Two chains have the clock run backwards: 10c 09:30 → 10d 08:42, and 11b 08:17 → 11c 08:04.</td></tr>
+<tr><td>02f RTB</td><td class="num">16:14</td><td class="num">2 204</td><td colspan="4"></td></tr>
+</table></div>
+<p>This is mechanical state — clock, fuel, stores — done manually, 45 times, with two slips. It is the exact thing a generator does for nothing, and the exact thing our ride model already is.</p>
+<p><b>Branching exists in the platform and is used once in 97 missions.</b> All four campaign files are linear, one mission per stage, until Raven One's last stage, where the next file is chosen by the previous mission's score: 0–50 or 53–100 loads the credits, 51 loads "M15 ALT", 52 loads "M15 ALT NO WEED". The score is the state channel and the stage is the switch. Nothing in the platform stops a generator from doing that at every stage.</p>
+<p><b>The say/do reader needs eyes.</b> Reflected's in-game briefing is one line: "refer to the briefing PDF". The numbers live on kneeboard images and in the Doc folder, so the automatic checks came back "n/a" on 60 of 97 missions — a requirement for Bet 1 (read the kneeboard pages, not just the text), not a clean bill. Where text existed the checks found: a 145.25 MHz frequency briefed in four Raven One missions that no radio in the file holds; two briefed dates that don't match the file (Raven One M08, Rampagers M02 — likely narrative dates, which is itself a lesson for the reader); Rampagers M11 briefing a 0630 start on a 04:30 mission. And 75 of 97 missions fly a stock DCS callsign (Dodge, Roman, Enfield) under a voiced one (Rocket, Raven, Ram) — a platform limit every author lives with, and one our brief should state instead of hide.</p>
+<p><b>Nobody forces immortality.</b> Fulda did; none of the four commercial campaigns do (Rampagers and Red Flag force easy comms off, nothing else). The professionals protect the story with a regeneration zone and a scorecard, not a god switch.</p>
+
+<h2>2. Techniques worth stealing<small>How each is built, where it was seen, and where we stand. "Have" means shipped in Sortie Starter; "Plan" means it's on the follow-up list from these reviews.</small></h2>
+
+<div class="grid2">
+
+<div class="card"><h4>The frequency gate triplet</h4>
+<p>Every handoff is three triggers: <i>set by Jester</i> (WSO tunes it if he holds the radios), <i>NOT set</i> (a reminder after 25–30 s), and <i>set → next flag</i>. The story does not advance until the radio is right. This is the exact fix for "it says channel 2 but I had to tune it by hand": the mission checks the tune, it doesn't assume it.</p>
+<span class="k">c_cockpit_param_equal_to COMM_FREQ / AUX_FREQ · Fulda M1–M6, 13 gates per mission</span>
+<span class="tag plan">Plan · Case III readback check</span></div>
+
+<div class="card"><h4>Jester-has-radios branch</h4>
+<p>A cockpit switch decides who tunes. If the player has handed the radios to Jester, the script drives the Jester wheel to tune; if not, it prompts the player. Twelve "clone la freq du player" triggers keep the WSO's set in step with the pilot's. The mission respects a player choice instead of overriding it.</p>
+<span class="k">c_argument_in_range on the radio-control switch · a_cockpit_perform_clickable_action device 78 · Fulda M1–M6</span>
+<span class="tag na">N/A for single-seat · note for F-14 rides</span></div>
+
+<div class="card"><h4>Cockpit-state gates</h4>
+<p>Engine RPM (args 299/300 &gt; 0.55), generators, gear handle (arg 5 &lt; 0.3 = airborne), IFF drum digits, ladder, chocks. "Start wrong engine" and "start without clearance" nags. This is what makes a cold start a lesson rather than a wait.</p>
+<span class="k">c_argument_in_range · 38–56 uses per Fulda mission</span>
+<span class="tag plan">Plan · Case III dirty-up / hook gates</span></div>
+
+<div class="card"><h4>Random voice variants</h4>
+<p>One random flag (1–6), six front-triggers that each clear it. Used for radio checks, Fox calls (six player variants, four wingman) and Jester chatter. A player who flies the mission twice never hears the same "Fox 1" twice.</p>
+<span class="k">a_set_flag_random + c_flag_equals × N · Fulda M1–M6</span>
+<span class="tag plan">Plan · coach cue variants</span></div>
+
+<div class="card"><h4>Consequence, not commentary</h4>
+<p>Above 10 000 ft in the Berlin corridor, three SA-3 sites go to Alarm State RED (triggered action = Option 9); 30 s after you comply they go GREEN. Leave the corridor laterally and Doghouse says "check your navigation". A rule with a consequence is a rule.</p>
+<span class="k">a_ai_task → group triggered action · Fulda M2</span>
+<span class="tag have">Have · Case III coach bands</span></div>
+
+<div class="card"><h4>Optional procedure, rewarded</h4>
+<p>Tune ATIS on AUX (284.2) and stay 30 s → flag 289. Approach then greets you "with information" or without. The player who did it right hears a different sentence. Fidelity for the cost of two triggers.</p>
+<span class="k">c_cockpit_param_equal_to + c_time_since_flag 30 · Fulda M2</span>
+<span class="tag plan">Plan · ATIS/marshal readback</span></div>
+
+<div class="card"><h4>Descent staircase</h4>
+<p>Nested zone rings around the field × altitude gates × exclusion flags: FL340→200→120→6 000. Nine triggers so the controller's "descend and maintain" is right wherever you happen to be when you enter each ring.</p>
+<span class="k">c_unit_in_zone + c_unit_altitude_higher + c_flag_is_false · Fulda M6 (9), M2 (4)</span>
+<span class="tag plan">Plan · approach coach</span></div>
+
+<div class="card"><h4>Outcome-aware ending</h4>
+<p>Hit sets 551, miss sets 552; the crew chief on the ladder says a different line for each. Within-mission memory, ten seconds of writing, and the player learns the result in character instead of a scoreboard.</p>
+<span class="k">c_group_life_less 90 % / 30 s timer after c_bomb_in_zone · Fulda M5</span>
+<span class="tag have">Have · grades in cq/wk/aar coaches</span></div>
+
+<div class="card"><h4>Anti-softlock</h4>
+<p>A damaged bandit that leaves the fight zone is detonated (<span class="mono">a_explosion_unit</span>) so "all bandits down" can ever fire. Ugly, invisible, and it guarantees the ending. The author chose finishing over purity.</p>
+<span class="k">c_unit_damaged + c_unit_out_zone · Fulda M6</span>
+<span class="tag plan">Plan · every coach must terminate</span></div>
+
+<div class="card"><h4>Escort by Follow-with-stop</h4>
+<p>The C-130 follows the player's group; the MiG escort follows with <span class="mono">stopCondition userFlag 221</span>. And the author tells you the AI's limit in caps — "descend at 320–350 or the Herc will overtake you" — instead of hiding it.</p>
+<span class="k">ControlledTask Follow · Fulda M2</span>
+<span class="tag na">Note</span></div>
+
+<div class="card"><h4>Honor-system decision</h4>
+<p>"FUEL LOW – request to land" or "FUEL OK – RTB": an F10 choice, no fuel check. The mission branches on the pilot's own call, which is what a pilot does. The trade is that it can't be wrong.</p>
+<span class="k">a_add_radio_item → flag 230 / 240 · Fulda M2</span>
+<span class="tag na">Note</span></div>
+
+<div class="card"><h4>Cinematic cold open</h4>
+<p>Four briefing-room slides shown for 13/24/51/10 s with voice-over, then <span class="mono">a_out_picture_stop</span> and the start flag. Immortal forced on, easy comms forced off, labels on — the author protects the story before the difficulty.</p>
+<span class="k">a_out_picture with start_delay · forcedOptions · Fulda M6 (all five force immortal)</span>
+<span class="tag na">Note</span></div>
+
+<div class="card"><h4>The voiced player</h4>
+<p>100–235 [Player] lines per mission, recorded. The pilot argues with 805, jokes with the chief, reads back every clearance. Subtitles are timed to the clip and stacked with <span class="mono">start_delay</span>, so a conversation is one trigger, not ten.</p>
+<span class="k">a_out_sound + a_out_text_delay pairs · Fulda M1–M6</span>
+<span class="tag plan">Plan · 19 VO WAVs outstanding</span></div>
+
+<div class="card"><h4>Trigger naming grammar</h4>
+<p><span class="mono">150 – Rang Freq set – 151</span>: previous flag, what happens, next flag. Read top to bottom, the trigger list is the mission's storyboard. It also shows its failures: names go stale (the 4551 case) faster than conditions do.</p>
+<span class="k">Fulda M1–M6 · Sedlo uses prose names</span>
+<span class="tag plan">Plan · entry–what–exit names in coaches</span></div>
+
+<div class="card"><h4>Staggered polling</h4>
+<p>Sedlo's MIST polygon checks run at 5/6/7/8 s intervals so they never coincide on one frame. The cheap fix for script stutter.</p>
+<span class="k">mist.flagFunc · Sedlo Red Flag 1.34</span>
+<span class="tag na">N/A · we ship no Lua</span></div>
+
+<div class="card"><h4>Runtime control from F10</h4>
+<p>Sedlo lets the host move the tanker and change the recovery in-mission. The mission adapts to the night's players instead of the players to the mission.</p>
+<span class="k">F10 radio items → flags → a_ai_task · Sedlo</span>
+<span class="tag na">Note · multiplayer only</span></div>
+
+<div class="card"><h4>Radio data files in the .miz</h4>
+<p>Sedlo ships per-aircraft <span class="mono">SETTINGS.lua</span> so presets arrive by file, not by hope; his VHF preset 9 is 1234.5 MHz, which nobody noticed because nobody reads a data file.</p>
+<span class="k">Sedlo · decision pending: ship data files vs no-script guarantee</span>
+<span class="tag plan">Decide</span></div>
+
+<div class="card"><h4>Ground crew as actors</h4>
+<p>Crew walk to the jet at 6 kt on activation, a follow-me truck drives a routed path and holds at a named point, the chief requests the cartridge start, pulls chocks, sets the ladder — all through the Jester wheel. The ramp is alive before the engines are.</p>
+<span class="k">a_activate_group + routed vehicles + device 78 commands 3111/3113/3102 · Fulda M1–M6</span>
+<span class="tag na">Note</span></div>
+
+<div class="card"><h4>Voice-only package members</h4>
+<p>Four of Reflected's nine flights have no aircraft. They taxi, check in, call winchester and break over the field in audio alone. The package sounds full; the sim flies five flights.</p>
+<span class="k">radio transmissions with no unit behind them · Reflected RF 81-2 M2</span>
+<span class="tag plan">Plan · package ambience track</span></div>
+
+<div class="card"><h4>One jet, one group</h4>
+<p>Every wingman and every escort Eagle is a single-unit group. Range control can kill "Rocket 12" by name, regenerate "Demon 13 alive", and the leader's flight still checks in as four. A four-ship in one group can't be addressed a jet at a time.</p>
+<span class="k">uncontrolled single-unit groups, started by logic · Reflected</span>
+<span class="tag plan">Plan · Bet 5 wingman continuity</span></div>
+
+<div class="card"><h4>The push time lives in the route</h4>
+<p>HOLD carries <span class="mono">ETA_locked</span> at +46 min = 14:35, which is the push time on the mission data card. The timeline is data, not prose, and the AI package keys off the same number the pilot reads.</p>
+<span class="k">waypoint ETA_locked · Reflected</span>
+<span class="tag plan">Plan · Bet 1 check: card push vs locked ETA</span></div>
+
+<div class="card"><h4>Range control as referee</h4>
+<p>Showtime calls the hard deck, declares kills ("Rocket 11, you're dead"), regenerates the dead, and runs the roll call. The exercise frame turns a scripted outcome into a rule the player can hear being applied.</p>
+<span class="k">Reflected · Fulda's Doghouse plays the same role without the referee voice</span>
+<span class="tag have">Have · LSO / coach voice</span></div>
+
+<div class="card"><h4>The checklist is the gate</h4>
+<p>"Always complete every checklist as called out by Jester, or the mission will not progress." Five checklist kneeboard pages, and the WSO reads them out. Reflected states the rule in the brief; Fulda enforces the same idea with 38–56 cockpit-argument gates and never says so.</p>
+<span class="k">Reflected brief notes · Fulda c_argument_in_range</span>
+<span class="tag plan">Plan · say the gate in the brief</span></div>
+
+<div class="card"><h4>Spoken callsigns from the paint</h4>
+<p>Board number read from draw arguments and spoken digit by digit from per-speaker banks, with Start/End prosody variants so the last digit falls. Change the modex on the jet and every controller says the new one.</p>
+<span class="k">getDrawArgumentValue(442/31/32) · playernos/Start/3.ogg … End/4.ogg · Rampagers</span>
+<span class="tag plan">Plan · digit banks for the 19 VO WAVs</span></div>
+
+<div class="card"><h4>Say what is true</h4>
+<p>Fuel state and altitude are read from the sim and spoken as numbers. Check-ins, fence calls and "say state" answers are never wrong because they're never written in advance.</p>
+<span class="k">unit:getFuel() · getPoint().y · Rampagers</span>
+<span class="tag na">Needs Lua · note for Bet 3</span></div>
+
+<div class="card"><h4>The radio busy line</h4>
+<p>One flag guards the channel. Every script sets it, queues its clips with per-clip delays, clears it last. Fulda solves the same problem with "Silent Jester" windows; this is the general form.</p>
+<span class="k">flag 2 · timer.scheduleFunction queue · Rampagers</span>
+<span class="tag plan">Plan · coach cue arbitration</span></div>
+
+<div class="card"><h4>A switch as a push-to-talk</h4>
+<p>The windshield/anti-ice switch is bound to the current F10 check-in through <span class="mono">a_start_listen_command</span>, so routine calls are a flick, not a menu. The guide tells the pilot; the script does it.</p>
+<span class="k">net.dostring_in('mission', 'a_start_listen_command(3009, flag, …)') · Rampagers</span>
+<span class="tag na">Needs Lua</span></div>
+
+<div class="card"><h4>Brevity from the weapon event</h4>
+<p><span class="mono">S_EVENT_SHOT</span> → category → Pickle / Dart / Rifle / Guns, alternating clips, debounced so a ripple is one call. Fulda's bombs-in-zone trigger is the no-Lua cousin.</p>
+<span class="k">world event handler · Rampagers</span>
+<span class="tag have">Have (trigger form) · c_bomb_in_zone</span></div>
+
+<div class="card"><h4>Rules that score</h4>
+<p>Departure altitude/speed/heading, corridor altitude by direction of travel, restricted-area escalation, ROE: each a flag, each a line on the shutdown scorecard with points, and one flag that turns the sortie into "mission failure" whatever else you did.</p>
+<span class="k">flags 120–123 · Mission-Debrief.lua · Rampagers</span>
+<span class="tag have">Have · coach grades; no scorecard yet</span></div>
+
+<div class="card"><h4>Airspace as a game system</h4>
+<p>Contact points, transit corridors with eastbound 20–24 and westbound 26–30, kill boxes with cells, a ROZ with a stack — each with a controller, a check-in and a check-out. The map on the guide's page 7 is the mechanic, not decoration.</p>
+<span class="k">campaign guide pp. 7–8 · ATCImageExec.lua · Rampagers</span>
+<span class="tag plan">Plan · corridor/CP legs in briefs</span></div>
+
+<div class="card"><h4>Known Issues page</h4>
+<p>The guide's page 9 says what the AI wingman gets wrong (tanker, ground attacks, departures, unresponsive) and what to do about it. Fulda's caps-lock "the C-130 will overtake you" and Reflected's "forget about the AI, it cannot fly overhead patterns" are the same honesty. All three expert products state the sim's limits in the player's paperwork.</p>
+<span class="k">Rampagers guide p. 9 · Fulda M2 · Reflected M2 notes</span>
+<span class="tag plan">Plan · say/do disclosure in every brief</span></div>
+
+<div class="card"><h4>The chained sortie</h4>
+<p>One flight, several files: Departure → exercise → RTB, each starting where the last ended, clock advanced and fuel burned by the author. Thirteen events, 45 files. Our rides are this already; the generator can carry the state Reflected carried by hand.</p>
+<span class="k">.cmp lists only the first file; the hidden logic loads the next · MIG Killers</span>
+<span class="tag plan">Plan · chain export for tracks</span></div>
+
+<div class="card"><h4>Score as the state channel</h4>
+<p>A stage may hold several missions keyed to the previous score. Raven One uses it once: 51 → alternate ending, 52 → alternate without the dead wingman. Encode outcome bits into the 0–100 score, generate the alternates, wire the intervals. No Lua anywhere.</p>
+<span class="k">.cmp stage missions × interval · Raven One stage 16</span>
+<span class="tag plan">Plan · Bet 5 mechanism</span></div>
+
+<div class="card"><h4>The Temp-* library</h4>
+<p>Eight scripts copied into every mission and parameterised by flags: restricted-area warning, declare emergency, north/south/global activation, debrief, wave-off. A framework, not a mission. Ours is Python instead of Lua; the shape is the same.</p>
+<span class="k">594 distinct scripts of 1 000 · Rampagers</span>
+<span class="tag have">Have · coach modules</span></div>
+
+<div class="card"><h4>The Doc folder</h4>
+<p>All four ship the same way: campaign introduction, per-mission briefing PDF, per-mission kneeboard PDF, checklist book, inflight guide. 137 documents for 97 missions. The unit of value is the folder.</p>
+<span class="k">Doc/ in every campaign · 1 793 kneeboard pages in-jet</span>
+<span class="tag plan">Plan · generate the folder</span></div>
+
+<div class="card"><h4>Silence the WSO for the scene</h4>
+<p>"Silent Jester 15''" windows mute Jester during scripted dialogue so the recorded MiG argument isn't stepped on. Story audio gets right of way.</p>
+<span class="k">flag SJ15 → device 78 · Fulda M2/M3</span>
+<span class="tag na">N/A single-seat</span></div>
+
+</div>
+
+<h2>3. Reflected's Red Flag 81-2 inflight guide<small>A real document used with a real campaign. This is the benchmark for what our kneeboard should carry, page for page.</small></h2>
+
+<p>Twenty pages, and every one of them is something a pilot needs at a moment when the briefing screen is gone. Mission 2 of the campaign carries all twenty on the kneeboard, plus nine mission cards (data card, flight plan, maps) and five checklist pages: 34 pages in the jet. Rampagers does the same with a 30-page NATOPS-style checklist book (normal, combat, Case I/III departure and recovery, catapult trim and weight tables, ACL approach) plus five mission cards — its comms card adds a home/divert table with elevation, TACAN, ILS and BRC, and a tanker table with altitude, TACAN and track heading. What the guides contain, against what our brief and kneeboard produce today:</p>
+
+<div class="wrap"><table>
+<tr><th>Guide page</th><th>What it carries</th><th>Sortie Starter today</th></tr>
+<tr><td>Channelization card</td><td>All 18 UHF presets by name, one column per flight, plus guard.</td><td><span class="tag have">Have</span> six-column comms table with notes; presets written into every pure-UHF radio.</td></tr>
+<tr><td>Parking</td><td>Spot numbers with coordinates, per flight.</td><td><span class="tag gap">Gap</span> we place jets; we don't tell the pilot where.</td></tr>
+<tr><td>TACAN / ATC table</td><td>Every station's channel, ident, and the frequencies of ground, tower, departure, approach.</td><td><span class="tag have">Partial</span> carrier TACAN/ICLS and tower; no ground/departure/approach split for airfields.</td></tr>
+<tr><td>SID (Lotus One)</td><td>Runway heading, turn points, altitude restrictions, the handoff.</td><td><span class="tag gap">Gap</span> departures are a first waypoint.</td></tr>
+<tr><td>STAR (Plaza-1) and pattern / re-entry</td><td>Arrival fix, descent gates, initial, break altitude, pattern speeds, re-entry procedure.</td><td><span class="tag have">Partial</span> Case III has the full stack; nothing equivalent for a field.</td></tr>
+<tr><td>Range point tables</td><td>Named points with lat/long, elevation, and the restricted altitude blocks.</td><td><span class="tag have">Partial</span> waypoints carry coordinates; no altitude blocks per point.</td></tr>
+<tr><td>AAR tracks</td><td>Track geometry, altitude block, tanker callsign, frequency, TACAN A/A channel.</td><td><span class="tag have">Have</span> for AAR rides; not in the general brief when a tanker is present.</td></tr>
+<tr><td>Home / divert / tanker tables (Rampagers)</td><td>Field, elevation, TACAN, ILS, BRC or runway; tanker altitude, TACAN, track heading — one glance, on one card.</td><td><span class="tag have">Partial</span> carrier line is there; diverts and tankers are prose, not a table.</td></tr>
+<tr><td>Emergencies / NORDO / HEFOE</td><td>Bingo/divert table, NORDO procedure, HEFOE hand signals, what tower expects.</td><td><span class="tag gap">Gap</span> no divert or NORDO page anywhere in the product.</td></tr>
+<tr><td>Airfield diagrams</td><td>Nellis, Indian Springs, McCarran, Tonopah: taxiways, runway lengths, arresting gear.</td><td><span class="tag gap">Gap</span> DCS has the charts, we don't reference them.</td></tr>
+</table></div>
+
+<div class="callout">
+<p><b>Read.</b> The guide is not a brief. It is the paper you'd want at 300 knots with a dead radio, and the pages that separate it from our output are the boring ones: parking, divert, NORDO, the airfield diagram. Three of those four are data we already have in pydcs and are not printing.</p>
+</div>
+
+<h2>4. What it means for the three destinations</h2>
+
+<ul class="beats">
+<li><b>Better author, now</b>Frequency-gate triplet in the Case III pack (<span class="mono">c_cockpit_param_equal_to</span>), cockpit-state gates for dirty-up and hook, random cue variants, a descent staircase for the approach coach, entry–what–exit trigger names, and a termination guarantee in every coach so no ride can fail to end. All are trigger-only; none breaks the no-Lua rule.</li>
+<li><b>Bet 1 — the re-brief reader</b>The ledger above is the spec. Checks that would have caught every gap in expert work: briefed frequencies vs presets and vs transmission frequencies; briefed loadout vs pylons; briefed times vs the mission clock; briefed date vs file date; briefed squawk vs IFF argument ranges; callsign in text vs callsign in file; and, across a set, preset drift between missions. The dissect script already reads all of these; the reader is the same code with a verdict column.</li>
+<li><b>Bet 5 — the campaign engine</b>The mechanism is in the platform: score-keyed alternates per stage (Raven One, once) and chained files with carried clock, fuel and stores (MIG Killers, by hand). Level one is what Fulda does: the next brief references the last result. Level two is generating the alternates Baltic Dragon built once and the state Reflected carried 45 times. Level three is the honesty check across the whole campaign, so channel plans and clocks can't drift between our own missions — the two slips in the MIG Killers chain are the proof it's needed.</li>
+<li><b>The folder, not the file</b>Every campaign on the shelf ships as <span class="mono">.cmp</span> + missions + a Doc folder. Sortie Starter should export exactly that: campaign definition, chained or branched missions, printed briefing and kneeboard PDFs and an inflight guide per map — all derived from the recipe, so none of it can disagree with the world.</li>
+</ul>
+
+<div class="foot">Sources: Fulda 1979 MSN01/02/03/05/06 (.miz, trigger tables read in full via <span class="mono">scripts/dissect_miz.py</span> and a raw trigger dump), Fulda Documents.pdf and Checklist.pdf, Sedlo Red Flag Multiplayer 1.34, Reflected "Red Flag 81-2 Inflight Guide" (20 pp) and Red Flag 81-2 Mission 02 (.miz; protected, logic unreadable, routes/dictionary/kneeboards read in full), Rampagers Mission 05 (.miz; protected, 71 Lua scripts read), Rampagers Campaign Guide (13 pp), Checklist Book (30 pp), Mission 01 Briefing (10 pp) and Kneeboard (7 pp); and a table scan of all 97 missions in the Sample Missions folder via <span class="mono">scripts/scan_corpus.py</span> (records in <span class="mono">docs/research/corpus_scan.json</span>). Fulda mission 4 was not supplied. All frequencies in MHz, altitudes as the files store them (metres) converted at 3.281.</div>
+</div>

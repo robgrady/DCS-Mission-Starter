@@ -52,6 +52,16 @@ def _offset(pos, meters, bearing_deg):
                          pos.y + meters * math.sin(b), pos._terrain)
 
 
+def _bearing(a, b):
+    """Compass bearing a->b. DCS map x is NORTH and y is EAST, so atan2(dy, dx)
+    is already a bearing from north — the same frame _offset() expects."""
+    return math.degrees(math.atan2(b.y - a.y, b.x - a.x)) % 360
+
+
+def _dist(a, b):
+    return math.hypot(b.x - a.x, b.y - a.y)
+
+
 def _label(layer, pos, text, color, size=13):
     layer.add_text_box(pos, text, color=color, fill=LABEL_BG,
                        font_size=size, border_thickness=0)
@@ -164,19 +174,32 @@ def draw_layers(m, gfx, layers, side):
         # arrowed lane on the player's layer, labelled at the enemy end. Informs
         # the ingress; it is NOT a player route (no waypoints attached).
         for a, b, label in gfx["corridors"]:
-            base = mapping.Point(a.x, a.y, a._terrain)
+            # The arrowhead used to be two more line segments drawn back from the
+            # terminus at ±148°. At map scale that reads as a bent whisker, not
+            # an arrow — the lines are hairlines whatever the zoom, so the head
+            # never looks solid. DCS has a real Arrow primitive (a filled
+            # polygon, the same one the carrier BRC marker uses); use it.
+            head_m = max(9000.0, min(26000.0, 0.16 * _dist(a, b)))
+            brg = _bearing(a, b)                       # compass, from North
+            # Stop the shaft where the head begins so the line doesn't show
+            # through the filled head.
+            shaft_end = _offset(b, -head_m * 0.82, brg)
             own.add_line_segments(
-                base, [mapping.Point(0, 0, a._terrain),
-                       mapping.Point(b.x - a.x, b.y - a.y, a._terrain)],
+                mapping.Point(a.x, a.y, a._terrain),
+                [mapping.Point(0, 0, a._terrain),
+                 mapping.Point(shaft_end.x - a.x, shaft_end.y - a.y, a._terrain)],
                 color=CORRIDOR, line_thickness=4)
-            brg = math.atan2(b.y - a.y, b.x - a.x)          # arrowhead at the enemy end
-            for da in (math.radians(148), math.radians(-148)):
-                own.add_line_segments(
-                    mapping.Point(b.x, b.y, b._terrain),
-                    [mapping.Point(0, 0, b._terrain),
-                     mapping.Point(16000 * math.cos(brg + da),
-                                   16000 * math.sin(brg + da), b._terrain)],
-                    color=CORRIDOR, line_thickness=4)
+            # Arrow.get_default_arrow_points runs along +Y = due EAST at angle 0
+            # and the angle field is degrees clockwise, so a compass bearing has
+            # to be rebased by -90 (same conversion as the carrier BRC arrow).
+            # `position` is the arrow's TAIL, so set it back one head-length to
+            # land the tip on the corridor terminus.
+            tail = _offset(b, -head_m, brg)
+            # Solid fill: CORRIDOR_FILL is the 18-alpha wash for the LANE, and
+            # an arrowhead washed out to 7% is the whisker problem again in a
+            # different form. A head reads as a head or it isn't one.
+            own.add_arrow(tail, (brg - 90) % 360, head_m,
+                          color=CORRIDOR, fill=CORRIDOR, line_thickness=2)
             _label(own, _offset(b, 11000, 90), label, CORRIDOR, size=12)
         drawn.append("corridors")
 

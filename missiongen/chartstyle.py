@@ -5,14 +5,14 @@ measures) + FAA/ICAO charting conventions (line styles, special-use airspace).
 Authenticity comes from LINE STYLE + WEIGHT + RESTRAINT + ICONS, never fill flood.
 See docs/chart-authenticity-evaluation.md and the Tactical Chart Style Guide PDF.
 
-graphics.py, airspace.py (and future overlay modules) import their colours,
+graphics.py, airspace.py (and future overlay modules) import their colors,
 weights, line styles and icons from here so the whole chart reads as one system.
 """
 from dcs import mapping
 from dcs.drawing.drawing import Rgba, LineStyle
 from dcs.drawing.icon import StandardIcon
 
-# --- palette: saturated line colour, near-transparent fill -------------------
+# --- palette: saturated line color, near-transparent fill -------------------
 RED = Rgba(224, 80, 80, 235)          # threat / hostile / no-fly
 RED_ICON = Rgba(122, 31, 31, 255)     # darker glyph so it reads inside the ring
 CYAN = Rgba(90, 170, 255, 235)        # friendly / controlled / corridor
@@ -32,7 +32,11 @@ CATEGORY = {
     "corridor":      dict(color=CYAN,    fill=_fill(CYAN, 15),    weight=3, style=LineStyle.Solid),
     "centerline":    dict(color=CYAN,    fill=_fill(CYAN, 0),     weight=1, style=LineStyle.DotDash),
     "zone":          dict(color=CYAN,    fill=_fill(CYAN, 20),    weight=4, style=LineStyle.Solid),
-    "restricted":    dict(color=MAGENTA, fill=_fill(MAGENTA, 12), weight=3, style=LineStyle.Boundry1),
+    # Restricted areas: the hatched boundary IS the chart convention, so the
+    # STYLE carries the weight and the line under it stays hairline. At weight
+    # 3 the hatch and the stroke stacked into a fat band that read as a wall
+    # drawn over the map rather than a boundary drawn on it.
+    "restricted":    dict(color=MAGENTA, fill=_fill(MAGENTA, 8),  weight=1, style=LineStyle.Boundry1),
     "deconfliction": dict(color=AMBER,   fill=_fill(AMBER, 0),    weight=3, style=LineStyle.Dash),
     "bullseye":      dict(color=WHITE,   fill=_fill(WHITE, 10),   weight=2, style=LineStyle.Solid),
 }

@@ -135,7 +135,10 @@ def validate_data_packs() -> list:
         if cls not in classes:
             errors.append(f"carrier hull_class {hull}: unknown deck class '{cls}'")
 
-    # squadron identities: every ref must resolve, counts positive, nations real
+    # squadron identities: every ref must resolve, counts positive and within
+    # the ramp display cap, nations real. Imported here, not at module scope:
+    # dressing imports this module, so a top-level import would be circular.
+    from .dressing import SQUADRON_MAX
     try:
         squads = load_json("squadrons")
     except Exception as e:
@@ -150,8 +153,16 @@ def validate_data_packs() -> list:
                     resolve(e["ref"])
                 except (UnknownUnitError, KeyError) as ex:
                     errors.append(f"squadrons {mapk}/{base}: {ex}")
-                if not isinstance(e.get("count", 1), int) or e.get("count", 1) < 1:
+                cnt = e.get("count", 1)
+                if not isinstance(cnt, int) or isinstance(cnt, bool) or cnt < 1:
                     errors.append(f"squadrons {mapk}/{base}: count must be a positive int")
+                elif cnt > SQUADRON_MAX:
+                    # The ramp clamps to SQUADRON_MAX anyway. Rejecting the data
+                    # here keeps the file honest — a count of 12 that renders as
+                    # 6 is a file that lies about what the mission contains.
+                    errors.append(
+                        f"squadrons {mapk}/{base}: count={cnt} exceeds the "
+                        f"{SQUADRON_MAX}-per-squadron display cap")
                 if e.get("nation"):
                     try:
                         resolve_country(e["nation"])
@@ -173,5 +184,42 @@ def validate_data_packs() -> list:
                 for k in ("length", "span", "height")):
             errors.append(f"airframe_dimensions/{tid}: needs positive numeric "
                           "length, span, height")
+
+    # AI loadouts: every authored store must be one DCS actually permits on
+    # that station of that airframe (pydcs ships the game's own PylonN lists),
+    # and every airframe the threat pools can spawn must HAVE a fit. A gap here
+    # is the v1.43.0 bug — bandits flying clean — so /api/health reports it
+    # instead of the player discovering it at the merge.
+    try:
+        from . import loadouts as _lo
+        from . import threats as _thr
+        for type_id, roles in _lo.table().items():
+            t = _lo._plane_type(type_id)
+            if t is None:
+                errors.append(f"loadouts/{type_id}: unknown airframe")
+                continue
+            for role, eras_l in roles.items():
+                for era_key, entry in eras_l.items():
+                    variants = [("full", entry)]
+                    if isinstance(entry.get("light"), dict):
+                        variants.append(("light", entry["light"]))
+                    for vname, v in variants:
+                        for station, clsid in (v.get("pylons") or {}).items():
+                            if clsid not in _lo._pylon_stores(t, int(station)):
+                                errors.append(
+                                    f"loadouts/{type_id} {role}/{era_key}/{vname}"
+                                    f": {clsid} is not legal on station {station}")
+        for era in eras:
+            for side in ("blue", "red"):
+                for tier in ("auto", "light", "heavy", "mixed", "guns"):
+                    for name in _thr.cap_types_for(era, side, tier):
+                        tid = _thr.resolve_plane(name).id
+                        for role in (_lo.ROLE_CAP, _lo.ROLE_BFM):
+                            if _lo.loadout_for(tid, role, era) is None:
+                                errors.append(
+                                    f"loadouts: {tid} can spawn as {role} in "
+                                    f"{era} with no fit — it would fly CLEAN")
+    except Exception as e:
+        errors.append(f"loadouts: validation failed ({e})")
 
     return errors

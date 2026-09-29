@@ -1,0 +1,45 @@
+{
+ "_note": "Sight-picture references for formation keeping, keyed by pydcs type id. A wingman holds position on features of the LEAD's airframe, not on his own instruments, so these have to be airframe-specific to be usable — 'line up the wingtip with the intake' means nothing if you cannot say WHICH intake. Written for the RIGHT wing (Dash 2's normal side); mirror them on the left. Distances are the published references pilots actually use: roughly 3 ft of step-down per 10 ft of lateral spacing in fingertip, which is what puts lead's aircraft on a constant line across your canopy.",
+ "_generic": {
+  "bearing": "Pick TWO fixed points on lead that line up when you are correct — a wingtip against a fuselage feature is ideal. When the near point slides forward of the far one you are aft; when it slides back you are acute.",
+  "lateral": "Judge by wingtip clearance, not by looking down your own wing. Hold roughly one wingspan of separation for a comfortable first sortie, and tighten only when the picture is stable.",
+  "vertical": "Lead should sit on a constant line across your canopy. If he rises in your view you have descended; if he sinks you have climbed.",
+  "note": "No airframe-specific references authored for this aircraft yet — these principles work everywhere, but pick your own two reference points on lead in the first two minutes and then never change them."
+ },
+ "F-16C_50": {
+  "bearing": "Put lead's WINGTIP MISSILE RAIL in line with the forward edge of his ventral fin. Rail ahead of the fin = you are acute (too far forward); rail behind it = you are sucked (aft).",
+  "lateral": "Lead's wingtip roughly a wingspan out. The Viper's bubble canopy gives you an unusually good view — use it, and resist the urge to close in just because you can see well.",
+  "vertical": "Hold lead's tailpipe on your canopy bow. The Viper sits low in fingertip; you should be looking slightly UP at him.",
+  "note": "The Viper's FBW holds attitude precisely, which makes small stick corrections stick. That helps in formation and hurts if you over-control — it will faithfully fly the oscillation you asked for."
+ },
+ "FA-18C_hornet": {
+  "bearing": "Line up lead's LEX (the leading-edge extension where the wing meets the fuselage) with the trailing edge of his canopy. This pair is easy to see and moves clearly with fore/aft error.",
+  "lateral": "Lead's wingtip launcher just inside your canopy rail. The Hornet's twin tails give you a strong depth cue — if you can see both tails separated, you are wide.",
+  "vertical": "The horizontal stabilator should appear level with lead's wing. Stabilator visible from above = you are high.",
+  "note": "The Hornet is very stable at formation speeds and its throttles are progressive, which makes it a forgiving first formation aircraft. Trim it out and fly with fingertips."
+ },
+ "F-14B": {
+  "bearing": "Line lead's glove vane / wing root against the aft edge of his canopy. With the wings swept forward at formation speed the wing root is a big, unambiguous reference.",
+  "lateral": "Hold lead's wingtip about one wingspan out. Remember the Tomcat's wings MOVE — an auto-sweep change alters your picture without lead touching anything, so re-reference on the fuselage, not the wingtip, if the wings start moving.",
+  "vertical": "Lead's twin tails should straddle your canopy bow evenly. The Tomcat's wide tail spacing makes vertical error obvious early.",
+  "note": "TWO-SEAT ADVANTAGE: your RIO can watch lead while you scan, and can call closure you have not seen. Use him. Also: the TF-30/F110 spool characteristics reward EARLY, small power. The A model in particular will punish a late fistful of throttle."
+ },
+ "F-14A-135-GR": {
+  "bearing": "Line lead's glove vane / wing root against the aft edge of his canopy.",
+  "lateral": "Lead's wingtip about one wingspan out. The wings sweep with speed — re-reference on the fuselage if they move.",
+  "vertical": "Lead's twin tails straddling your canopy bow evenly.",
+  "note": "The A's TF-30s spool slowly and unevenly. This is the airframe that teaches anticipation whether you want the lesson or not: lead the power change, and never slam it."
+ },
+ "F-14BU": {
+  "bearing": "Line lead's glove vane / wing root against the aft edge of his canopy. With the wings forward at formation speed the root is a big, unambiguous reference.",
+  "lateral": "Lead's wingtip about one wingspan out. The wings sweep with speed — if they start moving, re-reference on the fuselage rather than the tip.",
+  "vertical": "Lead's twin tails should straddle your canopy bow evenly.",
+  "note": "TWO-SEAT ADVANTAGE: your RIO can watch lead continuously and call closure you have not seen. The uprated engines spool faster than the A's, so corrections bite sooner — make them smaller."
+ },
+ "F-4E-45MC": {
+  "bearing": "Line lead's INTAKE RAMP against the leading edge of his wing. The Phantom's slab-sided intakes are the clearest reference on the aircraft.",
+  "lateral": "Lead's outer wing panel — the part with the dihedral kink — just inside your canopy rail. Use the kink itself; it is unmistakable.",
+  "vertical": "Lead's anhedral stabilator should appear as a straight line, not a V. Seeing a V from above means you are high; from below means you are low.",
+  "note": "The Phantom is heavy, the nose is long, and the J79s take their time. Every correction has to be started earlier than feels right, and a late throttle push will still be accelerating you after you have arrived. This is the hardest of the four to fly well, and the most instructive."
+ }
+}

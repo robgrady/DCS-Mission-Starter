@@ -1,0 +1,43 @@
+{
+ "docs/DCS_Mission_Starter_Guide.pdf": {
+  "docs/USER_GUIDE.md": "10195064f4e3ad17",
+  "docs/img/hero.png": "2a0e331ad33f6f18",
+  "docs/img/review.png": "bf13caced2cdc7e8",
+  "missiongen/__init__.py": "cabf404e7f6b6edd"
+ },
+ "docs/WK_BNAI_VOICEOVER.md": {
+  "missiongen/wk_brief.py": "9703314b74e569de",
+  "missiongen/wk_coach.py": "3ce2cdfea1c7f110"
+ },
+ "docs/img/hero.png": {
+  "frontend/index.html": "e24258bf423c56b0"
+ },
+ "docs/img/nttr_corridors.png": {
+  "missiongen/corridor_chart.py": "f8e9b3c01506f678",
+  "missiongen/corridors.py": "52ef467472df465c",
+  "missiongen/data/corridors/germany.json": "c56d84b5ceb1dfc4",
+  "missiongen/data/corridors/nevada.json": "b3832103a56706fb",
+  "missiongen/data/corridors/syria.json": "fd6e16d87fdd9dd7",
+  "scripts/build_corridor_charts.py": "9963c541e9f4a3ab"
+ },
+ "missiongen/data/wk_brief/wk_brief_pop.png": {
+  "missiongen/data/wk/wk_bnai.png": "e8d36a4633224dea",
+  "missiongen/wk_brief.py": "9703314b74e569de",
+  "scripts/build_wk_brief_pages.py": "19621dc21924f59d",
+  "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
+ },
+ "missiongen/data/wk_coach/wk_coach_pup.png": {
+  "missiongen/data/wk/wk_bnai.png": "e8d36a4633224dea",
+  "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
+  "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
+ },
+ "packs/wk_proud_phantom.sspack": {
+  "missiongen/data/mission_templates.json": "a4cdbfe45ef71ffb",
+  "missiongen/data/tracks.json": "437e46ea7036af0b",
+  "missiongen/wk.py": "6fa84f538b6adcd1",
+  "missiongen/wk_brief.py": "9703314b74e569de",
+  "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
+  "missiongen/wk_route.py": "aaff19e241d25ade",
+  "scripts/build_pack.py": "ac4faab9097b437c"
+ }
+}

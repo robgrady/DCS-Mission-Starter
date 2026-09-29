@@ -1,25 +1,26 @@
+# Sortie Starter — what never goes in the repo
 __pycache__/
 *.pyc
-samples/*.miz
+.pytest_cache/
 .venv/
+venv/
+.DS_Store
+*.log
+tmp/
+_to_delete/
 
-# Build / release artifacts
+# Release artifacts are produced by scripts/package.sh, never committed
 dcs-mission-starter-*.zip
+*.tgz
 
-# Scratch missions + survey outputs at repo root
-/*.miz
-survey_*.miz
-parking_survey.txt
-*dcs*.log
-fake_*.log
-surveys/
+# Curated mission packs are delivered through /admin uploads (see
+# tests/test_pack_delivery.py) — the producer lives in scripts/, the
+# .sspack files do not live in git.
+packs/
 
-# Scratch brief/DTC outputs
-Mission_Brief_Sample.*
-dtc_payload.lua
-dtc_member_*
 
-# Generated validation packages
-afghan_pkg/
-probe_*.miz
+# Runtime state written by the server (analytics, uploads, sponsor store) — never source
 instance/
+
+# Recovery evidence kept beside the working tree in Dropbox, never source
+_recovery/

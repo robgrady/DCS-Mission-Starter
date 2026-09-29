@@ -13,5 +13,27 @@ pillow==12.2.0
 # worked because pyproj happened to be pre-installed.
 pyproj==3.7.2
 #
-# The PDF guide is a BUILD-TIME artifact, not a runtime dependency. To rebuild
-# it: pip install reportlab==4.4.10 playwright && playwright install chromium
+# reportlab became a RUNTIME dependency in v1.75.0. The AAR Academy guide is
+# generated for the era/aircraft/tanker the pilot actually picked, so it cannot
+# be a committed artifact — a guide showing an F-16C sight picture to somebody
+# flying the syllabus in a Phantom is the say/do gap this product exists to
+# avoid. Pure Python, and it already needs Pillow, which ships.
+reportlab==4.4.10
+#
+# The USER GUIDE PDF and the screenshots are still BUILD-TIME artifacts. To
+# rebuild those: pip install playwright && playwright install chromium
+#
+# TEST-ONLY, deliberately not pinned here: `pypdf`. One test reads the text
+# back out of the generated syllabus PDF to prove it briefs the altitude the
+# mission actually flies. Reading the number back beats asserting that the
+# function was called. Install with `pip install pypdf` to run the suite.
+#
+# TEST-ONLY, optional: `pytest-xdist`. The suite is ~3,500 tests and most of
+# the wall clock is spent generating .miz files, so it halves on two cores and
+# keeps going down on more. preflight.sh picks it up automatically if it is
+# importable and runs serially if it is not — nothing about the release depends
+# on it being installed. If you install it, run the suite the same way preflight
+# does:  python3 -m pytest tests -q -n auto --dist loadfile
+# `--dist loadfile` matters: several modules share a module-scoped fixture that
+# builds an entire mission, and the default distribution splits a module across
+# workers, rebuilding that mission once per worker.

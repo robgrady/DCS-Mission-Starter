@@ -1,0 +1,511 @@
+<title>Case III Syllabus</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<style>
+:root{
+  --ground:#EDF0F2;      /* cool plate paper */
+  --panel:#F7F9FA;
+  --panel-2:#E2E7EA;
+  --ink:#101820;
+  --ink-2:#3E4C57;
+  --ink-3:#6C7C88;
+  --rule:#C6D0D6;
+  --rule-soft:#D9E0E4;
+  --ball:#C97A00;        /* IFLOLS amber, darkened for light ground */
+  --ball-bright:#FFB020;
+  --deck:#20724A;        /* semantic: on profile */
+  --waveoff:#C0392B;     /* semantic: bust */
+  --shadow:0 1px 2px rgba(16,24,32,.06),0 8px 24px rgba(16,24,32,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0B1117;
+    --panel:#111A22;
+    --panel-2:#18242E;
+    --ink:#DEE7ED;
+    --ink-2:#A3B4C0;
+    --ink-3:#71838F;
+    --rule:#243440;
+    --rule-soft:#1B2831;
+    --ball:#FFB020;
+    --ball-bright:#FFC44D;
+    --deck:#4FBE86;
+    --waveoff:#F0685A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0B1117;
+  --panel:#111A22;
+  --panel-2:#18242E;
+  --ink:#DEE7ED;
+  --ink-2:#A3B4C0;
+  --ink-3:#71838F;
+  --rule:#243440;
+  --rule-soft:#1B2831;
+  --ball:#FFB020;
+  --ball-bright:#FFC44D;
+  --deck:#4FBE86;
+  --waveoff:#F0685A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 28px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Source Serif 4",Georgia,"Times New Roman",serif;
+  font-size:17px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px 96px}
+.col{max-width:64ch}
+
+h1,h2,h3,.disp{
+  font-family:"Saira Condensed","Arial Narrow",Arial,sans-serif;
+  font-weight:700;
+  text-wrap:balance;
+  letter-spacing:.005em;
+}
+h1{font-size:clamp(2.6rem,6vw,4.1rem);line-height:.98;margin:0}
+h2{font-size:clamp(1.5rem,3vw,2.05rem);line-height:1.08;margin:0}
+h3{font-size:1.16rem;line-height:1.2;margin:0}
+p{margin:0}
+a{color:var(--ink);text-decoration-color:var(--ball);text-underline-offset:3px}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--ball);outline-offset:3px;border-radius:2px}
+
+.mono{font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{
+  font-family:"JetBrains Mono",ui-monospace,monospace;
+  font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:500;
+}
+
+/* ---------- masthead ---------- */
+header.top{padding:64px 0 40px;border-bottom:2px solid var(--ink);display:flex;flex-direction:column;gap:22px}
+.kicker{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:baseline}
+.stamp{
+  font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;padding:4px 9px;border:1px solid var(--rule);
+  color:var(--ink-2);border-radius:2px;
+}
+.stamp.req{border-color:var(--ball);color:var(--ball)}
+.lede{font-size:1.24rem;line-height:1.5;color:var(--ink-2);max-width:58ch}
+
+blockquote.field{
+  margin:0;padding:18px 0 18px 22px;border-left:3px solid var(--ball);
+  font-size:1.06rem;line-height:1.55;color:var(--ink);max-width:60ch;
+}
+blockquote.field cite{display:block;margin-top:10px;font-style:normal;
+  font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-3)}
+
+/* ---------- sections ---------- */
+section{padding:56px 0;border-bottom:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:26px}
+.sechead{display:flex;flex-direction:column;gap:8px}
+.stack{display:flex;flex-direction:column;gap:18px}
+
+/* ---------- profile diagram ---------- */
+.plate{
+  background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  padding:22px 20px 16px;overflow-x:auto;box-shadow:var(--shadow);
+}
+.plate svg{display:block;min-width:720px;width:100%;height:auto}
+.plate figcaption{margin-top:14px;font-size:.9rem;color:var(--ink-3);line-height:1.5;max-width:70ch}
+.sv-rule{stroke:var(--rule);stroke-width:1}
+.sv-soft{stroke:var(--rule-soft);stroke-width:1;stroke-dasharray:2 4}
+.sv-path{stroke:var(--ball);stroke-width:2.5;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.sv-sea{fill:var(--panel-2)}
+.sv-lbl{font-family:"JetBrains Mono",monospace;font-size:11px;fill:var(--ink-2)}
+.sv-num{font-family:"JetBrains Mono",monospace;font-size:10px;fill:var(--ink-3)}
+.sv-gate{font-family:"Saira Condensed",sans-serif;font-size:13px;font-weight:700;fill:var(--ink)}
+.sv-dot{fill:var(--ball)}
+
+/* ---------- tables ---------- */
+.tblwrap{overflow-x:auto;border:1px solid var(--rule);border-radius:3px;background:var(--panel)}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:.93rem}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+thead th{
+  font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;
+  background:var(--panel-2);border-bottom:1px solid var(--rule);white-space:nowrap;
+}
+tbody tr:last-child td{border-bottom:none}
+td.n{font-family:"JetBrains Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.gate{font-family:"Saira Condensed",sans-serif;font-weight:600;font-size:1.02rem;white-space:nowrap}
+.amber{color:var(--ball);font-weight:700}
+
+/* ---------- rides ---------- */
+.rides{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule)}
+.ride{
+  display:grid;grid-template-columns:64px 1fr;gap:0 22px;
+  padding:24px 0;border-bottom:1px solid var(--rule-soft);
+}
+.ride .num{
+  font-family:"Saira Condensed",sans-serif;font-weight:700;font-size:2.6rem;
+  line-height:.85;color:var(--ball);font-variant-numeric:tabular-nums;
+}
+.ride .body{display:flex;flex-direction:column;gap:10px}
+.ride .meta{display:flex;flex-wrap:wrap;gap:6px 8px}
+.chip{
+  font-family:"JetBrains Mono",monospace;font-size:.66rem;letter-spacing:.08em;
+  text-transform:uppercase;padding:3px 8px;border-radius:2px;
+  background:var(--panel-2);color:var(--ink-2);border:1px solid var(--rule-soft);
+}
+.chip.coach{border-color:var(--deck);color:var(--deck)}
+.chip.check{border-color:var(--ball);color:var(--ball)}
+.graded{font-size:.94rem;color:var(--ink-2)}
+.graded b{font-family:"JetBrains Mono",monospace;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;display:block;margin-bottom:2px}
+
+/* ---------- two-up cockpit ---------- */
+.twoup{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:820px){.twoup{grid-template-columns:1fr 1fr;gap:24px}}
+.card{
+  background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  padding:22px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow);
+}
+.card h3{border-bottom:1px solid var(--rule);padding-bottom:10px}
+dl.kv{margin:0;display:grid;grid-template-columns:auto 1fr;gap:8px 16px;font-size:.93rem}
+dl.kv dt{font-family:"JetBrains Mono",monospace;font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-3);padding-top:3px;white-space:nowrap}
+dl.kv dd{margin:0;color:var(--ink)}
+
+/* ---------- calls ---------- */
+ol.calls{margin:0;padding:0;list-style:none;counter-reset:c;display:flex;flex-direction:column;gap:0}
+ol.calls li{
+  counter-increment:c;display:grid;grid-template-columns:34px 1fr;gap:14px;
+  padding:13px 0;border-bottom:1px solid var(--rule-soft);align-items:baseline;
+}
+ol.calls li::before{
+  content:counter(c,decimal-leading-zero);
+  font-family:"JetBrains Mono",monospace;font-size:.72rem;color:var(--ink-3);
+}
+ol.calls q{font-family:"JetBrains Mono",monospace;font-size:.88rem;color:var(--ball);quotes:"“" "”"}
+ol.calls .who{font-size:.82rem;color:var(--ink-3);display:block;margin-top:3px}
+
+/* ---------- busts ---------- */
+.busts{display:grid;grid-template-columns:1fr;gap:2px}
+@media(min-width:760px){.busts{grid-template-columns:1fr 1fr}}
+.bust{padding:16px 18px;background:var(--panel);border-left:2px solid var(--waveoff)}
+.bust b{display:block;font-family:"Saira Condensed",sans-serif;font-size:1.05rem;margin-bottom:4px}
+.bust span{font-size:.92rem;color:var(--ink-2);line-height:1.5}
+
+/* ---------- sim reality ---------- */
+.split{display:grid;grid-template-columns:1fr;gap:20px}
+@media(min-width:820px){.split{grid-template-columns:1fr 1fr;gap:28px}}
+ul.ticks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;font-size:.95rem}
+ul.ticks li{display:grid;grid-template-columns:16px 1fr;gap:10px;line-height:1.45}
+ul.ticks li::before{font-family:"JetBrains Mono",monospace;font-size:.8rem;line-height:1.5}
+ul.yes li::before{content:"+";color:var(--deck)}
+ul.no li::before{content:"–";color:var(--waveoff)}
+
+footer{padding:44px 0 0;color:var(--ink-3);font-size:.88rem;line-height:1.6;display:flex;flex-direction:column;gap:12px}
+footer a{color:var(--ink-2)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <div class="kicker">
+    <span class="eyebrow">DCS Sortie Starter · Training pack design</span>
+    <span class="stamp req">Requires DCS: Supercarrier</span>
+    <span class="stamp">F-14A/B · F/A-18C</span>
+  </div>
+  <h1>Case III Recovery</h1>
+  <p class="lede">Five rides that teach a night carrier approach one gate at a time — built from CV NATOPS, the Supercarrier operations guide, and the Heatblur manual, and graded on the things DCS itself does not check.</p>
+  <blockquote class="field">
+    “i have zero idea how to do a case 3 recovery so i was flying around blind.”
+    <cite>Casmo — the report this pack exists to answer</cite>
+  </blockquote>
+</header>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">The instructional problem</span>
+    <h2>Case III is not a skill. It is a procedure with gates.</h2>
+  </div>
+  <div class="col stack">
+    <p>A pilot busts a night recovery in one of four distinct places, and each one has a different cause. A single long mission teaches none of them: a bad marshal departure means you never reach the ball, and twenty minutes of flying buys you exactly one attempt at the part you actually got wrong.</p>
+    <p>So the syllabus is one ride per gate, each starting where the last one ended. You can fly the piece you keep failing, ten times, in the time one full recovery takes.</p>
+    <p><b>Case III is not a weather condition — it is mostly a clock.</b> NATOPS requires it below a 1,000-foot ceiling or 5 nm visibility, <em>and during all flight operations between half an hour after sunset and half an hour before sunrise.</em> A clear, calm night is a Case III night. Single aircraft only.</p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">The shape you are learning</span>
+    <h2>CV-1 approach, marshal to ramp</h2>
+  </div>
+  <figure class="plate">
+    <svg viewBox="0 0 900 372" role="img" aria-label="Side profile of a Case III CV-1 approach from the marshal stack at 12,000 feet and 27 DME down to the carrier deck, showing the platform, 10, 8, 6 DME and ball-call gates.">
+      <!-- sea -->
+      <rect class="sv-sea" x="80" y="320" width="790" height="20"/>
+      <!-- axes -->
+      <line class="sv-rule" x1="80" y1="320" x2="870" y2="320"/>
+      <line class="sv-rule" x1="80" y1="30" x2="80" y2="320"/>
+      <!-- altitude grid -->
+      <g>
+        <line class="sv-soft" x1="80" y1="203" x2="860" y2="203"/>
+        <text class="sv-num" x="72" y="207" text-anchor="end">5,000</text>
+        <line class="sv-soft" x1="80" y1="292" x2="860" y2="292"/>
+        <text class="sv-num" x="72" y="296" text-anchor="end">1,200</text>
+        <line class="sv-soft" x1="80" y1="40" x2="860" y2="40"/>
+        <text class="sv-num" x="72" y="44" text-anchor="end">12,000</text>
+      </g>
+      <!-- DME ticks -->
+      <g>
+        <text class="sv-num" x="157" y="336" text-anchor="middle">27</text>
+        <text class="sv-num" x="367" y="336" text-anchor="middle">19</text>
+        <text class="sv-num" x="587" y="336" text-anchor="middle">10</text>
+        <text class="sv-num" x="645" y="336" text-anchor="middle">8</text>
+        <text class="sv-num" x="696" y="336" text-anchor="middle">6</text>
+        <text class="sv-num" x="768" y="336" text-anchor="middle">3</text>
+        <text class="sv-num" x="850" y="336" text-anchor="middle">0</text>
+        <text class="sv-lbl" x="850" y="356" text-anchor="end">DME from mother</text>
+      </g>
+      <!-- marshal racetrack -->
+      <g transform="translate(157,40)">
+        <ellipse cx="-26" cy="0" rx="42" ry="13" fill="none" stroke="var(--ball)" stroke-width="1.5" stroke-dasharray="4 3"/>
+        <text class="sv-gate" x="-70" y="-22" text-anchor="start">MARSHAL</text>
+        <text class="sv-lbl" x="-70" y="-8" text-anchor="start">angels 12 · 27 DME · left 6 min</text>
+      </g>
+      <!-- the profile -->
+      <path class="sv-path" d="M157,40 L367,203 L587,292 L768,292 L850,320"/>
+      <!-- gate dots -->
+      <circle class="sv-dot" cx="367" cy="203" r="4.5"/>
+      <circle class="sv-dot" cx="587" cy="292" r="4.5"/>
+      <circle class="sv-dot" cx="645" cy="292" r="4.5"/>
+      <circle class="sv-dot" cx="696" cy="292" r="4.5"/>
+      <circle class="sv-dot" cx="768" cy="292" r="4.5"/>
+      <circle class="sv-dot" cx="831" cy="314" r="4.5"/>
+      <!-- gate labels -->
+      <g>
+        <line class="sv-soft" x1="367" y1="203" x2="367" y2="150"/>
+        <text class="sv-gate" x="367" y="140" text-anchor="middle">PLATFORM</text>
+        <text class="sv-lbl" x="367" y="126" text-anchor="middle">5,000 ft — shallow to 2,000 fpm</text>
+
+        <line class="sv-soft" x1="587" y1="292" x2="587" y2="246"/>
+        <text class="sv-gate" x="587" y="236" text-anchor="middle">LEVEL</text>
+        <text class="sv-lbl" x="587" y="222" text-anchor="middle">1,200 ft by 10 DME</text>
+
+        <line class="sv-soft" x1="645" y1="292" x2="645" y2="272"/>
+        <text class="sv-gate" x="645" y="264" text-anchor="middle">DIRTY</text>
+
+        <line class="sv-soft" x1="712" y1="292" x2="712" y2="272"/>
+        <text class="sv-gate" x="716" y="264" text-anchor="start">150 KIAS</text>
+
+        <text class="sv-gate" x="800" y="268" text-anchor="middle">BALL</text>
+        <text class="sv-lbl" x="800" y="254" text-anchor="middle">3.5° · ¾ nm</text>
+        <line class="sv-soft" x1="800" y1="276" x2="828" y2="308"/>
+      </g>
+      <!-- descent rate callouts -->
+      <text class="sv-lbl" x="238" y="112" transform="rotate(38 238 112)">250 KIAS · 4,000 fpm</text>
+      <text class="sv-lbl" x="463" y="240" transform="rotate(22 463 240)">2,000 fpm max</text>
+    </svg>
+    <figcaption>Drawn from a stack at angels 12. The <span class="amber">angels + 15</span> rule is why the shape holds: from any assigned altitude, this fixed profile delivers you level at 1,200 feet at roughly 10–11 DME. From angels 6 at 21 DME the arithmetic gives 11 DME; from angels 12 at 27 DME it gives 11 DME. That is the whole point of the rule, and it is worth showing a student once.</figcaption>
+  </figure>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">The gates</span>
+    <h2>Every number, and where it comes from</h2>
+  </div>
+  <div class="tblwrap">
+    <table>
+      <thead><tr><th>Gate</th><th>Altitude</th><th>Speed</th><th>What you do</th></tr></thead>
+      <tbody>
+        <tr><td class="gate">Marshal</td><td class="n">angels N</td><td class="n">250 KIAS</td><td>Left-hand 6-minute racetrack on the <span class="amber">final bearing + 180</span> radial at <span class="amber">N + 15</span> DME. Inbound leg passes over the fix. Base never below 6,000 ft.</td></tr>
+        <tr><td class="gate">Push</td><td class="n">angels N</td><td class="n">250 KIAS</td><td>Depart at the assigned approach time. Call commencing with your altimeter and state. Descend 4,000 fpm.</td></tr>
+        <tr><td class="gate">20 DME</td><td class="n">descending</td><td class="n">250 KIAS</td><td>Begin the correction from the marshal radial to the final bearing.</td></tr>
+        <tr><td class="gate">Platform</td><td class="n">5,000 ft</td><td class="n">250 KIAS</td><td>Call “platform”. Shallow to <span class="amber">no more than 2,000 fpm</span>.</td></tr>
+        <tr><td class="gate">12 DME</td><td class="n">descending</td><td class="n">250 KIAS</td><td>If not established on the final bearing, fly the 12-mile arc until you intercept it.</td></tr>
+        <tr><td class="gate">10 DME</td><td class="n">1,200 ft</td><td class="n">250 KIAS</td><td>Level. Letdown complete. Call ten miles.</td></tr>
+        <tr><td class="gate">8 DME</td><td class="n">1,200 ft</td><td class="n">250 KIAS</td><td>Transition to landing configuration — gear, flaps, hook.</td></tr>
+        <tr><td class="gate">6 DME</td><td class="n">1,200 ft</td><td class="n">150 KIAS</td><td>Configured. Slow to on-speed AOA and hold 1,200 ft.</td></tr>
+        <tr><td class="gate">≈3 DME</td><td class="n">1,200 ft</td><td class="n">on speed</td><td>Glideslope intercept. Start down the 3.5°.</td></tr>
+        <tr><td class="gate">¾ nm</td><td class="n">≈280 ft</td><td class="n">on speed</td><td>“…three-quarter mile, call the ball.” Side number, type, ball or Clara, fuel state.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="col" style="font-size:.94rem;color:var(--ink-2)">Two numbers students get wrong from community guides and are corrected here. <b>Platform is an altitude, not a range</b> — 5,000 feet, wherever that falls. And the marshal radial hangs off the <b>final bearing</b>, the extension of the angled deck, which sits about 9–10° to port of BRC; computing it off BRC puts you off the arc before you start.</p>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">The syllabus</span>
+    <h2>Five rides, each starting where the last one ended</h2>
+  </div>
+  <div class="rides">
+
+    <article class="ride">
+      <div class="num">1</div>
+      <div class="body">
+        <h3>The Stack</h3>
+        <div class="meta"><span class="chip coach">Coached</span><span class="chip">Airborne on the fix</span><span class="chip">~10 min</span></div>
+        <p>Holding, and only holding. Left-hand, six-minute racetrack, inbound leg over the fix, and the one thing that actually takes practice: stretching and shortening the legs so you depart at the assigned second.</p>
+        <p class="graded"><b>Graded on</b> Departure within ±10 seconds of the approach time · altitude held · pattern flown on the correct side</p>
+      </div>
+    </article>
+
+    <article class="ride">
+      <div class="num">2</div>
+      <div class="body">
+        <h3>The Push</h3>
+        <div class="meta"><span class="chip coach">Coached</span><span class="chip">On the fix at push time</span><span class="chip">~8 min</span></div>
+        <p>The descent. 250 knots, 4,000 feet per minute, and the rate change at platform that half of all students miss because they are hunting for a DME instead of watching an altimeter.</p>
+        <p class="graded"><b>Graded on</b> Rate of descent below platform · level at 1,200 ft by 10 DME · the platform call made at 5,000 ft</p>
+      </div>
+    </article>
+
+    <article class="ride">
+      <div class="num">3</div>
+      <div class="body">
+        <h3>The Approach</h3>
+        <div class="meta"><span class="chip coach">Coached</span><span class="chip">Level 1,200 ft, 12 DME</span><span class="chip">~7 min</span></div>
+        <p>Correcting to the final bearing, dirtying up at 8, on speed by 6, and holding 1,200 feet until the glideslope comes to you rather than diving to meet it. Soft corrections — the reason NATOPS mandates soft headings on final is to stop students chasing needles.</p>
+        <p class="graded"><b>Graded on</b> Configured by 8 DME · 150 knots at 6 DME · altitude held to intercept · lineup inside 1.7°</p>
+      </div>
+    </article>
+
+    <article class="ride">
+      <div class="num">4</div>
+      <div class="body">
+        <h3>The Ball</h3>
+        <div class="meta"><span class="chip coach">Coached</span><span class="chip">3 DME on glideslope</span><span class="chip">~6 min, repeatable</span></div>
+        <p>The last mile, over and over. Ball call in the right format, then flying the ball instead of spotting the deck. Bolter every time on the first pass by design, so the bolter pattern gets taught rather than discovered: straight ahead to 1,200 feet, <b>level</b> turns, abeam with your state, final at 4 DME.</p>
+        <p class="graded"><b>Graded on</b> Ball call format · glidepath and lineup against the LSO's own thresholds · a bolter pattern flown level</p>
+      </div>
+    </article>
+
+    <article class="ride">
+      <div class="num">5</div>
+      <div class="body">
+        <h3>Night CQ</h3>
+        <div class="meta"><span class="chip check">Check ride</span><span class="chip">Airborne, 60 nm, weather</span><span class="chip">~25 min</span></div>
+        <p>Everything, once, for real. Night, low ceiling, no gates drawn, no cue cards, no coaching. Check in with Marshal at 50 miles and take yourself to the deck.</p>
+        <p class="graded"><b>Graded on</b> All of the above, in one pass</p>
+      </div>
+    </article>
+
+  </div>
+  <p class="col" style="font-size:.94rem;color:var(--ink-2)">Rides 1–4 carry every aid: helper gates drawn along the profile, a cue card at each decision, and the boat card on the kneeboard. Ride 5 has none of them. That is the same split the White Knights pack uses — coached means <em>every</em> aid on, and exactly one ride is the check.</p>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">What the sim actually does</span>
+    <h2>This is what decides the design</h2>
+  </div>
+  <div class="split">
+    <div class="stack">
+      <h3>Supercarrier gives us</h3>
+      <ul class="ticks yes">
+        <li>The marshal assignment, with the correct angels + 15 rule</li>
+        <li>An expected approach time, radar contact, the handoff to approach</li>
+        <li>The platform acknowledgement and “fly bullseye”</li>
+        <li>ACLS lock and “say needles”</li>
+        <li>“…three-quarter mile, call the ball”, and Paddles' voice all the way down</li>
+        <li>IFLOLS, cut lights, waveoff lights, and published deviation thresholds to grade against</li>
+      </ul>
+    </div>
+    <div class="stack">
+      <h3>And does not</h3>
+      <ul class="ticks no">
+        <li>Enforce the approach time — you can push half an hour early and nothing happens</li>
+        <li>Model Delta, emergency marshal, or the 12-mile arc</li>
+        <li>Fly a Case III with AI aircraft — they revert to Case I in the pattern, so the stack is not populated and pretended otherwise</li>
+      </ul>
+      <p style="font-size:.95rem;color:var(--ink-2)">Which is the whole reason these rides carry their own triggers. <b>We grade the things DCS ignores</b> — departure against the approach time, rate of descent below platform, altitude at 10, configuration at 8, speed at 6 — and let Paddles grade the part Paddles is good at.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">On the radio</span>
+    <h2>The sequence, in order</h2>
+  </div>
+  <div class="col">
+    <ol class="calls">
+      <li><div><q>Marshal, [side number], marking mother's [bearing] for [range], angels [alt], low state [fuel].</q><span class="who">You, inbound, inside 50 nm</span></div></li>
+      <li><div><q>Case III recovery, CV-1 approach, expected BRC [heading], altimeter [setting]. Marshal mother's [radial] radial, [distance] DME, angels [alt]. Expected approach time is [time].</q><span class="who">Marshal — write it down, all of it</span></div></li>
+      <li><div><q>[side number], established angels [alt]. State [fuel].</q><span class="who">You, in the stack, on altitude</span></div></li>
+      <li><div><q>[side number] commencing, [altimeter], state [fuel].</q><span class="who">You, at the approach time — not before</span></div></li>
+      <li><div><q>[side number], checking in, [distance] miles, [fuel].</q><span class="who">You, to Approach after the handoff</span></div></li>
+      <li><div><q>[side number], platform.</q><span class="who">You, passing 5,000 feet</span></div></li>
+      <li><div><q>[side number], ACLS lock on [distance] miles, say needles.</q><span class="who">Approach, around 6 miles — answer up/down, left/right</span></div></li>
+      <li><div><q>[side number], [glidepath], [lineup], three-quarter mile, call the ball.</q><span class="who">Approach, handing you to Paddles</span></div></li>
+      <li><div><q>[side number], [type], ball, [fuel state].</q><span class="who">You. “Clara” if you cannot see it, and then Paddles talks you down.</span></div></li>
+    </ol>
+  </div>
+  <p class="col" style="font-size:.94rem;color:var(--ink-2)">Fuel state is spoken in thousands of pounds — “three point five”. Altitude in angels — “one point two”. Heading corrections on final are soft — “three zero one, right five”.</p>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">Before you push</span>
+    <h2>The cockpit half, which is where the two jets differ</h2>
+  </div>
+  <div class="twoup">
+
+    <div class="card">
+      <h3>F-14A / F-14B</h3>
+      <dl class="kv">
+        <dt>TACAN</dt><dd><b>T/R</b>. Not A/A — that is for tankers. BCN is not functional in DCS.</dd>
+        <dt>ICLS</dt><dd>The <b>AN/ARA-63 panel</b>: channel set, POWER <b>ON</b>. The Tomcat <em>does</em> have ICLS — the ARA-63 is the airborne half of it, 20 channels.</dd>
+        <dt>ACLS</dt><dd><b>APN-154 MODE → ACLS</b>, or the SPN-42 never locks. Link 4A on, MODE <b>TAC</b>.</dd>
+        <dt>Steering</dt><dd><b>AWL/PCD</b> submode; HUD and VDI AWL switches to <b>ILS</b> for crossed pointers (full scale 2° HUD, 1.5° VDI).</dd>
+        <dt>Coupling</dt><dd>ACL READY and A/P CPLR lit, then press <b>nosewheel steering</b>. Disengage on <b>PLM</b>. Pair with APC for a hands-off approach.</dd>
+        <dt>On speed</dt><dd><b>15 units</b> AOA — the amber donut.</dd>
+        <dt>Watch for</dt><dd><span class="mono">VOICE</span> means ACL is gone, go voice. <span class="mono">TILT</span> means the datalink dropped and the AFCS is about to.</dd>
+      </dl>
+      <p style="font-size:.92rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:12px">Heatblur's own note, worth teaching: the ARA-63 glideslope is unreliable until you are within 20° of the final bearing. Turning the wrong way on intercept makes it climb away from you and track inverted.</p>
+    </div>
+
+    <div class="card">
+      <h3>F/A-18C</h3>
+      <dl class="kv">
+        <dt>TACAN</dt><dd><b>T/R</b>.</dd>
+        <dt>ICLS</dt><dd><b>ILS on the UFC</b>, channel on the scratchpad. Bars appear next to the velocity vector.</dd>
+        <dt>ACLS</dt><dd><b>Mode I</b> coupled approach — one press of the coupled autopilot, expect <span class="mono">CPLD P/R</span>.</dd>
+        <dt>The catch</dt><dd>Mode I controls <b>pitch and roll only</b>. Add <b>ATC in approach mode</b>, which holds <b>AOA</b> — not airspeed — for the throttle half.</dd>
+        <dt>On speed</dt><dd><b>8.1 units</b> — the middle tick of the AOA bracket.</dd>
+        <dt>Requires</dt><dd>ACLS needs the Supercarrier module. It is not available off the free boat.</dd>
+      </dl>
+      <p style="font-size:.92rem;color:var(--ink-2);border-top:1px solid var(--rule);padding-top:12px">The kneeboard boat card in every ride carries the hull's TACAN channel and ident, the ICLS channel, Link 4, ACLS state and the BRC — the numbers you dial before you push, now printed in the brief as well as the kneeboard.</p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">What the rides are aimed at</span>
+    <h2>The eight documented busts</h2>
+  </div>
+  <div class="busts">
+    <div class="bust"><b>Radial off the wrong reference</b><span>Computing marshal from BRC instead of the final bearing. Nine or ten degrees, and you start the approach off the arc.</span></div>
+    <div class="bust"><b>Hunting for platform on the DME</b><span>It is 5,000 feet. Students looking for a range gate fly straight through the rate change.</span></div>
+    <div class="bust"><b>Faster than 2,000 fpm below platform</b><span>The single most common profile bust, and the one that puts you low and fast at 10.</span></div>
+    <div class="bust"><b>Not level at 1,200 by 10 DME</b><span>Which leaves no time to configure by 8 and no chance of being on speed by 6.</span></div>
+    <div class="bust"><b>Dirtying up late</b><span>Arriving at 6 fast and high, then trying to fix both at once inside the final.</span></div>
+    <div class="bust"><b>Chasing the needles</b><span>Large corrections on final. The phraseology is soft on purpose — “right five”, not “turn right”.</span></div>
+    <div class="bust"><b>Spotting the deck</b><span>Looking through the ball at the landing area and diving for it. The classic night killer.</span></div>
+    <div class="bust"><b>Turning while climbing on the bolter</b><span>All waveoff and bolter pattern turns are level. Every one.</span></div>
+  </div>
+</section>
+
+<footer>
+  <p><b>Sources.</b> CV NATOPS Manual, NAVAIR 00-80T-105 (31 July 2009), §6.4 and glossary — the authority for every altitude, speed and gate above. Eagle Dynamics, <em>DCS Supercarrier Operations Guide</em> — the radio sequence and the LSO deviation thresholds. Heatblur <em>F-14 Tomcat</em> manual — ARA-63, APN-154, Link 4A, AWL/PCD. Eagle Dynamics F/A-18C documentation — ILS, ACLS Mode I, ATC approach mode.</p>
+  <p>Two corrections made during research and worth recording: the F-14 <em>does</em> carry ICLS (the AN/ARA-63 is its airborne receiver), and the carrier TACAN is used in <b>T/R</b>, not A/A — the A/A folklore most likely comes from mission builders picking the “TACAN A/A” beacon type in the editor, which leaves the channel looking right and gives a receiving aircraft nothing.</p>
+  <p>Design document for a DCS Sortie Starter training pack. Not for navigation.</p>
+</footer>
+
+</div>

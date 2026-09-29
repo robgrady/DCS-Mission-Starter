@@ -15,6 +15,7 @@ from dcs.unit import Skill
 CARRIERS = {  # legacy fallback when no hull specified
     "coldwar": {"blue": ("forrestal", None)},
     "modern": {"blue": ("stennis", None)},
+    "gwot": {"blue": ("stennis", None)},
 }
 CAP_ALT = 7620    # 25,000 ft
 AEW_ALT = 8534    # 28,000 ft
@@ -117,7 +118,11 @@ def add_carrier_group(m, country, era, side, map_cfg, weather, comms, warnings,
         notes.append("ACLS on")
     if not systems:
         notes.append("visual recovery - no shipboard nav/landing aids in this era")
-    grp.set_frequency(cv["freq"])
+    # CAREFUL: pydcs's ShipGroup.set_frequency takes HERTZ (its default is
+    # 127500000) while FlyingGroup.set_frequency takes MHz. Passing MHz here put
+    # the whole battle group on 264.425 Hz, so the carrier was never on the
+    # frequency the card printed.
+    grp.set_frequency(int(round(cv["freq"] * 1e6)))
     comms.add("Carrier", callsign_str, f"{cv['freq']:.3f}",
               tacan_str if "tacan" in systems else "-",
               f"{csg.get('flagship_name', hull['label'])} - "
@@ -266,6 +271,7 @@ def add_carrier_aew(m, country, hull_key, carrier_pos, brc, threat_bearing,
         country, f"AEW {aew_cfg['squadron']}", aew_type, airport=None,
         position=pos, race_distance=48000, heading=(threat_bearing + 90) % 360,
         altitude=AEW_ALT, speed=500, frequency=freq)
+    fg.set_frequency(freq)          # awacs_flight sets a TASK only — see support_air
     comms.add("AEW", aew_cfg["squadron"].split()[0], f"{freq:.3f}", "-",
               f"{airwing['label']} {aew_type.id} overhead the force")
     if gfx is not None:

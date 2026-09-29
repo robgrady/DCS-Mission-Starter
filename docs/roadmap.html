@@ -4,198 +4,46 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Roadmap — DCS Sortie Starter</title>
 <style>
-  :root{--bg:#0d1117;--panel:#161b22;--panel2:#1c2330;--line:#2d3748;--text:#e6edf3;
-    --dim:#8b949e;--accent:#58a6ff;--green:#3fb950;--teal:#2dd4bf;--violet:#b388ff;--amber:#d29922}
+  @font-face{font-family:'Barlow Condensed';src:url('/fonts/BarlowCondensed-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+  @font-face{font-family:'Barlow Condensed';src:url('/fonts/BarlowCondensed-ExtraBold.ttf') format('truetype');font-weight:800;font-display:swap}
+  @font-face{font-family:'Bangers';src:url('/fonts/Bangers-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+  @font-face{font-family:'Source Sans 3';src:url('/fonts/SourceSans3-VF.ttf') format('truetype');font-weight:300 900;font-display:swap}
+  @font-face{font-family:'Source Serif 4';src:url('/fonts/SourceSerif4-VF.ttf') format('truetype');font-weight:300 900;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('/fonts/IBMPlexMono-Regular.ttf') format('truetype');font-weight:400;font-display:swap}
+  @font-face{font-family:'IBM Plex Mono';src:url('/fonts/IBMPlexMono-Bold.ttf') format('truetype');font-weight:700;font-display:swap}
+  :root{/* AUTHENTIC STYLE v2.1 — data/brand/flightline.json, docs/brand/authentic-style-specimen.pdf */
+    --bg:#FFFFFF;--panel:#F4F6F8;--line:#D0D5DD;--text:#101828;
+    --dim:#475467;--accent:#1D4E89;--navy:#00205B;--teal:#1D4E89;--amber:#B45309;
+    --disp:'Barlow Condensed','Arial Narrow',sans-serif;--banner:'Bangers','Barlow Condensed',Impact,sans-serif;
+    --serif:'Source Serif 4',Georgia,serif;--sans:'Source Sans 3',system-ui,Helvetica,Arial,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,Menlo,monospace}
+  .aband{background:var(--navy);color:#fff;font-family:var(--mono);font-size:12px;letter-spacing:.06em;
+    text-transform:uppercase;padding:12px 24px;display:flex;justify-content:space-between;gap:16px}
+  .aband b{font-weight:700}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);line-height:1.6;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-  .wrap{max-width:880px;margin:0 auto;padding:40px 24px 90px}
+  body{margin:0;background:var(--bg);color:var(--text);line-height:1.65;
+    font-family:var(--serif)}
+  .wrap{max-width:860px;margin:0 auto;padding:40px 24px 90px}
   a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
-  header h1{font-size:32px;margin:0 0 4px;letter-spacing:-.5px}
-  header h1 span{background:linear-gradient(90deg,var(--teal),var(--accent));
-    -webkit-background-clip:text;background-clip:text;color:transparent}
-  header p{color:var(--dim);margin:0 0 8px;font-size:14px}
+  h1{font-family:var(--banner);font-weight:400;font-size:44px;line-height:1;margin:0 0 4px;letter-spacing:.01em;color:var(--navy)}
+  h1 span{color:var(--accent)}
+  .sub{font-family:var(--sans);color:var(--dim);margin:0 0 8px;font-size:14px}
   .north{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--teal);
-    border-radius:10px;padding:14px 18px;margin:22px 0 34px;font-size:15px}
+    border-radius:10px;padding:14px 18px;margin:22px 0 30px;font-size:15px}
   .north b{color:var(--teal)}
-  section{margin-bottom:34px}
-  h2{font-size:14px;text-transform:uppercase;letter-spacing:.12em;color:var(--dim);
-    display:flex;align-items:center;gap:10px;margin:0 0 14px}
+  h2{font-family:var(--disp);font-weight:800;font-size:18px;text-transform:uppercase;letter-spacing:.02em;color:var(--text);border-bottom:1px solid var(--line);padding-bottom:4px;
+    display:flex;align-items:center;gap:10px;margin:34px 0 14px}
   h2::after{content:"";flex:1;height:1px;background:var(--line)}
-  h2 .tag{font-size:16px}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  @media(max-width:700px){.grid{grid-template-columns:1fr}}
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-  .card b{display:block;margin-bottom:4px;font-size:14.5px}
-  .card p{margin:0;color:var(--dim);font-size:13px}
-  .card.shipped{border-left:3px solid var(--green)}
-  .card.now{border-left:3px solid var(--accent)}
-  .card.next{border-left:3px solid var(--amber)}
-  .pillar{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--violet);
-    border-radius:10px;padding:16px 18px;margin-bottom:12px}
-  .pillar b{font-size:15px}
-  .pillar p{margin:6px 0 0;color:var(--dim);font-size:13.5px}
-  .free{color:var(--green);font-weight:600}
-  .card.idea{border-style:dashed;border-left:3px dashed var(--dim)}
-  .ideahead{color:var(--violet)}
-  footer{color:var(--dim);font-size:12px;border-top:1px solid var(--line);padding-top:16px}
+  ul{margin:0;padding-left:0;list-style:none}
+  li{background:var(--panel);border:1px solid var(--line);border-radius:10px;
+     padding:12px 16px;margin-bottom:10px;font-size:14px;color:var(--dim)}
+  li b{color:var(--text)}
+  p{font-size:14.5px;color:var(--dim)}
+  .rule{margin-top:40px;border-top:1px solid var(--line);padding-top:16px;
+        font-size:12.5px;color:var(--dim);font-style:italic}
 </style>
 </head>
-<body><div class="wrap">
-<header>
-  <h1>DCS <span>Sortie Starter</span> — Roadmap</h1>
-  <p>July 2026 · release notes in <a href="https://github.com/robgrady/DCS-Mission-Starter/blob/main/CHANGELOG.md">CHANGELOG.md</a> · open source (MIT)</p>
-</header>
-
-<div class="north"><b>North star: "Select, don't search."</b> A living, period-accurate
-DCS mission in under a minute — no editor, no Lua. We set the stage, you write the
-play. <b>Never player waypoints.</b></div>
-
-<section>
-  <h2><span class="tag">✅</span> Shipped — highlights through v1.19.x</h2>
-  <div class="grid">
-    <div class="card shipped"><b>Mission Library + two paths</b>
-      <p>Pick a curated scenario — role-coded cards, era &amp; threat filters, preview →
-      generate or open-in-builder — or build from scratch in the full wizard.</p></div>
-    <div class="card shipped"><b>F-14B(U) day-one support</b>
-      <p>Verified type id, real footprint, radio presets, carrier ops, DTM cartridge
-      auto-loaded (bullseye, fix points, threat plot lines — never your route),
-      Jester/Iceman crew-ops scenarios.</p></div>
-    <div class="card shipped"><b>Theater Identity</b>
-      <p>Each airbase dresses as its real owning nation — country, aircraft types,
-      liveries — with per-nation ramp rosters.</p></div>
-    <div class="card shipped"><b>Historical Airspace (first slices)</b>
-      <p>Berlin Air Corridors and the Syria Euphrates deconfliction line, drawn to a
-      MIL-STD-2525-based chart standard.</p></div>
-    <div class="card shipped"><b>Sortie Starter Brief</b>
-      <p>Pre-flight pack: cartographic theater chart, comms/nav, forces (PDF + MD),
-      plus in-jet kneeboards.</p></div>
-    <div class="card shipped"><b>The foundation</b>
-      <p>11 era-gated theaters, dressing on real stands with measured parking headings,
-      doctrinal SAMs + Threat Dial, carrier groups with measured decks, real comms
-      plans, deterministic share links — a link <i>is</i> the mission.</p></div>
-  </div>
-</section>
-
-<section>
-  <h2><span class="tag">▶</span> Now</h2>
-  <div class="grid">
-    <div class="card now"><b>In-game validation pass</b>
-      <p>Corridors, nation ramps, Tomcat spacing, and the DTM cartridge verified in the sim.</p></div>
-    <div class="card now"><b>Scenery keep-out + final surveys</b>
-      <p>Falklands and The Channel parking surveys; building keep-outs so statics
-      never touch scenery.</p></div>
-    <div class="card now"><b>DTC v3</b>
-      <p>Historical-airspace corridors as PTID plot lines; kneeboard "cartridge
-      contents" page.</p></div>
-  </div>
-</section>
-
-<section>
-  <h2><span class="tag">⏭</span> Next</h2>
-  <div class="grid">
-    <div class="card next"><b>More Library missions</b>
-      <p>Theater-specific scenarios: Syria SA-10 hunt, Channel sweep '44, Kola QRA,
-      Normandy rail strike…</p></div>
-    <div class="card next"><b>Owned-modules profile</b>
-      <p>Tell the Library what maps and jets you own once — it filters honestly
-      everywhere.</p></div>
-    <div class="card next"><b>Mission-pattern scenarios</b>
-      <p>From the chart plates: DCA/CAP, strike COMAO, CAS kill box, carrier
-      recovery.</p></div>
-    <div class="card next"><b>Polish &amp; depth</b>
-      <p>More nation-alignment theaters, nation support-air callsigns, CSG ship
-      paint, livery picker, saveable ramp mixes.</p></div>
-  </div>
-</section>
-
-<section>
-  <h2><span class="tag">★</span> Pillars</h2>
-  <div class="pillar"><b>Theater Identity</b>
-    <p>Every map gets its real geopolitical and historical character with zero
-    configuration. Next slice: <b>Theater IADS</b> — nation- and era-correct
-    integrated air-defense laydowns at real sites.</p></div>
-  <div class="pillar"><b>v2.0 — Live Mission Scripting</b>
-    <p>BRAA calls, in-mission scoring, corridor discipline. Opt-in, never
-    intrusive.</p></div>
-  <div class="pillar"><b>v3.0 — Community</b>
-    <p>Accounts via Patreon: save missions to a private library (recipes — tiny and
-    permanent, never stale files), stable share permalinks, upload-a-mission →
-    dissect → reusable recipe, and your owned-modules profile stored on the
-    account. <span class="free">The generator itself stays free.</span></p></div>
-</section>
-
-<section>
-  <h2 class="ideahead"><span class="tag">💡</span> Idea board — unprioritized</h2>
-  <p style="color:var(--dim);font-size:13px;margin:-6px 0 14px">A DCS-player wishlist, not commitments — anything here can be promoted when it earns it. Everything respects the north star: reference and stage-setting, never player waypoints.</p>
-  <div class="grid">
-    <div class="card idea"><b>COIN / Afghanistan-era ops</b>
-      <p>Convoy overwatch, FOB resupply, ridge-line CAS, CSAR with a survivor radio.</p></div>
-    <div class="card idea"><b>COMAO packages</b>
-      <p>Fly as one element of a timed strike package — AI SEAD ahead, escort flanking — without routing you.</p></div>
-    <div class="card idea"><b>Naval strike scenarios</b>
-      <p>Shadow, ID and strike a surface group; era-correct from Styx boats to modern SAGs.</p></div>
-    <div class="card idea"><b>Campaign-lite chains</b>
-      <p>One mission's outcome seeds the next recipe — kill a SAM site today, it's gone tomorrow.</p></div>
-    <div class="card idea"><b>Seeded wildcards</b>
-      <p>Opt-in surprises: SAM ambush, unknown contact, diverted tanker, start-abort drill.</p></div>
-    <div class="card idea"><b>Helicopter-first templates</b>
-      <p>Petrovich/George crew-ops, sling-load logistics, medevac under SHORAD.</p></div>
-    <div class="card idea"><b>Training syllabus track</b>
-      <p>A qual ladder — nav, BFM, BVR, SEAD, package lead — each rung a Library card.</p></div>
-    <div class="card idea"><b>Historical-date weather</b>
-      <p>Pick a real date: archived weather, correct moon phase and sun times.</p></div>
-    <div class="card idea"><b>Weather fronts & winds aloft</b>
-      <p>Layered wind profiles and moving cells instead of one static preset.</p></div>
-    <div class="card idea"><b>Era-correct night ops</b>
-      <p>Airfield lighting states, NVG-era gating, dark-ramp cold starts.</p></div>
-    <div class="card idea"><b>Doctrine-true red air</b>
-      <p>Soviet GCI-grid CAP vs Western sweep behavior per era, not just skill sliders.</p></div>
-    <div class="card idea"><b>Period callsign packs</b>
-      <p>Nation- and era-correct callsigns end to end — no 'Texaco' over the GDR in 1975.</p></div>
-    <div class="card idea"><b>Tail-code sequencing</b>
-      <p>Squadron blocks numbered like a real flight line.</p></div>
-    <div class="card idea"><b>Auto approach plates</b>
-      <p>TACAN/ILS plates for home + divert fields, drawn to our chart standard, in the kneeboard.</p></div>
-    <div class="card idea"><b>Divert card</b>
-      <p>Nearest suitable fields with headings, distances and fuel estimates.</p></div>
-    <div class="card idea"><b>SRS export</b>
-      <p>The comms plan as a SimpleRadio channel preset file next to the .miz.</p></div>
-    <div class="card idea"><b>QR brief handoff</b>
-      <p>QR on the PDF brief opens the mission data card on your tablet kneeboard.</p></div>
-    <div class="card idea"><b>TacView debrief pack</b>
-      <p>Auto-enable the right flags; ship a debrief checklist keyed to the mission.</p></div>
-    <div class="card idea"><b>Cyclic carrier ops</b>
-      <p>Event-driven deck: launch cycle, recovery window, Case III stack times on the kneeboard.</p></div>
-    <div class="card idea"><b>Recovery tanker + LSO picture</b>
-      <p>Hawking tanker overhead; era-correct CV NATOPS numbers on the brief.</p></div>
-    <div class="card idea"><b>Reactive escort stations</b>
-      <p>Plane-guard helo and shotgun destroyer repositioning with deck state.</p></div>
-    <div class="card idea"><b>Loadout presets (opt-in)</b>
-      <p>Era-authentic stores presets for the player flight — never forced, never a route.</p></div>
-    <div class="card idea"><b>MP server pack</b>
-      <p>One click: mission set + rotation manifest ready for a dedicated server.</p></div>
-    <div class="card idea"><b>Mission date picker</b>
-      <p>A full date (not just era) driving weather, daylight, moon and roster gating.</p></div>
-    <div class="card idea"><b>Range scoring lite</b>
-      <p>Strafe/bomb scoring triggers on the practice range — a v2.0 appetizer that works today.</p></div>
-    <div class="card idea"><b>In-app release notes</b>
-      <p>A 'what changed' card in the UI fed from the CHANGELOG.</p></div>
-  </div>
-</section>
-
-<section>
-  <h2><span class="tag">🗺</span> New maps</h2>
-  <div class="card shipped"><b>Afghanistan — shipped (v1.21)</b>
-    <p>25 airports authored from a real install export; projection probe-calibrated
-    to 0&nbsp;m error.</p></div>
-  <div class="card next" style="margin-top:12px"><b>Iraq — next</b>
-    <p>Same runbook; unlocks the Northern/Southern Watch no-fly-zone scenarios.
-    Both headed upstream to pydcs.</p></div>
-</section>
-
-<footer>Developed by Authentic Media LLC · free community tool, provided as-is ·
-not affiliated with Eagle Dynamics or Heatblur ·
-<a href="https://github.com/robgrady/DCS-Mission-Starter">GitHub</a></footer>
-</div></body>
-</html>
+<body><div class="aband"><b>DCS Sortie Starter · v1.105.0 · Roadmap</b><span>SORTIE STARTER / ROADMAP</span></div><div class="wrap">
+<h1>DCS <span>Sortie Starter</span> — Roadmap</h1>
+<p>*August 2026 · owner-only, in the app at <code>/admin/roadmap</code> · the past lives in</p><p>CHANGELOG.md — this page is only ever about what&#x27;s next.*</p><div class=north><b>North star:</b> &quot;Select, don&#x27;t search.&quot; A DCS pilot gets a living,</div><p>period-accurate mission in under a minute — no editor, no Lua. We set the</p><p>stage, you write the play. **You are never given a flight plan you did not ask</p><p>for<i>*: waypoints are placed only where a routed strike </i>is* the mission (the</p><p>strike templates), where a **curated training ride&#x27;s printed syllabus IS the</p><p>flight plan** (the White Knights rides — the route is the lesson, so the</p><p>mission carries it), or where the pilot switched on <b>Automatic waypoints</b></p><p>(v1.53.0, off by default). There is no waypoint editor and none is planned:</p><p>where a mission needs a plan, the mission brings it.</p><p><b>The boundary on Training:</b> *Training teaches only what the mission can</p><p>MEASURE, and only what unlocks a sortie you could not otherwise fly. Everything</p><p>else is reference, not coaching.*</p><p>Why this clause exists, written down at v1.104.1 so the next feature argument</p><p>has something to lose against. The generator scales on axes you can enumerate —</p><p>maps, eras, aircraft, mission kinds. You can see the end of each one, and &quot;this</p><p>map works&quot; is a state the product can actually reach. **Training has no such</p><p>list.** Every subject in aviation is defensible as training, so the category</p><p>will absorb anything offered to it: another syllabus, another squadron&#x27;s paper,</p><p>another era&#x27;s doctrine, another history chapter. Each addition is individually</p><p>correct and the sum drifts. Nothing inside the category ever says stop, so the</p><p>boundary has to be stated from outside it.</p><p>It compounds the wrong way, too. The unbounded half of the product is also the</p><p>expensive half to verify: routes, charts, briefs and file format are provable at</p><p>a desk, while a coached cue is provable only in a cockpit, by Rob, one sortie at</p><p>a time. v1.104.0 shipped a green suite, 29/29 mutations and a card that never</p><p>drew. **So the category with no natural edge is the one that consumes the</p><p>scarcest resource the project has.** That is the actual failure mode this clause</p><p>guards against, not untidiness.</p><p>The two tests, in order:</p><p>1. <b>CAN THE MISSION MEASURE IT?</b> This is already the engineering ethic —</p><p>   <code>formation_hud</code> and <code>aar_hud</code> both refuse to draw a lateral cue because the</p><p>   only range check is a sphere, and a training aid that invents a cue is worse</p><p>   than one that admits a gap. As a <i>product</i> rule it does real work: if Mission</p><p>   Editor conditions cannot observe it without Lua, it is not a coached feature.</p><p>   No exceptions bought with cleverness.</p><p>2. <b>DOES IT UNLOCK A SORTIE?</b> Formation unlocks flying with a lead. AAR</p><p>   unlocks range. BFM unlocks the fight. Case III unlocks the boat. A history</p><p>   chapter unlocks nothing — it is good, and it is <i>content</i>.</p><p><b>The release valve, which is the half that makes the rule survive.</b> Failing</p><p>the tests does not kill an idea, it routes it to the cheap channel: a kneeboard</p><p>page, a guide section, a brief paragraph, a chart. Reference is nearly free.</p><p>Coaching costs art, a flag block, a trigger set, a mutation harness and a sortie</p><p>of the only cockpit we have. Most scope creep is a good idea arriving through</p><p>the expensive door; this clause is a door, not a wall. A rule that only ever</p><p>says no gets quietly ignored, and then it is worth less than nothing because it</p><p>also cost the argument.</p><p><b>And Training gets a definition of done.</b> A course is finished when its</p><p>syllabus is flyable end to end and its check ride grades — not when it stops</p><p>being extensible, because it never does. **The F-4E pipeline is done at</p><p>v1.104.1.** No second aircraft&#x27;s pipeline starts until somebody finishes the</p><p>first one, and &quot;finishes&quot; means a real pilot completing it, not us shipping it.</p><h2>✅ Where the product is today (v1.105.0)</h2><p>Everything shipped is documented release-by-release in</p><p><a href="CHANGELOG.md">CHANGELOG.md</a>. <b>v1.105.0</b> publishes the pack format — all four kinds and how to author each, at /api/packformat — and retires the What&#x27;s new page. <b>v1.104.2</b> puts the whole product into American English — the app said <i>aeroplane</i>, <i>centreline</i> and <i>manoeuvre</i>, and a US aviation product should not. <b>v1.104.1</b> moves the position ladder to the one screen position ever confirmed rendering in a cockpit, adds an F10 that draws one on demand, and stops the text coach repeating what the card already says. <b>v1.104.0</b> rebuilds the formation coaching as a position ladder you glance at, gives the AI lead the patience to wait for you, and turns the check-ride debrief into cards. <b>v1.103.1</b> puts the timing rides on the corridors too and repairs the Air Corridors knob. <b>v1.103.0</b> brings the standard map detail to Cold War Germany — the Central Region corridors, both sides of the line. <b>v1.102.0</b> brings the Authentic standard map detail to the Syria map — the Levant corridors, four home clusters, one chart. <b>v1.101.0</b> makes the corridor chart two panels and vector. <b>v1.100.0</b> draws the NTTR corridor chart — kneeboard page, brief page, the site. <b>v1.99.1</b> fixes the Mission Editor refusing to save a timing-package mission. <b>v1.99.0</b> threads every routed Nevada flight plan through the Nellis corridors (Sally, Alamo, FYTTR, the recoveries). <b>v1.98.1</b> moves the Phantom history chapter into ground school (School 1). <b>v1.98.0</b> names the pipeline: *Learn it, fly it,</p><p>fight it.* <b>v1.97.0</b> puts every generated document —</p><p>brief, kneeboard, guides, kit, the documentation pages — on one page</p><p>furniture, Authentic Style v2.1 (<code>missiongen/authentic.py</code>).</p><p><b>v1.96.0</b> ends every UPT phase in a check</p><p>ride graded the way an instructor grades — U/F/G/E per item, Q/Q-/U</p><p>overall, critical items — from Mission Editor triggers alone</p><p>(<code>checkride.py</code>), with a pre-check that flies the check profile first.</p><p><b>v1.95.0</b> opens the fourth door: the</p><p><b>Training Pipeline</b> — three schools in the order every air force runs them</p><p>(UPT, FRS, MQT), laid over the tracks and cards that already exist, with a</p><p>history chapter, a check ride, planned units shown with their reasons, a</p><p>browser-local record and a squadron kit. First course: the F-4E.</p><p><b>v1.94.0</b> puts a clock on every flight plan —</p><p>groundspeed, leg, cumulative and ETA per point, anchored on takeoff, a push</p><p>time or a TOT the way a planner anchors it, with the mission clock solved</p><p>backwards to meet it — writes the ETAs into the file (advisory on you, LOCKED</p><p>on an optional package flying two minutes ahead), grades you against them</p><p>with a timing coach, and ships four F-4E rides from Fassberg that teach it.</p><p>The short version: four doors — <b>Fly Now</b></p><p>(one-screen picker: tanking, BFM, gun-belt and SAM strikes, air starts),</p><p><b>Library</b> (25 curated missions across eras, roles and crews), <b>Builder</b></p><p>(a six-screen wizard, nothing collapsed), <b>Train</b> (the pipeline) — over an engine with 12 era-gated</p><p>theaters and four eras (Afghanistan and Iraq on the official map exports), real parking and</p><p>headings — <b>your jet now takes the tightest stand that fits it</b>, so the one</p><p>wide apron stays free for the tanker (v1.68.0) — doctrinal air defenses with a guns-only</p><p>tier, carrier strike groups, tanker/AWACS with a real comm ladder, a briefing</p><p>pack (SITUATION/MISSION/EXECUTION, theater chart, diverts and fuel card),</p><p>in-jet kneeboards with the live threat picture, byte-deterministic share links,</p><p>and our own privacy-preserving product analytics (missions&#x27; shapes, never users&#x27;) alongside Google Analytics, with the footer stating plainly what each of the two collects.</p><p><b>v1.80.0</b> ships the product THIN: no missions in the image or the download, packs produced and uploaded through the admin, and the last in-request syllabus build deleted rather than cached around.\n\n<b>v1.79.0</b> makes the PACK the product&#x27;s unit of published content: a public, specified format with a manifest, an upload flow that derives one from a folder of missions and lets you correct it before it goes live, and the four built-in syllabi shipped as artifacts rather than rebuilt on every download.\n\n<b>v1.78.1</b> stops the whole-track download building eleven missions inside the request — it took the server down — by pre-building the deterministic zips into the image.</p><p><b>v1.78.0</b> opens the coached B&#x27;NAI with a six-page spoken brief the pilot pages through himself, with his controls locked until the last page hands them back and arms the coaching — and says plainly that a mission can hold the pilot but cannot press active pause for him.</p><p><b>v1.77.0</b> teaches the B&#x27;NAI instead of only testing it: thirteen cues on the squadron&#x27;s own drawing, one per decision in the attack, that re-arm after egress so the whole geometry can be flown again from the IP without reloading — with a slot for a recorded WSO voice and a card that says plainly what a Mission Editor condition cannot see.</p><p><b>v1.76.4</b> gives every White Knights ride the wingman its card always promised — REX 2 as a separate flight, offset by the briefed spacing — and loads each delivery ride with the ordnance its own planning sheet calls for, period-correct AIM-7E-2s and AIM-9Js included, with the STORES block on the kneeboard tested against the pylons in the file.</p><p><b>v1.76.3</b> puts the squadron&#x27;s own attack diagrams — all five, reproduced from the pages of Conventional Tactics rather than redrawn — on the kneeboard and in the printed guide.</p><p><b>v1.76.2</b> adds the split attack&#x27;s LOW/HIGH half — the guide describes two splits and the syllabus taught one — taking Proud Phantom to ten rides, with a new guard asserting every attack and every delivery sheet in the document has a ride.\n\n<b>v1.76.1</b> gives all twenty White Knights rides a real flight plan, puts the ride card on the kneeboard where a pilot can read it at three hundred feet, flies them under the squadron&#x27;s own REX callsign, and states the period livery in full while admitting DCS ships no 70 TFS skin.\n\n<b>v1.76.0</b> ships <b>The White Knights</b> — twenty missions in two tracks, built from four documents issued to a new arrival at the 70th Tactical Fighter Squadron at Moody AFB in January and February 1980. Eleven rides of Squadron Checkout in Cold War Germany, nine of Proud Phantom from Cairo West, the base the squadron actually deployed to that June. Every number is transcribed from the squadron&#x27;s own paper; where a number cannot be flown as written in a theatre, the card prints both and says which governs.\n\n<b>v1.75.4</b> fixes the one Rob spotted next: the refuelling track sat below the terrain. Mount Elbrus is 18,510 ft and stands on the free Caucasus map, while the KC-130 and KA-6D were briefed at 15,000 and you started 1,000 ft below that. Every track now clears its map&#x27;s highest ground by 3,000 ft measured for the RECEIVER, a tanker that cannot reach the resulting altitude is withdrawn with the reason printed, and a test reads the altitude back out of the generated PDF to prove the guide briefs what the mission flies.\n\n<b>v1.75.3</b> fixes four things found by flying it: the KA-6D shipped with no buddy store and could not give fuel, the pre-contact air start put you abeam the tanker pointing the wrong way, the A-6 was too slow for a Tomcat, and the guide printed two speeds where only the flown one belongs.\n\n<b>v1.75.2</b> makes tanker era-availability a rule derived from service windows rather than a hand-applied judgement — so the KA-6D buddy tanker is available to the Navy in both eras, labelled rather than hidden — and puts every kneeboard card plus the indicator artwork into the printed guide.\n\n<b>v1.75.1</b> tunes both from the cockpit: tanker track speed is now clamped into the RECEIVER&#x27;s own comfortable band (so a Hercules speeds up for a fast jet and a KC-135 slows down for a Hog, and a pairing that cannot work says so), and the indicator moved to the left edge at eye level, halved in size, with a four-second floor between redraws.\n\n<b>v1.75.0</b> makes the Academy <b>configurable</b>: pick an era, an aircraft and a tanker, and the eleven missions, their briefs and the printed syllabus guide are all generated for that combination — the F-4E and the F-14B(U) included, Cold War on the same free map. Coaching moved out of the top-right corner into a <b>position indicator</b> at the bottom of the screen, built from a native picture action rather than script: two honest axes (fore/aft, high/low) and no invented lateral cue.</p><p><b>v1.74.0</b> ships the <b>Air-to-Air Refuelling Academy</b>: two graded lane tracks — boom (USAF, Viper/KC-135) and probe-and-drogue (Navy/Marine, Hornet/KC-130) — eleven rides each, grouped as one Library card, with a printed syllabus guide per lane and a one-click download of the whole track. Ten of the eleven rides coach and grade you <b>inside the mission</b>, from Mission Editor triggers alone: envelope, speed, dwell and excursions, with fading closure calls and self-requested hints on F10. It does not claim to grade the plug — DCS triggers cannot see a refuelling event or read fuel — and every card says so.</p><p><b>Both sides are armed</b> (v1.44.0 AI, v1.48.0 player) — enemy fits are a</p><p>curated table, your fit is composed from DCS&#x27;s own per-pylon legal-store lists</p><p>and driven by the mission type you pick. <b>Ramps carry heavies</b> (v1.47.0):</p><p>stands are judged by the real airframe footprint, so tankers and AWACS can</p><p>actually park. <b>1,823 tests ship inside the download</b>, and</p><p><code>scripts/release.sh</code> regenerates every derived artifact — pages, screenshots,</p><p>the PDF guide — and the pre-deploy check <b>blocks</b> on any that is behind, so</p><p>nothing in the documentation can quietly fall out of step with the product</p><p>(v1.49.1; this page is one of the things it now enforces). <b>v1.69.0</b> adds a **War on Terror</p><p>era** for Iraq and Afghanistan — the war ED actually built the Iraq North</p><p>region for — where nothing contests you in the air and the threat is guns, and</p><p>a served <b>Sources page</b> (<code>/api/sources</code>) tracing every claim the product</p><p>makes. <b>v1.68.0</b> gives Iraq seven</p><p>historically sourced air corridors, from the Kharg Island tanker-war lane to</p><p>the 36th and 33rd parallels. <b>v1.57.0</b> moves the site itself onto</p><p>Flightline — paper default, night toggle, semantic color, self-hosted fonts.</p><p><b>v1.56.0</b> adopts</p><p>the Flightline Technical design system for every generated document — one token</p><p>source, vendored OFL fonts, an identity rail instead of the classification</p><p>banner, computed WCAG AA contrast. <b>v1.55.0</b> exports</p><p>the kneeboard as PNGs (OpenKneeboard, print, Discord) and moves every document</p><p>to a military-publication register — DD-175-style forms, classification-style</p><p>banners, black on white. <b>v1.54.0</b> puts the</p><p>composed loadout on a STORES kneeboard page — the fit had existed since v1.48.0</p><p>and been readable only on the desktop. <b>v1.53.0</b> adds</p><p><b>Automatic waypoints</b> — an opt-in flight plan (WP1, IP, target, home) on the</p><p>F10 map, in the jet&#x27;s nav system, in the F-14B(U) cartridge and on a kneeboard</p><p>leg card. Off by default, so the no-waypoints behavior is still what you get</p><p>unless you ask. <b>v1.52.0</b> caps a</p><p>ramp at six statics per squadron, so a flight line reads as several units</p><p>sharing a field rather than one unit pasted twenty times. <b>v1.51.0</b> rebuilds</p><p>the formation-flying syllabus — five stages from route position to a full</p><p>ramp-to-ramp sortie, an AI lead that is its own airplane rather than a slot in</p><p>your flight, radio coaching when you drift out of position, and an era-scaled</p><p>choice of airframe with lead&#x27;s cruise derived from what you actually fly.</p><h2>▶ Now</h2><p>*Re-planned in v1.91.0 from the Expert Mission Dossier (<code>docs/technique_dossier.html</code>):</p><p>four complete commercial campaigns, 97 missions and 137 documents, read file by</p><p>file. The findings that set this list: every commercial campaign ships as a</p><p>folder (<code>.cmp</code> + missions + Doc), Reflected carries clock/fuel/stores between</p><p>chained sortie files by hand, the platform&#x27;s score-keyed branching is used once</p><p>in 97 missions, and every say/do gap in expert work was a hand-copied number.*</p><ul><li><b>The Doc folder.</b> Printed briefing PDF, kneeboard PDF and an inflight guide per map (channelization, parking, TACAN/ATC, SID/STAR, divert/NORDO, airfield diagram) as generator outputs, derived from the recipe so they cannot drift. Three of the missing pages are data pydcs already holds.</li><li><b>Campaign export.</b> A <code>.cmp</code> with chained sorties (Departure → exercise → RTB as separate files, clock advanced and fuel/stores carried — what MIG Killers does 45 times by hand) and score-keyed alternates per stage (what Raven One does once). No Lua; the platform does it.</li><li><b>Cockpit-parameter verification.</b> The readback gate is built and off on the F-14 and Hornet until <code>list_cockpit_params()</code> output arrives for each; then <code>missiongen/cockpit.py</code> gains two lines and Casmo&#x27;s channel-2 problem is caught by the mission. Same path for gear/hook/flap arguments.</li><li><b>A five-minute gate.</b> 913 test functions parametrised across templates, eras and rides is the right shape (every expert gap was a per-mission number), but every test builds a whole .miz and the gate takes 15 minutes. Two changes, no refactor: cache built missions per test session (most files rebuild the same ten templates), and run the files a change touches first so a rename fails in a minute, not fifteen.</li><li><b>Trigger-only techniques still to land:</b> random cue variants with a busy-line flag, the descent staircase for the approach coach, corridor rules with SAM-state consequences, voice-only package members, and a termination guarantee in every coach. <i>Landed in v1.94.0:</i> the locked-ETA package member and the push/TOT timeline (Reflected&#x27;s HOLD technique).</li><li><b>Authentic Style, the rest of it.</b> Landed in v1.97.0 for every PDF and documentation page. Still to do: the in-mission cue cards (White Knights coach cards, the AAR HUD) which are images in the cockpit rather than documents, the site&#x27;s own interactive states (the specimen&#x27;s Default → Hover → Selected → Focus → Disabled), and the Okabe–Ito series for any chart the product draws.</li><li><b>The pipeline, next courses.</b> In order of leverage: (1) the two planned FRS units for the F-4E — an instrument recovery ride (TACAN penetration, ILS to minimums; trigger-only glideslope coach) and radar work with Jester (uncoached first); (2) a <b>UPT school on a free trainer</b> so the pipeline is universal — the TF-51D is in every install, the T-45C is a community mod and must be labelled as one; (3) F-16C and F/A-18C courses, which reuse the B-course BFM cards, the AAR lanes and Case III and need only a history chapter and a contact phase each; (4) a squadron-branded kit (their standards on the gradesheet). Progress stays browser-local; a roster is a squadron&#x27;s own business.</li><li><b>Fuel on the card.</b> The timing plan is the frame for it: a per-airframe burn table (climb / cruise / combat) turns each ETA into a planned fuel state, so JOKER and BINGO become computed numbers on the same rows instead of blank boxes. Needs data per module before code.</li><li><b>Timing on the other routed cards.</b> The clock is generic (any <code>bb_route</code> mission gets it); the coach and the package are opt-in. Next: time the White Knights and Case III cards the same way, and let a track card set its anchor per map.</li><li><b>Flightline Phase 3 — the heritage layer.</b> The slanted F-4E figure banners (one on the landing hero, chart figure titles), the guide PDF cover in the kit&#x27;s cover language, grayscale hatching for WEZ rings so the theater chart survives a monochrome printer. Lands after Rob reviews Phase 2 in the wild.</li><li><b>AI loadouts, phase 3</b> — air-to-air is done on both sides, and the player&#x27;s jet now derives strike/CAS/SEAD fits from pydcs&#x27;s pylon data. The remaining gap is the AI <i>packages</i>: Iron Hand strikers and escorted bombers still fly the air-to-air table, so they do not yet carry what the brief says they do. The derivation built for the player is the obvious tool for it.</li><li><b>Verified liveries</b> — everything is built and inert until <code>scripts/dump_liveries.py --merge</code> runs against a real DCS install: the nation-correct ramp skins and the VF-11 Red Rippers default on the F-14B/B(U). Blocked on one command, not on code.</li><li><b>Quick Flight completion</b> — Pattern Work and The Boat cards; &quot;what I own&quot; filtering in the picker; spice presets refined by the analytics data.</li><li><b>Callsign polish</b> — per-squadron options in a dropdown (Gypsy/Victory/ Fast Eagle...), and DCS-native callsign enum mapping where one exists.</li><li><b>Library health</b> — featured re-curation around the first-night user; two free Su-25T templates so a zero-purchase install has real content; a seat selector in the mission drawer so the SP·MP chips describe a real choice.</li></ul><h2>◇ Next</h2><ul><li><b>Chained rides as a syllabus.</b> Tracks packaged the way MIG Killers is: events with a graduation, and a syllabus document like Reflected&#x27;s Topgun Class 01-69 PDF.</li><li><b>Bet 1 needs eyes.</b> The say/do reader must read kneeboard images, not only text — Reflected&#x27;s in-game brief is &quot;refer to the PDF&quot;, and the corpus scan came back n/a on 60 of 97 missions for that reason.</li><li><b>The Lua decision (Rob&#x27;s).</b> Spoken callsigns from the paint, live fuel state, a switch as push-to-talk — Rampagers&#x27; best tricks need scripts. The library stays trigger-only; revisit as an opt-in for the campaign engine.</li><li><b>Verified magnetic variation per theater.</b> The flight-plan card publishes TRUE headings and says so, because pydcs exposes no declination and its runway heading is only the designator. A per-map/era table needs a source checked against the sim; a bundled WMM/IGRF model would silently expire. Until one exists, labelling is the honest answer.</li><li><b>Training tab</b> — Tanker Join-Up, Range Day, Pattern Work, Sandbox as Library cards (the picker&#x27;s reps, saved as curated missions).</li><li><b>Helicopter role</b> — Apache/Hind/Huey templates, then FARP spawning (<code>home</code> currently resolves airports only).</li><li><b>User guide refresh cadence</b> — the guide updates with every UI release.</li></ul><h2>◈ Later (demand-gated — the analytics tab decides)</h2><ul><li><b>&quot;Bandit fit&quot; control</b> — an era-typical / heavy toggle on the Threats screen, for people who want the harder fight. Deliberately gated: the default being right and briefed is worth more than another knob.</li><li><b>Mixed-type flights</b> (<code>flights: [...]</code>) — watching the <code>want_mixed_flight</code> counter.</li><li><b>Anti-ship strike</b> — reuses the carrier anchor axis; seven curated maps.</li><li><b>CSAR</b> — the genuinely new mission type on the list.</li><li><b>Moving convoys</b> — road-following targets for the armed-recon missions.</li></ul><div class=rule>Rule of the page: this roadmap is updated in the same commit as any release</div><p>that ships one of its items. If you&#x27;re reading a stale roadmap, that&#x27;s a bug —</p><p>file it.*</p>
+</div></body></html>

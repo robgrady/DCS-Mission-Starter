@@ -10,7 +10,7 @@ Design: see project doc `claude/sponsor-ads-design.md`.
   regenerable cache. A sponsor is sourced from an image URL (pulled + processed
   server-side) or a direct upload.
 - If no store exists / no active sponsor, missions fall back to the shipped
-  Authentic Media asset, so behaviour is unchanged out of the box.
+  Authentic Media asset, so behavior is unchanged out of the box.
 - PIL-only (no numpy — not installed in the deploy container).
 """
 from __future__ import annotations
@@ -133,7 +133,8 @@ def fetch_image(url: str, max_bytes: int = MAX_FETCH_BYTES, timeout: int = 8) ->
 # Manifest
 # --------------------------------------------------------------------------- #
 def _default_manifest() -> dict:
-    return {"active": None, "branding_enabled": True, "sponsors": {}}
+    return {"active": None, "branding_enabled": True, "house_brand": False,
+            "sponsors": {}}
 
 
 def _load() -> dict:
@@ -145,6 +146,11 @@ def _load() -> dict:
         return _default_manifest()
     m.setdefault("active", None)
     m.setdefault("branding_enabled", True)
+    # The shipped Authentic Media wordmark used to be the FALLBACK: no sponsor
+    # configured meant every mission got our own logo on launch. That is not a
+    # default anyone opted into — least of all on a fresh deploy, where the
+    # sponsor store lives on a volume and starts empty. It is opt-in now.
+    m.setdefault("house_brand", False)
     m.setdefault("sponsors", {})
     return m
 
@@ -177,6 +183,19 @@ def list_sponsors() -> dict:
 def branding_enabled() -> bool:
     with _lock:
         return bool(_load().get("branding_enabled", True))
+
+
+def house_brand_enabled() -> bool:
+    """Show the shipped Authentic Media wordmark when no sponsor is active."""
+    with _lock:
+        return bool(_load().get("house_brand"))
+
+
+def set_house_brand(on: bool) -> None:
+    with _lock:
+        m = _load()
+        m["house_brand"] = bool(on)
+        _save(m)
 
 
 def set_branding_enabled(on: bool) -> None:
@@ -254,6 +273,52 @@ def delete_sponsor(sid: str) -> None:
     cache = _CACHE / f"{sid}.png"
     if cache.exists():
         cache.unlink()
+
+
+def replace_image(sid: str, *, url: str | None = None,
+                  image_bytes: bytes | None = None) -> None:
+    """Swap an EXISTING sponsor's logo, keeping its id, name and impressions.
+
+    Without this the only way to change an uploaded logo was delete + re-add,
+    which re-derives the SAME slug from the same name — so the admin thumbnail
+    URL was byte-identical before and after and the browser served the stale
+    PNG from cache. The owner saw "the image doesn't change". Replacing in
+    place (plus the mtime cache-buster in cache_version) fixes both halves."""
+    with _lock:
+        m = _load()
+        sp = m["sponsors"].get(sid)
+        if not sp:
+            raise ValueError("No such sponsor")
+        opacity = int(sp.get("panel_opacity", DEFAULT_PANEL_OPACITY))
+    if not url and not image_bytes:
+        raise ValueError("Provide an image URL or upload a file")
+    raw = image_bytes if image_bytes is not None else fetch_image(url)
+    try:
+        splash = render_splash(raw, panel_opacity=opacity)
+    except Exception as e:
+        raise ValueError(f"Could not process that image: {e}")
+    with _lock:
+        m = _load()
+        _CACHE.mkdir(parents=True, exist_ok=True)
+        splash.save(_CACHE / f"{sid}.png")
+        # Remember where it came from so "Refresh" stays meaningful (or stops
+        # being offered, if this replacement was an upload).
+        m["sponsors"][sid]["source_url"] = url or None
+        _save(m)
+
+
+def cache_version(sid: str) -> int:
+    """Cache-buster for the admin thumbnail: the splash file's mtime.
+
+    The old buster was the impression count, which only moves when a MISSION is
+    generated — so re-rendering a logo left the <img> URL unchanged and the
+    browser kept showing the previous image. mtime changes exactly when the
+    bytes change, which is the thing we actually need to bust on."""
+    p = _CACHE / f"{sid}.png"
+    try:
+        return int(p.stat().st_mtime_ns // 1_000_000)
+    except OSError:
+        return 0
 
 
 def refresh_sponsor(sid: str) -> None:

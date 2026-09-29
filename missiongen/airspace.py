@@ -44,6 +44,25 @@ def _draw_line(layer, abs_pts, color, weight, style):
                             color=color, line_thickness=weight, line_style=style)
 
 
+def _arrow_head(layer, frm, to, color, frac=0.14, lo=6000.0, hi=18000.0):
+    """Filled arrowhead at `to`, pointing along frm->to.
+
+    DCS's Arrow shape runs along +Y (due EAST) at angle 0 and its angle field is
+    degrees clockwise, so a compass bearing is rebased by -90. `position` is the
+    arrow's TAIL, so it sits back one head-length from the terminus."""
+    import math as _m
+    d = _m.hypot(to.x - frm.x, to.y - frm.y)
+    if d < 1000:
+        return None
+    head = max(lo, min(hi, frac * d))
+    brg = _m.degrees(_m.atan2(to.y - frm.y, to.x - frm.x)) % 360
+    b = _m.radians(brg)
+    tail = mapping.Point(to.x - head * _m.cos(b), to.y - head * _m.sin(b),
+                         to._terrain)
+    return layer.add_arrow(tail, (brg - 90) % 360, head,
+                           color=color, fill=color, line_thickness=2)
+
+
 def _zone_radius_m(overlay):
     """Control-zone radius (m) if the overlay has a zone — used to nest corridors."""
     for f in overlay.get("features", []):
@@ -52,8 +71,13 @@ def _zone_radius_m(overlay):
     return 0.0
 
 
-def add_historical_airspace(m, map_key, era, overlay_ids=None):
+def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False):
     """Draw every historical-airspace overlay valid for map_key+era.
+
+    only_always=True draws just the overlays marked "always": true — standing
+    real-world airspace that must appear on EVERY mission on the map regardless
+    of the Historical airspace toggle (the R-4808N Groom box on Nevada: even
+    Red Flag players are briefed to stay out of the Box in real life).
 
     Returns (drawn_overlay_ids, briefing_lines). Safe to call unconditionally —
     returns ([], []) when the map/era has no overlay.
@@ -67,6 +91,8 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None):
 
     for oid, ov in data.items():
         if era not in ov.get("eras", []):
+            continue
+        if only_always and not ov.get("always"):
             continue
         if overlay_ids is not None and oid not in overlay_ids:
             continue
@@ -89,6 +115,10 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None):
                 end = mapping.Point(p2.x - dx / d * nest, p2.y - dy / d * nest, terrain)
                 cc, _cf, cw, csl = cs.spec("centerline")
                 _draw_line(layer, [p1, end], cc, cw, csl)
+                # Direction of transit, as a real filled arrowhead rather than a
+                # bare line. The corridor data carries from/to, so the lane has
+                # an authored direction and the chart should say so.
+                _arrow_head(layer, p1, end, cc)
                 cs.label(layer, _mid(p1, end, terrain),
                          f"» {f['name']}  ≤{f['ceiling_ft']:,} ft", col)
             elif kind == "zone":
@@ -98,6 +128,24 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None):
                                  fill=fill, line_thickness=wt, line_style=st)
                 cs.label(layer, c, f"⬡ {f['name']}", col)
                 m.triggers.add_triggerzone(c, radius=f["radius_sm"] * SM,
+                                           name=f"AIRSPACE {f['name']}")
+            elif kind == "box":
+                # Restricted-area box, VFR-chart style: boundary polygon from
+                # corner lat/lons + the sectional's data panel as the label
+                # (designator on top, then ALTITUDE / TIME OF USE / agency —
+                # the same fields a Las Vegas sectional prints for R-4808).
+                col, fill, wt, st = cs.spec(f.get("category", "restricted"))
+                pts = [_ll(v[0], v[1], terrain) for v in f["corners"]]
+                _draw_poly(layer, pts, col, fill, wt, st)
+                cx = sum(p.x for p in pts) / len(pts)
+                cy = sum(p.y for p in pts) / len(pts)
+                center = mapping.Point(cx, cy, terrain)
+                panel = [f"▨ {f['name']}"] + f.get("panel", [])
+                cs.label(layer, center, "\n".join(panel), col)
+                # trigger zone so scripts/designers can hook violations
+                import math as _math
+                rad = max(_math.hypot(p.x - cx, p.y - cy) for p in pts)
+                m.triggers.add_triggerzone(center, radius=rad,
                                            name=f"AIRSPACE {f['name']}")
             elif kind == "line":
                 col, _fill, wt, st = cs.spec(f.get("category", "deconfliction"))

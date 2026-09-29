@@ -9,11 +9,14 @@ zip at `DTC/<name>.dtc`, matched to the jet by its internal `"type": "F-14BU"`
 (the mission-tree group `["DTC"]` stays an empty `{}` marker). The JSON is
 `{"data": {CMDS, JDAM, NAV[12], TIS, cartridge_name, name, type}, name, type}`.
 
-We only ever populate **NAV** with battlespace REFERENCE data (north star: we set
-the stage, you write the play):
+We populate **NAV** with battlespace REFERENCE data (north star: we set the
+stage, you write the play):
   * NAV[i].additional_points  -> named reference points  {elev,lat,lon,name,x,y}
   * NAV[i].lines              -> plot lines  {closed, points:[{elev,lat,lon,x,y}]}
-  * NAV[i].waypoints          -> LEFT EMPTY (never the player's route)
+  * NAV[i].waypoints          -> EMPTY unless the user asked for a flight plan
+                                 (`bb_route`, off by default). He asked; the
+                                 cartridge carries it. Nobody gets somebody
+                                 else's route without ticking the box.
 CMDS/JDAM/TIS come from the scrubbed `dtc_template.json` skeleton at defaults —
 JDAM targets empty (no weapons), countermeasure programs at module defaults.
 """
@@ -155,7 +158,18 @@ def build_cartridge(gfx: dict, kb_ctx: dict, recipe, terrain=None) -> dict:
     """Deterministic DTC content model assembled from mission data we already
     computed. Reference geometry only. Stable ordering for determinism."""
     cart = {"bullseye": None, "homeplate": None, "fix_points": [],
-            "threat_areas": [], "support": [], "comms": [], "notes": []}
+            "threat_areas": [], "support": [], "comms": [], "notes": [],
+            "route": []}
+
+    # The cartridge carries the player's route ONLY when he asked for one
+    # (`bb_route`, or a card whose format is a routed strike). NAV[].waypoints
+    # stays empty otherwise — see build_dtm. This is the one place the old
+    # "never" was written into a data format rather than a code path, so it is
+    # worth being explicit: the default is unchanged, the option is real.
+    for leg in (kb_ctx.get("route") or []):
+        e = _pt_entry(str(leg.get("to"))[:24], leg.get("point"))
+        if e:
+            cart["route"].append(e)
 
     bull = gfx.get("bullseye")
     if bull is not None:
@@ -266,8 +280,15 @@ def build_dtm(cart: dict) -> dict:
     nav[0]["name"] = "STARTER REF"
     nav[0]["additional_points"] = add_pts
     nav[0]["lines"] = lines
-    nav[0]["waypoints"] = []          # never the player's route
-    nav[0]["route_as_line"] = False
+    # The player's route: EMPTY unless he asked for one. That default is the
+    # north star intact — an unrequested cartridge full of somebody else's
+    # flight plan is precisely what "we set the stage, you write the play"
+    # exists to prevent. When `bb_route` is on he has asked, so the Tomcat
+    # loads the route off the DTM page the way it loads everything else.
+    route = cart.get("route") or []
+    nav[0]["waypoints"] = [dict(_dtm_point(w), name=str(w["name"])[:24])
+                           for w in route]
+    nav[0]["route_as_line"] = bool(route)
     return dtm
 
 
@@ -286,14 +307,26 @@ def emit_dtm(miz_path: str, cart: dict) -> int:
             return 0
         z.writestr(info, payload)
     nav0 = dtm["data"]["NAV"][0]
-    return len(nav0["additional_points"]) + len(nav0["lines"])
+    return (len(nav0["additional_points"]) + len(nav0["lines"])
+            + len(nav0["waypoints"]))
 
 
 # --- RIO setup card (unchanged content, still shipped) ---------------------
 def cartridge_card_md(cart: dict, title: str = "F-14B(U) DTC Setup Card") -> str:
+    routed = cart.get("route") or []
     L = [f"# {title}", "",
-         "*Battlespace reference for the DTM (Data Transfer Module). Nav, threat "
-         "and comm picture only — your flight plan and weapons stay yours.*", ""]
+         ("*Battlespace reference for the DTM (Data Transfer Module), plus the "
+          "flight plan you asked for. Weapons stay yours.*" if routed else
+          "*Battlespace reference for the DTM (Data Transfer Module). Nav, threat "
+          "and comm picture only — your flight plan and weapons stay yours.*"), ""]
+    if routed:
+        L += ["## Flight plan (NAV waypoints)",
+              "*Loaded into the cartridge because automatic waypoints were "
+              "switched on. Edit or delete them in the DTM page like any other.*",
+              ""]
+        L += [f"{i}. **{w['name']}** — {w['dms']}"
+              for i, w in enumerate(routed, 1)]
+        L.append("")
     if cart.get("bullseye"):
         b = cart["bullseye"]
         L += ["## Bullseye", f"- **{b['dms']}**  ({b['lat']:.4f}, {b['lng']:.4f})", ""]

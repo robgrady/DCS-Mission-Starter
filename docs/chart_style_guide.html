@@ -88,7 +88,7 @@
 <div class="page">
   <h2>1 · The principle: line-work, not colored glass</h2>
   <p>A military chart conveys meaning through <b>boundary style, line weight, and
-  restraint</b> — colour is a secondary cue. The DCS drawing engine is capable of
+  restraint</b> — color is a secondary cue. The DCS drawing engine is capable of
   this register: it is closer to a FalconView/JMPS planning overlay than a video-game
   minimap, <i>if</i> we use its full line-style set instead of flat translucent fills.
   Every rule in this guide maps a real cartographic convention onto a setting that
@@ -123,9 +123,9 @@
 <!-- ============ PALETTE ============ -->
 <div class="page">
   <h2>2 · Palette</h2>
-  <p>Line colour is fully saturated; fill uses the same hue at very low opacity.
-  Values are given as DCS colour strings <span class="mono">0xRRGGBBAA</span> (the last
-  byte is alpha) and as RGBA for the Mission Editor colour picker.</p>
+  <p>Line color is fully saturated; fill uses the same hue at very low opacity.
+  Values are given as DCS color strings <span class="mono">0xRRGGBBAA</span> (the last
+  byte is alpha) and as RGBA for the Mission Editor color picker.</p>
   <table>
     <tr><th>Role</th><th>Swatch</th><th>Line RGBA</th><th>DCS line string</th><th>Fill opacity</th></tr>
     <tr><td><b>Threat / hostile / no-fly</b></td>
@@ -146,7 +146,7 @@
   </table>
   <div class="note">Alpha in the ME picker is a 0–100% opacity slider. A DCS alpha byte of
   <span class="mono">0x14</span> ≈ 8%, <span class="mono">0x00</span> = fully transparent (outline only).
-  For line colour keep opacity high (≈90%); for fill keep it in the 0–12% band.</div>
+  For line color keep opacity high (≈90%); for fill keep it in the 0–12% band.</div>
 </div>
 
 <!-- ============ LINE-STYLE LIBRARY ============ -->
@@ -264,7 +264,7 @@
             <text x="10" y="50" font-family="monospace" font-size="9" fill="#12283d">FSCL — EFF 1200Z</text>
           </svg>
         </div>
-        <div class="kv mono"><b>color</b> side colour · <b>weight</b> 4<br>
+        <div class="kv mono"><b>color</b> side color · <b>weight</b> 4<br>
         <b>style</b> strongpoint · <b>label</b> name + effective time</div>
       </div>
 
@@ -437,7 +437,7 @@
       is (FSCL), and your own lane/CAP/bullseye in cyan &amp; white. No two elements share an edge style.</div>
     <div class="col kv"><b style="color:#7a1f1f">DISCIPLINE</b> — every ring is
       <span class="mono">solid, w2.5, fill ≤5%</span> with an icon; the keep-out uses
-      <span class="mono">boundry, w2.5</span>; friendly work stays cyan. Colour + edge + icon do all
+      <span class="mono">boundry, w2.5</span>; friendly work stays cyan. Color + edge + icon do all
       the talking — no floods.</div>
   </div>
 </div>
@@ -597,8 +597,8 @@
   <h3>C · Apply the style (the authenticity step)</h3>
   <ol class="steps">
     <li>With the object selected, open its <b>properties</b> panel and set, in order:
-      <b>Line colour</b> (from §2, opacity ≈90%), <b>Line thickness</b> (from the element card),
-      <b>Line style</b> (the dropdown — pick from §3), then <b>Fill colour</b> at the low opacity
+      <b>Line color</b> (from §2, opacity ≈90%), <b>Line thickness</b> (from the element card),
+      <b>Line style</b> (the dropdown — pick from §3), then <b>Fill color</b> at the low opacity
       in §2 (or fully transparent).</li>
     <li>Give the object a <b>Name</b> that matches the label convention — it doubles as the on-map
       caption and keeps the layer list readable.</li>
@@ -611,25 +611,25 @@
       <span class="mono">FL240/8000</span>). Keep a small font and a dark fill for a halo.</li>
     <li>For corridors, set the text <b>angle</b> to the corridor's heading so the label runs
       along the route, not across it.</li>
-    <li>At SAM sites add an <b>Icon</b> → <b>Air Defense</b> (or Search Radar) at the ring centre,
+    <li>At SAM sites add an <b>Icon</b> → <b>Air Defense</b> (or Search Radar) at the ring center,
       scaled small.</li>
   </ol>
 
   <div class="note"><b>Consistency beats effort.</b> Draw one of each element correctly, then
-  <b>copy-paste and re-shape</b> — pasted objects keep the colour, thickness, style and fill, so the
+  <b>copy-paste and re-shape</b> — pasted objects keep the color, thickness, style and fill, so the
   whole chart stays in one visual language. Build a small "master" mission with one styled example of
   every element and reuse it as your palette.</div>
 
   <h3>Quick reference — element → settings</h3>
   <table>
-    <tr><th>Element</th><th>Colour</th><th>Fill</th><th>Weight</th><th>Line style</th></tr>
+    <tr><th>Element</th><th>Color</th><th>Fill</th><th>Weight</th><th>Line style</th></tr>
     <tr><td>Air corridor (sides)</td><td>cyan</td><td>0%</td><td>3</td><td class="mono">solid</td></tr>
     <tr><td>Air corridor (centerline)</td><td>cyan</td><td>—</td><td>1</td><td class="mono">dotdash</td></tr>
     <tr><td>Control zone</td><td>cyan</td><td>8%</td><td>4</td><td class="mono">solid</td></tr>
     <tr><td>No-fly zone</td><td>red</td><td>0%</td><td>6</td><td class="mono">boundry3</td></tr>
     <tr><td>Restricted / MOA</td><td>magenta</td><td>0–5%</td><td>3</td><td class="mono">boundry1 / dash</td></tr>
     <tr><td>Threat WEZ ring (+icon)</td><td>red</td><td>0%</td><td>3</td><td class="mono">solid</td></tr>
-    <tr><td>FLOT / FSCL</td><td>side colour</td><td>—</td><td>4</td><td class="mono">strongpoint</td></tr>
+    <tr><td>FLOT / FSCL</td><td>side color</td><td>—</td><td>4</td><td class="mono">strongpoint</td></tr>
     <tr><td>Deconfliction line</td><td>amber</td><td>—</td><td>3</td><td class="mono">dash</td></tr>
     <tr><td>Bullseye</td><td>white</td><td>4–6%</td><td>2</td><td class="mono">solid (dual ring)</td></tr>
   </table>

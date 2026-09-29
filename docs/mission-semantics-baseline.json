@@ -1,0 +1,2558 @@
+{
+ "afghanistan/gwot/42": {
+  "counts": {
+   "ramp_fields": 10,
+   "ramp_total": 156
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 146.3,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "Fuel_Tank_FT600",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}"
+   ],
+   "type": "A-10C_2",
+   "x": 125652,
+   "y": 271771
+  },
+  "ramp": {
+   "Bagram": 18,
+   "Camp Bastion": 18,
+   "Dwyer": 10,
+   "FOB Salerno": 18,
+   "Jalalabad": 18,
+   "Kandahar": 18,
+   "Khost": 6,
+   "Sharana": 18,
+   "Shindand": 18,
+   "Tarinkot": 14
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 33,
+   "enemy_air_groups": 0,
+   "sam_units": 0
+  }
+ },
+ "afghanistan/gwot/7": {
+  "counts": {
+   "ramp_fields": 10,
+   "ramp_total": 156
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 148.3,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "Fuel_Tank_FT600",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}"
+   ],
+   "type": "A-10C_2",
+   "x": 125652,
+   "y": 271771
+  },
+  "ramp": {
+   "Bagram": 18,
+   "Camp Bastion": 18,
+   "Dwyer": 10,
+   "FOB Salerno": 18,
+   "Jalalabad": 18,
+   "Kandahar": 18,
+   "Khost": 6,
+   "Sharana": 18,
+   "Shindand": 18,
+   "Tarinkot": 14
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 28,
+   "enemy_air_groups": 0,
+   "sam_units": 0
+  }
+ },
+ "afghanistan/modern/42": {
+  "counts": {
+   "ramp_fields": 7,
+   "ramp_total": 118
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 152.5,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -269899,
+   "y": -28278
+  },
+  "ramp": {
+   "Bagram": 18,
+   "Camp Bastion": 18,
+   "Dwyer": 10,
+   "Jalalabad": 18,
+   "Kabul": 18,
+   "Kandahar": 18,
+   "Shindand": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 44
+  }
+ },
+ "afghanistan/modern/7": {
+  "counts": {
+   "ramp_fields": 7,
+   "ramp_total": 118
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 256.6,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -269899,
+   "y": -28278
+  },
+  "ramp": {
+   "Bagram": 18,
+   "Camp Bastion": 18,
+   "Dwyer": 10,
+   "Jalalabad": 18,
+   "Kabul": 18,
+   "Kandahar": 18,
+   "Shindand": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 37
+  }
+ },
+ "caucasus/coldwar/42": {
+  "counts": {
+   "ramp_fields": 9,
+   "ramp_total": 141
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 133.6,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -284717,
+   "y": 682697
+  },
+  "ramp": {
+   "Gudauta": 13,
+   "Kobuleti": 18,
+   "Krasnodar-Center": 18,
+   "Krymsk": 18,
+   "Kutaisi": 18,
+   "Maykop-Khanskaya": 18,
+   "Senaki-Kolkhi": 18,
+   "Soganlug": 2,
+   "Vaziani": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 68
+  }
+ },
+ "caucasus/coldwar/7": {
+  "counts": {
+   "ramp_fields": 9,
+   "ramp_total": 140
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 113.3,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -284717,
+   "y": 682697
+  },
+  "ramp": {
+   "Gudauta": 13,
+   "Kobuleti": 18,
+   "Krasnodar-Center": 18,
+   "Krymsk": 18,
+   "Kutaisi": 18,
+   "Maykop-Khanskaya": 18,
+   "Senaki-Kolkhi": 18,
+   "Soganlug": 1,
+   "Vaziani": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 66
+  }
+ },
+ "caucasus/modern/42": {
+  "counts": {
+   "ramp_fields": 8,
+   "ramp_total": 110
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 104.4,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -284717,
+   "y": 682697
+  },
+  "ramp": {
+   "Gudauta": 13,
+   "Kobuleti": 16,
+   "Krymsk": 18,
+   "Kutaisi": 16,
+   "Mozdok": 17,
+   "Senaki-Kolkhi": 14,
+   "Soganlug": 2,
+   "Vaziani": 14
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 55
+  }
+ },
+ "caucasus/modern/7": {
+  "counts": {
+   "ramp_fields": 8,
+   "ramp_total": 110
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 104.5,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -284717,
+   "y": 682697
+  },
+  "ramp": {
+   "Gudauta": 13,
+   "Kobuleti": 16,
+   "Krymsk": 18,
+   "Kutaisi": 16,
+   "Mozdok": 17,
+   "Senaki-Kolkhi": 14,
+   "Soganlug": 1,
+   "Vaziani": 15
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 68
+  }
+ },
+ "falklands/coldwar/42": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 35
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 401.8,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 73156,
+   "y": 48683
+  },
+  "ramp": {
+   "Mount Pleasant": 15,
+   "Rio Gallegos": 10,
+   "Rio Grande": 2,
+   "San Carlos FOB": 5,
+   "Ushuaia": 3
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 2,
+   "sam_units": 51
+  }
+ },
+ "falklands/coldwar/7": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 36
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 336.3,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 73156,
+   "y": 48683
+  },
+  "ramp": {
+   "Mount Pleasant": 15,
+   "Rio Gallegos": 10,
+   "Rio Grande": 3,
+   "San Carlos FOB": 5,
+   "Ushuaia": 3
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 2,
+   "sam_units": 56
+  }
+ },
+ "falklands/modern/42": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 36
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 387.3,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 73156,
+   "y": 48683
+  },
+  "ramp": {
+   "Mount Pleasant": 15,
+   "Rio Gallegos": 10,
+   "Rio Grande": 3,
+   "San Carlos FOB": 5,
+   "Ushuaia": 3
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 1,
+   "sam_units": 50
+  }
+ },
+ "falklands/modern/7": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 36
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 387.6,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 73156,
+   "y": 48683
+  },
+  "ramp": {
+   "Mount Pleasant": 15,
+   "Rio Gallegos": 10,
+   "Rio Grande": 3,
+   "San Carlos FOB": 5,
+   "Ushuaia": 3
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 2,
+   "sam_units": 45
+  }
+ },
+ "germany/coldwar/42": {
+  "counts": {
+   "ramp_fields": 20,
+   "ramp_total": 349
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 259.6,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -499503,
+   "y": -933696
+  },
+  "ramp": {
+   "Altes Lager": 18,
+   "Bitburg": 18,
+   "Falkenberg": 16,
+   "Fassberg": 15,
+   "Finow": 18,
+   "Gutersloh": 15,
+   "Hahn": 18,
+   "Merseburg": 18,
+   "Neuruppin": 18,
+   "Norvenich": 17,
+   "Parchim": 18,
+   "Ramstein": 18,
+   "Sembach": 18,
+   "Spangdahlem": 18,
+   "Sperenberg": 18,
+   "Templin": 18,
+   "Werneuchen": 18,
+   "Wiesbaden": 18,
+   "Wittstock": 18,
+   "Zweibrucken": 16
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 22,
+   "enemy_air_groups": 3,
+   "sam_units": 76
+  }
+ },
+ "germany/coldwar/7": {
+  "counts": {
+   "ramp_fields": 20,
+   "ramp_total": 349
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 278.0,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -499503,
+   "y": -933696
+  },
+  "ramp": {
+   "Altes Lager": 18,
+   "Bitburg": 18,
+   "Falkenberg": 16,
+   "Fassberg": 15,
+   "Finow": 18,
+   "Gutersloh": 15,
+   "Hahn": 18,
+   "Merseburg": 18,
+   "Neuruppin": 18,
+   "Norvenich": 17,
+   "Parchim": 18,
+   "Ramstein": 18,
+   "Sembach": 18,
+   "Spangdahlem": 18,
+   "Sperenberg": 18,
+   "Templin": 18,
+   "Werneuchen": 18,
+   "Wiesbaden": 18,
+   "Wittstock": 18,
+   "Zweibrucken": 16
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 22,
+   "enemy_air_groups": 2,
+   "sam_units": 80
+  }
+ },
+ "germany/modern/42": {
+  "counts": {
+   "ramp_fields": 15,
+   "ramp_total": 270
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 360.4,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -499503,
+   "y": -933696
+  },
+  "ramp": {
+   "Buchel": 18,
+   "Falkenberg": 18,
+   "Holzdorf": 18,
+   "Laage": 18,
+   "Marxwalde": 18,
+   "Neuruppin": 18,
+   "Norvenich": 18,
+   "Parchim": 18,
+   "Ramstein": 18,
+   "Spangdahlem": 18,
+   "Sperenberg": 18,
+   "Templin": 18,
+   "Werneuchen": 18,
+   "Wittstock": 18,
+   "Wunstorf": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 2,
+   "sam_units": 59
+  }
+ },
+ "germany/modern/7": {
+  "counts": {
+   "ramp_fields": 15,
+   "ramp_total": 270
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 393.3,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -499503,
+   "y": -933696
+  },
+  "ramp": {
+   "Buchel": 18,
+   "Falkenberg": 18,
+   "Holzdorf": 18,
+   "Laage": 18,
+   "Marxwalde": 18,
+   "Neuruppin": 18,
+   "Norvenich": 18,
+   "Parchim": 18,
+   "Ramstein": 18,
+   "Spangdahlem": 18,
+   "Sperenberg": 18,
+   "Templin": 18,
+   "Werneuchen": 18,
+   "Wittstock": 18,
+   "Wunstorf": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 2,
+   "sam_units": 66
+  }
+ },
+ "iraq/coldwar/42": {
+  "counts": {
+   "ramp_fields": 12,
+   "ramp_total": 176
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 217.8,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 60421,
+   "y": -164032
+  },
+  "ramp": {
+   "Al-Asad Airbase": 18,
+   "Al-Kut Airport": 18,
+   "Al-Sahra Airport": 18,
+   "Al-Taji Airport": 11,
+   "Al-Taquddum Airport": 18,
+   "Balad Airbase": 18,
+   "Bashur Airport": 6,
+   "H-2 Airbase": 18,
+   "H-3 Main Airbase": 18,
+   "Kharg Airfield": 4,
+   "Kirkuk International Airport": 18,
+   "Sulaimaniyah International Airport": 11
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 41
+  }
+ },
+ "iraq/coldwar/7": {
+  "counts": {
+   "ramp_fields": 12,
+   "ramp_total": 176
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 210.4,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 60421,
+   "y": -164032
+  },
+  "ramp": {
+   "Al-Asad Airbase": 18,
+   "Al-Kut Airport": 18,
+   "Al-Sahra Airport": 18,
+   "Al-Taji Airport": 11,
+   "Al-Taquddum Airport": 18,
+   "Balad Airbase": 18,
+   "Bashur Airport": 6,
+   "H-2 Airbase": 18,
+   "H-3 Main Airbase": 18,
+   "Kharg Airfield": 5,
+   "Kirkuk International Airport": 18,
+   "Sulaimaniyah International Airport": 10
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 2,
+   "sam_units": 49
+  }
+ },
+ "iraq/gwot/42": {
+  "counts": {
+   "ramp_fields": 10,
+   "ramp_total": 175
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 228.6,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "Fuel_Tank_FT600",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}"
+   ],
+   "type": "A-10C_2",
+   "x": 60367,
+   "y": -164243
+  },
+  "ramp": {
+   "Al-Asad Airbase": 18,
+   "Al-Taji Airport": 18,
+   "Al-Taquddum Airport": 18,
+   "Baghdad International Airport": 18,
+   "Balad Airbase": 18,
+   "Erbil International Airport": 18,
+   "K1 Base": 18,
+   "Kirkuk International Airport": 18,
+   "Mosul International Airport": 18,
+   "Qayyarah Airfield West": 13
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 24,
+   "enemy_air_groups": 0,
+   "sam_units": 0
+  }
+ },
+ "iraq/gwot/7": {
+  "counts": {
+   "ramp_fields": 10,
+   "ramp_total": 175
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 230.0,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "Fuel_Tank_FT600",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}",
+    "{DB434044-F5D0-4F1F-9BA9-B73027E18DD3}"
+   ],
+   "type": "A-10C_2",
+   "x": 60367,
+   "y": -164243
+  },
+  "ramp": {
+   "Al-Asad Airbase": 18,
+   "Al-Taji Airport": 18,
+   "Al-Taquddum Airport": 18,
+   "Baghdad International Airport": 18,
+   "Balad Airbase": 18,
+   "Erbil International Airport": 18,
+   "K1 Base": 18,
+   "Kirkuk International Airport": 18,
+   "Mosul International Airport": 18,
+   "Qayyarah Airfield West": 13
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 25,
+   "enemy_air_groups": 0,
+   "sam_units": 0
+  }
+ },
+ "iraq/modern/42": {
+  "counts": {
+   "ramp_fields": 13,
+   "ramp_total": 207
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 48.6,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 78395,
+   "y": 12968
+  },
+  "ramp": {
+   "Al-Asad Airbase": 18,
+   "Al-Kut Airport": 18,
+   "Al-Sahra Airport": 18,
+   "Al-Taji Airport": 17,
+   "Al-Taquddum Airport": 18,
+   "Baghdad International Airport": 18,
+   "Balad Airbase": 18,
+   "Erbil International Airport": 18,
+   "K1 Base": 18,
+   "Kharg Airfield": 4,
+   "Kirkuk International Airport": 18,
+   "Qayyarah Airfield West": 13,
+   "Sulaimaniyah International Airport": 11
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 14,
+   "enemy_air_groups": 2,
+   "sam_units": 53
+  }
+ },
+ "iraq/modern/7": {
+  "counts": {
+   "ramp_fields": 13,
+   "ramp_total": 207
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 52.9,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 78395,
+   "y": 12968
+  },
+  "ramp": {
+   "Al-Asad Airbase": 18,
+   "Al-Kut Airport": 18,
+   "Al-Sahra Airport": 18,
+   "Al-Taji Airport": 17,
+   "Al-Taquddum Airport": 18,
+   "Baghdad International Airport": 18,
+   "Balad Airbase": 18,
+   "Erbil International Airport": 18,
+   "K1 Base": 18,
+   "Kharg Airfield": 4,
+   "Kirkuk International Airport": 18,
+   "Qayyarah Airfield West": 13,
+   "Sulaimaniyah International Airport": 11
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 14,
+   "enemy_air_groups": 2,
+   "sam_units": 49
+  }
+ },
+ "kola/coldwar/42": {
+  "counts": {
+   "ramp_fields": 13,
+   "ramp_total": 182
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 492.1,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -67528,
+   "y": -350082
+  },
+  "ramp": {
+   "Afrikanda": 18,
+   "Andoya": 10,
+   "Banak": 11,
+   "Bardufoss": 12,
+   "Bodo": 10,
+   "Evenes": 10,
+   "Kilpyavr": 18,
+   "Koshka Yavr": 9,
+   "Luostari Pechenga": 12,
+   "Monchegorsk": 18,
+   "Olenya": 18,
+   "Severomorsk-1": 18,
+   "Severomorsk-3": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 64
+  }
+ },
+ "kola/coldwar/7": {
+  "counts": {
+   "ramp_fields": 13,
+   "ramp_total": 182
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 595.4,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -67528,
+   "y": -350082
+  },
+  "ramp": {
+   "Afrikanda": 18,
+   "Andoya": 10,
+   "Banak": 11,
+   "Bardufoss": 12,
+   "Bodo": 10,
+   "Evenes": 10,
+   "Kilpyavr": 18,
+   "Koshka Yavr": 9,
+   "Luostari Pechenga": 12,
+   "Monchegorsk": 18,
+   "Olenya": 18,
+   "Severomorsk-1": 18,
+   "Severomorsk-3": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 2,
+   "sam_units": 68
+  }
+ },
+ "kola/modern/42": {
+  "counts": {
+   "ramp_fields": 14,
+   "ramp_total": 201
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 574.0,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -67528,
+   "y": -350082
+  },
+  "ramp": {
+   "Afrikanda": 18,
+   "Andoya": 10,
+   "Banak": 11,
+   "Bardufoss": 16,
+   "Bodo": 10,
+   "Evenes": 9,
+   "Kallax": 18,
+   "Kilpyavr": 18,
+   "Koshka Yavr": 9,
+   "Monchegorsk": 18,
+   "Olenya": 18,
+   "Rovaniemi": 10,
+   "Severomorsk-1": 18,
+   "Severomorsk-3": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 59
+  }
+ },
+ "kola/modern/7": {
+  "counts": {
+   "ramp_fields": 14,
+   "ramp_total": 202
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 518.6,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -67528,
+   "y": -350082
+  },
+  "ramp": {
+   "Afrikanda": 18,
+   "Andoya": 10,
+   "Banak": 11,
+   "Bardufoss": 16,
+   "Bodo": 10,
+   "Evenes": 10,
+   "Kallax": 18,
+   "Kilpyavr": 18,
+   "Koshka Yavr": 9,
+   "Monchegorsk": 18,
+   "Olenya": 18,
+   "Rovaniemi": 10,
+   "Severomorsk-1": 18,
+   "Severomorsk-3": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 64
+  }
+ },
+ "marianas/coldwar/42": {
+  "counts": {
+   "ramp_fields": 3,
+   "ramp_total": 22
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 72.9,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 9605,
+   "y": 13159
+  },
+  "ramp": {
+   "Andersen AFB": 18,
+   "North West Field": 3,
+   "Pagan Airstrip": 1
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 51
+  }
+ },
+ "marianas/coldwar/7": {
+  "counts": {
+   "ramp_fields": 3,
+   "ramp_total": 22
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 73.6,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 9605,
+   "y": 13159
+  },
+  "ramp": {
+   "Andersen AFB": 18,
+   "North West Field": 3,
+   "Pagan Airstrip": 1
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 44
+  }
+ },
+ "marianas/modern/42": {
+  "counts": {
+   "ramp_fields": 3,
+   "ramp_total": 20
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 74.8,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 9605,
+   "y": 13159
+  },
+  "ramp": {
+   "Andersen AFB": 18,
+   "Olf Orote": 1,
+   "Pagan Airstrip": 1
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 37
+  }
+ },
+ "marianas/modern/7": {
+  "counts": {
+   "ramp_fields": 3,
+   "ramp_total": 20
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 73.4,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 9605,
+   "y": 13159
+  },
+  "ramp": {
+   "Andersen AFB": 18,
+   "Olf Orote": 1,
+   "Pagan Airstrip": 1
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 10,
+   "enemy_air_groups": 3,
+   "sam_units": 42
+  }
+ },
+ "marianas/wwii/42": {
+  "counts": {
+   "ramp_fields": 3,
+   "ramp_total": 12
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 16.7,
+   "pylons": 4,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}"
+   ],
+   "type": "P-51D",
+   "x": 166401,
+   "y": 90762
+  },
+  "ramp": {
+   "Rota Intl": 3,
+   "Saipan Intl": 8,
+   "Tinian Intl": 1
+  },
+  "support": {
+   "awacs": 0,
+   "carrier": 0,
+   "tanker": 0
+  },
+  "threats": {
+   "aaa_units": 24,
+   "enemy_air_groups": 2,
+   "sam_units": 0
+  }
+ },
+ "marianas/wwii/7": {
+  "counts": {
+   "ramp_fields": 3,
+   "ramp_total": 12
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 17.0,
+   "pylons": 4,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}"
+   ],
+   "type": "P-51D",
+   "x": 166401,
+   "y": 90762
+  },
+  "ramp": {
+   "Rota Intl": 3,
+   "Saipan Intl": 8,
+   "Tinian Intl": 1
+  },
+  "support": {
+   "awacs": 0,
+   "carrier": 0,
+   "tanker": 0
+  },
+  "threats": {
+   "aaa_units": 30,
+   "enemy_air_groups": 3,
+   "sam_units": 0
+  }
+ },
+ "nevada/coldwar/42": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 74
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 79.6,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -397230,
+   "y": -17160
+  },
+  "ramp": {
+   "Creech": 18,
+   "Groom Lake": 18,
+   "Nellis": 18,
+   "Pahute Mesa": 2,
+   "Tonopah Test Range": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 3,
+   "sam_units": 51
+  }
+ },
+ "nevada/coldwar/7": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 74
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 79.4,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -397230,
+   "y": -17160
+  },
+  "ramp": {
+   "Creech": 18,
+   "Groom Lake": 18,
+   "Nellis": 18,
+   "Pahute Mesa": 2,
+   "Tonopah Test Range": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 2,
+   "sam_units": 52
+  }
+ },
+ "nevada/modern/42": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 74
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 89.5,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -397230,
+   "y": -17160
+  },
+  "ramp": {
+   "Creech": 18,
+   "Groom Lake": 18,
+   "Nellis": 18,
+   "Pahute Mesa": 2,
+   "Tonopah Test Range": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 2,
+   "sam_units": 46
+  }
+ },
+ "nevada/modern/7": {
+  "counts": {
+   "ramp_fields": 5,
+   "ramp_total": 74
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 88.6,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -397230,
+   "y": -17160
+  },
+  "ramp": {
+   "Creech": 18,
+   "Groom Lake": 18,
+   "Nellis": 18,
+   "Pahute Mesa": 2,
+   "Tonopah Test Range": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 12,
+   "enemy_air_groups": 2,
+   "sam_units": 49
+  }
+ },
+ "normandy/wwii/42": {
+  "counts": {
+   "ramp_fields": 18,
+   "ramp_total": 250
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 68.4,
+   "pylons": 4,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}"
+   ],
+   "type": "P-51D",
+   "x": -11670,
+   "y": -47410
+  },
+  "ramp": {
+   "Argentan": 13,
+   "Carpiquet": 18,
+   "Conches": 5,
+   "Cricqueville-en-Bessin": 18,
+   "Essay": 14,
+   "Evreux": 10,
+   "Ford": 18,
+   "Lessay": 18,
+   "Maupertus": 3,
+   "Picauville": 16,
+   "Rouen-Boos": 14,
+   "Saint Pierre du Mont": 18,
+   "Saint-Andre-de-lEure": 13,
+   "Sainte-Croix-sur-Mer": 16,
+   "Sainte-Laurent-sur-Mer": 18,
+   "Tangmere": 6,
+   "Villacoublay": 18,
+   "Vrigny": 14
+  },
+  "support": {
+   "awacs": 0,
+   "carrier": 0,
+   "tanker": 0
+  },
+  "threats": {
+   "aaa_units": 36,
+   "enemy_air_groups": 3,
+   "sam_units": 0
+  }
+ },
+ "normandy/wwii/7": {
+  "counts": {
+   "ramp_fields": 18,
+   "ramp_total": 250
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 58.4,
+   "pylons": 4,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}"
+   ],
+   "type": "P-51D",
+   "x": -11670,
+   "y": -47410
+  },
+  "ramp": {
+   "Argentan": 13,
+   "Carpiquet": 18,
+   "Conches": 5,
+   "Cricqueville-en-Bessin": 18,
+   "Essay": 14,
+   "Evreux": 10,
+   "Ford": 18,
+   "Lessay": 18,
+   "Maupertus": 3,
+   "Picauville": 16,
+   "Rouen-Boos": 14,
+   "Saint Pierre du Mont": 18,
+   "Saint-Andre-de-lEure": 13,
+   "Sainte-Croix-sur-Mer": 16,
+   "Sainte-Laurent-sur-Mer": 18,
+   "Tangmere": 6,
+   "Villacoublay": 18,
+   "Vrigny": 14
+  },
+  "support": {
+   "awacs": 0,
+   "carrier": 0,
+   "tanker": 0
+  },
+  "threats": {
+   "aaa_units": 32,
+   "enemy_air_groups": 3,
+   "sam_units": 0
+  }
+ },
+ "persiangulf/coldwar/42": {
+  "counts": {
+   "ramp_fields": 7,
+   "ramp_total": 100
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 212.5,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -210102,
+   "y": -173367
+  },
+  "ramp": {
+   "Al Dhafra AFB": 18,
+   "Al Minhad AFB": 18,
+   "Bandar Abbas Intl": 18,
+   "Bandar-e-Jask": 1,
+   "Havadarya": 9,
+   "Liwa AFB": 18,
+   "Shiraz Intl": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 65
+  }
+ },
+ "persiangulf/coldwar/7": {
+  "counts": {
+   "ramp_fields": 7,
+   "ramp_total": 100
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 213.1,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -210102,
+   "y": -173367
+  },
+  "ramp": {
+   "Al Dhafra AFB": 18,
+   "Al Minhad AFB": 18,
+   "Bandar Abbas Intl": 18,
+   "Bandar-e-Jask": 1,
+   "Havadarya": 9,
+   "Liwa AFB": 18,
+   "Shiraz Intl": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 2,
+   "sam_units": 74
+  }
+ },
+ "persiangulf/modern/42": {
+  "counts": {
+   "ramp_fields": 8,
+   "ramp_total": 105
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 179.1,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -210102,
+   "y": -173367
+  },
+  "ramp": {
+   "Al Dhafra AFB": 18,
+   "Al Minhad AFB": 18,
+   "Bandar Abbas Intl": 18,
+   "Bandar-e-Jask": 1,
+   "Havadarya": 9,
+   "Khasab": 5,
+   "Liwa AFB": 18,
+   "Shiraz Intl": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 2,
+   "sam_units": 65
+  }
+ },
+ "persiangulf/modern/7": {
+  "counts": {
+   "ramp_fields": 8,
+   "ramp_total": 105
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 240.1,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": -210102,
+   "y": -173367
+  },
+  "ramp": {
+   "Al Dhafra AFB": 18,
+   "Al Minhad AFB": 18,
+   "Bandar Abbas Intl": 18,
+   "Bandar-e-Jask": 1,
+   "Havadarya": 9,
+   "Khasab": 5,
+   "Liwa AFB": 18,
+   "Shiraz Intl": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 1,
+   "sam_units": 61
+  }
+ },
+ "sinai/coldwar/42": {
+  "counts": {
+   "ramp_fields": 15,
+   "ramp_total": 239
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 201.0,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 190530,
+   "y": 333633
+  },
+  "ramp": {
+   "Abu Suwayr": 18,
+   "Al Mansurah": 18,
+   "Beni Suef": 18,
+   "Bilbeis Air Base": 18,
+   "Bir Hasanah": 12,
+   "Cairo West": 18,
+   "El Arish": 9,
+   "Fayed": 18,
+   "Hatzerim": 18,
+   "Hatzor": 18,
+   "Inshas Airbase": 18,
+   "Kibrit Air Base": 7,
+   "Melez": 13,
+   "Ramat David": 18,
+   "Tel Nof": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 69
+  }
+ },
+ "sinai/coldwar/7": {
+  "counts": {
+   "ramp_fields": 15,
+   "ramp_total": 239
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 202.3,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": 190530,
+   "y": 333633
+  },
+  "ramp": {
+   "Abu Suwayr": 18,
+   "Al Mansurah": 18,
+   "Beni Suef": 18,
+   "Bilbeis Air Base": 18,
+   "Bir Hasanah": 12,
+   "Cairo West": 18,
+   "El Arish": 9,
+   "Fayed": 18,
+   "Hatzerim": 18,
+   "Hatzor": 18,
+   "Inshas Airbase": 18,
+   "Kibrit Air Base": 7,
+   "Melez": 13,
+   "Ramat David": 18,
+   "Tel Nof": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 70
+  }
+ },
+ "sinai/modern/42": {
+  "counts": {
+   "ramp_fields": 14,
+   "ramp_total": 252
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 199.5,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 128323,
+   "y": 363636
+  },
+  "ramp": {
+   "Al Mansurah": 18,
+   "Beni Suef": 18,
+   "Bilbeis Air Base": 18,
+   "Cairo West": 18,
+   "Fayed": 18,
+   "Hatzerim": 18,
+   "Hatzor": 18,
+   "Inshas Airbase": 18,
+   "Nevatim": 18,
+   "Ovda": 18,
+   "Palmachim": 18,
+   "Ramat David": 18,
+   "Ramon Airbase": 18,
+   "Tel Nof": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 64
+  }
+ },
+ "sinai/modern/7": {
+  "counts": {
+   "ramp_fields": 14,
+   "ramp_total": 252
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 228.5,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 128323,
+   "y": 363636
+  },
+  "ramp": {
+   "Al Mansurah": 18,
+   "Beni Suef": 18,
+   "Bilbeis Air Base": 18,
+   "Cairo West": 18,
+   "Fayed": 18,
+   "Hatzerim": 18,
+   "Hatzor": 18,
+   "Inshas Airbase": 18,
+   "Nevatim": 18,
+   "Ovda": 18,
+   "Palmachim": 18,
+   "Ramat David": 18,
+   "Ramon Airbase": 18,
+   "Tel Nof": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 2,
+   "sam_units": 65
+  }
+ },
+ "syria/coldwar/42": {
+  "counts": {
+   "ramp_fields": 12,
+   "ramp_total": 144
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 101.3,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -258390,
+   "y": -76229
+  },
+  "ramp": {
+   "Al-Dumayr": 14,
+   "An Nasiriyah": 6,
+   "Damascus": 10,
+   "Eyn Shemer": 6,
+   "Khalkhalah": 18,
+   "Marj Ruhayyil": 18,
+   "Megiddo": 11,
+   "Mezzeh": 17,
+   "Ramat David": 18,
+   "Rosh Pina": 5,
+   "Sayqal": 9,
+   "Tha'lah": 12
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 72
+  }
+ },
+ "syria/coldwar/7": {
+  "counts": {
+   "ramp_fields": 12,
+   "ramp_total": 145
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 88.4,
+   "pylons": 3,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+    "{PTB-150GAL}"
+   ],
+   "type": "F-5E-3",
+   "x": -258390,
+   "y": -76229
+  },
+  "ramp": {
+   "Al-Dumayr": 15,
+   "An Nasiriyah": 6,
+   "Damascus": 10,
+   "Eyn Shemer": 6,
+   "Khalkhalah": 18,
+   "Marj Ruhayyil": 18,
+   "Megiddo": 11,
+   "Mezzeh": 17,
+   "Ramat David": 18,
+   "Rosh Pina": 5,
+   "Sayqal": 9,
+   "Tha'lah": 12
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 77
+  }
+ },
+ "syria/modern/42": {
+  "counts": {
+   "ramp_fields": 8,
+   "ramp_total": 135
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 182.5,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 220223,
+   "y": -37310
+  },
+  "ramp": {
+   "Akrotiri": 18,
+   "Bassel Al-Assad": 18,
+   "Hama": 18,
+   "Incirlik": 18,
+   "Palmyra": 9,
+   "Ramat David": 18,
+   "Shayrat": 18,
+   "Tiyas": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 3,
+   "sam_units": 63
+  }
+ },
+ "syria/modern/7": {
+  "counts": {
+   "ramp_fields": 8,
+   "ramp_total": 135
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 180.7,
+   "pylons": 6,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+    "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}"
+   ],
+   "type": "F-16C_50",
+   "x": 220223,
+   "y": -37310
+  },
+  "ramp": {
+   "Akrotiri": 18,
+   "Bassel Al-Assad": 18,
+   "Hama": 18,
+   "Incirlik": 18,
+   "Palmyra": 9,
+   "Ramat David": 18,
+   "Shayrat": 18,
+   "Tiyas": 18
+  },
+  "support": {
+   "awacs": 1,
+   "carrier": 0,
+   "tanker": 1
+  },
+  "threats": {
+   "aaa_units": 18,
+   "enemy_air_groups": 1,
+   "sam_units": 60
+  }
+ },
+ "thechannel/wwii/42": {
+  "counts": {
+   "ramp_fields": 12,
+   "ramp_total": 164
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 72.7,
+   "pylons": 4,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}"
+   ],
+   "type": "P-51D",
+   "x": 52852,
+   "y": -15722
+  },
+  "ramp": {
+   "Abbeville Drucat": 11,
+   "Biggin Hill": 16,
+   "Detling": 14,
+   "Dunkirk Mardyck": 8,
+   "Eastchurch": 15,
+   "Hawkinge": 13,
+   "Headcorn": 15,
+   "High Halden": 13,
+   "Lympne": 9,
+   "Manston": 16,
+   "Merville Calonne": 18,
+   "Saint Omer Longuenesse": 16
+  },
+  "support": {
+   "awacs": 0,
+   "carrier": 0,
+   "tanker": 0
+  },
+  "threats": {
+   "aaa_units": 25,
+   "enemy_air_groups": 3,
+   "sam_units": 0
+  }
+ },
+ "thechannel/wwii/7": {
+  "counts": {
+   "ramp_fields": 12,
+   "ramp_total": 165
+  },
+  "documents": {
+   "entries": 9,
+   "has_briefing": true,
+   "kneeboard_pages": 4
+  },
+  "player": {
+   "alt_m": 0,
+   "nearest_threat_km": 71.4,
+   "pylons": 4,
+   "speed_kmh": 0,
+   "start": "From Parking Area",
+   "stores": [
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}",
+    "{HVAR}"
+   ],
+   "type": "P-51D",
+   "x": 52852,
+   "y": -15722
+  },
+  "ramp": {
+   "Abbeville Drucat": 12,
+   "Biggin Hill": 16,
+   "Detling": 14,
+   "Dunkirk Mardyck": 8,
+   "Eastchurch": 15,
+   "Hawkinge": 13,
+   "Headcorn": 15,
+   "High Halden": 13,
+   "Lympne": 9,
+   "Manston": 16,
+   "Merville Calonne": 18,
+   "Saint Omer Longuenesse": 16
+  },
+  "support": {
+   "awacs": 0,
+   "carrier": 0,
+   "tanker": 0
+  },
+  "threats": {
+   "aaa_units": 24,
+   "enemy_air_groups": 3,
+   "sam_units": 0
+  }
+ }
+}

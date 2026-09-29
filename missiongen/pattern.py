@@ -27,7 +27,7 @@ KIND_LABELS = {
 }
 
 # --- pattern geometry (metres) ---------------------------------------------
-FIRST_FINAL = 11000     # lead aircraft ~6 nm out on the extended centreline
+FIRST_FINAL = 11000     # lead aircraft ~6 nm out on the extended centerline
 TRAIL_SPACING = 7000    # ~3.8 nm in trail behind it
 SHORT_FINAL = 6000      # gate waypoint on the straight-in
 # Altitude follows a ~3 degree profile off the runway rather than a flat number,
@@ -45,7 +45,15 @@ HELO_SPEED = 180
 DEPART_MIN = 6000       # departure waypoint distance off the runway
 DEPART_MAX = 9000
 
-MAX_COUNT = 4
+# ROB: "Pattern Traffic is too limited, it should have the ability to add
+# more aircraft numbers." Raised 4 -> 8. The ceiling is set by the LANDING
+# conveyor, not by taste: aircraft are spaced 7 km in trail from 11 km out,
+# so number eight starts 60 km (~32 NM) from the threshold — nine minutes
+# from touchdown at approach speed, which is the outer edge of "the field is
+# alive as you walk out". Beyond that the tail of the queue is scenery nobody
+# sees. Departures are bounded by free parking stands anyway, and the
+# best-effort loop already warns when the ramp runs out.
+MAX_COUNT = 8
 
 
 def _field_elevation(airport) -> float:
@@ -99,7 +107,7 @@ def _plan(mode, count, rng):
 
 
 def _add_landing(m, country, airport, actype, name, slot, elev, rng):
-    """Spawn airborne on the extended centreline and let DCS fly the approach."""
+    """Spawn airborne on the extended centerline and let DCS fly the approach."""
     runway = airport.runways[0]
     heading = runway.heading
     dist = FIRST_FINAL + slot * TRAIL_SPACING

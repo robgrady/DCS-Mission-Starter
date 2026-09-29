@@ -1,0 +1,486 @@
+{
+ "_comment": "Service windows [from_year, to_year|null=still fielded] per weapon CLSID, mirroring aircraft_service.json. A weapon may appear in an era only if its window OVERLAPS the era window. Racks (LAU-7, APU-60-2M) inherit the window of the missile they carry. Fuel tanks and captive/training stores are exempt from the check and are not listed. Any CLSID used in loadouts.json that classifies as a missile MUST appear here — tests/test_loadouts.py fails the build otherwise.",
+ "_soviet_ir": "--- Soviet/Russian IR AAMs ---",
+ "{R-3S}": [
+  1961,
+  1990
+ ],
+ "{R-55}": [
+  1965,
+  1990
+ ],
+ "{R-13M}": [
+  1974,
+  1995
+ ],
+ "{R-13M1}": [
+  1976,
+  1995
+ ],
+ "{R-60}": [
+  1974,
+  1995
+ ],
+ "{R-60 2L}": [
+  1974,
+  1995
+ ],
+ "{R-60 2R}": [
+  1974,
+  1995
+ ],
+ "{R-60M}": [
+  1982,
+  null
+ ],
+ "{APU-60-1_R_60M}": [
+  1982,
+  null
+ ],
+ "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}": [
+  1982,
+  null
+ ],
+ "{275A2855-4A79-4B2D-B082-91EA2ADF4691}": [
+  1982,
+  null
+ ],
+ "{682A481F-0CB5-4693-A382-D00DD4A156D7}": [
+  1982,
+  null
+ ],
+ "{FBC29BFE-3D24-4C64-B81D-941239D12249}": [
+  1984,
+  null
+ ],
+ "_soviet_radar": "--- Soviet/Russian radar-guided AAMs ---",
+ "{R-3R}": [
+  1966,
+  1990
+ ],
+ "{CCF898C9-5BC7-49A4-9D1E-C3ED3D5166A1}": [
+  1981,
+  2005
+ ],
+ "{6980735A-44CC-4BB9-A1B5-591532F1DC69}": [
+  1981,
+  2005
+ ],
+ "{4EDBA993-2E34-444C-95FB-549300BF7CAF}": [
+  1976,
+  2005
+ ],
+ "{5F26DBC2-FB43-4153-92DE-6BBCE26CB0FF}": [
+  1976,
+  2005
+ ],
+ "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}": [
+  1981,
+  null
+ ],
+ "{9B25D316-0434-4954-868F-D51DB1A38DF0}": [
+  1983,
+  null
+ ],
+ "{88DAC840-9F75-4531-8689-B46E64E42E53}": [
+  1983,
+  null
+ ],
+ "{E8069896-8435-4B90-95C0-01A03AE6E400}": [
+  1990,
+  null
+ ],
+ "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}": [
+  1990,
+  null
+ ],
+ "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}": [
+  1994,
+  null
+ ],
+ "_us_ir": "--- US IR AAMs (and the LAU-7 rails that carry them) ---",
+ "{AIM-9B}": [
+  1956,
+  1980
+ ],
+ "{AIM-9J}": [
+  1972,
+  1995
+ ],
+ "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}": [
+  1978,
+  2005
+ ],
+ "{AIM-9P3}": [
+  1980,
+  2005
+ ],
+ "{AIM-9P5}": [
+  1985,
+  2010
+ ],
+ "{AIM-9L}": [
+  1977,
+  null
+ ],
+ "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}": [
+  1983,
+  null
+ ],
+ "{5CE2FF2A-645A-4197-B48D-8720AC69394F}": [
+  2003,
+  null
+ ],
+ "{773675AB-7C29-422f-AFD8-32844A7B7F17}": [
+  1978,
+  2005
+ ],
+ "{9DDF5297-94B9-42FC-A45E-6E316121CD85}": [
+  1983,
+  null
+ ],
+ "{F4-2-AIM9L}": [
+  1977,
+  null
+ ],
+ "_us_radar": "--- US radar-guided AAMs ---",
+ "{AIM-7E}": [
+  1968,
+  1990
+ ],
+ "{AIM-7F}": [
+  1976,
+  2000
+ ],
+ "{AIM-7H}": [
+  1982,
+  null
+ ],
+ "{8D399DDA-FF81-4F14-904D-099B34FE7918}": [
+  1982,
+  null
+ ],
+ "{C8E06185-7CD6-4C90-959F-044679E90751}": [
+  1994,
+  null
+ ],
+ "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}": [
+  1996,
+  null
+ ],
+ "_note": "Service windows [in, out] for stores, used to keep a weapon out of a war it postdates. Two layers: exact CLSID keys (authoritative, used by the curated AI loadout table), and _families keyed by DESIGNATION as it appears in the DCS store name. The family layer exists because a single missile has many CLSIDs - the bare store plus every rack variant ('AIM-9M', 'LAU-7 AIM-9M', 'LAU-115 with 1 x LAU-127 AIM-9M ...') - and hand-keying all of them left 105 air-to-air stores unwindowed. That gap is not cosmetic: with no window an RS-2US beam-rider from 1959 was era-legal forever and got selected for a MODERN MiG-21. Longest designation match wins. null upper bound = still in service.",
+ "_families": {
+  "AIM-9B": [
+   1956,
+   1975
+  ],
+  "AIM-9J": [
+   1972,
+   1990
+  ],
+  "AIM-9P5": [
+   1980,
+   2005
+  ],
+  "AIM-9P3": [
+   1980,
+   2005
+  ],
+  "AIM-9P": [
+   1978,
+   2000
+  ],
+  "AIM-9JULI": [
+   1980,
+   1995
+  ],
+  "AIM-9L": [
+   1977,
+   2000
+  ],
+  "AIM-9M": [
+   1982,
+   null
+  ],
+  "AIM-9X": [
+   2003,
+   null
+  ],
+  "AIM-7E-2": [
+   1969,
+   1985
+  ],
+  "AIM-7E": [
+   1963,
+   1980
+  ],
+  "AIM-7F": [
+   1976,
+   1995
+  ],
+  "AIM-7MH": [
+   1987,
+   null
+  ],
+  "AIM-7M": [
+   1982,
+   null
+  ],
+  "AIM-7P": [
+   1990,
+   null
+  ],
+  "AIM-54A": [
+   1974,
+   1999
+  ],
+  "AIM-54C": [
+   1986,
+   2004
+  ],
+  "AIM-120B": [
+   1994,
+   null
+  ],
+  "AIM-120C": [
+   1996,
+   null
+  ],
+  "FIM-92": [
+   1981,
+   null
+  ],
+  "RS2US": [
+   1959,
+   1977
+  ],
+  "RS-2US": [
+   1959,
+   1977
+  ],
+  "K-13A": [
+   1961,
+   1990
+  ],
+  "R-60M": [
+   1982,
+   null
+  ],
+  "R-60": [
+   1974,
+   1995
+  ],
+  "R-73": [
+   1984,
+   null
+  ],
+  "R-24R": [
+   1981,
+   2000
+  ],
+  "R-24T": [
+   1981,
+   2000
+  ],
+  "R-27ER": [
+   1990,
+   null
+  ],
+  "R-27ET": [
+   1990,
+   null
+  ],
+  "R-27R": [
+   1987,
+   null
+  ],
+  "R-27T": [
+   1987,
+   null
+  ],
+  "R-77": [
+   1994,
+   null
+  ],
+  "R530F": [
+   1967,
+   1990
+  ],
+  "S530F": [
+   1967,
+   1990
+  ],
+  "Super 530D": [
+   1988,
+   null
+  ],
+  "S530D": [
+   1988,
+   null
+  ],
+  "Magic II": [
+   1986,
+   null
+  ],
+  "Magic 2": [
+   1986,
+   null
+  ],
+  "Magic 1": [
+   1976,
+   1995
+  ],
+  "Mistral": [
+   1989,
+   null
+  ],
+  "PL-5E": [
+   1990,
+   null
+  ],
+  "PL-8": [
+   1988,
+   null
+  ],
+  "PL-12": [
+   2007,
+   null
+  ],
+  "SD-10A": [
+   2007,
+   null
+  ],
+  "RB-24J": [
+   1980,
+   2000
+  ],
+  "RB-24": [
+   1956,
+   1975
+  ],
+  "RB-74": [
+   1980,
+   null
+  ],
+  "AIM-120": [
+   1994,
+   null
+  ],
+  "AGM-88": [
+   1985,
+   null
+  ],
+  "AGM-84": [
+   1979,
+   null
+  ],
+  "AGM-154": [
+   1999,
+   null
+  ],
+  "AGM-65": [
+   1972,
+   null
+  ],
+  "AGM-62": [
+   1967,
+   1995
+  ],
+  "GBU-31": [
+   1999,
+   null
+  ],
+  "GBU-38": [
+   2004,
+   null
+  ],
+  "GBU-32": [
+   1999,
+   null
+  ],
+  "GBU-54": [
+   2008,
+   null
+  ],
+  "GBU-39": [
+   2006,
+   null
+  ],
+  "GBU-24": [
+   1983,
+   null
+  ],
+  "GBU-27": [
+   1991,
+   null
+  ],
+  "GBU-28": [
+   1991,
+   null
+  ],
+  "GBU-10": [
+   1976,
+   null
+  ],
+  "GBU-12": [
+   1976,
+   null
+  ],
+  "GBU-16": [
+   1976,
+   null
+  ],
+  "Kh-25ML": [
+   1975,
+   null
+  ],
+  "Kh-29L": [
+   1980,
+   null
+  ],
+  "Kh-29T": [
+   1980,
+   null
+  ],
+  "Kh-31P": [
+   1988,
+   null
+  ],
+  "Kh-31A": [
+   1988,
+   null
+  ],
+  "Kh-58": [
+   1978,
+   null
+  ],
+  "Kh-25MP": [
+   1975,
+   null
+  ],
+  "Kh-35": [
+   1996,
+   null
+  ],
+  "KAB-500": [
+   1985,
+   null
+  ],
+  "KAB-1500": [
+   1990,
+   null
+  ],
+  "Vikhr": [
+   1990,
+   null
+  ],
+  "HELLFIRE": [
+   1984,
+   null
+  ],
+  "AGM-114": [
+   1984,
+   null
+  ]
+ }
+}

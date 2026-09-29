@@ -1,0 +1,134 @@
+{
+  "_comment": "Design tokens — THE single source for every color and type role in the product. DOCUMENT palette (paper, ink, navy, accent, panel, slate=dim, warning=danger, caution=warn, ok, rule) is AUTHENTIC STYLE v2.1 (Rob, 6 Sep 2026; specimen at docs/brand/authentic-style-specimen.pdf): every generated PDF and the kneeboard derive from it via missiongen/authentic.py. The sys_* and role_* keys are the SITE (Apple HIG, unchanged). Change here, regenerate, ship.",
+  "_source": "Flightline Technical kit · DESIGN.md rev alpha · derived from MIL-STD-38784B / MIL-STD-3001 conventions",
+  "colors": {
+    "paper": "#FFFFFF",
+    "ink": "#101828",
+    "navy": "#00205B",
+    "olive": "#4B5320",
+    "warning": "#9F1239",
+    "caution": "#B45309",
+    "slate": "#475467",
+    "rule": "#D0D5DD",
+    "white": "#FFFFFF",
+    "night": "#0A1118",
+    "night_text": "#E8EFEA",
+    "phosphor": "#9BE28F",
+    "instrument": "#64C7D5",
+    "night_warning": "#FF6B5F",
+    "night_caution": "#FFC857",
+    "sys_bg": "#F2F2F7",
+    "sys_fill": "#E9E9EE",
+    "sys_sep": "#C6C6C8",
+    "sys_dim": "#69696E",
+    "sys_blue": "#007AFF",
+    "sys_green": "#34C759",
+    "sys_orange": "#FF9500",
+    "sys_red": "#FF3B30",
+    "sys_dark_bg": "#000000",
+    "sys_dark_panel": "#1C1C1E",
+    "sys_dark_fill": "#2C2C2E",
+    "sys_dark_sep": "#38383A",
+    "sys_dark_dim": "#98989F",
+    "sys_blue_dark": "#0A84FF",
+    "sys_green_dark": "#30D158",
+    "sys_orange_dark": "#FF9F0A",
+    "sys_red_dark": "#FF453A",
+    "role_a2a": "#006FA1",
+    "role_a2a_dark": "#70D7FF",
+    "role_strike": "#C43300",
+    "role_strike_dark": "#FFB340",
+    "role_sead": "#3634A3",
+    "role_sead_dark": "#8987FF",
+    "role_cas": "#7F6545",
+    "role_cas_dark": "#B59469",
+    "role_carrier": "#007387",
+    "role_carrier_dark": "#5DE6FF",
+    "role_training": "#1F7835",
+    "role_training_dark": "#30DB5B",
+    "role_historic": "#8944AB",
+    "role_historic_dark": "#DA8FFF",
+    "sys_blue_access": "#0040DD",
+    "sys_blue_access_dark": "#409CFF",
+    "sys_blue_solid_dark": "#0070E0",
+    "sys_green_access": "#1F7835",
+    "accent": "#1D4E89",
+    "panel": "#F4F6F8",
+    "ok": "#067647"
+  },
+  "_surface_note_2": "SITE palette, iteration 4 and the settled one (Rob, 12 Aug): Apple's Human Interface Guidelines system colors, with the Flightline TYPOGRAPHY stack retained (Barlow Condensed / Source Sans 3 / IBM Plex Mono / Bangers) — his explicitly stated exception. sys_* are Apple's published values: grouped backgrounds, hairline separators, systemBlue as the single accent, semantic red/orange/green. History: cream+white (bad, print-as-app), gray workbench (rejected), blue-light (superseded), Apple HIG (current). sys_dim is darkened from Apple's #8A8A8E to hold WCAG AA on white — the one deliberate deviation, recorded here. DOCUMENTS are untouched: kneeboard/brief/guide keep Flightline paper+navy; HIG governs applications, not print.",
+  "_surface_note": "workbench/well are SCREEN-ONLY surfaces, straight from the kit's own specimen (its body is #D7D8D4 gray with a white page on top). PAPER (#F4F0E6) is a PRINT surface: one page, one ground — used by the kneeboard/brief/guide and never as an app background. The v1.57.0 light mode made that mistake (cream page + white panels + beige cards = three near-whites, no edges) and Rob called it immediately.",
+  "semantics": {
+    "_comment": "The rules, not just the values. Red is danger/warning/destructive ONLY. Amber is caution/degraded ONLY. Navy is identity, navigation and notes. Every color-coded state carries a text label and, on screens, a shape symbol (WARNING triangle, CAUTION diamond, NORMAL disc).",
+    "danger": "warning",
+    "cautionary": "caution",
+    "identity": "navy",
+    "taxonomy": "olive",
+    "symbols": {
+      "normal": "●",
+      "caution": "◆",
+      "warning": "▲"
+    }
+  },
+  "fonts": {
+    "_comment": "Vendored OFL files under fonts/. VF = variable font; weight is set per-use via set_variation_by_axes. DejaVu remains the hard fallback so a missing file degrades a document, never fails a build.",
+    "display": {
+      "file": "BarlowCondensed-ExtraBold.ttf",
+      "fallback": "DejaVuSans-Bold.ttf"
+    },
+    "display_bold": {
+      "file": "BarlowCondensed-Bold.ttf",
+      "fallback": "DejaVuSans-Bold.ttf"
+    },
+    "banner": {
+      "file": "Bangers-Regular.ttf",
+      "fallback": "DejaVuSans-Bold.ttf"
+    },
+    "sans": {
+      "file": "SourceSans3-VF.ttf",
+      "weight": 400,
+      "fallback": "DejaVuSans.ttf"
+    },
+    "sans_bold": {
+      "file": "SourceSans3-VF.ttf",
+      "weight": 700,
+      "fallback": "DejaVuSans-Bold.ttf"
+    },
+    "serif": {
+      "file": "SourceSerif4-VF.ttf",
+      "axes": [
+        20,
+        400
+      ],
+      "fallback": "DejaVuSerif.ttf"
+    },
+    "serif_semibold": {
+      "file": "SourceSerif4-VF.ttf",
+      "axes": [
+        20,
+        600
+      ],
+      "fallback": "DejaVuSerif-Bold.ttf"
+    },
+    "mono": {
+      "file": "IBMPlexMono-Regular.ttf",
+      "fallback": "DejaVuSansMono.ttf"
+    },
+    "mono_med": {
+      "file": "IBMPlexMono-Medium.ttf",
+      "fallback": "DejaVuSansMono.ttf"
+    },
+    "mono_bold": {
+      "file": "IBMPlexMono-Bold.ttf",
+      "fallback": "DejaVuSansMono-Bold.ttf"
+    }
+  },
+  "identity_rail": {
+    "_comment": "Replaces the v1.55.0 classification banner (the kit explicitly warns against imitating classification markings). Answers: what publication, what subject, what revision, where am I.",
+    "publication": "DSS 1-1",
+    "product": "DCS SORTIE STARTER"
+  },
+  "_surface_note_3": "LIBRARY role taxonomy (v1.61.0, Rob: 'the library colors don't seem to match what would be supported by the Apple HIG'): the seven role_* pairs are Apple's system colors in their HIG ACCESSIBLE variants — cyan(a2a) orange(strike) indigo(sead) brown(cas, the mud-movers) teal(carrier) green(training) purple(historic) — because role labels render as 11px text, where the default system colors fail WCAG AA (systemOrange on white is 2.2:1). Light values are darkened a further step where Apple's accessible value still missed 4.5:1 on sys_fill (a2a/strike/carrier/training); sead_dark is brightened one step for the same reason on sys_dark_fill. Red stays banned from taxonomy (danger only). The teal-as-library-accent era ended here too: the Library's accent is systemBlue like everywhere else; role_carrier speaks only for the carrier ROLE.",
+  "_surface_note_4": "WCAG pass (v1.63.0): sys_blue at #007AFF is 4.02:1 on white — legal only for large/bold text, but the site set it on 10-13px labels and chips. sys_blue_access (#0040DD, Apple's published accessible-blue) is the SMALL-TEXT accent and the solid-surface fill in light mode; sys_blue_access_dark (#409CFF) is the night small-text accent; sys_blue_solid_dark (#0070E0) is the night solid surface (white text 4.78:1 — Apple's #0A84FF is 3.65 and fails). sys_dim darkened a second step (#6E6E73 -> #69696E) to hold 4.5 on sys_fill, the darkest light surface it sits on. sys_green_access covers small green text (FREE tags, kit checkmarks). --accent (#007AFF) remains for borders, focus rings and icons, where the 3:1 non-text floor applies and passes.",
+  "_authentic_v2_1": "Navy #00205B · Accent #1D4E89 · Paper #FFFFFF · Panel #F4F6F8 · Ink #101828 · Dim #475467 · Danger #9F1239 · Warn #B45309 · Ok #067647. Type: Bangers banner (H1 only), Barlow Condensed ExtraBold SECTION, Barlow Condensed Bold subhead/navy band, Source Serif 4 prose, Source Sans 3 UI, IBM Plex Mono data. v1 Apple neon retired · v2 palette · v2.1 full system (fonts + states)."
+}

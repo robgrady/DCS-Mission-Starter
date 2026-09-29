@@ -1,0 +1,1526 @@
+{
+ "_comment": "NTTR range corridors (v1.99.0). How a flight actually gets from Nellis to the range and back: the FLEX turnout, the Sally Corridor up US-93 to the north ranges, the Alamo Corridor straight through R-4806E at FL190-210, the FYTTR departure west to Indian Springs and the south range, and the published recoveries (STRYK, JAYSN, MINTT, ARCOE, ACTON, ALAMO). nttr.py threads every routed flight plan on the Nevada map through them: departure > corridor > range entry gate (WP1) > IP > TARGET > exit gate > recovery > home. SOURCES: NELLISAFBI 11-250 (Sally Corridor owned by NATCF 'to vector aircraft in and out of the north ranges'; FLEX departures to FYTTR / HAYFORD PEAK / DREAM / MORMON PEAK / MMM; recoveries JAYSN, STRYK, TORYE/ARCOE, MINTT, ALAMO; NATCF radar limited below 10,000 ft), AFMAN 13-212V1 NTTR Add A (Desert MOA = Coyote A-D, Caliente A-C, Elgin, Sally Corridor; 'a corridor within Alamo A/B/C (FL190 to FL210) is identified as Alamo Corridor'; entry via NATCF then Range Monitoring, exit in reverse), the vJaBoG66 Nevada FLIP (FLEX = LSV 338/4 at or below 4,000; FYTTR: LSV 15 DME arc at or below 8,000 then R-269 outbound; STRYK at or above 9,500 direct GASS PEAK; JAYSN via Beatty FL190/FL210; ALAMO recovery heading 165 direct HAYFORD), the 99 ABW local procedures (ACTON from the Elgin MOA RWY 21; ARCOE north ranges RWY 21; MINTT north ranges RWY 03; ALAMO when the Alamo corridor is active), and opennav.com for fix coordinates. Fixes marked approx:true are curated placements where the published figure is a chart we could not transcribe - the brief says so. Coordinates lat/lon WGS-84; alt blocks feet MSL; widths nm. A fix may carry cap_ft / floor_ft - a published crossing restriction (FLEX at or below 4,000; STRYK at or above 9,500) that overrides the corridor block at that point.",
+ "fixes": {
+  "NELLIS": {
+   "lat": 36.2362,
+   "lon": -115.03425,
+   "short": "NELLIS",
+   "kind": "airport",
+   "src": "opennav KLSV"
+  },
+  "LSV": {
+   "lat": 36.24466,
+   "lon": -115.02508,
+   "short": "LSV",
+   "kind": "navaid",
+   "src": "opennav LSV TACAN"
+  },
+  "FLEX": {
+   "lat": 36.3102,
+   "lon": -115.0402,
+   "short": "FLEX",
+   "kind": "fix",
+   "derived": "LSV R-338 / 4 DME",
+   "src": "vJaBoG66 FLIP p14",
+   "cap_ft": 4000
+  },
+  "DREAM": {
+   "lat": 36.6,
+   "lon": -115.03,
+   "short": "DREAM",
+   "kind": "fix",
+   "approx": true,
+   "src": "NELLISAFBI 11-250 4.6 (DREAM ground track north)"
+  },
+  "HAYFORD PEAK": {
+   "lat": 36.6567,
+   "lon": -115.2003,
+   "short": "HAYFORD",
+   "kind": "peak",
+   "src": "Hayford Peak summit, Sheep Range (9,924 ft)"
+  },
+  "GASS PEAK": {
+   "lat": 36.3912,
+   "lon": -115.1867,
+   "short": "GASS PK",
+   "kind": "peak",
+   "src": "Gass Peak summit (6,943 ft)",
+   "cap_ft": 12000
+  },
+  "MORMON PEAK": {
+   "lat": 36.9773,
+   "lon": -114.4562,
+   "short": "MORMON",
+   "kind": "peak",
+   "src": "Mormon Peak summit"
+  },
+  "MMM": {
+   "lat": 36.76928,
+   "lon": -114.27747,
+   "short": "MMM",
+   "kind": "navaid",
+   "src": "opennav MMM VORTAC"
+  },
+  "APEX": {
+   "lat": 36.395,
+   "lon": -114.915,
+   "short": "APEX",
+   "kind": "landmark",
+   "approx": true,
+   "src": "I-15 / US-93 junction - the foot of the Sally Corridor"
+  },
+  "COYOTE SPRINGS": {
+   "lat": 36.8,
+   "lon": -114.95,
+   "short": "COYOTE",
+   "kind": "landmark",
+   "approx": true,
+   "src": "US-93 in Coyote Springs Valley"
+  },
+  "ALAMO": {
+   "lat": 37.365,
+   "lon": -115.164,
+   "short": "ALAMO",
+   "kind": "landmark",
+   "src": "Alamo, NV - Pahranagat Valley (dreamlandresort: 'over Rt. 93 north towards Alamo in what is known as Sally corridor')"
+  },
+  "STUDENT GAP": {
+   "lat": 37.308,
+   "lon": -115.586,
+   "short": "STUDENT",
+   "kind": "gate",
+   "approx": true,
+   "src": "nav_points.json"
+  },
+  "TEXAS LAKE": {
+   "lat": 37.455,
+   "lon": -115.633,
+   "short": "TEXAS LK",
+   "kind": "gate",
+   "approx": true,
+   "src": "nav_points.json"
+  },
+  "COYOTE SUMMIT": {
+   "lat": 37.515,
+   "lon": -115.573,
+   "short": "COY SMT",
+   "kind": "landmark",
+   "src": "SR-375 pass"
+  },
+  "DOG BONE LAKE": {
+   "lat": 36.96,
+   "lon": -115.47,
+   "short": "DOGBONE",
+   "kind": "landmark",
+   "approx": true,
+   "src": "nav_points.json"
+  },
+  "FYTTR": {
+   "lat": 36.35731,
+   "lon": -115.69113,
+   "short": "FYTTR",
+   "kind": "fix",
+   "src": "opennav FYTTR (MIL-REP-PT)"
+  },
+  "ARC 15": {
+   "lat": 36.235,
+   "lon": -115.335,
+   "short": "ARC 15",
+   "kind": "fix",
+   "derived": "LSV 15 DME arc joining R-269 westbound",
+   "src": "vJaBoG66 FLIP p16"
+  },
+  "INDIAN SPRINGS": {
+   "lat": 36.585,
+   "lon": -115.67013,
+   "short": "INDIAN",
+   "kind": "gate",
+   "src": "opennav INS TACAN (Creech)"
+  },
+  "POINT BRAVO": {
+   "lat": 36.72,
+   "lon": -115.6,
+   "short": "PT BRAVO",
+   "kind": "landmark",
+   "approx": true,
+   "src": "Point Bravo ECR, south range"
+  },
+  "FRENCHMAN LAKE": {
+   "lat": 36.808,
+   "lon": -115.935,
+   "short": "FRENCHMN",
+   "kind": "landmark",
+   "src": "nav_points.json"
+  },
+  "STRYK": {
+   "lat": 36.42706,
+   "lon": -115.51174,
+   "short": "STRYK",
+   "kind": "fix",
+   "src": "opennav STRYK",
+   "cap_ft": 12000,
+   "floor_ft": 9500
+  },
+  "JAYSN": {
+   "lat": 36.57374,
+   "lon": -116.04073,
+   "short": "JAYSN",
+   "kind": "fix",
+   "src": "opennav JAYSN"
+  },
+  "MERCURY": {
+   "lat": 36.62746,
+   "lon": -116.02753,
+   "short": "MERCURY",
+   "kind": "navaid",
+   "src": "opennav MCY NDB",
+   "cap_ft": 15000
+  },
+  "BEATTY": {
+   "lat": 36.8006,
+   "lon": -116.7481,
+   "short": "BEATTY",
+   "kind": "navaid",
+   "approx": true,
+   "src": "BTY VOR/DME"
+  },
+  "MINTT": {
+   "lat": 36.48,
+   "lon": -115.02,
+   "short": "MINTT",
+   "kind": "fix",
+   "approx": true,
+   "src": "99 ABW: north-ranges recovery, RWY 03",
+   "cap_ft": 12000
+  },
+  "ARCOE": {
+   "lat": 36.4,
+   "lon": -114.85,
+   "short": "ARCOE",
+   "kind": "fix",
+   "approx": true,
+   "src": "99 ABW: north-ranges recovery, RWY 21",
+   "cap_ft": 12000
+  },
+  "ACTON": {
+   "lat": 36.5,
+   "lon": -114.7,
+   "short": "ACTON",
+   "kind": "fix",
+   "approx": true,
+   "src": "99 ABW: recovery from the Elgin MOA, RWY 21",
+   "cap_ft": 12000
+  },
+  "ELGIN": {
+   "lat": 37.35,
+   "lon": -114.53,
+   "short": "ELGIN",
+   "kind": "gate",
+   "approx": true,
+   "src": "Elgin, NV - Meadow Valley Wash"
+  },
+  "CALIENTE": {
+   "lat": 37.615,
+   "lon": -114.512,
+   "short": "CALIENTE",
+   "kind": "landmark",
+   "src": "Caliente, NV"
+  },
+  "RACHEL": {
+   "lat": 37.645,
+   "lon": -115.746,
+   "short": "RACHEL",
+   "kind": "landmark",
+   "src": "nav_points.json"
+  },
+  "TOLICHA PEAK": {
+   "lat": 37.256,
+   "lon": -116.777,
+   "short": "TOLICHA",
+   "kind": "landmark",
+   "src": "nav_points.json"
+  },
+  "AMARGOSA VALLEY": {
+   "lat": 36.64,
+   "lon": -116.41,
+   "short": "AMARGOSA",
+   "kind": "gate",
+   "approx": true,
+   "src": "US-95 at Amargosa Valley - south-west corner of R-4808N, the turn for Beatty"
+  }
+ },
+ "corridors": [
+  {
+   "id": "flex",
+   "name": "FLEX turnout",
+   "role": "departure",
+   "sector": "north",
+   "points": [
+    "FLEX"
+   ],
+   "block_ft": [
+    2500,
+    4000
+   ],
+   "width_nm": 2,
+   "notes": [
+    "Nellis RWY 03/21 VFR turnout: climbing turn direct FLEX (LSV 338/4), cross FLEX at or below 4,000 MSL - the Class B exit."
+   ],
+   "src": "vJaBoG66 FLIP p14; NELLISAFBI 11-250 4.6.12",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "dream",
+   "name": "DREAM departure",
+   "role": "departure",
+   "sector": "north",
+   "points": [
+    "FLEX",
+    "DREAM",
+    "HAYFORD PEAK"
+   ],
+   "block_ft": [
+    4000,
+    17000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "Northbound out of the Bravo on the DREAM ground track, then VFR to the scheduled airspace. HAYFORD PEAK is the FLEX fix for the north."
+   ],
+   "src": "NELLISAFBI 11-250 4.6 (DREAM: northbound IFR departure for high-performance aircraft; FLEX fixes FYTTR / HAYFORD PEAK / DREAM / MORMON PEAK / MMM)",
+   "label_seg": 0,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "sally",
+   "name": "Sally Corridor",
+   "role": "transit",
+   "sector": "north",
+   "points": [
+    "APEX",
+    "COYOTE SPRINGS",
+    "ALAMO",
+    "STUDENT GAP"
+   ],
+   "block_ft": [
+    10000,
+    17000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "NATCF's lane in and out of the north ranges: up I-15 to APEX, then US-93 through Coyote Springs Valley to ALAMO, then west through STUDENT GAP into 71/74/75. Desert MOA subrange; NATCF (BLACKJACK) vectors you and has no radar below 10,000 ft - fly the block or accept no service."
+   ],
+   "src": "NELLISAFBI 11-250 2.8.1; NTTR Add A Table 2.1; dreamlandresort range flight",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "alamo",
+   "name": "Alamo Corridor",
+   "role": "transit",
+   "sector": "north",
+   "high": true,
+   "points": [
+    "HAYFORD PEAK",
+    "DOG BONE LAKE",
+    "TEXAS LAKE"
+   ],
+   "block_ft": [
+    19000,
+    21000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The high road: straight through Alamo A/B/C (R-4806E) at FL190-FL210, HAYFORD to TEXAS LAKE. Only when the corridor is active on the ACP; the ALAMO recovery brings you back down it heading 165 direct HAYFORD."
+   ],
+   "src": "NTTR Add A Table 2.1 note 3; vJaBoG66 FLIP ALAMO recovery; 99 ABW 4.14.5.5",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "westroad",
+   "name": "The west road (US-95)",
+   "role": "transit",
+   "sector": "farwest",
+   "points": [
+    "INDIAN SPRINGS",
+    "MERCURY",
+    "AMARGOSA VALLEY"
+   ],
+   "block_ft": [
+    9000,
+    17000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "INDIAN SPRINGS to MERCURY, then US-95 to AMARGOSA VALLEY - round the south side of R-4808N; Beatty, Tolicha and Tonopah are up the road from there. The straight line from Indian Springs to Beatty runs through the Box."
+   ],
+   "src": "NELLISAFBI 11-250 4.6.13.4 (north-west bound: FYTTR then BTY); historical_airspace groom_box",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "northrange",
+   "name": "North range transit to Tolicha",
+   "role": "transit",
+   "sector": "farwest",
+   "points": [
+    "STUDENT GAP",
+    "RACHEL",
+    "TOLICHA PEAK"
+   ],
+   "block_ft": [
+    10000,
+    21000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Across the top of the north ranges to the west side - STUDENT GAP or TEXAS LAKE to RACHEL, then 75/76 to TOLICHA PEAK. Stays NORTH of R-4808N: the Box is a wall from the surface up, and the straight line from the Sally Corridor to Beatty runs through it."
+   ],
+   "src": "NTTR Add A Table 2.1 (R-4807A: 71N/S, 74, 75, 76, TPECR); historical_airspace groom_box",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "fyttr",
+   "name": "FYTTR departure west",
+   "role": "departure",
+   "sector": "west",
+   "points": [
+    "FLEX",
+    "ARC 15",
+    "FYTTR",
+    "INDIAN SPRINGS"
+   ],
+   "block_ft": [
+    8000,
+    15000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "Westbound: turn within 4 nm direct FLEX, join the LSV 15 DME arc at or below 8,000, arc south to R-269 outbound to FYTTR, then INDIAN SPRINGS - the door to 61-65 and the south range."
+   ],
+   "src": "vJaBoG66 FLIP p16; NELLISAFBI 11-250 4.6",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "mormon",
+   "name": "MORMON MESA departure east",
+   "role": "departure",
+   "sector": "east",
+   "points": [
+    "FLEX",
+    "MORMON PEAK",
+    "ELGIN"
+   ],
+   "block_ft": [
+    4000,
+    17000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "North-east out of the Bravo to MORMON PEAK, then into the Desert MOA - Coyote, Caliente, Elgin."
+   ],
+   "src": "NELLISAFBI 11-250 4.6 (MORMON MESA departure; FLEX fix MORMON PEAK)",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "stryk",
+   "name": "STRYK recovery",
+   "role": "recovery",
+   "sector": "west",
+   "points": [
+    "INDIAN SPRINGS",
+    "STRYK",
+    "GASS PEAK"
+   ],
+   "block_ft": [
+    9500,
+    12000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "From the west: cross STRYK at or above 9,500 MSL, proceed direct GASS PEAK, then the Bravo. Day/VMC; light civil traffic on the north side of the valley."
+   ],
+   "src": "vJaBoG66 FLIP p30; 99 ABW 4.14.5.1",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "jaysn",
+   "name": "JAYSN recovery via Beatty",
+   "role": "recovery",
+   "sector": "farwest",
+   "high": true,
+   "points": [
+    "JAYSN",
+    "MERCURY",
+    "STRYK",
+    "GASS PEAK"
+   ],
+   "block_ft": [
+    19000,
+    21000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "From the far west: BEATTY to JAYSN at the assigned FL190/FL210, then down through MERCURY to the STRYK gate and GASS PEAK."
+   ],
+   "src": "vJaBoG66 FLIP p29; NELLISAFBI 11-250 4.13",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "mintt",
+   "name": "MINTT recovery (RWY 03)",
+   "role": "recovery",
+   "sector": "north",
+   "points": [
+    "STUDENT GAP",
+    "DOG BONE LAKE",
+    "HAYFORD PEAK",
+    "MINTT"
+   ],
+   "block_ft": [
+    9500,
+    17000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "From the north ranges when RWY 03 is active: back down past HAYFORD to MINTT and the straight-in side."
+   ],
+   "src": "99 ABW 4.14.5.4; NELLISAFBI 11-250 4.13",
+   "label_seg": 2,
+   "label_off": [
+    1,
+    -1
+   ]
+  },
+  {
+   "id": "arcoe",
+   "name": "ARCOE recovery (RWY 21)",
+   "role": "recovery",
+   "sector": "north",
+   "points": [
+    "STUDENT GAP",
+    "DOG BONE LAKE",
+    "HAYFORD PEAK",
+    "ARCOE"
+   ],
+   "block_ft": [
+    9500,
+    17000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "From the north ranges when RWY 21 is active: HAYFORD to ARCOE on the east side for the 21 pattern."
+   ],
+   "src": "99 ABW 4.14.5.3; NELLISAFBI 11-250 4.13",
+   "label_seg": 2,
+   "label_off": [
+    1,
+    1
+   ]
+  },
+  {
+   "id": "alamo_rec",
+   "name": "ALAMO recovery",
+   "role": "recovery",
+   "sector": "north",
+   "high": true,
+   "points": [
+    "TEXAS LAKE",
+    "DOG BONE LAKE",
+    "HAYFORD PEAK"
+   ],
+   "block_ft": [
+    19000,
+    21000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Down the Alamo Corridor at the assigned altitude, heading 165 direct HAYFORD, then the descent into the Bravo."
+   ],
+   "src": "vJaBoG66 FLIP p28; 99 ABW 4.14.5.5",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "acton",
+   "name": "ACTON recovery (Elgin)",
+   "role": "recovery",
+   "sector": "east",
+   "points": [
+    "ELGIN",
+    "MORMON PEAK",
+    "ACTON"
+   ],
+   "block_ft": [
+    9500,
+    17000
+   ],
+   "width_nm": 4,
+   "notes": [
+    "From the Elgin MOA when RWY 21 is active: MORMON PEAK to ACTON, then the 21 pattern."
+   ],
+   "src": "99 ABW 4.14.5.2",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  }
+ ],
+ "gates": {
+  "STUDENT GAP": "north ranges - 71, 74, 75, EC East (from the Sally Corridor)",
+  "TEXAS LAKE": "north ranges - 71N, 75, 76 (the Alamo Corridor's top)",
+  "INDIAN SPRINGS": "south range - 61 to 65, Point Bravo, Frenchman (R-4806W)",
+  "ELGIN": "Desert MOA east - Elgin, Caliente, Coyote A-D",
+  "AMARGOSA VALLEY": "the west road - Beatty, Tolicha and Tonopah beyond, keeping SOUTH and WEST of the Box"
+ },
+ "sectors": {
+  "_comment": "Which corridor family a target belongs to, by WGS-84 lat/lon. Checked in order; 'local' = inside the Nellis terminal area, no corridor.",
+  "rules": [
+   {
+    "sector": "farwest",
+    "when": "lon <= -116.30 and lat >= 36.60"
+   },
+   {
+    "sector": "north",
+    "when": "lat >= 37.02 and lon <= -114.95"
+   },
+   {
+    "sector": "west",
+    "when": "lon <= -115.42"
+   },
+   {
+    "sector": "east",
+    "when": "lon >= -114.95 and lat >= 36.55"
+   },
+   {
+    "sector": "north",
+    "when": "lat >= 36.75"
+   }
+  ],
+  "default": "local",
+  "labels": {
+   "north": "north ranges",
+   "farwest": "far-west ranges",
+   "west": "west ranges",
+   "east": "east ranges",
+   "local": "local"
+  }
+ },
+ "plans": {
+  "nellis": {
+   "north": {
+    "low": {
+     "out": [
+      "flex",
+      "sally"
+     ],
+     "gate_in": "STUDENT GAP",
+     "gate_out": "STUDENT GAP",
+     "back": "mintt"
+    },
+    "high": {
+     "out": [
+      "dream",
+      "alamo"
+     ],
+     "gate_in": "TEXAS LAKE",
+     "gate_out": "TEXAS LAKE",
+     "back": "alamo_rec"
+    }
+   },
+   "farwest": {
+    "low": {
+     "out": [
+      "fyttr",
+      "westroad"
+     ],
+     "gate_in": "AMARGOSA VALLEY",
+     "gate_out": "BEATTY",
+     "back": "jaysn"
+    },
+    "high": {
+     "out": [
+      "fyttr",
+      "westroad"
+     ],
+     "gate_in": "AMARGOSA VALLEY",
+     "gate_out": "BEATTY",
+     "back": "jaysn"
+    }
+   },
+   "west": {
+    "low": {
+     "out": [
+      "fyttr"
+     ],
+     "gate_in": "INDIAN SPRINGS",
+     "gate_out": "INDIAN SPRINGS",
+     "back": "stryk"
+    },
+    "high": {
+     "out": [
+      "fyttr"
+     ],
+     "gate_in": "INDIAN SPRINGS",
+     "gate_out": "INDIAN SPRINGS",
+     "back": "stryk"
+    }
+   },
+   "east": {
+    "low": {
+     "out": [
+      "mormon"
+     ],
+     "gate_in": "ELGIN",
+     "gate_out": "ELGIN",
+     "back": "acton"
+    },
+    "high": {
+     "out": [
+      "mormon"
+     ],
+     "gate_in": "ELGIN",
+     "gate_out": "ELGIN",
+     "back": "acton"
+    }
+   }
+  }
+ },
+ "chart": {
+  "_comment": "Geometry for the corridor chart (nttr_chart.py). R-4807A and R-4808N are the legal descriptions from the Federal Register (60 FR 20635, 27 Apr 1995, realignment of R-4807A and R-4808N). Every other area is a curated outline (approx:true) drawn from the published structure - the NTTR Addendum A subrange table, the Nellis MACA pamphlet, the sectional - fitted to the two legal polygons; the chart says so. Altitudes: MACA pamphlet / CCAS EA Table 2-3 (R-4806E 100 AGL-unlimited, R-4806W surface-unlimited; A-481 7,000-17,000).",
+  "bounds": {
+   "lat": [
+    35.98,
+    38.3
+   ],
+   "lon": [
+    -117.4,
+    -114.0
+   ]
+  },
+  "areas": [
+   {
+    "id": "R-4807A",
+    "kind": "restricted",
+    "label": "R-4807A\n71 · 74 · 75 · 76 · TOLICHA · EC EAST",
+    "alt": "SFC-UNL Mon 0600-Fri 1900",
+    "poly": [
+     [
+      36.85,
+      -116.55917
+     ],
+     [
+      37.44167,
+      -117.07583
+     ],
+     [
+      37.55,
+      -117.09472
+     ],
+     [
+      37.88333,
+      -117.09472
+     ],
+     [
+      37.88333,
+      -116.9175
+     ],
+     [
+      37.78333,
+      -116.9175
+     ],
+     [
+      37.55,
+      -116.7175
+     ],
+     [
+      37.55,
+      -116.43417
+     ],
+     [
+      37.88333,
+      -116.43417
+     ],
+     [
+      37.88333,
+      -116.18417
+     ],
+     [
+      37.7,
+      -116.18417
+     ],
+     [
+      37.7,
+      -115.88417
+     ],
+     [
+      37.55,
+      -115.88417
+     ],
+     [
+      37.55,
+      -115.80083
+     ],
+     [
+      37.46667,
+      -115.80083
+     ],
+     [
+      37.46667,
+      -116.00083
+     ],
+     [
+      37.26667,
+      -116.00083
+     ],
+     [
+      37.26667,
+      -116.18417
+     ],
+     [
+      37.33333,
+      -116.18417
+     ],
+     [
+      37.38333,
+      -116.28417
+     ],
+     [
+      37.38333,
+      -116.3675
+     ],
+     [
+      37.35,
+      -116.45083
+     ],
+     [
+      37.35,
+      -116.5675
+     ],
+     [
+      37.26667,
+      -116.5175
+     ],
+     [
+      37.13333,
+      -116.45083
+     ],
+     [
+      36.91667,
+      -116.45083
+     ],
+     [
+      36.91667,
+      -116.55917
+     ]
+    ],
+    "src": "60 FR 20635",
+    "label_at": [
+     37.63,
+     -116.05
+    ]
+   },
+   {
+    "id": "R-4808N",
+    "kind": "restricted_box",
+    "label": "R-4808N\nTHE BOX - no entry",
+    "alt": "SFC-UNL continuous",
+    "poly": [
+     [
+      36.68333,
+      -115.93417
+     ],
+     [
+      36.68333,
+      -116.24667
+     ],
+     [
+      36.76667,
+      -116.4425
+     ],
+     [
+      36.85,
+      -116.4425
+     ],
+     [
+      36.85,
+      -116.55917
+     ],
+     [
+      36.91667,
+      -116.55917
+     ],
+     [
+      36.91667,
+      -116.45083
+     ],
+     [
+      37.13333,
+      -116.45083
+     ],
+     [
+      37.26667,
+      -116.5175
+     ],
+     [
+      37.26667,
+      -116.00083
+     ],
+     [
+      37.46667,
+      -116.00083
+     ],
+     [
+      37.46667,
+      -115.58417
+     ],
+     [
+      37.1,
+      -115.58417
+     ],
+     [
+      37.1,
+      -115.93417
+     ]
+    ],
+    "src": "60 FR 20635",
+    "label_at": [
+     37.0,
+     -116.15
+    ]
+   },
+   {
+    "id": "R-4806W",
+    "kind": "restricted",
+    "label": "R-4806W\n61 · 62 · 63 · 64 · 65",
+    "alt": "SFC-UNL",
+    "approx": true,
+    "poly": [
+     [
+      36.55,
+      -115.17
+     ],
+     [
+      36.55,
+      -115.6
+     ],
+     [
+      36.6833,
+      -115.934
+     ],
+     [
+      37.1,
+      -115.934
+     ],
+     [
+      37.1,
+      -115.17
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1; MACA pamphlet",
+    "label_at": [
+     36.86,
+     -115.76
+    ]
+   },
+   {
+    "id": "R-4806E",
+    "kind": "restricted",
+    "label": "R-4806E\nALAMO A · B · C",
+    "alt": "100 AGL-UNL",
+    "approx": true,
+    "poly": [
+     [
+      37.1,
+      -115.584
+     ],
+     [
+      37.1,
+      -115.2
+     ],
+     [
+      37.467,
+      -115.2
+     ],
+     [
+      37.467,
+      -115.584
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1; CCAS EA Table 2-3",
+    "label_at": [
+     37.19,
+     -115.31
+    ]
+   },
+   {
+    "id": "R-4808S",
+    "kind": "restricted",
+    "label": "R-4808S",
+    "alt": "SFC-UNL",
+    "approx": true,
+    "poly": [
+     [
+      36.55,
+      -115.934
+     ],
+     [
+      36.55,
+      -116.45
+     ],
+     [
+      36.6833,
+      -116.45
+     ],
+     [
+      36.6833,
+      -116.2467
+     ],
+     [
+      36.6833,
+      -115.934
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1",
+    "label_at": [
+     36.6,
+     -116.2
+    ]
+   },
+   {
+    "id": "R-4807B",
+    "kind": "restricted",
+    "label": "R-4807B\nPAHUTE A · B",
+    "alt": "SFC-UNL",
+    "approx": true,
+    "poly": [
+     [
+      37.1,
+      -116.45
+     ],
+     [
+      37.1,
+      -116.72
+     ],
+     [
+      37.35,
+      -116.72
+     ],
+     [
+      37.35,
+      -116.45
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1",
+    "label_at": [
+     37.22,
+     -116.6
+    ]
+   },
+   {
+    "id": "R-4809",
+    "kind": "restricted",
+    "label": "R-4809 A/B\nTONOPAH TEST RANGE · EC WEST",
+    "alt": "SFC-UNL",
+    "approx": true,
+    "poly": [
+     [
+      37.55,
+      -116.434
+     ],
+     [
+      37.55,
+      -116.718
+     ],
+     [
+      37.783,
+      -116.918
+     ],
+     [
+      37.883,
+      -116.918
+     ],
+     [
+      37.883,
+      -116.434
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1 (R-4809A/B, EC West); fitted to the R-4807A notch (60 FR 20635)",
+    "label_at": [
+     37.7,
+     -116.6
+    ]
+   },
+   {
+    "id": "DESERT MOA",
+    "kind": "moa",
+    "label": "DESERT MOA\nCOYOTE · CALIENTE · ELGIN\nSALLY CORRIDOR",
+    "alt": "100 AGL-FL180 (ATCAA above)",
+    "approx": true,
+    "poly": [
+     [
+      36.55,
+      -115.17
+     ],
+     [
+      36.55,
+      -114.55
+     ],
+     [
+      37.2,
+      -114.35
+     ],
+     [
+      37.85,
+      -114.35
+     ],
+     [
+      37.85,
+      -115.15
+     ],
+     [
+      37.467,
+      -115.2
+     ],
+     [
+      37.1,
+      -115.2
+     ],
+     [
+      37.1,
+      -115.17
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1; MACA pamphlet",
+    "label_at": [
+     37.6,
+     -114.72
+    ]
+   },
+   {
+    "id": "REVEILLE MOA",
+    "kind": "moa",
+    "label": "REVEILLE N/S MOA",
+    "alt": "100 AGL-FL180 (ATCAA above)",
+    "approx": true,
+    "poly": [
+     [
+      37.883,
+      -115.9
+     ],
+     [
+      37.883,
+      -116.9
+     ],
+     [
+      38.45,
+      -116.9
+     ],
+     [
+      38.45,
+      -115.9
+     ]
+    ],
+    "src": "NTTR Add A Table 2.1; MACA pamphlet",
+    "label_at": [
+     38.2,
+     -116.4
+    ]
+   },
+   {
+    "id": "A-481",
+    "kind": "alert",
+    "label": "A-481",
+    "alt": "7,000-17,000",
+    "approx": true,
+    "poly": [
+     [
+      36.15,
+      -115.1
+     ],
+     [
+      36.15,
+      -115.55
+     ],
+     [
+      36.4,
+      -115.55
+     ],
+     [
+      36.4,
+      -115.1
+     ]
+    ],
+    "src": "MACA pamphlet ('westward for approximately 25 miles, 7,000 to 17,000 feet MSL')",
+    "label_at": [
+     36.28,
+     -115.45
+    ]
+   }
+  ],
+  "roads": [
+   {
+    "name": "I-15",
+    "pts": [
+     [
+      36.1,
+      -115.17
+     ],
+     [
+      36.25,
+      -115.02
+     ],
+     [
+      36.395,
+      -114.915
+     ],
+     [
+      36.62,
+      -114.63
+     ],
+     [
+      36.83,
+      -114.06
+     ],
+     [
+      36.95,
+      -113.95
+     ]
+    ]
+   },
+   {
+    "name": "US-93",
+    "pts": [
+     [
+      36.395,
+      -114.915
+     ],
+     [
+      36.62,
+      -114.94
+     ],
+     [
+      36.8,
+      -114.95
+     ],
+     [
+      37.1,
+      -115.08
+     ],
+     [
+      37.365,
+      -115.164
+     ],
+     [
+      37.46,
+      -115.19
+     ],
+     [
+      37.53,
+      -115.23
+     ],
+     [
+      37.615,
+      -114.512
+     ],
+     [
+      37.85,
+      -114.45
+     ]
+    ]
+   },
+   {
+    "name": "US-95",
+    "pts": [
+     [
+      36.17,
+      -115.17
+     ],
+     [
+      36.4,
+      -115.4
+     ],
+     [
+      36.57,
+      -115.67
+     ],
+     [
+      36.66,
+      -115.99
+     ],
+     [
+      36.64,
+      -116.41
+     ],
+     [
+      36.91,
+      -116.76
+     ],
+     [
+      37.3,
+      -117.0
+     ],
+     [
+      37.75,
+      -117.2
+     ],
+     [
+      38.07,
+      -117.23
+     ]
+    ]
+   },
+   {
+    "name": "SR-375",
+    "pts": [
+     [
+      37.53,
+      -115.23
+     ],
+     [
+      37.43,
+      -115.37
+     ],
+     [
+      37.515,
+      -115.573
+     ],
+     [
+      37.645,
+      -115.746
+     ],
+     [
+      37.9,
+      -116.05
+     ],
+     [
+      38.19,
+      -116.37
+     ]
+    ]
+   }
+  ],
+  "places": [
+   {
+    "name": "LAS VEGAS",
+    "lat": 36.17,
+    "lon": -115.14,
+    "kind": "city"
+   },
+   {
+    "name": "Indian Springs",
+    "lat": 36.57,
+    "lon": -115.67,
+    "kind": "town"
+   },
+   {
+    "name": "Mercury",
+    "lat": 36.66,
+    "lon": -115.99,
+    "kind": "town"
+   },
+   {
+    "name": "Beatty",
+    "lat": 36.91,
+    "lon": -116.76,
+    "kind": "town"
+   },
+   {
+    "name": "Alamo",
+    "lat": 37.365,
+    "lon": -115.164,
+    "kind": "town"
+   },
+   {
+    "name": "Rachel",
+    "lat": 37.645,
+    "lon": -115.746,
+    "kind": "town"
+   },
+   {
+    "name": "Caliente",
+    "lat": 37.615,
+    "lon": -114.512,
+    "kind": "town"
+   },
+   {
+    "name": "Mesquite",
+    "lat": 36.805,
+    "lon": -114.067,
+    "kind": "town"
+   },
+   {
+    "name": "Tonopah",
+    "lat": 38.07,
+    "lon": -117.23,
+    "kind": "town"
+   },
+   {
+    "name": "Nellis AFB",
+    "lat": 36.236,
+    "lon": -115.034,
+    "kind": "airfield"
+   },
+   {
+    "name": "Creech AFB",
+    "lat": 36.587,
+    "lon": -115.673,
+    "kind": "airfield"
+   },
+   {
+    "name": "Groom Lake",
+    "lat": 37.235,
+    "lon": -115.81,
+    "kind": "airfield"
+   },
+   {
+    "name": "Tonopah TR",
+    "lat": 37.8,
+    "lon": -116.78,
+    "kind": "airfield"
+   },
+   {
+    "name": "Lincoln Co.",
+    "lat": 37.79,
+    "lon": -114.42,
+    "kind": "airfield"
+   },
+   {
+    "name": "Desert Rock",
+    "lat": 36.62,
+    "lon": -116.03,
+    "kind": "airfield"
+   }
+  ],
+  "panels": [
+   {
+    "id": "nellis",
+    "cluster": "nellis",
+    "title": "NELLIS TERMINAL AREA - departures and recoveries",
+    "bounds": {
+     "lat": [
+      36.08,
+      36.95
+     ],
+     "lon": [
+      -115.95,
+      -114.62
+     ]
+    },
+    "lanes": [
+     "flex",
+     "dream",
+     "fyttr",
+     "stryk",
+     "mintt",
+     "arcoe",
+     "acton",
+     "jaysn",
+     "mormon",
+     "alamo_rec"
+    ],
+    "tag": "NELLIS TERMINAL AREA - see panel"
+   }
+  ],
+  "overview_title": "RANGE OVERVIEW",
+  "lines": [],
+  "hide_fixes": [
+   "NELLIS",
+   "LSV"
+  ],
+  "overview_landmarks": [
+   "APEX",
+   "COYOTE SPRINGS",
+   "AMARGOSA VALLEY",
+   "DOG BONE LAKE",
+   "ELGIN",
+   "TOLICHA PEAK",
+   "RACHEL"
+  ]
+ },
+ "map": "nevada",
+ "label": "NTTR corridors",
+ "clusters": {
+  "nellis": {
+   "label": "Nellis AFB",
+   "fields": [
+    "Nellis"
+   ],
+   "center": [
+    36.2362,
+    -115.03425
+   ],
+   "local_nm": 22,
+   "join_from_outside": true
+  }
+ },
+ "text": {
+  "chart_title": "NTTR CORRIDORS",
+  "chart_subtitle": "Nellis AFB and the Nevada Test and Training Range - how a flight gets to the range and back. Not for real-world navigation.",
+  "brief_title": "NTTR CORRIDORS - HOW YOU GET TO THE RANGE",
+  "brief_intro": [
+   "The flight plan is threaded through the published structure: nobody leaves",
+   "the Bravo direct to the target. Range entry via NATCF (BLACKJACK) then Range",
+   "Monitoring; exit in reverse. Fly the corridor block - below 10,000 ft NATCF has",
+   "no radar and no service."
+  ],
+  "brief_sources": [
+   "Sources: NELLISAFBI 11-250, AFMAN 13-212V1 NTTR Add A, the 99 ABW local",
+   "procedures, the vJaBoG66 Nevada FLIP, opennav.com fix data."
+  ],
+  "known_issues": [
+   "DCS draws the restricted areas but not the corridors; ours are on the F10 map from published structure, and BLACKJACK's vectors are yours to fly - the AI controller does not know the Sally Corridor exists."
+  ],
+  "sources_line": "NELLISAFBI 11-250 · AFMAN 13-212V1 NTTR Add A · 99 ABW local procedures · Nellis/Creech/NTTR MACA pamphlet · 60 FR 20635 · vJaBoG66 Nevada FLIP · opennav.com",
+  "legend": [
+   "Restricted area: navy, hatched inside the boundary - entry only when scheduled; the Box (R-4808N) never. MOA: dashed magenta, joint use.",
+   "Gate ring = range entry/exit. Fix triangle. ~ = curated position or outline (the published figure is a chart); R-4807A and R-4808N are the legal descriptions (60 FR 20635)."
+  ],
+  "md_title": "NTTR corridors",
+  "kneeboard_subtitle": "Nellis and the range - your road in red",
+  "brief_page_subtitle": "Nellis AFB and the range — this mission's road in red",
+  "gate_in_label": "RANGE ENTRY",
+  "gate_out_label": "RANGE EXIT"
+ }
+}

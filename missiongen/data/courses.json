@@ -1,0 +1,315 @@
+{
+ "_comment": "Training COURSES: a pipeline of schools > phases > units laid over the tracks and Library cards that already exist. A unit is a reading (a doc under missiongen/data/courses/), a track (optionally a ride range and a preferred aircraft/era), a card (a Library template, optionally with a preferred aircraft), or a planned unit that says plainly what is not built yet and why. courses.py resolves each unit against the shelf so a course can never claim a ride the Library does not have. Status, prerequisites and the check ride are data here; progress is the student's own browser (nothing is stored server-side).",
+ "f4e_pipeline": {
+  "label": "F-4E Phantom II — The Training Pipeline",
+  "short": "F-4E Pipeline",
+  "aircraft": "F_4E_45MC",
+  "module": "F-4E",
+  "era": "coldwar",
+  "map": "germany",
+  "featured": true,
+  "premise": "Learn it, fly it, fight it. From never having started a Phantom to leading a timed strike package: three schools in the order the real pipeline runs them — learn the airplane, fly it to a standard, then fight it. Every ride is generated, graded in-mission where the Mission Editor can see it, and ships with its own brief and kneeboard.",
+  "blurb": [
+   "Most people buy the module and meander through it. That is fine — but",
+   "there is a faster way, and it is the one every air force uses: UPT teaches",
+   "you to fly an airplane, the FRS teaches you this one, MQT teaches you to",
+   "fight it. This pipeline is that order, with the missions attached."
+  ],
+  "schools": [
+   {
+    "id": "upt",
+    "n": 1,
+    "label": "Ground School and UPT",
+    "tagline": "Fly an airplane.",
+    "module_agnostic": true,
+    "intro": "Ground school is where you learn the airplane you are going to fly — the history chapter first, because an aircraft's habits come from what it was built to be. Then nothing in this school is about the Phantom in particular: instruments, timing, formation and the tanker are the same problems in every jet, and a pilot who arrives at the FRS already able to hold a position, fly a card on the clock and take gas has half the conversion done. Fly it in the F-4E if you own it; fly it in whatever you own if you do not.",
+    "phases": [
+     {
+      "id": "ground",
+      "label": "Ground school",
+      "units": [
+       {
+        "kind": "reading",
+        "id": "howto",
+        "doc": "pipeline_howto",
+        "label": "How this pipeline works",
+        "minutes": 5
+       },
+       {
+        "kind": "reading",
+        "id": "basics",
+        "doc": "aviation_basics",
+        "label": "Aviation basics — the six numbers you fly by",
+        "minutes": 15
+       },
+       {
+        "kind": "reading",
+        "id": "history",
+        "doc": "f4e_history",
+        "label": "Chapter 0 — The Phantom: where it came from, what it taught",
+        "minutes": 25
+       }
+      ]
+     },
+     {
+      "id": "formation",
+      "label": "Formation",
+      "intro": "Five stages, each an AI lead you fly on, then the check profile twice: once with the coach on, once in silence. The Library card lets you pick the airframe; the pipeline pre-selects the Phantom.",
+      "units": [
+       {
+        "kind": "card",
+        "id": "form_route",
+        "key": "form_route",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar"
+       },
+       {
+        "kind": "card",
+        "id": "form_close",
+        "key": "form_close",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar"
+       },
+       {
+        "kind": "card",
+        "id": "form_energy",
+        "key": "form_energy",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar"
+       },
+       {
+        "kind": "card",
+        "id": "form_rejoin",
+        "key": "form_rejoin",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar"
+       },
+       {
+        "kind": "card",
+        "id": "form_takeoff",
+        "key": "form_takeoff",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar"
+       },
+       {
+        "kind": "card",
+        "id": "form_precheck",
+        "key": "form_precheck",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar"
+       },
+       {
+        "kind": "card",
+        "id": "form_check",
+        "key": "form_check",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar",
+        "check": true
+       }
+      ]
+     },
+     {
+      "id": "timing",
+      "label": "Timing — the clock on the card",
+      "units": [
+       {
+        "kind": "track",
+        "id": "timing",
+        "track": "timing_f4e",
+        "to": 4
+       },
+       {
+        "kind": "card",
+        "id": "timing_check",
+        "key": "timing_5_check",
+        "check": true
+       }
+      ]
+     },
+     {
+      "id": "aar",
+      "label": "Air-to-air refuelling",
+      "intro": "The boom lane of the Refuelling Academy, generated for the Phantom in the Cold War era. Eleven rides; ten are graded.",
+      "units": [
+       {
+        "kind": "track",
+        "id": "aar",
+        "track": "aar_boom",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar",
+        "to": 7
+       },
+       {
+        "kind": "track",
+        "id": "aar_check",
+        "track": "aar_boom",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar",
+        "from": 8,
+        "to": 8,
+        "label": "Check ride — Qualification (ride 8), silent",
+        "check": true
+       },
+       {
+        "kind": "track",
+        "id": "aar_ops",
+        "track": "aar_boom",
+        "aircraft": "F_4E_45MC",
+        "era": "coldwar",
+        "from": 9,
+        "to": 10,
+        "label": "After the check — fuel transfer and the night ride"
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "frs",
+    "n": 2,
+    "label": "FRS — Know Your Jet",
+    "tagline": "Learn this airplane.",
+    "intro": "The conversion course. You read where the Phantom came from in ground school; here you fly it. The contact phase, systems, then the squadron checkout flown from the 70th TFS's own 1980 paperwork, and the weapons deliveries from its own planning sheets.",
+    "requires_school": "upt",
+    "phases": [
+     {
+      "id": "contact",
+      "label": "Contact — start, taxi, pattern, turnaround",
+      "units": [
+       {
+        "kind": "card",
+        "id": "wk1",
+        "key": "wk_1_stepstart"
+       },
+       {
+        "kind": "card",
+        "id": "wk2",
+        "key": "wk_2_overhead"
+       },
+       {
+        "kind": "card",
+        "id": "wk3",
+        "key": "wk_3_cqt"
+       },
+       {
+        "kind": "planned",
+        "id": "inst",
+        "label": "Instrument recovery — TACAN penetration and ILS to minimums",
+        "why": "Needs a glideslope coach: the Mission Editor can read altitude and DME, so it can be built trigger-only. Next on the roadmap."
+       }
+      ]
+     },
+     {
+      "id": "systems",
+      "label": "Systems — radar, RWR, the WSO",
+      "units": [
+       {
+        "kind": "card",
+        "id": "turning",
+        "key": "f4_turning_phantom"
+       },
+       {
+        "kind": "planned",
+        "id": "radar",
+        "label": "Radar work with Jester — search, lock, sort",
+        "why": "Grading switchology needs the F-4E's cockpit parameters, which are verified only for the radios. The ride can be built uncoached first."
+       }
+      ]
+     },
+     {
+      "id": "tactics",
+      "label": "Tactical checkout — the White Knights syllabus",
+      "intro": "Rides 4 to 11 of Squadron Checkout: line abreast, comm-out turns, ridge crossings, threats, the route abort, intercepts, the three-ship and BFM.",
+      "units": [
+       {
+        "kind": "track",
+        "id": "wkc",
+        "track": "wk_checkout",
+        "from": 4,
+        "to": 11
+       }
+      ]
+     },
+     {
+      "id": "weapons",
+      "label": "Weapons — Proud Phantom",
+      "intro": "The deliveries, from the squadron's own Weapons Information Sheet: LALD, 30-degree dive, high drag, dive toss, then the attacks that put four airplanes on one target.",
+      "units": [
+       {
+        "kind": "track",
+        "id": "pp",
+        "track": "wk_proud_phantom",
+        "to": 8
+       },
+       {
+        "kind": "track",
+        "id": "pp_split",
+        "track": "wk_proud_phantom",
+        "from": 10,
+        "to": 11,
+        "label": "Split attacks — low/low and low/high"
+       }
+      ]
+     },
+     {
+      "id": "checkride",
+      "label": "Check ride",
+      "intro": "The B'NAI attack with no coaching, over the ground it was invented on, with an SA-6 in the mission. Pass this and you are a Phantom pilot.",
+      "units": [
+       {
+        "kind": "card",
+        "id": "check",
+        "key": "pp_8_bnai",
+        "check": true
+       }
+      ]
+     }
+    ]
+   },
+   {
+    "id": "mqt",
+    "n": 3,
+    "label": "MQT — Fight the Jet",
+    "tagline": "Employ it.",
+    "intro": "Mission qualification: the airplane is known, now it goes to war. Routed strikes through the gun belt, a timed package, the corridors of the Cold War. The rides here are the ones the rest of the Library was built from.",
+    "requires_school": "frs",
+    "phases": [
+     {
+      "id": "employment",
+      "label": "Employment",
+      "units": [
+       {
+        "kind": "card",
+        "id": "gunbelt",
+        "key": "gun_belt_strike"
+       },
+       {
+        "kind": "card",
+        "id": "package",
+        "key": "timing_3_thepackage"
+       },
+       {
+        "kind": "card",
+        "id": "corridor",
+        "key": "berlin_corridor_transit"
+       },
+       {
+        "kind": "planned",
+        "id": "lead",
+        "label": "Package lead — SEAD and strike on one timeline, four ships",
+        "why": "The campaign engine (chained sorties, carried fuel and clock) is on the roadmap; this is its first mission."
+       },
+       {
+        "kind": "planned",
+        "id": "night",
+        "label": "Night TACAN strike — the Fulda 1979 problem",
+        "why": "Needs the instrument recovery from the FRS first."
+       }
+      ]
+     }
+    ]
+   }
+  ],
+  "tagline": "Learn it, fly it, fight it."
+ }
+}

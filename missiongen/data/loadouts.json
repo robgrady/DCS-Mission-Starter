@@ -1,0 +1,323 @@
+{
+  "_comment": "AI loadout table: pydcs aircraft id -> role -> era -> {label, pylons}. The engine NEVER touches the player's loadout; this arms the AI only. pydcs cannot supply defaults server-side (it reads payload .lua files out of a DCS installation we do not have), so every AI aircraft ships CLEAN unless it appears here.",
+
+  "_keys": "role is what the aircraft is FOR in this engine ('cap' = area patrol, 'bfm' = the merge), not a DCS task name. Era key is 'wwii' | 'coldwar' | 'modern' | '*' (any). Most airframes only ever appear in one era because TIER_CAP is already era-gated, so they carry a single '*' entry; airframes that CROSS eras (MiG-23MLD) carry explicit era keys and get period-correct stores in each. tests/test_loadouts.py resolves every (airframe, role, era) combination the threat pools can actually produce and fails on an illegal pylon, an unknown CLSID, or an anachronism.",
+
+  "_pylons": "Keys are DCS station numbers as strings; values are CLSIDs. Every one is checked against that airframe's own PylonN legal-store list, which pydcs generates from the game's data — an entry that DCS would reject cannot reach a player.",
+
+  "_label": "The human string is authored NEXT TO the pylons on purpose: the brief reads from the same record the engine loads, so the two can never drift.",
+
+  "_light": "Optional 'light' sibling = the trimmed fit used at Threat Dial intensity 1-2. Era-typical means era-typical, not maximum: a MiG-29S with six missiles against a lone F-5 is a formality, not a fight.",
+
+  "Bf-109K-4": {
+    "cap": {"*": {"label": "Guns only — MK 108 30 mm, 2× MG 131", "pylons": {}}},
+    "bfm": {"*": {"label": "Guns only — MK 108 30 mm, 2× MG 131", "pylons": {}}}
+  },
+  "FW-190D9": {
+    "cap": {"*": {"label": "Guns only — 2× MG 151/20, 2× MG 131", "pylons": {}}},
+    "bfm": {"*": {"label": "Guns only — 2× MG 151/20, 2× MG 131", "pylons": {}}}
+  },
+  "FW-190A8": {
+    "cap": {"*": {"label": "Guns only — 4× MG 151/20, 2× MG 131", "pylons": {}}},
+    "bfm": {"*": {"label": "Guns only — 4× MG 151/20, 2× MG 131", "pylons": {}}}
+  },
+  "P-51D": {
+    "cap": {"*": {"label": "Guns only — 6× .50 cal M2", "pylons": {}}},
+    "bfm": {"*": {"label": "Guns only — 6× .50 cal M2", "pylons": {}}}
+  },
+  "P-47D-30": {
+    "cap": {"*": {"label": "Guns only — 8× .50 cal M2", "pylons": {}}},
+    "bfm": {"*": {"label": "Guns only — 8× .50 cal M2", "pylons": {}}}
+  },
+  "SpitfireLFMkIX": {
+    "cap": {"*": {"label": "Guns only — 2× Hispano 20 mm, 4× .303", "pylons": {}}},
+    "bfm": {"*": {"label": "Guns only — 2× Hispano 20 mm, 4× .303", "pylons": {}}}
+  },
+
+  "MiG-21Bis": {
+    "cap": {
+      "*": {
+        "label": "2× R-13M, 2× R-60, GSh-23L · 490 L centerline",
+        "pylons": {"1": "{R-60}", "2": "{R-13M}", "3": "{PTB_490C_MIG21}",
+                   "4": "{R-13M}", "5": "{R-60}"},
+        "light": {
+          "label": "2× R-3S, GSh-23L · 490 L centerline",
+          "pylons": {"2": "{R-3S}", "3": "{PTB_490C_MIG21}", "4": "{R-3S}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "2× R-60, GSh-23L 23 mm",
+        "pylons": {"1": "{R-60}", "5": "{R-60}"}
+      }
+    }
+  },
+
+  "MiG-23MLD": {
+    "cap": {
+      "coldwar": {
+        "label": "R-24R + R-24T, 2× R-60, GSh-23L · 800 L centerline",
+        "pylons": {"2": "{CCF898C9-5BC7-49A4-9D1E-C3ED3D5166A1}",
+                   "3": "{R-60}",
+                   "4": "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}",
+                   "5": "{R-60}",
+                   "6": "{6980735A-44CC-4BB9-A1B5-591532F1DC69}"}
+      },
+      "modern": {
+        "label": "R-24R + R-24T, 4× R-60M, GSh-23L · 800 L centerline",
+        "pylons": {"2": "{CCF898C9-5BC7-49A4-9D1E-C3ED3D5166A1}",
+                   "3": "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}",
+                   "4": "{A5BAEAB7-6FAF-4236-AF72-0FD900F493F9}",
+                   "5": "{275A2855-4A79-4B2D-B082-91EA2ADF4691}",
+                   "6": "{6980735A-44CC-4BB9-A1B5-591532F1DC69}"}
+      }
+    },
+    "bfm": {
+      "coldwar": {"label": "2× R-60, GSh-23L 23 mm",
+                  "pylons": {"3": "{R-60}", "5": "{R-60}"}},
+      "modern": {"label": "2× R-60M, GSh-23L 23 mm",
+                 "pylons": {"3": "{APU-60-1_R_60M}", "5": "{APU-60-1_R_60M}"}}
+    }
+  },
+
+  "F-5E-3": {
+    "cap": {
+      "*": {
+        "label": "2× AIM-9P, 2× M39 20 mm · 150 gal centerline",
+        "pylons": {"1": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+                   "4": "{PTB-150GAL}",
+                   "7": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}"},
+        "light": {
+          "label": "2× AIM-9B, 2× M39 20 mm",
+          "pylons": {"1": "{AIM-9B}", "7": "{AIM-9B}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "2× AIM-9P, 2× M39 20 mm",
+        "pylons": {"1": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}",
+                   "7": "{9BFD8C90-F7AE-4e90-833B-BFD0CED0E536}"}
+      }
+    }
+  },
+
+  "F-4E": {
+    "cap": {
+      "*": {
+        "label": "4× AIM-7E, 4× AIM-9P, M61A1 · centerline tank",
+        "pylons": {"2": "{773675AB-7C29-422f-AFD8-32844A7B7F17}",
+                   "3": "{AIM-7E}", "4": "{AIM-7E}",
+                   "5": "{8B9E3FD0-F034-4A07-B6CE-C269884CC71B}",
+                   "6": "{AIM-7E}", "7": "{AIM-7E}",
+                   "8": "{773675AB-7C29-422f-AFD8-32844A7B7F17}"},
+        "light": {
+          "label": "2× AIM-7E, 4× AIM-9P, M61A1 · centerline tank",
+          "pylons": {"2": "{773675AB-7C29-422f-AFD8-32844A7B7F17}",
+                     "3": "{AIM-7E}",
+                     "5": "{8B9E3FD0-F034-4A07-B6CE-C269884CC71B}",
+                     "7": "{AIM-7E}",
+                     "8": "{773675AB-7C29-422f-AFD8-32844A7B7F17}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "4× AIM-9P, M61A1 20 mm",
+        "pylons": {"2": "{773675AB-7C29-422f-AFD8-32844A7B7F17}",
+                   "8": "{773675AB-7C29-422f-AFD8-32844A7B7F17}"}
+      }
+    }
+  },
+
+  "MiG-29A": {
+    "cap": {
+      "*": {
+        "label": "2× R-27R, 4× R-73, GSh-30-1 · 1400 L centerline",
+        "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "2": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "3": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                   "4": "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+                   "5": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                   "6": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "7": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"},
+        "light": {
+          "label": "2× R-27R, 2× R-60M, GSh-30-1 · 1400 L centerline",
+          "pylons": {"1": "{682A481F-0CB5-4693-A382-D00DD4A156D7}",
+                     "3": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                     "4": "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+                     "5": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                     "7": "{682A481F-0CB5-4693-A382-D00DD4A156D7}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "4× R-73, GSh-30-1 30 mm",
+        "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "2": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "6": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "7": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"}
+      }
+    }
+  },
+
+  "MiG-29S": {
+    "cap": {
+      "*": {
+        "label": "2× R-27ER, 2× R-77, 2× R-73, GSh-30-1 · 1400 L centerline",
+        "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "2": "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                   "3": "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                   "4": "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+                   "5": "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                   "6": "{B4C01D60-A8A3-4237-BD72-CA7655BC0FE9}",
+                   "7": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"},
+        "light": {
+          "label": "2× R-27R, 2× R-73, GSh-30-1 · 1400 L centerline",
+          "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                     "3": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                     "4": "{2BEC576B-CDF5-4B7F-961F-B0FA4312B841}",
+                     "5": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                     "7": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "4× R-73, GSh-30-1 30 mm",
+        "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "2": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "6": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "7": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"}
+      }
+    }
+  },
+
+  "Su-27": {
+    "cap": {
+      "*": {
+        "label": "2× R-27ER, 2× R-27ET, 4× R-73, GSh-30-1",
+        "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "2": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "3": "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
+                   "4": "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                   "7": "{E8069896-8435-4B90-95C0-01A03AE6E400}",
+                   "8": "{B79C379A-9E87-4E50-A1EE-7F7E29C2E87A}",
+                   "9": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "10": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"},
+        "light": {
+          "label": "2× R-27R, 4× R-73, GSh-30-1",
+          "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                     "2": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                     "4": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                     "7": "{9B25D316-0434-4954-868F-D51DB1A38DF0}",
+                     "9": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                     "10": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "4× R-73, GSh-30-1 30 mm",
+        "pylons": {"1": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "2": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "9": "{FBC29BFE-3D24-4C64-B81D-941239D12249}",
+                   "10": "{FBC29BFE-3D24-4C64-B81D-941239D12249}"}
+      }
+    }
+  },
+
+  "MiG-31": {
+    "cap": {
+      "*": {
+        "label": "4× R-33, 4× R-60M, GSh-6-23",
+        "pylons": {"1": "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}",
+                   "2": "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}",
+                   "3": "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}",
+                   "4": "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}",
+                   "5": "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}",
+                   "6": "{275A2855-4A79-4B2D-B082-91EA2ADF4691}"},
+        "light": {
+          "label": "2× R-33, 4× R-60M, GSh-6-23",
+          "pylons": {"1": "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}",
+                     "3": "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}",
+                     "4": "{F1243568-8EF0-49D4-9CB5-4DA90D92BC1D}",
+                     "6": "{275A2855-4A79-4B2D-B082-91EA2ADF4691}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "4× R-60M, GSh-6-23 23 mm",
+        "pylons": {"1": "{B0DBC591-0F52-4F7D-AD7B-51E67725FB81}",
+                   "6": "{275A2855-4A79-4B2D-B082-91EA2ADF4691}"}
+      }
+    }
+  },
+
+  "F-16C_50": {
+    "cap": {
+      "*": {
+        "label": "2× AIM-120C, 2× AIM-9M, M61A1 · 2× 370 gal",
+        "pylons": {"1": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "3": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+                   "4": "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+                   "6": "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+                   "7": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+                   "9": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}"},
+        "light": {
+          "label": "2× AIM-9M, M61A1 · 2× 370 gal",
+          "pylons": {"1": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                     "4": "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+                     "6": "{F376DBEE-4CAE-41BA-ADD9-B2910AC95DEC}",
+                     "9": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "2× AIM-9M, M61A1 20 mm",
+        "pylons": {"1": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "9": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}"}
+      }
+    }
+  },
+
+  "F-15C": {
+    "cap": {
+      "*": {
+        "label": "4× AIM-120C, 2× AIM-9M, M61A1 · 3× 610 gal",
+        "pylons": {"1": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "2": "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
+                   "4": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+                   "5": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+                   "6": "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
+                   "7": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+                   "8": "{40EF17B7-F508-45de-8566-6FFECC0C1AB8}",
+                   "9": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "10": "{E1F29B21-F291-4589-9FD8-3272EEC69506}"},
+        "light": {
+          "label": "2× AIM-7M, 2× AIM-9M, M61A1 · 3× 610 gal",
+          "pylons": {"1": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                     "2": "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
+                     "4": "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+                     "6": "{E1F29B21-F291-4589-9FD8-3272EEC69506}",
+                     "7": "{8D399DDA-FF81-4F14-904D-099B34FE7918}",
+                     "9": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                     "10": "{E1F29B21-F291-4589-9FD8-3272EEC69506}"}
+        }
+      }
+    },
+    "bfm": {
+      "*": {
+        "label": "4× AIM-9M, M61A1 20 mm",
+        "pylons": {"1": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "3": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "9": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}",
+                   "11": "{6CEB49FC-DED8-4DED-B053-E1F033FF72D3}"}
+      }
+    }
+  }
+}

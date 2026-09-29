@@ -1,0 +1,8172 @@
+{
+ "map": "germany",
+ "label": "Cold War Germany",
+ "eras": [
+  "coldwar"
+ ],
+ "fixes": {
+  "BITBURG": {
+   "lat": 49.945,
+   "lon": 6.564,
+   "short": "BITBURG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "SPANGDAHLEM": {
+   "lat": 49.977,
+   "lon": 6.699,
+   "short": "SPANG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "HAHN": {
+   "lat": 49.948,
+   "lon": 7.264,
+   "short": "HAHN",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "RAMSTEIN": {
+   "lat": 49.437,
+   "lon": 7.6,
+   "short": "RAMSTEIN",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "SPA": {
+   "lat": 49.979,
+   "lon": 6.6977,
+   "short": "SPA",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Spangdahlem TACAN 109.5",
+   "minor": true
+  },
+  "NTM": {
+   "lat": 50.0159,
+   "lon": 6.5318,
+   "short": "NTM",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Nattenheim VORTAC 115.3"
+  },
+  "BUE": {
+   "lat": 50.1787,
+   "lon": 7.0695,
+   "short": "BUE",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Büchel TACAN 117.1"
+  },
+  "HND": {
+   "lat": 49.9456,
+   "lon": 7.2677,
+   "short": "HND",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Hahn DME 116.95",
+   "minor": true
+  },
+  "KIR": {
+   "lat": 49.8502,
+   "lon": 7.3696,
+   "short": "KIR",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Kirn VORTAC 117.5"
+  },
+  "RMS": {
+   "lat": 49.4347,
+   "lon": 7.5857,
+   "short": "RMS",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Ramstein TACAN 113.4",
+   "minor": true
+  },
+  "ZWN": {
+   "lat": 49.2291,
+   "lon": 7.4179,
+   "short": "ZWN",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Zweibrücken VOR-DME 114.8",
+   "minor": true
+  },
+  "KOBLENZ": {
+   "lat": 50.36,
+   "lon": 7.59,
+   "short": "KOBLENZ",
+   "kind": "landmark",
+   "src": "The Rhine-Mosel confluence; the Eifel road's turn to the Taunus",
+   "approx": true
+  },
+  "WIB": {
+   "lat": 50.0462,
+   "lon": 8.3108,
+   "short": "WIB",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Wiesbaden TACAN 114.1",
+   "minor": true
+  },
+  "TAU": {
+   "lat": 50.2505,
+   "lon": 8.1625,
+   "short": "TAU",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Taunus VORTAC 116.7"
+  },
+  "WIESBADEN": {
+   "lat": 50.05,
+   "lon": 8.326,
+   "short": "WIESBADN",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "FRANKFURT": {
+   "lat": 50.04,
+   "lon": 8.567,
+   "short": "FRANKFRT",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "GELNHAUSEN": {
+   "lat": 50.196,
+   "lon": 9.167,
+   "short": "GELNHAUS",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Coleman AAF)"
+  },
+  "ALSFELD": {
+   "lat": 50.75,
+   "lon": 9.27,
+   "short": "ALSFELD",
+   "kind": "landmark",
+   "src": "The Vogelsberg road: Alsfeld on the A5, north-east of Giessen",
+   "approx": true
+  },
+  "FULDA": {
+   "lat": 50.54,
+   "lon": 9.643,
+   "short": "FULDA",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Sickels AAF; V US Corps, the Fulda Gap)"
+  },
+  "HUNFELD": {
+   "lat": 50.67,
+   "lon": 9.76,
+   "short": "HUNFELD",
+   "kind": "landmark",
+   "src": "Hünfeld, the last town before the Fulda Gap gate",
+   "approx": true
+  },
+  "FTZ": {
+   "lat": 51.0843,
+   "lon": 9.4152,
+   "short": "FTZ",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Fritzlar NDB 468"
+  },
+  "WRB": {
+   "lat": 51.5057,
+   "lon": 9.1109,
+   "short": "WRB",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Warburg VOR-DME 113.7"
+  },
+  "KASSEL": {
+   "lat": 51.32,
+   "lon": 9.5,
+   "short": "KASSEL",
+   "kind": "landmark",
+   "src": "Kassel - the 2 ATAF / 4 ATAF and NORTHAG / CENTAG seam ('Germany north of the city of Kassel', en.wikipedia 2 ATAF)",
+   "approx": true
+  },
+  "GOTTINGEN": {
+   "lat": 51.53,
+   "lon": 9.93,
+   "short": "GOTTINGN",
+   "kind": "landmark",
+   "src": "Göttingen - the army-group boundary 'Gottingen (FRG)-Liege' (GlobalSecurity)",
+   "approx": true
+  },
+  "GOSLAR": {
+   "lat": 51.91,
+   "lon": 10.43,
+   "short": "GOSLAR",
+   "kind": "landmark",
+   "src": "Goslar under the Harz; I BR Corps right boundary 'from Goslar to Paderborn' (GlobalSecurity NORTHAG)",
+   "approx": true
+  },
+  "WURZBURG": {
+   "lat": 49.79,
+   "lon": 9.93,
+   "short": "WURZBURG",
+   "kind": "landmark",
+   "src": "Würzburg - 69th ADA Group (HAWK) HQ; the road to the Hof corridor",
+   "approx": true
+  },
+  "BAYREUTH": {
+   "lat": 49.95,
+   "lon": 11.58,
+   "short": "BAYREUTH",
+   "kind": "landmark",
+   "src": "Bayreuth - the Hof corridor's approach; an ADIZ airfield with its own corridor (dewiki ADIZ)",
+   "approx": true
+  },
+  "NORVENICH": {
+   "lat": 50.831,
+   "lon": 6.659,
+   "short": "NORVENCH",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "COLOGNE": {
+   "lat": 50.868,
+   "lon": 7.148,
+   "short": "COLOGNE",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "COL": {
+   "lat": 50.7835,
+   "lon": 7.5942,
+   "short": "COL",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Cola VORTAC 108.8"
+  },
+  "GMH": {
+   "lat": 51.1705,
+   "lon": 7.892,
+   "short": "GMH",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Germinghausen VOR-DME 115.4"
+  },
+  "HMM": {
+   "lat": 51.8569,
+   "lon": 7.7083,
+   "short": "HMM",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Hamm VOR-DME 115.65"
+  },
+  "GUTERSLOH": {
+   "lat": 51.923,
+   "lon": 8.304,
+   "short": "GUTERSLO",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (RAF Gütersloh - 'the nearest RAF airfield to the border')"
+  },
+  "PADERBORN": {
+   "lat": 51.72,
+   "lon": 8.75,
+   "short": "PADERBRN",
+   "kind": "landmark",
+   "src": "Paderborn; I BR Corps rear boundary (GlobalSecurity NORTHAG)",
+   "approx": true
+  },
+  "OSB": {
+   "lat": 52.2017,
+   "lon": 8.2855,
+   "short": "OSB",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Osnabrück TACAN 108.35",
+   "minor": true
+  },
+  "PORTA": {
+   "lat": 52.25,
+   "lon": 8.92,
+   "short": "PORTA",
+   "kind": "landmark",
+   "src": "Porta Westfalica - the Minden Gap, NORTHAG's 'vital ground' (JMSS)",
+   "approx": true
+  },
+  "BYC": {
+   "lat": 52.2912,
+   "lon": 9.091,
+   "short": "BYC",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Bückeburg NDB 368",
+   "minor": true
+  },
+  "WUN": {
+   "lat": 52.4603,
+   "lon": 9.4448,
+   "short": "WUN",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Wunstorf TACAN 114.85"
+  },
+  "NIE": {
+   "lat": 52.6259,
+   "lon": 9.372,
+   "short": "NIE",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Nienburg VOR 116.5",
+   "minor": true
+  },
+  "DLE": {
+   "lat": 52.2503,
+   "lon": 9.8835,
+   "short": "DLE",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Leine VOR-DME 115.2"
+  },
+  "HANNOVER": {
+   "lat": 52.454,
+   "lon": 9.694,
+   "short": "HANNOVER",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "WUNSTORF": {
+   "lat": 52.457,
+   "lon": 9.427,
+   "short": "WUNSTORF",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "CEL": {
+   "lat": 52.5897,
+   "lon": 10.0295,
+   "short": "CEL",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Celle NDB 311"
+  },
+  "FSB": {
+   "lat": 52.9158,
+   "lon": 10.1881,
+   "short": "FSB",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Fassberg NDB 284"
+  },
+  "FASSBERG": {
+   "lat": 52.919,
+   "lon": 10.185,
+   "short": "FASSBERG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "BRU": {
+   "lat": 52.3222,
+   "lon": 10.6062,
+   "short": "BRU",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Braunschweig NDB 427",
+   "minor": true
+  },
+  "HLZ": {
+   "lat": 52.3634,
+   "lon": 10.7952,
+   "short": "HLZ",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Hehlingen VOR-DME 117.3"
+  },
+  "UELZEN": {
+   "lat": 52.96,
+   "lon": 10.56,
+   "short": "UELZEN",
+   "kind": "landmark",
+   "src": "Uelzen - reporting post UNITY of the Tiefflieger-Meldedienst (relikte.com)",
+   "approx": true
+  },
+  "VISSEL": {
+   "lat": 52.99,
+   "lon": 9.58,
+   "short": "VISSEL",
+   "kind": "landmark",
+   "src": "Visselhövede - CRC SILVERCORK (relikte.com)",
+   "approx": true
+  },
+  "BMN": {
+   "lat": 53.044,
+   "lon": 8.7821,
+   "short": "BMN",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Bremen VOR-DME 117.45",
+   "minor": true
+  },
+  "HAMBURG": {
+   "lat": 53.627,
+   "lon": 9.981,
+   "short": "HAMBURG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "HAM": {
+   "lat": 53.6856,
+   "lon": 10.205,
+   "short": "HAM",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Hamburg VORTAC 113.1"
+  },
+  "LBE": {
+   "lat": 53.6542,
+   "lon": 9.5951,
+   "short": "LBE",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Elbe VOR-DME 115.1",
+   "minor": true
+  },
+  "LUB": {
+   "lat": 53.9407,
+   "lon": 10.6678,
+   "short": "LUB",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Lübeck VOR 110.6"
+  },
+  "KHD": {
+   "lat": 54.3788,
+   "lon": 10.1454,
+   "short": "KHD",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Kiel-Holtenau DME 109.5",
+   "minor": true
+  },
+  "NDO": {
+   "lat": 53.769,
+   "lon": 8.6535,
+   "short": "NDO",
+   "kind": "navaid",
+   "src": "OurAirports navaid record (current DAFIF/FAA data), position as printed: Nordholz TACAN 117.1",
+   "minor": true
+  },
+  "LAUENBURG": {
+   "lat": 53.37,
+   "lon": 10.56,
+   "short": "LAUENBRG",
+   "kind": "landmark",
+   "src": "Lauenburg - the Elbe where the border leaves it",
+   "approx": true
+  },
+  "LUNEBURG": {
+   "lat": 53.25,
+   "lon": 10.41,
+   "short": "LUNEBURG",
+   "kind": "landmark",
+   "src": "Lüneburg - I NL Corps divisions 'around Lüneburg and Uelzen' (coldwardecoded)",
+   "approx": true
+  },
+  "BOIZENBURG": {
+   "lat": 53.38,
+   "lon": 10.72,
+   "short": "BOIZENBG",
+   "kind": "gate",
+   "src": "Curated crossing point on the inner-German border, placed on the named town; the LLTRs through the HAWK belt were 'activated for specified times only and changed frequently' (FM 100-103) - the Elbe below Lauenburg, I NL Corps; the north Berlin corridor's crossing",
+   "approx": true
+  },
+  "DOMITZ": {
+   "lat": 53.14,
+   "lon": 11.26,
+   "short": "DOMITZ",
+   "kind": "gate",
+   "src": "Curated crossing point on the inner-German border, placed on the named town; the LLTRs through the HAWK belt were 'activated for specified times only and changed frequently' (FM 100-103) - the Elbe bridge at Dömitz, the Wendland; I GE Corps",
+   "approx": true
+  },
+  "HELMSTEDT": {
+   "lat": 52.23,
+   "lon": 11.01,
+   "short": "HELMSTDT",
+   "kind": "gate",
+   "src": "Curated crossing point on the inner-German border, placed on the named town; the LLTRs through the HAWK belt were 'activated for specified times only and changed frequently' (FM 100-103) - Checkpoint Alpha / Marienborn on the A2, the center Berlin corridor's crossing; I BR Corps",
+   "approx": true
+  },
+  "HERLESHAUSEN": {
+   "lat": 51.0,
+   "lon": 10.17,
+   "short": "HERLESHN",
+   "kind": "gate",
+   "src": "Curated crossing point on the inner-German border, placed on the named town; the LLTRs through the HAWK belt were 'activated for specified times only and changed frequently' (FM 100-103) - Wartha / Herleshausen on the A4 over the Werra; III GE Corps / V US Corps seam",
+   "approx": true
+  },
+  "POINT ALPHA": {
+   "lat": 50.72,
+   "lon": 9.94,
+   "short": "PT ALPHA",
+   "kind": "gate",
+   "src": "Curated crossing point on the inner-German border, placed on the named town; the LLTRs through the HAWK belt were 'activated for specified times only and changed frequently' (FM 100-103) - OP Alpha at Rasdorf, the Fulda Gap; V US Corps 'from a line north of Kassel to a point east of Fulda' (GlobalSecurity)",
+   "approx": true
+  },
+  "HOF": {
+   "lat": 50.32,
+   "lon": 11.92,
+   "short": "HOF",
+   "kind": "gate",
+   "src": "Curated crossing point on the inner-German border, placed on the named town; the LLTRs through the HAWK belt were 'activated for specified times only and changed frequently' (FM 100-103) - the Hof corridor, 'from Zwickau through the so-called Hof Corridor towards Nuremberg' (warhistory.org); VII US Corps",
+   "approx": true
+  },
+  "WERNEUCHEN": {
+   "lat": 52.632,
+   "lon": 13.769,
+   "short": "WERNEUCH",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (931 ORAP MiG-25)"
+  },
+  "FINOW": {
+   "lat": 52.827,
+   "lon": 13.694,
+   "short": "FINOW",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (787 IAP)"
+  },
+  "TEMPLIN": {
+   "lat": 53.032,
+   "lon": 13.543,
+   "short": "TEMPLIN",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Groß Dölln, 20 GvAPIB Su-17)"
+  },
+  "SPERENBERG": {
+   "lat": 52.137,
+   "lon": 13.306,
+   "short": "SPERENBG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (226 OSAP)"
+  },
+  "ALTES LAGER": {
+   "lat": 51.995,
+   "lon": 12.984,
+   "short": "ALTLAGER",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Jüterbog, 833 IAP MiG-23MLD)"
+  },
+  "NEURUPPIN": {
+   "lat": 52.941,
+   "lon": 12.787,
+   "short": "NEURUPPN",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (730 APIB)"
+  },
+  "WITTSTOCK": {
+   "lat": 53.202,
+   "lon": 12.523,
+   "short": "WITTSTCK",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Alt Daber, 33 IAP MiG-29)"
+  },
+  "ORANIENBURG": {
+   "lat": 52.725,
+   "lon": 13.217,
+   "short": "ORANIENB",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (239 GvOVP)"
+  },
+  "PARCHIM": {
+   "lat": 53.428,
+   "lon": 11.787,
+   "short": "PARCHIM",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (172 / 439 OBVP)"
+  },
+  "LAAGE": {
+   "lat": 53.918,
+   "lon": 12.279,
+   "short": "LAAGE",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (MFG-28 / JBG-77)"
+  },
+  "DAMGARTEN": {
+   "lat": 54.264,
+   "lon": 12.444,
+   "short": "DAMGARTN",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (773 IAP MiG-29)"
+  },
+  "NEUBRANDENBURG": {
+   "lat": 53.602,
+   "lon": 13.306,
+   "short": "NEUBRAND",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Trollenhagen, JG-2)"
+  },
+  "MERSEBURG": {
+   "lat": 51.364,
+   "lon": 11.95,
+   "short": "MERSEBRG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (85 GvIAP)"
+  },
+  "FALKENBERG": {
+   "lat": 51.546,
+   "lon": 13.216,
+   "short": "FALKENBG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (31 GvIAP)"
+  },
+  "HOLZDORF": {
+   "lat": 51.768,
+   "lon": 13.17,
+   "short": "HOLZDORF",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (JG-1)"
+  },
+  "STENDAL": {
+   "lat": 52.629,
+   "lon": 11.82,
+   "short": "STENDAL",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (Borstel, 178 / 440 OVP)"
+  },
+  "COCHSTEDT": {
+   "lat": 51.856,
+   "lon": 11.418,
+   "short": "COCHSTDT",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "SCHWERIN": {
+   "lat": 53.63,
+   "lon": 11.41,
+   "short": "SCHWERIN",
+   "kind": "landmark",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "HAGENOW": {
+   "lat": 53.43,
+   "lon": 11.19,
+   "short": "HAGENOW",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "LUDWIGSLUST": {
+   "lat": 53.32,
+   "lon": 11.5,
+   "short": "LUDWGSLT",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "PERLEBERG": {
+   "lat": 53.07,
+   "lon": 11.86,
+   "short": "PERLEBRG",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "PRITZWALK": {
+   "lat": 53.15,
+   "lon": 12.18,
+   "short": "PRITZWLK",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 123 (UT 168° / DT 059°); the Wittstock training routes' first turn",
+   "approx": true
+  },
+  "NEUSTADT-GLEWE": {
+   "lat": 53.38,
+   "lon": 11.59,
+   "short": "NEUGLEWE",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 124; Wittstock routes 023-027",
+   "approx": true
+  },
+  "OSTERBURG": {
+   "lat": 52.78,
+   "lon": 11.76,
+   "short": "OSTERBRG",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town; nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 126",
+   "approx": true
+  },
+  "HALDENSLEBEN": {
+   "lat": 52.29,
+   "lon": 11.41,
+   "short": "HALDENSL",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town; nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 143",
+   "approx": true
+  },
+  "NAUEN": {
+   "lat": 52.6,
+   "lon": 12.87,
+   "short": "NAUEN",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 136 (UT 236°)",
+   "approx": true
+  },
+  "RATHENOW": {
+   "lat": 52.6,
+   "lon": 12.34,
+   "short": "RATHENOW",
+   "kind": "fix",
+   "src": "nva-flieger.de: 'Zone 064 (Rathenow)'",
+   "approx": true
+  },
+  "MAGDEBURG": {
+   "lat": 52.13,
+   "lon": 11.63,
+   "short": "MAGDEBRG",
+   "kind": "landmark",
+   "src": "Magdeburg - 3rd Army HQ; MAG VOR 110.45 (OurAirports listing, position from the city)",
+   "approx": true
+  },
+  "GRONINGEN": {
+   "lat": 51.94,
+   "lon": 11.21,
+   "short": "GRONINGN",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "BLANKENBURG": {
+   "lat": 51.79,
+   "lon": 10.96,
+   "short": "BLANKENB",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "KELBRA": {
+   "lat": 51.43,
+   "lon": 11.04,
+   "short": "KELBRA",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town; nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 177",
+   "approx": true
+  },
+  "BAD LANGENSALZA": {
+   "lat": 51.11,
+   "lon": 10.65,
+   "short": "LANGENSZ",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town; nva-flieger.de 'Luftraum der DDR': örtliche Fluglinie point 178",
+   "approx": true
+  },
+  "BARCHFELD": {
+   "lat": 50.83,
+   "lon": 10.3,
+   "short": "BARCHFLD",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "SUHL": {
+   "lat": 50.61,
+   "lon": 10.69,
+   "short": "SUHL",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "POSSNECK": {
+   "lat": 50.7,
+   "lon": 11.6,
+   "short": "POSSNECK",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "ELSTERBERG": {
+   "lat": 50.61,
+   "lon": 12.17,
+   "short": "ELSTERBG",
+   "kind": "fix",
+   "src": "nva-flieger.de 'Luftraum der DDR': Grenzsperrstreifen reference town",
+   "approx": true
+  },
+  "HALLE": {
+   "lat": 51.48,
+   "lon": 11.97,
+   "short": "HALLE",
+   "kind": "landmark",
+   "src": "Halle - 8th Guards Army; the south Berlin corridor's axis passes north of it",
+   "approx": true
+  },
+  "DESSAU": {
+   "lat": 51.832,
+   "lon": 12.193,
+   "short": "DESSAU",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map"
+  },
+  "ZERBST": {
+   "lat": 52.0,
+   "lon": 12.144,
+   "short": "ZERBST",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (35 IAP)"
+  },
+  "GENTHIN": {
+   "lat": 52.41,
+   "lon": 12.16,
+   "short": "GENTHIN",
+   "kind": "fix",
+   "src": "The center Berlin corridor's axis: Genthin on the Elbe-Havel canal (placed on the town)",
+   "approx": true
+  },
+  "BERLIN": {
+   "lat": 52.484,
+   "lon": 13.351,
+   "short": "BERLIN",
+   "kind": "landmark",
+   "src": "The Berlin Control Zone's center: 'a pillar located in the cellar of the Allied Control Authority building' (en.wikipedia BASC)"
+  },
+  "EISENACH": {
+   "lat": 50.98,
+   "lon": 10.32,
+   "short": "EISENACH",
+   "kind": "fix",
+   "src": "Eisenach - the Wartburg; the A4 east of the Herleshausen gate (placed on the town)",
+   "approx": true
+  },
+  "ERFURT": {
+   "lat": 50.98,
+   "lon": 11.03,
+   "short": "ERFURT",
+   "kind": "landmark",
+   "src": "Erfurt - the Thuringian basin (placed on the city)",
+   "approx": true
+  },
+  "GERA": {
+   "lat": 50.88,
+   "lon": 12.08,
+   "short": "GERA",
+   "kind": "fix",
+   "src": "Gera - 252 ZRB (gsvg88); the Hof corridor road north (placed on the town)",
+   "approx": true
+  },
+  "PLAUEN": {
+   "lat": 50.5,
+   "lon": 12.14,
+   "short": "PLAUEN",
+   "kind": "fix",
+   "src": "Plauen - the Vogtland above the Hof corridor (placed on the town)",
+   "approx": true
+  },
+  "BRAUNSCHWEIG": {
+   "lat": 52.319,
+   "lon": 10.554,
+   "short": "BRNSCHWG",
+   "kind": "airport",
+   "src": "DCS Cold War Germany map (outside the ADIZ by the 1958 exception)"
+  },
+  "MINDEN": {
+   "lat": 52.29,
+   "lon": 8.92,
+   "short": "MINDEN",
+   "kind": "landmark",
+   "src": "Minden - the Weser at the Porta gap",
+   "approx": true
+  }
+ },
+ "corridors": [
+  {
+   "id": "ef_out",
+   "name": "The Eifel road - Nattenheim to the Taunus",
+   "role": "departure",
+   "points": [
+    "NTM",
+    "BUE",
+    "KOBLENZ",
+    "TAU"
+   ],
+   "block_ft": [
+    1000,
+    10000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Out of the Eifel over the Büchel TACAN and the Rhine at Koblenz to the Taunus VORTAC - clear of the Nike sites of 6/56 ADA (Spangdahlem / Bitburg / Hahn) and 2/62 ADA's HAWK batteries round Bitburg (Balesfeld, Butzweiler, Hisel)."
+   ],
+   "src": "OurAirports NTM/BUE/TAU; usarmygermany.com 108th ADA Bde",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "ef_home",
+   "name": "Recovery into the Eifel",
+   "role": "recovery",
+   "points": [
+    "TAU",
+    "KOBLENZ",
+    "BUE",
+    "NTM"
+   ],
+   "block_ft": [
+    2000,
+    10000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Back down the Eifel road. SOC 3 Kindsbach (4 ATAF); CRC Börfink 'SCANDALISE'."
+   ],
+   "src": "ace-high-journal.eu CRC in Deutschland",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "hu_out",
+   "name": "The Hunsrück road - Hahn to the Taunus",
+   "role": "departure",
+   "points": [
+    "HND",
+    "KIR",
+    "TAU"
+   ],
+   "block_ft": [
+    1000,
+    10000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Hahn, Pferdsfeld and Büchel east over the Hunsrück to the Kirn VORTAC and the Taunus - the 94th Group's Nike sites at Dichtelbach and Wüschheim below."
+   ],
+   "src": "OurAirports HND/KIR/TAU; en.wikipedia List of Nike missile sites",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "hu_home",
+   "name": "Recovery over the Hunsrück",
+   "role": "recovery",
+   "points": [
+    "TAU",
+    "KIR",
+    "HND"
+   ],
+   "block_ft": [
+    2000,
+    10000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Kirn back to the Hahn DME."
+   ],
+   "src": "OurAirports HND",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "pf_out",
+   "name": "The Kirn road - Ramstein to the Taunus",
+   "role": "departure",
+   "points": [
+    "RMS",
+    "KIR",
+    "TAU"
+   ],
+   "block_ft": [
+    1000,
+    10000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Ramstein and Zweibrücken north over the Kirn VORTAC to the Taunus, between the Nike sites of 2/60 ADA (Ramstein / Pirmasens / Kaiserslautern) and the 94th Group's Hunsrück sites (Dichtelbach, Wüschheim)."
+   ],
+   "src": "OurAirports RMS/KIR/TAU; usarmygermany.com 94th ADA Group",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "pf_home",
+   "name": "Recovery via Kirn",
+   "role": "recovery",
+   "points": [
+    "TAU",
+    "KIR",
+    "RMS"
+   ],
+   "block_ft": [
+    2000,
+    10000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The Kirn road back into the Pfalz; Ramstein TACAN 113.4."
+   ],
+   "src": "OurAirports RMS",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "rm_out",
+   "name": "Rhein-Main to the Taunus",
+   "role": "departure",
+   "points": [
+    "WIB",
+    "TAU"
+   ],
+   "block_ft": [
+    1000,
+    8000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Wiesbaden and Frankfurt out over the Taunus VORTAC to Gelnhausen, under the 10th ADA Group's HAWK (Hanau, Giessen) - SOC 3 Kindsbach's identification zone."
+   ],
+   "src": "usarmygermany.com 10th ADA Bde",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "rm_home",
+   "name": "Recovery into Rhein-Main",
+   "role": "recovery",
+   "points": [
+    "GELNHAUSEN",
+    "TAU",
+    "WIB"
+   ],
+   "block_ft": [
+    2000,
+    8000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Gelnhausen to the Taunus VORTAC and down into Wiesbaden / Rhein-Main."
+   ],
+   "src": "OurAirports TAU/WIB",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "fulda",
+   "name": "The Fulda Gap - LLTR to Point Alpha",
+   "role": "transit",
+   "points": [
+    "TAU",
+    "GELNHAUSEN",
+    "FULDA",
+    "HUNFELD",
+    "POINT ALPHA"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The V US Corps road: Gelnhausen, Fulda, Hünfeld, through the HAWK belt (2/2 ADA Giessen, 1/1 ADA Wildflecken) to the gate at OP Alpha. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "GlobalSecurity ww3-fulda-gap; usarmygermany.com 10th ADA Bde",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "werra",
+   "name": "The Werra road - LLTR to Herleshausen",
+   "role": "transit",
+   "points": [
+    "TAU",
+    "GELNHAUSEN",
+    "ALSFELD",
+    "HERLESHAUSEN"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "North of the Fulda Gap: the Vogelsberg to Alsfeld and the A4 crossing at Wartha / Herleshausen - the III GE Corps sector, FlaRakGrp 38's HAWK (Freienhagen, Flechtdorf, Rhoden) to the north. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "de.wikipedia Flugabwehrraketengruppe 38; en.wikipedia III Corps (Bundeswehr)",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "harz",
+   "name": "The Harz road - Kassel to Helmstedt",
+   "role": "transit",
+   "points": [
+    "TAU",
+    "FTZ",
+    "WRB",
+    "GOSLAR",
+    "HELMSTEDT"
+   ],
+   "block_ft": [
+    500,
+    6000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "4 ATAF's road to the North German Plain: the Fritzlar NDB, the Warburg VOR over the ATAF seam at Kassel, Goslar under the Harz, and the Helmstedt gate. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "OurAirports FTZ/WRB; GlobalSecurity NORTHAG (Goslar-Paderborn)",
+   "label_seg": 3,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "hofroad",
+   "name": "The Hof corridor - Würzburg to Hof",
+   "role": "transit",
+   "points": [
+    "TAU",
+    "WURZBURG",
+    "BAYREUTH",
+    "HOF"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The VII US Corps road: Würzburg (69th ADA Group HQ), Bayreuth in the ADIZ, and the Hof gate - the Zwickau axis in reverse. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "usarmygermany.com 69th ADA Bde; GlobalSecurity ww3-hof-corridor",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "rr_out",
+   "name": "The Ruhr road - Cologne to the Porta",
+   "role": "departure",
+   "points": [
+    "COL",
+    "GMH",
+    "HMM",
+    "GUTERSLOH",
+    "PORTA"
+   ],
+   "block_ft": [
+    1000,
+    8000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Nörvenich and Cologne east over the Cola and Germinghausen VORs to Hamm, Gütersloh and the Minden Gap at Porta Westfalica - NORTHAG's 'vital ground'. CRC Uedem 'CRABTREE', CRC Erndtebrück 'LONESHIP'."
+   ],
+   "src": "OurAirports COL/GMH/HMM; JMSS (Minden Gap); relikte.com CRC call signs",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "rr_home",
+   "name": "Recovery into the Rhineland",
+   "role": "recovery",
+   "points": [
+    "PORTA",
+    "GUTERSLOH",
+    "HMM",
+    "GMH",
+    "COL"
+   ],
+   "block_ft": [
+    2000,
+    8000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The Ruhr road back; SOC 2 Uedem 'MANDRIL'."
+   ],
+   "src": "relikte.com nds_radar",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "ha_out",
+   "name": "The Weser road - Wunstorf to Hehlingen",
+   "role": "departure",
+   "points": [
+    "WUN",
+    "DLE",
+    "BRU",
+    "HLZ"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Hannover's fields east over the Leine VOR, Braunschweig (outside the ADIZ by the 1958 exception) to the Hehlingen VOR at Wolfsburg - the I BR Corps sector, the HAWK of 3 and 5 GGW (Aerzen, Velmerstot, Stolzenau) behind."
+   ],
+   "src": "dewiki ADIZ (Braunschweig); nl.wikipedia Groepen Geleide Wapens",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "ha_home",
+   "name": "Recovery via the Leine",
+   "role": "recovery",
+   "points": [
+    "HLZ",
+    "DLE",
+    "WUN"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Hehlingen back over the Leine VOR to Wunstorf; CRC Visselhövede 'SILVERCORK'."
+   ],
+   "src": "relikte.com nds_radar",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "he_out",
+   "name": "The Heath road south - Fassberg to Hehlingen",
+   "role": "departure",
+   "points": [
+    "FSB",
+    "CEL",
+    "HLZ"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Fassberg and Celle south over the Celle NDB to the Hehlingen VOR at Wolfsburg - round the Bergen-Hohne and Munster ranges (ED-R 31/32), into the I BR Corps sector."
+   ],
+   "src": "AIP Germany ENR 5.1 (ED-R 31/32); OurAirports FSB/CEL/HLZ",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "he_home",
+   "name": "Recovery via Celle",
+   "role": "recovery",
+   "points": [
+    "HLZ",
+    "CEL",
+    "FSB"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Hehlingen back over the Celle NDB to Fassberg; RP Uelzen 'UNITY' and CRC Visselhövede 'SILVERCORK' watching."
+   ],
+   "src": "relikte.com nds_radar",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "ha_north",
+   "name": "The Heath road north - Fassberg to Uelzen",
+   "role": "departure",
+   "points": [
+    "FSB",
+    "UELZEN"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Fassberg north over the Lüneburg Heath to the reporting post at Uelzen ('UNITY'), the I GE Corps sector; Celle joins at the Fassberg NDB."
+   ],
+   "src": "relikte.com nds_radar; coldwardecoded I NL Corps",
+   "label_seg": 0,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "ha_north_home",
+   "name": "Recovery via Fassberg",
+   "role": "recovery",
+   "points": [
+    "UELZEN",
+    "FSB"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Uelzen back to Fassberg."
+   ],
+   "src": "OurAirports FSB",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "el_out",
+   "name": "The Elbe road - Hamburg to Lauenburg",
+   "role": "departure",
+   "points": [
+    "HAM",
+    "LAUENBURG"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Hamburg's fields south-east down the Elbe to Lauenburg, where the border leaves the river - I NL Corps 'just south of Hamburg'."
+   ],
+   "src": "coldwardecoded I NL Corps; en.wikipedia Inner German border",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "el_home",
+   "name": "Recovery up the Elbe",
+   "role": "recovery",
+   "points": [
+    "LAUENBURG",
+    "HAM"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Lauenburg back up the Elbe to Hamburg; CRC Brekendorf 'BUGLE', SOC 1 Brockzetel 'FLYFISH'."
+   ],
+   "src": "relikte.com nds_radar",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "el_lub",
+   "name": "The Trave road - Lübeck to Lauenburg",
+   "role": "departure",
+   "points": [
+    "LUB",
+    "LAUENBURG"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Lübeck and Kiel south to Lauenburg; the Priwall border and the Lübeck bay Sperrgebiet to the east."
+   ],
+   "src": "de.wikipedia Innerdeutsche Grenze (Lübecker Bucht)",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "porta_a2",
+   "name": "The A2 - Porta to Helmstedt",
+   "role": "transit",
+   "points": [
+    "PORTA",
+    "WUN",
+    "DLE",
+    "BRU",
+    "HLZ",
+    "HELMSTEDT"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The Minden Gap to the Helmstedt gate along the Hannover-Berlin autobahn: the center Berlin corridor's own axis, 'the shortest of the three'. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 4,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "uelzen_gate",
+   "name": "The Wendland - Uelzen to Dömitz",
+   "role": "transit",
+   "points": [
+    "UELZEN",
+    "DOMITZ"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Uelzen to the Elbe bridge at Dömitz - the I GE Corps front, across the river into Mecklenburg. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "JMSS (I GE Corps); coldwardecoded",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "hlz_gate",
+   "name": "Hehlingen to Helmstedt",
+   "role": "transit",
+   "points": [
+    "HLZ",
+    "HELMSTEDT"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The last 15 nm from the Hehlingen VOR to the gate - through the front row of the HAWK belt at low level. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "relikte.com nds_flarak_hawk",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "elbe_gate",
+   "name": "Lauenburg to Boizenburg",
+   "role": "transit",
+   "points": [
+    "LAUENBURG",
+    "BOIZENBURG"
+   ],
+   "block_ft": [
+    500,
+    5000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Down the Elbe from Lauenburg to the Boizenburg crossing - the north Berlin corridor's crossing of the border. Curated Low Level Transit Route: 'a temporary corridor of defined dimensions which allows the low-level passage of friendly aircraft through friendly air defenses' (FM 100-103, 1987). The trace is ours."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "north_corr",
+   "name": "The north corridor axis - Boizenburg to Berlin",
+   "role": "transit",
+   "points": [
+    "BOIZENBURG",
+    "LUDWIGSLUST",
+    "PRITZWALK",
+    "NAUEN",
+    "BERLIN"
+   ],
+   "block_ft": [
+    500,
+    10000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The Hamburg-Berlin corridor's centerline: 20 English miles wide, 10,000 ft. Below it the Wittstock 'polygon' and the 41. FRBr ring (Fehrbellin, Beetz, Schönermark)."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor; de.wikipedia Flugabwehrraketentruppen (NVA)",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "center_corr",
+   "name": "The center corridor axis - Helmstedt to Berlin",
+   "role": "transit",
+   "points": [
+    "HELMSTEDT",
+    "MAGDEBURG",
+    "GENTHIN",
+    "BERLIN"
+   ],
+   "block_ft": [
+    500,
+    10000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The Bückeburg/Hannover-Berlin corridor's centerline over Magdeburg and Genthin; Stendal-Borstel's 135 helicopters north of it, the 41. FRBr's Zachow site at the Berlin end."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "south_corr",
+   "name": "The south corridor axis - Herleshausen to Berlin",
+   "role": "transit",
+   "points": [
+    "HERLESHAUSEN",
+    "BAD LANGENSALZA",
+    "KELBRA",
+    "HALLE",
+    "DESSAU",
+    "BERLIN"
+   ],
+   "block_ft": [
+    500,
+    10000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The Frankfurt-Berlin corridor's centerline: over the Thuringian basin, Kelbra, north of Halle and Dessau to the Control Zone - the 51. FRBr (Sprötau) and the 41. FRBr (Markgrafpieske) either side."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor; nva-flieger.de Grenzsperrstreifen",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "be_out_w",
+   "name": "Berlin west - Nauen to Rathenow",
+   "role": "departure",
+   "points": [
+    "NAUEN",
+    "RATHENOW"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The Berlin fields join at Nauen (örtliche Fluglinie 136), clear of the Control Zone, and run west to Rathenow (Zone 064) - the center corridor's axis in reverse."
+   ],
+   "src": "nva-flieger.de Luftraum der DDR",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "be_home_w",
+   "name": "Recovery via Nauen",
+   "role": "recovery",
+   "points": [
+    "RATHENOW",
+    "NAUEN"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Rathenow back over Nauen into the Berlin ring; Bunker Fuchsbau (Fürstenwalde) has the picture."
+   ],
+   "src": "d-d-r.de NVA Luftstreitkräfte",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "be_out_nw",
+   "name": "Berlin north-west - Neuruppin to Pritzwalk",
+   "role": "departure",
+   "points": [
+    "NEURUPPIN",
+    "PRITZWALK"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "North-west over Neuruppin (730 APIB) to Pritzwalk, the Wittstock routes' first turn (Fluglinie 123)."
+   ],
+   "src": "mil-airfields.de Wittstock (routes 023-029)",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "be_home_nw",
+   "name": "Recovery via Neuruppin",
+   "role": "recovery",
+   "points": [
+    "PRITZWALK",
+    "NEURUPPIN"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Pritzwalk back over Neuruppin."
+   ],
+   "src": "mil-airfields.de Wittstock",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "be_out_sw",
+   "name": "Berlin south-west - Sperenberg to Dessau",
+   "role": "departure",
+   "points": [
+    "SPERENBERG",
+    "DESSAU"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "South-west over Sperenberg (226 OSAP) and Jüterbog to Dessau - the south corridor's axis in reverse."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "be_home_sw",
+   "name": "Recovery via Sperenberg",
+   "role": "recovery",
+   "points": [
+    "DESSAU",
+    "SPERENBERG"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Dessau back over Sperenberg into the ring."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "gs_out",
+   "name": "Merseburg - the Harz foot to Kelbra",
+   "role": "departure",
+   "points": [
+    "MERSEBURG",
+    "KELBRA"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The southern fields (6 GvIAD Merseburg) west to Kelbra on the Grenzsperrstreifen chain (Fluglinie 177)."
+   ],
+   "src": "nva-flieger.de; en.wikipedia 16th Air Army",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "gs_home",
+   "name": "Recovery via Kelbra",
+   "role": "recovery",
+   "points": [
+    "KELBRA",
+    "MERSEBURG"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Kelbra back to Merseburg."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "gs_out_n",
+   "name": "Merseburg north - Cochstedt to Gröningen",
+   "role": "departure",
+   "points": [
+    "MERSEBURG",
+    "COCHSTEDT",
+    "GRONINGEN"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "North-west over Cochstedt to Gröningen on the chain - the road to the Helmstedt gate."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "gs_home_n",
+   "name": "Recovery via Cochstedt",
+   "role": "recovery",
+   "points": [
+    "GRONINGEN",
+    "COCHSTEDT",
+    "MERSEBURG"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Gröningen back over Cochstedt."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 1,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "gn_out",
+   "name": "Parchim - Neustadt-Glewe to Ludwigslust",
+   "role": "departure",
+   "points": [
+    "PARCHIM",
+    "NEUSTADT-GLEWE",
+    "LUDWIGSLUST"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "The Mecklenburg fields south-west over Neustadt-Glewe (Fluglinie 124) to Ludwigslust on the chain - the Elbe crossings beyond."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "gn_home",
+   "name": "Recovery via Neustadt-Glewe",
+   "role": "recovery",
+   "points": [
+    "LUDWIGSLUST",
+    "NEUSTADT-GLEWE",
+    "PARCHIM"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Ludwigslust back over Neustadt-Glewe to Parchim."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    -1
+   ]
+  },
+  {
+   "id": "gn_out_s",
+   "name": "Parchim south - Perleberg to Osterburg",
+   "role": "departure",
+   "points": [
+    "PARCHIM",
+    "PERLEBERG",
+    "OSTERBURG"
+   ],
+   "block_ft": [
+    1000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "South over Perleberg and Osterburg (Fluglinie 126) on the chain - the road to the Altmark and Helmstedt."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 1,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "gn_home_s",
+   "name": "Recovery via Perleberg",
+   "role": "recovery",
+   "points": [
+    "OSTERBURG",
+    "PERLEBERG",
+    "PARCHIM"
+   ],
+   "block_ft": [
+    2000,
+    6000
+   ],
+   "width_nm": 6,
+   "notes": [
+    "Osterburg back over Perleberg."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 0,
+   "label_off": [
+    -1,
+    0
+   ]
+  },
+  {
+   "id": "r_hagenow",
+   "name": "Ludwigslust to Boizenburg",
+   "role": "transit",
+   "points": [
+    "LUDWIGSLUST",
+    "HAGENOW",
+    "BOIZENBURG"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The last leg to the Boizenburg crossing - under the HAWK belt's front row beyond the river (FlaRakBtl 37 Belum-Nindorf-Krempel-Gudendorf to the north-west)."
+   ],
+   "src": "relikte.com nds_flarak_hawk",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "r_domitz",
+   "name": "Ludwigslust to Dömitz",
+   "role": "transit",
+   "points": [
+    "LUDWIGSLUST",
+    "DOMITZ"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Ludwigslust to the Dömitz bridge."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 0,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "r_pritzwalk",
+   "name": "Pritzwalk to Boizenburg",
+   "role": "transit",
+   "points": [
+    "PRITZWALK",
+    "LUDWIGSLUST",
+    "BOIZENBURG"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The north corridor's axis west: Pritzwalk, Ludwigslust, the Boizenburg crossing."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "r_rathenow",
+   "name": "Rathenow to Helmstedt",
+   "role": "transit",
+   "points": [
+    "RATHENOW",
+    "GENTHIN",
+    "MAGDEBURG",
+    "HELMSTEDT"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "The center corridor's axis west: Genthin, Magdeburg, the Marienborn crossing at Helmstedt."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "r_altmark",
+   "name": "Osterburg to Helmstedt",
+   "role": "transit",
+   "points": [
+    "OSTERBURG",
+    "HALDENSLEBEN",
+    "HELMSTEDT"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Down the Altmark over Haldensleben to the Helmstedt gate."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "r_groningen",
+   "name": "Gröningen to Helmstedt",
+   "role": "transit",
+   "points": [
+    "GRONINGEN",
+    "HELMSTEDT"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Gröningen north to the Helmstedt gate."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 0,
+   "label_off": [
+    1,
+    0
+   ]
+  },
+  {
+   "id": "r_werra",
+   "name": "Kelbra to Herleshausen",
+   "role": "transit",
+   "points": [
+    "KELBRA",
+    "BAD LANGENSALZA",
+    "HERLESHAUSEN"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Kelbra, Bad Langensalza (Fluglinie 178) and the Werra crossing at Herleshausen - the south corridor's axis west."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 1,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "r_fulda",
+   "name": "Kelbra to Point Alpha",
+   "role": "transit",
+   "points": [
+    "KELBRA",
+    "SUHL",
+    "BARCHFELD",
+    "POINT ALPHA"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Kelbra south-west over Suhl and Barchfeld on the chain to the Fulda Gap."
+   ],
+   "src": "nva-flieger.de",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    1
+   ]
+  },
+  {
+   "id": "r_dessau",
+   "name": "Dessau to Herleshausen",
+   "role": "transit",
+   "points": [
+    "DESSAU",
+    "HALLE",
+    "KELBRA",
+    "BAD LANGENSALZA",
+    "HERLESHAUSEN"
+   ],
+   "block_ft": [
+    500,
+    4000
+   ],
+   "width_nm": 5,
+   "notes": [
+    "Berlin's road west: the south corridor's axis over Halle and Kelbra to the Werra."
+   ],
+   "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+   "label_seg": 2,
+   "label_off": [
+    0,
+    -1
+   ]
+  }
+ ],
+ "gates": {
+  "BOIZENBURG": "the Elbe crossing below Lauenburg - Hamburg, Lübeck and Kiel to the west; Schwerin, Parchim, Laage and the coast to the east",
+  "DOMITZ": "the Elbe bridge in the Wendland - Uelzen, Celle and Hannover to the west; Ludwigslust, Parchim and Wittstock to the east",
+  "HELMSTEDT": "Checkpoint Alpha on the A2 - Braunschweig, Hannover and the Ruhr to the west; Magdeburg, the Altmark and Berlin to the east",
+  "HERLESHAUSEN": "the Werra crossing on the A4 - Kassel and Rhein-Main to the west; Eisenach, Erfurt, Halle and Berlin to the east",
+  "POINT ALPHA": "the Fulda Gap - Fulda, Frankfurt and the Pfalz to the west; Suhl, Erfurt, Merseburg and Leipzig to the east",
+  "HOF": "the Hof corridor - Bayreuth, Nuremberg and Würzburg to the west; Plauen, Gera, Zwickau and Chemnitz to the east"
+ },
+ "clusters": {
+  "eifel": {
+   "label": "the Eifel (Bitburg, Spangdahlem) - 4 ATAF",
+   "fields": [
+    "Bitburg",
+    "Spangdahlem"
+   ],
+   "center": [
+    49.96,
+    6.63
+   ],
+   "local_nm": 18,
+   "join_from_outside": false
+  },
+  "hunsruck": {
+   "label": "the Hunsrück (Hahn, Pferdsfeld, Büchel) - 4 ATAF",
+   "fields": [
+    "Hahn",
+    "Pferdsfeld",
+    "Buchel",
+    "Mendig",
+    "Airracing Koblenz",
+    "Sprendlingen"
+   ],
+   "center": [
+    49.95,
+    7.26
+   ],
+   "local_nm": 18,
+   "join_from_outside": false
+  },
+  "pfalz": {
+   "label": "the Pfalz (Ramstein, Sembach, Zweibrücken) - 4 ATAF",
+   "fields": [
+    "Ramstein",
+    "Sembach",
+    "Zweibrucken",
+    "Landstuhl",
+    "Pottschutthohe",
+    "Bad Durkheim"
+   ],
+   "center": [
+    49.44,
+    7.62
+   ],
+   "local_nm": 20,
+   "join_from_outside": false
+  },
+  "rheinmain": {
+   "label": "Rhein-Main and Hessen (Wiesbaden, Frankfurt, the Army airfields) - 4 ATAF",
+   "fields": [
+    "Wiesbaden",
+    "Frankfurt",
+    "Mainz Finthen",
+    "Langenselbold",
+    "Gelnhausen",
+    "Ober-Morlen",
+    "Giebelstadt",
+    "Schweinfurt",
+    "Fritzlar",
+    "Fulda",
+    "Airracing Frankfurt",
+    "Worms",
+    "Heidelberg",
+    "Walldorf",
+    "Hockenheim",
+    "Herrenteich",
+    "Adelsheim"
+   ],
+   "center": [
+    50.05,
+    8.45
+   ],
+   "local_nm": 22,
+   "join_from_outside": false
+  },
+  "rhineruhr": {
+   "label": "the Rhineland (Nörvenich, Cologne, Gütersloh) - 2 ATAF",
+   "fields": [
+    "Norvenich",
+    "Cologne",
+    "Dusseldorf",
+    "Gutersloh"
+   ],
+   "center": [
+    50.85,
+    6.9
+   ],
+   "local_nm": 22,
+   "join_from_outside": false
+  },
+  "hannover": {
+   "label": "the Weser (Wunstorf, Bückeburg, Hannover, Braunschweig) - 2 ATAF",
+   "fields": [
+    "Wunstorf",
+    "Buckeburg",
+    "Hannover",
+    "Hildesheim",
+    "Braunschweig",
+    "Rinteln",
+    "Verden-Scharnhorst",
+    "Bremen",
+    "Weser Wumme",
+    "Glindbruchkippe",
+    "Grosse Wiese"
+   ],
+   "center": [
+    52.46,
+    9.56
+   ],
+   "local_nm": 22,
+   "join_from_outside": false
+  },
+  "heath": {
+   "label": "the Lüneburg Heath (Fassberg, Celle) - 2 ATAF",
+   "fields": [
+    "Fassberg",
+    "Celle",
+    "Ummern"
+   ],
+   "center": [
+    52.75,
+    10.11
+   ],
+   "local_nm": 18,
+   "join_from_outside": false
+  },
+  "elbe": {
+   "label": "the Elbe (Hamburg, Lübeck, Kiel) - 2 ATAF",
+   "fields": [
+    "Hamburg",
+    "Hamburg Finkenwerder",
+    "Uetersen",
+    "Lubeck",
+    "Kiel",
+    "Nordholz",
+    "Luneburg",
+    "Sittensen",
+    "Airracing Lubeck"
+   ],
+   "center": [
+    53.63,
+    9.98
+   ],
+   "local_nm": 22,
+   "join_from_outside": false
+  },
+  "berlin": {
+   "label": "the Berlin ring (Werneuchen, Finow, Templin, Sperenberg, Neuruppin, Wittstock) - 16th Air Army",
+   "fields": [
+    "Werneuchen",
+    "Finow",
+    "Templin",
+    "Sperenberg",
+    "Altes Lager",
+    "Neuruppin",
+    "Wittstock",
+    "Oranienburg",
+    "Brand",
+    "Marxwalde",
+    "Schonefeld",
+    "Tegel",
+    "Tempelhof",
+    "Gatow",
+    "Briest",
+    "Perwenitz",
+    "Bienenfarm",
+    "Kammermark",
+    "Larz",
+    "Stendal",
+    "Mahlwinkel",
+    "Gardelegen"
+   ],
+   "center": [
+    52.48,
+    13.35
+   ],
+   "local_nm": 30,
+   "join_from_outside": false
+  },
+  "gdr_south": {
+   "label": "the southern fields (Merseburg, Falkenberg, Holzdorf, Zerbst, Cochstedt) - 6 GvIAD",
+   "fields": [
+    "Merseburg",
+    "Falkenberg",
+    "Holzdorf",
+    "Brandis",
+    "Leipzig Mockau",
+    "Schkeuditz",
+    "Kothen",
+    "Zerbst",
+    "Cochstedt",
+    "Dessau",
+    "Allstedt",
+    "Thurland",
+    "Zollschen",
+    "Bindersleben",
+    "Obermehler Schlotheim",
+    "Haina",
+    "Hasselfelde"
+   ],
+   "center": [
+    51.55,
+    12.1
+   ],
+   "local_nm": 25,
+   "join_from_outside": false
+  },
+  "gdr_north": {
+   "label": "Mecklenburg (Parchim, Laage, Damgarten, Tutow, Neubrandenburg) - 16 GvIAD",
+   "fields": [
+    "Parchim",
+    "Laage",
+    "Damgarten",
+    "Barth",
+    "Tutow",
+    "Neubrandenburg",
+    "Peenemunde",
+    "Garz",
+    "Wismar",
+    "Pinnow",
+    "Waren Vielist",
+    "Gross Mohrdorf",
+    "Dedelow",
+    "Northeim"
+   ],
+   "center": [
+    53.6,
+    12.3
+   ],
+   "local_nm": 25,
+   "join_from_outside": false
+  }
+ },
+ "sectors": {
+  "_comment": "Which family of roads a TARGET belongs to. Checked in order; the GDR sectors first, then the FRG. A target on the wrong side of the line for the home cluster still gets a plan (the data lists plans by cluster), an in-cluster target is 'local'.",
+  "rules": [
+   {
+    "sector": "gdr_north",
+    "when": "lat >= 53.2 and lat <= 54.6 and lon >= 10.7"
+   },
+   {
+    "sector": "berlin",
+    "when": "lat >= 52.15 and lat <= 53.2 and lon >= 12.2"
+   },
+   {
+    "sector": "altmark",
+    "when": "lat >= 52.15 and lat <= 53.2 and lon >= 10.7 and lon <= 12.2"
+   },
+   {
+    "sector": "saxony",
+    "when": "lat <= 51.3 and lon >= 12.0"
+   },
+   {
+    "sector": "gdr_south",
+    "when": "lat <= 52.15 and lon >= 10.4"
+   },
+   {
+    "sector": "frg_north",
+    "when": "lat >= 53.0 and lon <= 10.7"
+   },
+   {
+    "sector": "hannover",
+    "when": "lat >= 51.7 and lat <= 53.0 and lon >= 7.9 and lon <= 10.7"
+   },
+   {
+    "sector": "ruhr",
+    "when": "lat >= 50.5 and lat <= 51.7 and lon <= 7.9"
+   },
+   {
+    "sector": "hessen",
+    "when": "lat >= 50.2 and lat <= 51.7 and lon >= 7.9 and lon <= 10.4"
+   },
+   {
+    "sector": "pfalz",
+    "when": "lat <= 50.5 and lon <= 10.4"
+   }
+  ],
+  "default": "none",
+  "labels": {
+   "gdr_north": "Mecklenburg - the northern fields and the coast",
+   "berlin": "Berlin - the 16th Air Army's ring",
+   "altmark": "the Altmark - Magdeburg and Stendal",
+   "saxony": "Saxony - Dresden, Chemnitz and the Vogtland",
+   "gdr_south": "Thuringia and the Leipzig basin",
+   "frg_north": "the Elbe - Hamburg, Lübeck and Kiel",
+   "hannover": "the North German Plain - Hannover and the Weser",
+   "ruhr": "the Rhineland and the Ruhr",
+   "hessen": "Hessen - Kassel, Fulda and the Gap",
+   "pfalz": "Rhein-Main, the Eifel and the Pfalz",
+   "local": "local"
+  }
+ },
+ "plans": {
+  "eifel": {
+   "gdr_south": {
+    "low": {
+     "out": [
+      "ef_out",
+      "fulda"
+     ],
+     "gate_in": "POINT ALPHA",
+     "gate_out": "POINT ALPHA",
+     "back": "ef_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "ef_out",
+      "hofroad"
+     ],
+     "gate_in": "HOF",
+     "gate_out": "HOF",
+     "back": "ef_home"
+    }
+   },
+   "berlin": {
+    "low": {
+     "out": [
+      "ef_out",
+      "werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "ef_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "ef_out",
+      "harz"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ef_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "ef_out",
+      "harz"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ef_home"
+    }
+   }
+  },
+  "pfalz": {
+   "gdr_south": {
+    "low": {
+     "out": [
+      "pf_out",
+      "fulda"
+     ],
+     "gate_in": "POINT ALPHA",
+     "gate_out": "POINT ALPHA",
+     "back": "pf_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "pf_out",
+      "hofroad"
+     ],
+     "gate_in": "HOF",
+     "gate_out": "HOF",
+     "back": "pf_home"
+    }
+   },
+   "berlin": {
+    "low": {
+     "out": [
+      "pf_out",
+      "werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "pf_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "pf_out",
+      "harz"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "pf_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "pf_out",
+      "harz"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "pf_home"
+    }
+   }
+  },
+  "hunsruck": {
+   "gdr_south": {
+    "low": {
+     "out": [
+      "hu_out",
+      "fulda"
+     ],
+     "gate_in": "POINT ALPHA",
+     "gate_out": "POINT ALPHA",
+     "back": "hu_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "hu_out",
+      "hofroad"
+     ],
+     "gate_in": "HOF",
+     "gate_out": "HOF",
+     "back": "hu_home"
+    }
+   },
+   "berlin": {
+    "low": {
+     "out": [
+      "hu_out",
+      "werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "hu_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "hu_out",
+      "harz"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "hu_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "hu_out",
+      "harz"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "hu_home"
+    }
+   }
+  },
+  "rheinmain": {
+   "gdr_south": {
+    "low": {
+     "out": [
+      "rm_out",
+      "fulda"
+     ],
+     "gate_in": "POINT ALPHA",
+     "gate_out": "POINT ALPHA",
+     "back": "rm_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "rm_out",
+      "fulda"
+     ],
+     "gate_in": "POINT ALPHA",
+     "gate_out": "POINT ALPHA",
+     "back": "rm_home"
+    }
+   },
+   "berlin": {
+    "low": {
+     "out": [
+      "rm_out",
+      "werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "rm_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "rm_out",
+      "werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "rm_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "rm_out",
+      "werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "rm_home"
+    }
+   }
+  },
+  "rhineruhr": {
+   "berlin": {
+    "low": {
+     "out": [
+      "rr_out",
+      "porta_a2"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "rr_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "rr_out",
+      "porta_a2"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "rr_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "rr_out",
+      "porta_a2"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "rr_home"
+    }
+   },
+   "gdr_south": {
+    "low": {
+     "out": [
+      "rr_out",
+      "porta_a2"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "rr_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "rr_out",
+      "porta_a2"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "rr_home"
+    }
+   }
+  },
+  "hannover": {
+   "berlin": {
+    "low": {
+     "out": [
+      "ha_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ha_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "ha_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ha_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "ha_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ha_home"
+    }
+   },
+   "gdr_south": {
+    "low": {
+     "out": [
+      "ha_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ha_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "ha_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "ha_home"
+    }
+   }
+  },
+  "heath": {
+   "berlin": {
+    "low": {
+     "out": [
+      "he_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "he_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "he_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "he_home"
+    }
+   },
+   "gdr_north": {
+    "low": {
+     "out": [
+      "ha_north",
+      "uelzen_gate"
+     ],
+     "gate_in": "DOMITZ",
+     "gate_out": "DOMITZ",
+     "back": "ha_north_home"
+    }
+   },
+   "gdr_south": {
+    "low": {
+     "out": [
+      "he_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "he_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "he_out",
+      "hlz_gate"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "he_home"
+    }
+   }
+  },
+  "elbe": {
+   "gdr_north": {
+    "low": {
+     "out": [
+      "el_out",
+      "elbe_gate"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "el_home"
+    }
+   },
+   "berlin": {
+    "low": {
+     "out": [
+      "el_out",
+      "elbe_gate"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "el_home"
+    }
+   },
+   "altmark": {
+    "low": {
+     "out": [
+      "el_out",
+      "elbe_gate"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "el_home"
+    }
+   },
+   "gdr_south": {
+    "low": {
+     "out": [
+      "el_out",
+      "elbe_gate"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "el_home"
+    }
+   },
+   "saxony": {
+    "low": {
+     "out": [
+      "el_out",
+      "elbe_gate"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "el_home"
+    }
+   }
+  },
+  "berlin": {
+   "hannover": {
+    "low": {
+     "out": [
+      "be_out_w",
+      "r_rathenow"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "be_home_w"
+    }
+   },
+   "ruhr": {
+    "low": {
+     "out": [
+      "be_out_w",
+      "r_rathenow"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "be_home_w"
+    }
+   },
+   "frg_north": {
+    "low": {
+     "out": [
+      "be_out_nw",
+      "r_pritzwalk"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "be_home_nw"
+    }
+   },
+   "hessen": {
+    "low": {
+     "out": [
+      "be_out_sw",
+      "r_dessau"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "be_home_sw"
+    }
+   },
+   "pfalz": {
+    "low": {
+     "out": [
+      "be_out_sw",
+      "r_dessau"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "be_home_sw"
+    }
+   }
+  },
+  "gdr_south": {
+   "hessen": {
+    "low": {
+     "out": [
+      "gs_out",
+      "r_werra"
+     ],
+     "gate_in": "HERLESHAUSEN",
+     "gate_out": "HERLESHAUSEN",
+     "back": "gs_home"
+    }
+   },
+   "pfalz": {
+    "low": {
+     "out": [
+      "gs_out",
+      "r_fulda"
+     ],
+     "gate_in": "POINT ALPHA",
+     "gate_out": "POINT ALPHA",
+     "back": "gs_home"
+    }
+   },
+   "hannover": {
+    "low": {
+     "out": [
+      "gs_out_n",
+      "r_groningen"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "gs_home_n"
+    }
+   },
+   "ruhr": {
+    "low": {
+     "out": [
+      "gs_out_n",
+      "r_groningen"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "gs_home_n"
+    }
+   },
+   "frg_north": {
+    "low": {
+     "out": [
+      "gs_out_n",
+      "r_groningen"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "gs_home_n"
+    }
+   }
+  },
+  "gdr_north": {
+   "frg_north": {
+    "low": {
+     "out": [
+      "gn_out",
+      "r_hagenow"
+     ],
+     "gate_in": "BOIZENBURG",
+     "gate_out": "BOIZENBURG",
+     "back": "gn_home"
+    }
+   },
+   "hannover": {
+    "low": {
+     "out": [
+      "gn_out",
+      "r_domitz"
+     ],
+     "gate_in": "DOMITZ",
+     "gate_out": "DOMITZ",
+     "back": "gn_home"
+    }
+   },
+   "ruhr": {
+    "low": {
+     "out": [
+      "gn_out_s",
+      "r_altmark"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "gn_home_s"
+    }
+   },
+   "hessen": {
+    "low": {
+     "out": [
+      "gn_out_s",
+      "r_altmark"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "gn_home_s"
+    }
+   },
+   "pfalz": {
+    "low": {
+     "out": [
+      "gn_out_s",
+      "r_altmark"
+     ],
+     "gate_in": "HELMSTEDT",
+     "gate_out": "HELMSTEDT",
+     "back": "gn_home_s"
+    }
+   }
+  }
+ },
+ "text": {
+  "chart_title": "CENTRAL REGION CORRIDORS",
+  "md_title": "Central Region corridors",
+  "md_line": "**{summary}** — {sector}, {mode} road. Gate **{gate_in}** (WP1), exit at **{gate_out}**. The flight plan is threaded through the structure of 1985 - the ADIZ, the HAWK and Nike belts, the Berlin corridors, the GDR's own flight lines; nobody goes direct across the border.",
+  "chart_subtitle": "The Cold War Germany map - how a flight gets from the Eifel, the Weser or the Berlin ring to the other side and back. The ADIZ, the belts and the ranges from the printed sources; the crossing gates are ours. Not for real-world navigation.",
+  "kneeboard_subtitle": "The Central Region - your road in red",
+  "brief_page_subtitle": "The Cold War Germany map — this mission's road in red",
+  "brief_title": "CENTRAL REGION CORRIDORS - HOW YOU GET TO THE FIGHT",
+  "brief_intro": [
+   "The flight plan is threaded through the Central Region of 1985: the ADIZ 40 km",
+   "west of the border (flight plan and ATC mandatory, USAFE clearance), the HAWK belt",
+   "in front of the Nike Hercules belt 150 km back, the three 20-mile Berlin corridors,",
+   "the GDR's flight-restriction line and its 'örtliche Fluglinien'. The Low Level",
+   "Transit Routes through the belt were never published - 'activated for specified",
+   "times only and changed frequently' - so the crossing gates are ours, on the",
+   "checkpoints and river crossings the corps sectors used. SOC 1 Brockzetel FLYFISH,",
+   "SOC 2 Uedem MANDRIL, SOC 3 Kindsbach; CRC Erndtebrück LONESHIP, Börfink SCANDALISE.",
+   "East of the line: Bunker Fuchsbau (Fürstenwalde) and the 41. FRBr ring round Berlin."
+  ],
+  "brief_sources": [
+   "Sources: FM 100-103 (1987) Ch. 2; dewiki ADIZ / DHV-Info 49 (1989); relikte.com",
+   "(Nike, HAWK, SOC/CRC); nl.wikipedia Groepen Geleide Wapens; A&SF Jul 1983; FRUS 1945",
+   "III/1206 (Berlin corridors); nva-flieger.de Luftraum der DDR; de.wikipedia FlaRak-",
+   "truppen (NVA), TrÜbPl Wittstock/Altmark/Lieberose; AIP Germany ENR 5.1 (03/24);",
+   "NfL 2025-1-3686 (LFAs); OurAirports navaids; GlobalSecurity (corps sectors)."
+  ],
+  "known_issues": [
+   "DCS draws no ADIZ, no belts and no Berlin corridors; the bands, the corridors and the gates on the F10 map are ours, from the published structure. The AI controllers know nothing of FLYFISH, MANDRIL or the BASC; the Nike and HAWK belts are not in the mission unless you place them."
+  ],
+  "sources_line": "FM 100-103 · dewiki ADIZ · relikte.com · nl.wikipedia GGW · FRUS 1945 III/1206 · nva-flieger.de · de.wikipedia FlaRak (NVA) / TrÜbPl · AIP Germany ENR 5.1 · NfL 2025-1-3686 · OurAirports · GlobalSecurity",
+  "gate_in_label": "GATE IN",
+  "gate_out_label": "GATE OUT",
+  "legend": [
+   "Bands: amber = the ADIZ (40 km); magenta fill = the HAWK belt (LOMEZ); thin magenta = the Nike Hercules belt and the 41. FRBr ring. Thin dashed blue = a 250-ft Low Flying Area, the Berlin Control Zone. Navy hatched = a range (ED-R, or a Soviet Truppenübungsplatz, ~). Dashed amber line = the GDR flight-restriction line.",
+   "Gate ring = a crossing point on the inner-German border (all curated, ~). Fix triangle = a navaid or a GDR reference town (~ = placed on the town). The three wide blue lanes are the Berlin air corridors, 20 English miles wide and 10,000 ft - the roads to Berlin. The border, the Elbe and the autobahns are schematic."
+  ]
+ },
+ "chart": {
+  "bounds": {
+   "lat": [
+    49.3,
+    54.75
+   ],
+   "lon": [
+    6.3,
+    14.9
+   ]
+  },
+  "sea": true,
+  "land": [
+   [
+    [
+     53.35,
+     6.2
+    ],
+    [
+     53.35,
+     6.5
+    ],
+    [
+     53.45,
+     6.9
+    ],
+    [
+     53.6,
+     7.2
+    ],
+    [
+     53.72,
+     7.6
+    ],
+    [
+     53.6,
+     8.05
+    ],
+    [
+     53.85,
+     8.15
+    ],
+    [
+     53.9,
+     8.6
+    ],
+    [
+     53.87,
+     9.0
+    ],
+    [
+     54.0,
+     8.85
+    ],
+    [
+     54.15,
+     8.85
+    ],
+    [
+     54.3,
+     8.65
+    ],
+    [
+     54.5,
+     8.85
+    ],
+    [
+     54.75,
+     8.6
+    ],
+    [
+     54.85,
+     8.6
+    ],
+    [
+     54.9,
+     8.6
+    ],
+    [
+     54.9,
+     9.6
+    ],
+    [
+     54.85,
+     9.6
+    ],
+    [
+     54.7,
+     10.0
+    ],
+    [
+     54.45,
+     10.2
+    ],
+    [
+     54.4,
+     10.6
+    ],
+    [
+     54.35,
+     10.85
+    ],
+    [
+     54.1,
+     10.8
+    ],
+    [
+     53.96,
+     10.9
+    ],
+    [
+     53.98,
+     11.2
+    ],
+    [
+     53.9,
+     11.45
+    ],
+    [
+     54.0,
+     11.5
+    ],
+    [
+     54.15,
+     11.9
+    ],
+    [
+     54.18,
+     12.1
+    ],
+    [
+     54.35,
+     12.4
+    ],
+    [
+     54.45,
+     12.5
+    ],
+    [
+     54.35,
+     12.8
+    ],
+    [
+     54.3,
+     13.1
+    ],
+    [
+     54.1,
+     13.4
+    ],
+    [
+     54.05,
+     13.75
+    ],
+    [
+     53.85,
+     14.2
+    ],
+    [
+     53.9,
+     14.35
+    ],
+    [
+     53.65,
+     14.6
+    ],
+    [
+     53.55,
+     14.9
+    ],
+    [
+     53.55,
+     15.2
+    ],
+    [
+     49.1,
+     15.2
+    ],
+    [
+     49.1,
+     6.2
+    ]
+   ],
+   [
+    [
+     54.3,
+     13.1
+    ],
+    [
+     54.6,
+     13.25
+    ],
+    [
+     54.68,
+     13.4
+    ],
+    [
+     54.55,
+     13.7
+    ],
+    [
+     54.35,
+     13.75
+    ],
+    [
+     54.28,
+     13.4
+    ]
+   ],
+   [
+    [
+     54.53,
+     11.0
+    ],
+    [
+     54.53,
+     11.3
+    ],
+    [
+     54.42,
+     11.25
+    ],
+    [
+     54.42,
+     11.05
+    ]
+   ],
+   [
+    [
+     54.95,
+     11.0
+    ],
+    [
+     54.95,
+     12.2
+    ],
+    [
+     54.6,
+     12.05
+    ],
+    [
+     54.65,
+     11.1
+    ]
+   ]
+  ],
+  "page": [
+   2400,
+   1250
+  ],
+  "panel_cols": 4,
+  "panel_col_frac": 0.55,
+  "panel_frac": 0.8,
+  "overview_title": "CENTRAL REGION OVERVIEW",
+  "hide_fixes": [
+   "BITBURG",
+   "SPANGDAHLEM",
+   "HAHN",
+   "RAMSTEIN",
+   "WIESBADEN",
+   "FRANKFURT",
+   "NORVENICH",
+   "COLOGNE",
+   "GUTERSLOH",
+   "HANNOVER",
+   "WUNSTORF",
+   "FASSBERG",
+   "HAMBURG",
+   "WERNEUCHEN",
+   "FINOW",
+   "TEMPLIN",
+   "SPERENBERG",
+   "ALTES LAGER",
+   "NEURUPPIN",
+   "WITTSTOCK",
+   "ORANIENBURG",
+   "PARCHIM",
+   "LAAGE",
+   "DAMGARTEN",
+   "NEUBRANDENBURG",
+   "MERSEBURG",
+   "FALKENBERG",
+   "HOLZDORF",
+   "STENDAL",
+   "COCHSTEDT",
+   "DESSAU",
+   "ZERBST",
+   "BRAUNSCHWEIG",
+   "GELNHAUSEN",
+   "FULDA"
+  ],
+  "overview_landmarks": [
+   "KASSEL",
+   "GOTTINGEN",
+   "BERLIN"
+  ],
+  "labels": {
+   "porta_a2": {
+    "seg": 1,
+    "off": [
+     0,
+     1
+    ]
+   },
+   "harz": {
+    "seg": 2,
+    "off": [
+     0,
+     -1
+    ]
+   },
+   "center_corr": {
+    "seg": 2,
+    "off": [
+     0,
+     1
+    ]
+   },
+   "werra": {
+    "seg": 1,
+    "off": [
+     0,
+     -1
+    ]
+   },
+   "fulda": {
+    "seg": 3,
+    "off": [
+     0,
+     1
+    ]
+   },
+   "south_corr": {
+    "seg": 3,
+    "off": [
+     0,
+     1
+    ]
+   },
+   "north_corr": {
+    "seg": 1,
+    "off": [
+     0,
+     -1
+    ]
+   },
+   "hlz_gate": {
+    "hide": true
+   },
+   "elbe_gate": {
+    "hide": true
+   },
+   "uelzen_gate": {
+    "hide": true
+   },
+   "r_groningen": {
+    "hide": true
+   },
+   "r_domitz": {
+    "hide": true
+   },
+   "r_hagenow": {
+    "hide": true
+   },
+   "r_altmark": {
+    "hide": true
+   },
+   "r_dessau": {
+    "hide": true
+   },
+   "r_pritzwalk": {
+    "hide": true
+   },
+   "r_rathenow": {
+    "hide": true
+   },
+   "r_werra": {
+    "hide": true
+   },
+   "r_fulda": {
+    "hide": true
+   }
+  },
+  "areas": [
+   {
+    "id": "ADIZ",
+    "kind": "zone",
+    "label": "ADIZ / FLUGÜBERWACHUNGSZONE",
+    "alt": "40 km - flight plan + ATC, USAFE clearance",
+    "approx": true,
+    "poly": [
+     [
+      53.96,
+      10.89
+     ],
+     [
+      53.9,
+      10.8
+     ],
+     [
+      53.7,
+      10.85
+     ],
+     [
+      53.55,
+      10.75
+     ],
+     [
+      53.37,
+      10.57
+     ],
+     [
+      53.3,
+      10.75
+     ],
+     [
+      53.2,
+      11.0
+     ],
+     [
+      53.13,
+      11.26
+     ],
+     [
+      53.03,
+      11.57
+     ],
+     [
+      52.9,
+      11.45
+     ],
+     [
+      52.83,
+      10.95
+     ],
+     [
+      52.65,
+      10.85
+     ],
+     [
+      52.43,
+      10.97
+     ],
+     [
+      52.23,
+      11.01
+     ],
+     [
+      52.05,
+      10.95
+     ],
+     [
+      51.9,
+      10.6
+     ],
+     [
+      51.73,
+      10.61
+     ],
+     [
+      51.58,
+      10.62
+     ],
+     [
+      51.5,
+      10.3
+     ],
+     [
+      51.35,
+      10.05
+     ],
+     [
+      51.2,
+      10.05
+     ],
+     [
+      51.0,
+      10.15
+     ],
+     [
+      50.85,
+      10.0
+     ],
+     [
+      50.72,
+      9.94
+     ],
+     [
+      50.65,
+      10.0
+     ],
+     [
+      50.5,
+      10.1
+     ],
+     [
+      50.42,
+      10.3
+     ],
+     [
+      50.35,
+      10.6
+     ],
+     [
+      50.3,
+      10.95
+     ],
+     [
+      50.5,
+      11.4
+     ],
+     [
+      50.35,
+      11.65
+     ],
+     [
+      50.42,
+      11.87
+     ],
+     [
+      50.3,
+      12.1
+     ],
+     [
+      50.17,
+      12.2
+     ],
+     [
+      49.98,
+      12.4
+     ],
+     [
+      49.8,
+      12.5
+     ],
+     [
+      49.65,
+      12.5
+     ],
+     [
+      49.3,
+      12.9
+     ],
+     [
+      49.0847,
+      12.4569
+     ],
+     [
+      49.4843,
+      12.0058
+     ],
+     [
+      49.7308,
+      11.9521
+     ],
+     [
+      49.8134,
+      11.9031
+     ],
+     [
+      49.9845,
+      11.7177
+     ],
+     [
+      50.0677,
+      11.6687
+     ],
+     [
+      50.065,
+      11.7728
+     ],
+     [
+      50.0018,
+      11.5044
+     ],
+     [
+      50.1419,
+      11.4632
+     ],
+     [
+      49.9542,
+      11.1089
+     ],
+     [
+      50.0038,
+      10.443
+     ],
+     [
+      50.094,
+      10.0591
+     ],
+     [
+      50.2699,
+      9.664
+     ],
+     [
+      50.4991,
+      9.4839
+     ],
+     [
+      50.72,
+      9.3708
+     ],
+     [
+      51.0042,
+      9.4841
+     ],
+     [
+      51.0323,
+      9.5797
+     ],
+     [
+      51.1365,
+      9.4839
+     ],
+     [
+      51.5164,
+      9.5382
+     ],
+     [
+      51.8024,
+      9.9851
+     ],
+     [
+      51.8114,
+      10.1754
+     ],
+     [
+      51.7161,
+      10.0286
+     ],
+     [
+      52.0976,
+      10.1116
+     ],
+     [
+      52.2688,
+      10.4844
+     ],
+     [
+      52.2416,
+      10.422
+     ],
+     [
+      52.3485,
+      10.3943
+     ],
+     [
+      52.6391,
+      10.2563
+     ],
+     [
+      53.1267,
+      10.6114
+     ],
+     [
+      53.2178,
+      11.1683
+     ],
+     [
+      52.8697,
+      11.0334
+     ],
+     [
+      52.8073,
+      10.9927
+     ],
+     [
+      52.8851,
+      10.7075
+     ],
+     [
+      52.9995,
+      10.4173
+     ],
+     [
+      53.37,
+      9.966
+     ],
+     [
+      53.7122,
+      10.2084
+     ],
+     [
+      53.7304,
+      10.2435
+     ],
+     [
+      53.9325,
+      10.1909
+     ],
+     [
+      54.1984,
+      10.4308
+     ]
+    ],
+    "label_at": [
+     53.72,
+     10.2
+    ],
+    "src": "dewiki ADIZ: 'eine Tiefe von 25 bis 30 Seemeilen bzw. später durchschnittlich 40 km' west of the border (band on a schematic border)"
+   },
+   {
+    "id": "HAWK",
+    "kind": "moa",
+    "label": "HAWK BELT (LOMEZ)",
+    "alt": "I-HAWK 40 km / 17,700 m - Denmark to Austria",
+    "approx": true,
+    "poly": [
+     [
+      54.0315,
+      10.7522
+     ],
+     [
+      53.9098,
+      10.6173
+     ],
+     [
+      53.7091,
+      10.668
+     ],
+     [
+      53.5987,
+      10.5875
+     ],
+     [
+      53.37,
+      10.3888
+     ],
+     [
+      53.2098,
+      10.6502
+     ],
+     [
+      53.1055,
+      10.9122
+     ],
+     [
+      53.0332,
+      11.1798
+     ],
+     [
+      52.9819,
+      11.409
+     ],
+     [
+      52.9953,
+      11.3655
+     ],
+     [
+      52.919,
+      10.8484
+     ],
+     [
+      52.6467,
+      10.6719
+     ],
+     [
+      52.4055,
+      10.7973
+     ],
+     [
+      52.2335,
+      10.8336
+     ],
+     [
+      52.1156,
+      10.8103
+     ],
+     [
+      51.9593,
+      10.4535
+     ],
+     [
+      51.7258,
+      10.4356
+     ],
+     [
+      51.6494,
+      10.4866
+     ],
+     [
+      51.5907,
+      10.2055
+     ],
+     [
+      51.3999,
+      9.8965
+     ],
+     [
+      51.1809,
+      9.8802
+     ],
+     [
+      51.0097,
+      9.9789
+     ],
+     [
+      50.8963,
+      9.8452
+     ],
+     [
+      50.72,
+      9.7692
+     ],
+     [
+      50.6047,
+      9.8452
+     ],
+     [
+      50.431,
+      9.9692
+     ],
+     [
+      50.3222,
+      10.2277
+     ],
+     [
+      50.2462,
+      10.5529
+     ],
+     [
+      50.1963,
+      10.9977
+     ],
+     [
+      50.3926,
+      11.419
+     ],
+     [
+      50.2455,
+      11.6063
+     ],
+     [
+      50.3135,
+      11.8409
+     ],
+     [
+      50.2303,
+      11.9706
+     ],
+     [
+      50.1143,
+      12.0553
+     ],
+     [
+      49.93,
+      12.2509
+     ],
+     [
+      49.7792,
+      12.3356
+     ],
+     [
+      49.6003,
+      12.3517
+     ],
+     [
+      49.2354,
+      12.7671
+     ],
+     [
+      49.0039,
+      12.2907
+     ],
+     [
+      49.4221,
+      11.8205
+     ],
+     [
+      49.7049,
+      11.7466
+     ],
+     [
+      49.7509,
+      11.7168
+     ],
+     [
+      49.9149,
+      11.5368
+     ],
+     [
+      49.9806,
+      11.507
+     ],
+     [
+      49.9319,
+      11.7364
+     ],
+     [
+      49.8712,
+      11.4499
+     ],
+     [
+      50.0076,
+      11.4869
+     ],
+     [
+      49.8246,
+      11.1685
+     ],
+     [
+      49.874,
+      10.3842
+     ],
+     [
+      49.9717,
+      9.9687
+     ],
+     [
+      50.1836,
+      9.5005
+     ],
+     [
+      50.4425,
+      9.2903
+     ],
+     [
+      50.72,
+      9.1574
+     ],
+     [
+      51.0621,
+      9.2907
+     ],
+     [
+      51.0444,
+      9.3658
+     ],
+     [
+      51.1127,
+      9.2716
+     ],
+     [
+      51.5788,
+      9.3463
+     ],
+     [
+      51.9158,
+      9.8671
+     ],
+     [
+      51.8982,
+      10.0087
+     ],
+     [
+      51.7108,
+      9.8106
+     ],
+     [
+      52.1717,
+      9.9284
+     ],
+     [
+      52.3508,
+      10.3098
+     ],
+     [
+      52.246,
+      10.2014
+     ],
+     [
+      52.3179,
+      10.1784
+     ],
+     [
+      52.635,
+      10.0336
+     ],
+     [
+      53.2379,
+      10.4844
+     ],
+     [
+      53.3369,
+      11.0626
+     ],
+     [
+      52.8095,
+      10.8321
+     ],
+     [
+      52.6863,
+      10.8924
+     ],
+     [
+      52.767,
+      10.5978
+     ],
+     [
+      52.8867,
+      10.2926
+     ],
+     [
+      53.37,
+      9.7395
+     ],
+     [
+      53.773,
+      10.0053
+     ],
+     [
+      53.7418,
+      10.016
+     ],
+     [
+      53.9447,
+      9.9625
+     ],
+     [
+      54.2879,
+      10.2586
+     ]
+    ],
+    "label_at": [
+     52.65,
+     10.5
+    ],
+    "src": "relikte.com nds_flarak_hawk; nl.wikipedia GGW: LOMEZ 'ca. 50 km diep direct achter het IJzeren Gordijn'; A&SF July 1983"
+   },
+   {
+    "id": "NIKE",
+    "kind": "alert",
+    "label": "NIKE HERCULES BELT (MEZ)",
+    "alt": "'ca. 150 km westlich des Eisernen Vorhangs' - North Sea to Stuttgart",
+    "approx": true,
+    "poly": [
+     [
+      54.5859,
+      9.6845
+     ],
+     [
+      53.9854,
+      9.2011
+     ],
+     [
+      53.7797,
+      9.2578
+     ],
+     [
+      53.9758,
+      9.3283
+     ],
+     [
+      53.37,
+      8.9846
+     ],
+     [
+      52.5111,
+      9.8767
+     ],
+     [
+      52.3734,
+      10.2321
+     ],
+     [
+      52.2829,
+      10.5582
+     ],
+     [
+      52.6091,
+      10.1613
+     ],
+     [
+      53.7342,
+      10.7105
+     ],
+     [
+      53.6087,
+      10.0611
+     ],
+     [
+      52.6213,
+      9.2915
+     ],
+     [
+      52.216,
+      9.4588
+     ],
+     [
+      52.2605,
+      9.4664
+     ],
+     [
+      52.6243,
+      9.7277
+     ],
+     [
+      52.4186,
+      9.3179
+     ],
+     [
+      51.6934,
+      9.0839
+     ],
+     [
+      52.1874,
+      9.453
+     ],
+     [
+      52.2938,
+      9.4735
+     ],
+     [
+      51.7867,
+      8.7065
+     ],
+     [
+      51.0333,
+      8.564
+     ],
+     [
+      51.0847,
+      8.6529
+     ],
+     [
+      51.2548,
+      8.6459
+     ],
+     [
+      50.72,
+      8.4459
+     ],
+     [
+      50.2539,
+      8.6452
+     ],
+     [
+      49.896,
+      8.9555
+     ],
+     [
+      49.5642,
+      9.6676
+     ],
+     [
+      49.4413,
+      10.188
+     ],
+     [
+      49.3923,
+      11.3671
+     ],
+     [
+      49.56,
+      11.566
+     ],
+     [
+      49.436,
+      11.2679
+     ],
+     [
+      49.4881,
+      11.6149
+     ],
+     [
+      49.6902,
+      10.9678
+     ],
+     [
+      49.683,
+      10.9339
+     ],
+     [
+      49.5427,
+      11.0956
+     ],
+     [
+      49.6184,
+      11.0617
+     ],
+     [
+      49.2149,
+      11.2027
+     ],
+     [
+      48.7347,
+      11.7369
+     ],
+     [
+      48.4656,
+      11.183
+     ],
+     [
+      49.0078,
+      10.5849
+     ],
+     [
+      49.532,
+      10.3768
+     ],
+     [
+      49.3344,
+      10.4745
+     ],
+     [
+      49.4511,
+      10.331
+     ],
+     [
+      49.3999,
+      10.4287
+     ],
+     [
+      49.0444,
+      11.4935
+     ],
+     [
+      49.0008,
+      11.086
+     ],
+     [
+      49.1123,
+      11.645
+     ],
+     [
+      48.9601,
+      11.5657
+     ],
+     [
+      49.0086,
+      9.9918
+     ],
+     [
+      49.1566,
+      9.3664
+     ],
+     [
+      49.6084,
+      8.4105
+     ],
+     [
+      50.0653,
+      8.0001
+     ],
+     [
+      50.72,
+      7.7344
+     ],
+     [
+      51.4476,
+      8.001
+     ],
+     [
+      51.125,
+      7.94
+     ],
+     [
+      50.9539,
+      7.8564
+     ],
+     [
+      51.9947,
+      8.0667
+     ],
+     [
+      52.6718,
+      9.0799
+     ],
+     [
+      52.4766,
+      8.8973
+     ],
+     [
+      51.676,
+      8.3571
+     ],
+     [
+      52.6656,
+      8.7074
+     ],
+     [
+      52.8978,
+      9.1457
+     ],
+     [
+      52.275,
+      8.7313
+     ],
+     [
+      52.1141,
+      8.7392
+     ],
+     [
+      52.6077,
+      8.5494
+     ],
+     [
+      53.9795,
+      9.6379
+     ],
+     [
+      54.1314,
+      10.3583
+     ],
+     [
+      52.4087,
+      9.4906
+     ],
+     [
+      51.8796,
+      10.2241
+     ],
+     [
+      51.9798,
+      9.8665
+     ],
+     [
+      52.1354,
+      9.4608
+     ],
+     [
+      53.37,
+      8.2296
+     ],
+     [
+      54.1786,
+      8.6512
+     ],
+     [
+      53.8177,
+      8.4997
+     ],
+     [
+      54.0261,
+      8.4397
+     ],
+     [
+      54.884,
+      9.1105
+     ]
+    ],
+    "label_at": [
+     53.3,
+     8.55
+    ],
+    "src": "relikte.com nds_flarak_nike; de.wikipedia Nike (Rakete): 70 sites; bahnjdbund.de 'Dach über Europa'"
+   },
+   {
+    "id": "LFA1",
+    "kind": "tma",
+    "label": "LFA 1\n250 ft",
+    "alt": "Cloppenburg",
+    "poly": [
+     [
+      53.19167,
+      7.21667
+     ],
+     [
+      53.15833,
+      7.56667
+     ],
+     [
+      53.17783,
+      7.675
+     ],
+     [
+      53.11667,
+      7.95
+     ],
+     [
+      53.068,
+      8.17583
+     ],
+     [
+      53.05717,
+      8.225
+     ],
+     [
+      52.95833,
+      8.68883
+     ],
+     [
+      52.86167,
+      8.70833
+     ],
+     [
+      52.83333,
+      8.7125
+     ],
+     [
+      52.80833,
+      8.66517
+     ],
+     [
+      52.78333,
+      8.63333
+     ],
+     [
+      52.72083,
+      8.5375
+     ],
+     [
+      52.7,
+      8.47783
+     ],
+     [
+      52.72083,
+      8.31117
+     ],
+     [
+      52.71667,
+      8.275
+     ],
+     [
+      52.68333,
+      8.24083
+     ],
+     [
+      52.65133,
+      8.225
+     ],
+     [
+      52.43883,
+      7.96667
+     ],
+     [
+      52.52217,
+      7.67083
+     ],
+     [
+      52.6555,
+      7.495
+     ],
+     [
+      52.68333,
+      7.46667
+     ],
+     [
+      52.7,
+      7.4
+     ],
+     [
+      52.88333,
+      7.54167
+     ],
+     [
+      52.95,
+      7.6
+     ],
+     [
+      52.96667,
+      7.43333
+     ],
+     [
+      52.93333,
+      7.40833
+     ],
+     [
+      52.7,
+      7.25
+     ],
+     [
+      52.68333,
+      7.25283
+     ],
+     [
+      52.718,
+      7.06383
+     ]
+    ],
+    "label_at": [
+     52.75,
+     7.75
+    ],
+    "src": "NfL 2025-1-3686 'Bekanntmachung über Tiefflüge' (the seven 250-ft areas re-published with the Cold War names; de.wikipedia Tiefflug)"
+   },
+   {
+    "id": "LFA2",
+    "kind": "tma",
+    "label": "LFA 2\n250 ft",
+    "alt": "Borken",
+    "poly": [
+     [
+      52.21117,
+      7.08333
+     ],
+     [
+      52.20283,
+      7.16333
+     ],
+     [
+      52.20833,
+      7.18883
+     ],
+     [
+      52.19417,
+      7.22033
+     ],
+     [
+      52.15833,
+      7.31383
+     ],
+     [
+      52.13333,
+      7.35
+     ],
+     [
+      52.04167,
+      7.5
+     ],
+     [
+      51.91117,
+      7.5
+     ],
+     [
+      51.86667,
+      7.36667
+     ],
+     [
+      51.89167,
+      7.26667
+     ],
+     [
+      51.84167,
+      7.10417
+     ],
+     [
+      51.725,
+      7.10417
+     ],
+     [
+      51.725,
+      7.09167
+     ],
+     [
+      51.75133,
+      7.0255
+     ],
+     [
+      51.72367,
+      7.01667
+     ],
+     [
+      51.69617,
+      6.89533
+     ],
+     [
+      51.68333,
+      6.85
+     ],
+     [
+      51.66667,
+      6.675
+     ],
+     [
+      51.66117,
+      6.59167
+     ],
+     [
+      51.66117,
+      6.51667
+     ],
+     [
+      51.75133,
+      6.42083
+     ],
+     [
+      51.75833,
+      6.38333
+     ],
+     [
+      51.76667,
+      6.33333
+     ],
+     [
+      51.79717,
+      6.4195
+     ],
+     [
+      51.83883,
+      6.46083
+     ],
+     [
+      51.81117,
+      6.5805
+     ],
+     [
+      51.83617,
+      6.668
+     ],
+     [
+      51.85167,
+      6.68333
+     ],
+     [
+      51.89717,
+      6.71667
+     ],
+     [
+      52.143,
+      6.87917
+     ]
+    ],
+    "label_at": [
+     51.95,
+     6.75
+    ],
+    "src": "NfL 2025-1-3686 'Bekanntmachung über Tiefflüge' (the seven 250-ft areas re-published with the Cold War names; de.wikipedia Tiefflug)"
+   },
+   {
+    "id": "LFA3",
+    "kind": "tma",
+    "label": "LFA 3\n250 ft",
+    "alt": "Holzminden",
+    "poly": [
+     [
+      51.1555,
+      7.96667
+     ],
+     [
+      51.175,
+      8.00333
+     ],
+     [
+      51.27083,
+      8.19167
+     ],
+     [
+      51.25,
+      8.20833
+     ],
+     [
+      51.34033,
+      8.26667
+     ],
+     [
+      51.35,
+      8.31667
+     ],
+     [
+      51.35667,
+      8.36667
+     ],
+     [
+      51.36883,
+      8.4105
+     ],
+     [
+      51.36667,
+      8.45967
+     ],
+     [
+      51.36333,
+      8.50833
+     ],
+     [
+      51.30283,
+      8.59167
+     ],
+     [
+      51.30833,
+      8.63333
+     ],
+     [
+      51.72783,
+      8.99717
+     ],
+     [
+      51.73333,
+      9.05
+     ],
+     [
+      51.75833,
+      9.09167
+     ],
+     [
+      51.78333,
+      9.043
+     ],
+     [
+      51.8375,
+      9.09167
+     ],
+     [
+      51.853,
+      9.10117
+     ],
+     [
+      51.88617,
+      9.1
+     ],
+     [
+      51.94667,
+      9.24617
+     ],
+     [
+      51.97217,
+      9.27167
+     ],
+     [
+      52.04167,
+      9.38333
+     ],
+     [
+      51.98467,
+      9.49167
+     ],
+     [
+      51.9805,
+      9.54167
+     ],
+     [
+      51.87783,
+      9.88333
+     ],
+     [
+      51.83333,
+      9.81667
+     ],
+     [
+      51.65833,
+      9.76667
+     ],
+     [
+      51.657,
+      9.66667
+     ],
+     [
+      51.6445,
+      9.64167
+     ],
+     [
+      51.62783,
+      9.56667
+     ],
+     [
+      51.64717,
+      9.4125
+     ],
+     [
+      51.67333,
+      9.405
+     ],
+     [
+      51.66167,
+      9.35333
+     ],
+     [
+      51.61667,
+      9.38333
+     ],
+     [
+      51.175,
+      8.88333
+     ],
+     [
+      51.08333,
+      8.83333
+     ],
+     [
+      50.93333,
+      8.71667
+     ],
+     [
+      50.875,
+      8.75833
+     ],
+     [
+      50.8945,
+      8.53883
+     ],
+     [
+      50.92083,
+      8.5055
+     ],
+     [
+      50.925,
+      8.443
+     ],
+     [
+      50.9305,
+      8.39167
+     ],
+     [
+      50.95283,
+      8.3055
+     ],
+     [
+      50.96667,
+      8.15
+     ],
+     [
+      50.97667,
+      8.11667
+     ],
+     [
+      50.99167,
+      8.10283
+     ],
+     [
+      50.9755,
+      8.09167
+     ],
+     [
+      50.95833,
+      8.01667
+     ],
+     [
+      50.97367,
+      7.975
+     ],
+     [
+      51.0375,
+      7.875
+     ],
+     [
+      51.04583,
+      7.83333
+     ],
+     [
+      51.11667,
+      7.88883
+     ],
+     [
+      51.132,
+      7.93333
+     ]
+    ],
+    "label_at": [
+     51.92,
+     9.15
+    ],
+    "src": "NfL 2025-1-3686 'Bekanntmachung über Tiefflüge' (the seven 250-ft areas re-published with the Cold War names; de.wikipedia Tiefflug)"
+   },
+   {
+    "id": "LFA5",
+    "kind": "tma",
+    "label": "LFA 5\n250 ft",
+    "alt": "Schneverdingen",
+    "poly": [
+     [
+      52.95833,
+      9.41667
+     ],
+     [
+      53.07217,
+      9.45
+     ],
+     [
+      53.15417,
+      9.48333
+     ],
+     [
+      53.1805,
+      9.45833
+     ],
+     [
+      53.2125,
+      9.33333
+     ],
+     [
+      53.2805,
+      9.28333
+     ],
+     [
+      53.307,
+      9.257
+     ],
+     [
+      53.475,
+      9.15833
+     ],
+     [
+      53.31117,
+      9.80833
+     ],
+     [
+      53.0195,
+      9.85
+     ],
+     [
+      52.98333,
+      9.78883
+     ],
+     [
+      52.97917,
+      9.60833
+     ],
+     [
+      52.97633,
+      9.55833
+     ]
+    ],
+    "label_at": [
+     53.32,
+     9.35
+    ],
+    "src": "NfL 2025-1-3686 'Bekanntmachung über Tiefflüge' (the seven 250-ft areas re-published with the Cold War names; de.wikipedia Tiefflug)"
+   },
+   {
+    "id": "LFA6",
+    "kind": "tma",
+    "label": "LFA 6\n250 ft",
+    "alt": "Itzehoe",
+    "poly": [
+     [
+      54.01667,
+      9.26667
+     ],
+     [
+      54.07633,
+      9.07783
+     ],
+     [
+      54.08333,
+      9.05283
+     ],
+     [
+      54.1,
+      9.0
+     ],
+     [
+      54.14167,
+      8.91667
+     ],
+     [
+      54.2625,
+      8.89167
+     ],
+     [
+      54.37217,
+      9.0
+     ],
+     [
+      54.35,
+      9.06117
+     ],
+     [
+      54.36667,
+      9.0805
+     ],
+     [
+      54.28333,
+      9.35
+     ],
+     [
+      54.24167,
+      9.35833
+     ],
+     [
+      54.25283,
+      9.44167
+     ],
+     [
+      54.21383,
+      9.49167
+     ],
+     [
+      54.21667,
+      9.66117
+     ],
+     [
+      54.2555,
+      9.71383
+     ],
+     [
+      54.27367,
+      9.74717
+     ],
+     [
+      54.18333,
+      9.84167
+     ],
+     [
+      54.157,
+      9.875
+     ],
+     [
+      54.12083,
+      9.9375
+     ],
+     [
+      54.02783,
+      9.95
+     ],
+     [
+      53.9945,
+      9.93333
+     ],
+     [
+      53.97783,
+      9.93333
+     ],
+     [
+      53.91117,
+      9.88333
+     ],
+     [
+      53.793,
+      9.87917
+     ],
+     [
+      53.77783,
+      9.67217
+     ],
+     [
+      53.77217,
+      9.625
+     ],
+     [
+      53.73333,
+      9.45833
+     ],
+     [
+      53.78617,
+      9.41117
+     ],
+     [
+      53.80133,
+      9.407
+     ],
+     [
+      53.87783,
+      9.28883
+     ]
+    ],
+    "label_at": [
+     54.05,
+     9.35
+    ],
+    "src": "NfL 2025-1-3686 'Bekanntmachung über Tiefflüge' (the seven 250-ft areas re-published with the Cold War names; de.wikipedia Tiefflug)"
+   },
+   {
+    "id": "ED-R 37",
+    "kind": "restricted",
+    "label": "ED-R 37\nNORDHORN RANGE",
+    "alt": "FL 100 / GND",
+    "poly": [
+     [
+      52.5167,
+      7.2
+     ],
+     [
+      52.5138,
+      7.2354
+     ],
+     [
+      52.5055,
+      7.2683
+     ],
+     [
+      52.4923,
+      7.2966
+     ],
+     [
+      52.475,
+      7.3184
+     ],
+     [
+      52.4549,
+      7.332
+     ],
+     [
+      52.4333,
+      7.3367
+     ],
+     [
+      52.4118,
+      7.332
+     ],
+     [
+      52.3917,
+      7.3184
+     ],
+     [
+      52.3744,
+      7.2966
+     ],
+     [
+      52.3612,
+      7.2683
+     ],
+     [
+      52.3528,
+      7.2354
+     ],
+     [
+      52.35,
+      7.2
+     ],
+     [
+      52.3528,
+      7.1646
+     ],
+     [
+      52.3612,
+      7.1317
+     ],
+     [
+      52.3744,
+      7.1034
+     ],
+     [
+      52.3917,
+      7.0816
+     ],
+     [
+      52.4118,
+      7.068
+     ],
+     [
+      52.4333,
+      7.0633
+     ],
+     [
+      52.4549,
+      7.068
+     ],
+     [
+      52.475,
+      7.0816
+     ],
+     [
+      52.4923,
+      7.1034
+     ],
+     [
+      52.5055,
+      7.1317
+     ],
+     [
+      52.5138,
+      7.1646
+     ]
+    ],
+    "label_at": [
+     52.33,
+     7.12
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024): 'Circle with a radius of 5 NM centered at N 52 26 00 E 007 12 00'; RAF range 1945-2001"
+   },
+   {
+    "id": "ED-R 34",
+    "kind": "restricted",
+    "label": "ED-R 34\nMEPPEN WTD 91",
+    "alt": "30,000 ft MSL / GND",
+    "poly": [
+     [
+      52.7,
+      7.29417
+     ],
+     [
+      52.72417,
+      7.26639
+     ],
+     [
+      52.93333,
+      7.40833
+     ],
+     [
+      52.88333,
+      7.54167
+     ],
+     [
+      52.7,
+      7.4
+     ]
+    ],
+    "label_at": [
+     52.6,
+     7.3
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024) (34A)"
+   },
+   {
+    "id": "ED-R 34C",
+    "kind": "restricted",
+    "label": "",
+    "alt": "FL 80 / GND",
+    "poly": [
+     [
+      52.95,
+      7.6
+     ],
+     [
+      52.95,
+      7.89694
+     ],
+     [
+      52.81083,
+      7.90111
+     ],
+     [
+      52.7,
+      7.4
+     ],
+     [
+      52.88333,
+      7.54167
+     ]
+    ],
+    "label_at": [
+     52.85,
+     7.75
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024) (34C)"
+   },
+   {
+    "id": "ED-R 31",
+    "kind": "restricted",
+    "label": "ED-R 31\nBERGEN-HOHNE",
+    "alt": "14,000 ft MSL / GND",
+    "poly": [
+     [
+      52.91667,
+      9.925
+     ],
+     [
+      52.81667,
+      9.95
+     ],
+     [
+      52.75,
+      9.96667
+     ],
+     [
+      52.71389,
+      9.96944
+     ],
+     [
+      52.71528,
+      9.84861
+     ],
+     [
+      52.70972,
+      9.73972
+     ],
+     [
+      52.7325,
+      9.69306
+     ],
+     [
+      52.76667,
+      9.66667
+     ],
+     [
+      52.85,
+      9.7
+     ],
+     [
+      52.91667,
+      9.8
+     ],
+     [
+      52.95,
+      9.88333
+     ]
+    ],
+    "label_at": [
+     52.6,
+     9.85
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024)"
+   },
+   {
+    "id": "ED-R 32A",
+    "kind": "restricted",
+    "label": "ED-R 32\nMUNSTER",
+    "alt": "14,000 ft MSL / GND",
+    "poly": [
+     [
+      53.03889,
+      9.99167
+     ],
+     [
+      52.97778,
+      10.175
+     ],
+     [
+      52.95,
+      10.16667
+     ],
+     [
+      52.9,
+      10.125
+     ],
+     [
+      52.81667,
+      9.95
+     ],
+     [
+      52.91667,
+      9.925
+     ],
+     [
+      52.95,
+      9.88333
+     ],
+     [
+      53.0,
+      9.91667
+     ]
+    ],
+    "label_at": [
+     53.12,
+     9.75
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024)"
+   },
+   {
+    "id": "ED-R 32B",
+    "kind": "restricted",
+    "label": "",
+    "alt": "10,500 ft MSL / GND",
+    "poly": [
+     [
+      53.09167,
+      10.1
+     ],
+     [
+      53.05,
+      10.26667
+     ],
+     [
+      53.0,
+      10.26667
+     ],
+     [
+      52.97778,
+      10.175
+     ],
+     [
+      53.03889,
+      9.99167
+     ]
+    ],
+    "label_at": [
+     53.1,
+     10.3
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024)"
+   },
+   {
+    "id": "ED-R 33",
+    "kind": "restricted",
+    "label": "ED-R 33\nUNTERLÜSS",
+    "alt": "24,000 ft MSL / GND",
+    "poly": [
+     [
+      53.0,
+      10.25
+     ],
+     [
+      53.0,
+      10.30833
+     ],
+     [
+      52.93333,
+      10.30833
+     ],
+     [
+      52.93333,
+      10.32778
+     ],
+     [
+      52.85,
+      10.32778
+     ],
+     [
+      52.85,
+      10.25
+     ]
+    ],
+    "label_at": [
+     52.95,
+     10.55
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024) (33A)"
+   },
+   {
+    "id": "ED-R 10",
+    "kind": "restricted",
+    "label": "ED-R 10\nTODENDORF-PUTLOS",
+    "alt": "40,000 ft MSL / GND",
+    "poly": [
+     [
+      54.5,
+      10.41667
+     ],
+     [
+      54.54417,
+      10.52694
+     ],
+     [
+      54.51083,
+      10.65333
+     ],
+     [
+      54.54222,
+      10.88333
+     ],
+     [
+      54.43333,
+      10.88333
+     ],
+     [
+      54.41667,
+      10.83333
+     ],
+     [
+      54.41667,
+      10.66667
+     ],
+     [
+      54.33333,
+      10.66667
+     ],
+     [
+      54.25528,
+      10.66667
+     ],
+     [
+      54.33333,
+      10.41667
+     ]
+    ],
+    "label_at": [
+     54.62,
+     10.55
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024) (10A)"
+   },
+   {
+    "id": "ED-R 11",
+    "kind": "restricted",
+    "label": "ED-R 11\nOSTSEE",
+    "alt": "48,000 ft MSL",
+    "poly": [
+     [
+      54.75,
+      10.15667
+     ],
+     [
+      54.59306,
+      10.34
+     ],
+     [
+      54.54417,
+      10.52694
+     ],
+     [
+      54.5,
+      10.41667
+     ],
+     [
+      54.49167,
+      10.28333
+     ],
+     [
+      54.56667,
+      10.13333
+     ],
+     [
+      54.68333,
+      10.13333
+     ],
+     [
+      54.70833,
+      10.10833
+     ]
+    ],
+    "label_at": [
+     54.72,
+     9.75
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024) (11B)"
+   },
+   {
+    "id": "ED-R 13",
+    "kind": "restricted",
+    "label": "ED-R 13\nMELDORFER BUCHT",
+    "alt": "24,500 ft MSL",
+    "poly": [
+     [
+      54.03333,
+      8.85
+     ],
+     [
+      53.98333,
+      8.74167
+     ],
+     [
+      54.03333,
+      8.08333
+     ],
+     [
+      54.14167,
+      8.08333
+     ],
+     [
+      54.24167,
+      8.38333
+     ],
+     [
+      54.20833,
+      8.7
+     ],
+     [
+      54.10806,
+      8.87306
+     ],
+     [
+      54.11667,
+      8.73333
+     ],
+     [
+      54.06667,
+      8.73333
+     ]
+    ],
+    "label_at": [
+     54.22,
+     8.15
+    ],
+    "src": "AIP Germany ENR 5.1, AIRAC AMDT 03/24 (21 MAR 2024) (13B)"
+   },
+   {
+    "id": "ED-R 116",
+    "kind": "restricted",
+    "label": "ED-R 116\nBAUMHOLDER",
+    "alt": "23,000 ft MSL / GND",
+    "approx": true,
+    "poly": [
+     [
+      49.6871,
+      7.2756
+     ],
+     [
+      49.6871,
+      7.4704
+     ],
+     [
+      49.5789,
+      7.4704
+     ],
+     [
+      49.5789,
+      7.2756
+     ]
+    ],
+    "label_at": [
+     49.55,
+     7.2
+    ],
+    "src": "openaip ED-R 116 (limits; the outline is a box on the point 49.6329, 7.3727)"
+   },
+   {
+    "id": "ED-R 136",
+    "kind": "restricted",
+    "label": "ED-R 136\nGRAFENWÖHR",
+    "alt": "30,000 ft MSL / GND, H24",
+    "approx": true,
+    "poly": [
+     [
+      49.7501,
+      11.6567
+     ],
+     [
+      49.7501,
+      11.9073
+     ],
+     [
+      49.6059,
+      11.9073
+     ],
+     [
+      49.6059,
+      11.6567
+     ]
+    ],
+    "label_at": [
+     49.83,
+     11.85
+    ],
+    "src": "openaip ED-R 136 (limits; box on the point 49.6782, 11.7822); LSG Amberg script 'immer aktiv'"
+   },
+   {
+    "id": "WILDFLECKEN",
+    "kind": "restricted",
+    "label": "WILDFLECKEN\n1/1 ADA HAWK",
+    "alt": "TrÜbPl - ED-R not found",
+    "approx": true,
+    "poly": [
+     [
+      50.445,
+      9.8793
+     ],
+     [
+      50.445,
+      10.0207
+     ],
+     [
+      50.355,
+      10.0207
+     ],
+     [
+      50.355,
+      9.8793
+     ]
+    ],
+    "label_at": [
+     50.28,
+     10.15
+    ],
+    "src": "usarmygermany.com 10th ADA Bde (1/1 ADA at Wildflecken); the outline is a box on the training area"
+   },
+   {
+    "id": "TRA LAUTER",
+    "kind": "alert",
+    "label": "TRA 205 LAUTER\n(ex TRA 204 EIFEL)",
+    "alt": "FL 100 - UNL",
+    "approx": true,
+    "poly": [
+     [
+      50.25,
+      6.4
+     ],
+     [
+      50.25,
+      7.9
+     ],
+     [
+      49.35,
+      7.9
+     ],
+     [
+      49.35,
+      6.4
+     ]
+    ],
+    "label_at": [
+     49.6,
+     6.7
+    ],
+    "src": "flugzeugforum: 'südöstlich des Funkfeuers Nattenheim ... beginnt in Flugfläche 100', ~40 by 80 nm; Bundestag 16/10116 (TRA 204/304 Eifel absorbed 2003) - outline approximate"
+   },
+   {
+    "id": "CORR-N",
+    "kind": "tma",
+    "label": "NORTH CORRIDOR (Hamburg)\n20 mi / 10,000 ft",
+    "alt": "BASC",
+    "poly": [
+     [
+      53.2746,
+      10.5781
+     ],
+     [
+      52.3579,
+      13.2335
+     ],
+     [
+      52.6101,
+      13.4685
+     ],
+     [
+      53.5254,
+      10.8219
+     ]
+    ],
+    "label_at": [
+     53.3,
+     12.1
+    ],
+    "src": "FRUS 1945 III/1206: 'Each of the above corridors is 20 English miles (32 kilometers) wide, i.e., 10 miles (16 kilometers) each side of the center line' - drawn from the border crossing to the Control Zone"
+   },
+   {
+    "id": "CORR-C",
+    "kind": "tma",
+    "label": "CENTER CORRIDOR (Bückeburg)\n20 mi / 10,000 ft",
+    "alt": "BASC",
+    "poly": [
+     [
+      52.0872,
+      11.0411
+     ],
+     [
+      52.3412,
+      13.3926
+     ],
+     [
+      52.6268,
+      13.3094
+     ],
+     [
+      52.3728,
+      10.9589
+     ]
+    ],
+    "label_at": [
+     52.08,
+     12.0
+    ],
+    "src": "FRUS 1945 III/1206 - the Bückeburg/Hannover corridor, 'the shortest of the three'"
+   },
+   {
+    "id": "CORR-S",
+    "kind": "tma",
+    "label": "SOUTH CORRIDOR (Frankfurt)\n20 mi / 10,000 ft",
+    "alt": "BASC",
+    "poly": [
+     [
+      50.6874,
+      10.2146
+     ],
+     [
+      52.3731,
+      13.5044
+     ],
+     [
+      52.5949,
+      13.1976
+     ],
+     [
+      50.9126,
+      9.9254
+     ]
+    ],
+    "label_at": [
+     51.72,
+     11.4
+    ],
+    "src": "FRUS 1945 III/1206 - the Frankfurt corridor"
+   },
+   {
+    "id": "BCZ",
+    "kind": "tma",
+    "label": "BERLIN CONTROL ZONE\n20 mi / 10,000 ft",
+    "alt": "BASC",
+    "poly": [
+     [
+      52.7737,
+      13.351
+     ],
+     [
+      52.7693,
+      13.4336
+     ],
+     [
+      52.7562,
+      13.5137
+     ],
+     [
+      52.7349,
+      13.5888
+     ],
+     [
+      52.7059,
+      13.6567
+     ],
+     [
+      52.6702,
+      13.7154
+     ],
+     [
+      52.6288,
+      13.7629
+     ],
+     [
+      52.5831,
+      13.798
+     ],
+     [
+      52.5343,
+      13.8194
+     ],
+     [
+      52.484,
+      13.8267
+     ],
+     [
+      52.4337,
+      13.8194
+     ],
+     [
+      52.3849,
+      13.798
+     ],
+     [
+      52.3392,
+      13.7629
+     ],
+     [
+      52.2978,
+      13.7154
+     ],
+     [
+      52.2621,
+      13.6567
+     ],
+     [
+      52.2331,
+      13.5888
+     ],
+     [
+      52.2118,
+      13.5137
+     ],
+     [
+      52.1987,
+      13.4336
+     ],
+     [
+      52.1943,
+      13.351
+     ],
+     [
+      52.1987,
+      13.2684
+     ],
+     [
+      52.2118,
+      13.1883
+     ],
+     [
+      52.2331,
+      13.1132
+     ],
+     [
+      52.2621,
+      13.0453
+     ],
+     [
+      52.2978,
+      12.9866
+     ],
+     [
+      52.3392,
+      12.9391
+     ],
+     [
+      52.3849,
+      12.904
+     ],
+     [
+      52.4337,
+      12.8826
+     ],
+     [
+      52.484,
+      12.8753
+     ],
+     [
+      52.5343,
+      12.8826
+     ],
+     [
+      52.5831,
+      12.904
+     ],
+     [
+      52.6288,
+      12.9391
+     ],
+     [
+      52.6702,
+      12.9866
+     ],
+     [
+      52.7059,
+      13.0453
+     ],
+     [
+      52.7349,
+      13.1132
+     ],
+     [
+      52.7562,
+      13.1883
+     ],
+     [
+      52.7693,
+      13.2684
+     ]
+    ],
+    "label_at": [
+     52.33,
+     13.7
+    ],
+    "src": "FRUS 1945 vol. III doc. 1206: 'a radius of 20 miles (32 kilometers) from the Allied Control Authority Building'"
+   },
+   {
+    "id": "FRBR41",
+    "kind": "alert",
+    "label": "41. FRBr RING\nS-75 / S-125 / S-200",
+    "alt": "Fürstenwalde · Prötzel · Klosterfelde · Beetz · Schönermark · Fehrbellin · Zachow · Markgrafpieske",
+    "approx": true,
+    "poly": [
+     [
+      53.05,
+      13.3
+     ],
+     [
+      53.0424,
+      13.4428
+     ],
+     [
+      53.0198,
+      13.5812
+     ],
+     [
+      52.983,
+      13.7111
+     ],
+     [
+      52.933,
+      13.8285
+     ],
+     [
+      52.8714,
+      13.9299
+     ],
+     [
+      52.8,
+      14.0121
+     ],
+     [
+      52.721,
+      14.0727
+     ],
+     [
+      52.6368,
+      14.1098
+     ],
+     [
+      52.55,
+      14.1223
+     ],
+     [
+      52.4632,
+      14.1098
+     ],
+     [
+      52.379,
+      14.0727
+     ],
+     [
+      52.3,
+      14.0121
+     ],
+     [
+      52.2286,
+      13.9299
+     ],
+     [
+      52.167,
+      13.8285
+     ],
+     [
+      52.117,
+      13.7111
+     ],
+     [
+      52.0802,
+      13.5812
+     ],
+     [
+      52.0576,
+      13.4428
+     ],
+     [
+      52.05,
+      13.3
+     ],
+     [
+      52.0576,
+      13.1572
+     ],
+     [
+      52.0802,
+      13.0188
+     ],
+     [
+      52.117,
+      12.8889
+     ],
+     [
+      52.167,
+      12.7715
+     ],
+     [
+      52.2286,
+      12.6701
+     ],
+     [
+      52.3,
+      12.5879
+     ],
+     [
+      52.379,
+      12.5273
+     ],
+     [
+      52.4632,
+      12.4902
+     ],
+     [
+      52.55,
+      12.4777
+     ],
+     [
+      52.6368,
+      12.4902
+     ],
+     [
+      52.721,
+      12.5273
+     ],
+     [
+      52.8,
+      12.5879
+     ],
+     [
+      52.8714,
+      12.6701
+     ],
+     [
+      52.933,
+      12.7715
+     ],
+     [
+      52.983,
+      12.8889
+     ],
+     [
+      53.0198,
+      13.0188
+     ],
+     [
+      53.0424,
+      13.1572
+     ]
+    ],
+    "label_at": [
+     53.08,
+     13.0
+    ],
+    "src": "de.wikipedia Flugabwehrraketentruppen (NVA): the 41. FRBr's Abteilungen by town; drawn as a 30-NM ring"
+   },
+   {
+    "id": "WITTSTOCK",
+    "kind": "restricted",
+    "label": "WITTSTOCK POLYGON\n'Bitburg East'",
+    "alt": "Bombodrom 1952-93; the Bitburg replica",
+    "approx": true,
+    "poly": [
+     [
+      53.1357,
+      12.5625
+     ],
+     [
+      53.1357,
+      12.7275
+     ],
+     [
+      53.0366,
+      12.7275
+     ],
+     [
+      53.0366,
+      12.5625
+     ]
+    ],
+    "label_at": [
+     52.99,
+     12.65
+    ],
+    "src": "de.wikipedia TrÜbPl Wittstock '53° 5′ 10″ N, 12° 38′ 42″ O', 118.99 km²; mil-airfields.de replica N530503 E0124004; 16va.be LABS"
+   },
+   {
+    "id": "RETZOW",
+    "kind": "restricted",
+    "label": "RETZOW RANGE",
+    "alt": "Mi-24 and APIB range",
+    "approx": true,
+    "poly": [
+     [
+      53.3525,
+      12.1747
+     ],
+     [
+      53.3525,
+      12.2653
+     ],
+     [
+      53.3075,
+      12.2653
+     ],
+     [
+      53.3075,
+      12.1747
+     ]
+    ],
+    "label_at": [
+     53.45,
+     12.4
+    ],
+    "src": "16va.be 'between villages of Retzow and Ganzlin' - box on the villages"
+   },
+   {
+    "id": "LETZLINGEN",
+    "kind": "restricted",
+    "label": "LETZLINGER HEIDE",
+    "alt": "TrÜbPl Altmark 232 km²",
+    "approx": true,
+    "poly": [
+     [
+      52.4976,
+      11.4592
+     ],
+     [
+      52.4976,
+      11.6808
+     ],
+     [
+      52.3624,
+      11.6808
+     ],
+     [
+      52.3624,
+      11.4592
+     ]
+    ],
+    "label_at": [
+     52.55,
+     11.45
+    ],
+    "src": "de.wikipedia TrÜbPl Altmark '52° 25′ 48″ N, 11° 34′ 12″ O', 232 km² - box on the center"
+   },
+   {
+    "id": "LIEBEROSE",
+    "kind": "restricted",
+    "label": "LIEBEROSE\nair-to-ground range",
+    "alt": "25,500 ha, 28 x 12 km",
+    "approx": true,
+    "poly": [
+     [
+      51.9893,
+      14.1232
+     ],
+     [
+      51.9893,
+      14.5323
+     ],
+     [
+      51.8812,
+      14.5323
+     ],
+     [
+      51.8812,
+      14.1232
+     ]
+    ],
+    "label_at": [
+     51.95,
+     13.85
+    ],
+    "src": "de.wikipedia Lieberoser Heide '51° 56′ 7″ N, 14° 19′ 40″ O', 'Luft-Boden-Schießplatz' - box on the center"
+   },
+   {
+    "id": "JUTERBOG",
+    "kind": "restricted",
+    "label": "JÜTERBOG RANGE",
+    "alt": "Schießplatz since 1864",
+    "approx": true,
+    "poly": [
+     [
+      52.096,
+      12.9067
+     ],
+     [
+      52.096,
+      13.0533
+     ],
+     [
+      52.024,
+      13.0533
+     ],
+     [
+      52.024,
+      12.9067
+     ]
+    ],
+    "label_at": [
+     52.12,
+     12.8
+    ],
+    "src": "urbex.nl Altes Lager (Schießplatz Jüterbog) - box north of the field"
+   }
+  ],
+  "lines": [
+   {
+    "kind": "coast",
+    "name": "North Sea coast",
+    "pts": [
+     [
+      53.35,
+      6.5
+     ],
+     [
+      53.45,
+      6.9
+     ],
+     [
+      53.6,
+      7.2
+     ],
+     [
+      53.72,
+      7.6
+     ],
+     [
+      53.6,
+      8.05
+     ],
+     [
+      53.85,
+      8.15
+     ],
+     [
+      53.9,
+      8.6
+     ],
+     [
+      53.87,
+      9.0
+     ],
+     [
+      54.0,
+      8.85
+     ],
+     [
+      54.15,
+      8.85
+     ],
+     [
+      54.3,
+      8.65
+     ],
+     [
+      54.5,
+      8.85
+     ],
+     [
+      54.75,
+      8.6
+     ],
+     [
+      54.85,
+      8.6
+     ]
+    ]
+   },
+   {
+    "kind": "coast",
+    "name": "Baltic coast",
+    "pts": [
+     [
+      54.85,
+      9.6
+     ],
+     [
+      54.7,
+      10.0
+     ],
+     [
+      54.45,
+      10.2
+     ],
+     [
+      54.4,
+      10.6
+     ],
+     [
+      54.35,
+      10.85
+     ],
+     [
+      54.1,
+      10.8
+     ],
+     [
+      53.96,
+      10.9
+     ],
+     [
+      53.98,
+      11.2
+     ],
+     [
+      53.9,
+      11.45
+     ],
+     [
+      54.0,
+      11.5
+     ],
+     [
+      54.15,
+      11.9
+     ],
+     [
+      54.18,
+      12.1
+     ],
+     [
+      54.35,
+      12.4
+     ],
+     [
+      54.45,
+      12.5
+     ],
+     [
+      54.35,
+      12.8
+     ],
+     [
+      54.3,
+      13.1
+     ],
+     [
+      54.1,
+      13.4
+     ],
+     [
+      54.05,
+      13.75
+     ],
+     [
+      53.85,
+      14.2
+     ],
+     [
+      53.9,
+      14.35
+     ],
+     [
+      53.65,
+      14.6
+     ],
+     [
+      53.55,
+      14.9
+     ]
+    ]
+   },
+   {
+    "kind": "coast",
+    "name": "Rügen",
+    "pts": [
+     [
+      54.3,
+      13.1
+     ],
+     [
+      54.6,
+      13.25
+     ],
+     [
+      54.68,
+      13.4
+     ],
+     [
+      54.55,
+      13.7
+     ],
+     [
+      54.35,
+      13.75
+     ],
+     [
+      54.28,
+      13.4
+     ],
+     [
+      54.3,
+      13.1
+     ]
+    ]
+   },
+   {
+    "kind": "coast",
+    "name": "Fehmarn",
+    "pts": [
+     [
+      54.53,
+      11.0
+     ],
+     [
+      54.53,
+      11.3
+     ],
+     [
+      54.42,
+      11.25
+     ],
+     [
+      54.42,
+      11.05
+     ],
+     [
+      54.53,
+      11.0
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Inner-German border",
+    "pts": [
+     [
+      53.96,
+      10.89
+     ],
+     [
+      53.9,
+      10.8
+     ],
+     [
+      53.7,
+      10.85
+     ],
+     [
+      53.55,
+      10.75
+     ],
+     [
+      53.37,
+      10.57
+     ],
+     [
+      53.3,
+      10.75
+     ],
+     [
+      53.2,
+      11.0
+     ],
+     [
+      53.13,
+      11.26
+     ],
+     [
+      53.03,
+      11.57
+     ],
+     [
+      52.9,
+      11.45
+     ],
+     [
+      52.83,
+      10.95
+     ],
+     [
+      52.65,
+      10.85
+     ],
+     [
+      52.43,
+      10.97
+     ],
+     [
+      52.23,
+      11.01
+     ],
+     [
+      52.05,
+      10.95
+     ],
+     [
+      51.9,
+      10.6
+     ],
+     [
+      51.73,
+      10.61
+     ],
+     [
+      51.58,
+      10.62
+     ],
+     [
+      51.5,
+      10.3
+     ],
+     [
+      51.35,
+      10.05
+     ],
+     [
+      51.2,
+      10.05
+     ],
+     [
+      51.0,
+      10.15
+     ],
+     [
+      50.85,
+      10.0
+     ],
+     [
+      50.72,
+      9.94
+     ],
+     [
+      50.65,
+      10.0
+     ],
+     [
+      50.5,
+      10.1
+     ],
+     [
+      50.42,
+      10.3
+     ],
+     [
+      50.35,
+      10.6
+     ],
+     [
+      50.3,
+      10.95
+     ],
+     [
+      50.5,
+      11.4
+     ],
+     [
+      50.35,
+      11.65
+     ],
+     [
+      50.42,
+      11.87
+     ],
+     [
+      50.3,
+      12.1
+     ],
+     [
+      50.17,
+      12.2
+     ],
+     [
+      49.98,
+      12.4
+     ],
+     [
+      49.8,
+      12.5
+     ],
+     [
+      49.65,
+      12.5
+     ],
+     [
+      49.3,
+      12.9
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "Elbe",
+    "pts": [
+     [
+      53.87,
+      9.0
+     ],
+     [
+      53.75,
+      9.35
+     ],
+     [
+      53.6,
+      9.6
+     ],
+     [
+      53.55,
+      9.95
+     ],
+     [
+      53.45,
+      10.3
+     ],
+     [
+      53.37,
+      10.57
+     ],
+     [
+      53.2,
+      10.95
+     ],
+     [
+      53.13,
+      11.26
+     ],
+     [
+      53.03,
+      11.57
+     ],
+     [
+      52.9,
+      11.85
+     ],
+     [
+      52.6,
+      12.0
+     ],
+     [
+      52.4,
+      12.05
+     ],
+     [
+      52.2,
+      11.75
+     ],
+     [
+      52.1,
+      11.65
+     ],
+     [
+      51.85,
+      12.3
+     ],
+     [
+      51.7,
+      12.4
+     ]
+    ]
+   },
+   {
+    "kind": "border",
+    "name": "2 ATAF / 4 ATAF seam (Kassel - Göttingen)",
+    "pts": [
+     [
+      51.15,
+      6.3
+     ],
+     [
+      51.25,
+      8.0
+     ],
+     [
+      51.32,
+      9.5
+     ],
+     [
+      51.53,
+      9.93
+     ],
+     [
+      51.55,
+      10.3
+     ]
+    ]
+   },
+   {
+    "kind": "deconfliction",
+    "name": "GDR flight-restriction line (Grenzsperrstreifen)",
+    "label": "GDR FLIGHT-RESTRICTION LINE",
+    "label_at": [
+     50.62,
+     11.35
+    ],
+    "pts": [
+     [
+      53.93,
+      14.05
+     ],
+     [
+      54.34,
+      13.73
+     ],
+     [
+      54.67,
+      13.4
+     ],
+     [
+      54.47,
+      12.5
+     ],
+     [
+      54.25,
+      12.25
+     ],
+     [
+      54.09,
+      12.14
+     ],
+     [
+      53.87,
+      11.19
+     ],
+     [
+      53.75,
+      11.25
+     ],
+     [
+      53.63,
+      11.41
+     ],
+     [
+      53.43,
+      11.19
+     ],
+     [
+      53.32,
+      11.5
+     ],
+     [
+      53.07,
+      11.86
+     ],
+     [
+      52.95,
+      11.95
+     ],
+     [
+      52.78,
+      11.76
+     ],
+     [
+      52.65,
+      11.39
+     ],
+     [
+      52.29,
+      11.41
+     ],
+     [
+      51.94,
+      11.21
+     ],
+     [
+      51.79,
+      10.96
+     ],
+     [
+      51.43,
+      11.04
+     ],
+     [
+      51.33,
+      10.46
+     ],
+     [
+      51.11,
+      10.65
+     ],
+     [
+      50.83,
+      10.3
+     ],
+     [
+      50.61,
+      10.69
+     ],
+     [
+      50.58,
+      11.13
+     ],
+     [
+      50.7,
+      11.6
+     ],
+     [
+      50.61,
+      12.17
+     ],
+     [
+      50.43,
+      12.72
+     ]
+    ]
+   }
+  ],
+  "roads": [
+   {
+    "name": "A2",
+    "pts": [
+     [
+      51.45,
+      6.8
+     ],
+     [
+      51.55,
+      7.5
+     ],
+     [
+      51.9,
+      8.3
+     ],
+     [
+      52.25,
+      8.92
+     ],
+     [
+      52.4,
+      9.7
+     ],
+     [
+      52.3,
+      10.5
+     ],
+     [
+      52.23,
+      11.01
+     ],
+     [
+      52.15,
+      11.6
+     ],
+     [
+      52.4,
+      12.2
+     ],
+     [
+      52.5,
+      13.0
+     ]
+    ]
+   },
+   {
+    "name": "A7",
+    "pts": [
+     [
+      54.8,
+      9.4
+     ],
+     [
+      54.3,
+      9.9
+     ],
+     [
+      53.6,
+      9.95
+     ],
+     [
+      53.25,
+      10.2
+     ],
+     [
+      52.9,
+      10.2
+     ],
+     [
+      52.6,
+      9.8
+     ],
+     [
+      52.15,
+      9.95
+     ],
+     [
+      51.55,
+      9.95
+     ],
+     [
+      51.32,
+      9.5
+     ],
+     [
+      50.85,
+      9.7
+     ],
+     [
+      50.55,
+      9.68
+     ],
+     [
+      50.05,
+      10.0
+     ],
+     [
+      49.8,
+      9.95
+     ]
+    ]
+   },
+   {
+    "name": "A4",
+    "pts": [
+     [
+      50.75,
+      7.1
+     ],
+     [
+      50.6,
+      8.7
+     ],
+     [
+      50.85,
+      9.7
+     ],
+     [
+      51.0,
+      10.15
+     ],
+     [
+      50.98,
+      10.32
+     ],
+     [
+      50.98,
+      11.03
+     ],
+     [
+      50.93,
+      11.59
+     ],
+     [
+      50.88,
+      12.08
+     ],
+     [
+      50.83,
+      12.92
+     ],
+     [
+      51.05,
+      13.74
+     ]
+    ]
+   },
+   {
+    "name": "A9",
+    "pts": [
+     [
+      52.4,
+      13.2
+     ],
+     [
+      51.9,
+      12.7
+     ],
+     [
+      51.5,
+      12.3
+     ],
+     [
+      51.05,
+      12.1
+     ],
+     [
+      50.7,
+      11.95
+     ],
+     [
+      50.32,
+      11.92
+     ],
+     [
+      49.95,
+      11.58
+     ],
+     [
+      49.5,
+      11.2
+     ]
+    ]
+   },
+   {
+    "name": "A24",
+    "pts": [
+     [
+      53.55,
+      10.2
+     ],
+     [
+      53.42,
+      10.85
+     ],
+     [
+      53.3,
+      11.6
+     ],
+     [
+      53.15,
+      12.2
+     ],
+     [
+      52.9,
+      12.8
+     ],
+     [
+      52.6,
+      13.1
+     ]
+    ]
+   }
+  ],
+  "places": [
+   {
+    "name": "Berlin",
+    "lat": 52.52,
+    "lon": 13.4,
+    "kind": "city"
+   },
+   {
+    "name": "Hamburg",
+    "lat": 53.55,
+    "lon": 10.0,
+    "kind": "city"
+   },
+   {
+    "name": "Hannover",
+    "lat": 52.37,
+    "lon": 9.74,
+    "kind": "city"
+   },
+   {
+    "name": "Köln",
+    "lat": 50.94,
+    "lon": 6.96,
+    "kind": "city"
+   },
+   {
+    "name": "Frankfurt",
+    "lat": 50.11,
+    "lon": 8.68,
+    "kind": "city"
+   },
+   {
+    "name": "Leipzig",
+    "lat": 51.34,
+    "lon": 12.37,
+    "kind": "city"
+   },
+   {
+    "name": "Dresden",
+    "lat": 51.05,
+    "lon": 13.74,
+    "kind": "city"
+   },
+   {
+    "name": "Magdeburg",
+    "lat": 52.13,
+    "lon": 11.63,
+    "kind": "city"
+   },
+   {
+    "name": "Kassel",
+    "lat": 51.32,
+    "lon": 9.5,
+    "kind": "city"
+   },
+   {
+    "name": "Nürnberg",
+    "lat": 49.45,
+    "lon": 11.08,
+    "kind": "city"
+   },
+   {
+    "name": "Bremen",
+    "lat": 53.08,
+    "lon": 8.8,
+    "kind": "city"
+   },
+   {
+    "name": "Kiel",
+    "lat": 54.32,
+    "lon": 10.13,
+    "kind": "city"
+   },
+   {
+    "name": "Rostock",
+    "lat": 54.09,
+    "lon": 12.14,
+    "kind": "city"
+   },
+   {
+    "name": "Schwerin",
+    "lat": 53.63,
+    "lon": 11.41,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Erfurt",
+    "lat": 50.98,
+    "lon": 11.03,
+    "kind": "town"
+   },
+   {
+    "name": "Chemnitz",
+    "lat": 50.83,
+    "lon": 12.92,
+    "kind": "town"
+   },
+   {
+    "name": "Cottbus",
+    "lat": 51.76,
+    "lon": 14.33,
+    "kind": "town"
+   },
+   {
+    "name": "Lübeck",
+    "lat": 53.87,
+    "lon": 10.69,
+    "kind": "town"
+   },
+   {
+    "name": "Kaiserslautern",
+    "lat": 49.44,
+    "lon": 7.77,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Trier",
+    "lat": 49.75,
+    "lon": 6.64,
+    "kind": "town"
+   },
+   {
+    "name": "Koblenz",
+    "lat": 50.36,
+    "lon": 7.59,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Würzburg",
+    "lat": 49.79,
+    "lon": 9.93,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Fulda",
+    "lat": 50.55,
+    "lon": 9.68,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Göttingen",
+    "lat": 51.53,
+    "lon": 9.93,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Braunschweig",
+    "lat": 52.27,
+    "lon": 10.52,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Wolfsburg",
+    "lat": 52.42,
+    "lon": 10.79,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Lüneburg",
+    "lat": 53.25,
+    "lon": 10.41,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Uelzen",
+    "lat": 52.96,
+    "lon": 10.56,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Minden",
+    "lat": 52.29,
+    "lon": 8.92,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Paderborn",
+    "lat": 51.72,
+    "lon": 8.75,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Halle",
+    "lat": 51.48,
+    "lon": 11.97,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Dessau",
+    "lat": 51.83,
+    "lon": 12.24,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Stendal",
+    "lat": 52.6,
+    "lon": 11.85,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Neubrandenburg",
+    "lat": 53.56,
+    "lon": 13.26,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Stralsund",
+    "lat": 54.31,
+    "lon": 13.09,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Frankfurt/O.",
+    "lat": 52.35,
+    "lon": 14.55,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Szczecin",
+    "lat": 53.43,
+    "lon": 14.55,
+    "kind": "town"
+   },
+   {
+    "name": "Hof",
+    "lat": 50.32,
+    "lon": 11.92,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Plauen",
+    "lat": 50.5,
+    "lon": 12.14,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Gera",
+    "lat": 50.88,
+    "lon": 12.08,
+    "kind": "town",
+    "minor": true
+   },
+   {
+    "name": "Bitburg",
+    "lat": 49.945,
+    "lon": 6.564,
+    "kind": "airfield"
+   },
+   {
+    "name": "Spangdahlem",
+    "lat": 49.977,
+    "lon": 6.699,
+    "kind": "airfield"
+   },
+   {
+    "name": "Hahn",
+    "lat": 49.948,
+    "lon": 7.264,
+    "kind": "airfield"
+   },
+   {
+    "name": "Ramstein",
+    "lat": 49.437,
+    "lon": 7.6,
+    "kind": "airfield"
+   },
+   {
+    "name": "Sembach",
+    "lat": 49.506,
+    "lon": 7.863,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Zweibrücken",
+    "lat": 49.21,
+    "lon": 7.401,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Büchel",
+    "lat": 50.174,
+    "lon": 7.064,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Pferdsfeld",
+    "lat": 49.855,
+    "lon": 7.605,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Wiesbaden",
+    "lat": 50.05,
+    "lon": 8.326,
+    "kind": "airfield"
+   },
+   {
+    "name": "Gütersloh",
+    "lat": 51.923,
+    "lon": 8.304,
+    "kind": "airfield"
+   },
+   {
+    "name": "Nörvenich",
+    "lat": 50.831,
+    "lon": 6.659,
+    "kind": "airfield"
+   },
+   {
+    "name": "Wunstorf",
+    "lat": 52.457,
+    "lon": 9.427,
+    "kind": "airfield"
+   },
+   {
+    "name": "Bückeburg",
+    "lat": 52.279,
+    "lon": 9.083,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Celle",
+    "lat": 52.591,
+    "lon": 10.024,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Fassberg",
+    "lat": 52.919,
+    "lon": 10.185,
+    "kind": "airfield"
+   },
+   {
+    "name": "Nordholz",
+    "lat": 53.768,
+    "lon": 8.659,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Werneuchen",
+    "lat": 52.632,
+    "lon": 13.769,
+    "kind": "airfield"
+   },
+   {
+    "name": "Finow",
+    "lat": 52.827,
+    "lon": 13.694,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Templin",
+    "lat": 53.032,
+    "lon": 13.543,
+    "kind": "airfield"
+   },
+   {
+    "name": "Sperenberg",
+    "lat": 52.137,
+    "lon": 13.306,
+    "kind": "airfield"
+   },
+   {
+    "name": "Altes Lager",
+    "lat": 51.995,
+    "lon": 12.984,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Neuruppin",
+    "lat": 52.941,
+    "lon": 12.787,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Wittstock",
+    "lat": 53.202,
+    "lon": 12.523,
+    "kind": "airfield"
+   },
+   {
+    "name": "Parchim",
+    "lat": 53.428,
+    "lon": 11.787,
+    "kind": "airfield"
+   },
+   {
+    "name": "Laage",
+    "lat": 53.918,
+    "lon": 12.279,
+    "kind": "airfield"
+   },
+   {
+    "name": "Damgarten",
+    "lat": 54.264,
+    "lon": 12.444,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Tutow",
+    "lat": 53.922,
+    "lon": 13.219,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Peenemünde",
+    "lat": 54.159,
+    "lon": 13.774,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Merseburg",
+    "lat": 51.364,
+    "lon": 11.95,
+    "kind": "airfield"
+   },
+   {
+    "name": "Falkenberg",
+    "lat": 51.546,
+    "lon": 13.216,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Holzdorf",
+    "lat": 51.768,
+    "lon": 13.17,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Zerbst",
+    "lat": 52.0,
+    "lon": 12.144,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Brand",
+    "lat": 52.037,
+    "lon": 13.746,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Marxwalde",
+    "lat": 52.613,
+    "lon": 14.243,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Stendal",
+    "lat": 52.629,
+    "lon": 11.82,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Cochstedt",
+    "lat": 51.856,
+    "lon": 11.418,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Gatow",
+    "lat": 52.475,
+    "lon": 13.138,
+    "kind": "airfield",
+    "minor": true
+   },
+   {
+    "name": "Tegel",
+    "lat": 52.558,
+    "lon": 13.293,
+    "kind": "airfield",
+    "minor": true
+   }
+  ],
+  "panels": [
+   {
+    "id": "rheinmain",
+    "clusters": [
+     "rheinmain"
+    ],
+    "cluster": "rheinmain",
+    "title": "RHEIN-MAIN - THE TAUNUS TO THE GAP",
+    "tag": "RHEIN-MAIN - see panel",
+    "bounds": {
+     "lat": [
+      49.9,
+      51.2
+     ],
+     "lon": [
+      7.6,
+      10.4
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "rm_out",
+     "rm_home",
+     "fulda",
+     "werra"
+    ],
+    "labels": {
+     "rm_out": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "rm_home": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ],
+      "nudge": [
+       0,
+       -10
+      ]
+     },
+     "fulda": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "werra": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ]
+     }
+    }
+   },
+   {
+    "id": "eifel",
+    "clusters": [
+     "eifel",
+     "hunsruck",
+     "pfalz"
+    ],
+    "cluster": "eifel",
+    "title": "4 ATAF - EIFEL, HUNSRÜCK, PFALZ",
+    "tag": "4 ATAF - see panel",
+    "bounds": {
+     "lat": [
+      49.2,
+      50.5
+     ],
+     "lon": [
+      6.3,
+      8.4
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "ef_out",
+     "ef_home",
+     "hu_out",
+     "hu_home",
+     "pf_out",
+     "pf_home"
+    ],
+    "labels": {
+     "ef_out": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "ef_home": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "hu_out": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "hu_home": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ],
+      "nudge": [
+       30,
+       -4
+      ]
+     },
+     "pf_out": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     },
+     "pf_home": {
+      "seg": 1,
+      "off": [
+       -1,
+       0
+      ]
+     }
+    }
+   },
+   {
+    "id": "rhineruhr",
+    "clusters": [
+     "rhineruhr"
+    ],
+    "cluster": "rhineruhr",
+    "title": "2 ATAF - THE RHINELAND TO THE PORTA",
+    "tag": "RHINELAND - see panel",
+    "bounds": {
+     "lat": [
+      50.6,
+      52.4
+     ],
+     "lon": [
+      6.4,
+      9.3
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "rr_out",
+     "rr_home"
+    ],
+    "labels": {
+     "rr_out": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "rr_home": {
+      "seg": 2,
+      "off": [
+       0,
+       1
+      ]
+     }
+    }
+   },
+   {
+    "id": "hannover",
+    "clusters": [
+     "hannover",
+     "heath"
+    ],
+    "cluster": "hannover",
+    "title": "2 ATAF - THE WESER AND THE HEATH",
+    "tag": "WESER - see panel",
+    "bounds": {
+     "lat": [
+      51.9,
+      53.3
+     ],
+     "lon": [
+      8.8,
+      11.7
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "ha_out",
+     "ha_home",
+     "he_out",
+     "he_home",
+     "ha_north",
+     "ha_north_home",
+     "hlz_gate",
+     "uelzen_gate"
+    ],
+    "labels": {
+     "ha_out": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "ha_home": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "he_out": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "he_home": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ],
+      "nudge": [
+       0,
+       14
+      ]
+     },
+     "ha_north": {
+      "seg": 0,
+      "off": [
+       -1,
+       0
+      ]
+     },
+     "ha_north_home": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     },
+     "hlz_gate": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "uelzen_gate": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ]
+     }
+    }
+   },
+   {
+    "id": "elbe",
+    "clusters": [
+     "elbe"
+    ],
+    "cluster": "elbe",
+    "title": "2 ATAF - THE ELBE, HAMBURG TO LAUENBURG",
+    "tag": "ELBE - see panel",
+    "bounds": {
+     "lat": [
+      53.2,
+      54.5
+     ],
+     "lon": [
+      9.4,
+      11.9
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "el_out",
+     "el_home",
+     "el_lub",
+     "elbe_gate"
+    ],
+    "labels": {
+     "el_out": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "el_home": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ],
+      "nudge": [
+       -30,
+       6
+      ]
+     },
+     "el_lub": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     },
+     "elbe_gate": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     }
+    }
+   },
+   {
+    "id": "berlin",
+    "clusters": [
+     "berlin"
+    ],
+    "cluster": "berlin",
+    "title": "BERLIN - THE CORRIDORS AND THE RING",
+    "tag": "BERLIN - see panel",
+    "bounds": {
+     "lat": [
+      51.9,
+      53.4
+     ],
+     "lon": [
+      12.0,
+      14.2
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "be_out_w",
+     "be_home_w",
+     "be_out_nw",
+     "be_home_nw",
+     "be_out_sw",
+     "be_home_sw"
+    ],
+    "labels": {
+     "be_out_w": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "be_home_w": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "be_out_nw": {
+      "seg": 0,
+      "off": [
+       -1,
+       0
+      ]
+     },
+     "be_home_nw": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ],
+      "nudge": [
+       0,
+       14
+      ]
+     },
+     "be_out_sw": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     },
+     "be_home_sw": {
+      "seg": 0,
+      "off": [
+       -1,
+       0
+      ]
+     }
+    }
+   },
+   {
+    "id": "gdr_south",
+    "clusters": [
+     "gdr_south"
+    ],
+    "cluster": "gdr_south",
+    "title": "THE SOUTHERN FIELDS - TO THE WERRA",
+    "tag": "MERSEBURG - see panel",
+    "bounds": {
+     "lat": [
+      50.5,
+      52.2
+     ],
+     "lon": [
+      9.7,
+      13.3
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "gs_out",
+     "gs_home",
+     "gs_out_n",
+     "gs_home_n",
+     "r_werra",
+     "r_fulda",
+     "r_groningen"
+    ],
+    "labels": {
+     "gs_out": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "gs_home": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "gs_out_n": {
+      "seg": 0,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "gs_home_n": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     },
+     "r_werra": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "r_fulda": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "r_groningen": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     }
+    }
+   },
+   {
+    "id": "gdr_north",
+    "clusters": [
+     "gdr_north"
+    ],
+    "cluster": "gdr_north",
+    "title": "MECKLENBURG - PARCHIM TO THE ELBE",
+    "tag": "MECKLENBURG - see panel",
+    "bounds": {
+     "lat": [
+      52.9,
+      54.4
+     ],
+     "lon": [
+      10.3,
+      13.6
+     ]
+    },
+    "grid": 0.5,
+    "declutter": true,
+    "lanes": [
+     "gn_out",
+     "gn_home",
+     "gn_out_s",
+     "gn_home_s",
+     "r_hagenow",
+     "r_domitz"
+    ],
+    "labels": {
+     "gn_out": {
+      "seg": 0,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "gn_home": {
+      "seg": 1,
+      "off": [
+       0,
+       1
+      ]
+     },
+     "gn_out_s": {
+      "seg": 1,
+      "off": [
+       1,
+       0
+      ]
+     },
+     "gn_home_s": {
+      "seg": 0,
+      "off": [
+       -1,
+       0
+      ]
+     },
+     "r_hagenow": {
+      "seg": 1,
+      "off": [
+       0,
+       -1
+      ]
+     },
+     "r_domitz": {
+      "seg": 0,
+      "off": [
+       1,
+       0
+      ]
+     }
+    }
+   }
+  ]
+ }
+}

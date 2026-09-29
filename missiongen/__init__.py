@@ -1,4 +1,4 @@
-__version__ = "1.34.1"
+__version__ = "1.105.0"
 
 # Preflight: vendored pydcs imports pyproj at import time (terrain projections).
 # Fail with instructions instead of a bare ModuleNotFoundError deep in pydcs.
@@ -11,6 +11,7 @@ except ImportError as _e:
         "(or: pip install pyproj)") from _e
 
 from . import _determinism  # noqa: F401  (patches pydcs for cross-process reproducibility)
+from . import pydcs_patches  # noqa: F401  (fields the Mission Editor writes and pydcs does not)
 from .terrains import install as _install_terrains
 _install_terrains()  # register extension maps (Afghanistan...) in pydcs's loader
 from .dtc import install_unit_dtc as _install_unit_dtc

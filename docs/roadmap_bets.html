@@ -1,0 +1,414 @@
+<title>Sortie Starter Roadmap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --bg:#EFEEEA;
+  --panel:#F9F8F6;
+  --panel-2:#E4E2DC;
+  --ink:#15171A;
+  --ink-2:#4A4F55;
+  --ink-3:#7E848B;
+  --rule:#C9C6BF;
+  --rule-soft:#DAD7D0;
+  --bet:#C43F18;          /* the one hot color: a bet worth taking */
+  --built:#2C6E52;        /* semantic: already in the product */
+  --stop:#8A8F96;         /* semantic: deliberately not building */
+  --shadow:0 1px 2px rgba(21,23,26,.05),0 10px 30px rgba(21,23,26,.05);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#131519;
+    --panel:#1A1D22;
+    --panel-2:#22262C;
+    --ink:#E6E5E1;
+    --ink-2:#A9AEB4;
+    --ink-3:#787E85;
+    --rule:#2B3037;
+    --rule-soft:#21262C;
+    --bet:#F26941;
+    --built:#4FB489;
+    --stop:#6E747B;
+    --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 34px rgba(0,0,0,.35);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#131519;
+  --panel:#1A1D22;
+  --panel-2:#22262C;
+  --ink:#E6E5E1;
+  --ink-2:#A9AEB4;
+  --ink-3:#787E85;
+  --rule:#2B3037;
+  --rule-soft:#21262C;
+  --bet:#F26941;
+  --built:#4FB489;
+  --stop:#6E747B;
+  --shadow:0 1px 2px rgba(0,0,0,.45),0 10px 34px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Newsreader",Georgia,serif;font-size:18px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px;margin:0 auto;padding:0 26px 100px}
+.col{max-width:62ch}
+p{margin:0}
+h1,h2,h3,h4,.disp{font-family:"Archivo",Helvetica,Arial,sans-serif;text-wrap:balance;margin:0}
+h1{font-weight:900;font-size:clamp(2.5rem,6.5vw,4.6rem);line-height:.94;letter-spacing:-.02em}
+h2{font-weight:800;font-size:clamp(1.5rem,3.2vw,2.2rem);line-height:1.05;letter-spacing:-.01em}
+h3{font-weight:700;font-size:1.28rem;line-height:1.15}
+h4{font-weight:600;font-size:.95rem;line-height:1.2}
+a{color:var(--ink);text-decoration-color:var(--bet);text-underline-offset:3px}
+a:focus-visible{outline:2px solid var(--bet);outline-offset:3px}
+.mono{font-family:"IBM Plex Mono",ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500}
+
+/* masthead */
+header.top{padding:70px 0 44px;display:flex;flex-direction:column;gap:24px}
+.lede{font-size:1.3rem;line-height:1.45;color:var(--ink-2);max-width:56ch}
+.thesis{
+  border-left:4px solid var(--bet);padding:6px 0 6px 22px;max-width:54ch;
+  font-family:"Archivo",sans-serif;font-weight:600;font-size:1.32rem;line-height:1.28;
+}
+
+/* the evidence band */
+.band{
+  border-top:2px solid var(--ink);border-bottom:1px solid var(--rule);
+  display:grid;grid-template-columns:1fr;gap:0;margin:8px 0 0;
+}
+@media(min-width:760px){.band{grid-template-columns:repeat(4,1fr)}}
+.stat{padding:26px 22px 24px;border-bottom:1px solid var(--rule-soft)}
+@media(min-width:760px){
+  .stat{border-bottom:none;border-right:1px solid var(--rule-soft)}
+  .stat:last-child{border-right:none}
+}
+.stat .n{font-family:"Archivo",sans-serif;font-weight:900;font-size:2.9rem;
+  line-height:.9;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.stat .n em{font-style:normal;color:var(--ink-3);font-size:1.4rem;font-weight:600}
+.stat .k{margin-top:10px;font-size:.93rem;line-height:1.4;color:var(--ink-2)}
+.stat.hot .n{color:var(--bet)}
+
+section{padding:60px 0;border-bottom:1px solid var(--rule-soft);
+  display:flex;flex-direction:column;gap:26px}
+.sechead{display:flex;flex-direction:column;gap:9px}
+.stack{display:flex;flex-direction:column;gap:18px}
+
+/* the bets */
+.bets{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.bet{padding:30px 0;border-bottom:1px solid var(--rule-soft);
+  display:grid;grid-template-columns:1fr;gap:16px}
+@media(min-width:880px){.bet{grid-template-columns:58px 1fr 232px;gap:0 26px}}
+.bet .num{font-family:"Archivo",sans-serif;font-weight:900;font-size:2.5rem;
+  line-height:.82;color:var(--bet);font-variant-numeric:tabular-nums}
+.bet.deferred .num{color:var(--stop)}
+.bet .body{display:flex;flex-direction:column;gap:11px}
+.bet .body>p{max-width:60ch}
+.claim{font-family:"Archivo",sans-serif;font-weight:600;font-size:1.02rem;
+  color:var(--ink-2);max-width:58ch}
+.tag{font-family:"IBM Plex Mono",monospace;font-size:.66rem;letter-spacing:.12em;
+  text-transform:uppercase;padding:3px 8px;border:1px solid var(--rule);
+  border-radius:2px;color:var(--ink-2)}
+.tag.hot{border-color:var(--bet);color:var(--bet)}
+.tag.built{border-color:var(--built);color:var(--built)}
+.tags{display:flex;flex-wrap:wrap;gap:6px}
+.side{
+  background:var(--panel);border:1px solid var(--rule);border-radius:3px;
+  padding:16px 17px;display:flex;flex-direction:column;gap:12px;
+  box-shadow:var(--shadow);align-self:start;
+}
+.meter{display:flex;flex-direction:column;gap:4px}
+.meter .lbl{font-family:"IBM Plex Mono",monospace;font-size:.63rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3)}
+.dots{display:flex;gap:4px;align-items:center}
+.dots i{width:11px;height:11px;border-radius:50%;border:1.5px solid var(--ink-3);display:block}
+.dots i.on{background:var(--ink);border-color:var(--ink)}
+.dots.hot i.on{background:var(--bet);border-color:var(--bet)}
+.side .unlock{font-size:.9rem;line-height:1.45;color:var(--ink-2);
+  border-top:1px solid var(--rule-soft);padding-top:11px}
+.side .unlock b{font-family:"IBM Plex Mono",monospace;font-size:.63rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);
+  font-weight:500;display:block;margin-bottom:3px}
+
+/* questions the data answers */
+.qs{display:grid;grid-template-columns:1fr;gap:2px}
+@media(min-width:820px){.qs{grid-template-columns:1fr 1fr}}
+.q{background:var(--panel);padding:20px 21px;border-left:2px solid var(--bet);
+  display:flex;flex-direction:column;gap:7px}
+.q .ask{font-family:"Archivo",sans-serif;font-weight:600;font-size:1.02rem}
+.q .then{font-size:.93rem;line-height:1.5;color:var(--ink-2)}
+
+/* not building */
+.nots{display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.not{display:grid;grid-template-columns:1fr;gap:5px;padding:16px 0;
+  border-bottom:1px solid var(--rule-soft)}
+@media(min-width:820px){.not{grid-template-columns:270px 1fr;gap:0 26px}}
+.not b{font-family:"Archivo",sans-serif;font-weight:600;font-size:1rem;color:var(--stop)}
+.not span{font-size:.95rem;line-height:1.5;color:var(--ink-2);max-width:62ch}
+
+/* sequence */
+.seq{border:1px solid var(--rule);border-radius:3px;background:var(--panel);
+  padding:0;overflow-x:auto;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:.95rem}
+th,td{text-align:left;padding:13px 16px;border-bottom:1px solid var(--rule-soft);
+  vertical-align:top}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:.64rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:500;
+  background:var(--panel-2);border-bottom:1px solid var(--rule);white-space:nowrap}
+tbody tr:last-child td{border-bottom:none}
+td.w{font-family:"Archivo",sans-serif;font-weight:600;white-space:nowrap}
+td.n{font-family:"IBM Plex Mono",monospace;white-space:nowrap;color:var(--ink-2)}
+
+footer{padding:44px 0 0;color:var(--ink-3);font-size:.9rem;line-height:1.6;
+  display:flex;flex-direction:column;gap:12px;max-width:70ch}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="top">
+  <span class="eyebrow">DCS Sortie Starter · v1.90.0 · product roadmap</span>
+  <h1>You are already<br>running a flight school</h1>
+  <p class="lede">Eighty-one of the hundred and one cards in your Library are training. Fifty-four of them belong to a numbered syllabus. The product's own description still calls itself a starter — "no objectives, no tasking, no waypoints." The library disagrees, and the library is the product.</p>
+  <p class="thesis">The roadmap that follows takes the library's side. Every bet is chosen because it makes the training compound, or because it brings someone in to find it.</p>
+</header>
+
+<div class="band">
+  <div class="stat hot">
+    <div class="n">81<em> / 101</em></div>
+    <div class="k">Library cards whose role is <b>training</b>. Strike is second, with seven.</div>
+  </div>
+  <div class="stat">
+    <div class="n">54<em> / 101</em></div>
+    <div class="k">Cards that belong to an ordered track rather than standing alone.</div>
+  </div>
+  <div class="stat">
+    <div class="n">2</div>
+    <div class="k">Syllabus engines now shipped — White Knights and Case III. The second reused the shape of the first.</div>
+  </div>
+  <div class="stat">
+    <div class="n">3,780</div>
+    <div class="k">Tests, plus nine mutation harnesses. The say/do discipline is the moat.</div>
+  </div>
+</div>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">The reframe</span>
+    <h2>What changed, and why the roadmap should change with it</h2>
+  </div>
+  <div class="col stack">
+    <p>When the competitive read was written, the training tracks were a category inside a mission generator. Two things have happened since.</p>
+    <p><b>The syllabus became a factory.</b> Case III was built on the same bones as the White Knights rides — a doctrine module, a route module, a coach module, a flag block — and it took one release instead of the arc that produced the first one. The marginal cost of the <em>next</em> syllabus is now low and known. That is a different strategic asset from "we have some training missions."</p>
+    <p><b>You got an instrument.</b> Google Analytics landed this release, and the roadmap's whole "Later" tier is gated on demand data that did not exist until now. Those items were not deprioritised; they were unmeasurable. They are measurable on Monday.</p>
+    <p>So the question is no longer "what else could a mission generator do." It is: <b>what makes a flight school compound, and what brings students to the door.</b></p>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">Six bets, in dependency order</span>
+    <h2>What to build</h2>
+  </div>
+
+  <div class="bets">
+
+    <article class="bet">
+      <div class="num">1</div>
+      <div class="body">
+        <div class="tags"><span class="tag hot">The wedge</span><span class="tag">Acquisition</span><span class="tag built">Machinery exists</span></div>
+        <h3>Re-brief any mission</h3>
+        <p class="claim">Upload someone else's <span class="mono">.miz</span> — BriefingRoom's, Liberation's, a purchased campaign, a squadron's — and get your paperwork back for it.</p>
+        <p>A Flightline kneeboard set, a real brief, a flight-plan card, a DTC cartridge where the airframe takes one. And the part nobody else in this space can ship: <b>a say/do report</b> — every claim the existing brief makes that the mission does not actually contain.</p>
+        <p>This converts users of the incumbent <em>without asking them to stop using it</em>, which is the cheapest acquisition there is. It also turns a year of invisible discipline into a visible product, and the demo sells itself: run it on a competitor's mission and the output is the pitch.</p>
+      </div>
+      <aside class="side">
+        <div class="meter"><span class="lbl">Effort</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+        <div class="meter"><span class="lbl">Payoff</span>
+          <span class="dots hot"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+        <div class="unlock"><b>Why it is cheap</b>You already read <span class="mono">.miz</span> through pydcs, and every generator it needs is shipped. This is a new front door onto existing machinery plus an inference layer for missions you did not author.</div>
+      </aside>
+    </article>
+
+    <article class="bet">
+      <div class="num">2</div>
+      <div class="body">
+        <div class="tags"><span class="tag hot">Retention</span><span class="tag built">Data exists</span></div>
+        <h3>The logbook</h3>
+        <p class="claim">You grade pilots inside the mission, from triggers alone, and then throw the result away when they close DCS.</p>
+        <p>A signed record — rides flown, tracks completed, qualifications earned, dates — printed in the same publication language as the kneeboards. Squadrons will use it for currency tracking, which is a use case nobody in DCS tooling serves.</p>
+        <p>It is the reason to come back on day thirty, and it is what makes an eleven-ride track compound instead of being eleven missions somebody flies once. <b>Without it, every syllabus you build is a consumable.</b></p>
+      </div>
+      <aside class="side">
+        <div class="meter"><span class="lbl">Effort</span>
+          <span class="dots"><i class="on"></i><i></i><i></i></span></div>
+        <div class="meter"><span class="lbl">Payoff</span>
+          <span class="dots hot"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+        <div class="unlock"><b>The hard part</b>Not the page — the capture. A grade lives in a running mission; getting it back out without a server, an account or a Lua hook is the design problem. Solve it once and it serves every track you ever ship.</div>
+      </aside>
+    </article>
+
+    <article class="bet">
+      <div class="num">3</div>
+      <div class="body">
+        <div class="tags"><span class="tag hot">Compounding</span><span class="tag">The factory</span></div>
+        <h3>The next three syllabi — and then let other people write them</h3>
+        <p class="claim">Two engines proved the shape. The question now is what the third teaches, and whether you have to be the one building it.</p>
+        <p>Candidates, in the order the airframe population argues for: <b>BFM</b> (the most-wanted skill in the sim and the one with the clearest gates), <b>SEAD/Wild Weasel</b> (a real procedure with real numbers, and nobody teaches it), <b>low-level navigation</b> (the White Knights rides already contain half of it), and a <b>rotary</b> track once helicopters land.</p>
+        <p>Then the multiplier: the <span class="mono">.sspack</span> format and the admin upload already exist. A published pack format plus an authoring guide turns a squadron's own training documents into content you did not have to write. <b>That is the difference between a catalog and a platform.</b></p>
+      </div>
+      <aside class="side">
+        <div class="meter"><span class="lbl">Effort</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+        <div class="meter"><span class="lbl">Payoff</span>
+          <span class="dots hot"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+        <div class="unlock"><b>The risk to name</b>User-authored content carries a moderation and quality cost, and a bad pack under your banner damages the one thing you sell. Signed packs and a review step are the price of this door.</div>
+      </aside>
+    </article>
+
+    <article class="bet">
+      <div class="num">4</div>
+      <div class="body">
+        <div class="tags"><span class="tag">First night</span><span class="tag built">Research paid for</span></div>
+        <h3>Situations, and a front line</h3>
+        <p class="claim">The only place where adding a control makes this product simpler instead of more complex.</p>
+        <p>A situation — <em>Russo-Georgian War</em>, <em>Desert Storm, night one</em> — sets coalition, map, era and posture in one pick. You already own every component: theater identity, historical airspace, air corridors, the Iraq research. You have simply never <em>named</em> the combinations.</p>
+        <p>Pair it with a single front-line vector per situation. Nothing in the engine currently knows where the war is, which is why the Cold War and GWOT eras read as an open theatre with things scattered in it. One vector improves target placement, threat gradient, corridor relevance and briefing language at once — and it makes the situations feel like wars rather than settings.</p>
+      </div>
+      <aside class="side">
+        <div class="meter"><span class="lbl">Effort</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+        <div class="meter"><span class="lbl">Payoff</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+        <div class="unlock"><b>Do them together</b>The front line is cheap on its own and transformative underneath situations. Shipping situations first without it produces named settings that still feel like sandboxes.</div>
+      </aside>
+    </article>
+
+    <article class="bet">
+      <div class="num">5</div>
+      <div class="body">
+        <div class="tags"><span class="tag">Positioning</span><span class="tag">Gap they named</span></div>
+        <h3>Light persistent campaigns</h3>
+        <p class="claim">BriefingRoom says "not dynamic — look at Liberation." Liberation is thirty minutes of strategy layer per turn. Nothing sits in the middle, and the middle is where most people live.</p>
+        <p>Six to ten missions, a front that moves, losses that stick, a story that finishes in a fortnight. The primitive is already there — a track is an ordered set of missions that travel together — and the state can live in a small file the user carries, on the same recipes-not-artifacts principle as share links. No server, no account.</p>
+        <p>Sequenced fifth deliberately: it wants the front line from bet 4 and the persistence design from bet 2. Built after those, it is mostly assembly. Built before them, it is a new subsystem.</p>
+      </div>
+      <aside class="side">
+        <div class="meter"><span class="lbl">Effort</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter"><span class="lbl">Payoff</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i></i></span></div>
+        <div class="unlock"><b>Dependency</b>Wants bet 4's front line and bet 2's carried-state design. Doing it third would mean inventing both badly.</div>
+      </aside>
+    </article>
+
+    <article class="bet deferred">
+      <div class="num">6</div>
+      <div class="body">
+        <div class="tags"><span class="tag">Deferred, with a trigger</span></div>
+        <h3>Multiplayer and squadron features</h3>
+        <p class="claim">A real gap, and still the wrong thing to close now.</p>
+        <p>Dynamic spawning, cargo scoping, hot starts, server ops — a different customer with different support costs, against a win condition that is currently the first-night single-player experience.</p>
+        <p><b>The trigger to revisit is now measurable</b>, which it was not last month: squadron-shaped usage in the analytics — the same recipe generated repeatedly from different browsers, or whole-track downloads clustering. Write the trigger down now so the decision is made by evidence rather than by whoever asks loudest.</p>
+      </div>
+      <aside class="side">
+        <div class="meter"><span class="lbl">Effort</span>
+          <span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+        <div class="meter"><span class="lbl">Payoff</span>
+          <span class="dots"><i class="on"></i><i></i><i></i></span></div>
+        <div class="unlock"><b>Revisit when</b>The logbook (bet 2) is the feature squadrons would actually ask for first. Ship that, watch who uses it, and let them tell you whether MP is worth the support load.</div>
+      </aside>
+    </article>
+
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">The instrument you just installed</span>
+    <h2>Four questions the analytics should answer first</h2>
+  </div>
+  <p class="col">The roadmap's "Later" tier has said <em>demand-gated — the analytics tab decides</em> for months, against data that did not exist. It does now. These are the questions worth asking of the first month of it, and what each one actually gates.</p>
+  <div class="qs">
+    <div class="q">
+      <span class="ask">Which of the three doors do people actually use?</span>
+      <span class="then">Fly Now, Library and Builder are now tagged separately on every generate. If Fly Now dominates, the Builder's remaining polish is not the work — Quick Flight completion is. If the Library dominates, bets 1–3 are the whole roadmap.</span>
+    </div>
+    <div class="q">
+      <span class="ask">Do people who open a track ever finish it?</span>
+      <span class="then">Track opens versus ride generates versus repeat generates of the same ride. A track people open and abandon at ride two is a packaging problem, not a content problem — and it decides whether bet 3 is "three more syllabi" or "fix the first one."</span>
+    </div>
+    <div class="q">
+      <span class="ask">Does anybody come back?</span>
+      <span class="then">Returning visitors against first-time. This is the single number that says whether the logbook (bet 2) is a retention feature or a retention <em>rescue</em>, and it changes its priority rather than its design.</span>
+    </div>
+    <div class="q">
+      <span class="ask">Where do people leave?</span>
+      <span class="then">View changes without a following generate. A Builder full of people who never press the button is a different product problem from a Builder nobody opens, and the two are currently indistinguishable.</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">Discipline</span>
+    <h2>What not to build, and why saying so is the strategy</h2>
+  </div>
+  <p class="col">BriefingRoom's "Quick" generator asks for roughly a hundred decisions before it will give you anything. That is a way of declining to have an opinion. Your opinions are the asset, and every item below is a way of losing them.</p>
+  <div class="nots">
+    <div class="not"><b>The Full Generator</b><span>Feature-toggle parity with the incumbent. Chasing their knob count costs the only thing they cannot copy cheaply, which is that your defaults are defensible.</span></div>
+    <div class="not"><b>A waypoint editor</b><span>Already decided and worth keeping decided. Where a mission needs a plan, the mission brings it — the pilot is never handed a flight plan he did not ask for.</span></div>
+    <div class="not"><b>A kneeboard editor</b><span>They shipped one because their default output is not good enough. Yours is the product. Editing it is a confession.</span></div>
+    <div class="not"><b>A desktop app</b><span>Their own site tells users the desktop build works better than the web one. Web reliability is a competitive advantage — market it rather than diluting it.</span></div>
+    <div class="not"><b>Accounts</b><span>Every persistence feature here is designed to work without one: recipes not artifacts, state the user carries. An account is a support burden, a privacy liability and a signup wall in front of a free tool.</span></div>
+    <div class="not"><b>Localisation</b><span>Nine languages is real reach and it multiplies the cost of every document you generate — and the documents are the differentiator. Revisit when the documents stop changing.</span></div>
+    <div class="not"><b>Lua in the .miz</b><span>The no-script guarantee is why missions load everywhere, survive DCS updates, and can be trusted by squadrons with server rules. It has forced better designs twice; keep it.</span></div>
+  </div>
+</section>
+
+<section>
+  <div class="sechead">
+    <span class="eyebrow">Sequencing for one builder</span>
+    <h2>The order, and the reason for it</h2>
+  </div>
+  <div class="seq">
+    <table>
+      <thead><tr><th>Window</th><th>Ship</th><th>Because</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Now</td><td class="w">Finish what is blocked</td><td>Verified liveries need one command against a real DCS install. The voiceover WAVs are recorded, not coded. Both are inert investment sitting on the shelf.</td></tr>
+        <tr><td class="n">First</td><td class="w">Bet 1 — re-brief any .miz</td><td>The only item that acquires users from the incumbent instead of competing with it, and it is mostly plumbing onto shipped generators.</td></tr>
+        <tr><td class="n">Alongside</td><td class="w">Read the analytics</td><td>Four weeks of data answers the four questions above and re-ranks everything below this line. Do not guess what it will say.</td></tr>
+        <tr><td class="n">Second</td><td class="w">Bet 2 — the logbook</td><td>Small, and it is what makes every training pack you have already built compound instead of being flown once.</td></tr>
+        <tr><td class="n">Third</td><td class="w">Bet 4 — situations + front line</td><td>Cheap, uses research already paid for, and it is the first-night experience the analytics are most likely to indict.</td></tr>
+        <tr><td class="n">Fourth</td><td class="w">Bet 3 — the third syllabus</td><td>Which one depends on question two: a new track, or fixing the drop-off in the tracks you have.</td></tr>
+        <tr><td class="n">Then</td><td class="w">Bet 5 — light campaigns</td><td>Assembly, once bets 2 and 4 exist. A new subsystem if attempted before them.</td></tr>
+        <tr><td class="n">Held</td><td class="w">Bet 6 — multiplayer</td><td>Until squadron-shaped usage shows up in the data. The trigger is written down; the decision is not open to whoever asks loudest.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section style="border-bottom:none">
+  <div class="sechead">
+    <span class="eyebrow">If you only do one thing</span>
+    <h2>Bet 1, and then read the numbers</h2>
+  </div>
+  <div class="col stack">
+    <p>Re-briefing an arbitrary <span class="mono">.miz</span> is the only item on this page that brings people in rather than serving the people already here. It monetises a year of discipline that is currently invisible to anyone who has not flown your missions, and it costs mostly plumbing.</p>
+    <p>Everything after it is a retention story, and a retention story is worth building once there is somebody to retain.</p>
+    <p style="color:var(--ink-2)">The one thing this roadmap deliberately does not do is add configurability. There is a version of this product that answers BriefingRoom control for control, and it is a worse product than the one you have — because the moment your defaults stop being defensible, the say/do rule, the sourced numbers and the 3,780 tests stop being worth what they cost.</p>
+  </div>
+</section>
+
+<footer>
+  <p><b>Grounding.</b> Library and track counts read from <span class="mono">mission_templates.json</span> and <span class="mono">tracks.json</span> at v1.90.0. Test and harness counts from the shipped suite. Competitor claims from the BriefingRoom QuickBuilder page, its manual and its repository, read August 2026 — including their own statements that the campaign generator is "not dynamic", that missions are not generated "for maximum realism", and that the hosted build is worse than the desktop one.</p>
+  <p>Bets 1, 2, 4, 5 and 6 develop the ranked list from that competitive read. Bet 3 and the reframe are new since it was written, and exist because the Case III pack proved the syllabus engine is repeatable and because Google Analytics landed in v1.90.0.</p>
+</footer>
+
+</div>

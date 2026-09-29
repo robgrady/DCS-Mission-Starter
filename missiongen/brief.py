@@ -16,17 +16,30 @@ from PIL import Image, ImageDraw, ImageFont
 
 from . import __version__
 from . import chartstyle as cs
+from . import loadouts as _loadouts
 from .resolver import load_json
 
 # A4 portrait at ~175 dpi — crisp for screen and print
 W, H = 1448, 2048
 
-# print palette (light pages, navy ink — the style-guide register)
-PAPER = (250, 249, 246)
-INK = (26, 31, 38)
-NAVY = (13, 27, 42)
-GOLD = (200, 162, 74)
-DIM = (108, 117, 125)
+# MILITARY PUBLICATION register (Rob: "All the documentation should look like
+# real military documentation"). The reference is a NATOPS/flight-pub page and
+# the DD-175: white paper, black ink, a solid black masthead band with white
+# title — the T.O. cover idiom — and NO accent color in the prose. The chart
+# plates keep doctrine colors (blue own / red hostile / amber target) because
+# real aeronautical charts are printed in color; everything else is what a
+# squadron photocopier could reproduce.
+# FLIGHTLINE TECHNICAL — all values from missiongen/brand.py (the one token
+# source). NAVY is the kit's section-identity color and the masthead band is
+# navy again (the black band was the v1.55.0 interim). The classification
+# banner is replaced by the identity rail per the kit's explicit guidance.
+from .brand import COLORS, font as _brand_font, rail_text
+
+PAPER = COLORS.paper
+INK = COLORS.ink
+NAVY = COLORS.navy
+GOLD = COLORS.rule            # legacy name; now the kit's rule gray
+DIM = COLORS.slate
 TAN = (216, 209, 187)          # terrain ground (style-guide plates)
 GRID = (150, 140, 110)
 
@@ -45,30 +58,45 @@ _F = "/usr/share/fonts/truetype/dejavu/"
 
 
 def _fonts():
-    try:
-        return {
-            "h1": ImageFont.truetype(_F + "DejaVuSans-Bold.ttf", 64),
-            "h2": ImageFont.truetype(_F + "DejaVuSans-Bold.ttf", 40),
-            "h3": ImageFont.truetype(_F + "DejaVuSans-Bold.ttf", 30),
-            "mono": ImageFont.truetype(_F + "DejaVuSansMono.ttf", 28),
-            "mono_b": ImageFont.truetype(_F + "DejaVuSansMono-Bold.ttf", 28),
-            "mono_s": ImageFont.truetype(_F + "DejaVuSansMono.ttf", 22),
-            "small": ImageFont.truetype(_F + "DejaVuSans.ttf", 24),
-        }
-    except OSError:
-        f = ImageFont.load_default()
-        return {k: f for k in ("h1", "h2", "h3", "mono", "mono_b", "mono_s", "small")}
+    """Kit roles at brief sizes. `small` — the paragraph face — becomes the
+    kit's SERIF body (Source Serif 4): the brief is the product's long-form
+    print document, and serif body over sans headings is the technical-manual
+    convention the kit preserves. Labels/tables stay sans and mono."""
+    return {
+        # Authentic v2.1: Bangers is the page banner (H1 only); Barlow
+        # Condensed ExtraBold is every SECTION head; Barlow Bold subheads.
+        "banner": _brand_font("banner", 66),
+        "h1": _brand_font("display", 50),
+        "h2": _brand_font("display_bold", 40),
+        "h3": _brand_font("display", 30),
+        "mono": _brand_font("mono", 28),
+        "mono_b": _brand_font("mono_med", 28),
+        "mono_s": _brand_font("mono", 22),
+        "small": _brand_font("serif", 25),
+        "label": _brand_font("sans_bold", 22),
+    }
 
 
 def _page(title, subtitle):
+    """The Authentic page (missiongen/authentic.py): navy band with the
+    identity rail left and the locator right in mono; the banner title in
+    Bangers below it; a Source Sans subtitle; hairline mono footer."""
+    from . import authentic as _auth
     img = Image.new("RGB", (W, H), PAPER)
     d = ImageDraw.Draw(img)
     f = _fonts()
-    d.rectangle([0, 0, W, 150], fill=NAVY)
-    d.text((60, 34), title, font=f["h2"], fill=(255, 255, 255))
-    d.text((60, 96), subtitle, font=f["small"], fill=(159, 176, 195))
-    d.rectangle([0, 150, W, 156], fill=GOLD)
-    d.text((W - 320, H - 46), f"Sortie Starter v{__version__}",
+    # Band: the identity (publication · product · revision) left, the
+    # locator right. The subject goes UNDER the banner, not in the band —
+    # a long subject and a locator cannot share 1,300 px of mono.
+    _auth.pil_band(d, W, rail_text(""), f"SORTIE STARTER / {title}",
+                   f["mono_s"], band_h=56, pad=60)
+    d.text((60, 70), title.upper(), font=f["banner"], fill=NAVY)
+    d.text((60, 148), subtitle, font=f["label"], fill=DIM)
+    d.line([60, H - 66, W - 60, H - 66], fill=GOLD, width=2)
+    d.text((60, H - 52), "DSS 1-1B  ·  FOR SIMULATION USE ONLY",
+           font=f["mono_s"], fill=DIM)
+    tail = f"{_auth.NOT_AFFILIATED}  ·  v{__version__}"
+    d.text((W - 60 - d.textlength(tail, font=f["mono_s"]), H - 52), tail,
            font=f["mono_s"], fill=DIM)
     return img, d, f
 
@@ -78,52 +106,172 @@ def _kv(d, f, x, y, label, value, vcol=INK):
     d.text((x, y + 30), str(value), font=f["mono_b"], fill=vcol)
 
 
-# ---------------------------------------------------------------- page 1: data
+HOUR = {"dawn": "05", "day": "12", "dusk": "18", "night": "22"}
+MONTH_ABBR = "JUN"      # mission date is pinned to 21 June of the era year
+
+
+def _dtg(ctx):
+    """Military DTG (D-6): '210500L JUN 1978', not ISO. We set the mission
+    clock, so we know it — deterministic per recipe."""
+    r = ctx["recipe"]
+    # A timing anchor (push/TOT) can move the mission clock off the preset;
+    # when it has, the builder records the moved clock and the DTG prints it.
+    moved = (ctx.get("stats") or {}).get("start_clock")
+    hhmm = moved.replace(":", "") if moved else f"{HOUR.get(r.time_of_day, '12')}00"
+    return f"21{hhmm}L {MONTH_ABBR} {ctx['era_year']}"
+
+
+def _wrap(d, font, text, width_px):
+    words, lines, cur = text.split(), [], ""
+    for w in words:
+        t = (cur + " " + w).strip()
+        if d.textlength(t, font=font) > width_px and cur:
+            lines.append(cur); cur = w
+        else:
+            cur = t
+    if cur:
+        lines.append(cur)
+    return lines
+
+
+def _smea(ctx):
+    """SITUATION / MISSION / EXECUTION text (D-1): the brief opens like a
+    briefing, not a settings receipt. All composed from recipe + stats —
+    deterministic, and honest about what the engine actually placed."""
+    from .acnames import display as _acd
+    r = ctx["recipe"]; stats = ctx["stats"]
+    n_enemy = len(ctx.get("enemy_fields", []))
+    threat = stats.get("threat_level", "unassessed")
+    tier = (r.threat_tier or "auto")
+
+    situation = (f"{ctx['era_label']} · {ctx['map_label']}. Opposing forces "
+                 f"operate from {n_enemy} known airfields; assessed air-defense "
+                 f"posture: {threat}."
+                 + (" All known systems are GUNS — no radar SAM threat exists "
+                    "in this theater." if tier == "guns" else
+                    " Threat rings and the numbered order of battle are on the "
+                    "theater chart."))
+    # Enemy air, in the SITUATION paragraph where a real brief puts it: what
+    # they fly AND what they carry. The fit changes how you fight them, so it
+    # belongs in the words, not only in a table further down.
+    air = _loadouts.summarize(stats.get("enemy_air"))
+    if air:
+        situation += (" Enemy air: "
+                      + "; ".join(f"{a['count']}× {a['type']} "
+                                  f"({_loadouts.ROLE_TAGS.get(a['role'], a['role'])}) "
+                                  f"with {a['fit'].split(' · ')[0]}"
+                                  for a in air[:3])
+                      + ". Fits and what they mean are on the theater chart.")
+    elif stats.get("no_enemy_air"):
+        # Stated, not implied. "No enemy air listed" reads as a gap in the
+        # brief; "there is no enemy air force" is the intelligence, and it is
+        # what changes how the sortie is flown — nothing forces you off the
+        # target but the gun line, and the gun line is why you stay high.
+        situation += (" There is NO ENEMY AIR FORCE. Nothing will contest you "
+                      "in the air; every threat in this theater fires from the "
+                      "ground, and most of it is optically aimed.")
+
+    tgt_labels = [t for t in stats.get("targets", [])]
+    if stats.get("route"):
+        mission = (f"Conduct a routed strike: {stats['route']}. "
+                   f"Your flight plan is loaded — fly the black line, hit your "
+                   f"TOT. The route is a starting point, not an order: the "
+                   f"target is where it says and everything between it and the "
+                   f"runway is yours to change.")
+    elif stats.get("bfm"):
+        bandit = next((a for a in air if a.get("role") == "bfm"), None)
+        mission = ("Air combat training: engage and defeat your adversary "
+                   f"({stats['bfm'].split('(')[-1].rstrip(')')}) at the merge. "
+                   + (f"He is carrying {bandit['fit']}. {bandit['implication']} "
+                      if bandit else "")
+                   + "Knock it off at a kill, the deck, or bingo.")
+    elif r.template == "qf_tanker":
+        mission = ("Aerial refueling training: locate the tanker, fly the "
+                   "join-up, and cycle contacts until fuel or patience runs out.")
+    elif tgt_labels:
+        mission = (f"Strike the marked package(s): {', '.join(tgt_labels[:3])} "
+                   "— positions on the theater chart and the F10 map. "
+                   "Routing is yours: no waypoints are placed.")
+    else:
+        mission = ("Open tasking. The theater is set and live; targets of "
+                   "opportunity per the F10 picture. You own the flight plan — "
+                   "no waypoints are placed.")
+
+    sup = stats.get("support", [])
+    execution = ((f"On station: {', '.join(sup[:4])}. " if sup else
+                  "No airborne support tasked. ")
+                 + "Comm ladder and TACAN on the COMMS/NAV page; the same "
+                   "charts ride the in-jet kneeboard. "
+                 + ("Guns defend the target — plan the run-in and off-target "
+                    "turn before you commit. One pass." if tier == "guns" else
+                    "Respect the WEZ rings; they are drawn to scale."))
+    return situation, mission, execution
+
+
+# ---------------------------------------------------------------- page 1: brief
 def page_mission_data(ctx, comms):
+    from .acnames import display as _acd
     r = ctx["recipe"]
     stats = ctx["stats"]
     img, d, f = _page("MISSION BRIEF", "Pre-flight briefing pack — pairs with the .miz")
-    d.text((60, 210), f'{ctx["map_label"]} · {ctx["era_label"]}', font=f["h1"], fill=NAVY)
-    d.text((60, 300), f'{r.coalition.upper()} · {r.aircraft} · '
-                      f'{"THE CARRIER" if ctx["carrier_home"] else ctx["home"].name}',
-           font=f["h3"], fill=GOLD)
+    d.text((60, 200), f'{ctx["map_label"]} · {ctx["era_label"]}', font=f["h1"], fill=NAVY)
+    d.text((60, 290), f'{r.coalition.upper()} · {_acd(r.aircraft)} · '
+                      f'{"THE CARRIER" if ctx["carrier_home"] else ctx["home"].name}'
+                      f' · DTG {_dtg(ctx)}',
+           font=f["h3"], fill=DIM)
 
-    y = 420
-    d.line([60, y - 20, W - 60, y - 20], fill=(223, 227, 232), width=2)
-    col1, col2, col3 = 60, 540, 1010
-    _kv(d, f, col1, y, "start", r.start)
-    _kv(d, f, col2, y, "time of day", r.time_of_day)
-    _kv(d, f, col3, y, "weather", r.weather)
-    y += 110
+    # ---- SITUATION / MISSION / EXECUTION (D-1) -----------------------------
+    y = 390
+    for head, text, col in zip(
+            ("SITUATION", "MISSION", "EXECUTION"), _smea(ctx),
+            (INK, NAVY, INK)):
+        d.text((60, y), head, font=f["h3"], fill=INK)
+        d.line([60, y + 42, W - 60, y + 42], fill=GOLD, width=2)
+        y += 56
+        for line in _wrap(d, f["small"], text, W - 150)[:6]:
+            d.text((60, y), line, font=f["small"], fill=col)
+            y += 34
+        y += 26
+
+    # ---- mission data strip (compressed; the old page was ONLY this) -------
+    d.line([60, y, W - 60, y], fill=(223, 227, 232), width=2)
+    y += 18
     if ctx.get("qnh_hpa"):
         from . import pressure
         qnh = pressure.format_qnh(ctx["qnh_hpa"]).split(" / ")[0]
     else:
-        qnh = "29.92 inHg std"
-    _kv(d, f, col1, y, "qnh / altimeter", qnh)
-    _kv(d, f, col2, y, "threat", stats.get("threat_level", "—"))
-    _kv(d, f, col3, y, "variation (seed)", r.seed)
-    y += 110
-    _kv(d, f, col1, y, "support", ", ".join(stats.get("support", [])[:3]) or "none")
-    _kv(d, f, col3, y, "template", r.template or "custom")
-
-    # aligned nations strip
-    y += 130
+        qnh = "29.92 inHg"
+    col1, col2, col3, col4 = 60, 420, 780, 1110
+    _kv(d, f, col1, y, "start", r.start)
+    _kv(d, f, col2, y, "conditions", f"{r.time_of_day} / {r.weather}")
+    _kv(d, f, col3, y, "qnh", qnh)
+    _kv(d, f, col4, y, "variation", r.seed)
+    y += 106
     if stats.get("alignment"):
         d.text((60, y), "COALITION (International Alignment)", font=f["mono_s"], fill=DIM)
-        d.text((60, y + 30), " · ".join(stats["alignment"]), font=f["mono_b"], fill=CYAN)
-        y += 100
+        d.text((60, y + 30), " · ".join(stats["alignment"])[:80], font=f["mono_b"], fill=CYAN)
 
-    # how-to strip
-    d.rectangle([60, H - 372, W - 60, H - 120], outline=GOLD, width=3)
-    d.text((90, H - 344), "GET FLYING", font=f["h3"], fill=NAVY)
+    # ---- tasking excerpt (scenario templates carry their own words) --------
+    tpl_brief = []
+    if r.template:
+        tpl = load_json("mission_templates").get(r.template) or {}
+        tpl_brief = tpl.get("brief", [])[:9]
+    if tpl_brief:
+        by = y + 110
+        d.rectangle([60, by, W - 60, by + 44 + 34 * len(tpl_brief)],
+                    outline=(223, 227, 232), width=2)
+        d.text((90, by + 12), "TASKING (as briefed in the .miz)", font=f["mono_s"], fill=DIM)
+        for i, line in enumerate(tpl_brief):
+            d.text((90, by + 46 + i * 34), line[:88], font=f["mono_s"], fill=INK)
+
+    # ---- get-flying strip (kept, tightened) --------------------------------
+    d.rectangle([60, H - 300, W - 60, H - 120], outline=GOLD, width=3)
+    d.text((90, H - 276), "GET FLYING", font=f["h3"], fill=NAVY)
     for i, line in enumerate([
-            "1. Drop the .miz into Saved Games/DCS/Missions",
-            "2. This brief = the pre-flight read; the same charts ride in-jet on the kneeboard",
-            "3. COMM1 presets are pre-tuned — channels on the COMMS page",
-            f"4. Variation (seed) {r.seed}: same settings + seed rebuild THIS exact mission —",
-            "   share it and a friend gets the identical flight. New seed = fresh layout."]):
-        d.text((90, H - 292 + i * 34), line, font=f["small"], fill=INK)
+            "1. Drop the .miz into Saved Games/DCS/Missions — COMM1 presets are pre-tuned",
+            "2. Same charts ride in-jet on the kneeboard (RShift+K)",
+            f"3. Variation {r.seed}: same settings + seed rebuild THIS exact mission — share it"]):
+        d.text((90, H - 224 + i * 34), line, font=f["small"], fill=INK)
     return img
 
 
@@ -267,6 +415,9 @@ def page_theater_chart(ctx):
         pd.ellipse([sx + 10, sy - 30, sx + 40, sy], fill=PAPER, outline=RED_DK, width=2)
         pd.text((sx + 18 - (4 if i >= 10 else 0), sy - 28), str(i),
                 font=f["mono_b"], fill=RED_DK)
+        # D-3: the glyph + number bubble now claim their space, so target and
+        # airfield labels stop rendering straight through them
+        boxes.append((sx - 18, sy - 34, sx + 44, sy + 18))
         threat_oob.append((i, label))
 
     # ---- targets -----------------------------------------------------------
@@ -323,7 +474,7 @@ def page_theater_chart(ctx):
                  outline=NAVY, width=3)
     pd.text((28, PH - tb_h + 0), f"{ctx['map_label'].upper()} · {ctx['era_label'].upper()}",
             font=f["mono_b"], fill=NAVY)
-    pd.text((28, PH - tb_h + 34), f"DTG {ctx['era_year']}-06-21 · {r.time_of_day.upper()}"
+    pd.text((28, PH - tb_h + 34), f"DTG {_dtg(ctx)}"
             f" · VARIATION {r.seed}", font=f["mono_s"], fill=INK)
     pd.text((28, PH - tb_h + 64), "SCHEMATIC · NOT FOR NAVIGATION",
             font=f["mono_s"], fill=RED_DK)
@@ -352,6 +503,22 @@ def page_theater_chart(ctx):
             if col_n == 4:
                 col_n = 0; y -= 4 * 32; col_x += 460
         y = PY0 + PH + 26 + 44 + 4 * 32 + 10
+
+    # ---- ENEMY AIR: what they fly, what they CARRY, and what that means ----
+    # The order of battle above tells you where the SAMs are. This tells you
+    # how to fight the jets — the half that changes your plan at the merge.
+    air = _loadouts.brief_lines(ctx["stats"].get("enemy_air"))
+    if air:
+        d.text((60, y), "ENEMY AIR", font=f["h3"], fill=RED_DK)
+        y += 44
+        for who, fit, imp in air[:3]:
+            d.text((60, y), who[:26], font=f["mono_s"], fill=INK)
+            d.text((400, y), fit[:56], font=f["mono_s"], fill=INK)
+            y += 32
+            for ln in _wrap(d, f["mono_s"], imp, W - 520)[:2]:
+                d.text((400, y), ln, font=f["mono_s"], fill=RED_DK)
+                y += 28
+            y += 10
     ly = max(y + 6, H - 120)
     items = [(BLUE_INK, "○ friendly field / orbit"), (RED_DK, "◇ hostile field"),
              (RED, "WEZ ring #n"), (AMBER_INK, "target"), (GOLD, "★ start"),
@@ -391,11 +558,52 @@ def page_comms_nav(ctx, comms, nav_points, qnh_hpa):
         y += 70
     if nav_points:
         d.text((60, y), "NAV REFERENCE POINTS", font=f["h3"], fill=NAVY); y += 52
-        for name, p in nav_points[:10]:
+        for name, p in nav_points[:8]:
             ll = p.latlng()
             d.text((90, y), f"{name[:30]:32} {ll.lat:8.4f}  {ll.lng:9.4f}",
                    font=f["mono_s"], fill=INK)
             y += 38
+        y += 30
+
+    # ---- ADMIN (D-5/D-7): what the deleted page 4 should always have been —
+    # divert data a pilot can act on, plus fill-in fuel planning boxes.
+    from . import alignment
+    r = ctx["recipe"]
+    align = alignment.bases(r.map, r.era)
+    d.text((60, y), "ADMIN — DIVERTS", font=f["h3"], fill=NAVY); y += 52
+    home = ctx["home"]
+    rows = []
+    if not ctx["carrier_home"]:
+        for ap in ctx["own_fields"]:
+            if ap.name == home.name:
+                continue
+            dx = ap.position.x - home.position.x
+            dy = ap.position.y - home.position.y
+            rng_nm = math.hypot(dx, dy) / NM
+            brg = math.degrees(math.atan2(dy, dx)) % 360
+            rwy = f"RWY {int(ap.runways[0].main.heading):03d}" if ap.runways else ""
+            rows.append((rng_nm, ap.name, brg, rwy, align.get(ap.name, "")))
+    for rng_nm, name, brg, rwy, owner in sorted(rows)[:4]:
+        d.text((90, y), f"{name[:22]:<24}{int(brg):03d}° / {rng_nm:3.0f} nm   "
+                        f"{rwy:<9} {owner[:14]}", font=f["mono_s"], fill=INK)
+        y += 38
+    if not rows:
+        d.text((90, y), "Recovery: THE CARRIER — Marshal per the comm ladder",
+               font=f["mono_s"], fill=INK)
+        y += 38
+    y += 26
+    d.text((60, y), "FUEL", font=f["h3"], fill=NAVY); y += 52
+    from .kneeboard import fuel_lines
+    fl = fuel_lines(ctx.get("fuel_max_kg"))
+    for lab in ("JOKER", "BINGO"):
+        d.text((90, y + 6), lab, font=f["mono_b"], fill=INK)
+        d.rectangle([260, y, 640, y + 44], outline=(180, 180, 180), width=2)
+        if fl:
+            d.text((276, y + 8), f"{fl[lab][0]} / {fl[lab][1]}", font=f["mono"], fill=INK)
+        y += 60
+    if fl:
+        d.text((90, y), "plan: JOKER 50% · BINGO 33% internal — adjust for stores and range",
+               font=f["mono_s"], fill=DIM)
     return img
 
 
@@ -447,12 +655,30 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
          f"> **Variation {r.seed}:** the same settings + seed rebuild *this exact "
          "mission* every time — share them and a friend flies the identical "
          "flight. Change the seed for a fresh layout of the same setup.", ""]
+    if stats.get("callsign"):
+        L += [f"**Callsign {stats['callsign']}.** " + (stats.get("callsign_heritage") or ""), ""]
     if stats.get("alignment"):
         L += [f"Coalition nations: {' · '.join(stats['alignment'])}", ""]
-    L += ["## Comms", "", "| Agency | C/S | Freq MHz | CHAN | TACAN |",
-          "|---|---|---|---|---|"]
-    for agency, cs_, fq, tacan, _n in comms.entries[:15]:
-        L.append(f"| {agency} | {cs_} | {fq} | {comms.chan_label(agency)} | {tacan} |")
+    # THE NOTES COLUMN. It used to be dropped here (`_n`), and the kneeboard
+    # PNG was the only place ICLS, Link 4, ACLS and the BRC appeared — small
+    # gray text under a row, on an image, inside the .miz. Casmo flew a Case III
+    # and said "I have zero idea how to do a case 3 recovery so I was flying
+    # around blind." He could not have read the ICLS channel before he started,
+    # because the brief he read before he started did not contain it. A boat
+    # card that only exists after you are strapped in is not a boat card.
+    L += ["## Comms", "", "| Agency | C/S | Freq MHz | CHAN | TACAN | Notes |",
+          "|---|---|---|---|---|---|"]
+    for agency, cs_, fq, tacan, note in comms.entries[:15]:
+        # A stray pipe in a note would silently split the row into two cells.
+        note = (note or "").replace("|", "\\|")
+        L.append(f"| {agency} | {cs_} | {fq} | {comms.chan_label(agency)} "
+                 f"| {tacan} | {note} |")
+    if stats.get("player_loadout"):
+        L += ["", "## Your loadout", "",
+              f"**{stats['player_loadout']}**", "",
+              "Fitted for the mission type you picked. Every store is one DCS "
+              "allows on that station and one that existed in this era. "
+              "Change it in the Mission Editor if you want something else.", ""]
     L += ["", "## Your side", ""]
     for ap in ctx["own_fields"]:
         star = "**★ " if (ap.name == ctx["home"].name and not ctx["carrier_home"]) else ""
@@ -461,8 +687,58 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
     L += ["", "## Enemy picture", ""]
     for ap in ctx["enemy_fields"]:
         L.append(f"- {ap.name}" + (f" — {align[ap.name]}" if ap.name in align else ""))
-    L += ["", f"Threat: {stats.get('threat_level', '—')}", "",
-          "## Support", ""] + [f"- {s}" for s in stats.get("support", [])]
+    L += ["", f"Threat: {stats.get('threat_level', '—')}", ""]
+    air = _loadouts.brief_lines(stats.get("enemy_air"))
+    if air:
+        L += ["## Enemy air", ""]
+        for who, fit, imp in air:
+            L.append(f"- **{who}** — {fit}")
+            if imp:
+                L.append(f"  - {imp}")
+        L += [""]
+    L += ["## Support", ""] + [f"- {s}" for s in stats.get("support", [])]
+    if stats.get("nttr"):
+        n = stats["nttr"]
+        L += ["", f"## {n.get('title', 'Corridors')}", "", n["md_line"]]
+        body = n["brief"][n["brief"].index("") + 1:]     # after the intro block
+        for ln in body:
+            if not ln.strip():
+                continue
+            L.append(("- " if not ln.startswith("  ") else "  ") + ln.strip())
+        L.append("")
+    if stats.get("timing"):
+        # THE CLOCK ON THE CARD — the same plan the kneeboard and the in-game
+        # text print, so the three cannot disagree.
+        from .timing import mmss as _mmss
+        t = stats["timing"]
+        a = t.get("anchor", "takeoff")
+        L += ["", "## Timing", ""]
+        if a == "takeoff":
+            L.append(f"**Anchor: TAKEOFF.** Wheels up {t.get('takeoff_clock')} "
+                     f"({t.get('ground_s', 0) // 60} min after the mission clock starts).")
+        else:
+            L.append(f"**Anchor: {a.upper()} {t.get('anchor_clock')} at {t.get('anchor_wp')}**, "
+                     f"tolerance ±{t.get('tolerance_s')} s. Wheels up {t.get('takeoff_clock')}; "
+                     f"mission clock {t.get('start_clock')}.")
+        if t.get("hold_s"):
+            L.append(f"Hold {t['hold_s'] // 60} min at WP1 — push at the WP1 ETA, not on arrival.")
+        L += ["", "| To | GS kt | Leg | Cum | ETA |", "|---|---|---|---|---|"]
+        for row in t.get("rows", []):
+            hold = f" (+{row['hold_s'] // 60} min hold)" if row.get("hold_s") else ""
+            L.append(f"| {row['to']} | {row['gs_kt']} | {_mmss(row['leg_s'])} | "
+                     f"{_mmss(row['cum_s'])} | {row['eta']}{hold} |")
+        L.append("")
+        L.append("First leg timed on a climb schedule; "
+                 + ("groundspeeds include the mission's winds aloft."
+                    if t.get("wind") else "no wind in this mission."))
+        if stats.get("timing_coach_triggers"):
+            L.append("The timing coach grades wheels-up, WP1, IP and TARGET "
+                     "in-mission and opens a scorecard a minute after the target.")
+    if stats.get("known_issues"):
+        # Every expert campaign carries this page. Ours is generated per
+        # mission, so the callsign line is about THIS jet.
+        L += ["", "## What DCS will get wrong", ""]
+        L += [f"- {k}" for k in stats["known_issues"]]
     if nav_points:
         L += ["", "## Nav reference points", ""]
         for name, p in nav_points:
@@ -473,21 +749,58 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
     return "\n".join(L)
 
 
+def page_nttr_chart(plan):
+    from . import corridor_chart as _nc, corridors as _cor
+    t = _cor.data(plan.get("map", "nevada")).get("text", {})
+    img, d, f = _page(t.get("chart_title", "CORRIDORS"), t.get("brief_page_subtitle", "this mission's road in red"))
+    img.paste(_nc.render_panel(W - 120, 900, plan=plan, scale=1.4), (60, 200))
+    img.paste(_nc.render_terminal(W - 120, 560, plan=plan, scale=1.4), (60, 200 + 900 + 14))
+    y = 200 + 900 + 14 + 560 + 26
+    for ln in _nc.legend_lines(plan)[:3]:
+        for wl in _wrap(d, f["small"], ln, W - 120):
+            d.text((60, y), wl, font=f["small"], fill=INK)
+            y += 34
+        y += 6
+    return img
+
+
 def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
     """Render the 4-page brief PDF (+ optional markdown). Returns page count."""
     ctx = dict(brief_ctx)
     ctx["own_fields"] = kb_ctx["own_fields"]
     ctx["enemy_fields"] = kb_ctx["enemy_fields"]
     ctx["qnh_hpa"] = kb_ctx.get("qnh_hpa")
+    ctx["fuel_max_kg"] = kb_ctx.get("fuel_max_kg")
     comms = kb_ctx["comms"]
     nav_points = kb_ctx.get("nav_points") or []
     qnh = kb_ctx.get("qnh_hpa")
+    # D-7: the old page 4 (Airfields & Forces) duplicated page 1's support list
+    # and named enemy fields with no actionable data; its useful half (diverts,
+    # owners) now lives in page 3's ADMIN block. Three pages, no filler.
     pages = [
         page_mission_data(ctx, comms),
         page_theater_chart(ctx),
         page_comms_nav(ctx, comms, nav_points, qnh),
-        page_forces(ctx),
     ]
+    if kb_ctx.get("nttr_plan"):
+        # The NTTR corridor chart: the road this mission flies, on the
+        # airspace it flies through (nttr_chart.py).
+        pages.append(page_nttr_chart(kb_ctx["nttr_plan"]))
+    # Page locator, centered in the footer rail. The classification-style line
+    # this used to print is retired with the Flightline adoption — the kit is
+    # explicit about not imitating classification markings, and the _page()
+    # footer already carries the form id and the simulation-use note.
+    fts = _fonts()
+    from . import authentic as _auth
+    left_end = 60 + fts["mono_s"].getlength("DSS 1-1B  ·  FOR SIMULATION USE ONLY")
+    tail_start = W - 60 - fts["mono_s"].getlength(f"{_auth.NOT_AFFILIATED}  ·  v{__version__}")
+    for i, pg in enumerate(pages, 1):
+        dd = ImageDraw.Draw(pg)
+        loc = f"PAGE {i} OF {len(pages)}"
+        lw = dd.textlength(loc, font=fts["mono_s"])
+        # Centered in the GAP between the form number and the tail, not on the
+        # page: centered on the page it sat on top of "Not affiliated with".
+        dd.text(((left_end + tail_start - lw) / 2, H - 52), loc, font=fts["mono_s"], fill=DIM)
     # Pillow's PDF writer JPEG-compresses RGB pages, but looks up the JPEG
     # plugin directly in Image.SAVE — which is only populated after init().
     # Without this, saving raises KeyError('JPEG') or falls back to a 20 MB+

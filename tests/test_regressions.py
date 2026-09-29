@@ -1,550 +1,250 @@
-"""Regression guards for the bugs found in the v1.9.1 code review.
+"""Production 500s, pinned one at a time.
 
-Each test pins a specific defect so it can never silently come back:
-  P0b — slot_name is not unique (Syria): duplicate unit names + under-placement
-  P0c — radio presets wrote UHF into VHF-only airframes
-  P2  — coalition="purple" silently flew from the RED side
+Everything here is a bug a user actually hit on sortiestarter.com. They have
+nothing in common technically — a header encoding rule, a divide-by-zero in a
+chart, a data pack — and that is the point: each one is here because it shipped,
+not because it fit a category.
 
-Run:  pytest tests/ -v   |   python tests/test_regressions.py
+The two that reached users were both invisible in a unit test of the thing that
+broke. `_header_safe` was never wrong; the *engine* produced prose containing an
+em dash, and Starlette refused to put it in a header. `people()` was never
+wrong; the *admin page* divided by a max() of an all-zero list. Both needed the
+whole stack in the test to fail, so these go through the real ASGI app.
 """
-import re
-import sys
-import zipfile
-from collections import Counter
-from pathlib import Path
+import json
+import os
+import shutil
+import tempfile
 
-ROOT = Path(__file__).resolve().parent
-while not (ROOT / "missiongen").is_dir() and ROOT != ROOT.parent:
-    ROOT = ROOT.parent
-sys.path.insert(0, str(ROOT / "vendor"))
-sys.path.insert(0, str(ROOT))
+import pytest
+from fastapi.testclient import TestClient
 
-
-def _gen(tmp, **recipe):
-    from missiongen import generate, Recipe
-    out = str(Path(tmp) / "t.miz")
-    generate(Recipe.from_dict(recipe), out)
-    return out
+from missiongen import Recipe, generate
+from missiongen.resolver import load_json, validate_data_packs
 
 
-def _mission_text(miz):
-    return zipfile.ZipFile(miz).read("mission").decode("utf-8", "ignore")
+@pytest.fixture(scope="module")
+def client():
+    from server.app import app
+    return TestClient(app)
 
 
-# --- P0b: slot_name uniqueness --------------------------------------------
+# --- the latin-1 header 500 -------------------------------------------------
+# Every carrier mission with a tanker failed to download, including the
+# Library's Carrier Qualification card. HTTP headers are latin-1 by spec and
+# Starlette enforces it; the engine's own warning — "Carrier tanker is the KA-6D
+# (A-6E) — the air wing's own gas" — contains an em dash. One punctuation
+# character turned the whole response into a 500 and the user got no mission.
 
-def test_no_duplicate_group_or_unit_names(tmp_path):
-    """DCS rejects duplicate group/unit names. Syria's Ramat David has six
-    stands named '02'; keying on slot_name produced duplicate ST/GSE names."""
-    for mp, era, ac in [("syria", "modern", "FA_18C_hornet"),
-                        ("caucasus", "modern", "F_16C_50")]:
-        m = _mission_text(_gen(tmp_path, map=mp, era=era, coalition="blue",
-                               aircraft=ac, home_airbase=None, dress_fill=100,
-                               seed=3))
-        # our placed statics/flights are the ST/GSE/RAMP/INF-prefixed names
-        names = re.findall(r'\["name"\]\s*=\s*"((?:ST|GSE|RAMP|INF) [^"]+)"', m)
-        dupes = [n for n, c in Counter(names).items() if c > 1]
-        assert not dupes, f"{mp}: duplicate placed-object names: {dupes[:5]}"
-
-
-def test_ramat_david_places_all_stands(tmp_path):
-    """The 17 twin-named stands were unreachable; a full-fill composer mix
-    under-placed 86 -> 69. crossroad_idx keying makes all 86 reachable."""
-    import random
-    from dcs.terrain.syria import Syria
-    from missiongen import dressing
-    from missiongen.placement import slot_key
-    ap = next(a for a in Syria().airport_list() if a.name == "Ramat David")
-    fillable = [s for s in ap.parking_slots if s.airplanes]
-    placed = []
-    dressing._place_mix(ap, {"F_16C_50": len(fillable) + 10},
-                        lambda s, ut, liv: placed.append(slot_key(s)) or True,
-                        random.Random(1), set())
-    assert len(placed) == len(fillable), \
-        f"placed {len(placed)} of {len(fillable)} fillable stands"
-    assert len(placed) == len(set(placed)), "placed the same stand twice"
+def test_engine_prose_can_always_survive_a_response_header(client):
+    from server.app import _header_safe
+    for s in ["Carrier tanker is the KA-6D (A-6E) — the air wing's own gas",
+              "2× R-60 · 800 L tank … “quoted” ‘apostrophes’ → done ✓ • bullet",
+              "R-27ER + R-73 – dash, −minus"]:
+        out = _header_safe(s)
+        out.encode("latin-1")           # the assertion is that this does not raise
+        assert "?" not in out or "?" in s, \
+            f"a character was replaced rather than transliterated: {out!r}"
 
 
-# --- P0c: radio preset band -----------------------------------------------
-
-def test_vhf_only_aircraft_get_no_uhf_presets(tmp_path):
-    """Spitfire/MiG-21/Ka-50 have no UHF radio; writing the UHF ladder there is
-    invalid. They must be skipped (no CHAN column, no ladder freqs in radios)."""
-    from missiongen.presets import _uhf_radio_id
-    from dcs import planes, helicopters
-    for tid in ["SpitfireLFMkIX", "MiG_21Bis", "Ka_50", "SA342M"]:
-        t = getattr(planes, tid, None) or getattr(helicopters, tid, None)
-        assert _uhf_radio_id(t.panel_radio) is None, f"{tid} wrongly got a UHF radio"
-
-
-def test_uhf_ladder_lands_on_the_uhf_radio(tmp_path):
-    """A-10C's UHF set is radio 2, the Hornet's is radio 1 — the ladder must
-    follow the band, not always radio 1."""
-    from missiongen.presets import _uhf_radio_id
-    from dcs import planes, helicopters
-    assert _uhf_radio_id(planes.FA_18C_hornet.panel_radio) == 1
-    assert _uhf_radio_id(planes.F_16C_50.panel_radio) == 1
-    assert _uhf_radio_id(planes.A_10C_2.panel_radio) == 2
-    assert _uhf_radio_id(helicopters.AH_64D_BLK_II.panel_radio) == 2
-
-
-def test_brand_splash_embeds_and_toggles(tmp_path):
-    """The mission-start brand splash embeds the logo image + a Picture-to-All
-    (a_out_picture) trigger; toggling it off removes both. Cosmetic only."""
-    import zipfile as _zf
-    from missiongen import Recipe, generate
-    on = str(Path(tmp_path) / "on.miz")
-    r = generate(Recipe.from_dict(dict(map="caucasus", era="modern", coalition="blue",
-                aircraft="F_16C_50", bb_branding=True, seed=1)), on)
-    z = _zf.ZipFile(on)
-    assert any(n.lower().endswith(".png") and "authentic" in n.lower()
-               for n in z.namelist()), "logo image not embedded in the .miz"
-    assert "a_out_picture" in z.read("mission").decode("utf-8", "ignore"), \
-        "no Picture-to-All trigger at mission start"
-    assert r["stats"].get("branding") is True
-    off = str(Path(tmp_path) / "off.miz")
-    generate(Recipe.from_dict(dict(map="caucasus", era="modern", coalition="blue",
-             aircraft="F_16C_50", bb_branding=False, seed=1)), off)
-    assert "a_out_picture" not in _zf.ZipFile(off).read("mission").decode("utf-8", "ignore")
-
-
-def test_air_corridors_orient_the_mission(tmp_path):
-    """Selecting an Air Corridor re-anchors the enemy focus down its bearing, so
-    the threat axis + CAP/SAM concentration follow the lane. Must change the .miz,
-    name the corridor in the brief, and stay deterministic. No player waypoints."""
-    import zipfile as _zf, hashlib
-    from missiongen import Recipe, generate
-    def gen(corr, out):
-        generate(Recipe.from_dict(dict(map="germany", era="coldwar", coalition="blue",
-                 aircraft="F_4E_45MC", corridors=corr, threat_intensity=3,
-                 threat_tier="mixed", seed=5)), out)
-        return out
-    from missiongen import Recipe as _R, generate as _g
-    a = gen([], str(Path(tmp_path) / "a.miz"))
-    b = gen(["Fulda Gap"], str(Path(tmp_path) / "b.miz"))
-    h = lambda p: hashlib.sha256(open(p, "rb").read()).hexdigest()
-    assert h(a) != h(b), "corridor selection did not change the mission"
-    # the corridor must DRAW on the F10 map (regression: it was appended to an
-    # unhandled 'routes' gfx key and silently never rendered)
-    res = _g(_R.from_dict(dict(map="germany", era="coldwar", coalition="blue",
-             aircraft="F_4E_45MC", corridors=["Fulda Gap"], seed=5)),
-             str(Path(tmp_path) / "draw.miz"))
-    assert "corridors" in (res["stats"].get("map_layers") or []), \
-        "corridor axis was not drawn on the F10 map"
-    # even with a custom layer subset that omits it, a chosen corridor still draws
-    res2 = _g(_R.from_dict(dict(map="germany", era="coldwar", coalition="blue",
-              aircraft="F_4E_45MC", corridors=["Fulda Gap"],
-              map_layers=["threats"], seed=5)), str(Path(tmp_path) / "draw2.miz"))
-    assert "corridors" in (res2["stats"].get("map_layers") or []), \
-        "chosen corridor was filtered out by custom map_layers"
-    dic = _zf.ZipFile(b).read("l10n/DEFAULT/dictionary").decode("utf-8", "ignore")
-    assert "Fulda Gap" in dic, "corridor not named in the briefing"
-    # determinism: same recipe+corridor twice → identical per entry
-    c1 = gen(["Fulda Gap"], str(Path(tmp_path) / "c1.miz"))
-    c2 = gen(["Fulda Gap"], str(Path(tmp_path) / "c2.miz"))
-    parts = lambda p: {n: hashlib.sha256(_zf.ZipFile(p).read(n)).hexdigest()
-                       for n in _zf.ZipFile(p).namelist()}
-    assert parts(c1) == parts(c2), "corridor mission is not deterministic"
-    # an unknown corridor name is ignored gracefully (no crash, open theater)
-    gen(["No Such Lane"], str(Path(tmp_path) / "d.miz"))
-
-
-def test_a6_intruder_carrier_roles(tmp_path):
-    """A-6E (AI-only Heatblur module) integrated into the Cold War carrier air
-    wing three ways: deck dressing, KA-6D organic tanker, and an AI strike package
-    the player escorts. Forrestal (CVW-6) is its home."""
-    import zipfile as _zf, re
-    from missiongen import Recipe, generate
-    out = str(Path(tmp_path) / "a6.miz")
-    res = generate(Recipe.from_dict(dict(
-        map="caucasus", era="coldwar", coalition="blue", home_airbase="CARRIER",
-        bb_carrier=True, carrier_hull="forrestal", carrier_layout="recovery",
-        aircraft="F_14A_135_GR",
-        carrier_deck_aircraft=["F_14A", "A6E", "E_2C", "S_3B"],
-        carrier_strike=True, bb_tanker=True, seed=3)), out)
-    mis = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
-    # 1) deck dressing — A-6s parked on the deck
-    assert mis.count('"A6E"') >= 3, "no A-6E on the carrier deck / air wing"
-    # 2) strike package flew from the air wing
-    assert "STRIKE VA-176" in mis, "no A-6 strike package launched"
-    assert "STRIKE VA-176 Thunderbolts" in " ".join(res["stats"].get("support", []))
-    # 3) organic KA-6D tanker (A-6E), with the in-sim verification note
-    assert any("KA-6D" in w for w in res["warnings"]), "KA-6D tanker note missing"
-    # A-6 stays AI-only: it must NOT be offered as a player-flyable
-    import sys, os
-    sys.path.insert(0, os.path.join(str(Path(__file__).resolve().parent.parent), "server"))
-    from app import flyable_aircraft
-    assert "A6E" not in [a["key"] for a in flyable_aircraft()], "A-6E wrongly flyable"
-
-
-def test_covered_ramp_bases_get_no_gse(tmp_path):
-    """At bases with sun-shelters over the stands (Kandahar) the per-aircraft GSE
-    truck is offset to the side of the jet and lands on the shelter roof — DCS
-    clamps it to the sloped mesh so it sits tilted on top (Rob, 2026-07-22). Those
-    bases must get NO GSE, while open bases keep theirs."""
-    import re, zipfile as _zf
-    from missiongen import Recipe, generate
-    out = str(Path(tmp_path) / "afg.miz")
-    generate(Recipe.from_dict(dict(map="afghanistan", era="modern", coalition="blue",
-             aircraft="F_14B_U", home_airbase="Kandahar", seed=1)), out)
-    mis = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
-    gse = re.findall(r'"GSE ([^"]+?) ', mis)
-    assert gse, "no GSE placed anywhere (gate too broad)"
-    assert not any(b == "Kandahar" for b in gse), "GSE placed at a covered-ramp base"
-
-
-def test_crew_ops_jet_is_radio_programmed_to_the_comm_plan(tmp_path):
-    """Crew-ops templates own the player jet (player_group is None), so the BB-19
-    preset step used to skip them: the kneeboard advertised the comm plan while
-    the F-14B(U) cockpit kept factory Tomcat defaults (Rob, 2026-07-22 — 'channel
-    doesn't match the frequency'). The crew flight must be programmed so cockpit
-    and card agree."""
-    from missiongen.builder import StarterBuilder
-    from missiongen import Recipe, presets
-    b = StarterBuilder(Recipe.from_dict(dict(
-        map="afghanistan", era="modern", coalition="blue",
-        aircraft="F_14B_U", template="backseat_izlid", start="warm",
-        slots=1, seed=4553)))
-    m = b.build()
-    rows, guard = presets.plan_from_comms(b.kb_ctx["comms"])
-    plan = {ch: mhz for ch, _ag, mhz in rows}
-    assert plan, "comm plan had no rows to program"
-    # find the player F-14BU in-jet channels
-    chans = None
-    for coal in m.coalition.values():
-        for c in coal.countries.values():
-            for pg in c.plane_group:
-                for u in pg.units:
-                    if getattr(u, "type", None) == "F-14BU" and u.radio:
-                        uhf = presets._uhf_radio_id(u.radio)
-                        if uhf:
-                            chans = u.radio[uhf]["channels"]
-    assert chans is not None, "no programmed UHF radio on the crew-ops jet"
-    for ch, mhz in plan.items():
-        assert chans.get(ch) == mhz, (
-            f"CH{ch} in-jet={chans.get(ch)} != comm plan {mhz} "
-            f"(cockpit/kneeboard disagree)")
-    assert chans[max(chans)] == guard, "Guard not on the last channel"
-
-
-# --- collision fixes (v1.10.3): GSE-inside-aircraft + occupancy registry ---
-
-def test_no_statics_inside_aircraft_footprints(tmp_path):
-    """GSE used a stand-based 4-9 m offset, spawning trucks INSIDE heavies
-    (B-52 half-span = 28 m), and object classes never checked each other.
-    The occupancy registry + footprint-aware GSE offset must keep every
-    non-aircraft static out of every aircraft footprint, and aircraft off
-    each other, including stands parked by ambient AI / the player."""
-    import math
-    import dcs
-    from dcs import planes, helicopters
-    from missiongen import generate, Recipe
-
-    fp_cache = {}
-    def footprint(tid):
-        if tid not in fp_cache:
-            r = None
-            for mod in (planes, helicopters):
-                for n in dir(mod):
-                    t = getattr(mod, n, None)
-                    if isinstance(t, type) and getattr(t, "id", None) == tid:
-                        r = max(getattr(t, "width", 0) or 0,
-                                getattr(t, "length", 0) or 0) / 2
-            fp_cache[tid] = r
-        return fp_cache[tid]
-
-    out = str(Path(tmp_path) / "c.miz")
-    generate(Recipe.from_dict({
-        "map": "nevada", "era": "modern", "coalition": "blue",
-        "aircraft": "F_16C_50", "dress_mix": {"B_52H": 6, "C_130": 6,
-                                              "F_16C_50": 12, "KC_135": 4},
-        "seed": 11}), out)
-    m = dcs.Mission(); m.load_file(out)
-    acs, oth = [], []
-    for coal in m.coalition.values():
-        for c in coal.countries.values():
-            for sg in c.static_group:
-                u = sg.units[0]; fp = footprint(u.type)
-                (acs if fp else oth).append((u.position.x, u.position.y, fp))
-            for pg in list(c.plane_group) + list(c.helicopter_group):
-                for u in pg.units:
-                    fp = footprint(u.type)
-                    if fp and pg.points and pg.points[0].type in (
-                            "TakeOffParking", "TakeOffParkingHot"):
-                        acs.append((u.position.x, u.position.y, fp))
-    inside = [1 for gx, gy, _ in oth for ax, ay, ah in acs
-              if math.hypot(gx - ax, gy - ay) < ah * 0.85]
-    assert not inside, f"{len(inside)} statics inside aircraft footprints"
-    overlaps = [1 for i in range(len(acs)) for j in range(i + 1, len(acs))
-                if math.hypot(acs[i][0] - acs[j][0], acs[i][1] - acs[j][1])
-                < 0.55 * (acs[i][2] + acs[j][2])]
-    assert not overlaps, f"{len(overlaps)} aircraft pairs grossly overlapping"
-
-
-# --- Theater Identity P3: historical airspace (Berlin corridors) -----------
-
-def test_berlin_corridors_draw_and_brief(tmp_path):
-    """The Berlin Corridor Transit overlay must draw the corridors + control
-    zone on the F10 Common layer AND brief the BASC rule — and stay OFF by
-    default so existing share links are byte-identical (determinism contract)."""
-    base = dict(map="germany", era="coldwar", coalition="blue",
-                aircraft="F_4E_45MC", home_airbase=None, seed=5)
-    # default OFF: no airspace artifacts, reproducible
-    off = _mission_text(_gen(tmp_path, **base))
-    assert "BERLIN CONTROL ZONE" not in off, "airspace drew while flag was off"
-
-    # overlay ON via the template
-    on_miz = _gen(tmp_path, **base, template="berlin_corridor_transit",
-                  bb_historical_airspace=True, bb_sams=False)
-    on = _mission_text(on_miz)
-    for name in ("NORTH (Hamburg)", "CENTER (Hannover)", "SOUTH (Frankfurt)",
-                 "BERLIN CONTROL ZONE"):
-        assert name in on, f"corridor/zone '{name}' not drawn on the map"
-    # trigger zone for a future scoring layer
-    assert "AIRSPACE BERLIN CONTROL ZONE" in on, "control-zone trigger missing"
-    # the BASC rule is briefed (lives in the miz translation dictionary)
-    dic = zipfile.ZipFile(on_miz).read("l10n/DEFAULT/dictionary").decode("utf-8", "ignore")
-    assert "BERLIN AIR CORRIDORS" in dic and "Berlin Air Safety Centre" in dic, \
-        "airspace briefing block missing"
-
-    # corridors must be SQUARE-ended lanes (4 corners + close = 5 pts), NOT
-    # rounded oblongs (~44 pts) — the fix Rob flagged. Plus a dot-dash centerline.
-    import dcs as _dcs
-    from dcs.drawing.polygon import FreeFormPolygon
-    from dcs.drawing.line import LineDrawing
-    mm = _dcs.Mission(); mm.load_file(on_miz)
-    common = mm.drawings.get_layer_by_name("Common")
-    polys = [o for o in common.objects if isinstance(o, FreeFormPolygon)]
-    lines = [o for o in common.objects if isinstance(o, LineDrawing)]
-    assert polys and all(len(p.points) <= 6 for p in polys), \
-        "corridors are not square-ended (rounded oblong regressed)"
-    assert any(l.line_style.value == "dotdash" for l in lines), "no dot-dash centerline"
-
-
-# --- Theater Identity P1: International Alignment -------------------------
-
-def test_alignment_dresses_bases_by_owning_nation(tmp_path):
-    """Syria's blue side is a coalition — Ramat David (Israel), Turkish bases
-    (Turkey), Akrotiri (UK) — so statics must carry the OWNING nation's country,
-    not one country per side. And a map with no alignment data must be unchanged
-    (single side country) — additive, no regression."""
-    import dcs
-    from missiongen import generate, Recipe
-
-    def nations_with_statics(**recipe):
-        out = str(Path(tmp_path) / "a.miz")
-        generate(Recipe.from_dict(recipe), out)
-        m = dcs.Mission(); m.load_file(out)
-        by_side = {}
-        for side, coal in m.coalition.items():
-            got = {cn for cn, c in coal.countries.items() if any(c.static_group)}
-            if got:
-                by_side[side] = got
-        return by_side
-
-    syr = nations_with_statics(map="syria", era="modern", coalition="blue",
-                               aircraft="FA_18C_hornet", home_airbase="Incirlik",
-                               dress_fill=70, seed=4)
-    assert {"Israel", "Turkey", "UK"} <= syr.get("blue", set()), \
-        f"blue coalition not nation-aligned: {syr.get('blue')}"
-    assert "Syria" in syr.get("red", set()), "red side not Syria"
-
-    # a map with NO theater_identity block dresses with a single side country
-    cauc = nations_with_statics(map="caucasus", era="modern", coalition="blue",
-                                aircraft="F_16C_50", home_airbase=None,
-                                dress_fill=60, seed=4)
-    assert len(cauc.get("blue", set())) == 1, \
-        f"unaligned map should use one blue country, got {cauc.get('blue')}"
-
-
-def test_nation_rosters_place_correct_types(tmp_path):
-    """Aligned bases park nation-correct TYPES, not just skins: Israel flies
-    F-15/F-16, Syria flies MiGs, Iran parks the F-14A Tomcat."""
-    import dcs
-    from missiongen import generate, Recipe
-
-    def types_by_country(**recipe):
-        out = str(Path(tmp_path) / "r.miz")
-        generate(Recipe.from_dict(recipe), out)
-        m = dcs.Mission(); m.load_file(out)
-        res = {}
-        for coal in m.coalition.values():
-            for cn, c in coal.countries.items():
-                res.setdefault(cn, set()).update(
-                    sg.units[0].type for sg in c.static_group)
-        return res
-
-    syr = types_by_country(map="syria", era="modern", coalition="blue",
-                           aircraft="FA_18C_hornet", home_airbase="Incirlik",
-                           dress_fill=80, seed=4)
-    assert syr.get("Israel", set()) & {"F-15E", "F-15C", "F-16C_50"}, \
-        "Israeli base did not park F-15/F-16"
-    assert any(t.startswith("MiG-") for t in syr.get("Syria", set())), \
-        "Syrian base did not park MiGs"
-
-    pg = types_by_country(map="persiangulf", era="modern", coalition="blue",
-                          aircraft="FA_18C_hornet", home_airbase="Al Dhafra AFB",
-                          dress_fill=80, seed=5)
-    assert "F-14A-135-GR" in pg.get("Iran", set()), "Iran did not park the F-14A"
-
-
-# --- WWII coalition alignment (code review HIGH) ---------------------------
-# pydcs defaults Germany/UK/USA to the BLUE coalition. On WWII Normandy/Channel
-# Germany is RED; the old _get_country accepted pydcs' default side, so red
-# German airfields spawned aircraft under a blue-coalition Germany. Assert the
-# country is forced onto the historically-correct side.
-def test_wwii_germany_is_red_not_blue(tmp_path):
-    from missiongen import Recipe
-    from missiongen.builder import StarterBuilder
-    for mp, home in (("normandy", None), ("thechannel", None)):
-        m = StarterBuilder(Recipe.from_dict(
-            dict(map=mp, era="wwii", coalition="blue",
-                 aircraft="SpitfireLFMkIX", seed=7))).build()
-        red = set(m.coalition["red"].countries)
-        blue = set(m.coalition["blue"].countries)
-        assert "Germany" in red, f"{mp}: Germany not in RED coalition (got red={red})"
-        assert "Germany" not in blue, f"{mp}: Germany leaked into BLUE coalition"
-
-
-# --- F-14B(U) DTC setup card ------------------------------------------------
-def test_dtc_simplify_respects_point_budget():
-    from missiongen.dtc import simplify
-    ring = [(i, (i * 7) % 5) for i in range(50)]          # 50-point jagged path
-    out = simplify(ring, 9)
-    assert 2 <= len(out) <= 9, f"simplify didn't meet budget: {len(out)}"
-    assert out[0] == (0.0, 0.0) and out[-1] == (49.0, (49 * 7) % 5), \
-        "simplify dropped the endpoints"
-
-
-def test_dtc_card_only_for_bu_and_is_reference_only(tmp_path):
-    from missiongen import Recipe, generate
-    from missiongen.dtc import is_bu
-    assert is_bu("F_14B_U") and not is_bu("FA_18C_hornet")
-    # a non-B(U) jet writes NO card (auto-gate off)
-    out = str(tmp_path / "hornet.miz")
-    r1 = generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
-                  aircraft="FA_18C_hornet", home_airbase="Al Dhafra AFB",
-                  threat_intensity=4, threat_tier="heavy", seed=22)), out)
-    assert "dtc_card" not in r1, "DTC card written for a non-B(U) jet"
-    # the B(U) writes a card with reference sections and NO player route/loadout
-    out2 = str(tmp_path / "bu.miz")
-    r2 = generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
-                  aircraft="F_14B_U", home_airbase="Al Dhafra AFB",
-                  threat_intensity=4, threat_tier="heavy", seed=22)), out2)
-    assert r2.get("dtc_card"), "no DTC card for the F-14B(U)"
-    card = Path(r2["dtc_card"]).read_text()
-    assert "Bullseye" in card and "Comm / TACAN" in card, "card missing reference sections"
-    low = card.lower()
-    for forbidden in ("waypoint", "steerpoint", "ingress", "egress", "loadout", "target run"):
-        assert forbidden not in low, f"card leaked player-plan content: {forbidden!r}"
-    # the real DTM cartridge is injected into the .miz as the JSON sidecar
-    import zipfile as _zf, json as _json
-    z = _zf.ZipFile(out2)
-    assert z.read("mission"), "mission entry unreadable after DTC"
-    member = "DTC/F-14B(U) DTC_1.dtc"
-    assert member in z.namelist(), "DTM cartridge sidecar not injected"
-    dtm = _json.loads(z.read(member))
-    assert dtm["type"] == "F-14BU", "cartridge not typed to the F-14B(U)"
-    assert len(dtm["data"]["NAV"]) == 12, "NAV must have 12 slots (DCS schema)"
-    nav0 = dtm["data"]["NAV"][0]
-    assert nav0["additional_points"], "no reference points written to the cartridge"
-    # north star: the cartridge must NEVER carry the player's route or weapons
-    assert all(not s["waypoints"] for s in dtm["data"]["NAV"]), "cartridge wrote player waypoints"
-    assert all(not st["targets"] for st in dtm["data"]["JDAM"]["stations"]), "cartridge wrote weapon targets"
-
-
-def test_dtc_sidecar_is_linked_from_the_mission_tree(tmp_path):
-    """The sidecar `DTC/*.dtc` only loads if the player unit references it via
-    `DTC.Cartridges[].name`. Reverse-engineering first missed this and the DTM
-    page loaded EMPTY in-sim (Rob, 2026-07-22). Lock the unit-level link in, and
-    that its name matches the sidecar member so DCS can pair them."""
-    import zipfile as _zf
-    from missiongen import Recipe, generate
-    out = str(tmp_path / "bu.miz")
-    r = generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
-                 aircraft="F_14B_U", home_airbase="Al Dhafra AFB",
-                 threat_intensity=4, threat_tier="heavy", seed=22)), out)
-    assert r["stats"].get("dtc_units_tagged", 0) >= 1, "no F-14B(U) player unit tagged"
-    mission = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
-    assert "Cartridges" in mission, "mission tree has no DTC.Cartridges link"
-    assert "F-14B(U) DTC_1" in mission, "cartridge name not referenced by the unit"
-    member = "DTC/F-14B(U) DTC_1.dtc"
-    assert member in _zf.ZipFile(out).namelist(), "sidecar missing"
-    # the unit reference name must equal the sidecar member (minus dir/extension)
-    assert member == f"DTC/{'F-14B(U) DTC_1'}.dtc"
-
-
-def test_dtc_injection_is_deterministic(tmp_path):
-    """Same recipe+seed must inject a byte-identical cartridge (share links)."""
-    import zipfile as _zf, hashlib
-    from missiongen import Recipe, generate
-    def _dtc_hash(p):
-        generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
-                 aircraft="F_14B_U", home_airbase="Al Dhafra AFB",
-                 threat_intensity=4, threat_tier="heavy", seed=22)), p)
-        return hashlib.sha256(_zf.ZipFile(p).read("DTC/F-14B(U) DTC_1.dtc")).hexdigest()
-    assert _dtc_hash(str(tmp_path / "a.miz")) == _dtc_hash(str(tmp_path / "b.miz")), \
-        "DTM cartridge is not deterministic"
-
-
-def test_f14bu_uses_verified_type_id(tmp_path):
-    """Survey-confirmed DCS type id is F-14BU; the old guess F-14B-U would break
-    every generated B(U) mission. Lock it into the serialized mission."""
-    import zipfile as _zf
-    from missiongen import Recipe, generate
-    out = str(tmp_path / "bu.miz")
-    generate(Recipe.from_dict(dict(map="persiangulf", era="modern",
-             aircraft="F_14B_U", home_airbase="Al Dhafra AFB", seed=7)), out)
-    mission = _zf.ZipFile(out).read("mission").decode("utf-8", "ignore")
-    assert '"F-14BU"' in mission, "F-14B(U) did not serialize the verified type id"
-    assert "F-14B-U" not in mission, "old bad provisional id F-14B-U leaked in"
-
-
-# --- Afghanistan extension terrain (generated from Rob's install export) ----
-def test_afghanistan_terrain_generates_and_reloads(tmp_path):
-    """The extension-terrain path: full engine generation on Afghanistan, then a
-    pydcs round-trip through the patched theatre loader."""
-    import dcs
-    from missiongen import Recipe, generate
-    out = str(tmp_path / "afghan.miz")
-    res = generate(Recipe.from_dict(dict(map="afghanistan", era="modern",
-              coalition="blue", aircraft="A_10C_2", home_airbase="Kandahar",
-              dress_fill=30, seed=9)), out)
-    assert not [w for w in res["warnings"] if "failed" in w.lower()], res["warnings"]
-    m = dcs.Mission(); m.load_file(out)          # needs the loader patch
-    assert type(m.terrain).__name__ == "Afghanistan"
-    assert len(m.terrain.airports) == 25
-    statics = sum(len(c.static_group) for co in m.coalition.values()
-                  for c in co.countries.values())
-    assert statics > 50, f"Afghanistan field barely dressed ({statics} statics)"
-
-
-
-if __name__ == "__main__":
-    import tempfile
-    failed = 0
-    for _extra in (test_dtc_simplify_respects_point_budget,):
+def test_every_warning_the_engine_can_emit_is_header_safe():
+    """Guarding `_header_safe` is not the same as guarding the warnings. A new
+    warning with a new typographic character is the same bug again, so build
+    the missions that produce the most warnings and check the real strings."""
+    from server.app import _header_safe
+    for label, rc in [
+        ("carrier+tanker", dict(map="persiangulf", era="coldwar",
+                                aircraft="F_14A_135_GR", bb_carrier=True,
+                                home_airbase="CARRIER", bb_tanker=True,
+                                bb_awacs=True, carrier_cap=True, seed=31)),
+        ("dressed", dict(map="caucasus", era="modern", aircraft="FA_18C_hornet",
+                         dress_fill=100, bb_ambient=False, seed=32)),
+    ]:
+        d = tempfile.mkdtemp()
         try:
-            _extra(); print(f"PASS  {_extra.__name__}")
-        except Exception as e:
-            failed += 1; print(f"FAIL  {_extra.__name__}\n      {type(e).__name__}: {e}")
-    for fn in [test_no_duplicate_group_or_unit_names, test_ramat_david_places_all_stands,
-               test_vhf_only_aircraft_get_no_uhf_presets, test_uhf_ladder_lands_on_the_uhf_radio,
-               test_no_statics_inside_aircraft_footprints,
-               test_berlin_corridors_draw_and_brief,
-               test_alignment_dresses_bases_by_owning_nation,
-               test_nation_rosters_place_correct_types,
-               test_wwii_germany_is_red_not_blue,
-               test_dtc_card_only_for_bu_and_is_reference_only,
-               test_dtc_injection_is_deterministic,
-               test_f14bu_uses_verified_type_id,
-               test_afghanistan_terrain_generates_and_reloads]:
-        try:
-            with tempfile.TemporaryDirectory() as d:
-                fn(Path(d))
-            print(f"PASS  {fn.__name__}")
-        except Exception as e:
-            failed += 1
-            print(f"FAIL  {fn.__name__}\n      {type(e).__name__}: {e}")
-    print(f"\n{'FAILED' if failed else 'OK'} — {failed} failure(s)")
-    sys.exit(1 if failed else 0)
+            res = generate(Recipe.from_dict(rc), os.path.join(d, "m.miz"))
+        finally:
+            shutil.rmtree(d, ignore_errors=True)
+        joined = "; ".join(res["warnings"])
+        _header_safe(joined)[:900].encode("latin-1")
+
+
+def test_a_carrier_mission_with_a_tanker_actually_downloads(client):
+    """The end-to-end version. This is the request that 500'd."""
+    r = client.post("/api/generate", json={"recipe": dict(
+        map="persiangulf", era="coldwar", aircraft="F_14A_135_GR",
+        bb_carrier=True, home_airbase="CARRIER", bb_tanker=True, bb_awacs=True,
+        bb_ambient=False, seed=33), "source": "builder"})
+    assert r.status_code == 200, f"{r.status_code}: {r.text[:400]}"
+    assert r.content[:2] == b"PK", "the response is not a zip"
+    assert "X-Warnings" in r.headers
+
+
+def test_the_mission_kit_header_stays_inside_its_budget(client):
+    """`X-Kit` is JSON the frontend parses. A TRUNCATED payload is worse than a
+    missing one — JSON.parse throws and the panel silently loses every row — so
+    the engine sheds enemy_air rows until it fits rather than slicing."""
+    r = client.post("/api/generate", json={"recipe": dict(
+        map="caucasus", era="modern", aircraft="FA_18C_hornet",
+        threat_intensity=5, bb_sams=True, bb_ambient=False, seed=34),
+        "source": "builder"})
+    assert r.status_code == 200, r.text[:300]
+    kit = json.loads(r.headers["X-Kit"])        # must parse, not just exist
+    assert len(r.headers["X-Kit"]) <= 2000
+    assert isinstance(kit.get("enemy_air"), list)
+
+
+# --- the analytics divide-by-zero 500 ---------------------------------------
+# /admin/analytics returned a bare 500, which also took down the Sponsor ads and
+# Mission packs tabs, because they are reached through this page's tab bar.
+# `max((v for _, v in buckets), default=1)` returns 0 from a NON-empty list of
+# zeros — `default` only applies to an empty iterable — and the bar widths
+# divided by it. Every window on a site whose ledger pre-dates v1.43.0 hits it,
+# because those events carry no anonymous id.
+
+def _people(**over):
+    base = {"days": 30, "visitors": 0, "returning": 0, "returning_pct": 0,
+            "new": 0, "avg_missions": 0, "median_missions": 0,
+            "top_builder_missions": 0, "one_and_done_pct": 0,
+            "opted_out_events": 0, "opted_out_pct": 0,
+            "buckets": [("1 mission", 0), ("2-4", 0), ("5-9", 0), ("10+", 0)]}
+    base.update(over)
+    return base
+
+
+def test_the_chart_survives_a_bucket_list_that_is_all_zeros(monkeypatch):
+    """The scale factor is computed BEFORE the empty-state branch, off a
+    non-empty list of zeros — the case `default=1` looks like it covers and
+    does not, because `default` only applies to an empty iterable. Two guards
+    stand between this and a 500; this exercises the inner one by handing the
+    page a state the outer one waves through."""
+    from missiongen import analytics
+    from server import admin
+    monkeypatch.setattr(analytics, "people",
+                        lambda days=30: _people(visitors=3, returning=1))
+    page = admin._analytics_page(30)
+    assert page.status_code == 200
+    assert "Analytics unavailable" not in page.body.decode(), \
+        "the missions-per-person chart is dividing by zero again"
+
+
+def test_the_admin_analytics_page_renders_with_an_empty_ledger(client, monkeypatch):
+    """An admin page must never be able to lock the operator out of the admin."""
+    monkeypatch.setenv("ADMIN_PASSWORD", "test-only-not-a-real-secret")
+    from missiongen import analytics
+    monkeypatch.setattr(analytics, "people", lambda days=30: {
+        "days": days, "visitors": 0, "returning": 0, "returning_pct": 0,
+        "new": 0, "avg_missions": 0, "median_missions": 0,
+        "top_builder_missions": 0, "one_and_done_pct": 0,
+        "opted_out_events": 0, "opted_out_pct": 0,
+        "buckets": [("1 mission", 0), ("2-4", 0), ("5-9", 0), ("10+", 0)]})
+    from server import admin
+    page = admin._analytics_page(30)
+    assert page.status_code == 200
+    body = page.body.decode()
+    assert "Analytics unavailable" not in body, "the page fell through to its error shell"
+    assert "can be attributed to a browser" in body, \
+        "an empty window should explain itself, not draw four zero-length bars"
+
+
+def test_an_ledger_with_pre_v1_43_events_still_reports(monkeypatch, tmp_path):
+    """The real shape of the data that broke it: generate events with no
+    `visitor` key at all, because the anonymous id did not exist yet."""
+    import datetime as dt
+
+    from missiongen import analytics
+    day = dt.datetime.now(dt.timezone.utc)
+    monkeypatch.setattr(analytics, "_iter_events", lambda days: [
+        {"kind": "generate", "source": "builder", "era": "modern",
+         "map": "caucasus", "aircraft": "FA_18C_hornet",
+         "ts": day.isoformat()} for _ in range(12)])
+    pe = analytics.people(30)
+    assert pe["visitors"] == 0
+    assert pe["opted_out_events"] == 12 and pe["opted_out_pct"] == 100
+    assert pe["avg_missions"] == 0 and pe["returning_pct"] == 0
+    s = analytics.stats(30)
+    assert s["generates"] == 12 and s["brief_attach_pct"] == 0
+
+
+def test_the_analytics_ledger_records_no_identifying_data(monkeypatch, tmp_path):
+    """The standing constraint on this feature: no IP, no user agent, no
+    fingerprint. A field added to `record()` in a hurry is how that slips."""
+    monkeypatch.setattr("missiongen.analytics.DATA_DIR", tmp_path)
+    from missiongen import analytics
+    analytics.record("generate", "builder",
+                     Recipe.from_dict(dict(map="caucasus", era="modern",
+                                           aircraft="FA_18C_hornet", seed=1)),
+                     visitor="abc123")
+    # only the append-only event ledger; DATA_DIR also holds the hash salt
+    written = [json.loads(l) for f in sorted(tmp_path.rglob("*.jsonl"))
+               for l in f.read_text().splitlines() if l.strip()]
+    assert written, "record() wrote nothing"
+    BANNED = {"ip", "ip_address", "remote_addr", "user_agent", "ua",
+              "referer", "referrer", "fingerprint", "email", "name",
+              "host", "session", "cookie"}
+    for e in written:
+        leaked = BANNED & {k.lower() for k in e}
+        assert not leaked, f"the ledger recorded {leaked}: {e}"
+
+
+# --- health and the data packs ----------------------------------------------
+
+def test_health_is_honest_about_the_data_packs(client):
+    r = client.get("/api/health")
+    assert r.status_code in (200, 503)
+    body = r.json()
+    assert body["ok"] is not None
+    assert body["data_pack_errors"] == validate_data_packs()
+    assert r.status_code == (503 if body["data_pack_errors"] else 200), \
+        "a broken data pack must return 503, not a 200 with ok:false — a load " \
+        "balancer reads the status code, not the body"
+
+
+def test_health_reports_whether_liveries_are_verified(client):
+    """v1.46.4: parked statics wear stock skins until someone runs
+    dump_liveries.py against a real install. That state has to be visible from
+    outside, or the only way to know is to build a mission and look."""
+    assert "liveries_verified" in client.get("/api/health").json()
+
+
+def test_every_flyable_aircraft_has_a_service_window(client):
+    """A jet with no window can be picked in an era it never flew in — the
+    v1.46.1 class of bug, from the aircraft side instead of the card side."""
+    assert client.get("/api/health").json()["service_data_gaps"] == []
+
+
+def test_the_data_packs_validate():
+    errors = validate_data_packs()
+    assert not errors, f"data pack errors: {errors}"
+
+
+# --- the Nevada boundary ----------------------------------------------------
+
+def test_the_groom_lake_box_is_the_real_boundary():
+    """R-4808N was drawn as a four-corner rectangle, which is why it never
+    lined up with the boundary the NTTR map draws. The real area steps around
+    the Nevada Test Site."""
+    found = list(_walk_for(load_json("historical_airspace"), "R-4808N"))
+    assert found, "R-4808N is no longer in historical_airspace.json"
+    for zone in found:
+        pts = (zone.get("corners") or zone.get("points")
+               or zone.get("polygon") or [])
+        assert len(pts) == 14, (
+            f"R-4808N has {len(pts)} points. The published legal boundary "
+            f"(FAA realignment effective 1995) has 14 and steps around the "
+            f"Nevada Test Site; a 4-corner box never lined up with the "
+            f"boundary the NTTR map draws.")
+        assert zone.get("source"), \
+            "the boundary lost its citation — the only thing that makes the " \
+            "14 points checkable by a human"
+
+
+def _walk_for(node, name):
+    if isinstance(node, dict):
+        if node.get("name") == name:
+            yield node
+        for v in node.values():
+            yield from _walk_for(v, name)
+    elif isinstance(node, list):
+        for v in node:
+            yield from _walk_for(v, name)

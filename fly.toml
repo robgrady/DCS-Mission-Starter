@@ -9,6 +9,32 @@ primary_region = 'dfw'
 [build]
   dockerfile = 'Dockerfile'
 
+# Persistent disk for the sponsor-ad store (manifest + processed splashes).
+# Without this the container filesystem resets on every cold start
+# (auto_stop_machines) and uploaded logos silently vanish. One-time setup:
+#   fly volumes create sponsor_data --region dfw --size 1
+[mounts]
+  source = 'sponsor_data'
+  destination = '/data'
+
+[env]
+  # Google Analytics 4. Set HERE and nowhere else: server/ga.py reads it from
+  # the environment precisely so that a self-hosted copy of this app does not
+  # report into our property. A measurement id is not a secret — it is public
+  # in the page source of every site that uses one — so it lives in the repo
+  # rather than in `fly secrets`.
+  GA_MEASUREMENT_ID = 'G-B406V24KN5'
+  SPONSOR_DATA_DIR = '/data/sponsors'
+  ANALYTICS_DATA_DIR = '/data/analytics'
+  PACKS_DATA_DIR = '/data/packs'
+  # Contact messages (v1.64.0). Without this the inbox resets on every cold
+  # start and people's messages are silently lost — the one store in this
+  # product a user cannot regenerate by pressing the button again.
+  CONTACT_DATA_DIR = '/data/contact'
+  # Owner-curated Thanks list. On the volume, not in the repo, so adding a
+  # name needs no deploy and a release cannot overwrite it.
+  CREDITS_DATA_DIR = '/data/credits'
+
 [http_service]
   internal_port = 8080
   force_https = true

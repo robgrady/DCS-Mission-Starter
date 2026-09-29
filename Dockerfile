@@ -18,6 +18,18 @@ COPY vendor ./vendor
 COPY docs ./docs
 COPY server ./server
 COPY frontend ./frontend
+# THE IMAGE CARRIES NO CONTENT. Not the uploaded packs, not the generated ones.
+#
+# This was tried the other way for exactly one release: the four built-in
+# syllabi were built into the image, which made it 44 MB heavier and the
+# release zip 59 MB — big enough that it could no longer be handed over a
+# normal channel. The deciding argument is not the size though, it is the
+# coupling: content baked into an image can only change by deploying, and a
+# corrected premise line is not a deploy.
+#
+# So packs are PRODUCED by scripts/build_pack.py and UPLOADED through /admin to
+# the Fly volume (PACKS_DATA_DIR). Adding, fixing or removing content never
+# touches this file. See docs/content-architecture.md.
 
 # run unprivileged
 RUN useradd --create-home --uid 10001 appuser && chown -R appuser /app

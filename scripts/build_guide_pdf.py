@@ -19,55 +19,54 @@ from missiongen import __version__ as APP_VERSION
 OUT = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
 IMG = Path(__file__).parent.parent / "docs" / "img"
 
-# palette — dark naval blue + gold accent
-NAVY = HexColor("#0e1a2b")
-NAVY2 = HexColor("#16283f")
-GOLD = HexColor("#c9a227")
-BLUE = HexColor("#2f6db3")
-INK = HexColor("#1a2330")
-DIM = HexColor("#5c6b7d")
-LINE = HexColor("#d5dce4")
-PANEL = HexColor("#f2f5f8")
-
+# AUTHENTIC STYLE v2.1 — palette and faces from missiongen/authentic.py, the
+# same furniture every other generated document draws.
+from missiongen import authentic as _auth
+_H = _auth.hexes()
+_F = _auth.register_fonts()
+NAVY = HexColor(_H["navy"])
+NAVY2 = HexColor(_H["accent"])
+GOLD = HexColor(_H["dim"])     # legacy name; the specimen's Dim — no gold accent
+BLUE = HexColor(_H["accent"])
+INK = HexColor(_H["ink"])
+DIM = HexColor(_H["dim"])
+LINE = HexColor(_H["rule"])
+PANEL = HexColor(_H["panel"])
 W, H = letter
 
+_S = _auth.styles()
 styles = {
-    "h1": ParagraphStyle("h1", fontName="Helvetica-Bold", fontSize=17, leading=21,
-                         textColor=NAVY, spaceBefore=18, spaceAfter=6),
-    "h2": ParagraphStyle("h2", fontName="Helvetica-Bold", fontSize=12.5, leading=16,
-                         textColor=BLUE, spaceBefore=12, spaceAfter=4),
-    "h3": ParagraphStyle("h3", fontName="Helvetica-Bold", fontSize=10.5, leading=14,
+    "h1": _S["h1"],
+    "h2": _S["h2"],
+    "h3": ParagraphStyle("h3", fontName=_F["subhead"], fontSize=10.5, leading=14,
                          textColor=INK, spaceBefore=9, spaceAfter=2),
-    "body": ParagraphStyle("body", fontName="Helvetica", fontSize=10, leading=14.5,
-                           textColor=INK, spaceAfter=6),
-    "bullet": ParagraphStyle("bullet", fontName="Helvetica", fontSize=10, leading=14.5,
-                             textColor=INK, leftIndent=14, bulletIndent=4, spaceAfter=4),
-    "note": ParagraphStyle("note", fontName="Helvetica-Oblique", fontSize=9.5,
-                           leading=13, textColor=DIM, spaceAfter=6),
-    "tagline": ParagraphStyle("tag", fontName="Helvetica-Bold", fontSize=11,
-                              leading=15, textColor=GOLD, spaceAfter=2),
+    "body": _S["p"],
+    "bullet": _S["bullet"],
+    "note": _S["note"],
+    "tagline": _S["tag"],
 }
 
 
 def header_footer(canvas, doc):
     canvas.saveState()
-    # header band
+    # the navy band: identity left, locator right, mono white
     canvas.setFillColor(NAVY)
     canvas.rect(0, H - 0.55 * inch, W, 0.55 * inch, fill=1, stroke=0)
     canvas.setFillColor(white)
-    canvas.setFont("Helvetica-Bold", 10)
-    canvas.drawString(0.75 * inch, H - 0.36 * inch, "DCS SORTIE STARTER")
-    canvas.setFillColor(GOLD)
-    canvas.setFont("Helvetica", 9)
-    canvas.drawRightString(W - 0.75 * inch, H - 0.36 * inch, "USER GUIDE")
-    # footer
-    canvas.setFillColor(DIM)
-    canvas.setFont("Helvetica", 8.5)
-    canvas.drawString(0.75 * inch, 0.45 * inch,
-                      "Select, don't search  ·  We set the stage — you write the play")
-    canvas.drawRightString(W - 0.75 * inch, 0.45 * inch, f"Page {doc.page}")
+    canvas.setFont(_F["mono_bold"], 8)
+    canvas.drawString(0.75 * inch, H - 0.34 * inch, f"DCS SORTIE STARTER  ·  V{APP_VERSION}  ·  USER GUIDE")
+    canvas.setFont(_F["mono"], 8)
+    canvas.drawRightString(W - 0.75 * inch, H - 0.34 * inch, "SORTIE STARTER / GUIDE")
+    # footer: hairline, mono
     canvas.setStrokeColor(LINE)
+    canvas.setLineWidth(0.5)
     canvas.line(0.75 * inch, 0.62 * inch, W - 0.75 * inch, 0.62 * inch)
+    canvas.setFillColor(DIM)
+    canvas.setFont(_F["mono"], 7.4)
+    canvas.drawString(0.75 * inch, 0.45 * inch,
+                      "SELECT, DON'T SEARCH  ·  WE SET THE STAGE — YOU WRITE THE PLAY")
+    canvas.drawRightString(W - 0.75 * inch, 0.45 * inch,
+                           f"{_auth.NOT_AFFILIATED}  ·  page {doc.page}")
     canvas.restoreState()
 
 
@@ -77,40 +76,34 @@ def cover(canvas, doc):
     canvas.rect(0, 0, W, H, fill=1, stroke=0)
     canvas.setFillColor(NAVY2)
     canvas.rect(0, H - 4.4 * inch, W, 2.6 * inch, fill=1, stroke=0)
-    # deck stripe motif
-    canvas.setStrokeColor(GOLD)
-    canvas.setLineWidth(3)
+    canvas.setStrokeColor(white)
+    canvas.setLineWidth(1)
     canvas.line(0.9 * inch, H - 4.55 * inch, W - 0.9 * inch, H - 4.55 * inch)
-    canvas.setDash(14, 10)
-    canvas.setLineWidth(2)
-    canvas.line(0.9 * inch, 2.1 * inch, W - 0.9 * inch, 2.1 * inch)
-    canvas.setDash()
     canvas.setFillColor(white)
-    canvas.setFont("Helvetica-Bold", 34)
-    canvas.drawString(0.9 * inch, H - 2.85 * inch, "DCS MISSION")
-    canvas.drawString(0.9 * inch, H - 3.4 * inch, "STARTER")
-    canvas.setFillColor(GOLD)
-    canvas.setFont("Helvetica-Bold", 14)
+    canvas.setFont(_F["banner"], 40)
+    canvas.drawString(0.9 * inch, H - 2.85 * inch, "DCS SORTIE")
+    canvas.drawString(0.9 * inch, H - 3.45 * inch, "STARTER")
+    canvas.setFont(_F["section"], 15)
     canvas.drawString(0.9 * inch, H - 4.05 * inch, "USER GUIDE")
-    canvas.setFillColor(HexColor("#9fb2c8"))
-    canvas.setFont("Helvetica", 12)
+    canvas.setFillColor(HexColor("#C7D2E6"))
+    canvas.setFont(_F["sans"], 12)
     canvas.drawString(0.9 * inch, H - 5.1 * inch,
                       "Pick a map, an era, and an aircraft — fly a living world in minutes.")
     canvas.drawString(0.9 * inch, H - 5.35 * inch,
-                      "Airfields dressed. SAMs up. The strike group at sea. No waypoints, ever.")
-    canvas.setFont("Helvetica", 10)
-    canvas.setFillColor(HexColor("#6d7f95"))
-    canvas.drawString(0.9 * inch, 1.6 * inch, f"Version {APP_VERSION}  ·  July 2026")
+                      "Airfields dressed. SAMs up. The strike group at sea. Your flight plan stays yours.")
+    canvas.setFont(_F["mono"], 9)
+    canvas.setFillColor(HexColor("#9DB0CC"))
+    canvas.drawString(0.9 * inch, 1.6 * inch, f"VERSION {APP_VERSION}")
     canvas.drawString(0.9 * inch, 1.4 * inch,
                       "Developed by Authentic Media LLC  ·  robgrady.com  ·  "
-                      "provided as-is - no warranty, no liability")
+                      "provided as-is - no warranty, no liability  ·  " + _auth.NOT_AFFILIATED)
     canvas.restoreState()
 
 
 def t(data, widths, header=True):
     tbl = Table(data, colWidths=widths, hAlign="LEFT")
     style = [
-        ("FONTNAME", (0, 0), (-1, -1), "Helvetica"),
+        ("FONTNAME", (0, 0), (-1, -1), _F["sans"]),
         ("FONTSIZE", (0, 0), (-1, -1), 9),
         ("TEXTCOLOR", (0, 0), (-1, -1), INK),
         ("GRID", (0, 0), (-1, -1), 0.5, LINE),
@@ -123,7 +116,7 @@ def t(data, widths, header=True):
     if header:
         style += [("BACKGROUND", (0, 0), (-1, 0), NAVY),
                   ("TEXTCOLOR", (0, 0), (-1, 0), white),
-                  ("FONTNAME", (0, 0), (-1, 0), "Helvetica-Bold")]
+                  ("FONTNAME", (0, 0), (-1, 0), _F["subhead"])]
     tbl.setStyle(TableStyle(style))
     return tbl
 
@@ -144,7 +137,7 @@ def shot(name, caption, width=6.6 * inch, max_h=8.1 * inch):
         disp_h, disp_w = max_h, max_h * w / h
     img = RLImage(str(path), width=disp_w, height=disp_h)
     cap = Paragraph(caption, ParagraphStyle(
-        "cap", fontName="Helvetica-Oblique", fontSize=8.5, leading=11,
+        "cap", fontName=_F["sans"], fontSize=8.5, leading=11,
         textColor=DIM, alignment=TA_CENTER, spaceBefore=3, spaceAfter=10))
     return KeepTogether([img, cap])
 
@@ -162,10 +155,58 @@ story += [
       "support flights on station, and a carrier strike group with a properly spotted deck. "
       "You download a ready <b>.miz</b> file and build <i>your</i> mission on top in the "
       "DCS Mission Editor."),
-    P("<b>We set the stage — you write the play.</b> The Starter never places your waypoints. "
-      "Flight planning is always yours."),
+    P("<b>We set the stage — you write the play.</b> Waypoints appear only where a routed "
+      "strike <i>is</i> the mission (the strike templates and Fly Now's target missions) — "
+      "everywhere else, flight planning is yours."),
 
-    shot("hero.png", "The Sortie Starter wizard."),
+    P("The four doors", "h2"),
+    P("<b>Fly Now</b> — the fastest path. One screen, three picks: <i>what do you want to "
+      "practice</i> (Tanker Time, BFM Merge, Kill the Guns, Beat the SAM), <i>in what</i>, and "
+      "<i>where</i>. Era, base, weather and comms are derived for you; one \"spice\" notch sets "
+      "the opposition and the re-roll button rerolls a fresh layout of the same picks. Tanker Time and the "
+      "BFM Merge start you <b>airborne</b> — at FL200 behind the tanker, or two miles abeam "
+      "your adversary."),
+    shot("quick.png", "Fly Now: mission, jet, map — airborne in three clicks."),
+    P("<b>Library</b> — curated, ready-to-fly missions across eras, roles and crews, "
+      "including the routed Cold War gun-belt strike pack. <b>Builder</b> — the full wizard "
+      "below, every dial exposed."),
+    P("<b>Train</b> — the Training Pipeline. <i>Learn it, fly it, fight it.</i> Three schools in the order every air force "
+      "runs them. <i>Ground School and UPT</i> teaches you to fly an airplane (formation, "
+      "timing, the tanker — in any jet); <i>FRS — Know Your Jet</i> teaches you this one, from "
+      "a history chapter through the contact phase, systems, the squadron's tactical checkout "
+      "and weapons to a check ride; <i>MQT — Fight the Jet</i> is employment. Every ride is a "
+      "generated Library mission with its brief and kneeboard, graded in-mission where the "
+      "Mission Editor can see you. Units not built yet are shown as planned, with the reason. "
+      "Your record lives in your browser; a squadron takes the kit — printed program, "
+      "gradesheet, readings. The first course is the F-4E Phantom II."),
+
+    P("Your Mission Kit", "h2"),
+    P("Every generate ends with the <b>Mission Kit</b>: the .miz with its install path, the "
+      "<b>briefing pack</b> (SITUATION/MISSION/EXECUTION brief, theater chart with the numbered "
+      "threat order of battle, comms card with diverts and fuel boxes — PDF + Markdown), the "
+      "<b>kneeboard</b> already riding in the jet (RShift+K), the loaded flight plan on routed "
+      "missions, and the DTC card for the F-14B(U)."),
+    P("The comms card carries <b>JOKER and BINGO</b> already filled in — computed from your "
+      "airframe's internal fuel (50% and 33%), in pounds and kilos. The boxes stay boxes, so "
+      "grease-pencil over them when your loadout or route says otherwise."),
+    shot("kit.png", "The Mission Kit: every document the engine built, by name.", max_h=2.2 * inch),
+
+    P("Training — the AWI syllabus", "h2"),
+    P("The Library's <b>Training</b> tab carries <b>AWI Basics</b>: twelve F-14B(U) all-weather "
+      "intercept events derived from CNATRA P-825, the Navy's own intercept syllabus. Cold start "
+      "at Nellis, real NTTR range points (SHEEP · ALAMO · FLEX), and weather that thickens as "
+      "the syllabus progresses — the four target-aspect game plans, a night displacement turn, "
+      "the weapons-live timeline, aware and unaware bandits, the banzai/skate decision, two "
+      "section events, and a graduating self-escort strike. Every event ships with its printed "
+      "brief; the card's <b>Download complete syllabus</b> button hands you all twelve missions "
+      "and their documents at once. These are curated fixed missions — exact training geometry, "
+      "not generated — so fly them in order. Needs the F-14A/B and F-14B(U) modules and the "
+      "Nevada terrain."),
+    shot("awi.png", "The AWI Basics card and its twelve events.", max_h=3.0 * inch),
+
+    PageBreak(),
+    P("The Builder", "h1"),
+    shot("hero.png", "The Builder: rail navigation, live values, Generate always in reach."),
 
     P("Finding your way", "h2"),
     P("The app works as a set of <b>focused screens</b>, not one long page. The <b>rail</b> on "
@@ -186,13 +227,20 @@ story += [
     P("1 · Theater — era and map", "h2"),
     P("Start with <b>when</b>, then <b>where</b>. The era is the master filter: it decides which "
       "maps, aircraft, statics, SAMs, and support can appear — a WWII starter never offers a "
-      "Hornet, a modern one never a Spitfire. Maps without content for the era grey out. All "
+      "Hornet, a modern one never a Spitfire. Maps without content for the era gray out. All "
       "eleven theaters are here: pick WWII and the Channel, Normandy and the 1944 Marianas light "
       "up; Cold War Germany puts you on the Inner German Border; Kola covers NATO's Northern "
       "Flank; Sinai in the Cold War is October 1973. Each preset carries its major airfields on "
       "both sides — on the NTTR that includes Groom Lake and Tonopah Test Range as blue home "
       "plates (USAF fields; even the captured MiGs there flew as USAF units)."),
     shot("theater.png", "Theater: era across the top, then the maps valid for it."),
+    P("Airspace you don't get to use", "h3"),
+    P("Every Nevada mission draws <b>R-4808N</b> — the Groom Lake box — on the F10 map, with "
+      "the data panel a sectional prints for it: <i>surface to unlimited, continuous, not "
+      "joint-use</i>. There is no controlling agency to ask, because nobody is getting in. The "
+      "Box is off-limits even during Red Flag; crews are briefed that entering it, or loitering "
+      "on the boundary looking in, ends careers. It appears whether or not you turn on "
+      "historical airspace, because leaving it off a Nellis chart would be a lie."),
 
     P("2 · Scenario — a ready-made mission, or build your own", "h2"),
     P("Right after you've set the theater, the <b>Scenario</b> step offers ready-made missions "
@@ -213,6 +261,17 @@ story += [
       "density. On coastal maps <b>the carrier</b> is offered here as a home base (last in the "
       "list); land bases are the default, so choosing the boat is a deliberate act — and doing "
       "so lights up the Carrier screen."),
+    P("Your flight callsign", "h3"),
+    P("Every flight gets a <b>real squadron radio callsign</b>, chosen for the airframe you "
+      "picked. Take the Tomcat: the F-14A flies as <b>Gypsy</b> — VF-32's call, the one heard "
+      "on the tape when Gypsy 202 and 207 splashed two MiG-23s over the Gulf of Sidra in 1989 "
+      "— while the F-14B flies as <b>Victory</b>, the Jolly Rogers of VF-103. The Hornet is "
+      "<b>Chippy</b> (VFA-195), the Harrier <b>Blacksheep</b> (VMA-214), the Viper <b>Basher</b>, "
+      "the Phantom <b>Oyster</b> (555th TFS, 10 May 1972), and the Hun <b>Misty</b>, after the "
+      "FACs who flew it. Red-side jets use proper bort numbers instead. The field shows the "
+      "default and where it comes from; type anything you like over it and the whole mission "
+      "follows — group name, comms card, briefing, kneeboard."),
+
     P("Variations &amp; the seed", "h3"),
     P("The <b>Variation (seed)</b> field is the one control people find mysterious, so here's "
       "the whole story: the generator makes hundreds of small random choices — which stands get "
@@ -221,8 +280,8 @@ story += [
       "build the exact same mission</b>, byte for byte — that's how a share link reproduces your "
       "mission precisely for a squadron-mate. If you like a mission but want to tweak one setting, "
       "<i>keep</i> the seed so everything else stays put. If you want a <i>different</i> layout of "
-      "the same scenario, change the number — or just hit the <b>🎲 re-roll</b> button next to "
-      "it — and generate again. You never have to think about the actual value; treat 🎲 as "
+      "the same scenario, change the number — or just hit the <b>re-roll re-roll</b> button next to "
+      "it — and generate again. You never have to think about the actual value; treat re-roll as "
       "\"give me another version.\""),
 
     P("4 · Airfields — populate your ramps", "h2"),
@@ -238,7 +297,7 @@ story += [
     P("Compose exact aircraft", "h3"),
     P("Switch to <b>Compose</b> for the Ramp Composer, where you pick exact aircraft and counts "
       "by role — Fighters, Bombers &amp; Heavies, Tankers, AWACS, Transport, Helicopters — with "
-      "your own coalition and Red/OPFOR aggressors in separate, colour-coded sections. It starts "
+      "your own coalition and Red/OPFOR aggressors in separate, color-coded sections. It starts "
       "<b>pre-populated from the selected theme</b>: pick <i>Red Flag</i> and you get Vipers, "
       "Eagles, a Tornado, a pair of B-1s, tankers and an AWACS already laid in — adjust the "
       "numbers from there. Counts are <b>per airfield</b>, era-filtered (a WWII composer offers "
@@ -263,9 +322,11 @@ story += [
       "set the <b>Threat Dial</b>. <b>Intensity</b> (Minimal → Maximum) adds extra area SAM "
       "sites and airborne enemy CAP on top of the base defenses — the count is rolled off the "
       "seed, so re-rolls differ. <b>System level</b> sets the calibre: <i>Era standard</i>, "
-      "<i>Light</i> (SA-2/3, MiG-21/23), <i>Heavy</i> (SA-10/11, Su-27/MiG-31), or <i>Mixed</i>. "
-      "Everything is era-gated — a WWII field never fields an SA-10. The enemy CAP engages you "
-      "inbound; the area SAMs form a belt to plan around."),
+      "<i>Light</i> (SA-2/3, MiG-21/23), <i>Heavy</i> (SA-10/11, Su-27/MiG-31), <i>Mixed</i>, "
+      "or <b>Guns only</b> — zero radar SAMs anywhere, replaced by denser AAA clusters "
+      "(23/57/100&nbsp;mm) with gun batteries defending every strike target: the Rolling "
+      "Thunder picture, no launch warnings. Everything is era-gated — a WWII field never "
+      "fields an SA-10. The enemy CAP engages you inbound; the area belt is yours to plan around."),
     shot("threats.png", "Threats: air defenses plus the intensity dial and system-level tiers."),
 
     P("6 · Support & extras", "h2"),
@@ -428,9 +489,14 @@ story += [t(deck_rows, [1.2*inch, 5.4*inch]), Spacer(1, 6),
             "Diamonds) and an <b>E-2 Hawkeye</b> AEW orbit covering the force."),
 
           P("Scenario templates keep the no-waypoints rule: they preset the world and write "
-            "<i>suggested</i> tasking into the briefing, never your flight plan. The F-14 Crew "
-            "Ops scenarios are the one exception — the AI pilot needs steerpoints to fly. See "
-            "the Crew Ops section.", "note"),
+            "<i>suggested</i> tasking into the briefing, never your flight plan. Three exceptions, "
+            "all deliberate: the F-14 Crew Ops scenarios (the AI pilot needs steerpoints to fly), "
+            "the curated training rides whose printed syllabus IS the flight plan (the White "
+            "Knights rides carry the squadron's own route, because the route is the lesson), "
+            "and the <b>Automatic waypoints</b> tickbox on the Targets screen, which is off until "
+            "you switch it on and then builds WP1 &rarr; IP &rarr; TARGET &rarr; home with a "
+            "kneeboard leg card. There is no waypoint editor — where a mission needs a plan, "
+            "the mission brings it. See the Crew Ops section.", "note"),
 
           P("Share links and recipes", "h1"),
           P("A starter is defined by its <b>recipe</b> — your wizard selections plus a seed. Share "
@@ -439,6 +505,10 @@ story += [t(deck_rows, [1.2*inch, 5.4*inch]), Spacer(1, 6),
             "your selections."),
 
           P("FAQ", "h1"),
+          P("<b>What do you track about me?</b> Nothing about you. When a mission is built we "
+            "count the <i>mission's</i> shape — map, era, aircraft, mission type, which door it "
+            "came through — so we know what to build next. No IP address, no account, no "
+            "identifier of any kind; the record has no field one could go in."),
           P("<b>The mission won't load or units are missing.</b> Make sure you own the map. Carrier "
             "decks with CVN-71/72/73/75 need the Supercarrier module; the Stennis deck works in the "
             "base game, and the Forrestal comes with the F-14."),
@@ -452,7 +522,9 @@ story += [t(deck_rows, [1.2*inch, 5.4*inch]), Spacer(1, 6),
 doc = BaseDocTemplate(str(OUT), pagesize=letter,
                       leftMargin=0.75 * inch, rightMargin=0.75 * inch,
                       topMargin=0.85 * inch, bottomMargin=0.8 * inch,
-                      title="DCS Sortie Starter — User Guide",
+                      title=f"DCS Sortie Starter — User Guide v{APP_VERSION}",  # version in
+                      # the PDF metadata so a test can assert the shipped guide
+                      # matches the release without needing a PDF text parser
                       author="Rob Grady")
 frame = Frame(0.75 * inch, 0.8 * inch, W - 1.5 * inch, H - 1.65 * inch, id="main")
 doc.addPageTemplates([

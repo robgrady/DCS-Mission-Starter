@@ -6,7 +6,7 @@ period-correct static aircraft and equipment, functional SAM sites, support flig
 (tanker/AWACS) on station with a real comms/TACAN plan, optional carrier strike group,
 threat tuning, and F10 map graphics.
 
-**We set the stage — you write the play.** The starter never places player waypoints.
+**We set the stage — you write the play.** There is no waypoint editor and the starter never invents a flight plan: waypoints appear only where the mission itself calls for them — a routed strike, a curated training ride whose printed syllabus IS the route, or the opt-in Automatic waypoints tickbox.
 Open it in the DCS Mission Editor and build your mission on top.
 
 Developed by **Authentic Media LLC** — free community tool, provided as-is with no
@@ -134,6 +134,12 @@ the code is plumbing. Semantic versioning from v1.0.0 (`missiongen.__version__`,
 Ships with the app: [docs/ROADMAP.md](docs/ROADMAP.md), served at `/api/roadmap` and
 linked from the web UI. Next: livery picker, mission-import → template, Crew Ops II, and a
 v2.0 Live Mission Scripting pillar.
+
+## Credits
+
+Built by Rob Grady / Authentic Media LLC. Flight testing and feedback:
+**Tricker** — many of the fixes in the changelog started as his squawks from
+the cockpit.
 
 ## Contributing
 

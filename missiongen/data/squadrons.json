@@ -1,10 +1,10 @@
 {
- "_comment": "Real squadron identities per base \u2014 the realism ceiling for airfield dressing. When a base in this pack is dressed, its plane stands fill with these squadron blocks FIRST (contiguous rows, one type, squadron tag in the group name), then fall back to the ramp theme. 'nation' gates the entry to the base's owning country (theater alignment can flip ownership), so the wrong side never parks someone else's squadron. 'livery' is optional \u2014 omitted means the nation-correct pack pick, uniform per block. Additive + community-extendable like every data pack.",
+ "_comment": "Real squadron identities per base — the realism ceiling for airfield dressing. When a base in this pack is dressed, its plane stands fill with these squadron blocks FIRST (contiguous rows, one type, squadron tag in the group name), then fall back to the ramp theme. 'nation' gates the entry to the base's owning country (theater alignment can flip ownership), so the wrong side never parks someone else's squadron. 'livery' is optional — omitted means the nation-correct pack pick, uniform per block. Additive + community-extendable like every data pack.",
  "syria": {
   "Akrotiri": [
    {
     "ref": "planes.Tornado_IDS",
-    "count": 8,
+    "count": 6,
     "name": "RAF No. 31 Sqn",
     "nation": "UK"
    }
@@ -12,7 +12,7 @@
   "Ramat David": [
    {
     "ref": "planes.F_16C_50",
-    "count": 8,
+    "count": 6,
     "name": "IAF 110 Sqn",
     "nation": "Israel"
    },
@@ -26,7 +26,7 @@
   "Incirlik": [
    {
     "ref": "planes.F_16C_50",
-    "count": 8,
+    "count": 6,
     "name": "TuAF 181 Filo",
     "nation": "Turkey"
    }
@@ -58,7 +58,7 @@
   "Kandahar": [
    {
     "ref": "planes.A_10C_2",
-    "count": 8,
+    "count": 6,
     "name": "74th EFS Flying Tigers",
     "nation": "USA"
    }

@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>404 · Contact lost — DCS Sortie Starter</title>
+<style>
+  :root{--bg:#0B0E11;--panel:#161D24;--line:#33404D;--text:#E8ECEF;--dim:#A6B1BA;
+        --accent:#FFB020;--scope:#0e2a1c;--scopeline:#1d5c3c;--paint:#6ee7a0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);min-height:100vh;display:flex;
+       align-items:center;justify-content:center;
+       font-family:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+  .wrap{display:flex;gap:56px;align-items:center;padding:40px 24px;flex-wrap:wrap;
+        justify-content:center;max-width:1040px}
+  /* ---------------- the scope ---------------- */
+  .scope{position:relative;width:380px;height:380px;border-radius:50%;
+         background:radial-gradient(circle at 50% 50%, #10331f 0%, var(--scope) 65%, #081710 100%);
+         border:3px solid #24303c;box-shadow:0 0 0 8px #10161d,0 0 60px rgba(110,231,160,.08);
+         flex:none}
+  .ring{position:absolute;border:1px solid var(--scopeline);border-radius:50%}
+  .r1{inset:23%}.r2{inset:36.5%}.r3{inset:12%}.r0{inset:2%}
+  .ax{position:absolute;background:var(--scopeline)}
+  .ax.h{left:2%;right:2%;top:50%;height:1px}
+  .ax.v{top:2%;bottom:2%;left:50%;width:1px}
+  .sweep{position:absolute;inset:2%;border-radius:50%;
+         background:conic-gradient(from 0deg, rgba(110,231,160,.45) 0deg,
+                    rgba(110,231,160,.12) 40deg, transparent 90deg);
+         animation:spin 4s linear infinite;
+         -webkit-mask:radial-gradient(circle, black 98%, transparent 100%)}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .blip{position:absolute;width:7px;height:7px;border-radius:50%;background:var(--paint);
+        box-shadow:0 0 8px var(--paint);animation:fade 4s linear infinite}
+  @keyframes fade{0%,12%{opacity:1}60%{opacity:.25}100%{opacity:1}}
+  /* the hole in the picture */
+  .lost{position:absolute;left:61%;top:31%;width:64px;height:64px;border:2px dashed var(--accent);
+        border-radius:50%;animation:worry 2.2s ease-in-out infinite}
+  .lost::after{content:"?";position:absolute;inset:0;display:flex;align-items:center;
+        justify-content:center;color:var(--accent);font:700 26px/1 ui-monospace,monospace}
+  @keyframes worry{0%,100%{opacity:.9}50%{opacity:.35}}
+  .lostlab{position:absolute;left:61%;top:50%;transform:translateX(-14%);
+        color:var(--accent);font:11px/1.4 ui-monospace,monospace;letter-spacing:.08em;
+        text-align:center;white-space:nowrap}
+  .bearing{position:absolute;inset:0;color:#3f6b52;font:10px ui-monospace,monospace}
+  .bearing span{position:absolute}
+  .b0{top:6px;left:50%;transform:translateX(-50%)}
+  .b90{right:8px;top:50%;transform:translateY(-50%)}
+  .b180{bottom:6px;left:50%;transform:translateX(-50%)}
+  .b270{left:8px;top:50%;transform:translateY(-50%)}
+  /* ---------------- the words ---------------- */
+  .words{max-width:460px}
+  .code{font:700 15px ui-monospace,monospace;color:var(--accent);letter-spacing:.2em}
+  h1{font-size:42px;margin:6px 0 14px;letter-spacing:-.5px}
+  p{color:var(--dim);font-size:15.5px;line-height:1.65;margin-bottom:12px}
+  p code{color:var(--text);background:var(--panel);border:1px solid var(--line);
+         border-radius:5px;padding:1px 7px;font-size:13.5px}
+  .dope{font:13px ui-monospace,monospace;color:var(--paint);background:var(--panel);
+        border:1px solid var(--line);border-left:3px solid var(--paint);
+        border-radius:8px;padding:10px 14px;margin:18px 0 22px}
+  .doors{display:flex;gap:10px;flex-wrap:wrap}
+  .doors a{display:inline-block;background:var(--panel);border:1px solid var(--line);
+        border-radius:9px;padding:11px 18px;color:var(--text);text-decoration:none;
+        font-size:14px;font-weight:600}
+  .doors a:hover{border-color:var(--accent)}
+  .doors a.prime{background:var(--accent);color:#0B0E11;border-color:var(--accent)}
+  .foot{margin-top:26px;font-size:11.5px;color:var(--dim);font-family:ui-monospace,monospace}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="scope" role="img" aria-label="A radar scope with one contact missing">
+    <div class="ring r0"></div><div class="ring r3"></div>
+    <div class="ring r1"></div><div class="ring r2"></div>
+    <div class="ax h"></div><div class="ax v"></div>
+    <div class="sweep"></div>
+    <div class="blip" style="left:30%;top:62%;animation-delay:-1.2s"></div>
+    <div class="blip" style="left:44%;top:26%;animation-delay:-2.6s"></div>
+    <div class="blip" style="left:70%;top:70%;animation-delay:-3.4s"></div>
+    <div class="blip" style="left:22%;top:38%;animation-delay:-0.4s"></div>
+    <div class="lost"></div>
+    <div class="lostlab">LAST KNOWN<br>POSITION</div>
+    <div class="bearing">
+      <span class="b0">360</span><span class="b90">090</span>
+      <span class="b180">180</span><span class="b270">270</span>
+    </div>
+  </div>
+  <div class="words">
+    <div class="code">ERROR 404</div>
+    <h1>Contact lost.</h1>
+    <p>We swept the scope twice. Whatever used to be at
+       <code id="path">this address</code> is not painting.</p>
+    <p>Possible causes: shot down in a refactor, renamed and RTB'd to a
+       different URL, or it never checked in on the ladder in the first place.</p>
+    <div class="dope">BOGEY DOPE: negative contact, all quadrants. Recommend RTB.</div>
+    <div class="doors">
+      <a class="prime" href="/?v=quick">⚡ Fly Now</a>
+      <a href="/?v=library">📚 Library</a>
+      <a href="/?v=builder">🛠 Builder</a>
+    </div>
+    <div class="foot">DCS SORTIE STARTER · the mission exists — this page doesn't</div>
+  </div>
+</div>
+<script>
+  // show the path they asked for (display only, safely as text)
+  document.getElementById('path').textContent = location.pathname;
+</script>
+</body>
+</html>

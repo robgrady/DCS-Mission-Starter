@@ -4,7 +4,11 @@
 set -e
 cd "$(dirname "$0")/.."
 
-VERSION=$(python3 -c "import missiongen; print(missiongen.__version__)")
+# Parse, don't import. `import missiongen` pulls in vendored pydcs (and pyproj),
+# so packaging failed on any checkout where the vendor path isn't already on
+# sys.path — the same trap preflight.sh was fixed for.
+VERSION=$(sed -n 's/^__version__ = "\(.*\)"/\1/p' missiongen/__init__.py | head -1)
+if [ -z "$VERSION" ]; then echo "ERROR: could not parse __version__" >&2; exit 1; fi
 OUT="dcs-mission-starter-${VERSION}.zip"
 
 # Everything a user needs to run the tool locally OR deploy it.
@@ -17,6 +21,11 @@ MANIFEST=(
   docs
   samples
   vendor
+  tests                    # MUST ship: the zip is the recovery point. A build
+                           # environment can be reclaimed at any time, and a
+                           # release that carries the code but not its tests
+                           # restores a product nobody can verify. This has
+                           # already cost one 188-test suite.
   run_mac.command          # macOS double-click launcher
   run_windows.bat          # Windows double-click launcher
   REPLIT.md                # implementation brief for Replit / hosting agents
@@ -25,6 +34,10 @@ MANIFEST=(
   LICENSE
   requirements.txt
   Dockerfile
+  .dockerignore            # MUST ship: its !packs/** exception keeps the
+                           # curated .miz files in the docker build context
+  .gitignore               # MUST ship: tests/test_pack_delivery.py reads it,
+                           # and a tree restored from a zip has no git history
   fly.toml
   .replit
 )
@@ -34,13 +47,14 @@ rm -f "$OUT"
 zip -q -r "$OUT" "${MANIFEST[@]}" \
   -x '*/__pycache__/*' '*.pyc' '*/.DS_Store'
 
-# Fail loudly if either launcher didn't make it in.
-for launcher in run_mac.command run_windows.bat; do
-  if ! unzip -l "$OUT" | grep -q "$launcher"; then
-    echo "ERROR: $launcher missing from $OUT" >&2
+# Fail loudly if anything the zip is REQUIRED to contain didn't make it in.
+for must in run_mac.command run_windows.bat tests/conftest.py; do
+  if ! unzip -l "$OUT" | grep -q "$must"; then
+    echo "ERROR: $must missing from $OUT" >&2
     exit 1
   fi
 done
 
-echo "built $OUT ($(du -h "$OUT" | cut -f1)) — includes both launchers"
+NTESTS=$(unzip -l "$OUT" | grep -c 'tests/test_.*\.py')
+echo "built $OUT ($(du -h "$OUT" | cut -f1)) — both launchers, $NTESTS test files"
 unzip -l "$OUT" | grep -E 'run_mac.command|run_windows.bat|README|Dockerfile|fly.toml|.replit' || true

@@ -6,6 +6,10 @@ also served at `/api/options` → `version`.*
 
 ---
 
+> **This package is v1.105.0.** Verify a deploy with `GET /api/health` — it
+> returns the running `version`, plus `data_pack_errors` (the endpoint returns
+> 503 when non-empty) and `liveries_verified`.
+
 ## 1. What this application is
 
 **DCS Sortie Starter** generates ready-to-fly missions for DCS World. A user
@@ -21,7 +25,9 @@ Architecture (all included, nothing to scaffold):
   `GET /api/options` (all wizard/Library data incl. templates + version),
   `POST /api/generate` (recipe JSON → `.miz` download),
   `GET /api/dl?r=<code>` (share link → regenerated download),
-  `POST /api/brief` (briefing pack), `GET /api/health` (readiness; 503 on bad data).
+  `POST /api/brief` (briefing pack), `GET /api/health` (readiness; 503 on bad data),
+  `GET /api/sources` (the product's bibliography, with the admin-curated
+  Thanks list injected at request time), `GET /api/credits` (that list as JSON).
 - `frontend/index.html` — the complete single-file UI (entry, Library, Builder).
 - `missiongen/` — the generation engine (pure Python).
 - `vendor/dcs` — vendored pydcs library (LGPL-3.0, unmodified — do not edit).
@@ -40,6 +46,17 @@ PYTHONPATH=vendor uvicorn server.app:app --host 0.0.0.0 --port <PORT>
 re-scaffold the app. Every regeneration in the past has dropped features and
 frozen old versions. Serving `frontend/index.html` as shipped gives the exact,
 QA-verified product.
+
+**Analytics: your deployment reports to nobody by default.** The official site
+runs Google Analytics, but the measurement id is read from the environment
+(`GA_MEASUREMENT_ID`, see `server/ga.py`) and is deliberately NOT in the page
+source. Unset — which is what you get out of the box — the page makes no
+request to Google at all. Set your own id if you want analytics on your
+deployment, and if you do, **update the privacy paragraph in the footer of
+`frontend/index.html` to describe what YOUR deployment collects.** That
+paragraph is a statement to your visitors, not decoration; shipping it
+unchanged while running a different tag is the one thing here that would be
+worse than having no analytics.
 
 ## 3. If you re-skin the UI anyway — the non-negotiable contract
 
@@ -74,33 +91,45 @@ following must be preserved **exactly**:
    fully regenerates the mission.
 7. **Display the backend version** from `/api/options.version` in the UI (e.g.
    next to a BETA badge) so deployments are verifiable against `CHANGELOG.md`.
-8. **Never place player routing waypoints** in any UI copy or feature — the
-   product's north star is "we set the stage, you write the play."
+8. **Never place player routing waypoints unless the mission calls for them** —
+   the north star is "we set the stage, you write the play." Three things
+   count as the mission calling: a routed strike template, the curated
+   training rides whose printed syllabus IS the route (White Knights carry
+   the squadron's own plan — the route is the lesson), and the pilot's own
+   `bb_route` tick ("Automatic waypoints" in the UI). `bb_route` is the
+   sanctioned opt-in (off by default) and the strike templates are the format
+   exception. Anything that routes a player without a request is a bug.
 
-## 4. What's new since the previously deployed build (v1.16.2)
+## 4. What changed — where to look
 
-If the live site was last generated from v1.16.2, this package adds:
+**This section used to list "what's new since v1.16.2" inline.** It was still
+saying that thirty-two releases later, which is worse than saying nothing: a
+hosting agent reading it would have configured for a build from months ago.
 
-- **Mission Library + two-path entry** (v1.19.x) — the headline UI change; the
-  old in-wizard "Template" step is gone.
-- **F-14B(U) full support** (v1.17–v1.18): verified DCS type id `F-14BU`, real
-  airframe footprint, radio presets, carrier ops, **DTC/DTM cartridge
-  auto-injection** into generated `.miz` files, DTC setup card in the brief pack.
-- **Correctness fixes** (v1.16.3+): pinned `pyproj` (required by vendored pydcs),
-  WWII coalition fix (Germany correctly red on Normandy/The Channel), strict
-  request validation, temp-file cleanup, `/api/health` returns 503 on bad data
-  packs, versioned share links.
+A "since version X" summary pinned to a hard-coded X can only ever rot, so
+there isn't one any more. Two files are kept current by the build and are the
+only place to look:
+
+- **`docs/RELEASE_NOTES.md`** — written for the person flying. Also served at
+  `/api/whatsnew`.
+- **`CHANGELOG.md`** — the engineering record, every change, newest first.
+
+`tests/test_release_notes.py` fails the build if the current version is missing
+from either, so they cannot be behind the code.
 
 ## 5. Verification checklist (run after deploy)
 
 1. `GET /api/health` → 200, `"ok": true`.
 2. `GET /api/options` → `version` matches this package's `CHANGELOG.md` top entry.
 3. UI shows that version; entry screen offers **both paths**.
-4. Library shows **all** templates from `/api/options.templates` as cards
-   (8 at v1.19.1); filters work; a card's **Generate & Download** returns a
-   `.miz`; **Open in Builder** lands in a fully-populated wizard.
-5. The Builder has **no Scenario/Template step**, and all its original steps
-   are present and functional.
+4. Library shows **all** templates from `/api/options.templates` as cards;
+   filters work; a card's **Generate & Download** returns a `.miz`;
+   **Open in Builder** lands in a fully-populated wizard. (Count deliberately
+   not stated here — it changes every time a mission is added, and a number in
+   a checklist is a number that goes stale.)
+5. The Builder runs its six screens — Mission, Flight, Opposition, Airfields,
+   Support & presentation, Review — with nothing collapsed and exactly one
+   GENERATE button, on the Review screen.
 6. Generate the same recipe+seed twice → identical file (determinism intact).
 
 ## 6. Licensing note
