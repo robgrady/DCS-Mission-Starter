@@ -260,6 +260,11 @@ class Recipe:
     template: Optional[str] = None     # None | backseat_izlid | backseat_intercept | rio_fleet_defense
     crew_difficulty: str = "qualified" # trainee (hints) | qualified (clean)
 
+    # The comm table (missiongen/commplan.py): {plan row: MHz} overrides on
+    # the standard ladder — {"tanker": 271.5} moves Texaco and everything that
+    # prints or programs Texaco follows. None/{} = the standard ladder, byte
+    # for byte, so every existing share link is untouched. Guard is refused.
+    comms: Optional[dict] = None
     callsign: Optional[str] = None     # flight radio callsign ("Gypsy" -> the
                                        # flight is "Gypsy 1"). None = authentic
                                        # default per airframe (callsigns.json:
@@ -419,4 +424,13 @@ class Recipe:
             if not (1 <= len(cs) <= 20):
                 raise RecipeError("callsign must be 1-20 characters.")
             self.callsign = cs
+        if self.comms is not None:
+            # Refuse a bad comm table BEFORE the engine runs, with the row
+            # named — and keep only real changes, so a table full of defaults
+            # is the same recipe as no table (share links stay canonical).
+            from . import commplan as _cp
+            v = _cp.validate(self.comms, _cp.unit_type_for(self.aircraft))
+            if v["errors"]:
+                raise RecipeError("comms: " + " ".join(e["msg"] for e in v["errors"]))
+            self.comms = v["clean"] or None
         return self

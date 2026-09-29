@@ -25,6 +25,60 @@ guide cover.
 > and the session record. Where the code is silent the entry is short rather
 > than invented.
 
+## [1.106.0] — Your comm plan
+
+Rob, F-14B(U), front seat: "It says CH 2 but the preset didn't match the
+docs." The file was right — the mission, the card and both radios agreed
+byte for byte, and Heatblur's own missions program the jet the same way —
+so the miss is inside the module, and that we cannot fix. What we can do is
+make the plan the pilot's, so a squadron's own SOP is what the card prints
+and the cockpit holds.
+
+### Added
+- **The comm plan is a table you can overwrite** (`missiongen/commplan.py`).
+  Builder → Support & presentation → *Comm plan*: the standard ladder with a
+  *Default* and a *This mission* column. Leave it and nothing changes, byte
+  for byte. Overwrite a cell and everything that prints or programs that
+  frequency follows — the tanker's radio, the AWACS, the boat (in hertz),
+  every UHF preset set in the cockpit, the card, the kneeboard and the DTC
+  page — because there is exactly one place a frequency is read
+  (`CommsPlan.freq/cfg`) and the override lives there. The card marks the
+  row *custom*.
+- **Three kinds of row, said on the table**: *generated* (this mission builds
+  it), *engine* (Guard is 243.000 by regulation; Flight is editable but DCS
+  loads it on CH 1 whatever else is set) and *absent* (no tanker in this
+  mission — the table says so instead of pretending). Channels are fixed —
+  the plan is learnable because its shape never moves.
+- **Refused, with the reason and the row named**: Guard moved; a value off
+  the 25 kHz raster (the nearest channel is offered); a value outside UHF
+  225–400 unless the aircraft's own radios reach it (a Mustang's VHF flight
+  frequency passes for a Mustang); an unknown row; a row moved onto Guard.
+  Two rows on one frequency is a warning, not a refusal. `Recipe.validate`
+  and `POST /api/commplan/validate` apply the same rules, so a red cell in
+  the page is a 400 from the API.
+- **Profiles** — a named set of overrides saved in this browser ("Squadron
+  SOP") that fills the table. The overrides ride in the recipe (`comms`), so a
+  share link reproduces the custom plan without the profile. *Copy JSON*
+  exports them for the API.
+- `GET /api/commplan?aircraft=…` describes the table for an airframe: which
+  channel each row rides, which UHF sets hold it, which rows this mission has.
+- **Preset channel names.** Every programmed channel is now named in the
+  `.miz` (`channelsNames`, the way the Mission Editor writes them), so the
+  ME's radio page and any module that renders labels show *Tanker* on CH 4.
+- `scripts/mutate_commplan.sh` — 26 mutations, all caught.
+
+### Fixed
+- **Timing rides ran 51 minutes.** The 1.104 rename that introduced
+  `published_corridors` dropped the timing templates' opt-out, so every
+  timing card threaded its route through the theater's published corridors.
+  The five templates say `published_corridors: false` again.
+- The user guide's comm table printed rounded placeholders (305.00) for
+  frequencies the ladder has never used; it now prints the ladder.
+
+### Changed
+- The 1.104.0–1.105.0 source is back in git (see the note above the 1.105.0
+  entry). `.gitignore` added; the release manifest carries it.
+
 ## [1.105.0] — Packs, four kinds
 
 ### Added

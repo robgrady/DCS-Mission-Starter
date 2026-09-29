@@ -262,8 +262,13 @@ class StarterBuilder:
         threat_bearing = _bearing(own_center, enemy_center)
         away_bearing = (threat_bearing + 180) % 360
 
-        comms = CommsPlan()
+        # The pilot's comm table rides in here and nowhere else (commplan.py):
+        # every agency below reads its frequency through this object.
+        comms = CommsPlan(r.comms)
         stats = {"statics": 0, "sam_sites": [], "support": [], "ambient": []}
+        if comms.overrides:
+            from . import commplan as _cp
+            stats["comms_custom"] = _cp.describe(comms.overrides)
 
         # --- carrier strike group (built FIRST so the boat can be home plate) --
         gfx = {"targets": [], "farps": [], "threats": []}   # map-graphics geometry

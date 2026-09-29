@@ -20,10 +20,18 @@ def snap(mhz: float) -> float:
 
 
 class CommsPlan:
-    def __init__(self):
+    def __init__(self, overrides: dict | None = None):
         self.plan = load_json("comms_plan")
         self.entries = []          # (agency, callsign, freq, tacan, notes)
         self.channels = {}         # agency -> COMM1 preset channel (presets.py)
+        # The pilot's comm table (commplan.py): {plan key: MHz}. This is THE
+        # override point — every agency, the cockpit presets, the card, the
+        # kneeboard and the DTC page read frequencies through freq()/cfg()
+        # below, so a value changed here is changed everywhere or nowhere.
+        # Callers pass an already-validated map (Recipe.validate refuses bad
+        # ones); Guard is never overridable, whatever arrives.
+        self.overrides = {k: float(v) for k, v in (overrides or {}).items()
+                          if k != "guard" and v is not None}
         self._uhf = 265.225        # fallback allocator base, above the ladder (on raster)
         self._uhf_step = 0.825     # 33 x 25 kHz — realistic separation, stays off round values
         self._tacan = 40
@@ -32,14 +40,21 @@ class CommsPlan:
 
     # --- predefined ladder ------------------------------------------------
     def freq(self, key: str) -> float:
+        if key in self.overrides:
+            return snap(self.overrides[key])
         v = self.plan[key]
         return snap(v["freq"] if isinstance(v, dict) else v)
 
     def cfg(self, key: str) -> dict:
         d = dict(self.plan[key])
         if "freq" in d:
-            d["freq"] = snap(d["freq"])
+            d["freq"] = self.freq(key)
         return d
+
+    def is_custom(self, agency: str) -> bool:
+        """Was this card row's frequency overwritten by the pilot's table?"""
+        from .commplan import KEY_OF
+        return KEY_OF.get(agency) in self.overrides
 
     def next_farp(self) -> float:
         f = snap(self._farp)
@@ -58,6 +73,10 @@ class CommsPlan:
         return c
 
     def add(self, agency, callsign, freq, tacan="-", notes=""):
+        # A row the pilot overwrote says so on the card, so a wingman reading
+        # a shared kneeboard knows this is the squadron's number, not ours.
+        if self.is_custom(agency):
+            notes = (notes + " · " if notes else "") + "custom"
         self.entries.append((agency, callsign, freq, tacan, notes))
 
     # cockpit preset channels (presets.py) — {agency: channel}. When set, the
@@ -76,7 +95,8 @@ class CommsPlan:
         hdr = f"{'AGENCY':<16}{'C/S':<14}{'FREQ':<9}"
         hdr += f"{'CHAN':<6}" if has_ch else ""
         hdr += f"{'TACAN':<7}NOTES"
-        lines = ["COMMS / NAV CARD (standard ladder"
+        lines = ["COMMS / NAV CARD ("
+                 + ("custom ladder" if self.overrides else "standard ladder")
                  + (" - presets loaded on COMM1" if has_ch else "") + ")",
                  "-" * 48, hdr]
         for a, c, f, t, n in self.entries:

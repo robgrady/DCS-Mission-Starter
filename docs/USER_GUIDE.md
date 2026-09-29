@@ -111,21 +111,47 @@ type) to decide what to build next — never who generated them.*
 
 Every starter uses the same predefined comms, so learn it once:
 
-| Agency        | Callsign | Freq (UHF) | TACAN | Notes |
-|---------------|----------|------------|-------|-------|
-| Guard         | —        | 243.00     | —     | monitored |
-| Your flight   | (varies) | 305.00     | —     | flight common |
-| Tactical      | —        | 254.00     | —     | inter-flight coordination |
-| AWACS         | Overlord | 251.00     | —     | land-based E-3/A-50 |
-| Tanker        | Texaco   | 253.00     | 39Y   | speeds/altitudes per type |
-| Carrier       | Mother   | 264.00     | 71X   | ICLS 11 · Link4 336 · ACLS on |
-| CAP           | (squadron) | 258.00   | —     | carrier air wing |
-| AEW Hawkeye   | (squadron) | 259.00   | —     | carrier air wing |
-| FARPs         | (name)   | 127.50+    | —     | 0.25 steps per pad |
+| Ch   | Agency        | Callsign   | Freq (UHF) | TACAN | Notes |
+|------|---------------|------------|------------|-------|-------|
+| 1    | Your flight   | (varies)   | 305.725    | —     | flight common — DCS loads it on CH 1 |
+| 2    | Carrier       | Mother     | 264.425    | 71X   | ICLS 11 · Link4 336 · ACLS on |
+| 3    | AWACS         | Overlord   | 251.475    | —     | land-based E-3/A-50 |
+| 4    | Tanker        | Texaco     | 253.625    | 39Y   | speeds/altitudes per type |
+| 5    | Plane guard   | Angel      | 262.050    | —     | carrier flight ops |
+| 6    | CAP           | (squadron) | 258.175    | —     | carrier air wing |
+| 7    | Tactical      | —          | 254.325    | —     | inter-flight coordination |
+| 8    | AEW Hawkeye   | (squadron) | 259.925    | —     | carrier air wing (CH 3 when there is no AWACS) |
+| last | Guard         | —          | 243.000    | —     | monitored — fixed by regulation |
+| —    | FARPs         | (name)     | 127.525+   | —     | 0.25 steps per pad |
 
 The same ladder is printed on the in-jet **kneeboard** (comms card page) and in the
-mission briefing. All carrier systems are pre-activated: TACAN 71X "STN", ICLS
-channel 11, Link4 on 336, and ACLS — tune and go.
+mission briefing, and it is loaded into every UHF preset radio the jet has
+(both sets in an F-14 or a Hornet). All carrier systems are pre-activated:
+TACAN 71X "STN", ICLS channel 11, Link4 on 336, and ACLS — tune and go.
+
+### Your own comm plan
+
+Squadrons have their own SOP. In the Builder, **Support & presentation →
+Comm plan** shows the ladder as a table: a *Default* column and a *This
+mission* column. Leave it alone and nothing changes. Overwrite a cell and
+everything that prints or programs that frequency follows — the tanker's own
+radio, the AWACS, the boat, the cockpit presets, the card, the kneeboard and
+the F-14B(U) DTC page — and the card marks the row *custom*.
+
+What the table refuses, and why: **Guard** is 243.000 by regulation and cannot
+be moved; a frequency **off the 25 kHz raster** (253.630) is refused with the
+nearest channel named, because no radio can tune it; a frequency **outside
+UHF 225–400** is refused unless the aircraft's own radios reach it (a
+Mustang's VHF flight frequency is fine for a Mustang). Two rows on one
+frequency are allowed with a warning — co-channel is legal, sometimes
+intended, often a slip. **Channels are fixed**: that is what makes the plan
+learnable across every starter.
+
+*Profiles* save a set of overrides in this browser under a name ("Squadron
+SOP") and fill the table on demand. The overrides ride in the recipe, so a
+**share link** reproduces the mission with the custom plan — the wingman does
+not need the profile. *Copy JSON* gives the overrides as a `comms` block for
+the API (`{"comms": {"tanker": 271.5}}`).
 
 ## Building blocks
 

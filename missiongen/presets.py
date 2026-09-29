@@ -151,11 +151,19 @@ def apply(group, rows, guard_mhz):
             if not channels:
                 continue
             last = max(channels)               # Guard rides this radio's last channel
+            # Name what we program, the way the Mission Editor does when a
+            # hand fills the preset table (`channelsNames`). The name shows in
+            # the ME's radio page and in modules that render preset labels;
+            # the frequency is what matters, the name is how a pilot checks
+            # it without the card in hand.
+            names = radio[uhf].setdefault("channelsNames", {})
             for ch, agency, mhz in rows:
                 if ch in channels and ch != last:   # never take Guard's slot
                     channels[ch] = mhz
+                    names[ch] = agency
                     this[agency] = ch
             channels[last] = guard_mhz
+            names[last] = "Guard"
             this["Guard"] = "last ch"
         if this:
             programmed = this                  # same type across the group

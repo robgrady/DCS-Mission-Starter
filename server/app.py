@@ -393,6 +393,35 @@ def packformat():
                         media_type="text/markdown")
 
 
+# --------------------------------------------------------------------------- #
+# The comm table (missiongen/commplan.py): the standard ladder as rows the
+# pilot can overwrite. GET describes the table for an airframe and a set of
+# building blocks; POST validates a set of overrides the same way
+# Recipe.validate will, so the page can refuse a bad cell before Build does.
+# --------------------------------------------------------------------------- #
+class CommPlanCheck(BaseModel):
+    comms: dict | None = None
+    aircraft: str | None = None
+
+
+@app.get("/api/commplan")
+def commplan_table(aircraft: str | None = None, bb_tanker: bool = True,
+                   bb_awacs: bool = True, bb_carrier: bool = False,
+                   carrier_cap: bool = False, carrier_aew: bool = False):
+    from missiongen import commplan as _cp
+    ut = _cp.unit_type_for(aircraft)
+    present = {"bb_tanker": bb_tanker, "bb_awacs": bb_awacs, "bb_carrier": bb_carrier,
+               "carrier_cap": carrier_cap, "carrier_aew": carrier_aew}
+    return {"rows": _cp.rows(ut, present), "radios": _cp.radios_for(ut),
+            "aircraft_known": ut is not None}
+
+
+@app.post("/api/commplan/validate")
+def commplan_validate(req: CommPlanCheck):
+    from missiongen import commplan as _cp
+    return _cp.validate(req.comms, _cp.unit_type_for(req.aircraft))
+
+
 @app.get("/api/whatsnew")
 def whatsnew_gone():
     """Retired in v1.105.0. The page existed to tell returning pilots what
