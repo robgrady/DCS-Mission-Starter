@@ -607,6 +607,83 @@ def page_comms_nav(ctx, comms, nav_points, qnh_hpa):
     return img
 
 
+# ------------------------------------------------------- page 4: airfield guide
+def page_airfield_guide(ctx):
+    """Channelization, runways, elevation, parking and the divert order for
+    the fields this mission uses — read out of the terrain (fieldguide.py),
+    so the page and the field DCS gives you cannot disagree."""
+    from . import fieldguide as fg
+    img, d, f = _page("AIRFIELD GUIDE", "ATC per DCS auto-assign · runways both ends · elevation · stands · divert order from home")
+    table = fg.rows(ctx["own_fields"], None if ctx["carrier_home"] else ctx["home"],
+                    ctx["enemy_fields"], map_key=ctx["recipe"].map)
+    y = 210
+
+    def header(cols):
+        nonlocal y
+        d.rectangle([60, y, W - 60, y + 44], fill=NAVY)
+        for tx, tw in cols:
+            d.text((tw, y + 8), tx, font=f["mono_s"], fill=(223, 232, 241))
+        y += 44
+
+    # One runway in the table (the first — DCS's primary); every runway with
+    # both headings in the RUNWAY HEADINGS block below. Two runways in a cell
+    # overran the elevation column on Nevada.
+    cols = (("FIELD", 90), ("ATC UHF", 470), ("ATC VHF", 630), ("RWY", 790),
+            ("ELEV FT", 940), ("STANDS", 1090), ("FROM HOME", 1200))
+    d.text((60, y), "YOUR SIDE  —  home first, then by distance", font=f["h3"], fill=NAVY); y += 54
+    header(cols)
+    for i, r in enumerate(table["own"][:11]):
+        if i % 2:
+            d.rectangle([60, y, W - 60, y + 42], fill=(243, 241, 236))
+        # ">" not "★": the mono face has no star and draws a box for it
+        star = "> " if r["home"] else "  "
+        d.text((90, y + 7), f"{star}{r['name'][:19]}", font=f["mono_b" if r["home"] else "mono"], fill=INK)
+        d.text((470, y + 7), fg.fmt_mhz(r["atc"]["uhf"]), font=f["mono_b"], fill=INK)
+        d.text((630, y + 7), fg.fmt_mhz(r["atc"]["vhf"]), font=f["mono"], fill=INK)
+        d.text((790, y + 7), fg.fmt_rwy(r, first_only=True), font=f["mono"], fill=INK)
+        d.text((940, y + 7), f"{r['elev_ft']:,}" if r["elev_ft"] is not None else "—", font=f["mono"], fill=INK)
+        d.text((1090, y + 7), str(r["stands"]), font=f["mono"], fill=INK)
+        # From the boat there is no "from home" — bearing is None, not 0.
+        d.text((1200, y + 7), "" if (r["home"] or r["bearing"] is None)
+               else f"{r['bearing']:03d}° / {r['range_nm']:3.0f} nm", font=f["mono"], fill=INK)
+        y += 42
+    y += 34
+    d.text((60, y), "ENEMY (KNOWN)", font=f["h3"], fill=RED_DK); y += 54
+    header((("FIELD", 90), ("ATC UHF", 470), ("ATC VHF", 630), ("RWY", 790),
+            ("ELEV FT", 940), ("FROM HOME", 1200)))
+    for i, r in enumerate(table["enemy"][:8]):
+        if i % 2:
+            d.rectangle([60, y, W - 60, y + 42], fill=(243, 241, 236))
+        d.text((90, y + 7), f"  {r['name'][:19]}", font=f["mono"], fill=INK)
+        d.text((470, y + 7), fg.fmt_mhz(r["atc"]["uhf"]), font=f["mono"], fill=INK)
+        d.text((630, y + 7), fg.fmt_mhz(r["atc"]["vhf"]), font=f["mono"], fill=INK)
+        d.text((790, y + 7), fg.fmt_rwy(r, first_only=True), font=f["mono"], fill=INK)
+        d.text((940, y + 7), f"{r['elev_ft']:,}" if r["elev_ft"] is not None else "—", font=f["mono"], fill=INK)
+        d.text((1200, y + 7), f"{r['bearing']:03d}° / {r['range_nm']:3.0f} nm" if r["bearing"] is not None else "",
+               font=f["mono"], fill=INK)
+        y += 42
+    y += 40
+    d.text((60, y), "RUNWAY HEADINGS", font=f["h3"], fill=NAVY); y += 52
+    for r in table["own"][:6]:
+        d.text((90, y), f"{r['name'][:22]:<24}{fg.fmt_rwy(r, with_heading=True)[:60]}",
+               font=f["mono_s"], fill=INK); y += 36
+    y += 30
+    d.text((60, y), "NORDO", font=f["h3"], fill=NAVY); y += 52
+    home_name = "THE CARRIER" if ctx["carrier_home"] else ctx["home"].name
+    for ln in _wrap(d, f["mono_s"], fg.nordo_line(table, home_name), W - 150):
+        d.text((90, y), ln, font=f["mono_s"], fill=INK); y += 34
+    y += 24
+    for ln in _wrap(d, f["small"],
+                    "Headings are runway designators (magnetic, as DCS names them). "
+                    "ATC frequencies are what DCS assigns the field; tune UHF or VHF to "
+                    "taste. Elevations are published field elevations; a dash means none "
+                    "is on record for that field. TACAN and ILS are not printed: the "
+                    "terrain data this guide is read from does not carry them, and a "
+                    "guessed channel is worse than a blank one.", W - 150):
+        d.text((90, y), ln, font=f["small"], fill=DIM); y += 32
+    return img
+
+
 # -------------------------------------------------------------- page 4: forces
 def page_forces(ctx):
     from . import alignment
@@ -684,6 +761,25 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
         star = "**★ " if (ap.name == ctx["home"].name and not ctx["carrier_home"]) else ""
         L.append(f"- {star}{ap.name}{'**' if star else ''}"
                  + (f" — {align[ap.name]}" if ap.name in align else ""))
+    # The airfield guide — the same rows the PDF page and the kneeboard
+    # airfield page print, out of the terrain (fieldguide.py).
+    from . import fieldguide as fg
+    table = fg.rows(ctx["own_fields"], None if ctx["carrier_home"] else ctx["home"],
+                    ctx["enemy_fields"], map_key=ctx["recipe"].map)
+    L += ["", "## Airfield guide", "",
+          "| Field | ATC UHF | ATC VHF | RWY | Elev ft | Stands | From home |",
+          "|---|---|---|---|---|---|---|"]
+    for r in table["own"]:
+        from_home = "" if (r["home"] or r["bearing"] is None) else f"{r['bearing']:03d}° / {r['range_nm']:.0f} nm"
+        elev = r["elev_ft"] if r["elev_ft"] is not None else "—"
+        L.append(f"| {'★ ' if r['home'] else ''}{r['name']} | {fg.fmt_mhz(r['atc']['uhf'])} | "
+                 f"{fg.fmt_mhz(r['atc']['vhf'])} | {fg.fmt_rwy(r)} | {elev} | {r['stands']} | "
+                 f"{from_home} |")
+    home_name = "THE CARRIER" if ctx["carrier_home"] else ctx["home"].name
+    L += ["", fg.nordo_line(table, home_name), "",
+          "*Runway designators are magnetic as DCS names them. A dash under Elev means "
+          "no elevation is on record for that field. TACAN/ILS are not printed: the "
+          "terrain data this is read from does not carry them.*"]
     L += ["", "## Enemy picture", ""]
     for ap in ctx["enemy_fields"]:
         L.append(f"- {ap.name}" + (f" — {align[ap.name]}" if ap.name in align else ""))
@@ -784,6 +880,7 @@ def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
         page_mission_data(ctx, comms),
         page_theater_chart(ctx),
         page_comms_nav(ctx, comms, nav_points, qnh),
+        page_airfield_guide(ctx),
     ]
     if kb_ctx.get("nttr_plan"):
         # The NTTR corridor chart: the road this mission flies, on the

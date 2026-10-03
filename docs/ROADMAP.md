@@ -30,13 +30,13 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.106.0**: four doors (Fly now · Library · Train · Builder), eleven
-theaters, 78 airframes, the Authentic Style across every document, the pack
-format published (`/api/packformat`, four kinds), the F-4E pipeline through
-its check ride, published corridors on Nevada, Syria and Cold War Germany —
-and, new in this release, the comm plan as a table the pilot overwrites
-(every station, radio, card and kneeboard follows) and formation departures
-built behind a verified-encoding gate.
+**v1.107.0**: four doors (Fly now · Library · Train · Builder), thirteen
+maps, the existing Flightline visual design, the published pack format and
+F-4E training pipeline. The release adds the airfield guide and reliability
+boundaries for recipe validation, Mission Kits, generation capacity, artifact
+serialization and pack publication. The comm-plan layout and three recovered
+generators are included. The Library audit still has 17 entries with confirmed
+behavior mismatches; generation success is not a content-validation pass.
 
 ## The bets
 
@@ -65,23 +65,22 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 
 ## ▶ Now
 
-- **Deploy 1.106.0** (`fly deploy` from the unzipped release) and check
+- **Deploy 1.107.0** (`fly deploy` from the unzipped release) and check
   `/api/health` says so. *Bet 1.*
 - **Close the F-14B(U) front-seat question in the cockpit.** The file, the
   card and both radios agree; Heatblur's own missions program the jet the
   same way. Discriminator: fly the same mission in the plain F-14B. The ME
   now shows channel names, which is the second way to check. Rob's sortie,
   not code. *Bet 1.*
-- **Source control and integration.** GitHub command-line pushes work, as
-  confirmed by the owner on 3 October 2026. Integrate the isolated reliability
-  changes and roadmap proposals through the normal branch/review workflow.
-  Verify remote commit IDs when reporting publication status; stale local
-  tracking information or an agent's network restriction is not a GitHub
-  authorization blocker.
-- **Rebuild the three lost generators** (`build_packformat_html`,
-  `build_checkride_cards`, `build_formation_hud`): the outputs ship, the
-  scripts died with the old build environment. Then re-register them in the
-  artifacts freshness list so it can never happen silently again.
+- **Library truth before expansion.** Resolve the 17 behavior mismatches
+  and historical boundary issues in the [Library audit](library-validation-2026-10-02.md).
+  Check the recipe submitted from the actual Library and Builder as well as
+  generated groups, routes, objectives and printed claims. *Bet 1.*
+- **Architecture follow-ups.** First unify recipe/preset resolution, then
+  extract builder placement phases, browser recipe state and API services.
+  See the [refactor decision](architecture-refactor-followups.md) for scope,
+  compatibility limits and verification. GitHub pushes work; verify remote
+  commit IDs when reporting release status.
 - **Formation departures (AI runway line-up).** DCS 2.9.24 added the
   advanced waypoint action, 2.9.30 the group option; pydcs has neither and
   does not need to. The feature is built end to end — a *Formation
@@ -117,9 +116,9 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 - **F-4E FRS units** — instrument recovery (TACAN penetration, ILS to
   minimums) and radar work with Jester — then a **UPT school on a free
   trainer** so the pipeline is universal (TF-51D is in every install). *Bet 2.*
-- **A five-minute gate.** Cache built missions per test session and run the
-  touched files first; the suite is 4,100 tests and ten minutes. Every bet
-  pays for itself faster when a rename fails in a minute.
+- **Keep the gate fast.** Focused development checks and bounded parallel
+  release tests now ship. Track runtime and peak memory as coverage grows;
+  preserve semantic mission checks and the full release gate.
 - **Fuel on the card** — a per-airframe burn table turns each ETA into a
   planned fuel state; JOKER and BINGO become computed numbers. Data before
   code. **Timing on the other routed cards** (White Knights, Case III).

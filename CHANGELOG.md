@@ -25,6 +25,76 @@ guide cover.
 > and the session record. Where the code is silent the entry is short rather
 > than invented.
 
+## [1.107.0] — Reliable generation and the airfield guide
+
+Released 3 October 2026. Backward-compatible architecture and reliability
+changes; existing recipe links and public generation entry points remain valid.
+
+### Added
+- Explicit world-setup and artifact-serialization modules, a public recipe
+  schema, and one Mission Kit lifecycle for Builder, Fly Now and Library.
+  A kit retains the recipe that generated it when the current selection changes.
+- Field-specific input errors, versioned UTF-8 share codes with legacy-code
+  support, and visible recovery for invalid links and failed options loading.
+- A bounded generation capacity shared by missions and documents; excess
+  requests receive a retryable response. Capacity is per server process.
+- A reproducible Library validation audit and 20 scoped feature candidates in
+  the Roadmap. The audit generated 334 missions without build failures and
+  identified 17 entries whose behavior differs from their descriptions.
+- [Remaining architecture work](docs/architecture-refactor-followups.md), with
+  priorities, compatibility constraints and verification requirements.
+- **The airfield guide** — page 4 of the brief, a table in the Markdown and
+  ATC/elevation columns on the kneeboard's airfield page: ATC UHF and VHF as
+  DCS assigns them, every runway with both ends and headings, field
+  elevation, stand count and the divert order from home with bearing and
+  range, plus a NORDO line. All of it read out of the terrain
+  (`missiongen/fieldguide.py`); TACAN and ILS are *not* printed, because
+  pydcs does not carry them and a guessed channel is worse than a blank.
+  The comm card's "field ATC — see the airfield page" note finally points
+  at a page that has it. First slice of the Doc folder.
+- `docs/STATIC_AIRCRAFT_PLACEMENT.md` — a handoff of the whole ramp-dressing
+  subsystem for another agent.
+- The three generators lost with the 1.104–1.105 build environment are back
+  and registered in the freshness list: `build_packformat_html.py`,
+  `build_checkride_cards.py`, `build_formation_hud.py`. The check-ride cards
+  now read every threshold from `checkride.py`; two defects in the old art
+  (a grade letter over the title, a clipped critical card) are fixed.
+
+### Fixed
+- Saved/shared carrier recipes restore hull, layout, aircraft and equipment;
+  deck changes persist immediately. Quick Flight rejects incompatible map,
+  era, service-window and refueling choices before submission.
+- Mission Kit document downloads use their mission's frozen recipe. Duplicate
+  pending builds are blocked and failures preserve the previous successful kit.
+- Keyboard-operable selections, mobile navigation, Contact Escape/focus
+  restoration, and browser Back navigation through views and Builder steps.
+- Pack replacement stages complete content before publication and restores the
+  previous pack on runtime publication failure. This is an in-process guarantee,
+  not a crash-durable or cross-process storage transaction.
+- Parked aircraft on measured stands retain their exact recorded direction;
+  survey imports validate stand identity and coordinates and publish atomically.
+  No headings were fabricated for maps without measured data.
+- The development test runner defaults to focused checks; the release suite
+  retains all coverage and uses at most four workers with shared mission fixtures.
+- **Pattern traffic spawned at the wrong altitude.** `pattern.py` read
+  `ParkingSlot.height` as field elevation; it is the stand's clearance height
+  (6–18 m). Fifty feet wrong on the Caucasus, 1,800 ft underground at
+  Nellis. pydcs has no elevation, so `data/airfield_elevations.json` holds
+  published field elevations (Caucasus and Nevada); a field with none on
+  record gets no airborne spawn and says so.
+- The comm-plan table in the Builder wrapped every row to three lines in its
+  half column; blurbs fold into tooltips there, notes are short, columns fixed.
+- Corridor charts and a screenshot that came back from the desktop bridge
+  carrying an embedded content-credential manifest are regenerated clean;
+  the determinism guard caught it.
+
+### Known follow-up work
+- The [Library audit](docs/library-validation-2026-10-02.md) records unresolved
+  mission behavior and historical boundary defects. Successful generation and
+  automated tests do not certify every Library description or DCS flight behavior.
+- Formation departures still require verified Mission Editor encoding before
+  activation. Discord login/sharing and cloud saves remain proposals.
+
 ## [1.106.0] — Your comm plan
 
 Rob, F-14B(U), front seat: "It says CH 2 but the preset didn't match the

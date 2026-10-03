@@ -342,9 +342,9 @@ def test_the_pdf_brief_has_the_corridor_section(farwest):
     assert "## NTTR corridors" in md and "AMARGOSA VALLEY" in md
     assert "The west road (US-95)" in md and "STRYK" in md
     assert b.res["brief_pdf"].endswith(".pdf") and open(b.res["brief_pdf"], "rb").read(4) == b"%PDF"
-    # the chart is page 4
+    # the chart is page 5 — after the airfield guide (page 4 since v1.107.0)
     from pypdf import PdfReader
-    assert len(PdfReader(b.res["brief_pdf"]).pages) == 4
+    assert len(PdfReader(b.res["brief_pdf"]).pages) == 5
 
 
 # --------------------------------------------------------------------------- #

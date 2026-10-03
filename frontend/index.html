@@ -307,15 +307,24 @@
   #sec_comms:not(.folded) .corrchev { font-size: 0; }
   #sec_comms:not(.folded) .corrchev::after { content: "Hide ▾"; font-size: 11px; }
   #sec_comms .corrchev { margin-left: auto; font-size: 11px; text-transform: none; letter-spacing: 0; font-weight: normal; color: var(--dim); display: inline-block; }
-  .commtbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+  /* In the two-column Builder the table lives in a half column, so the
+     agency blurb folds into a tooltip and the notes are kept to a few words;
+     at one column (narrow windows) the blurb comes back under the name. */
+  .commtbl { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 6px; table-layout: fixed; }
+  .commtbl col.c-ch { width: 52px; } .commtbl col.c-ag { width: 26%; } .commtbl col.c-def { width: 68px; }
+  .commtbl col.c-this { width: 96px; } .commtbl col.c-radio { width: 58px; }
+  #stepcols.twocol .commtbl td.ag small { display: none; }
+  #stepcols.twocol .commtbl { font-size: 12.5px; }
+  #stepcols.twocol .commtbl td { padding: 5px 5px; }
   .commtbl th { text-align: left; font-family: var(--font-mono); font-size: 10.5px; letter-spacing: 1px;
                 text-transform: uppercase; color: var(--dim); padding: 4px 8px; border-bottom: 1px solid var(--line); font-weight: normal; }
   .commtbl td { padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: middle; }
   .commtbl td.ch, .commtbl td.def { font-family: var(--font-mono); white-space: nowrap; }
+  .commtbl td.radio { color: var(--dim); font-size: 12px; }
   .commtbl td.def { color: var(--dim); }
   .commtbl td.ag b { font-weight: 600; }
   .commtbl td.ag small { display: block; color: var(--dim); font-size: 11px; }
-  .commtbl input { width: 96px; padding: 5px 7px; background: var(--panel2); color: var(--text);
+  .commtbl input { width: 100%; max-width: 96px; padding: 5px 7px; background: var(--panel2); color: var(--text);
                    border: 1px solid var(--line); border-radius: var(--radius); font-family: var(--font-mono); font-size: 13px; }
   .commtbl input:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
   .commtbl input.set { border-color: var(--accent); }
@@ -329,6 +338,7 @@
   .commtbl td.note .lock { font-family: var(--font-mono); font-size: 10.5px; letter-spacing: .5px; }
   .commbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
   .commbar select, .commbar button { font-size: 12px; padding: 5px 9px; }
+  .commbar select { max-width: 220px; }
   .commbar .sp { flex: 1; }
   .commbar small { color: var(--dim); font-size: 11px; }
 
@@ -1116,7 +1126,7 @@
   <div class="step folded" id="sec_comms"><h2 style="cursor:pointer" role="button" tabindex="0" aria-expanded="false" onclick="toggleComms(this)"><span class="n">6</span>Comm plan<span class="hdrval" id="hv_comms"></span><span class="corrchev">Show ▸</span></h2>
     <p class="screenhint">The standard ladder every starter uses, as a table. Leave it and nothing changes; overwrite a cell and the card, the kneeboard, the cockpit presets and the station itself all move to your number. Channels are fixed — that is what makes the plan learnable.</p>
     <div class="commbody">
-      <table class="commtbl" aria-label="Comm plan"><thead><tr><th>Ch</th><th>Agency</th><th>Default</th><th>This mission</th><th>Radio</th></tr></thead><tbody id="commrows"></tbody></table>
+      <table class="commtbl" aria-label="Comm plan"><colgroup><col class="c-ch"><col class="c-ag"><col class="c-def"><col class="c-this"><col class="c-radio"><col></colgroup><thead><tr><th>Ch</th><th>Agency</th><th>Default</th><th>This mission</th><th>Radio</th><th>Note</th></tr></thead><tbody id="commrows"></tbody></table>
       <div class="commbar">
         <label for="commprof"><small>Profile</small></label>
         <select id="commprof"><option value="">— none —</option></select>
@@ -2474,6 +2484,7 @@ function toggleCorridor(name){ const i=S.corridors.indexOf(name);
 // way to FILL the cells, the recipe carries the cells, and the share link
 // carries the recipe — so a link reproduces the mission without the profile.
 let COMM = { key:null, rows:[], radios:[], errs:{}, warns:{}, timer:null };
+const COMM_NEEDS = { bb_carrier:'Carrier', bb_tanker:'Tanker', bb_awacs:'AWACS', carrier_cap:'Carrier CAP', carrier_aew:'Carrier AEW' };
 function commPresent(){
   const g = id => !!document.getElementById(id)?.checked;
   return { aircraft: document.getElementById('aircraft').value,
@@ -2530,19 +2541,19 @@ function renderCommRows(){
     const ch = r.channel === 'last' ? 'last' : (r.channel==null ? '—' : 'CH '+r.channel);
     const locked = !r.editable;
     let note = '';
-    if (locked) note = '<span class="lock">FIXED · 243.000 by regulation</span>';
-    else if (r.kind === 'absent') note = `not in this mission${r.needs ? ' — turn on ' + (SUP_NAMES[r.needs] || r.needs.replace('bb_','').replace('carrier_','carrier ')) : ''}`;
-    else if (r.key === 'flight_common') note = 'DCS puts this on CH 1 whatever else is set';
-    else if (r.key === 'aew' && r.channel === 3) note = 'takes CH 3 while there is no AWACS';
+    if (locked) note = '<span class="lock">fixed by regulation</span>';
+    else if (r.kind === 'absent') note = `off${r.needs ? ' — needs ' + (COMM_NEEDS[r.needs] || SUP_NAMES[r.needs] || r.needs) : ''}`;
+    else if (r.key === 'flight_common') note = 'DCS loads the flight freq on CH 1';
+    else if (r.key === 'aew' && r.channel === 3) note = 'CH 3 while there is no AWACS';
     if (COMM.errs[r.key]) note = `<span class="err">${COMM.errs[r.key]}</span>`;
     else if (COMM.warns[r.key]) note = `<span class="wrn">${COMM.warns[r.key]}</span>` + (note ? ' · ' + note : '');
-    const radio = r.held ? radios : (r.kind === 'absent' ? '' : (COMM.radios.length ? 'card only' : 'no preset — card only'));
+    const radio = r.held ? radios : (r.kind === 'absent' ? '' : (COMM.radios.length ? 'card only' : '—'));
     const cls = (set ? 'set ' : '') + (COMM.errs[r.key] ? 'bad' : (COMM.warns[r.key] ? 'warn' : ''));
     return `<tr class="${r.kind}" data-k="${r.key}"><td class="ch">${ch}</td>`
-      + `<td class="ag"><b>${r.agency}</b><small>${r.blurb}</small></td>`
+      + `<td class="ag" title="${r.blurb.replace(/"/g,'&quot;')}"><b>${r.agency}</b><small>${r.blurb}</small></td>`
       + `<td class="def">${fmtMhz(r.default)}</td>`
       + `<td><input type="text" inputmode="decimal" class="${cls}" data-k="${r.key}" value="${set ? String(v) : ''}" placeholder="${fmtMhz(r.default)}" ${locked ? 'disabled' : ''} aria-label="${r.agency} frequency, MHz"></td>`
-      + `<td class="note">${radio ? radio + (note ? ' · ' : '') : ''}${note}</td></tr>`;
+      + `<td class="ch radio">${radio}</td><td class="note">${note}</td></tr>`;
   }).join('');
   tb.querySelectorAll('input').forEach(inp=>{
     inp.addEventListener('input', ()=>{
@@ -2580,13 +2591,14 @@ function paintCommMarks(){
     inp.classList.toggle('bad', !!COMM.errs[k]); inp.classList.toggle('warn', !COMM.errs[k] && !!COMM.warns[k]);
     const td = tr.querySelector('td.note'); const radios = COMM.radios.map(x=>`R${x.id}`).join('+');
     let base = '';
-    if (!r.editable) base = '<span class="lock">FIXED · 243.000 by regulation</span>';
-    else if (r.kind === 'absent') base = `not in this mission${r.needs ? ' — turn on ' + (SUP_NAMES[r.needs] || r.needs.replace('bb_','').replace('carrier_','carrier ')) : ''}`;
-    else if (r.key === 'flight_common') base = 'DCS puts this on CH 1 whatever else is set';
-    else if (r.key === 'aew' && r.channel === 3) base = 'takes CH 3 while there is no AWACS';
-    const radio = r.held ? radios : (r.kind === 'absent' ? '' : (COMM.radios.length ? 'card only' : 'no preset — card only'));
+    if (!r.editable) base = '<span class="lock">fixed by regulation</span>';
+    else if (r.kind === 'absent') base = `off${r.needs ? ' — needs ' + (COMM_NEEDS[r.needs] || SUP_NAMES[r.needs] || r.needs) : ''}`;
+    else if (r.key === 'flight_common') base = 'DCS loads the flight freq on CH 1';
+    else if (r.key === 'aew' && r.channel === 3) base = 'CH 3 while there is no AWACS';
+    const radio = r.held ? radios : (r.kind === 'absent' ? '' : (COMM.radios.length ? 'card only' : '—'));
     let mark = COMM.errs[k] ? `<span class="err">${COMM.errs[k]}</span>` : (COMM.warns[k] ? `<span class="wrn">${COMM.warns[k]}</span>` : '');
-    td.innerHTML = [radio, mark, COMM.errs[k] ? '' : base].filter(Boolean).join(' · ');
+    tr.querySelector('td.radio').textContent = radio;
+    td.innerHTML = [mark, COMM.errs[k] ? '' : base].filter(Boolean).join(' · ');
   });
 }
 // --- profiles: this browser only -------------------------------------------
