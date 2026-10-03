@@ -22,6 +22,7 @@ these measurements. The names turned out to match — but "I checked by hand onc
 is not a guarantee, and this file is the guarantee.
 """
 import json
+import math
 
 import pytest
 
@@ -75,6 +76,22 @@ def test_every_measured_slot_still_exists(map_key):
         f"{map_key}: {len(dead)} measured slot headings point at stands that no "
         f"longer exist (first 20: {dead[:20]}). A terrain export probably "
         f"renumbered the ramp; the measurements must be re-taken, not deleted.")
+
+
+@pytest.mark.parametrize("map_key", sorted(HEADINGS))
+def test_identified_stand_surveys_still_match_the_export_geometry(map_key):
+    terrain = resolve_terrain(MAPS[map_key]["terrain_class"])()
+    for field, val in HEADINGS[map_key].items():
+        if not isinstance(val, dict):
+            continue
+        stands = {str(s.crossroad_idx): s for s in terrain.airports[field].parking_slots}
+        for sid, measured in (val.get("stands") or {}).items():
+            assert sid in stands, f"{map_key}/{field}/{sid}: surveyed stand removed"
+            slot = stands[sid]
+            assert str(slot.slot_name) == measured["slot_name"]
+            assert math.hypot(slot.position.x - measured["x"], slot.position.y - measured["y"]) <= 0.05, (
+                f"{map_key}/{field}/{sid}: surveyed stand moved; verify its direction in DCS")
+            assert math.isfinite(measured["heading"]) and 0 <= measured["heading"] < 360
 
 
 def test_the_corpus_is_the_size_we_think_it_is():

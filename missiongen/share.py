@@ -38,9 +38,19 @@ def encode_recipe(recipe: Recipe) -> str:
 def decode_recipe(code: str) -> Recipe:
     pad = "=" * (-len(code) % 4)
     raw = base64.urlsafe_b64decode(code + pad)
-    obj = json.loads(raw)
-    if isinstance(obj, dict) and "v" in obj and "r" in obj:
+    try:
+        obj = json.loads(raw.decode("utf-8"))
+    except UnicodeDecodeError:
+        # Legacy browser links encoded Latin-1 names with btoa directly.
+        obj = json.loads(raw.decode("latin-1"))
+        if isinstance(obj, dict) and ("v" in obj or "r" in obj):
+            raise RecipeError("Versioned share links must use UTF-8.")
+    if isinstance(obj, dict) and ("v" in obj or "r" in obj):
+        if "v" not in obj or "r" not in obj:
+            raise RecipeError("Malformed share link envelope.")
         ver, diff = obj["v"], obj["r"]
+        if type(ver) is not int or ver < 1:
+            raise RecipeError("Malformed share link version.")
         if ver > SHARE_SCHEMA:
             raise RecipeError(
                 f"This share link was created with a newer version of Mission "

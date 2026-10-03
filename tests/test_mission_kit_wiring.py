@@ -1,107 +1,126 @@
-"""The Mission Kit's buttons must be wired where the Kit is drawn.
-
-THE BUG THIS FILE EXISTS BECAUSE OF
------------------------------------
-Rob: *"The briefing pack pdf doesn't download."*
-
-From a Library card, the drawer's **Briefing pack** button was wired on a
-`setTimeout(..., 1600)` — on the assumption that a mission finishes generating
-inside 1.6 seconds. A plain starter does. A White Knights ride takes about 3.3,
-because it carries the coaching cards, the brief pages and the squadron's
-diagrams. So the timer fired before the Kit existed, `getElementById` returned
-`null`, and the button sat there looking perfectly enabled and did nothing.
-
-It failed on exactly the missions worth reading a brief for, and it failed
-silently: no error, no console warning, a button that simply does not respond.
-Verified in a real browser before and after — `{'exists': True, 'wired':
-False}` and zero network calls on the shipped build; `wired: True` and a
-downloaded pack on the fix.
-
-WHY THESE GUARDS ARE STATIC
----------------------------
-The honest test is a browser driving the real flow, and that is how the fix was
-confirmed. It is not in this suite because it needs a live server, a browser
-and fifteen seconds per case. What IS here is the SHAPE: every branch that
-draws the Kit must wire it in the same statement, and no branch may wire it on
-a timer. That is the property that was violated, and it is checkable in
-milliseconds.
-"""
-import re
+"""Exercise asynchronous generation and document ownership with the real UI functions."""
+import json
 from pathlib import Path
+import re
+import shutil
+import subprocess
 
 import pytest
 
-UI = (Path(__file__).resolve().parent.parent / "frontend" / "index.html").read_text()
+ROOT = Path(__file__).resolve().parent.parent
+UI = (ROOT / 'frontend/index.html').read_text() + '\n' + (ROOT / 'frontend/assets/mission-results.js').read_text()
 
 
-def _fn(name):
-    """The source of a top-level `function name(...)`, brace-matched."""
-    m = re.search(rf"function {name}\s*\([^)]*\)\s*{{", UI)
-    assert m, f"{name} is gone"
-    i = m.end() - 1
-    depth, j = 0, i
-    while j < len(UI):
-        if UI[j] == "{":
-            depth += 1
-        elif UI[j] == "}":
-            depth -= 1
-            if depth == 0:
-                return UI[i:j + 1]
-        j += 1
-    raise AssertionError(f"unbalanced braces in {name}")
+def function(name):
+    match = re.search(rf'(?:async )?function {name}\s*\([^)]*\)\s*{{', UI)
+    assert match, name
+    start = match.end() - 1
+    depth = 0
+    for index in range(start, len(UI)):
+        depth += (UI[index] == '{') - (UI[index] == '}')
+        if not depth:
+            return UI[match.start():index + 1]
+    raise AssertionError(name)
 
 
-def test_the_kit_has_a_single_wiring_helper():
-    """Three call sites wiring two buttons by hand is how one of them ends up
-    on a timer and nobody notices."""
-    assert UI.count("function wireKitButtons(") == 1
-    assert "kit_brief" in _fn("wireKitButtons")
-    assert "kit_kb" in _fn("wireKitButtons")
+def run_js(body, names):
+    node = shutil.which('node')
+    if not node:
+        pytest.skip('Node.js needed for frontend behavior tests')
+    script = '\n'.join(function(name) for name in names) + '\n' + body
+    result = subprocess.run([node, '-e', script], capture_output=True, text=True)
+    assert result.returncode == 0, result.stderr
+    return json.loads(result.stdout)
 
 
-def test_every_branch_that_draws_the_kit_wires_it():
-    """THE ACTUAL BUG. The Library branch drew the markup and returned without
-    wiring anything, and the wiring lived in a racing timer somewhere else."""
-    src = _fn("showKit")
-    draws = [ln for ln in src.splitlines() if "kitRows(" in ln]
-    assert len(draws) >= 3, draws          # lib, quick, builder
-    for target in ("libkit", "qfkit", "kit_box"):
-        assert target in src, f"showKit no longer draws into {target}"
-    # every `return` inside a branch must be preceded by a wiring call
-    branches = src.split("if (KIT_TARGET")
-    for b in branches[1:]:
-        assert "wireKitButtons()" in b.split("return;")[0], \
-            f"a KIT_TARGET branch draws the kit without wiring it:\n{b[:400]}"
-    assert src.rstrip().rstrip("}").rstrip().endswith("window.scrollTo(0,0);") \
-        or "wireKitButtons()" in branches[-1]
+@pytest.mark.parametrize('source', ['builder', 'library', 'quick'])
+def test_generation_waits_for_the_response_and_rejects_duplicate_requests(source):
+    out = run_js("""
+const statuses={textContent:''}, btn={innerHTML:'Generate'}, box={};
+let GENERATING=false, LAST_GEN_RECIPE=null, MISSION_RESULTS={};
+let requests=[], downloads=[], shown=[], finish;
+const document={getElementById:()=>statuses};
+let events=[];
+const visitorId=()=> 'test', ga=(event,params)=>events.push({event,params}), syncGenerationButtons=()=>{};
+const showKit=(result,target)=>shown.push({result,target});
+const saveDownload=(blob,name)=>downloads.push(name);
+const fetch=(url,opts)=>{requests.push(JSON.parse(opts.body));return new Promise(resolve=>finish=resolve);};
+(async()=>{
+ const rc={map:'caucasus',seed:1,corridors:['A']};
+ const pending=generateMission(btn,{source:SOURCE,rc,box,status:statuses});
+ rc.seed=2; rc.corridors.push('B');
+ const duplicate=await generateMission(btn,{source:'quick',rc});
+ const during={busy:GENERATING,status:statuses.textContent,downloads:downloads.length,duplicate};
+ finish({ok:true,headers:{get:()=>null},blob:async()=> 'blob'});
+ const result=await pending;
+ console.log(JSON.stringify({during,requests,downloads,shown:shown.length,seed:result.rc.seed,
+   corridors:result.rc.corridors,deepFrozen:Object.isFrozen(result.rc.corridors),
+   last:LAST_GEN_RECIPE.seed,source:result.source,events,busy:GENERATING,label:btn.innerHTML,status:statuses.textContent}));
+})();
+""".replace("SOURCE",json.dumps(source)), ['freezeRecipe', 'generateMission'])
+    assert out['during'] == {'busy': True, 'status': 'Generating…', 'downloads': 0, 'duplicate': None}
+    assert len(out['requests']) == 1
+    assert out['seed'] == out['last'] == 1
+    assert out['corridors'] == ['A'] and out['deepFrozen']
+    assert out['source'] == source and out['shown'] == 1
+    assert out['events'] == [{'event': 'generate', 'params': {'source': source}}]
+    assert out['downloads'] == ['starter.miz']
+    assert not out['busy'] and out['label'] == 'Generate'
+    assert out['status'].startswith('Download started')
 
 
-def test_the_kit_buttons_are_never_wired_on_a_timer():
-    """A timer cannot know when generation finished. This is the rule the bug
-    broke, stated so it cannot be broken again by somebody reaching for the
-    same convenience."""
-    for name in ("generateFromLib", "showKit"):
-        src = _fn(name)
-        for m in re.finditer(r"setTimeout\((.{0,400}?)\}\s*,\s*\d+\)", src,
-                             re.S):
-            body = m.group(1)
-            assert "kit_brief" not in body and "kit_kb" not in body, \
-                f"{name} wires a Kit button inside a setTimeout:\n{body[:300]}"
+@pytest.mark.parametrize('failure', ['api', 'proxy', 'network', 'blob'])
+def test_failed_generation_never_replaces_the_successful_kit(failure):
+    out = run_js("""
+const statuses={textContent:''}, btn={innerHTML:'Generate'};
+let GENERATING=false, LAST_GEN_RECIPE={seed:7}, MISSION_RESULTS={library:{rc:LAST_GEN_RECIPE}};
+let drawn=0, downloaded=0;
+const document={getElementById:()=>statuses};
+const visitorId=()=> 'test', ga=()=>{}, syncGenerationButtons=()=>{};
+const showKit=()=>drawn++, saveDownload=()=>downloaded++;
+const failure=FAILURE;
+const fetch=async()=>{
+ if(failure==='network') throw new Error('Network unavailable');
+ return {ok:failure==='blob',status:502,headers:{get:()=>null},
+   json:async()=>{if(failure==='proxy') throw new Error('HTML');return {detail:'Invalid mission'};},
+   blob:async()=>{throw new Error('Interrupted download');}};
+};
+(async()=>{const result=await generateMission(btn,{source:'library',rc:{seed:8},status:statuses});
+ console.log(JSON.stringify({result,last:LAST_GEN_RECIPE.seed,kit:MISSION_RESULTS.library.rc.seed,
+   drawn,downloaded,busy:GENERATING,status:statuses.textContent,label:btn.innerHTML}));})();
+""".replace('FAILURE', json.dumps(failure)), ['freezeRecipe', 'responseError', 'generateMission'])
+    assert out['result'] is None and out['last'] == out['kit'] == 7
+    assert out['drawn'] == out['downloaded'] == 0 and not out['busy']
+    assert out['label'] == 'Generate' and out['status'].startswith('Error:')
+    assert 'Download started' not in out['status']
 
 
-def test_the_briefing_pack_row_still_has_the_button_it_wires():
-    """A wiring helper that looks up an id nothing renders is wiring nothing.
-    Both halves have to name the same button."""
-    assert 'id="kit_brief"' in UI
-    assert 'id="kit_kb"' in UI
+def test_each_kit_download_keeps_its_recipe_and_reports_status_in_its_own_view():
+    out = run_js("""
+let sent=[], saved=[];
+const visitorId=()=> 'test',ga=()=>{};
+const recipe=()=>({seed:999});
+const saveDownload=(blob,name)=>saved.push(name);
+const document={getElementById:()=>{throw new Error('global status used');}};
+const fetch=async(url,opts)=>{sent.push({url,...JSON.parse(opts.body)});
+ return {ok:true,headers:{get:()=>null},blob:async()=> 'zip'};};
+function kit(seed,source){
+ const status={textContent:''}; const brief={closest:()=>({querySelector:()=>status})},kb={...brief};
+ const box={querySelector:q=>q==='.kit_brief'?brief:kb};
+ const result={rc:{seed},source}; wireKitButtons(box,result);return {brief,kb,status};
+}
+(async()=>{const builder=kit(10,'builder'),quick=kit(20,'quick'),library=kit(30,'library');
+ await builder.brief.onclick(); await quick.kb.onclick(); await library.brief.onclick();
+ console.log(JSON.stringify({sent,statuses:[builder,quick,library].map(k=>k.status.textContent),saved}));})();
+""", ['wireKitButtons', 'freezeRecipe', 'downloadDocument', 'downloadBrief', 'downloadKneeboard'])
+    assert [(r['recipe']['seed'], r['source'], r['url']) for r in out['sent']] == [
+        (10, 'builder', '/api/brief'), (20, 'quick', '/api/kneeboard'), (30, 'library', '/api/brief')]
+    assert all('download started' in status for status in out['statuses'])
 
 
-def test_the_download_handler_survives_a_slow_generate():
-    """`downloadBrief` briefs the mission that was actually generated, falling
-    back to live builder state. The Library drawer has no builder DOM, so the
-    fallback is what a Library card would hit — and it must not be the only
-    path, or every Library brief describes the wrong mission."""
-    src = _fn("downloadBrief")
-    assert "LAST_GEN_RECIPE" in src, \
-        "the brief no longer follows the mission that was generated"
-    assert "|| recipe()" in src, "the builder fallback is gone"
+def test_no_timer_claims_library_generation_succeeded():
+    assert 'setTimeout' not in function('generateFromLib')
+    assert 'await generateMission' in function('generateFromLib')
+    assert 'wireKitButtons(box, result)' in function('showKit')
+    assert 'id="kit_brief"' not in UI and 'id="kit_kb"' not in UI
+    assert 'KIT_TARGET' not in UI

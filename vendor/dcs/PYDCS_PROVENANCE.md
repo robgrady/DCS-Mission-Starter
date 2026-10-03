@@ -4,6 +4,11 @@ This directory (`vendor/dcs/`) is a **vendored, UNMODIFIED copy of pydcs**, the
 Digital Combat Simulator Python mission framework.
 
 - Upstream: https://github.com/pydcs/dcs
+- Source revision: **`412952c5ad5688783d8d53830280f316dbe311ff`**,
+  2026-06-29 ([upstream commit](https://github.com/pydcs/dcs/commit/412952c5ad5688783d8d53830280f316dbe311ff)).
+  Verified on 2026-10-02: all 108 upstream Python files match byte-for-byte,
+  with no missing or additional Python modules. This is newer than the
+  PyPI 0.15.0 release; the app imports this directory, not a pip installation.
 - License: **GNU Lesser General Public License v3.0 (LGPL-3.0)** — full text in
   this directory as `COPYING.LESSER` (LGPL-3.0) and `COPYING` (GPL-3.0, which the
   LGPL incorporates by reference).

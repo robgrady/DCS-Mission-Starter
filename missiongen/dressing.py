@@ -1,14 +1,9 @@
-"""BB-1..3: airfield dressing — parked aircraft on real parking spots, ground support
-equipment near occupied stands, infrastructure statics near the ramp.
+"""Airfield dressing on real parking stands.
 
-Parked AIRCRAFT are placed as UNCONTROLLED flights at the terrain's own parking
-slots — NOT as static objects. This is the only way to get them oriented
-correctly: the DCS terrain stores each slot's parking heading in its binary and
-applies it when the sim spawns an aircraft there; that heading is NOT exposed to
-static placement (pydcs ParkingSlot has no heading field), so a static must guess
-its facing and can also clip a building's collision mesh. An uncontrolled flight
-lets DCS own both position and heading — nose-out, ready to taxi — exactly like
-the AI flights that already spawn correctly. Ground equipment stays static."""
+Statics use surveyed per-stand headings where available and geometric facing
+elsewhere. Uncontrolled AI lets DCS own facing and placement at a greater
+runtime cost. Ground equipment and infrastructure remain static.
+"""
 import math
 import random
 from dcs import mapping
@@ -23,7 +18,7 @@ DENSITY_FILL = {"sparse": 0.25, "normal": 0.45, "busy": 0.70}
 # the terrain's true parking heading, so there is no free lunch):
 #   "static"    — static objects. Instant render, cheap, inert, no radar
 #                 contacts, no spawn-in pop-in. Facing is a best-effort per-slot
-#                 guess (rows via geometry, nose toward the runway).
+#                 guess where unmeasured; surveyed stands use their exact direction.
 #   "parked_ai" — uncontrolled flights at real slots. DCS owns facing (exact,
 #                 nose-out) and placement, but they cost FPS, appear as map
 #                 contacts, and STREAM IN over the first seconds ("pop-in").
@@ -449,6 +444,34 @@ def _parse_field_heading(field_heading):
     return None, {}
 
 
+def _measured_slot_heading(field_heading, slot):
+    """Exact direction, preferring an id/geometry-bound survey over legacy names.
+
+    Stands can share a display name. A v2 survey uses crossroad_idx and the
+    source export coordinates so an airport re-export cannot silently transfer
+    a heading onto a different stand.
+    """
+    if not isinstance(field_heading, dict):
+        return None
+    stands = field_heading.get("stands") or {}
+    entry = stands.get(str(slot.crossroad_idx))
+    if entry is not None:
+        if not isinstance(entry, dict):
+            return None
+        try:
+            heading = float(entry["heading"])
+            x, y = float(entry["x"]), float(entry["y"])
+            if (not all(math.isfinite(v) for v in (heading, x, y))
+                    or str(entry["slot_name"]) != str(slot.slot_name)
+                    or math.hypot(x - slot.position.x, y - slot.position.y) > 0.05):
+                return None
+            return heading % 360
+        except (KeyError, TypeError, ValueError):
+            return None
+    value = (field_heading.get("slots") or {}).get(str(slot.slot_name))
+    return float(value) % 360 if isinstance(value, (int, float)) else None
+
+
 def _offset(pos, meters, bearing_deg):
     b = math.radians(bearing_deg)
     return mapping.Point(pos.x + meters * math.cos(b),
@@ -520,7 +543,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
     #    "slots": {"D15": 219,     keyed by the slot's stable name
     #              "A28": 41}}
     # Applies to AIRCRAFT statics only (GSE/infra keep their own placement).
-    field_default_hdg, slot_hdg_overrides = _parse_field_heading(field_heading)
+    field_default_hdg, _ = _parse_field_heading(field_heading)
 
     if theme:
         plane_w = theme["planes"]
@@ -583,18 +606,26 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
             # name) > field-wide measured heading > per-slot geometric guess
             # (keyed by the unique slot_key so twins don't inherit each other's
             # facing) > runway-axis fallback.
-            if slot.slot_name in slot_hdg_overrides:
-                base_hdg = slot_hdg_overrides[slot.slot_name]
+            measured = _measured_slot_heading(field_heading, slot)
+            if measured is not None:
+                base_hdg = measured
             elif field_default_hdg is not None:
                 base_hdg = field_default_hdg
             else:
                 base_hdg = slot_hdgs.get(skey, keepout.runway_axis_heading())
-            heading = (base_hdg + rng.uniform(-3, 3)) % 360.0
+            # Keep the draw in the seeded sequence so later placement keeps
+            # its random draws. Stands receive
+            # their recorded heading exactly; only estimates get variation.
+            variation = rng.uniform(-3, 3)
+            heading = (base_hdg + (variation if measured is None else 0)) % 360.0
             grp = m.static_group(
                 country, f"ST {airport.name} {skey} {unit_type.id}"
                          + (f" · {tag}" if tag else ""),
                 _type=unit_type, position=slot.position, heading=heading)
-            gse_ref_hdg = heading + rng.uniform(60, 120)
+            # Equipment retains its own parking variation and clearance checks.
+            # Correcting aircraft facing must not reshuffle later targets/routes
+            # by changing whether a truck consumes another random draw.
+            gse_ref_hdg = (base_hdg + variation) % 360 + rng.uniform(60, 120)
         # Explicit theme/mix livery wins; otherwise steer to a nation-correct
         # skin from the curated pack (fixes wrong-service defaults like a USAF
         # F-4E showing a USMC scheme). country.name = "USA"/"Russia"/"Israel"...

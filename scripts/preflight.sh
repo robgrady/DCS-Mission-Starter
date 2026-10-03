@@ -76,7 +76,7 @@ elif ! python3 -c 'import pytest' >/dev/null 2>&1; then
   note "pytest not installed — skipping the test suite"
   note "to run it: pip install -r requirements.txt pytest && python3 -m pytest tests -q"
 else
-  # RUN IT IN PARALLEL WHEN WE CAN. The suite is ~3,500 tests and most of the
+  # RUN IT IN PARALLEL WHEN WE CAN. The suite is over 4,000 tests and most of the
   # wall clock is spent building .miz files, which is CPU-bound and embarrassingly
   # parallel. Measured on the 2-core build box: 20:34 serial -> 10:17 with two
   # workers, same 3,528 passed / 43 skipped.
@@ -87,12 +87,15 @@ else
   # workers, so each worker rebuilds that mission for its share — more total work
   # than running serially. Whole files to whole workers keeps one build per fixture.
   #
+  # Default to at most four workers to bound memory on developer machines.
+  # TEST_WORKERS overrides that choice for larger CI or smaller hosts.
   # Optional by design: this script has to work on a fresh unzip, and pytest-xdist
   # is a developer convenience, not a shipped dependency. Without it, serial.
   PAR=""
   if python3 -c 'import xdist' >/dev/null 2>&1; then
-    PAR="-n auto --dist loadfile"
-    note "running the suite in parallel (pytest-xdist)"
+    TEST_SLOTS="${TEST_WORKERS:-$(python3 -c 'import os; print(min(4, os.cpu_count() or 1))')}"
+    PAR="-n $TEST_SLOTS --dist loadfile"
+    note "running the suite on $TEST_SLOTS workers (pytest-xdist; override with TEST_WORKERS)"
   fi
   TESTLOG=$(mktemp)
   if python3 -m pytest tests -q $PAR >"$TESTLOG" 2>&1; then

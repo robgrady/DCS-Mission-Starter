@@ -157,6 +157,20 @@ DEFAULT_SETUP = "neutral"
 HARD_DECK_FT = 5000
 
 
+def geometry_summary(setup: str) -> str:
+    """Describe the same starting geometry the mission generator uses."""
+    cfg = SETUPS.get(setup, SETUPS[DEFAULT_SETUP])
+    bearing = {0: "ahead", 90: "abeam", 180: "astern"}.get(
+        cfg["bearing_off_nose"], f"at {cfg['bearing_off_nose']} degrees")
+    altitude = ("co-altitude" if not cfg["alt_offset_m"] else
+                f"{cfg['alt_offset_m'] / 0.3048:,.0f} ft above you")
+    heading = ("head-on" if cfg["bandit_heading_off"] == 180 else
+               "co-heading" if not cfg["bandit_heading_off"] else
+               f"{cfg['bandit_heading_off']} degrees angle off")
+    return (f"{cfg['label']}: bandit {cfg['range_m'] / 1852:.1f} nm {bearing}, "
+            f"{altitude}, {heading}.")
+
+
 def _hdr(title):
     return ["=" * 66, title, "=" * 66]
 

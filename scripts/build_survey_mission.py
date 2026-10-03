@@ -5,10 +5,10 @@ pydcs does not expose the painted parking-line heading, but DCS DOES orient an
 aircraft to that line when it spawns one from a ramp slot. This builds a throwaway
 mission that:
 
-  1. drops one uncontrolled aircraft on EVERY airplane parking spot of the chosen
+  1. drops one uncontrolled aircraft on EVERY airplane/helicopter parking spot of the chosen
      airfield(s) — DCS seats each at the painted-line heading on load, and
   2. embeds a Lua script that (15 s in) reads every unit's heading and writes one
-     line per spot to the DCS log:  PSURVEY_OUT|<airport>|<slot>|<heading>
+     line per spot to the DCS log:  PSURVEY2_OUT|<airport>|<id>|<slot>|<heading>|<x>|<y>
 
 You run it once in DCS, then hand the log (or Saved Games/DCS/parking_survey.txt)
 to scripts/import_survey.py, which bakes the exact per-spot headings into
@@ -30,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "vendor"))
 
 try:
     import dcs
-    from dcs import planes
+    from dcs import planes, helicopters
     from dcs.mission import StartType
     from dcs.triggers import TriggerStart
     from dcs.action import DoScript
@@ -64,13 +64,13 @@ local function _export()
         if ok and units then
           for _, u in pairs(units) do
             local name = u:getName()
-            if name and string.sub(name, 1, 8) == "PSURVEY|" then
+            if name and string.sub(name, 1, 9) == "PSURVEY2|" then
               local p = u:getPosition()
               local hdg = math.deg(math.atan2(p.x.z, p.x.x))
               if hdg < 0 then hdg = hdg + 360 end
-              local a, s = string.match(name, "^PSURVEY|(.-)|(.+)$")
-              if a and s then
-                local line = "PSURVEY_OUT|" .. a .. "|" .. s .. "|" .. string.format("%.1f", hdg)
+              local a, id, s, x, y = string.match(name, "^PSURVEY2|(.-)|(%d+)|(.-)|([-%.%d]+)|([-%.%d]+)$")
+              if a and id then
+                local line = "PSURVEY2_OUT|" .. a .. "|" .. id .. "|" .. s .. "|" .. string.format("%.3f", hdg) .. "|" .. x .. "|" .. y
                 env.info(line)
                 table.insert(out, line)
               end
@@ -95,7 +95,7 @@ timer.scheduleFunction(function() _export() end, nil, timer.getTime() + 15)
 """
 
 
-def build(map_key, airfields=None):
+def build(map_key, airfields=None, out_path=None):
     maps = load_json("maps")
     if map_key not in maps:
         raise SystemExit(f"unknown map '{map_key}'. Known: {', '.join(maps)}")
@@ -112,6 +112,8 @@ def build(map_key, airfields=None):
                   "Belgium", "Norway", "Greece"):
         try:
             cc = resolve_country(cname)()
+            if cc.name in m.coalition["red"].countries:
+                m.coalition["red"].remove_country(cc.name)
             m.coalition["blue"].add_country(cc)
             country_pool.append(cc)
         except Exception:
@@ -135,31 +137,29 @@ def build(map_key, airfields=None):
     # runs once the mission is live). Su-25T ships FREE with DCS — everyone has it.
     player_field = targets[0] if targets else list(all_ports.values())[0]
     player_field.set_blue()
-    try:
-        pg = m.flight_group_from_airport(
-            country, "SURVEY PILOT", planes.Su_25T, player_field,
-            start_type=StartType.Cold, group_size=1)
-        pg.units[0].set_player()
-    except Exception as e:
-        print(f"  (could not add player slot: {e} — mission still runnable via ME)")
+    # Airborne observer leaves every ramp stand available for surveying.
+    pg = m.flight_group_inflight(country, "SURVEY PILOT", planes.Su_25T,
+                                 player_field.position, altitude=3000, speed=150)
+    pg.units[0].set_player()
 
     total_spots = 0
     total_placed = 0
     idx = 0
     for ap in targets:
         ap.set_blue()
-        spots = [s for s in ap.parking_slots if s.unit_id is None and s.airplanes]
+        spots = [s for s in ap.parking_slots if s.unit_id is None and (s.airplanes or s.helicopter)]
         total_spots += len(spots)
         placed_here = 0
         for slot in spots:
-            gname = f"PSURVEY|{ap.name}|{slot.slot_name}"
+            gname = (f"PSURVEY2|{ap.name}|{slot.crossroad_idx}|{slot.slot_name}"
+                     f"|{slot.position.x:.6f}|{slot.position.y:.6f}")
             # round-robin the country pool so no single country exhausts its
             # ~989 onboard-number budget on a big map
             rr_country = country_pool[idx % len(country_pool)]
             idx += 1
             try:
                 grp = m.flight_group_from_airport(
-                    rr_country, gname, SURVEY_TYPE, ap,
+                    rr_country, gname, SURVEY_TYPE if slot.airplanes else helicopters.UH_1H, ap,
                     start_type=StartType.Cold, group_size=1,
                     parking_slots=[slot])
             except Exception:
@@ -175,7 +175,7 @@ def build(map_key, airfields=None):
     trig.add_action(DoScript(String(LUA_EXPORT)))
     m.triggerrules.triggers.append(trig)
 
-    out = f"survey_{map_key}.miz"
+    out = str(out_path or f"survey_{map_key}.miz")
     m.save(out)
     print(f"\nbuilt {out}: {total_placed}/{total_spots} spots placed across "
           f"{len(targets)} airfield(s)")

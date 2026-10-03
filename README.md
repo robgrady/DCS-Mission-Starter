@@ -153,6 +153,29 @@ install for a map that isn't fully covered yet. See
 expectations, and where each data pack lives. In-game validation reports (with a
 screenshot and the recipe/seed) are just as valuable as code.
 
+## Development checks
+
+Use the focused development check while editing generation, recipes, parking,
+or the Mission Kit. It exercises generated archives and the browser's actual
+JavaScript functions, with temporary test storage:
+
+```sh
+python3 scripts/test.py
+```
+
+Before release, run the entire suite:
+
+```sh
+python3 scripts/test.py --full
+python3 scripts/test.py --full --profile
+```
+
+With `pytest-xdist` installed, full runs use at most four workers and keep each
+test file on one worker to reuse expensive mission fixtures. Override with
+`--workers 2` or `TEST_WORKERS=2`; without xdist, tests run serially. Additional
+pytest options pass through, for example `--full -k carrier`. A filtered run
+does not replace the full release check in `scripts/preflight.sh`.
+
 ## License
 
 - **This project's own code** (everything outside `vendor/`) — **MIT**, see

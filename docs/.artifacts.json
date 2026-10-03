@@ -1,8 +1,8 @@
 {
  "docs/DCS_Mission_Starter_Guide.pdf": {
   "docs/USER_GUIDE.md": "033943be39648a30",
-  "docs/img/hero.png": "2a0e331ad33f6f18",
-  "docs/img/review.png": "bf13caced2cdc7e8",
+  "docs/img/hero.png": "9da3d1861dce362f",
+  "docs/img/review.png": "1ade8584717cf875",
   "missiongen/__init__.py": "05acb7ca874ef70f"
  },
  "docs/WK_BNAI_VOICEOVER.md": {
@@ -10,7 +10,8 @@
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110"
  },
  "docs/img/hero.png": {
-  "frontend/index.html": "382c65e7f6c262b6"
+  "frontend/assets/mission-results.js": "1dc1fb70e5f2e15a",
+  "frontend/index.html": "0ad0090ca8f3646d"
  },
  "docs/img/nttr_corridors.png": {
   "missiongen/corridor_chart.py": "f8e9b3c01506f678",

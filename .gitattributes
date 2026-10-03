@@ -1,0 +1,2 @@
+# Generated PDFs contain encoded binary streams and should not be text diffs.
+*.pdf binary

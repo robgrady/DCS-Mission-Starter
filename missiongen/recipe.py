@@ -1,11 +1,33 @@
 """Recipe: the full set of wizard inputs. A recipe + seed always regenerates the same starter."""
 from dataclasses import dataclass, field, asdict
-from typing import Optional, List
+from typing import Optional, List, Union, get_args, get_origin
 
 
 class RecipeError(ValueError):
     """A recipe field is invalid (bad enum value or out-of-range). User error →
     the API turns this into a 400/422 with the field message, never a 500."""
+
+
+def _matches_type(value, expected):
+    origin = get_origin(expected)
+    if origin is Union:
+        return any(_matches_type(value, part) for part in get_args(expected))
+    if origin is list:
+        return isinstance(value, list) and all(
+            _matches_type(item, get_args(expected)[0]) for item in value)
+    if expected is object:
+        return True
+    # bool is a subclass of int in Python, but not a JSON aircraft count.
+    return type(value) is expected
+
+
+def _type_description(expected):
+    if get_origin(expected) is Union:
+        return " or ".join(_type_description(part) for part in get_args(expected))
+    if get_origin(expected) is list:
+        return "a list of strings"
+    return {int: "an integer", bool: "true or false", str: "a string",
+            dict: "an object", type(None): "null"}.get(expected, str(expected))
 
 
 # Allowed values for the enum-like fields. Kept here (next to the dataclass) as
@@ -293,6 +315,12 @@ class Recipe:
         # link, a future client) got a different mission from the one the UI
         # promises for the same template. The merge belongs on the server; the
         # frontend merging it too is harmless because explicit values win.
+        if not isinstance(d, dict):
+            raise RecipeError("recipe must be an object.")
+        # Check before template lookup as well: an array/object template key
+        # otherwise crashes the dictionary lookup before validate() can run.
+        if validate:
+            cls._validate_field_types(d)
         d = cls._with_template_defaults(d)
         # Reject unknown fields instead of silently dropping them: a typo'd or
         # stale field (e.g. a renamed option) used to vanish without a trace,
@@ -307,6 +335,14 @@ class Recipe:
         if validate:
             r.validate()
         return r
+
+    @classmethod
+    def _validate_field_types(cls, values):
+        for name, spec in cls.__dataclass_fields__.items():
+            if name in values and not _matches_type(values[name], spec.type):
+                raise RecipeError(
+                    f"{name} must be {_type_description(spec.type)}, "
+                    f"got {values[name]!r}.")
 
     @staticmethod
     def _with_template_defaults(d: dict) -> dict:
@@ -338,6 +374,13 @@ class Recipe:
         review found — e.g. coalition='purple' used to fall through to the RED
         side ('blue' if coalition=='blue' else red), and weather='banana' was
         applied as nothing. Returns self so it can be chained."""
+        self._validate_field_types(vars(self))
+        for name in ("dress_overrides", "dress_mix"):
+            for key, count in (getattr(self, name) or {}).items():
+                if not isinstance(key, str) or type(count) is not int or count < 0:
+                    raise RecipeError(f"{name} must map names to non-negative integers.")
+                if name == "dress_overrides" and count > 100:
+                    raise RecipeError("dress_overrides fill must be 0-100.")
         for field_name, allowed in RECIPE_ENUMS.items():
             val = getattr(self, field_name)
             if val not in allowed:
@@ -425,7 +468,7 @@ class Recipe:
                     "timing_at needs timing_anchor='push' or 'tot' — with a "
                     "takeoff anchor the clock is the mission start, not a time "
                     "you pick.")
-        if not (0 <= int(self.timing_hold_min or 0) <= 15):
+        if not (0 <= self.timing_hold_min <= 15):
             raise RecipeError(
                 f"timing_hold_min must be 0-15, got {self.timing_hold_min!r}.")
         if self.callsign is not None:

@@ -15,16 +15,19 @@ import time as _time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi.staticfiles import StaticFiles
 from fastapi.responses import (RedirectResponse, FileResponse, HTMLResponse,
                                JSONResponse, PlainTextResponse)
 from starlette.background import BackgroundTask
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 _root = Path(__file__).parent.parent
 sys.path.insert(0, str(_root))
 if (_root / "vendor" / "dcs").exists():          # vendored pydcs (Mac/no-network installs)
     sys.path.insert(0, str(_root / "vendor"))
-from missiongen import Recipe, generate, __version__
+from missiongen import Recipe, generate as _engine_generate, __version__
+from .generation import capacity as generation_capacity
+from .recipe_contract import recipe_json_schema
 from missiongen.recipe import Recipe, RECIPE_ENUMS, RecipeError
 from missiongen.builder import EraViolation
 from missiongen.resolver import load_json, validate_data_packs, UnknownUnitError
@@ -38,6 +41,13 @@ from missiongen import lineup as _lineup_mod
 log = logging.getLogger("missionstarter")
 
 app = FastAPI(title="DCS Sortie Starter", version=__version__)
+app.mount("/assets", StaticFiles(directory=_root / "frontend" / "assets"), name="assets")
+
+def generate(recipe: Recipe, out_path: str, brief_dir: str = None):
+    """API admission boundary, shared by mission and document generation."""
+    with generation_capacity.slot():
+        return _engine_generate(recipe, out_path, brief_dir=brief_dir)
+
 
 # Password-gated sponsor-ad admin (/admin). Disabled unless ADMIN_PASSWORD is set.
 from server.admin import router as admin_router  # noqa: E402
@@ -93,6 +103,9 @@ def _build_and_respond(recipe: Recipe, source: str = "api", visitor: str | None 
         if isinstance(_bid, str):
             from missiongen import sponsors
             sponsors.increment_impressions(_bid)
+    except HTTPException:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+        raise
     except USER_ERRORS as e:
         shutil.rmtree(tmpdir, ignore_errors=True)
         raise HTTPException(status_code=400, detail=str(e))
@@ -109,35 +122,8 @@ def _build_and_respond(recipe: Recipe, source: str = "api", visitor: str | None 
     # the frontend can hand the user their documents BY NAME instead of ending
     # the flow with a status string. Data already in stats — no extra work.
     stats = result.get("stats", {})
-    from missiongen import loadouts as _lo
-    kit = {
-        "kneeboard_pages": stats.get("kneeboard_pages", 0),
-        "dtc": bool(stats.get("dtc_units_tagged")),
-        "route": stats.get("route"),
-        # The clock the route is anchored on ("tot 06:42:00"), when timed.
-        "timing": (f"{stats['timing'].get('anchor')} "
-                   f"{stats['timing'].get('anchor_clock') or stats['timing'].get('takeoff_clock') or ''}").strip()
-                  if stats.get("timing") else None,
-        "bfm": stats.get("bfm"),
-        "threat_level": stats.get("threat_level"),
-        "support": stats.get("support", [])[:6],
-        # What the bandits are CARRYING. Correct-but-invisible is how the last
-        # three features became discovery problems, so the fit surfaces on the
-        # Mission Kit panel too, not only inside the documents.
-        # YOUR fit. The user never sees a pylon picker, so the one place
-        # they learn what they took off with is here and the brief.
-        "player_loadout": stats.get("player_loadout"),
-        "player_role": stats.get("player_loadout_role"),
-        "enemy_air": [{"n": a["count"], "t": a["type"],
-                       "r": _lo.ROLE_TAGS.get(a["role"], a["role"]),
-                       "fit": a["fit"], "imp": a["implication"]}
-                      for a in _lo.summarize(stats.get("enemy_air"))[:3]],
-    }
-    # The header has a hard budget and a TRUNCATED payload is worse than a
-    # missing one (JSON.parse fails, the panel silently loses every row), so
-    # shed enemy_air rows until it fits instead of slicing the string.
-    while len(json.dumps(kit)) > 1800 and kit["enemy_air"]:
-        kit["enemy_air"].pop()
+    from .mission_manifest import kit_manifest
+    kit = kit_manifest(stats)
     return FileResponse(str(out), filename=fname, media_type="application/zip",
                         headers={"X-Warnings": _header_safe(
                                      "; ".join(result["warnings"]))[:900],
@@ -203,7 +189,8 @@ def flyable_aircraft():
                 continue
             cls = getattr(mod, name)
             if isinstance(cls, type) and getattr(cls, "flyable", False):
-                out.append({"key": name, "id": cls.id, "kind": kind})
+                out.append({"key": name, "id": cls.id, "kind": kind,
+                            "can_refuel": _aar_mod.can_refuel(cls.id)})
     out.sort(key=lambda a: a["id"])
     service = load_json("aircraft_service")
     for a in out:
@@ -214,6 +201,7 @@ def flyable_aircraft():
         # a verified/released module is a normal selectable jet, not "upcoming"
         out.append({"key": key, "id": cfg["label"], "kind": cfg["kind"],
                     "service": service.get(key),
+                    "can_refuel": _aar_mod.can_refuel(cfg["provisional_id"]),
                     "upcoming": not cfg.get("verified", False)})
     # re-sort AFTER appending pending modules so e.g. the F-14B(U) alphabetizes
     # into the F-14 cluster instead of dangling at the bottom of the dropdown
@@ -596,8 +584,14 @@ def api_download_by_code(r: str):
     return _build_and_respond(recipe, source="share")
 
 
+@app.get("/api/recipe-schema")
+def api_recipe_schema():
+    """Field types/defaults/enums from the same dataclass the engine validates."""
+    return recipe_json_schema()
+
+
 class GenerateRequest(BaseModel):
-    recipe: dict
+    recipe: dict = Field(json_schema_extra=recipe_json_schema())
     # Which door the request came through (builder | library | quick). Used
     # ONLY for the no-PII analytics ledger; unknown/absent values fall back to
     # "api" so a stale client can't invent categories.
@@ -924,6 +918,9 @@ def api_brief(req: GenerateRequest):
             z.write(result["brief_md"], f"{stem}_brief.md")
             if result.get("dtc_card"):        # F-14B(U): include the DTC setup card
                 z.write(result["dtc_card"], f"{stem}_dtc_setup_card.md")
+    except HTTPException:
+        shutil.rmtree(tmpdir, ignore_errors=True)
+        raise
     except USER_ERRORS as e:
         shutil.rmtree(tmpdir, ignore_errors=True)
         raise HTTPException(status_code=400, detail=str(e))

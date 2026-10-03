@@ -31,6 +31,9 @@ pack.json written at install time so serving never re-derives anything.
 from __future__ import annotations
 
 import logging
+import hashlib
+import tempfile
+from functools import wraps
 import os
 import json
 import shutil
@@ -50,6 +53,14 @@ MAX_UPLOAD_BYTES = 256 * 1024 * 1024
 ROLES = packfmt.ROLES
 
 _lock = threading.RLock()
+
+
+def _serialized(fn):
+    @wraps(fn)
+    def call(*args, **kwargs):
+        with _lock:
+            return fn(*args, **kwargs)
+    return call
 
 
 # --------------------------------------------------------------------------- #
@@ -111,18 +122,35 @@ def install(data: bytes, filename: str, pack_id: str | None = None,
     if label:
         man["label"] = label
 
-    with _lock:
-        dest = DATA_DIR / pid
-        if dest.exists():
-            shutil.rmtree(dest)
+    # Write the complete replacement before moving any published content.
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    stage = Path(tempfile.mkdtemp(prefix=".stage-", dir=DATA_DIR))
+    backup = stage.with_name(stage.name.replace(".stage-", ".previous-", 1))
+    dest = DATA_DIR / pid
+    try:
         for rel, blob in files.items():
             if rel in ("pack.json", "manifest.json"):
                 continue
-            fp = dest / rel
+            fp = stage / rel
             fp.parent.mkdir(parents=True, exist_ok=True)
             fp.write_bytes(blob)
-        dest.mkdir(parents=True, exist_ok=True)
-        (dest / "pack.json").write_text(packfmt.dumps(man), encoding="utf-8")
+        (stage / "pack.json").write_text(packfmt.dumps(man), encoding="utf-8")
+        # Readers/cache creation share this lock. A failed publish restores the
+        # old directory; staged and backup directories never enter the catalog.
+        with _lock:
+            had_previous = dest.exists()
+            if had_previous:
+                os.replace(dest, backup)
+            try:
+                os.replace(stage, dest)
+            except BaseException:
+                if had_previous:
+                    os.replace(backup, dest)
+                raise
+            if had_previous:
+                shutil.rmtree(backup, ignore_errors=True)
+    finally:
+        shutil.rmtree(stage, ignore_errors=True)
     return man
 
 
@@ -141,6 +169,7 @@ def _version_tuple(v: str) -> tuple:
     return tuple(parts + [0, 0, 0])[:3]
 
 
+@_serialized
 def list_packs() -> list:
     """Every installed pack, as the Library's flat card view.
 
@@ -150,7 +179,7 @@ def list_packs() -> list:
     """
     found = {}
     try:
-        dirs = sorted(p for p in DATA_DIR.iterdir() if p.is_dir())
+        dirs = sorted(p for p in DATA_DIR.iterdir() if p.is_dir() and not p.name.startswith("."))
     except OSError:
         dirs = []
     for d in dirs:
@@ -185,6 +214,7 @@ def list_packs() -> list:
     return [packfmt.card_view(m) for _k, m in sorted(found.items())]
 
 
+@_serialized
 def get_file(pid: str, rel: str) -> Path | None:
     """Resolve a file inside a pack, refusing anything outside it."""
     base = (DATA_DIR / _slug(pid)).resolve()
@@ -199,6 +229,7 @@ def get_file(pid: str, rel: str) -> Path | None:
     return f if f.is_file() else None
 
 
+@_serialized
 def get_manifest(pid: str) -> dict | None:
     """The stored format 2 manifest for an installed pack, or None.
 
@@ -217,6 +248,7 @@ def get_manifest(pid: str) -> dict | None:
         return None
 
 
+@_serialized
 def update_manifest(pid: str, patch: dict) -> dict:
     """Apply an author's corrections to an installed pack's manifest.
 
@@ -254,7 +286,14 @@ def update_manifest(pid: str, patch: dict) -> dict:
     man = packfmt.normalize(merged, pid, files)
     man["derived"] = False
     with _lock:
-        (d / "pack.json").write_text(packfmt.dumps(man), encoding="utf-8")
+        fd, temporary = tempfile.mkstemp(prefix=".manifest-", dir=d)
+        os.close(fd)
+        tmp = Path(temporary)
+        try:
+            tmp.write_text(packfmt.dumps(man), encoding="utf-8")
+            os.replace(tmp, d / "pack.json")
+        finally:
+            tmp.unlink(missing_ok=True)
     return man
 
 
@@ -270,6 +309,7 @@ def manifest_bytes(pid: str) -> bytes | None:
     return packfmt.dumps(man).encode("utf-8") if man else None
 
 
+@_serialized
 def all_zip(pid: str):
     """The whole pack as one download, zipped once and cached by mtime.
 
@@ -293,11 +333,17 @@ def all_zip(pid: str):
     # the stamp does not move, so the bundle he hands out still carries his old
     # words. Caught by a test that edited a manifest fast enough.
     stamp = f"{max(f.stat().st_mtime_ns for f in files)}_{len(files)}"
-    cache = Path(tempfile.gettempdir()) / f"ss_pack_{pid}_{stamp}.zip"
+    namespace = hashlib.sha256(str(DATA_DIR.resolve()).encode()).hexdigest()[:12]
+    cache = Path(tempfile.gettempdir()) / f"ss_pack_{namespace}_{pid}_{stamp}.zip"
     if not cache.exists():
-        tmp = str(cache) + f".part{os.getpid()}"
-        with _z.ZipFile(tmp, "w", _z.ZIP_DEFLATED) as z:
-            for f in sorted(files):
-                z.write(f, f"{pid}/{f.relative_to(base)}")
-        os.replace(tmp, cache)
+        fd, temporary = tempfile.mkstemp(prefix=cache.name + ".part-", dir=cache.parent)
+        os.close(fd)
+        tmp = Path(temporary)
+        try:
+            with _z.ZipFile(tmp, "w", _z.ZIP_DEFLATED) as z:
+                for f in sorted(files):
+                    z.write(f, f"{pid}/{f.relative_to(base)}")
+            os.replace(tmp, cache)
+        finally:
+            tmp.unlink(missing_ok=True)
     return cache

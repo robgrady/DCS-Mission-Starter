@@ -247,7 +247,7 @@ def test_the_ga_helper_cannot_break_the_app():
     "track_open", "contact_open", "kneeboard_download",
 ])
 def test_the_behaviours_that_matter_are_instrumented(event):
-    src = INDEX.read_text()
+    src = INDEX.read_text() + '\n' + (INDEX.parent / 'assets/mission-results.js').read_text()
     assert f"ga('{event}'" in src, f"nothing reports {event!r} to GA"
 
 
@@ -256,9 +256,11 @@ def test_generate_reports_which_door_was_used():
     A generate count that cannot tell them apart answers no question anyone
     has."""
     src = INDEX.read_text()
-    for source in ("'quick'", "_src"):
-        assert f"ga('generate', {{source: {source}}})" in src, source
-    assert "KIT_TARGET==='lib' ? 'library' : 'builder'" in src
+    results = (INDEX.parent / 'assets/mission-results.js').read_text()
+    assert "ga('generate',{source})" in results
+    assert "source=options.source||'builder'" in results
+    assert "{source:'quick', rc}" in src
+    assert "{source:'library', rc:recipe()" in src
 
 
 def test_the_view_change_event_exists_because_ga_cannot_see_it_otherwise():
@@ -266,7 +268,7 @@ def test_the_view_change_event_exists_because_ga_cannot_see_it_otherwise():
     again — Library, Fly Now and Builder are the same document — so without an
     explicit event two of the three doors are invisible in the reports."""
     src = INDEX.read_text()
-    i = src.index("function showView(v)")
+    i = src.index("function showView(v,")
     assert "ga('view_change', {view: v})" in src[i:i + 600]
 
 

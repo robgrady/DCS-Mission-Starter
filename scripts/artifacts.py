@@ -104,7 +104,7 @@ ARTIFACTS = [
         "path": "docs/img/hero.png",
         "rule": "stamp",
         "generator": ["scripts/capture_screenshots.py"],
-        "inputs": ["frontend/index.html"],
+        "inputs": ["frontend/index.html", "frontend/assets/mission-results.js"],
         "why": "Every screenshot in the guide comes from this run. The Builder "
                "was rebuilt across v1.45-1.47 and these still showed the old "
                "eight-step wizard.",

@@ -97,8 +97,9 @@
          font-family: var(--font-body); min-height: 100vh; }
   h1,h2,h3,h4,.ehero h1,.lhead h2,.libcard h3,.dcard h2,.lmodcard h3,.epath h3 { font-family: var(--font-display); }
   label,.sechead,.role,.lchip,.acbadge,.kindb,.rtab,.eyebrow,.mono,.viewbar .b,.lsort label,.subf label { font-family: var(--font-mono); }
+  :root { --topbar-height: 48px; }
   /* global topbar: brand + view tabs + doc links, fixed above all views */
-  .topbar { position: fixed; top: 0; left: 0; right: 0; height: 48px; z-index: 50;
+  .topbar { position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-height); z-index: 50;
             display: flex; align-items: center; gap: 26px; padding: 0 22px;
             background: var(--band); color: var(--band-text);
             border-bottom: 1px solid var(--line); }
@@ -133,7 +134,23 @@
   .tblinks a { color: var(--dim); font-size: 12px; text-decoration: none; }
   .tblinks a:hover { color: var(--band-text); }
   .topbar h1 span { color: var(--accent-small); opacity: 1; }
-  body { padding-top: 48px; }
+  body { padding-top: var(--topbar-height); }
+  @media (max-width: 1000px){
+    :root { --topbar-height: 104px; }
+    .topbar { display:grid; grid-template-columns:minmax(0,1fr) auto;
+      grid-template-rows:24px 32px 24px; gap:4px 8px; padding:8px 12px; }
+    .topbar h1 { grid-row:1; grid-column:1; font-size:14px; letter-spacing:1px; }
+    .topbar .ver { font-size:9px; }
+    .topbar .beta { font-size:8px; padding:1px 3px; margin-left:3px; }
+    .topbar .modebtn { grid-row:1; grid-column:2; padding:3px 5px; font-size:9px; }
+    .vtabs { grid-row:2; grid-column:1 / -1; justify-content:space-between; gap:8px; }
+    .vtabs button { font-size:12px; letter-spacing:1px; }
+    .tblinks { grid-row:3; grid-column:1 / -1; justify-content:space-between; margin:0; gap:8px; }
+    .tblinks a { font-size:11px; }
+  }
+  .kitstatus { margin-top:12px; }
+  .revlist[tabindex]:focus { outline:none; }
+  .card:focus-visible,.rstep:focus-visible,.rsub:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
   /* The content column was hard-capped at 980px at every window size, so a
      1920-wide monitor threw away 708px and a 2560 one threw away 1348 — while
      we solved the resulting vertical crowding by COLLAPSING things. Use the
@@ -161,6 +178,8 @@
                 background: var(--accent-solid); color: var(--accent-text); text-align: center;
                 line-height: 22px; margin-right: 8px; font-size: 12px; }
   .cards { display: flex; flex-wrap: wrap; gap: 10px; }
+  .card,.rstep,.rsub { font:inherit; color:inherit; text-align:left; }
+  .rstep,.rsub { width:100%; border:0; background:transparent; }
   .card { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
           padding: 12px 16px; cursor: pointer; min-width: 150px; flex: 1;
           transition: border-color .15s; user-select: none; }
@@ -222,8 +241,8 @@
   .app { display: flex; align-items: stretch; min-height: calc(100vh - 115px); }
   /* v3 (F4): sticky below the 48px topbar; height fits the viewport slice
      instead of forcing 100vh, which made EVERY screen scroll to 1013px. */
-  #rail { position: sticky; top: 48px; width: 288px; flex: none;
-          max-height: calc(100vh - 48px);
+  #rail { position: sticky; top: var(--topbar-height); width: 288px; flex: none;
+          max-height: calc(100vh - var(--topbar-height));
           border-right: 1px solid var(--line); background: var(--panel);
           display: flex; flex-direction: column; padding-top: 10px; }
   #railsteps { flex: 0 1 auto; overflow-y: auto; }
@@ -386,7 +405,7 @@
   /* ===== Entry + Library views =====
      Role colors (--a2a … --historic) come from the generated token block:
      Apple HIG accessible variants, per mode. Do not redefine them here. */
-  #entry,#library,#quick,#pipeline{position:fixed;left:0;right:0;bottom:0;top:48px;overflow-y:auto;background:var(--bg);z-index:40;display:none}
+  #entry,#library,#quick,#pipeline{position:fixed;left:0;right:0;bottom:0;top:var(--topbar-height);overflow-y:auto;background:var(--bg);z-index:40;display:none}
   #entry.on,#library.on,#quick.on,#pipeline.on{display:block}
   /* Quick Flight (PRD v2 §A): one screen, three questions, one button */
   .qwrap{max-width:980px;margin:0 auto;padding:26px 20px 60px}
@@ -655,6 +674,10 @@
   <button class="modebtn" id="modebtn" onclick="flipMode()" title="Switch between paper and night mode"><svg class="icon"><use href="#i-moon"/></svg> NIGHT</button>
 </div>
 
+<div id="loaderror" role="alert" hidden style="position:fixed;top:var(--topbar-height);left:0;right:0;z-index:55;background:var(--panel);padding:20px">
+  <p>Mission options could not be loaded. Check your connection and try again.</p>
+  <button type="button" id="loadretry" onclick="init()">Retry</button>
+</div>
 <section id="entry"><div class="entrywrap">
   <div class="ehero">
     <div class="slantb" style="margin-bottom:18px"><span>Get airborne</span></div>
@@ -742,7 +765,7 @@
   <div class="qgo">
     <button class="fly" id="qf_fly" disabled>FLY ▸</button>
     <button class="die" id="qf_die" title="Re-roll: same picks, fresh layout"><svg class="icon"><use href="#i-dice"/></svg></button>
-    <span class="qhint" id="qf_hint">Pick a mission, a jet and a map.</span>
+    <span class="qhint" id="qf_hint" role="status" aria-live="polite">Pick a mission, a jet and a map.</span>
   </div>
   <div id="qfkit" class="revlist" style="display:none"></div>
 </div></section>
@@ -828,6 +851,7 @@
 </div></div>
 <div id="ownmodal" onclick="if(event.target===this)closeOwn()"><div class="ocard" id="ocardinner" role="dialog" aria-modal="true" aria-label="What do you own"></div></div>
 
+<p id="shareerror" role="alert" hidden style="margin:0;color:var(--text);background:var(--panel);border-left:4px solid var(--amber);padding:12px 22px"></p>
 <!-- v3 (F4): the old banner was ~145px on EVERY builder screen — a quarter of
      the working viewport spent explaining the Builder to people already using
      it. Now one 36px line, expandable, dismissal persists (already did). -->
@@ -1031,11 +1055,11 @@
       <div style="flex:1">
         <label for="dress_aircraft_mode">Parked-aircraft placement</label>
         <select id="dress_aircraft_mode">
-          <option value="static">Static objects (recommended) — inert, low memory, exact facing on surveyed maps</option>
+          <option value="static">Static objects (recommended) — inert, low memory, exact facing on surveyed stands</option>
           <option value="parked_ai">AI aircraft (uncontrolled) — heavier: more memory/CPU, map contacts, streams in</option>
         </select>
         <small id="dress_mode_warn" style="display:none;color:var(--amber);margin-top:5px">
-          ⚠ AI aircraft are live units — they use more memory and CPU and can hurt FPS on lower-end PCs. Only needed for exact facing on the two maps not yet surveyed (Falklands, The Channel). <b>Static is recommended</b> everywhere else.
+          AI aircraft use DCS parking orientation and more memory/CPU. Static objects use exact surveyed headings and estimates elsewhere. The Channel, South Atlantic and Iraq have no surveyed headings yet. <b>Static is recommended</b> for lower memory use.
         </small>
       </div>
       <div style="flex:1" id="dress_livery_row">
@@ -1214,6 +1238,7 @@
 <div class="genbar">
   <div id="summary"></div><div id="status" role="status" aria-live="polite"></div>
 </div>
+<script src="/assets/mission-results.js"></script>
 <script>
 const S = { map:null, era:null, template:null, kind:null, corridors:[], comms:{} };
 // Flightline modes: paper is the default identity; night is the kit's
@@ -1269,6 +1294,12 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
   carrier_cap:false,carrier_aew:false,carrier_strike:false,template:null,crew_difficulty:"qualified",
   callsign:null,seed:1,mission_kind:"open",comms:null};
+// Engine settings without Builder controls must survive opening a shared
+// recipe. Do not add their defaults to a template recipe: omission lets the
+// template supply its own defaults on the server.
+const RECIPE_ENGINE_FIELDS = ['lineup','coach_gates','coach_ring','cq_ride',
+  'formation','tanker_type','bb_branding','bb_dtc','bb_bfm','bfm_setup',
+  'target_packages','published_corridors','check_ride'];
 
 // --- Mission kind (v1.45.0) -------------------------------------------------
 // The Builder's missing first question. Each kind stamps DEFAULTS onto the
@@ -1341,6 +1372,12 @@ function renderKinds(){
 // Applying a kind writes real values into the real controls, so the change is
 // visible on the screens that own them rather than hidden in a parallel state.
 function pickKind(k, silent){
+  S.engineSettings = {};
+  if (!silent){
+    S.template=null;
+    const custom=document.querySelector('#templates .card[data-k=""]');
+    if(custom) sel(document.getElementById('templates'),custom);
+  }
   S.kind = k;
   const m = kindDef(k);
   for (const [id, v] of Object.entries(m.patch)){
@@ -1455,15 +1492,54 @@ function refreshCallsign(){
 function encodeRecipe(r){
   const diff = {};
   for (const [k,v] of Object.entries(r)) if (JSON.stringify(RECIPE_DEFAULTS[k])!==JSON.stringify(v)) diff[k]=v;
-  return btoa(JSON.stringify(diff)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  const bytes = new TextEncoder().encode(JSON.stringify({v:1, r:diff}));
+  return btoa(Array.from(bytes, b => String.fromCharCode(b)).join('')).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
 }
 function decodeRecipe(code){
   const b = code.replace(/-/g,'+').replace(/_/g,'/');
-  return {...RECIPE_DEFAULTS, ...JSON.parse(atob(b))};
+  const bytes = Uint8Array.from(atob(b), c => c.charCodeAt(0));
+  let obj;
+  try { obj = JSON.parse(new TextDecoder('utf-8', {fatal:true}).decode(bytes)); }
+  catch(e){
+    // The old browser codec used btoa directly, so accented Latin-1 names
+    // could be saved without UTF-8. Accept that only for legacy bare recipes.
+    obj = JSON.parse(atob(b));
+    if (obj && typeof obj === 'object' && ('v' in obj || 'r' in obj)) throw e;
+  }
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) throw new Error('Invalid share link.');
+  let diff = obj;
+  if ('v' in obj || 'r' in obj){
+    if (!Number.isInteger(obj.v) || obj.v < 1 || !('r' in obj)) throw new Error('Invalid share link version.');
+    if (obj.v > 1) throw new Error('This link needs a newer version of Sortie Starter.');
+    diff = obj.r;
+  }
+  if (!diff || typeof diff !== 'object' || Array.isArray(diff)) throw new Error('Invalid share link settings.');
+  for (const k of Object.keys(diff)) if (!Object.hasOwn(RECIPE_DEFAULTS, k) && k !== 'corridors' && !RECIPE_ENGINE_FIELDS.includes(k)) throw new Error(`Unknown mission setting: ${k}.`);
+  return {...RECIPE_DEFAULTS, ...diff};
 }
 let OPT = null;
+let NAV_READY = false;
+let CURRENT_VIEW = 'entry';
 
-function el(html){ const d=document.createElement('div'); d.innerHTML=html; return d.firstElementChild; }
+function cardState(c){
+  const disabled=(c.classList.contains('dis') && !c.dataset.vote)||c.classList.contains('dim');
+  if(c.tagName==='BUTTON') c.disabled=disabled;
+  c.setAttribute('role','button'); c.tabIndex=disabled ? -1 : 0;
+  c.setAttribute('aria-disabled',String(disabled));
+  if(c.classList.contains('card')) c.setAttribute('aria-pressed',String(c.classList.contains('sel')));
+  if(c.classList.contains('rstep')) c.setAttribute('aria-current',c.classList.contains('active')?'step':'false');
+}
+function syncCardState(){ document.querySelectorAll('.card,.rstep,.rsub').forEach(cardState); }
+function el(html){
+  const d=document.createElement('div'); d.innerHTML=html;
+  let node=d.firstElementChild;
+  if(node.matches('.card,.rstep,.rsub')){
+    const button=document.createElement('button'); button.type='button';
+    for(const attr of node.attributes) button.setAttribute(attr.name,attr.value);
+    button.innerHTML=node.innerHTML; node=button; cardState(node);
+  }
+  return node;
+}
 
 // Minimal, no-PII demand signal (see claude/analytics-plan.md: server-side,
 // no IP, no identifiers). Fire-and-forget — a 404 or an ad-blocked request is
@@ -1573,7 +1649,7 @@ function initFlightMode(){
   // Mixed flight is real demand from feedback but has no engine support yet —
   // the builder makes ONE group of ONE airframe. Show it grayed so people stop
   // hunting for it, and log the click as a demand signal for the flights[] work.
-  const mixed = el(`<div class="card dis" id="fm_mixed"><b>Mixed flight</b>` +
+  const mixed = el(`<div class="card dis" id="fm_mixed" data-vote="true"><b>Mixed flight</b>` +
                    `<small>Different aircraft in one flight — not yet</small></div>`);
   mixed.style.pointerEvents = 'auto';       // .dis kills clicks; we want this one
   mixed.style.cursor = 'not-allowed';
@@ -1690,14 +1766,20 @@ function syncGenbarHeight(){
 window.addEventListener('resize', syncGenbarHeight);
 
 async function init(){
+  const loadError=document.getElementById('loaderror'), retry=document.getElementById('loadretry');
+  retry.disabled=true; loadError.hidden=true;
+  try{
+    const res=await fetch('/api/options');
+    if(!res.ok) throw new Error('Options request failed');
+    OPT=await res.json();
+  } catch(e){ loadError.hidden=false; retry.disabled=false; return; }
   initGfxUI();
   initCommUI();
-  OPT = await (await fetch('/api/options')).json();
   if (OPT.version) document.getElementById('appver').textContent = 'v' + OPT.version;
   const maps = document.getElementById('maps');
   for (const [k,v] of Object.entries(OPT.maps)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
-    c.onclick = ()=>{ S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
+    c.onclick = ()=>{ if(S.map!==k) S.engineSettings={}; S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
     maps.appendChild(c);
   }
   // Library era filter, built from OPT.eras rather than typed into the HTML.
@@ -1710,7 +1792,7 @@ async function init(){
   const eras = document.getElementById('eras');
   for (const [k,v] of Object.entries(OPT.eras)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b></div>`);
-    c.onclick = ()=>{ S.era=k; sel(eras,c);
+    c.onclick = ()=>{ if(S.era!==k) S.engineSettings={}; S.era=k; sel(eras,c);
       // era drives everything: if the current map has no preset for it, jump
       // to the first map that does
       if (!S.map || !OPT.maps[S.map].presets[k]) {
@@ -1754,7 +1836,7 @@ async function init(){
   refreshTimingUI();
   const tp = document.getElementById('templates');
   const none = el(`<div class="card sel" data-k=""><b>Build your own</b><small>Start from scratch — you configure everything below</small></div>`);
-  none.onclick = ()=>{ S.template=null; sel(tp,none); sum(); updateRail(); };
+  none.onclick = ()=>{ S.engineSettings={}; S.template=null; sel(tp,none); sum(); updateRail(); };
   tp.appendChild(none);
   for (const [k,v] of Object.entries(OPT.templates)){
     const reqs = [];
@@ -1772,6 +1854,7 @@ async function init(){
     cl.appendChild(el(`<option value="${k}">${v}</option>`));
   refreshCarrierUI();
   document.getElementById('carrier_hull').onchange = ()=>{ refreshDeckAircraft(); refreshAircraft(); sum(); };
+  bindCarrierRecipeChanges();
   document.getElementById('coalition').onchange = ()=>{ fillHome(); refreshDressUI(); sum(); };
   document.getElementById('bb_dressing').addEventListener('change', refreshDressUI);
   document.getElementById('dress_theme').onchange = ()=>{
@@ -1811,6 +1894,7 @@ async function init(){
   document.getElementById('threat_tier').onchange = sum;
   initThreatPresets();
   ['aircraft','seed'].forEach(id=>document.getElementById(id).onchange=()=>{refreshCallsign();sum();});
+  document.getElementById('seed').oninput = ()=>{refreshCallsign();sum();};
   document.getElementById('callsign').oninput = sum;
   refreshCallsign();
   renderPrivacy();
@@ -1821,20 +1905,27 @@ async function init(){
   document.getElementById('player_arm').onchange = function(){ syncPlayerArm(); renderRailOutline(); };
   document.getElementById('player_load').onchange = function(){ renderRailOutline(); };
   document.getElementById('share2').onclick = () => document.getElementById('share').click();
-  if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ defaultSelection(); } }
+  let shareError = null;
+  if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ defaultSelection(); shareError = e.message; } }
   else if (!restoreState()) { defaultSelection(); }
   updateRail();
   sum();
   renderKinds();
   syncGenbarHeight();
-  showScreen('theater');       // initialise the builder's first screen
+  const step = new URLSearchParams(location.search).get('step');
+  showScreen(SCREENS.some(s=>s.key===step) ? step : 'theater');
   buildRoleTabs();
   // land on entry (two paths) — unless a share link goes straight to the builder
   // deep view links: /?v=quick|library|builder (used by the 404 page's doors);
   // a share code still outranks it and lands in the Builder as always
   const vparam = new URLSearchParams(location.search).get('v');
-  showView(code ? 'builder'
-                : (['quick','library','builder'].includes(vparam) ? vparam : 'entry'));
+  NAV_READY=true;
+  showView(code ? 'builder' : normalizeView(vparam), 'replace');
+  if (shareError){
+    const notice = document.getElementById('shareerror');
+    notice.textContent = `Could not open this mission: ${shareError} The Builder shows default settings.`;
+    notice.hidden = false;
+  }
 }
 function defaultSelection(){
   // era-first: default to Modern (broadest module ownership); the era click
@@ -1844,6 +1935,7 @@ function defaultSelection(){
   card.click();
 }
 function applyRecipe(r){
+  S.engineSettings = {};
   // Restore the kind FIRST and silently: it stamps defaults, and the explicit
   // values that follow in this recipe must win over anything it set.
   if (r.mission_kind) { S.kind = r.mission_kind; }
@@ -1907,15 +1999,20 @@ function applyRecipe(r){
   setCommOverrides(r.comms, true);
   const tsel = document.querySelector(`#templates .card[data-k="${r.template||''}"]`);
   if (tsel) tsel.click();
+  restoreCarrierRecipe(r);
+  S.engineSettings = Object.fromEntries(RECIPE_ENGINE_FIELDS
+    .filter(k => Object.hasOwn(r, k)).map(k => [k, r[k]]));
 }
 function sel(container, card){
   container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
   card.classList.add('sel');
+  container.querySelectorAll('.card').forEach(cardState);
 }
 // Scenario = a preset that FILLS the wizard, then you tweak. Applied here so the
 // downstream screens (flight, airfields, threats, carrier) show the scenario's
 // choices ready to review — never a late override.
 function applyScenarioPreset(k){
+  if (S.template !== k) S.engineSettings = {};
   S.template = k;
   const v = OPT.templates[k] || {};
   // The card's recipe pins ONE aircraft; a card that spans eras overrides it
@@ -2025,6 +2122,32 @@ function refreshCarrierUI(){
   else { const def = eraHull(); if (def && [...hs.options].some(o=>o.value===def)) hs.value = def; }
   refreshDeckAircraft();
 }
+function restoreCarrierRecipe(r){
+  // Blocks must be restored first: the hull list depends on carrier being on.
+  // Explicit saved choices also win over a scenario's carrier preset.
+  document.getElementById('bb_carrier').checked = !!r.bb_carrier;
+  refreshCarrierUI();
+  const hull = document.getElementById('carrier_hull');
+  if (r.carrier_hull && [...hull.options].some(o=>o.value===r.carrier_hull))
+    hull.value = r.carrier_hull;
+  refreshDeckAircraft();
+  const layout = document.getElementById('carrier_layout');
+  if (r.carrier_layout && [...layout.options].some(o=>o.value===r.carrier_layout))
+    layout.value = r.carrier_layout;
+  if (Array.isArray(r.carrier_deck_aircraft))
+    document.querySelectorAll('.deckac').forEach(c=>c.checked=r.carrier_deck_aircraft.includes(c.value));
+  document.getElementById('carrier_equipment').checked = r.carrier_equipment !== false;
+  for (const key of ['carrier_cap','carrier_aew','carrier_strike'])
+    document.getElementById(key).checked = !!r[key];
+  refreshAircraft();
+  const aircraft = document.getElementById('aircraft');
+  if ([...aircraft.options].some(o=>o.value===r.aircraft)) aircraft.value = r.aircraft;
+}
+function bindCarrierRecipeChanges(){
+  // Deck checkboxes are rebuilt on hull changes; listen on their container.
+  for (const id of ['carrier_layout','carrier_equipment','carrier_cap','carrier_aew','carrier_strike','deck_aircraft'])
+    document.getElementById(id).addEventListener('change', sum);
+}
 function refreshTimingUI(){
   const on = !!document.getElementById('bb_route')?.checked;
   document.getElementById('timing_opts').style.display = on ? '' : 'none';
@@ -2075,6 +2198,7 @@ function refreshEraGating(){
     const blk = cb?.closest('.block');
     if (blk){
       blk.classList.toggle('dis', !hasCarrier);
+      cb.disabled = !hasCarrier;
       blk.querySelector('small').textContent = hasCarrier
         ? 'CVN + escorts on BRC, TACAN 71X / ICLS 11 / Link4 (blue, coastal maps)'
         : 'No carrier water on this map';
@@ -2274,7 +2398,7 @@ const STEP_COND = {
   },
 };
 
-function showScreen(key){
+function showScreen(key, historyMode='push'){
   const scr = SCREENS.find(s=>s.key===key);
   if(!scr) return;
   if(scr.cond && !scr.cond()) key = "theater";   // don't land on a hidden screen
@@ -2300,7 +2424,7 @@ function showScreen(key){
     _cols = document.createElement('div'); _cols.id = 'stepcols';
     _main.insertBefore(_cols, _main.firstChild);
   }
-  if (_cols) _cols.classList.toggle('twocol', scr.cols === 2);
+  if (_cols){ _cols.style.display=''; _cols.classList.toggle('twocol', scr.cols === 2); }
   if (_main){
     scr.steps.forEach(id=>{ const e=document.getElementById(id); if(e) _cols.appendChild(e); });
     // ...and the wizard nav goes back to LAST. Re-appending the steps would
@@ -2313,7 +2437,8 @@ function showScreen(key){
   renderRailOutline();
   window.scrollTo({top:0, behavior:'smooth'});
   if(key==="review") buildReview();
-  updateScreenNav();
+  updateScreenNav(); syncCardState();
+  if(CURRENT_VIEW==='builder') writeNavigation('builder',key,historyMode);
 }
 
 function corridorsFor(){ if(!OPT||!OPT.air_corridors||!S.map||!S.era) return [];
@@ -2619,7 +2744,7 @@ function updateRail(){
     if (e && STEP_COND[id]) e.style.display = STEP_COND[id]() ? '' : 'none'; });
   const cur = SCREENS.find(s=>s.key===CUR_SCREEN);
   if (cur && cur.cond && !cur.cond()) showScreen('theater');
-  updateScreenNav();
+  updateScreenNav(); syncCardState();
 }
 
 function buildReview(){
@@ -2805,6 +2930,7 @@ function onThemeChange(){
 }
 function recipe(){
   const r = {
+    ...(S.engineSettings || {}),
     map:S.map, era:S.era, template:S.template,
     crew_difficulty:(document.getElementById('crew_difficulty')||{}).value||'qualified',
     coalition:document.getElementById('coalition').value,
@@ -2878,7 +3004,7 @@ function sum(){
   if(!OPT) return;
   syncThreatPreset();
   refreshCommTable();
-  updateRail(); saveState();
+  updateRail(); syncCardState(); saveState();
   if(!S.map||!S.era) return;
   const r = recipe();
   document.getElementById('summary').innerHTML =
@@ -2887,8 +3013,6 @@ function sum(){
     `<span class="pfx">Preview</span>${OPT.maps[S.map].label} · ${OPT.eras[S.era].label} · ${r.coalition} · ${acLabel(r.aircraft)||r.aircraft} from ${r.home_airbase}` +
     (S.template? ` · ${S.template}` : '') + ` · seed ${r.seed}`;
 }
-let LAST_GEN_RECIPE = null;   // the recipe most recently POSTed to /api/generate
-
 // ===================== QUICK FLIGHT (PRD v2 §A) =====================
 // One screen, three questions, one button. Composes an ordinary Recipe from a
 // hidden qf_* system template + the three picks; everything else (era, base,
@@ -2935,14 +3059,17 @@ function qfTplEras(k){ return (OPT.templates[k]||{}).eras||[]; }
 function qfMapsFor(type){
   // a map qualifies if it shares at least one era with the mission type
   const te = new Set(qfTplEras(type));
+  const allowed = (OPT.templates[type]||{}).maps;
   return Object.keys(OPT.maps).filter(mk =>
+    (!allowed || !allowed.length || allowed.includes(mk)) &&
     Object.keys(OPT.maps[mk].presets).some(e=>te.has(e)));
 }
 
 function qfAcList(type){
   const own = ownedAc();
   let list = (OPT.aircraft||[]).filter(a=>!a.upcoming);
-  if (type==='qf_tanker') list = list.filter(a=>a.kind!=='helicopter');
+  if (type==='qf_tanker') list = list.filter(a=>a.can_refuel);
+  if (type==='qf_bfm') list = list.filter(a=>a.kind==='plane');
   if (own) {
     const owned = list.filter(a=>own.has(a.key));
     if (owned.length) return {list: owned, owned:true};
@@ -2954,7 +3081,11 @@ function qfEra(type, mapK, acKey){
   // derive the era: type ∩ map, preferring modern > coldwar > wwii, biased to
   // the aircraft's service window when known
   const te = new Set(qfTplEras(type));
-  const me = mapK ? Object.keys(OPT.maps[mapK].presets) : [];
+  if (!qfMapsFor(type).includes(mapK)) return null;
+  const aircraft = (OPT.aircraft||[]).find(a=>a.key===acKey && !a.upcoming);
+  if (!aircraft || (type==='qf_tanker' && !aircraft.can_refuel) ||
+      (type==='qf_bfm' && aircraft.kind!=='plane')) return null;
+  const me = Object.keys(OPT.maps[mapK].presets);
   // Preference order first, then anything else the data offers — a hard-coded
   // three-element list meant Quick Flight could never reach a new era.
   const PREF = ['modern','gwot','coldwar','wwii'];
@@ -2969,6 +3100,7 @@ function qfEra(type, mapK, acKey){
       if (!w) return e;
       if ((to==null || to>=w[0]) && from<=w[1]) return e;
     }
+    return null;
   }
   return cands[0];
 }
@@ -2989,7 +3121,7 @@ function qfRender(){
   const sorted = maps.sort((a,b)=>(OPT.maps[b].free-OPT.maps[a].free)||a.localeCompare(b));
   document.getElementById('qf_maps').innerHTML = sorted.map(mk=>{
     const un = own && !own.has(mk);
-    return `<div class="qcard${QF.map===mk?' sel':''}${un?' dis':''}" role="button" tabindex="0" aria-pressed="${QF.map===mk}" onclick="qfPick('map','${mk}')">`+
+    return `<div class="qcard${QF.map===mk?' sel':''}${un?' dis':''}" role="button" tabindex="${un?-1:0}" aria-disabled="${!!un}" aria-pressed="${QF.map===mk}" onclick="qfPick('map','${mk}')">`+
       `<b>${OPT.maps[mk].label}</b><small>${OPT.maps[mk].free?'Free terrain':'Paid terrain'}</small></div>`;}).join('');
   // the ladder appears only for the ride it belongs to
   const isBfm = QF.type === 'qf_bfm';
@@ -3001,8 +3133,8 @@ function qfRender(){
     `<div class="qcard${QF.spice===s.k?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.spice===s.k}" onclick="qfPick('spice','${s.k}')">`+
     `<b>${s.t}</b><small>${s.s}</small></div>`).join('');
   const ready = QF.type && QF.ac && QF.map;
-  document.getElementById('qf_fly').disabled = !ready;
   const era = ready ? qfEra(QF.type, QF.map, QF.ac) : null;
+  document.getElementById('qf_fly').disabled = GENERATING || !era;
   document.getElementById('qf_hint').textContent = ready
     ? (era ? `${OPT.eras[era].label} · seed ${QF.seed} — era, base, weather and comms are set for you.`
            : 'That jet, mission and map have no era in common — pick another map.')
@@ -3010,6 +3142,9 @@ function qfRender(){
 }
 
 function qfPick(what, v){
+  if (what==='map' && (!qfMapsFor(QF.type||'qf_bfm').includes(v) ||
+      (ownedMaps() && !ownedMaps().has(v)))) return;
+  if (what==='ac' && !qfAcList(QF.type||'qf_bfm').list.some(a=>a.key===v)) return;
   // spice and the BFM rung always have a value — deselecting them would leave
   // the ride undefined, which is not a state a pilot can fly
   QF[what] = (QF[what]===v && what!=='spice' && what!=='bfm') ? null : v;
@@ -3041,241 +3176,20 @@ document.getElementById('qf_die').onclick = ()=>{
 };
 
 document.getElementById('qf_fly').onclick = async ()=>{
-  const btn = document.getElementById('qf_fly');
   const rc = qfRecipe();
-  if (!rc.era){ return; }
-  btn.disabled = true; btn.textContent = 'BUILDING…';
-  try{
-    LAST_GEN_RECIPE = rc;
-    const res = await fetch('/api/generate', {method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({recipe: rc, source: 'quick', visitor: visitorId()})});
-    if(!res.ok){
-      ga('generate_error', {source: 'quick'});
-      document.getElementById('qf_hint').textContent = 'Error: '+(await res.json()).detail;
-      return;
-    }
-    ga('generate', {source: 'quick'});
-    const warn = res.headers.get('X-Warnings');
-    let kit = {}; try { kit = JSON.parse(res.headers.get('X-Kit')||'{}'); } catch(e){}
-    const blob = await res.blob();
-    const cd = res.headers.get('Content-Disposition')||'';
-    const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'starter.miz';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
-    const kt = KIT_TARGET; KIT_TARGET = 'quick';
-    showKit(kit, fname, warn, rc);
-    KIT_TARGET = kt;
-    document.getElementById('qf_hint').textContent = 'Downloaded — your kit is below. The dice re-roll a fresh layout.';
-    document.getElementById('qfkit').scrollIntoView({behavior:'smooth'});
-  } catch(e){ document.getElementById('qf_hint').textContent = 'Error: '+e; }
-  finally { btn.disabled = false; btn.textContent = 'FLY ▸'; }
+  if (!rc.era) return;
+  await generateMission(document.getElementById('qf_fly'), {source:'quick', rc});
 };
 
-// --- Mission Kit (UX v3 F2) -------------------------------------------------
-// The generate flow used to end in a status string; the .miz downloaded
-// silently, the briefing pack hid behind a rail button, and the kneeboard/DTC
-// were never mentioned. Now every artifact is a named row the user can act on.
-let KIT_TARGET = 'builder';   // 'lib' while a Library-drawer generate is running
-
-function kitRows(kit, fname, warn, rc){
-  // rc = the recipe that was actually generated. Quick Flight builds recipes
-  // off-DOM, so the kit can't read builder inputs; the builder passes its own.
-  rc = rc || {};
-  const n = rc.slots || (+document.getElementById('slots').value || 1);
-  const rows = [];
-  const row = (ico, title, sub, right) =>
-    rows.push('<div class="kitrow"><span class="kitico">'
-      +'<svg class="icon"><use href="#i-'+ico+'"/></svg></span>'+
-      '<div class="kitbody"><b>'+title+'</b><small>'+sub+'</small></div>'+(right||'')+'</div>');
-  row('archive', fname,
-    n > 1 ? 'Multiplayer — '+n+' client seats. Host it: Multiplayer → New Server, or drop it on your dedicated server. No single-player slot.'
-          : 'Single-player. Install path: <span class="kitpath">Saved Games\\DCS\\Missions</span> — then Mission → fly.',
-    '<span class="kitok">DOWNLOADED ✓</span>');
-  row('file', 'Briefing pack — PDF + Markdown',
-    'The full mission brief as documents: situation, comms &amp; TACAN card, threat picture. Print it or second-screen it.',
-    '<button class="kitbtn" id="kit_brief">Download</button>');
-  if (kit.kneeboard_pages)
-    row('clipboard', 'Kneeboard — '+kit.kneeboard_pages+' pages, already in the jet',
-      'In the cockpit: RShift+K, [ ] to flip pages. Download them as PNGs to use '
-      + 'in OpenKneeboard, print them, or send them to your flight.',
-      '<span class="kitok">IN THE .MIZ ✓</span> <button class="kitbtn" id="kit_kb">Download PNGs</button>');
-  if (kit.dtc)
-    row('save', 'DTC setup card', 'Data cartridge reference for the F-14B(U) — nav points, threats and comms preloaded.',
-      '<span class="kitok">IN THE .MIZ ✓</span>');
-  if (kit.route)
-    row('compass', 'Flight plan loaded', kit.route + ' — fly the black line, hit your TOT.',
-      '<span class="kitok">IN THE .MIZ ✓</span>');
-  // YOUR loadout, before anything about the enemy: it is the one thing on this
-  // panel the user can act on before they press fly.
-  if (kit.player_loadout){
-    const ROLEW = {cap:'air-to-air', strike:'strike', cas:'close air support',
-                   sead:'SEAD', training:'training', bfm:'the merge',
-                   antiship:'anti-ship'};
-    row('medal', 'Your loadout — ' + (ROLEW[kit.player_role] || 'mission') + ' fit',
-      '<b>' + kit.player_loadout + '</b>. Chosen from the mission type and checked '
-      + 'against what DCS allows on each station. Change it in the Mission Editor '
-      + 'any time.',
-      '<span class="kitok">ON YOUR JET ✓</span>');
-  }
-  // Enemy air: the FIT, not just the type. Knowing he only has rear-quarter
-  // IR changes how you fly the merge — that belongs in front of the user
-  // before they open a document, not only inside one.
-  const ea = kit.enemy_air || [];
-  const merge = ea.find(a => a.r === 'merge');
-  if (kit.bfm)
-    row('swords', kit.bfm.replace('Bandit BFM','Your adversary'),
-      (merge ? 'Carrying <b>'+merge.fit+'</b>. '+merge.imp+' ' : '')
-      + '2nm abeam, co-altitude, cleared hot. Re-roll (the dice) for a different type on the same picks.',
-      '<span class="kitok">AT THE MERGE ✓</span>');
-  ea.filter(a => a.r !== 'merge').forEach(a =>
-    row('target', 'Enemy air — '+a.n+'× '+a.t,
-      'Carrying <b>'+a.fit+'</b>. '+a.imp,
-      '<span class="kitok">ARMED ✓</span>'));
-  const air = [];
-  const tk = rc.bb_tanker !== undefined ? rc.bb_tanker : document.getElementById('bb_tanker')?.checked;
-  const aw = rc.bb_awacs !== undefined ? rc.bb_awacs : document.getElementById('bb_awacs')?.checked;
-  const side = rc.coalition || document.getElementById('coalition').value;
-  const era = rc.era || S.era;
-  if (tk && side==='blue' && era!=='wwii') air.push('Texaco 1-1 (tanker)');
-  if (aw && era!=='wwii') air.push(side==='blue' ? 'Overlord 1-1 (AWACS)' : 'Overlord 1-1 (A-50 AWACS)');
-  if (air.length)
-    row('radar', 'On station: '+air.join(' and '), 'TACAN and frequencies are on the comms card (briefing + kneeboard).');
-  if (warn)
-    row('warn', 'Generated with warnings', warn);
-  return rows.join('');
-}
-
-// WIRE THE KIT'S BUTTONS WHERE THE KIT WAS JUST DRAWN.
-//
-// THE BUG THIS FIXES. The Library drawer's Briefing pack button was wired on a
-// `setTimeout(..., 1600)` in `generateFromLib`, on the assumption that
-// generation finishes inside 1.6 seconds. A plain starter does — a White
-// Knights ride takes about 3.3, because it carries the coaching cards, the
-// brief pages and the squadron's diagrams. So the timer fired BEFORE the kit
-// existed, `getElementById` returned null, and the button sat there looking
-// enabled and did nothing. It failed exactly on the missions worth reading a
-// brief for.
-//
-// The wiring now happens in the same statement that creates the markup, in
-// every branch, so there is no window in which the button exists unwired.
-function wireKitButtons(){
-  const kb = document.getElementById('kit_brief');
-  if (kb) kb.onclick = ()=> downloadBrief(kb);
-  const kbn = document.getElementById('kit_kb');
-  if (kbn) kbn.onclick = ()=> downloadKneeboard(kbn);
-}
-
-function showKit(kit, fname, warn, rc){
-  if (KIT_TARGET === 'lib'){
-    const box = document.getElementById('libkit');
-    if (box){ box.innerHTML = kitRows(kit, fname, warn, rc); box.style.display='';
-      wireKitButtons(); }
-    return;
-  }
-  if (KIT_TARGET === 'quick'){
-    const box = document.getElementById('qfkit');
-    if (box){ box.innerHTML = kitRows(kit, fname, warn, rc); box.style.display='';
-      wireKitButtons(); }
-    return;
-  }
-  document.getElementById('kit_box').innerHTML = kitRows(kit, fname, warn, rc);
-  document.querySelectorAll('main > .step').forEach(s=>{ if(s.id!=='sec_kit') s.style.display='none'; });
-  document.getElementById('sec_kit').style.display = '';
-  document.getElementById('screennav').style.display = 'none';
-  wireKitButtons();
-  window.scrollTo(0,0);
-}
-function closeKit(){
-  document.getElementById('sec_kit').style.display = 'none';
-  document.getElementById('screennav').style.display = '';
-  showScreen('review');
-}
-
-// The one place a Builder mission gets built. Was an onclick bolted to the
-// footer button; now a named function, because the footer button is gone and
-// two callers need it — the Review panel and the Library drawer's one-click
-// generate. `btn` is optional: the Library path has its own progress affordance.
-async function generateMission(btn){
-  const st = {set textContent(v){
-    const a=document.getElementById('status'), b=document.getElementById('status2');
-    if(a) a.textContent=v; if(b) b.textContent=v; }};
-  if (btn) btn.disabled = true;
-  st.textContent = 'Generating…';
-  try{
-    const rc = recipe();
-    LAST_GEN_RECIPE = rc;
-    const res = await fetch('/api/generate', {method:'POST',
-      headers:{'Content-Type':'application/json'},
-      // source feeds the no-PII analytics ledger: which door was used
-      body: JSON.stringify({recipe: rc, visitor: visitorId(),
-                            source: KIT_TARGET==='lib' ? 'library' : 'builder'})});
-    const _src = KIT_TARGET==='lib' ? 'library' : 'builder';
-    if(!res.ok){
-      ga('generate_error', {source: _src});
-      st.textContent = 'Error: ' + (await res.json()).detail; return; }
-    ga('generate', {source: _src});
-    const warn = res.headers.get('X-Warnings');
-    let kit = {}; try { kit = JSON.parse(res.headers.get('X-Kit')||'{}'); } catch(e){}
-    const blob = await res.blob();
-    const cd = res.headers.get('Content-Disposition')||'';
-    const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'starter.miz';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
-    st.textContent = 'Done — your mission kit is above.';
-    showKit(kit, fname, warn, rc);
-  } catch(e){ st.textContent = 'Error: '+e; }
-  finally { if (btn) btn.disabled = false; KIT_TARGET = 'builder'; }
-}
-// The kneeboard pages have always existed INSIDE the .miz, which made them
-// unusable everywhere else — OpenKneeboard, a printed card, a squadron Discord,
-// or Saved Games\DCS\Kneeboard for every mission. Same renderer, different
-// packaging.
-async function downloadKneeboard(btn){
-  ga('kneeboard_download');
-  const st = document.getElementById('status');
-  btn.disabled = true; st.textContent = 'Building kneeboard pack…';
-  try{
-    const res = await fetch('/api/kneeboard', {method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({recipe: LAST_GEN_RECIPE || recipe(), source: 'builder',
-                            visitor: visitorId()})});
-    if(!res.ok){ st.textContent = 'Error: ' + (await res.json()).detail; return; }
-    const blob = await res.blob();
-    const cd = res.headers.get('Content-Disposition')||'';
-    const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'kneeboard_pack.zip';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
-    st.textContent = 'Kneeboard pack downloaded — PNGs + a README with the install path.';
-  } catch(e){ st.textContent = 'Error: '+e; }
-  finally { btn.disabled = false; }
-}
-async function downloadBrief(btn){
-  const st = document.getElementById('status');
-  btn.disabled = true; st.textContent = 'Building briefing pack…';
-  try{
-    // brief the mission that was actually generated (Quick Flight recipes
-    // never exist in the builder DOM); fall back to the live builder state
-    const res = await fetch('/api/brief', {method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({recipe: LAST_GEN_RECIPE || recipe(), source: 'builder',
-                            visitor: visitorId()})});
-    if(!res.ok){ st.textContent = 'Error: ' + (await res.json()).detail; return; }
-    const blob = await res.blob();
-    const cd = res.headers.get('Content-Disposition')||'';
-    const fname = (cd.match(/filename="?([^";]+)/)||[])[1] || 'briefing_pack.zip';
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob); a.download = fname; a.click();
-    st.textContent = 'Briefing pack downloaded — PDF + Markdown.';
-  } catch(e){ st.textContent = 'Error: '+e; }
-  finally { btn.disabled = false; }
-}
 document.getElementById('perbase_open').onclick = ()=> openPerBase(true);
 document.getElementById('perbase_close').onclick = ()=> openPerBase(false);
 document.getElementById('perbase_modal').addEventListener('click', e=>{
   if (e.target.id === 'perbase_modal') openPerBase(false); });
 
-document.getElementById('brief').onclick = function(){ downloadBrief(this); };
+document.getElementById('brief').onclick = function(){
+  const kitVisible=document.getElementById('sec_kit').style.display!=='none';
+  downloadBrief(this,kitVisible ? MISSION_RESULTS.builder : null);
+};
 document.getElementById('share').onclick = async ()=>{
   const code = encodeRecipe(recipe());
   const url = `${location.origin}/?r=${code}`;
@@ -3461,8 +3375,24 @@ function reqLabel(req){ return [req.ac,req.map].filter(Boolean).join(' · '); }
 function thrBar(n){ let s='<span class="thr">'; for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>'; return s+'</span>'; }
 function eraLabels(er){ return (er||[]).map(e=>OPT.eras[e]?OPT.eras[e].label:e).join(' · '); }
 
-function showView(v){
+function normalizeView(v){
+  if(v==='train') return 'pipeline';
+  return ['quick','library','builder','pipeline','entry'].includes(v) ? v : 'entry';
+}
+function writeNavigation(v, screen, mode='push'){
+  if(!NAV_READY || mode==='none') return;
+  const url=new URL(location.href);
+  if(v==='entry') url.searchParams.delete('v'); else url.searchParams.set('v',v);
+  if(v==='builder') url.searchParams.set('step',screen); else url.searchParams.delete('step');
+  if(url.href===location.href && mode!=='replace') return;
+  history[mode==='replace'?'replaceState':'pushState']({view:v,screen},'',url);
+}
+function showView(v, historyMode='push'){
+  v=normalizeView(v); CURRENT_VIEW=v;
+  writeNavigation(v,CUR_SCREEN,historyMode);
   const build=v==='builder';
+  const shareNotice = document.getElementById('shareerror');
+  shareNotice.hidden = !build || !shareNotice.textContent;
   // GA4's automatic page_view fires once, on load. This app never navigates
   // again — the three doors are the same document — so without this the whole
   // Library and Fly Now are invisible in the reports.
@@ -3793,6 +3723,7 @@ async function openReading(cid, doc){
     r.html+'</div>';
   document.getElementById('libdetail').classList.add('on');
   modalOpen(document.getElementById('libdetail'));
+  syncGenerationButtons();
 }
 function openTrack(id, pref){
   const tr=(OPT.tracks||{})[id]; if(!tr) return;
@@ -3836,6 +3767,7 @@ function openTrack(id, pref){
   renderTrackWizard();
   document.getElementById('libdetail').classList.add('on');
   modalOpen(document.getElementById('libdetail'));
+  syncGenerationButtons();
 }
 let trackState=null;
 function trackPick(pk,st){ return ((pk[st.era]||{})[st.ac])||[]; }
@@ -4017,10 +3949,12 @@ function openDetail(k, pref){
         'button. Unzip into Saved Games\\DCS\\Missions and fly 01 first.</div>'
       : '<div class="dcta"><button class="prime" id="dgen" onclick="generateFromLib(\''+k+'\')"><svg class="icon"><use href="#i-download"/></svg> Generate &amp; Download</button>'+
         '<button class="ghost" onclick="openInBuilder(\''+k+'\')"><svg class="icon"><use href="#i-sliders"/></svg> Open in Builder to tweak</button></div>'+
+        '<p id="libstatus" role="status" aria-live="polite"></p>'+
         '<div id="libkit" class="revlist" style="display:none;margin-top:12px"></div>'+
         '<div class="dnote">Pre-fills every builder step — change anything, keep the rest, then fly.</div>');
   document.getElementById('libdetail').classList.add('on');
   modalOpen(document.getElementById('libdetail'));
+  syncGenerationButtons();
 }
 function prettyAc(key){ const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
 function closeDetail(){ document.getElementById('libdetail').classList.remove('on'); modalClose(); }
@@ -4053,17 +3987,12 @@ function setupFromLib(k){
   document.getElementById('seed').value=libState.seed;
   sum(); updateRail();
 }
-function generateFromLib(k){
+async function generateFromLib(k){
+  if(GENERATING) return;
   setupFromLib(k);
-  KIT_TARGET = 'lib';   // render the Mission Kit manifest inside the drawer
-  const b=document.getElementById('dgen'); if(b){ b.textContent='Generating…'; b.disabled=true; }
-  generateMission(null);
-  // The label only. The kit's buttons are wired by `showKit`, when the markup
-  // is actually created — wiring them on this timer is what broke them for
-  // every mission that takes longer than 1.6 s to generate.
-  setTimeout(()=>{ if(b){ b.innerHTML='✓ Downloaded';
-    setTimeout(()=>{b.innerHTML='⬇ Generate &amp; Download';b.disabled=false;},2200);}
-  },1600);
+  // Capture drawer nodes before awaiting; a newly opened card owns new nodes.
+  await generateMission(document.getElementById('dgen'), {source:'library', rc:recipe(),
+    box:document.getElementById('libkit'), status:document.getElementById('libstatus')});
 }
 function openInBuilder(k){ setupFromLib(k); closeDetail(); showView('builder'); showScreen('flight'); }
 
@@ -4085,6 +4014,7 @@ document.addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     if(_modalEl.id==='ownmodal'||_modalEl.querySelector('#ocardinner')) closeOwn();
     else if(_modalEl.id==='perbase_modal') openPerBase(false);
+    else if(_modalEl.id==='contactmodal') closeContact();
     else closeDetail();
     e.stopPropagation(); return;
   }
@@ -4104,7 +4034,16 @@ document.addEventListener('keydown',e=>{
   const t=e.target;
   if(!t||t.tagName==='BUTTON'||t.tagName==='A'||t.tagName==='INPUT'||t.tagName==='SELECT'||t.tagName==='TEXTAREA')return;
   const r=t.getAttribute&&t.getAttribute('role');
-  if(r==='button'||r==='switch'||r==='checkbox'){e.preventDefault();t.click();}
+  if(r==='button'||r==='switch'||r==='checkbox'){
+    e.preventDefault(); if(t.getAttribute('aria-disabled')!=='true' && !t.classList.contains('dis')) t.click();
+  }
+});
+
+window.addEventListener('popstate',()=>{
+  if(!OPT) return;
+  const params=new URLSearchParams(location.search), view=normalizeView(params.get('v'));
+  if(view==='builder') showScreen(params.get('step')||'theater','none');
+  showView(view,'none');
 });
 
 // ===================== CONTACT =====================
