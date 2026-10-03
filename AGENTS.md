@@ -26,3 +26,15 @@ content versions when generated mission content changes. Commit and push the
 exact validated release, tag it, deploy it when authorized, and verify the
 running version on every Fly machine. Keep source frozen while release checks
 run. Save deployment evidence outside the versioned source tree.
+
+
+## Release identity and User Manual review
+
+Owner instruction, 3 October 2026: the title version, API version and User
+Manual PDF cover must follow `missiongen.__version__`. Review `docs/USER_GUIDE.md`
+for every release; update instructions when behavior, controls or user-visible
+limitations change. Record the version, documentation impact, reviewed sections
+and source hash in `docs/manual-release-review.json` before release generation.
+An internal-only change may record that no prose update is needed, with a
+reason. Do not stamp an unread manual as reviewed. The PDF is generated from
+this Markdown source; do not maintain a separate prose copy in its renderer.

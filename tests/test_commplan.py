@@ -9,6 +9,7 @@ place a frequency lives: the station's radio, the boat (in hertz), each UHF
 set in the player's cockpit, the card and the kneeboard. Each refusal rule is
 proven by breaking it.
 """
+from ui_source import ui_source, server_source
 import sys
 import zipfile
 from pathlib import Path
@@ -247,7 +248,7 @@ def test_api_validate_matches_recipe_validate(client):
 
 
 def test_the_page_carries_the_table():
-    src = (ROOT / "frontend" / "index.html").read_text()
+    src = ui_source()
     assert 'id="sec_comms"' in src and 'id="commrows"' in src
     assert 'comms:null}' in src, "RECIPE_DEFAULTS must know the field or share links drop it"
     assert "r.comms = commOverrides();" in src, "recipe() must carry the table"

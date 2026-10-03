@@ -20,6 +20,7 @@ strike jet that spent every station on AMRAAMs, a Tomcat with no Phoenix
 because its type id isn't in pydcs. All three of those happened while this was
 being built, and all three are pinned below.
 """
+from ui_source import ui_source, server_source
 import collections
 import zipfile
 
@@ -421,7 +422,7 @@ def test_an_older_link_gets_the_default():
 def test_the_controls_are_in_the_builder():
     import re
     from pathlib import Path
-    html = (Path(__file__).parent.parent / "frontend" / "index.html").read_text()
+    html = ui_source()
     assert 'id="player_arm"' in html, "no arm toggle in the Builder"
     m = re.search(r'<select[^>]*id="player_load"[^>]*>(.*?)</select>', html, re.S)
     assert m, "no weight dial in the Builder"

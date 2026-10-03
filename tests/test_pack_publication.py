@@ -35,14 +35,14 @@ def test_write_failure_preserves_old_pack(store, monkeypatch):
     with pytest.raises(OSError, match='disk full'):
         packs.install(archive(b'new mission'), 'test.zip', pack_id='test')
     assert packs.get_file('test', '01.miz').read_bytes() == b'old mission'
-    assert [p.name for p in store.iterdir()] == ['test']
+    assert [p['id'] for p in packs.list_packs()] == ['test']
 
 
 def test_publication_failure_rolls_back(store, monkeypatch):
     replace = packs.os.replace
 
     def fail_publish(source, target):
-        if Path(source).name.startswith('.stage-') and Path(target).name == 'test':
+        if Path(source).name.startswith('.publish-') and Path(target).name == 'test.json':
             raise OSError('publish failed')
         return replace(source, target)
 
@@ -50,7 +50,7 @@ def test_publication_failure_rolls_back(store, monkeypatch):
     with pytest.raises(OSError, match='publish failed'):
         packs.install(archive(b'new mission'), 'test.zip', pack_id='test')
     assert packs.get_file('test', '01.miz').read_bytes() == b'old mission'
-    assert [p.name for p in store.iterdir()] == ['test']
+    assert [p['id'] for p in packs.list_packs()] == ['test']
 
 
 def test_concurrent_bundle_creation_returns_complete_archives(store):
@@ -65,3 +65,53 @@ def test_concurrent_bundle_creation_returns_complete_archives(store):
     packs.install(archive(b'new mission'), 'test.zip', pack_id='test')
     with zipfile.ZipFile(packs.all_zip('test')) as z:
         assert z.read('test/01.miz') == b'new mission'
+
+
+def test_inflight_file_and_bundle_keep_their_revision_after_replace_and_delete(store):
+    old_file = packs.get_file('test', '01.miz')
+    old_bundle = packs.all_zip('test')
+    assert '.revisions' in old_file.parts
+    packs.install(archive(b'new mission'), 'test.zip', pack_id='test')
+    assert packs.get_file('test', '01.miz').read_bytes() == b'new mission'
+    assert old_file.read_bytes() == b'old mission'
+    packs.delete('test')
+    assert packs.get_file('test', '01.miz') is None
+    assert old_file.read_bytes() == b'old mission'
+    with zipfile.ZipFile(old_bundle) as z:
+        assert z.read('test/01.miz') == b'old mission'
+
+
+def test_first_revision_parent_is_durable_before_the_catalog_pointer(tmp_path, monkeypatch):
+    from missiongen import pack_revisions as revisions
+    synced = []
+    monkeypatch.setattr(revisions, 'sync_directory', lambda path: synced.append(path))
+    revision = revisions.publish(tmp_path, 'first', {'01.miz': b'mission'})
+    assert synced.index(revision.parent.parent) < synced.index(tmp_path / '.catalog')
+
+
+def test_unlock_failure_releases_the_thread_and_file_lock(tmp_path, monkeypatch):
+    from missiongen import pack_revisions as revisions
+    if revisions.fcntl is None:
+        pytest.skip('Unix file-lock failure injection')
+    lock = revisions.CatalogLock(lambda: tmp_path)
+    flock = revisions.fcntl.flock
+    def fail_unlock(fd, operation):
+        if operation == revisions.fcntl.LOCK_UN:
+            raise OSError('unlock failed')
+        return flock(fd, operation)
+    monkeypatch.setattr(revisions.fcntl, 'flock', fail_unlock)
+    with pytest.raises(OSError, match='unlock failed'):
+        with lock:
+            pass
+    assert lock.local.fd.closed
+    monkeypatch.setattr(revisions.fcntl, 'flock', flock)
+    def acquire_again():
+        if not lock.thread_lock.acquire(timeout=1):
+            return False
+        try:
+            with lock:
+                return True
+        finally:
+            lock.thread_lock.release()
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        assert pool.submit(acquire_again).result(timeout=2)

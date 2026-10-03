@@ -26,6 +26,7 @@ The temptation with a fix like this is to test the knob. The knob is the least
 interesting part: what matters is that a Nellis mission has a tanker on it, so
 most of this file builds missions and counts what is standing on the ramp.
 """
+from ui_source import ui_source, server_source
 import collections
 import zipfile
 
@@ -352,7 +353,7 @@ def test_an_older_link_defaults_to_the_normal_ramp():
 
 def test_every_level_is_offered_in_the_builder():
     from pathlib import Path
-    html = (Path(__file__).parent.parent / "frontend" / "index.html").read_text()
+    html = ui_source()
     import re
     m = re.search(r'<select[^>]*id="ramp_heavies"[^>]*>(.*?)</select>', html, re.S)
     assert m, "the ramp-heavies control is not in the Builder"

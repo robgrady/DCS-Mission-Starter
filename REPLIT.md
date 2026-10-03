@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.108.1.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.108.2.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
@@ -141,3 +141,21 @@ from either, so they cannot be behind the code.
 Project code is MIT (© Authentic Media LLC). `vendor/dcs` is pydcs under
 LGPL-3.0 and must remain unmodified and included. Keep `THIRD-PARTY-NOTICES.md`,
 `LICENSE`, and the license section of `README.md` intact in any deployment.
+
+
+### Catalog ownership and release identity (v1.108.2)
+
+`PACKS_OWNER_MACHINE` names the Fly machine holding the public catalog. Keep this
+setting aligned with its volume when replacing that machine. Catalog metadata,
+pack downloads and admin pack operations route to it; large uploads send the
+`Fly-Force-Instance-Id` header before transfer. Do not add replicas as independent
+writers. Private contact, sponsor, credits and analytics stores remain local.
+
+Back up the public catalog including `.catalog/`, `.revisions/` and legacy pack
+directories. A pointer change selects a revision; existing downloads retain their
+old files. Retained revisions consume disk space: archive/prune only revisions
+that are not current and are past the chosen retention window. Windows uses file
+pointers too, with no symlink permission requirement.
+
+Every release records a manual impact review in `docs/manual-release-review.json`.
+The title, API and PDF cover all derive their version from the application.

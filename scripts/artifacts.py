@@ -104,7 +104,7 @@ ARTIFACTS = [
         "generator": ["scripts/build_guide_pdf.py"],
         # The guide embeds the screenshots and prints the version on its cover,
         # so it is downstream of both the UI and the release.
-        "inputs": ["docs/USER_GUIDE.md", "missiongen/__init__.py",
+        "inputs": ["docs/USER_GUIDE.md", "scripts/build_guide_pdf.py", "missiongen/authentic.py", "missiongen/data/brand/**/*", "missiongen/__init__.py",
                    "docs/img/hero.png", "docs/img/review.png"],
         "why": "Downloaded from /api/guide. Its cover prints the version, so a "
                "stale one is visibly, embarrassingly wrong.",
@@ -114,7 +114,7 @@ ARTIFACTS = [
         "rule": "stamp",
         "generator": ["scripts/capture_screenshots.py"],
         "inputs": ["frontend/index.html", "frontend/assets/mission-results.js",
-                   "frontend/assets/recipe-presets.js"],
+                   "frontend/assets/*.js", "scripts/capture_screenshots.py"],
         "why": "Every screenshot in the guide comes from this run. The Builder "
                "was rebuilt across v1.45-1.47 and these still showed the old "
                "eight-step wizard.",
@@ -202,15 +202,8 @@ ARTIFACTS = [
         # flagship content and nothing else would notice it going stale.
         "path": "packs/wk_proud_phantom.sspack",
         "rule": "stamp",
-        "generator": ["scripts/build_pack.py"],
-        "inputs": ["missiongen/data/tracks.json",
-                   "missiongen/__init__.py", "missiongen/dressing.py",
-                   "missiongen/data/static_liveries.json",
-                   "missiongen/data/parking_headings.json",
-                   "missiongen/data/mission_templates.json",
-                   "missiongen/wk.py", "missiongen/wk_route.py",
-                   "missiongen/wk_coach.py", "missiongen/wk_brief.py",
-                   "scripts/build_pack.py"],
+        "generator": ["scripts/build_pack.py", "--all"],
+        "inputs": ["missiongen/**/*.py", "missiongen/data/**/*", "vendor/dcs/**/*", "scripts/build_pack.py"],
         "why": "The published White Knights syllabus. Produced at release "
                "time and UPLOADED through /admin rather than shipped — but "
                "still registered, because a pack built from a spec that has "
@@ -255,14 +248,6 @@ EXCLUDED = [
                "python3 scripts/generate_sample.py",
     },
     {
-        "path": "docs/USER_GUIDE.md",
-        "why": "Prose about how to use the app, with no version stamp by "
-               "design — a version rule here would fire on every release and "
-               "train everyone to bump the number without reading it. It is an "
-               "INPUT to the guide PDF, so editing it is caught by that "
-               "artifact's stamp.",
-    },
-    {
         "path": "claude/*.md (Claude project docs)",
         "why": "Lives in the Claude project, not the repository, so no test in "
                "this suite can reach it. claude/build-status.md was 27 releases "
@@ -280,7 +265,16 @@ def sha(path) -> str:
 
 
 def input_hashes(art) -> dict:
-    return {i: sha(i) for i in art.get("inputs", [])}
+    paths = {"scripts/artifacts.py"}
+    if art.get("generator"):
+        paths.add(art["generator"][0])
+    for pattern in art.get("inputs", []):
+        if any(ch in pattern for ch in '*?['):
+            paths.update(str(p.relative_to(ROOT)) for p in ROOT.glob(pattern)
+                         if p.is_file() and '__pycache__' not in p.parts)
+        else:
+            paths.add(pattern)
+    return {i: sha(i) for i in sorted(paths)}
 
 
 def load_stamps() -> dict:
@@ -326,11 +320,40 @@ def stale(version: str) -> list:
             continue
         if rule == "stamp":
             want, have = input_hashes(art), stamps.get(path, {})
-            changed = [i for i, h in want.items() if have.get(i) != h]
+            changed = [i for i in sorted(want.keys() | have.keys()) if have.get(i) != want.get(i)]
             if changed:
                 out.append((path, "inputs changed since it was generated: "
                                   + ", ".join(changed)))
         elif rule == "version":
             if f"v{version}" not in p.read_text(errors="ignore"):
                 out.append((path, f"does not mention v{version}"))
+    from manual_review import errors as manual_errors
+    out.extend(('docs/manual-release-review.json', reason) for reason in manual_errors(version, ROOT))
     return out
+
+
+def release_generators(stage):
+    """One ordered registry drives regeneration and freshness checks."""
+    seen = set()
+    for artifact in ARTIFACTS:
+        command = artifact.get('generator')
+        if not command or tuple(command) in seen:
+            continue
+        seen.add(tuple(command))
+        producer = command[0]
+        phase = 'screenshots' if 'capture_screenshots' in producer else 'after-shots' if 'build_guide_pdf' in producer else 'before-shots'
+        if phase == stage:
+            yield command
+
+
+def run_generators(stage, runner=None):
+    import subprocess, sys
+    runner = runner or subprocess.run
+    for command in release_generators(stage):
+        print('Generating ' + command[0], flush=True)
+        runner([sys.executable, *command], cwd=ROOT, check=True)
+
+
+if __name__ == '__main__':
+    import sys
+    run_generators(sys.argv[1])

@@ -63,11 +63,11 @@ def test_every_artifact_says_why_it_matters(art):
 @pytest.mark.parametrize("art", BY_RULE.get("rebuild", []) + BY_RULE.get("stamp", []),
                          ids=_ids(BY_RULE.get("rebuild", []) + BY_RULE.get("stamp", [])))
 def test_generated_artifacts_name_a_real_generator_and_real_inputs(art):
-    for rel in art["generator"]:
-        assert (ROOT / rel).exists(), f"{art['path']}: generator {rel} is missing"
+    rel = art["generator"][0]
+    assert (ROOT / rel).is_file(), f"{art['path']}: generator {rel} is missing"
     assert art.get("inputs"), f"{art['path']} declares no inputs"
     for rel in art["inputs"]:
-        assert (ROOT / rel).exists(), f"{art['path']}: input {rel} is missing"
+        assert any(path.is_file() for path in ROOT.glob(rel)), f"{art['path']}: input {rel} is missing"
 
 
 def test_the_exclusions_are_documented_decisions():
@@ -170,11 +170,11 @@ def test_the_release_script_regenerates_everything_registered():
     """A registry entry is worthless if the release command doesn't run its
     generator, and the drift would be invisible until someone read the file."""
     rel = (ROOT / "scripts" / "release.sh").read_text()
+    commands = [command for stage in ('before-shots', 'screenshots', 'after-shots')
+                for command in A.release_generators(stage)]
     for art in BY_RULE.get("rebuild", []) + BY_RULE.get("stamp", []):
-        gen = art["generator"][0]
-        assert gen in rel, \
-            f"scripts/release.sh never runs {gen}, so {art['path']} will rot"
-    assert "restamp" in rel, "release.sh regenerates without re-stamping"
+        assert art['generator'] in commands
+    assert 'scripts/artifacts.py' in rel and 'restamp' in rel
 
 
 def test_the_release_script_refuses_to_skip_the_writing():
@@ -186,7 +186,7 @@ def test_the_release_script_refuses_to_skip_the_writing():
     # and RELEASE_NOTES.md were retired); it is still checked before the slow steps
     assert "CHANGELOG.md" in rel and "RELEASE_NOTES.md" not in rel
     notes_at = rel.index("CHANGELOG.md")
-    shots_at = rel.index("capture_screenshots")
+    shots_at = rel.index("artifacts.py screenshots")
     assert notes_at < shots_at, \
         "release.sh runs the slow steps before checking the changelog entry exists"
 

@@ -15,6 +15,7 @@ The (U) is a community UPRATED Tomcat rather than a historical airframe, so its
 service window is a product decision — the real F-14B is 1988 and the
 period-correct Cold War Tomcat is the F-14A.
 """
+from ui_source import ui_source, server_source
 import re
 from pathlib import Path
 
@@ -25,7 +26,7 @@ from missiongen.acnames import display
 from missiongen.resolver import load_json
 
 ROOT = Path(__file__).parent.parent
-HTML = (ROOT / "frontend" / "index.html").read_text()
+HTML = ui_source()
 KEY = "F_14B_U"
 
 

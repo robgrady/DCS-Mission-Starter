@@ -10,6 +10,7 @@ which is exactly what a fresh Fly deploy has, since the store lives on a volume
 
 "Nothing configured" should mean nothing, not "our own logo". It is opt-in now.
 """
+from ui_source import ui_source, server_source
 import re
 import zipfile
 from pathlib import Path
@@ -19,7 +20,7 @@ import pytest
 from missiongen import Recipe, generate, sponsors
 
 ROOT = Path(__file__).resolve().parent.parent
-HTML = (ROOT / "frontend" / "index.html").read_text()
+HTML = ui_source()
 
 
 # --- the logo ---------------------------------------------------------------
@@ -89,7 +90,7 @@ def test_the_admin_page_exposes_the_switch():
 def test_no_sponsor_means_no_fallback_in_the_builder():
     """Pinned in the source: the fallback branch is what caused this, and it is
     an easy thing to reintroduce while tidying."""
-    src = (ROOT / "missiongen" / "builder.py").read_text()
+    src = (ROOT / "missiongen" / "phases" / "presentation.py").read_text()
     code = "\n".join(l.split("#", 1)[0] for l in src.splitlines())
     assert "house_brand_enabled" in code, \
         "the builder no longer checks whether the house logo was asked for"

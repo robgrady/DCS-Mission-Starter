@@ -1,0 +1,20 @@
+{
+  "version": "1.108.2",
+  "documentation_required": true,
+  "reason": "Document measured parking coverage, verified static skins, historical limitations and release/manual identity; unify the PDF with these instructions. Correct outdated F-4 crew-command descriptions, Quick Flight geometry and cross-release sharing guarantees.",
+  "sections_reviewed": [
+    "The four doors",
+    "Your mission kit",
+    "Quick start (Builder path)",
+    "The standard comm ladder",
+    "Building blocks",
+    "The carrier strike group",
+    "Template packs",
+    "Share links & recipes",
+    "FAQ",
+    "Parking, skins and historical fidelity",
+    "Release identity and the manual"
+  ],
+  "source_sha256": "ed0f47066dc1a53bf5bc0640e6fd0b508c4ae886d337be6ba67d47210cf53ac2",
+  "previous_source_sha256": "033943be39648a304e3bd36d6bb130c75601960ddf678ad779997d440490ac3a"
+}

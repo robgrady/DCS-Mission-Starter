@@ -27,7 +27,7 @@ whole codebase is organized around hunting).
 | Mission engine | **pydcs, VENDORED at `vendor/dcs`** | Not pip's 0.15.0 — that lacks the F-4E-45MC and current units. `PYTHONPATH=.:vendor` for everything. |
 | Runtime deps | `fastapi`, `uvicorn`, `python-multipart`, `pillow`, `pyproj`, `reportlab` | pinned in `requirements.txt`. `pyproj` is load-bearing: vendored pydcs imports it at import time. `reportlab` is runtime because guides are generated per pilot choice. |
 | Server | `server/app.py` (API + static frontend), `server/admin.py` (pack admin, `ADMIN_PASSWORD`-gated) | FastAPI. Deployed on Fly.io; packs live on a volume at `/data/packs` (`PACKS_DATA_DIR`). |
-| Frontend | `frontend/index.html` — ONE file, vanilla JS | No build step, no framework. |
+| Frontend | `frontend/index.html` + `frontend/assets/*.js` — vanilla JS with explicit controller adapters | No build step, no framework. |
 | Cards/pages | Pillow (`scripts/build_wk_coach_cards.py`, `build_wk_brief_pages.py`) | Committed PNGs; regenerate via the scripts, never hand-edit. |
 | PDFs | reportlab (`wk_guide.py`, `aar_guide.py`, `scripts/build_guide_pdf.py`) | |
 | Tests | pytest (~3,500 tests; ~20 min serial, ~10 min with two workers), Playwright/Chromium for real-browser guards | `pip install pypdf` for the PDF-readback tests. `pip install pytest-xdist` and run `-n auto --dist loadfile` — `loadfile` is required, not a preference (see below). `PYTHONDONTWRITEBYTECODE=1` in harnesses. |
@@ -60,7 +60,7 @@ missiongen/
   recipe.py        THE contract. Recipe dataclass + RECIPE_ENUMS + validate().
                    Every knob is a field; enums validated by name; bounds read
                    from the module that owns them (e.g. pattern.MAX_COUNT).
-  builder.py       THE engine. One giant build: coalition/preset/lineup merge,
+  builder.py       Ordered orchestrator over missiongen/phases/: world resolution,
                    player group, arming, building blocks (tankers, AWACS, SAMs,
                    targets, pattern traffic, dressing), White Knights wiring,
                    kneeboards, briefs. Order MATTERS — see §6.
@@ -638,3 +638,39 @@ When a report repeats, stop patching and question the design: the wingman
 took three rounds because the first two fixes treated a design limit as a
 bug. State what a fix costs as plainly as what it buys. Credit belongs where
 it's earned: Tricker's feedback is in the footer for exactly that reason.
+
+
+## Release identity and User Manual review
+
+Owner instruction, 3 October 2026: the title version, API version and User
+Manual PDF cover must follow `missiongen.__version__`. Review `docs/USER_GUIDE.md`
+for every release; update instructions when behavior, controls or user-visible
+limitations change. Record the version, documentation impact, reviewed sections
+and source hash in `docs/manual-release-review.json` before release generation.
+An internal-only change may record that no prose update is needed, with a
+reason. Do not stamp an unread manual as reviewed. The PDF is generated from
+this Markdown source; do not maintain a separate prose copy in its renderer.
+
+
+## Architecture migration completed in v1.108.2
+
+`builder.py` orders world, carrier, player, environment, threats/support, targets,
+routes, training and presentation. Phase result dataclasses name facts passed
+forward; `WorldContext.stats` preserves the public report contract. Flight operation
+helpers and mission prose have dedicated owners. `MissionFacts` supplies brief,
+kneeboard and Mission Kit inputs from the completed world. Historical identity
+contracts preserve unknown hosts/operators rather than infer them from a DCS country.
+
+`server/app.py` composes routers; `artifact_service.py` owns admitted generation
+and response cleanup. Route modules own catalog, documents, Library, comms,
+mission downloads, health, contact and site rendering. New code imports its owner;
+the app retains compatibility exports for older Python callers.
+
+Browser controllers receive state, options getters, environment and callbacks.
+`app.js` wires the DOM and navigation; HTML keeps the Flightline presentation.
+Public catalog paths route to `PACKS_OWNER_MACHINE`. Pack uploads explicitly pin
+that machine because Fly replay cannot buffer bodies over 1 MB. `.catalog/<id>.json`
+points atomically to `.revisions/<id>/<revision>/`; old directories remain readable
+for pre-migration catalogs. Do not edit published revision files. Retained revisions
+protect active downloads and rollback; archive/prune them deliberately with capacity
+and retention reviewed. Never replicate private stores to synchronize public content.

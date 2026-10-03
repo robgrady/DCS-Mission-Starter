@@ -27,6 +27,8 @@ primary_region = 'dfw'
   SPONSOR_DATA_DIR = '/data/sponsors'
   ANALYTICS_DATA_DIR = '/data/analytics'
   PACKS_DATA_DIR = '/data/packs'
+  # All public catalog reads/uploads use this volume owner; other stores stay local.
+  PACKS_OWNER_MACHINE = '2869d64a914208'
   # Contact messages (v1.64.0). Without this the inbox resets on every cold
   # start and people's messages are silently lost — the one store in this
   # product a user cannot regenerate by pressing the button again.

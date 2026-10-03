@@ -29,7 +29,7 @@ def test_capacity_rejects_then_recovers_after_a_failure():
 def test_api_build_paths_share_one_limit_and_return_retryable_busy_errors(monkeypatch):
     from server import app as api
     entered, release = threading.Event(), threading.Event()
-    monkeypatch.setattr(api, 'generation_capacity', GenerationCapacity(1))
+    monkeypatch.setattr(api.artifact_service, 'generation_capacity', GenerationCapacity(1))
 
     def build(recipe, out_path, brief_dir=None):
         entered.set()
@@ -37,7 +37,7 @@ def test_api_build_paths_share_one_limit_and_return_retryable_busy_errors(monkey
         Path(out_path).write_bytes(b'PK test mission')
         return {'stats': {}, 'warnings': []}
 
-    monkeypatch.setattr(api, '_engine_generate', build)
+    monkeypatch.setattr(api.artifact_service, '_engine_generate', build)
     request = {'recipe': {'map': 'caucasus', 'era': 'modern', 'aircraft': 'FA_18C_hornet'}}
     with TestClient(api.app) as client, ThreadPoolExecutor(max_workers=1) as pool:
         pending = pool.submit(client.post, '/api/generate', json=request)

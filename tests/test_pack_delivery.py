@@ -13,6 +13,7 @@ This file replaces `test_prebuilt_tracks.py` (a cache of a computation) and
 the same question and this is the third one, which is the one Rob asked for:
 thin architecture, packs uploaded.
 """
+from ui_source import ui_source, server_source
 import io
 import json
 import os
@@ -140,7 +141,7 @@ def test_the_in_request_syllabus_builder_is_gone():
     """A guard against it coming back the next time somebody wants a
     convenience. The function that assembled eleven missions in a request had a
     name; nothing should have it again."""
-    src = (ROOT / "server" / "app.py").read_text()
+    src = server_source()
     assert "_track_zip_path" not in src, "the in-request builder is back"
 
 
@@ -193,7 +194,7 @@ test_a_published_pack_takes_over_its_track_card = pytest.mark.skipif(
 def test_the_whole_syllabus_button_only_exists_when_a_pack_does():
     """A button that answers 409 is worse than the 502 it replaced: at least
     the 502 looked like a failure."""
-    ui = (ROOT / "frontend" / "index.html").read_text()
+    ui = ui_source()
     assert ui.count("tr.published") >= 2, "the button is not gated"
     assert "all.zip'+trackQuery()" not in ui, \
         "the button still sends a combination the server no longer honours"
@@ -206,7 +207,7 @@ def test_the_pack_bundle_is_zipped_in_exactly_one_place():
     """It was zipped in the server for the pack route and again in `packref`
     for the track route — the twin-function shape this codebase has paid for
     twice."""
-    app_src = (ROOT / "server" / "app.py").read_text()
+    app_src = server_source()
     ref_src = (ROOT / "server" / "packref.py").read_text()
     assert "_packs.all_zip" in app_src, "the server does not use the helper"
     assert "all_zip" in ref_src, "the track route does not use the helper"

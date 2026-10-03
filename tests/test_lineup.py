@@ -8,6 +8,7 @@ lineup.TASK): every departing pattern section is two aircraft, carries the
 action on its takeoff waypoint, landings stay singles, the count still means
 aircraft, the brief says so, and pydcs can load the file back.
 """
+from ui_source import ui_source, server_source
 import sys
 import zipfile
 from pathlib import Path
@@ -102,7 +103,7 @@ def test_api_and_page_hide_the_knob_when_unsupported():
     from fastapi.testclient import TestClient
     import server.app as app_mod
     assert TestClient(app_mod.app).get("/api/options").json()["lineup_supported"] is False
-    src = (ROOT / "frontend" / "index.html").read_text()
+    src = ui_source()
     assert 'id="pattern_lineup"' in src and "OPT.lineup_supported" in src, \
         "the knob must exist and be gated on the server's word"
     assert 'id="pattern_lineup_wrap" style="display:none"' in src, "hidden until the server says yes"

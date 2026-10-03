@@ -30,6 +30,25 @@ for different artifacts. Architecture milestones do not defer version bumps.
 > and the session record. Where the code is silent the entry is short rather
 > than invented.
 
+## [1.108.2] — Complete architecture extraction and release identity
+
+- Complete ordered builder placement phases, retaining PyDCS, measured parking,
+  seeded output, recipes, share links and the existing HTTP contracts.
+- Separate HTTP routers, generation/artifact service, recipe state, Library,
+  comm-plan and Mission Kit controllers. One factual model supplies documents;
+  dated identity contracts distinguish visual nation, host, operator and coalition.
+- Publish immutable pack revisions through an atomic catalog pointer. Public
+  catalog reads and writes use one Fly volume owner; large uploads are pinned
+  before their bodies are sent. Keep private stores independent.
+- Restore omitted recipe defaults before filling selects, including carrier home.
+- Render the title version from the application version, bypass cached release
+  metadata, and version script URLs. The label remains visible if options fail.
+- Generate the PDF User Manual from its Markdown source. Require a recorded
+  documentation impact review for every release; update parking, skins,
+  historical limitations and release identity instructions.
+- Use one ordered producer registry for regeneration and freshness, with complete
+  engine/data inputs for packs. Stop on producer failures before stamping.
+
 ## [1.108.1] — Iraq parking directions and era-aware Phantom skins
 
 Released 3 October 2026. Backwards-compatible fixes and internal refactoring.

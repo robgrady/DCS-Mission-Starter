@@ -11,6 +11,8 @@ import pytest
 
 from missiongen.recipe import Recipe, RecipeError
 from missiongen.share import decode_recipe, encode_recipe
+from ui_source import ui_source
+from test_mission_kit_wiring import function
 
 
 INVALID_FIELDS = [
@@ -40,11 +42,12 @@ def test_bad_field_types_are_user_errors(name, value):
 @pytest.mark.parametrize("name,value", INVALID_FIELDS)
 def test_api_returns_field_error_without_running_generator(name, value, monkeypatch):
     from server import app as api
+    from server import mission_routes
 
     def unexpected_build(*args, **kwargs):
         pytest.fail("invalid recipe reached the generator")
 
-    monkeypatch.setattr(api, "_build_and_respond", unexpected_build)
+    monkeypatch.setattr(mission_routes, "_build_and_respond", unexpected_build)
     with TestClient(api.app, raise_server_exceptions=False) as client:
         response = client.post("/api/generate", json={"recipe": {name: value}})
     assert response.status_code == 400, response.text
@@ -79,13 +82,13 @@ def _browser_codec(operation, value):
     node = shutil.which("node")
     if not node:
         pytest.skip("Node.js is needed for browser/server codec interoperability")
-    html = (Path(__file__).parents[1] / "frontend/index.html").read_text()
+    html = ui_source()
     defaults = re.search(r"const RECIPE_DEFAULTS = (\{.*?\});", html, re.S).group(1)
     engine_fields = re.search(r"const RECIPE_ENGINE_FIELDS = (\[.*?\]);", html, re.S).group(1)
-    functions = html.split("function encodeRecipe(r){", 1)[1].split("let OPT = null;", 1)[0]
+    functions = function("encodeRecipe") + "\n" + function("decodeRecipe")
     script = ("const fs = require('node:fs');\nconst RECIPE_DEFAULTS = " + defaults + ";\n"
               + "const RECIPE_ENGINE_FIELDS = " + engine_fields + ";\n"
-              + "function encodeRecipe(r){" + functions
+              + functions
               + "\nconst input = JSON.parse(fs.readFileSync(0, 'utf8'));"
               + "try { const result = input.operation === 'encode' ? encodeRecipe(input.value) : decodeRecipe(input.value);"
               + "process.stdout.write(JSON.stringify({result})); } catch(e) { process.stdout.write(JSON.stringify({error:e.message})); }")

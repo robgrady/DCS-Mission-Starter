@@ -102,7 +102,10 @@ else
     ok "test suite passes ($(grep -oE '[0-9]+ passed' "$TESTLOG" | tail -1))"
   else
     bad "test suite FAILED — do not deploy"
-    grep -E '^(FAILED|ERROR)' "$TESTLOG" | head -12 | while read -r l; do note "$l"; done
+    grep -E '^(FAILED|ERROR)' "$TESTLOG" | while read -r l; do note "$l"; done
+    mkdir -p "outputs/releases/$VERSION"
+    cp "$TESTLOG" "outputs/releases/$VERSION/pytest-failed.log"
+    note "full failure details: outputs/releases/$VERSION/pytest-failed.log"
   fi
   rm -f "$TESTLOG"
 fi

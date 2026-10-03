@@ -10,6 +10,7 @@ the changelog is the one record. /api/whatsnew answers 410 rather than 404
 because the footer linked it for eighty releases.
 """
 from __future__ import annotations
+from ui_source import ui_source, server_source
 
 import importlib
 import re
@@ -50,7 +51,7 @@ def _login(c):
 # nothing public points at them
 # --------------------------------------------------------------------------- #
 def test_the_front_page_has_no_roadmap_link():
-    src = (ROOT / "frontend" / "index.html").read_text()
+    src = ui_source()
     assert "/api/roadmap" not in src
     assert "/admin/roadmap" not in src and "/admin/changelog" not in src
     assert "/api/whatsnew" not in src, "What's new was retired in v1.105.0"

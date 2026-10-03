@@ -52,7 +52,8 @@ DATA_DIR = Path(os.environ.get(
 MAX_UPLOAD_BYTES = 256 * 1024 * 1024
 ROLES = packfmt.ROLES
 
-_lock = threading.RLock()
+from .pack_revisions import CatalogLock, publish, sync_directory, resolve_pack, point_catalog
+_lock = CatalogLock(lambda: DATA_DIR)
 
 
 def _serialized(fn):
@@ -122,43 +123,16 @@ def install(data: bytes, filename: str, pack_id: str | None = None,
     if label:
         man["label"] = label
 
-    # Write the complete replacement before moving any published content.
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
-    stage = Path(tempfile.mkdtemp(prefix=".stage-", dir=DATA_DIR))
-    backup = stage.with_name(stage.name.replace(".stage-", ".previous-", 1))
-    dest = DATA_DIR / pid
-    try:
-        for rel, blob in files.items():
-            if rel in ("pack.json", "manifest.json"):
-                continue
-            fp = stage / rel
-            fp.parent.mkdir(parents=True, exist_ok=True)
-            fp.write_bytes(blob)
-        (stage / "pack.json").write_text(packfmt.dumps(man), encoding="utf-8")
-        # Readers/cache creation share this lock. A failed publish restores the
-        # old directory; staged and backup directories never enter the catalog.
-        with _lock:
-            had_previous = dest.exists()
-            if had_previous:
-                os.replace(dest, backup)
-            try:
-                os.replace(stage, dest)
-            except BaseException:
-                if had_previous:
-                    os.replace(backup, dest)
-                raise
-            if had_previous:
-                shutil.rmtree(backup, ignore_errors=True)
-    finally:
-        shutil.rmtree(stage, ignore_errors=True)
+    payload = {rel: blob for rel, blob in files.items() if rel not in ('pack.json', 'manifest.json')}
+    payload['pack.json'] = packfmt.dumps(man).encode('utf-8')
+    with _lock:
+        publish(DATA_DIR, pid, payload)
     return man
 
 
 def delete(pid: str) -> None:
     with _lock:
-        d = (DATA_DIR / _slug(pid))
-        if d.is_dir() and d.resolve().parent == DATA_DIR.resolve():
-            shutil.rmtree(d)
+        point_catalog(DATA_DIR, _slug(pid), None)
 
 
 def _version_tuple(v: str) -> tuple:
@@ -179,7 +153,9 @@ def list_packs() -> list:
     """
     found = {}
     try:
-        dirs = sorted(p for p in DATA_DIR.iterdir() if p.is_dir() and not p.name.startswith("."))
+        ids = {p.name for p in DATA_DIR.iterdir() if p.is_dir() and not p.name.startswith(".")}
+        ids.update(p.stem for p in (DATA_DIR / '.catalog').glob('*.json'))
+        dirs = [resolve_pack(DATA_DIR, pid) for pid in sorted(ids)]
     except OSError:
         dirs = []
     for d in dirs:
@@ -217,7 +193,7 @@ def list_packs() -> list:
 @_serialized
 def get_file(pid: str, rel: str) -> Path | None:
     """Resolve a file inside a pack, refusing anything outside it."""
-    base = (DATA_DIR / _slug(pid)).resolve()
+    base = resolve_pack(DATA_DIR, _slug(pid)).resolve()
     if not base.is_dir():
         return None
     try:
@@ -239,7 +215,7 @@ def get_manifest(pid: str) -> dict | None:
     reproduce from the repository — which is the property bundling exists to
     guarantee.
     """
-    mf = DATA_DIR / packfmt.slug(pid) / "pack.json"
+    mf = resolve_pack(DATA_DIR, packfmt.slug(pid)) / "pack.json"
     if not mf.is_file():
         return None
     try:
@@ -269,7 +245,7 @@ def update_manifest(pid: str, patch: dict) -> dict:
     base = get_manifest(pid)
     if base is None:
         raise PackError("No such pack.")
-    d = DATA_DIR / pid
+    d = resolve_pack(DATA_DIR, pid)
     files = {str(f.relative_to(d)): f.read_bytes()
              for f in d.rglob("*") if f.is_file() and f.name != "pack.json"}
 
@@ -285,15 +261,10 @@ def update_manifest(pid: str, patch: dict) -> dict:
 
     man = packfmt.normalize(merged, pid, files)
     man["derived"] = False
+    payload = dict(files)
+    payload['pack.json'] = packfmt.dumps(man).encode('utf-8')
     with _lock:
-        fd, temporary = tempfile.mkstemp(prefix=".manifest-", dir=d)
-        os.close(fd)
-        tmp = Path(temporary)
-        try:
-            tmp.write_text(packfmt.dumps(man), encoding="utf-8")
-            os.replace(tmp, d / "pack.json")
-        finally:
-            tmp.unlink(missing_ok=True)
+        publish(DATA_DIR, pid, payload)
     return man
 
 
@@ -321,7 +292,7 @@ def all_zip(pid: str):
     import tempfile
     import zipfile as _z
     pid = packfmt.slug(pid)
-    base = DATA_DIR / pid
+    base = resolve_pack(DATA_DIR, pid)
     if not base.is_dir():
         return None
     files = [f for f in base.rglob("*") if f.is_file()]

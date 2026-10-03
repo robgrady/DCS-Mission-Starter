@@ -132,7 +132,7 @@ def test_the_side_is_passed_not_inferred():
     the identity of a theme object is unsafe the moment anything is entitled to
     wrap or merge that object — which `_atheme()` is, by design."""
     from pathlib import Path
-    src = (Path(__file__).parent.parent / "missiongen" / "builder.py").read_text()
+    src = (Path(__file__).parent.parent / "missiongen" / "phases" / "environment.py").read_text()
     assert "def _dress(ap, country, cfg, theme, side" in src, \
         "_dress no longer takes an explicit side"
     code = "\n".join(l.split("#", 1)[0] for l in src.splitlines())

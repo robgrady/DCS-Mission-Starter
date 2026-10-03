@@ -258,7 +258,7 @@ def _packs_page(msg: str = "") -> HTMLResponse:
         + _tabs("packs") + flash +
         f"<div class=card><h2>Installed packs</h2>{lst}</div>"
         "<div class=card><h2>Add a pack</h2>"
-        "<form method=post action='/admin/packs' enctype='multipart/form-data'>"
+        "<form id=pack-upload method=post action='/admin/packs' enctype='multipart/form-data'>"
         "<label>Pack file</label>"
         # .sspack FIRST, and it must be here at all. `packs.install` has
         # accepted it since format 2, but this attribute did not — so the file
@@ -280,7 +280,35 @@ def _packs_page(msg: str = "") -> HTMLResponse:
         "</div>"
         "<div style='margin-top:14px'><button type=submit>Upload pack</button></div>"
         "<p class=note>Re-uploading the same id replaces it.</p>"
-        "</form></div>")
+        "</form></div>" + _pack_upload_script())
+
+
+def _pack_upload_script():
+    # fly-replay buffers at most 1 MB. Pin the upload before sending its body.
+    # https://docs.fly.io/networking/dynamic-request-routing#requirements-and-limitations
+    owner = os.environ.get('PACKS_OWNER_MACHINE')
+    if not owner:
+        return ''
+    return """<script>
+const uploadForm = document.getElementById('pack-upload');
+uploadForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const button = uploadForm.querySelector('button');
+  button.disabled = true; button.textContent = 'Uploading…';
+  try {
+    const response = await fetch(uploadForm.action, {method:'POST',
+      body:new FormData(uploadForm), headers:{'Fly-Force-Instance-Id':OWNER}});
+    if (response.redirected) { location.assign(response.url); return; }
+    const page = await response.text();
+    document.open(); document.write(page); document.close();
+  } catch (error) {
+    button.disabled = false; button.textContent = 'Retry upload';
+    const message = document.createElement('p');
+    message.textContent = 'Upload failed. Please try again.';
+    uploadForm.appendChild(message);
+  }
+});
+</script>""".replace('OWNER', json.dumps(owner))
 
 
 def _credits_page(msg: str = "") -> HTMLResponse:

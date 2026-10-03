@@ -7,6 +7,7 @@ Two layers:
     node are present (dev boxes and the release preflight), skips otherwise so
     a minimal CI without a browser still passes the rest of the suite.
 """
+from ui_source import ui_source, server_source
 import re
 import shutil
 import socket
@@ -18,7 +19,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).parent.parent
-FRONTEND = (ROOT / "frontend" / "index.html").read_text(encoding="utf-8")
+FRONTEND = ui_source()
 
 
 # ------------------------------------------------------------- static scans

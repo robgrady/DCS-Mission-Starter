@@ -14,6 +14,7 @@ from dcs.mapping import LatLng
 
 from . import chartstyle as cs
 from .resolver import load_json
+from .historical_world import Validity
 
 SM = 1609.34  # one statute mile in metres (the historical unit for Berlin airspace)
 
@@ -90,6 +91,8 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
     drawn, briefs = [], []
 
     for oid, ov in data.items():
+        if not Validity.from_data(ov).contains(m.start_time.date()):
+            continue
         if era not in ov.get("eras", []):
             continue
         if only_always and not ov.get("always"):

@@ -78,3 +78,12 @@ missions can follow these stable contracts after existing content works as promi
 
 References: `reliability-handoff.md`, `library-validation-2026-10-02.md`,
 `ROADMAP.md`, `pydcs-current-audit.md`, `parking-direction-survey.md`.
+
+## Completion — v1.108.2
+
+The ordered placement, controller, router/service, document facts, release
+registry and catalog revision/ownership migration is implemented. The source
+migration preserves public contracts and therefore ships as a patch. See
+[completion and qualification limits](architecture-2.0.md). Historical content
+research and DCS flight qualification are distinct follow-ups, not claims made
+by splitting or validating source code.

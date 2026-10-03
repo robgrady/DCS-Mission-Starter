@@ -13,6 +13,7 @@ from dcs import mapping
 
 from .resolver import load_json, resolve_terrain, resolve_country
 from .comms import CommsPlan
+from .historical_world import HistoricalSnapshot, snapshot
 
 if TYPE_CHECKING:
     from .builder import StarterBuilder
@@ -100,6 +101,7 @@ class WorldContext:
     away_bearing: float
     comms: CommsPlan
     stats: dict
+    historical: HistoricalSnapshot
 
 
 def prepare_world(builder: "StarterBuilder") -> WorldContext:
@@ -284,4 +286,5 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
         away_bearing=away_bearing,
         comms=comms,
         stats=stats,
+        historical=snapshot(r.map, r.era, m.start_time.date(), preset),
     )

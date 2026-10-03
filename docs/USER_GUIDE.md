@@ -16,7 +16,7 @@ practice* (Tanker Time, BFM Merge, Kill the Guns, Beat the SAM), *in what*, and
 *where*. Era, base, weather and comms are derived for you; a single "spice"
 notch sets the opposition (calm / realistic / hostile) and the 🎲 re-rolls a
 fresh layout of the same picks. Tanker Time and BFM Merge start you **airborne**
-— at FL200 behind the tanker, or two miles abeam your adversary.
+— behind the tanker at its assigned block, or in your chosen BFM geometry.
 
 **📚 Library** — curated, ready-to-fly missions: air-to-air, strike, SEAD, CAS,
 carrier and crew ops, historic scenarios, and the routed Cold War gun-belt
@@ -102,7 +102,7 @@ a few minutes and goes anyway. Neither happens on a check ride.
 4. **Generate** — your Mission Kit appears and the `.miz` downloads. Drop it in
    `Saved Games/DCS/Missions/` and fly, or open it in the Mission Editor.
 5. **Share** — "Copy share link" regenerates this *exact* mission for anyone:
-   same recipe + seed = the identical file, byte for byte.
+   the same recipe + seed reproduces the mission within the same generator release.
 
 *Privacy note: we count what missions get generated (map, aircraft, mission
 type) to decide what to build next — never who generated them.*
@@ -212,10 +212,16 @@ Blue Diamonds) and **E-2 Hawkeye** AEW orbit covering the force.
 
 ## Template packs
 
-- **Backseat Ops: IZLID Designation (F-4E)** — you fly the back seat; Iceman flies
-  the jet and Jester lases a convoy with the IZLID on a scripted timeline.
-- **Backseat Ops: GCI Intercept (F-4E, experimental)** — Iceman holds CAP, GCI
-  commits you onto inbound Backfires; you run the intercept from the pit.
+- **Crew Ops: Jester IZLID Strike (F-14B(U), pilot seat)** — you fly;
+  Jester operates the back seat. Run designation from the F10 CREW menu:
+  start the IZLID, confirm its effect, then cease. Progress is player-paced.
+- **Crew Ops: Iceman GCI Intercept (F-14B(U), RIO seat)** — command the AI
+  pilot from the F10 CREW menu while running the intercept from the pit.
+- **RIO Fleet Defense (F-14A/B)** — use the cockpit Iceman menu in solo play,
+  or fly with a human crewmate. It does not use the B(U) mission-command API.
+
+The F-4E training rides are a separate course; these F-14 crew-command
+features do not apply to the Phantom.
 
 Templates are one of the three places waypoints appear (the AI pilot needs
 steerpoints to fly). The second is a **curated training ride** — the White
@@ -227,8 +233,10 @@ WP1 → IP → TARGET → home with a kneeboard leg card to fly it off.
 ## Share links & recipes
 
 A starter is defined by its **recipe** (your wizard selections + a seed). Share
-links encode the recipe, not the file — the same link always regenerates the same
-mission, even after DCS updates. Change the seed to reroll the details while
+links encode the recipe, not the file. Within one generator release, the same
+recipe and seed reproduce the same mission. Later releases may correct content
+or update DCS compatibility while retaining the recipe; keep the downloaded
+`.miz` when you need an exact archived mission. Change the seed to reroll the details while
 keeping your selections.
 
 ## FAQ
@@ -249,3 +257,33 @@ the same aircraft as Modern — the difference is not what you fly, it's what fl
 back. Nothing does. There is no enemy air force and no radar SAM; the threat is
 guns and MANPADS, which is why the transit profile sits higher than Modern's. If
 you want MiGs over Iraq, pick Modern instead.
+
+
+## Parking, skins and historical fidelity
+
+Parked aircraft use measured stand directions where survey data exists. Iraq
+now has surveyed directions at all 20 airfields; other surveyed maps use their
+own measurements. Unsurveyed stands use a geometric estimate. The Channel and
+Falklands still need direction surveys. Stand size and direction are separate:
+a parking stand can have exact size information without a measured direction.
+
+Static skins are selected by aircraft model, nation and era only when the
+livery name has been verified. Cold War USA F-4 statics use verified USAF skins
+where available. Other combinations use DCS stock skins; this does not promise
+an era-specific skin for every aircraft. The wider curated livery collection
+remains unavailable until its folder names are verified against a DCS install.
+
+Library briefs identify DCS substitutions and what a training mission can
+measure. For example, the refueling grade measures position and stability;
+it cannot confirm a fuel transfer. Follow each ride's printed standards and
+known issues. Historical overlays distinguish sourced boundaries from
+approximate or illustrative geometry; map-era presets are broad settings,
+not exact historical reconstructions of every aircraft and installation.
+
+## Release identity and the manual
+
+The version beside the title identifies the running release. Reload the page
+after a deployment to load its latest controls and version. The downloadable
+User guide uses this same version on its cover. Every release reviews this
+manual and updates its instructions when behavior, controls or limitations
+change. The PDF is generated from this document so both copies stay aligned.

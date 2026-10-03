@@ -17,6 +17,7 @@ WHAT THIS FILE HOLDS THE PRODUCT TO
      the browser, the standard is the brief.
 """
 from __future__ import annotations
+from ui_source import ui_source, server_source
 
 import csv
 import io
@@ -32,7 +33,7 @@ from missiongen import courses, course_kit, tracks
 from missiongen.resolver import load_json
 
 ROOT = Path(__file__).resolve().parent.parent
-INDEX = (ROOT / "frontend" / "index.html").read_text()
+INDEX = ui_source()
 
 
 @pytest.fixture(scope="module")
@@ -299,8 +300,13 @@ def test_a_fixed_track_has_no_empty_series_wizard():
 def test_the_guide_describes_the_door():
     md = (ROOT / "docs" / "USER_GUIDE.md").read_text()
     assert "## The four doors" in md and "Training Pipeline" in md and "squadron kit" in md
-    py = (ROOT / "scripts" / "build_guide_pdf.py").read_text()
-    assert "The four doors" in py and "Training Pipeline" in py
+    pdf = _guide_text()
+    assert "The four doors" in pdf and "Training Pipeline" in pdf
+
+
+def _guide_text():
+    reader = pytest.importorskip("pypdf").PdfReader(ROOT / "docs" / "DCS_Mission_Starter_Guide.pdf")
+    return re.sub(r"\s+", " ", " ".join(page.extract_text() for page in reader.pages))
 
 
 # --------------------------------------------------------------------------- #
@@ -328,4 +334,4 @@ def test_the_tagline_is_one_line_everywhere():
     assert tag in courses.resolve("f4e_pipeline")["premise"]
     assert tag in courses.reading_text("pipeline_howto")
     assert tag in (ROOT / "docs" / "USER_GUIDE.md").read_text()
-    assert tag in (ROOT / "scripts" / "build_guide_pdf.py").read_text()
+    assert tag in _guide_text()

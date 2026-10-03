@@ -10,6 +10,7 @@ what it costs to get them wrong:
   5. The contact store and the anonymous analytics ledger must not bleed into
      each other — that separation is the whole privacy argument.
 """
+from ui_source import ui_source, server_source
 import importlib
 import json
 import time
@@ -167,7 +168,7 @@ def test_the_client_never_trips_the_time_floor_itself():
     inside the floor, a quick human would be told 'sent' and lose their
     words. The client holds the request until the floor has passed."""
     from pathlib import Path
-    fe = (Path(__file__).parent.parent / "frontend" / "index.html").read_text()
+    fe = ui_source()
     assert "const MINMS = 3200" in fe
     assert "Math.max(0, MINMS - waited)" in fe
 

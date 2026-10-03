@@ -485,8 +485,8 @@ def test_a_planted_drift_reaches_the_build_warnings(monkeypatch):
 
 
 def test_the_builder_ui_carries_the_timing_controls():
-    from pathlib import Path
-    src = (Path(__file__).resolve().parent.parent / "frontend" / "index.html").read_text()
+    from ui_source import ui_source
+    src = ui_source()
     for el in ('id="timing_anchor"', 'id="timing_at"', 'id="timing_hold_min"',
                'id="timing_coach"', 'id="timing_package"', 'id="timing_opts"'):
         assert el in src, el

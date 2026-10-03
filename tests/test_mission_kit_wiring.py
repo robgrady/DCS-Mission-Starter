@@ -1,4 +1,5 @@
 """Exercise asynchronous generation and document ownership with the real UI functions."""
+from ui_source import ui_source, server_source
 import json
 from pathlib import Path
 import re
@@ -9,7 +10,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
 PRESET_MODULE = (ROOT / 'frontend/assets/recipe-presets.js').read_text()
-UI = (ROOT / 'frontend/index.html').read_text() + '\n' + (ROOT / 'frontend/assets/mission-results.js').read_text()
+UI = ui_source() + '\n' + (ROOT / 'frontend/assets/mission-results.js').read_text()
 
 
 def function(name):

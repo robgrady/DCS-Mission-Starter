@@ -26,6 +26,7 @@ The through-line: three separate places still describing a product that had
 moved on. The guards below are aimed at the DESCRIPTION matching the CODE, not
 at the strings themselves.
 """
+from ui_source import ui_source, server_source
 import os
 import re
 import tempfile
@@ -34,7 +35,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
-UI = (ROOT / "frontend" / "index.html").read_text()
+UI = ui_source()
 ADMIN = (ROOT / "server" / "admin.py").read_text()
 PACKS_PY = (ROOT / "missiongen" / "packs.py").read_text()
 
@@ -314,7 +315,7 @@ def test_every_document_tells_the_same_waypoint_story():
         "docs/USER_GUIDE.md": (ROOT / "docs" / "USER_GUIDE.md").read_text(),
         "REPLIT.md": (ROOT / "REPLIT.md").read_text(),
         "scripts/build_guide_pdf.py":
-            (ROOT / "scripts" / "build_guide_pdf.py").read_text(),
+            (ROOT / "docs" / "USER_GUIDE.md").read_text(),
     }
     for name, text in docs.items():
         low = text.lower()

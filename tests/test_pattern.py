@@ -10,6 +10,7 @@ These are also the FIRST tests this building block has ever had — the feature
 shipped in v1.72-era with no guard at all, which is how a cap nobody chose
 became a limit somebody hit.
 """
+from ui_source import ui_source, server_source
 import re
 import sys
 from pathlib import Path
@@ -107,7 +108,7 @@ def test_the_ui_offers_exactly_what_the_engine_accepts():
     """The select's options are derived from the same number. A picker that
     stops at 4 while the engine takes 8 is precisely the 'too limited' Rob
     reported; a picker offering 9 would 400 on generate."""
-    ui = (ROOT / "frontend" / "index.html").read_text()
+    ui = ui_source()
     m = re.search(r'<select id="pattern_count">(.*?)</select>', ui, re.S)
     assert m, "the count picker is gone"
     offered = sorted(int(v) for v in re.findall(r'value="(\d+)"', m.group(1)))

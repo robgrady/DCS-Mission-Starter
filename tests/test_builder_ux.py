@@ -20,6 +20,7 @@ that doesn't exist, a declaration appearing twice, a mission kind the engine has
 never heard of. That is what this file checks: the wiring between the frontend's
 tables and the markup and the engine, which is exactly where it keeps breaking.
 """
+from ui_source import ui_source, server_source
 import re
 from pathlib import Path
 
@@ -27,7 +28,7 @@ import pytest
 
 from missiongen.recipe import RECIPE_ENUMS
 
-HTML = (Path(__file__).parent.parent / "frontend" / "index.html").read_text()
+HTML = ui_source()
 
 
 def _js_array_of_objects(name):

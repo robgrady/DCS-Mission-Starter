@@ -10,6 +10,7 @@ WCAG AA contrast (computed, not trusted from the kit's own claim) and the
 prohibition on classification-style markings (which v1.55.0 violated and
 v1.56.0 unships).
 """
+from ui_source import ui_source, server_source
 from pathlib import Path
 
 import pytest
@@ -199,7 +200,7 @@ def test_the_identity_rail_answers_the_four_questions():
 
 
 # ----------------------------------------------------------- the site (Ph. 2)
-FRONTEND = (ROOT / "frontend" / "index.html").read_text(encoding="utf-8")
+FRONTEND = ui_source()
 
 
 def test_the_site_defaults_to_paper_mode():

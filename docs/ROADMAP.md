@@ -30,7 +30,7 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.108.1**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.108.2**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. The release adds the airfield guide and reliability
 boundaries for recipe validation, Mission Kits, generation capacity, artifact
@@ -83,16 +83,14 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   boundary, scenario date and airbase-operator findings in the
   [original Library audit](library-validation-2026-10-02.md). Behavioral fixes
   are documented separately; do not treat a successful build as historical proof. *Bet 1.*
-- **2.0 architecture refactor.** Preset resolution is unified in 1.108.0.
-  Next extract builder placement phases, browser recipe state and API services
-  on `codex/refactor-2.0`, releasing validated compatible slices with a new
-  semantic version each time.
-  Carrier placement and pure browser preset calculations are the first slice;
-  see [2.0 implementation scope](architecture-2.0.md). Shared pack publication
-  must address independent Fly volumes before adding saved missions/accounts.
-  See the [refactor decision](architecture-refactor-followups.md) for scope,
-  compatibility limits and verification. GitHub pushes work; verify remote
-  commit IDs when reporting release status.
+- **Architecture migration completed in v1.108.2.** Builder phases, document
+  facts, API routers/services and browser controllers have explicit owners.
+  Release producers share one registry; public pack publication uses immutable
+  revisions and one Fly catalog owner. The migration preserves public contracts,
+  so semantic versioning classifies it as a patch, rather than inventing a break
+  for the requested 2.0 milestone. See [completion and evidence](architecture-2.0.md).
+  Historical content research and DCS flight verification remain separate from
+  source refactoring. Discord/accounts remain deferred.
 - **Formation departures (AI runway line-up).** DCS 2.9.24 added the
   advanced waypoint action, 2.9.30 the group option; pydcs has neither and
   does not need to. The feature is built end to end — a *Formation

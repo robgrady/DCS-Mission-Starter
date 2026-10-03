@@ -1,3 +1,8 @@
+/** Result-owned downloads and admission state, with explicit UI/network adapters. */
+function createMissionResults({getOptions, callbacks, environment}) {
+const {document, fetch, URL} = environment;
+const {esc, recipe, visitorId, ga, showScreen, qfEra, QF, ALL_STEP_IDS} = callbacks;
+const OPT = new Proxy({}, {get: (_, key) => getOptions()?.[key]});
 // Generation lifecycle and result-owned artifact downloads.
 // Classic script boundary preserves existing inline UI entry points.
 let LAST_GEN_RECIPE = null;   // last successful generation, for contact context only
@@ -174,4 +179,12 @@ async function downloadKneeboard(btn, result=null){
 }
 async function downloadBrief(btn, result=null){
   return downloadDocument(btn,result,'/api/brief','Briefing pack','briefing_pack.zip');
+}
+
+return {
+  functions: {kitRows, wireKitButtons, showKit, closeKit, freezeRecipe, syncGenerationButtons, responseError, saveDownload, generateMission, downloadDocument, downloadKneeboard, downloadBrief},
+  get lastRecipe() { return LAST_GEN_RECIPE; },
+  get busy() { return GENERATING; },
+  results: MISSION_RESULTS
+};
 }

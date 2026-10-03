@@ -63,20 +63,9 @@ grep -qE "^#+ .*\[?$VERSION\]?" CHANGELOG.md \
 
 # ------------------------------------------------- 3. regenerate the derived
 step "Regenerating derived artifacts"
-gen "frontend token block (Flightline)" python3 scripts/gen_theme.py
-gen "docs/roadmap.html" python3 scripts/build_roadmap_html.py
-gen "docs/packformat.html" python3 scripts/build_packformat_html.py
-gen "docs/sources.html" python3 scripts/build_sources_html.py
-# The coached B'NAI's cue cards and its recording sheet both come out of
-# `wk_coach.PHASES`. Rebuilt here so a directive edited in the module cannot
-# leave the mission drawing last release's word at this release's moment.
-gen "corridor charts" env PYTHONPATH=.:vendor python3 scripts/build_corridor_charts.py
-gen "coached B'NAI cue cards" env PYTHONPATH=.:vendor python3 scripts/build_wk_coach_cards.py
-gen "check-ride debrief cards" env PYTHONPATH=.:vendor python3 scripts/build_checkride_cards.py
-gen "formation position-ladder cards" env PYTHONPATH=.:vendor python3 scripts/build_formation_hud.py
-gen "coached B'NAI brief pages" env PYTHONPATH=.:vendor python3 scripts/build_wk_brief_pages.py
-gen "docs/WK_BNAI_VOICEOVER.md" env PYTHONPATH=.:vendor python3 scripts/build_wk_voiceover_sheet.py
-gen "packs produced for upload (.sspack)" env PYTHONPATH=.:vendor python3 scripts/build_pack.py --all
+# Producers and arguments come only from scripts/artifacts.py.
+python3 scripts/manual_review.py
+python3 scripts/artifacts.py before-shots
 
 if [ "$SHOTS" = "1" ]; then
   # The screenshots come from the real UI in a real browser, so the app has to
@@ -97,7 +86,7 @@ if [ "$SHOTS" = "1" ]; then
       python3 -c "import urllib.request;urllib.request.urlopen('http://localhost:8360/api/health',timeout=1)" 2>/dev/null && break
       sleep 0.5
     done
-    python3 scripts/capture_screenshots.py http://localhost:8360 >/dev/null \
+    python3 scripts/artifacts.py screenshots >/dev/null \
       && ok "docs/img/*.png recaptured" || bad "screenshot capture failed"
     [ -n "$APP_PID" ] && kill $APP_PID 2>/dev/null || true
     trap - EXIT
@@ -108,7 +97,7 @@ else
   printf '  \033[2m- screenshots skipped (--no-shots)\033[0m\n'
 fi
 
-gen "user guide PDF" python3 scripts/build_guide_pdf.py
+python3 scripts/artifacts.py after-shots
 
 # Record what the artifacts were built FROM, so the staleness check can tell
 # later whether their inputs have moved on. Must run after every generator.

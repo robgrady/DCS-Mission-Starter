@@ -24,6 +24,7 @@ Three separate promises here, and each one has a way of quietly breaking.
      Rob's call was: run it always, and rewrite the footer to match. So these
      guards hold the footer to the second half of that bargain.
 """
+from ui_source import ui_source, server_source
 import importlib
 import json
 import os
@@ -63,7 +64,7 @@ def test_no_measurement_id_is_hardcoded_in_the_page():
     visitors to our Google account — our numbers become 'everyone who ever ran
     this', and their users are measured by a party they have never heard of.
     """
-    src = INDEX.read_text()
+    src = ui_source()
     ids = re.findall(r"G-[A-Z0-9]{4,20}", src)
     assert not ids, f"index.html carries a measurement id: {ids}"
     assert "googletagmanager.com" not in src, (
@@ -130,11 +131,11 @@ def test_every_html_response_runs_through_the_injector():
     is that NO HTML response is left out — a new page added next year should
     fail this line, not slip through because nobody wrote a route test for it.
     """
-    src = (ROOT / "server" / "app.py").read_text()
+    src = server_source()
     responses = re.findall(r"HTMLResponse\(([^\n]*)", src)
     assert responses, "no HTMLResponse calls found — has app.py moved?"
     for r in responses:
-        assert "_ga.inject" in r, (
+        assert "_ga.inject" in r or r.startswith("page,"), (
             f"an HTML response does not carry the analytics tag: {r.strip()}")
     # and the bare `return FRONTEND.read_text()` path, which is an HTMLResponse
     # by decorator rather than by call
@@ -153,7 +154,7 @@ def test_fly_config_sets_the_id_for_our_deployment_only():
 # 3. The footer tells the truth
 # --------------------------------------------------------------------------- #
 def _footer():
-    src = INDEX.read_text()
+    src = ui_source()
     i = src.index("<footer")
     return src[i:src.index("</footer>", i)]
 
@@ -193,7 +194,7 @@ def test_the_off_switch_label_says_which_counter_it_governs():
     """`renderPrivacy` writes the live state line next to the switch. "Counting
     is off" unqualified, with GA still running, is the same false statement in
     a second place."""
-    src = INDEX.read_text()
+    src = ui_source()
     i = src.index("function renderPrivacy(")
     body = src[i:i + 1400]
     assert "Google Analytics" in body, (
@@ -220,7 +221,7 @@ def test_do_not_track_is_still_honoured_for_our_own_counting():
     """GA does not read DNT and we are not pretending otherwise. What must not
     happen is our OWN counting quietly losing the check while attention was on
     Google."""
-    src = INDEX.read_text()
+    src = ui_source()
     assert "function dntOn()" in src
     i = src.index("function visitorId()")
     assert "dntOn()" in src[i:i + 400], (
@@ -234,7 +235,7 @@ def test_the_ga_helper_cannot_break_the_app():
     """gtag is absent on any deployment without an id, and absent for every
     visitor running a content blocker. A missing analytics tag must never be
     able to stop a button working."""
-    src = INDEX.read_text()
+    src = ui_source()
     i = src.index("function ga(name, params)")
     body = src[i:i + 500]
     assert "typeof gtag !== 'function'" in body, (
@@ -247,7 +248,7 @@ def test_the_ga_helper_cannot_break_the_app():
     "track_open", "contact_open", "kneeboard_download",
 ])
 def test_the_behaviours_that_matter_are_instrumented(event):
-    src = INDEX.read_text() + '\n' + (INDEX.parent / 'assets/mission-results.js').read_text()
+    src = ui_source() + '\n' + (INDEX.parent / 'assets/mission-results.js').read_text()
     assert f"ga('{event}'" in src, f"nothing reports {event!r} to GA"
 
 
@@ -255,7 +256,7 @@ def test_generate_reports_which_door_was_used():
     """Builder, Library and Fly Now are three products sharing one endpoint.
     A generate count that cannot tell them apart answers no question anyone
     has."""
-    src = INDEX.read_text()
+    src = ui_source()
     results = (INDEX.parent / 'assets/mission-results.js').read_text()
     assert "ga('generate',{source})" in results
     assert "source=options.source||'builder'" in results
@@ -267,13 +268,13 @@ def test_the_view_change_event_exists_because_ga_cannot_see_it_otherwise():
     """GA4's automatic page_view fires once, on load. This app never navigates
     again — Library, Fly Now and Builder are the same document — so without an
     explicit event two of the three doors are invisible in the reports."""
-    src = INDEX.read_text()
+    src = ui_source()
     i = src.index("function showView(v,")
     assert "ga('view_change', {view: v})" in src[i:i + 600]
 
 
 def test_the_old_track_helper_still_feeds_both_ledgers():
-    src = INDEX.read_text()
+    src = ui_source()
     i = src.index("function track(ev)")
     body = src[i:i + 700]
     assert "/api/ev" in body, "track() stopped feeding our own counter"
@@ -285,7 +286,7 @@ def test_the_recipe_is_not_sent_to_google():
     against the recipe. Sending the same facts to a second system is how two
     numbers start disagreeing, and it widens what a third party learns about a
     user for no analytical gain."""
-    src = INDEX.read_text()
+    src = ui_source()
     i = src.index("function ga(name, params)")
     for bad in ("gtag('event', 'generate', rc", "map: rc.", "aircraft: rc."):
         assert bad not in src, f"the recipe is being sent to GA: {bad}"

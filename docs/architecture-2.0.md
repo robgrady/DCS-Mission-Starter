@@ -1,67 +1,51 @@
-# Architecture 2.0 — implementation in progress
+# Architecture refactor — source migration completed in v1.108.2
 
-3 October 2026. The owner requested a complete architecture refactor targeting
-2.0 after correcting the Library and deploying production. Development branch:
-`codex/refactor-2.0`, based on production release `v1.108.0` / `7765421`.
+3 October 2026. The owner's requested 2.0 architecture milestone was implemented
+on `codex/refactor-2.0`. Public contracts remain compatible, so this delivered
+migration is v1.108.2 under the owner's semantic version policy. No API break
+was invented to obtain a major number. PyDCS, measured airport stands/headings,
+Flightline tokens, recipe/share links and HTTP endpoints remain in place.
 
-## Decision
+## Completed code boundaries
 
-Ship validated, backwards-compatible slices with a new semantic version for
-every delivered change. The first slice and Iraq/Phantom corrections ship as
-1.108.1; the broader migration remains in progress. Keep PyDCS, measured airport slots
-and headings, Flightline visual tokens, recipe/share-link compatibility and
-existing HTTP endpoints. Treat 2.0 as the requested product milestone; do not
-invent an API break solely to justify the number. Use patch versions for fixes
-and compatible internal refactoring, minor versions for new compatible features,
-and a major version only for breaking public contracts. The owner superseded
-the original plan to retain the production stamp on development code: every
-delivered development change now gets its own version. See `../AGENTS.md`.
+| Boundary | Owner and completion evidence |
+|---|---|
+| World and historical context | `build_context.py` resolves one world. `historical_world.py` carries dated identity facts separately from game coalition and display nationality; missing territorial/operator evidence remains unknown. Validity intervals are inclusive and reject reversed dates. Existing historical content remains unchanged by this structural migration. |
+| Placement | `builder.py` orders carrier, player/payload, environment, threats/support, targets, routes/timing, training and presentation. Frozen result dataclasses name cross-phase facts; the public stats dictionary remains a compatibility report. Flight operations and mission prose have separate owners. Eight pre-migration seeded missions preserve native structures, documents, stats and warnings. |
+| Document facts | `document_facts.py` resolves `MissionFacts` once from the completed world. Brief, kneeboard and Mission Kit adapters share clock, route, comms, fuel and historical context. Existing renderers retain their input contracts. |
+| Browser | HTML holds presentation; `app.js` wires DOM/navigation. Recipe state, Library/training, comm-plan and Mission Kit controllers receive explicit state, option getters, environment and callbacks. Stable window entry points retain existing HTML event handlers. Real-browser guards exercise mobile/desktop, carrier share restoration, Back, Escape, retry and version identity. |
+| HTTP | `server/app.py` composes site, metadata, document, Library, mission, comm, contact and health routers. `artifact_service.py` owns admitted generation and download cleanup; CPU work stays in `missiongen/artifacts.py`. Existing response/error/header contracts and failure-capacity tests remain. |
+| Releases | One ordered registry in `scripts/artifacts.py` drives producers and freshness. Pack hashes include all engine code/data/resources and vendored engine code. Removed inputs invalidate stamps. A failed producer stops before stamping. A documentation-impact record is mandatory for every release, and the PDF reads the Markdown manual directly. |
+| Catalog durability | Atomic `.catalog/<id>.json` pointers select immutable `.revisions/<id>/<revision>/` directories. Local writer processes share a file lock. Already resolved downloads survive replacement/deletion. Legacy directories remain readable. No symlink privilege is required on Windows. Retained revisions need deliberate backup/retention management. |
+| Fly ownership | `PACKS_OWNER_MACHINE` selects one existing volume for public catalog reads and writes. Large admin uploads pin that instance before sending their body because Fly replay is limited to 1 MB. Other private stores are unchanged. Cross-instance checks must prove the catalog resolves through its owner. |
+| Resource evidence | `scripts/benchmark_generation.py` measures carrier, training and large-ramp builds in separate processes, reporting latency and process peak RSS. Production observations are retained with release evidence; they are not a throughput guarantee or a reason to increase workers without load testing. |
 
-## First implementation slice
+## Verification and remaining product qualification
 
-- Extract carrier/deck/support placement from `StarterBuilder.build()` into
-  `missiongen/phases/carrier.py`. Return a typed immutable result for the fleet,
-  course, hull, strike flight, support names, deck count and graphics. The
-  orchestrator applies those facts; the phase does not mutate `ctx.stats`.
-- Extract effective scenario and lineup calculations into a browser module with
-  explicit options/state inputs. Keep the existing DOM/navigation controllers
-  and visual design while removing those calculations' dependency on globals.
-- Exclude local audit outputs and generated packs from Docker build context.
-  The 1.108 deployment uploaded 330 MB although the image never copies packs or
-  outputs. Keep their separate publication workflow.
-- Record the corrected six-pack production catalog, image and health checks in
-  `deployment-1.108.0.md`. The second Fly volume had been empty; it now receives
-  the same existing public catalog. Unrelated persisted stores are untouched.
+The release gate rebuilds all official packs, native missions, browser screenshots
+and the PDF, then runs the full suite. Evidence and deployment measurements live
+in `outputs/releases/1.108.2/`, outside versioned source. The source is frozen
+while the gate runs. A failed check is repaired before any commit/deployment.
 
-Seeded mission baselines cover modern/WWII shore, Cold War carrier, carrier
-escort, TIC, convoy, WK intercept and guns-only BFM. Compare emitted native
-mission structure, translations/documents, stats and warnings before/after
-placement extraction, preserving RNG call order. Browser regression checks
-exercise the shared pure calculations and actual form restoration/downloads.
+This completes the code migration, not every content research task. The historical
+Library audit still identifies scenario dates, alliance labels, base operators,
+weapon dates and approximate overlays needing separately sourced corrections.
+The new contracts support that work without claiming unknown facts are verified.
+DCS cockpit rendering and flight qualification require DCS on Windows and cannot
+be certified by Python/browser/archive checks on macOS. Discord accounts, saved
+missions and sharing remain deferred product features.
 
-## Remaining milestone boundaries
+## Operations
 
-| Order | Work | Completion evidence |
-|---|---|---|
-| 1 | Player/deck start placement, parking ownership and payload phase | Seeded carrier/shore/helo starts preserve unit IDs, surveyed stands/headings and actual stores; old share links work |
-| 2 | Support/threats, ground/scenario actors and training phases | Typed results replace implicit shared dictionaries; actor/store/task contracts cover all authored promises |
-| 3 | Routes, timing and shared document facts | One emitted factual model supplies F10, brief, kneeboard and Mission Kit; clock/fuel facts agree |
-| 4 | Browser recipe state, Library and comm-plan controllers | Explicit module inputs/callbacks; actual desktop/mobile, keyboard, sharing, Back and independent result download checks |
-| 5 | API routers and generation/artifact service | Preserve response headers/errors/cleanup and capacity limits; separate CPU work from transport |
-| 6 | One ordered release registry and complete input/provenance hashes | No duplicated generator lists; all engine/data dependencies invalidate affected packs; failed producers cannot be stamped fresh |
-| 7 | Durable published catalog/storage contract | Two Fly volumes are independent. Future admin uploads must not diverge; choose one storage owner or shared revision storage, atomic catalog publication, backups and cross-instance read tests before accounts/saved missions |
-| 8 | Dated historical world contracts | Distinguish sovereignty, base operator and mission coalition; sourced validity dates and visibly approximate zones; resolve the remaining historical audit findings |
-| 9 | Resource measurements and final 2.0 release | Measure production peak memory/latency before worker/hosting changes; run full source Library, browser, pack, release and DCS flight gates |
+Back up the owner's public catalog including pointers, revisions and legacy
+folders. Change `PACKS_OWNER_MACHINE` when replacing its machine/volume. Route
+all public writers through the owner; never synchronize private contact, sponsor,
+credits or analytics data as a pack publication step. Keep non-current revisions
+until active downloads and the chosen rollback/retention window have expired.
+Monitor disk capacity before pruning, and preserve an off-volume backup first.
 
-The first slice starts the full scope above. It does not claim all builder phases,
-API services, browser controllers or historical data are already migrated.
-Discord login, saving and sharing remain deferred product features.
+References: `../AGENTS.md`, `architecture-refactor-followups.md`,
+`library-validation-1.108.0.md`, `library-validation-2026-10-02.md`,
+`pydcs-current-audit.md`, `parking-direction-survey.md`.
 
-## Storage constraint discovered in production
-
-Catalog synchronization fixes the current published content, not future
-replication. Each Fly machine owns a separate `/data` volume. Pack publication
-currently uses an in-process lock and directory replacement; multiple service
-instances do not share that lock or data. Define storage ownership before
-introducing more writers. Do not silently copy private contact, sponsor, credits
-or analytics stores as part of a public pack correction.
+Fly routing source: [Dynamic request routing](https://docs.fly.io/networking/dynamic-request-routing).
