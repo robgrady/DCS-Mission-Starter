@@ -54,6 +54,38 @@ def test_offline_options_still_show_the_current_release_and_retry(site):
         browser.close()
 
 
+@pytest.mark.parametrize('width', [1280, 390])
+def test_library_has_no_static_new_module_promotions_and_veterans_roundtrip(site, width):
+    pw = pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(viewport={'width':width,'height':900}); errors=[]
+        page.on('pageerror',lambda e:errors.append(str(e)))
+        page.goto(site); page.wait_for_function('OPT !== null')
+        page.locator('#viewtabs button[data-v="library"]').click()
+        assert 'New in DCS' not in page.locator('#library').inner_text()
+        assert page.locator('#lfeat .libcard').count() > 0
+        page.locator('#viewtabs button[data-v="builder"]').click()
+        page.evaluate('showScreen("flight")')
+        page.locator('#flightmode .card[data-k="4"]').click()
+        page.locator('#veteran_wingmen').select_option('3')
+        assert 'You + 3 veteran AI' in page.locator('#wingmen_hint').inner_text()
+        assert 'Single-player' in page.evaluate('postGenNote()')
+        assert '3 veteran AI' in page.evaluate('flightModeLabel()')
+        settings = page.evaluate('decodeRecipe(encodeRecipe(recipe()))')
+        assert settings['slots'] == 4 and settings['veteran_wingmen'] == 3
+        page.evaluate('(r)=>applyRecipe(r)', settings)
+        assert page.locator('#veteran_wingmen').input_value() == '3'
+        page.locator('#flightmode .card[data-k="2"]').click()
+        assert page.locator('#veteran_wingmen').input_value() == '1'
+        page.locator('#veteran_wingmen').select_option('0')
+        assert '2 client seats' in page.evaluate('postGenNote()')
+        page.reload(); page.wait_for_function('OPT !== null')
+        assert page.evaluate('recipe().veteran_wingmen') == 0
+        assert not errors
+        browser.close()
+
+
 @pytest.mark.parametrize('width',[1280,390])
 def test_carrier_restore_share_and_library_use_the_assembled_controllers(site,width):
     pw = pytest.importorskip('playwright.sync_api')

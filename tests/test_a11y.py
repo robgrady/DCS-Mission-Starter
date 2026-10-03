@@ -97,7 +97,6 @@ def test_small_accent_text_uses_the_accessible_blue():
     the ones axe caught at 4.02:1 — pin them to the accessible variant."""
     for sel_pat in (r"\.eyebrow\{[^}]*color:var\(--accent-small\)",
                     r"\.topbar h1 span \{ color: var\(--accent-small\)",
-                    r"\.lmodtag\{[^}]*background:var\(--accent-solid\)",
                     r"\.lnew\{[^}]*background:var\(--accent-solid\)"):
         assert re.search(sel_pat, FRONTEND), f"missing: /{sel_pat}/"
 

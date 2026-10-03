@@ -57,6 +57,7 @@ function recipe(){
     callsign:(document.getElementById('callsign')?.value||'').trim()||null,
     home_airbase:document.getElementById('home').value,
     slots:+document.getElementById('slots').value,
+    veteran_wingmen:+document.getElementById('veteran_wingmen').value,
     start:document.getElementById('start').value,
     time_of_day:document.getElementById('time_of_day').value,
     weather:document.getElementById('weather').value,

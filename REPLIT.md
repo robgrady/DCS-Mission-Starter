@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.108.3.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.109.0.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
@@ -71,7 +71,7 @@ following must be preserved **exactly**:
    persistent toggle between them.
 2. **ALL scenario templates live in the Mission Library — there is NO
    Scenario/Template step inside the Builder wizard. Do not add one back.**
-   The Library is a card gallery: each template from `/api/options` → `templates`
+   The static New in DCS promotion rail is removed. The Library is a card gallery: each template from `/api/options` → `templates`
    renders as a card using its `library` block (`role`, `premise`, `threat` 1–5,
    `players`, `featured`, `new`) plus `eras`, `needs_carrier`, `default_map`.
    Cards are colour-coded by role (air-to-air, strike, SEAD, CAS, carrier,

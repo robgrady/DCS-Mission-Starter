@@ -48,6 +48,8 @@ class MissionBriefing:
                     mother = f" {boat} is on CH 2."
                 flight_line += (f" COMM1 presets are loaded — see the CHAN column "
                                 f"on the comms card.{mother}")
+            if stats.get("flight_composition"):
+                flight_line += " " + stats["flight_composition"]
         from .. import saydo as _sd
         _clock = _sd.mission_clock(self._mission) if getattr(self, "_mission", None) else None
         _heritage = stats.get("callsign_heritage")
@@ -135,5 +137,4 @@ class MissionBriefing:
                       "same settings + seed rebuild this exact mission; new seed = "
                       "a fresh layout of the same setup"]
         return "\n".join(lines)
-
 

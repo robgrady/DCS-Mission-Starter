@@ -37,7 +37,7 @@ const BLOCKS = [
 
 // --- share links: recipe <-> base64url(JSON of non-default fields) ---
 const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:"F_16C_50",
-  home_airbase:null,slots:1,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
+  home_airbase:null,slots:1,veteran_wingmen:0,start:"cold",time_of_day:"day",weather:"clear",density:"normal",
   dress_fill:null,dress_aircraft:true,dress_gse:true,dress_infra:true,dress_theme:null,
   map_layers:null,dress_overrides:{},dress_aircraft_mode:"static",dress_mix:null,
   dress_livery_style:"squadron",ramp_heavies:"auto",
@@ -367,9 +367,9 @@ function acDisplay(key, id){
 // applyRecipe() writes it, so share links and scenario presets are untouched.
 const FLIGHT_MODES = [
   [1, "Just me",  "Single player. Fly it solo, offline."],
-  [2, "2-ship",   "You + 1 client seat, same airframe. Host it in multiplayer."],
-  [3, "3-ship",   "You + 2 client seats, same airframe. Host it in multiplayer."],
-  [4, "4-ship",   "You + 3 client seats, same airframe. Host it in multiplayer."],
+  [2, "2-ship",   "2 aircraft, same airframe. Choose human seats or veteran AI below."],
+  [3, "3-ship",   "3 aircraft, same airframe. Choose human seats or veteran AI below."],
+  [4, "4-ship",   "4 aircraft, same airframe. Choose human seats or veteran AI below."],
 ];
 function initFlightMode(){
   const box = document.getElementById('flightmode');
@@ -396,11 +396,26 @@ function setFlightMode(n){
   document.getElementById('slots').value = n;
   document.querySelectorAll('#flightmode .card').forEach(c =>
     c.classList.toggle('sel', c.dataset.k === String(n)));
+  refreshWingmen();
+}
+function refreshWingmen(){
+  const select = document.getElementById('veteran_wingmen');
+  const n = +document.getElementById('slots').value || 1;
+  const fixed = !!S.engineSettings?.cq_ride || !!OPT.templates[S.template]?.aircraft_locked;
+  const count = fixed ? 0 : Math.min(+select.value || 0, n-1);
+  select.innerHTML = Array.from({length:fixed?1:n}, (_,i)=>`<option value="${i}">${i===0?'None — human seats':i+' veteran AI wingman'+(i===1?'':'s')}</option>`).join('');
+  select.value = count; select.disabled = fixed || n===1;
+  const humans = n-count;
+  document.getElementById('wingmen_hint').textContent = fixed
+    ? 'This authored flight uses fixed crew or recovery roles.'
+    : n===1 ? 'Choose a 2-, 3- or 4-ship to add AI wingmen.'
+    : `${humans===1?'You':humans+' human client seats'} + ${count} veteran AI ${count===1?'wingman':'wingmen'}. Veteran uses DCS High skill; wingmen fly in your group and respond to radio commands.`;
 }
 function flightModeLabel(){
   const n = +document.getElementById('slots').value || 1;
   const m = FLIGHT_MODES.find(f=>f[0]===n);
-  return m ? m[1] : `${n}-ship`;
+  const ai = +document.getElementById('veteran_wingmen').value || 0;
+  return (m ? m[1] : `${n}-ship`) + (ai ? ` · ${ai} veteran AI` : '');
 }
 
 // ===== R4: threat presets =====
@@ -468,14 +483,17 @@ function supportSummary(max){
                           : on.slice(0,max).join(' · ') + ` +${on.length-max}`;
 }
 // Mode-aware close-out. Telling someone to drop a 2-ship build in Missions and
-// hit Fly is wrong — at 2+ slots the builder makes client seats, so it has to
-// be hosted. Also names the on-station assets, which used to go unmentioned.
+// hit Fly is wrong when multiple human seats remain: those are clients.
+// A solo player with AI wingmen can fly offline. Also name on-station assets.
 function postGenNote(){
   const n = +document.getElementById('slots').value || 1;
+  const ai = +document.getElementById('veteran_wingmen').value || 0;
+  const humans = n-ai;
   const side = document.getElementById('coalition').value;
-  let s = n > 1
-    ? `${n} client seats — host it (Multiplayer → New Server) or put it on your server; there's no single-player slot.`
+  let s = humans > 1
+    ? `${humans} client seats — host it (Multiplayer → New Server) or put it on your server; there's no single-player slot.`
     : 'Single-player — put it in Saved Games\\DCS\\Missions and hit Fly.';
+  if(ai) s += ` ${ai} veteran AI ${ai===1?'wingman flies':'wingmen fly'} in your flight (High skill). Command them through the wingman radio menu.`;
   const air = [];
   if (document.getElementById('bb_tanker')?.checked && side==='blue' && S.era!=='wwii')
     air.push('Texaco 1-1 (tanker)');
@@ -536,6 +554,7 @@ async function init(){
     eras.appendChild(c);
   }
   initFlightMode();
+  document.getElementById('veteran_wingmen').onchange = ()=>{refreshWingmen();sum();};
   refreshAircraft();
   for (const key of ['start','time_of_day','weather','density']){
     const s = document.getElementById(key);
@@ -670,6 +689,7 @@ function applyRecipe(r){
   // Imported/shared recipes may omit defaults; normalize before touching selects.
   r = {...(typeof RECIPE_DEFAULTS === 'object' ? RECIPE_DEFAULTS : {}), ...r};
   S.engineSettings = {};
+  S.template = r.template || null;
   // Restore the kind FIRST and silently: it stamps defaults, and the explicit
   // values that follow in this recipe must win over anything it set.
   if (r.mission_kind) { S.kind = r.mission_kind; }
@@ -683,6 +703,7 @@ function applyRecipe(r){
   document.getElementById('callsign').value = r.callsign || '';
   refreshCallsign();
   setFlightMode(r.slots);
+  document.getElementById('veteran_wingmen').value = r.veteran_wingmen;
   for (const k of ['start','time_of_day','weather','density']) document.getElementById(k).value = r[k];
   document.getElementById('seed').value = r.seed;
   for (const [k] of BLOCKS) document.getElementById(k).checked = !!r[k];
@@ -739,6 +760,7 @@ function applyRecipe(r){
   restoreCarrierRecipe(r);
   S.engineSettings = Object.fromEntries(RECIPE_ENGINE_FIELDS
     .filter(k => Object.hasOwn(r, k)).map(k => [k, r[k]]));
+  refreshWingmen();
 }
 function sel(container, card){
   container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
@@ -1468,6 +1490,7 @@ function onThemeChange(){
 
 function sum(){
   if(!OPT) return;
+  refreshWingmen();
   syncThreatPreset();
   refreshCommTable();
   updateRail(); syncCardState(); saveState();

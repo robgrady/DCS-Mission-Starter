@@ -118,7 +118,9 @@ class Recipe:
                                        # which is not a knob a picker can
                                        # offer. Implies home_airbase=CARRIER
                                        # and requires DCS: Supercarrier.
-    slots: int = 1                     # 1 = single player, >1 = multiplayer clients
+    slots: int = 1                     # total aircraft in the player flight
+    veteran_wingmen: int = 0           # trailing aircraft are High-skill AI;
+                                       # remaining aircraft are human seats
     start: str = "cold"                # cold | warm | runway | air (airborne;
                                        # position picked by the template's
                                        # air_start flag — tanker/merge/generic)
@@ -435,6 +437,12 @@ class Recipe:
             raise RecipeError(f"seed must be an integer, got {self.seed!r}.")
         if not (1 <= self.slots <= 4):
             raise RecipeError(f"slots must be 1-4, got {self.slots!r}.")
+        if not (0 <= self.veteran_wingmen < self.slots):
+            raise RecipeError("veteran_wingmen must be 0 to slots - 1; keep at least one human seat.")
+        if self.veteran_wingmen:
+            from .build_context import CREW_OPS_TEMPLATES
+            if self.cq_ride or self.template in CREW_OPS_TEMPLATES:
+                raise RecipeError("veteran_wingmen are not available for fixed Case III or crew-ops flights.")
         if self.dress_fill is not None and not (0 <= self.dress_fill <= 100):
             raise RecipeError(f"dress_fill must be 0-100, got {self.dress_fill!r}.")
         from .pattern import MAX_COUNT as _PATTERN_MAX

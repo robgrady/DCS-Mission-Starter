@@ -225,6 +225,8 @@ def _smea(ctx):
                  + ("Guns defend the target — plan the run-in and off-target "
                     "turn before you commit. One pass." if tier == "guns" else
                     "Respect the WEZ rings; they are drawn to scale."))
+    if stats.get("flight_composition"):
+        execution += " " + stats["flight_composition"]
     return situation, mission, execution
 
 
@@ -752,6 +754,8 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
          f"> **Variation {r.seed}:** the same settings + seed rebuild *this exact "
          "mission* every time — share them and a friend flies the identical "
          "flight. Change the seed for a fresh layout of the same setup.", ""]
+    if stats.get("flight_composition"):
+        L += ["**Your flight:** " + stats["flight_composition"], ""]
     if stats.get("callsign"):
         L += [f"**Callsign {stats['callsign']}.** " + (stats.get("callsign_heritage") or ""), ""]
     if stats.get("alignment"):

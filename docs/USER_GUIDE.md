@@ -96,8 +96,9 @@ a few minutes and goes anyway. Neither happens on a check ride.
 
 1. Pick a **map** and an **era**. The era is a hard filter: a WWII starter will
    not offer you a Hornet, and a modern starter will not offer a Spitfire.
-2. Pick **who's flying** (just you, or a 2-4 ship of client seats for
-   multiplayer), your side, home airfield, and aircraft.
+2. Pick **who's flying** (just you, or a 2-4 ship), your side, home airfield,
+   and aircraft. Choose **Veteran AI wingmen** to replace some human seats
+   with AI pilots in your flight.
 3. Toggle **building blocks** (everything is optional — defaults are sensible).
 4. **Generate** — your Mission Kit appears and the `.miz` downloads. Drop it in
    `Saved Games/DCS/Missions/` and fly, or open it in the Mission Editor.
@@ -106,6 +107,27 @@ a few minutes and goes anyway. Neither happens on a check ride.
 
 *Privacy note: we count what missions get generated (map, aircraft, mission
 type) to decide what to build next — never who generated them.*
+
+### Flying with veteran AI wingmen
+
+In **Builder → Flight → Who's flying**, choose **4-ship** and set **Veteran AI
+wingmen** to **3** for your aircraft plus three AI wingmen. This creates a
+single-player mission: put the `.miz` in `Saved Games/DCS/Missions/` and fly.
+The wingmen use DCS **High** skill, the level labelled veteran here, and belong
+to your own flight. Use the wingman radio menu to command them.
+
+For a two- or three-ship, you can likewise assign up to one or two AI wingmen.
+If two or more aircraft remain human seats, they are multiplayer clients;
+host the mission through **Multiplayer → New Server**. Leave the AI count at
+**None — human seats** to keep the existing multiplayer setup. Reducing flight
+size reduces the AI count as needed to retain at least one human aircraft.
+Share links and saved Builder settings retain this choice.
+
+All aircraft in the flight use the selected airframe and loadout. AI wingmen
+follow native DCS behavior; this option does not script attack geometry or
+formation procedures. Fixed crew-ops flights and authored Case III recovery
+rides do not offer this option. Existing training rides retain their authored
+wingmen when no custom AI count is selected.
 
 ## The standard comm ladder
 

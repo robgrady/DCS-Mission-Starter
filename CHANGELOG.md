@@ -1,5 +1,19 @@
 # Changelog — DCS Sortie Starter
 
+## [1.109.0] — Veteran wingmen and a simpler Library
+
+- Remove the static “New in DCS” aircraft promotions so the Library leads
+  directly into its mission recommendations and catalog.
+- Add Veteran AI wingmen in Builder's Flight screen. A four-ship can contain
+  one player aircraft and three High-skill AI wingmen in the same flight;
+  mixed human-client and AI flights are also supported. Zero AI retains the
+  existing multiplayer setup. Fixed crew-ops and Case III rides refuse this
+  option rather than silently ignoring it.
+- Preserve the AI count in saved settings and share links, clamp it when
+  flight size changes, and explain the resulting single-player/multiplayer
+  launch mode. Include flight composition in generated mission and PDF/Markdown
+  briefing text. Update the User Manual and release identity.
+
 ## [1.108.3] — Historical context and dated content corrections
 
 - Give named scenarios authored dates: Proud Phantom's 10 July 1980 fighter

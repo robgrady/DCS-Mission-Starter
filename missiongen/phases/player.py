@@ -272,17 +272,13 @@ def place_player(builder: StarterBuilder, ctx: WorldContext, carrier: CarrierPla
         # The callsign the FILE carries is the one the paperwork prints.
         # pydcs writes only the name string; DCS reads the index. Both now.
         _csn.apply(player_group, self._callsign_used)
-        if formation_stage:
+        if formation_stage and not r.veteran_wingmen:
             pass          # formation.build already seated you as Dash 2
-        elif r.slots <= 1:
-            player_group.units[0].set_player()
-            # The White Knights wingman: seat 2 is the AI on your wing.
-            from dcs.unit import Skill as _Skill
-            for _u in player_group.units[1:]:
-                _u.skill = _Skill.Excellent
         else:
-            for u in player_group.units:
-                u.set_client()
+            from ..player_seats import assign_seats, flight_summary
+            assign_seats(player_group, r)
+            if r.veteran_wingmen:
+                stats["flight_composition"] = flight_summary(r)
         fc = comms.freq("flight_common")
         # A VHF-ONLY JET GETS A VHF FLIGHT FREQUENCY. The self-check found
         # this on its first run: a P-51D with its wingman on 305.725 and a

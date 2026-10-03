@@ -84,7 +84,7 @@ const document={getElementById:id=>nodes[id]||(nodes[id]={style:{}}),
  }}:null,querySelectorAll:sel=>sel==='.deckac'?deck:[]};
 const fillHome=()=>{},refreshCallsign=()=>{},setFlightMode=()=>{},refreshPatternUI=()=>{},
  setTimingUI=()=>{},refreshDressUI=()=>{},syncPlayerArm=()=>{},renderCorridors=()=>{},
- setCommOverrides=()=>{};
+ setCommOverrides=()=>{},refreshWingmen=()=>{};
 function refreshCarrierUI(){
  events.push(nodes.bb_carrier.checked);
  if(nodes.bb_carrier.checked){nodes.carrier_hull.options=[{value:'Nimitz'},{value:'Forrestal'}];nodes.carrier_hull.value='Nimitz';}

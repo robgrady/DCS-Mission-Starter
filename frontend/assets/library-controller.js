@@ -119,23 +119,6 @@ function libSort(a,b){
   if(s==='threat') return (b.threat-a.threat)||a.label.localeCompare(b.label);
   return (b.featured-a.featured)||(b.new-a.new)||a.label.localeCompare(b.label);
 }
-const MOD_PITCH={
-  'F-100D':'“The Hun” — America’s first supersonic fighter-bomber, just released for DCS. Cold-War nuclear alert, battlefield CAS, flak suppression and gunfighter BFM.',
-  'F-14B(U)':'The upgraded Tomcat with full crew AI — Jester and Iceman fly your calls on the F10 menu. Outer-air-battle, buddy-lase strike, TARPS recon and the boat.'};
-function renderModuleRail(items,anyF){
-  const rail=document.getElementById('lmodules');
-  if(anyF){ rail.innerHTML=''; return; }
-  const mods={}; items.forEach(t=>{ if(t.module)(mods[t.module]=mods[t.module]||[]).push(t); });
-  const order=Object.keys(mods).sort();
-  if(!order.length){ rail.innerHTML=''; return; }
-  let h='<div class="sechead">New in DCS</div><div class="lmodrail">';
-  h+=order.map(m=>{ const n=mods[m].length;
-    return '<div class="lmodcard" role="button" tabindex="0" onclick="filterModule(\''+m.replace(/'/g,"\\'")+'\')">'+
-      '<span class="lmodtag">New module</span><h3>'+m+'</h3>'+
-      '<p>'+(MOD_PITCH[m]||'')+'</p>'+
-      '<span class="mgo">'+n+' mission'+(n!==1?'s':'')+' &nbsp;→</span></div>'; }).join('');
-  rail.innerHTML=h+'</div>';
-}
 function filterModule(m){ libState.module=m; renderLib(); window.scrollTo(0,0); }
 function renderChips(anyF){
   const bar=document.getElementById('lchipbar'); if(!anyF){ bar.innerHTML=''; return; }
@@ -331,7 +314,6 @@ function renderLib(){
   const items=libItems(), g=id=>document.getElementById(id);
   const anyF=libState.module||libState.role!=='all'||g('lfEra').value!=='all'||g('lfDiff').value!=='all'||
     g('lfType').value!=='all'||g('lfAc').value!=='all'||g('lfMap').value!=='all'||g('lfSearch').value.trim()||libState.own;
-  renderModuleRail(items,anyF);
   g('lfeatwrap').style.display=anyF?'none':'';
   g('lallhead').textContent=anyF?'Results':'All missions';
   g('lfeat').innerHTML=items.filter(t=>t.featured).sort(libSort).map(libCard).join('');
@@ -769,5 +751,5 @@ async function generateFromLib(k){
 function openInBuilder(k){ setupFromLib(k); closeDetail(); showView('builder'); showScreen('flight'); }
 
 
-return { acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderModuleRail, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
+return { acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
 }

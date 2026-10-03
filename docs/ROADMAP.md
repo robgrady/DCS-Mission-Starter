@@ -30,9 +30,11 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.108.3**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.109.0**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
-F-4E training pipeline. The release adds the airfield guide and reliability
+F-4E training pipeline. Builder supports veteran AI wingmen within the
+player flight, including a solo four-ship; the static New in DCS promotion
+rail is removed. The release includes the airfield guide and reliability
 boundaries for recipe validation, Mission Kits, generation capacity, artifact
 serialization and pack publication. The comm-plan layout and three recovered
 generators are included. The 17 audited behavioral Library mismatches and

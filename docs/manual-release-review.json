@@ -1,7 +1,7 @@
 {
-  "version": "1.108.3",
+  "version": "1.109.0",
   "documentation_required": true,
-  "reason": "Document authored scenario dates, historical classifications and evidence limitations, dated weapon filtering and additional historical-context document pages.",
+  "reason": "Document veteran AI wingmen, same-flight High skill, mixed human/AI seat assignment, launch mode, sharing, size changes and fixed-flight limitations.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -14,8 +14,9 @@
     "FAQ",
     "Parking, skins and historical fidelity",
     "Release identity and the manual",
-    "Scenario dates and historical context"
+    "Scenario dates and historical context",
+    "Flying with veteran AI wingmen"
   ],
-  "source_sha256": "17dce23957e7a0c50b1da27f6212db7e79f03800747431a55573d2f5729e6e9c",
-  "previous_source_sha256": "ed0f47066dc1a53bf5bc0640e6fd0b508c4ae886d337be6ba67d47210cf53ac2"
+  "source_sha256": "a3c0cec4003fc17555101d4750d3732bdaeef597ef8e22203a734ee0335d08bc",
+  "previous_source_sha256": "17dce23957e7a0c50b1da27f6212db7e79f03800747431a55573d2f5729e6e9c"
 }

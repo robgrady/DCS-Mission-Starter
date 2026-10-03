@@ -89,13 +89,12 @@
      and sliding transitions become instant state changes. */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after { transition: none !important; animation: none !important; }
-    .lmodcard:hover { transform: none; }
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--text);
          font-family: var(--font-body); min-height: 100vh; }
-  h1,h2,h3,h4,.ehero h1,.lhead h2,.libcard h3,.dcard h2,.lmodcard h3,.epath h3 { font-family: var(--font-display); }
+  h1,h2,h3,h4,.ehero h1,.lhead h2,.libcard h3,.dcard h2,.epath h3 { font-family: var(--font-display); }
   label,.sechead,.role,.lchip,.acbadge,.kindb,.rtab,.eyebrow,.mono,.viewbar .b,.lsort label,.subf label { font-family: var(--font-mono); }
   :root { --topbar-height: 48px; }
   /* global topbar: brand + view tabs + doc links, fixed above all views */
@@ -540,14 +539,6 @@
   .fchip{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:var(--text);background:var(--panel2);border:1px solid var(--line);border-radius: var(--radius);padding:4px 10px;cursor:pointer;min-height:24px;box-sizing:border-box}
   .fchip:hover{border-color:var(--accent)}.fchip b{color:var(--dim);font-weight:600}.fchip .x{color:var(--dim);font-size:13px}
   .fclear{all:unset;cursor:pointer;font-size:11.5px;font-weight:600;color:var(--accent);padding:4px 6px}
-  .lmodrail{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px;margin:4px 0 6px}
-  .lmodcard{position:relative;overflow:hidden;border-radius: var(--radius);padding:18px 20px;cursor:pointer;border:1px solid var(--line);
-    background:linear-gradient(120deg,color-mix(in srgb, var(--accent) 10%, transparent),color-mix(in srgb, var(--accent) 4%, transparent));transition:.16s}
-  .lmodcard:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:none}
-  .lmodtag{font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--accent-text);background:var(--accent-solid);border-radius: var(--radius);padding:3px 9px}
-  .lmodcard h3{margin:11px 0 5px;font-size:20px}
-  .lmodcard p{margin:0 0 12px;color:#b9c4d0;font-size:12.7px;line-height:1.45;max-width:44ch}
-  .lmodcard .mgo{font-size:12px;font-weight:700;color:var(--accent-small)}
   .acbadge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:var(--accent-small);background:var(--panel2);border:1px solid var(--line);border-radius: var(--radius);padding:3px 8px}
   .kindb{margin-left:auto;font-size:9.5px;font-weight:800;letter-spacing:.06em;border-radius: var(--radius);padding:3px 8px;white-space:nowrap}
   .kindb.full{color:var(--green-small);background:var(--panel2);border:1px solid var(--line)}
@@ -810,7 +801,6 @@
       </div>
       <div class="lchipbar" id="lchipbar"></div>
     </div>
-    <div id="lmodules"></div>
     <div id="lfeatwrap"><div class="sechead"><svg class="icon"><use href="#i-star"/></svg> Start here</div><div class="lgrid" id="lfeat"></div></div>
     <div class="sechead" id="lallhead">All missions</div>
     <div class="lgrid" id="lgrid"></div>
@@ -913,6 +903,12 @@
     <div class="subcat" style="margin-top:0">Who's flying</div>
     <div class="cards" id="flightmode"></div>
     <input type="hidden" id="slots" value="1">
+    <div class="row">
+      <div><label for="veteran_wingmen">Veteran AI wingmen</label>
+        <select id="veteran_wingmen"><option value="0">None — human seats</option></select>
+        <small id="wingmen_hint" style="display:block;color:var(--dim);margin-top:4px" aria-live="polite"></small>
+      </div>
+    </div>
     <div class="row">
       <div><label for="coalition">Your side</label><select id="coalition">
         <option value="blue">Blue</option><option value="red">Red</option></select></div>
