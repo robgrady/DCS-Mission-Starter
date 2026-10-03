@@ -85,6 +85,11 @@ and the cockpit holds.
   The five templates say `published_corridors: false` again.
 - The user guide's comm table printed rounded placeholders (305.00) for
   frequencies the ladder has never used; it now prints the ladder.
+- **Mutation harness audit.** A `-k` filter that matches no test makes
+  pytest exit 5, which the runners read as "caught" — a guard that proves
+  nothing. All 366 filters checked against the collected suite; one was
+  dead (`programme_pdf_prints`, orphaned by the 1.104.2 Americanization)
+  and is repaired.
 
 ### Changed
 - The 1.104.0–1.105.0 source is back in git (see the note above the 1.105.0

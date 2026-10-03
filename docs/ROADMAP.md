@@ -30,12 +30,13 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.105.0** on Fly.io: four doors (Fly now · Library · Train · Builder),
-eleven theaters, 78 airframes, the Authentic Style across every document,
-the pack format published (`/api/packformat`, four kinds), the F-4E pipeline
-through its check ride, published corridors on Nevada, Syria and Cold War
-Germany. **v1.106.0 is in flight:** the comm plan is a table the pilot
-overwrites, and every station, radio, card and kneeboard follows.
+**v1.106.0**: four doors (Fly now · Library · Train · Builder), eleven
+theaters, 78 airframes, the Authentic Style across every document, the pack
+format published (`/api/packformat`, four kinds), the F-4E pipeline through
+its check ride, published corridors on Nevada, Syria and Cold War Germany —
+and, new in this release, the comm plan as a table the pilot overwrites
+(every station, radio, card and kneeboard follows) and formation departures
+built behind a verified-encoding gate.
 
 ## The bets
 
@@ -63,8 +64,8 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 
 ## ▶ Now
 
-- **Ship 1.106.0.** Comm plan table, preset channel names in the `.miz`, the
-  timing-ride regression (51-minute rides) fixed. *Bet 1.*
+- **Deploy 1.106.0** (`fly deploy` from the unzipped release) and check
+  `/api/health` says so. *Bet 1.*
 - **Close the F-14B(U) front-seat question in the cockpit.** The file, the
   card and both radios agree; Heatblur's own missions program the jet the
   same way. Discriminator: fly the same mission in the plain F-14B. The ME
@@ -77,9 +78,6 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   `build_checkride_cards`, `build_formation_hud`): the outputs ship, the
   scripts died with the old build environment. Then re-register them in the
   artifacts freshness list so it can never happen silently again.
-- **Mutation harness audit.** A `-k` filter that matches nothing is read as
-  "caught" (pytest exit 5). Finish the audit of every runner before the
-  next release leans on a green harness.
 - **Formation departures (AI runway line-up).** DCS 2.9.24 added the
   advanced waypoint action, 2.9.30 the group option; pydcs has neither and
   does not need to. The feature is built end to end — a *Formation

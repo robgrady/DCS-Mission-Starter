@@ -129,7 +129,7 @@ run "ship a kit without the readings" "carries_programme"
 
 mut missiongen/course_kit.py '                if u["kind"] != "reading":\n                    continue\n                md = _courses.reading_text(u["doc"]) or ""' \
                              '                if True:\n                    continue\n                md = ""'
-run "print a program without the chapters" "programme_pdf_prints"
+run "print a program without the chapters" "program_pdf_prints"
 
 mut missiongen/courses.py '                                 "kind": "ride", "check": u["check"]})' '                                 "kind": "ride", "check": False})'
 run "lose the check-ride flag on the gradesheet" "carries_programme"
