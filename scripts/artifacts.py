@@ -81,6 +81,15 @@ ARTIFACTS = [
                "built from was being kept current.",
     },
     {
+        "path": "docs/packformat.html",
+        "rule": "rebuild",
+        "generator": ["scripts/build_packformat_html.py"],
+        "inputs": ["docs/PACK_FORMAT.md"],
+        "why": "Served at /api/packformat — the public spec. The generator was "
+               "lost with the 1.104-1.105 build environment and the page sat "
+               "unregistered; a spec edit would have shipped a stale page.",
+    },
+    {
         "path": "docs/sources.html",
         "rule": "rebuild",
         "generator": ["scripts/build_sources_html.py"],
@@ -159,6 +168,32 @@ ARTIFACTS = [
                "generated from the page table and its pictures from the "
                "squadron's scan.",
         "covers": "missiongen/data/wk_brief/wk_brief_*.png",
+    },
+    {
+        # The 26 check-ride debrief cards. Every number on them (the 90/75/50 %
+        # ladder, the 60 m band, the rejoin clock, the collision band) is read
+        # from checkride.py at build time, so a threshold edited there without
+        # a rebuild leaves the card grading to last release's rule.
+        "path": "missiongen/data/checkride/checkride_overall_q.png",
+        "rule": "stamp",
+        "generator": ["scripts/build_checkride_cards.py"],
+        "inputs": ["missiongen/checkride.py", "scripts/build_checkride_cards.py"],
+        "why": "The debrief a pilot reads after the check. Its thresholds are "
+               "the module's; the generator was lost once and the cards sat "
+               "unregistered, which is how a drift would have gone unnoticed.",
+        "covers": "missiongen/data/checkride/checkride_*.png",
+    },
+    {
+        # The eight formation position-ladder cards, one per
+        # formation_hud.STATES entry. A state added to the module without art
+        # here fails the generator rather than the sortie.
+        "path": "missiongen/data/formation_hud/formation_hud_hold.png",
+        "rule": "stamp",
+        "generator": ["scripts/build_formation_hud.py"],
+        "inputs": ["missiongen/formation_hud.py", "scripts/build_formation_hud.py"],
+        "why": "The card at the pilot's left at eye level during the coached "
+               "formation ride. Same reason as the check-ride cards.",
+        "covers": "missiongen/data/formation_hud/formation_hud_*.png",
     },
     {
         # The bundled packs. Registered so a release cannot ship missions built

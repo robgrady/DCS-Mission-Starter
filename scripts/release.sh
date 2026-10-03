@@ -65,12 +65,15 @@ grep -qE "^#+ .*\[?$VERSION\]?" CHANGELOG.md \
 step "Regenerating derived artifacts"
 gen "frontend token block (Flightline)" python3 scripts/gen_theme.py
 gen "docs/roadmap.html" python3 scripts/build_roadmap_html.py
+gen "docs/packformat.html" python3 scripts/build_packformat_html.py
 gen "docs/sources.html" python3 scripts/build_sources_html.py
 # The coached B'NAI's cue cards and its recording sheet both come out of
 # `wk_coach.PHASES`. Rebuilt here so a directive edited in the module cannot
 # leave the mission drawing last release's word at this release's moment.
 gen "corridor charts" env PYTHONPATH=.:vendor python3 scripts/build_corridor_charts.py
 gen "coached B'NAI cue cards" env PYTHONPATH=.:vendor python3 scripts/build_wk_coach_cards.py
+gen "check-ride debrief cards" env PYTHONPATH=.:vendor python3 scripts/build_checkride_cards.py
+gen "formation position-ladder cards" env PYTHONPATH=.:vendor python3 scripts/build_formation_hud.py
 gen "coached B'NAI brief pages" env PYTHONPATH=.:vendor python3 scripts/build_wk_brief_pages.py
 gen "docs/WK_BNAI_VOICEOVER.md" env PYTHONPATH=.:vendor python3 scripts/build_wk_voiceover_sheet.py
 gen "packs produced for upload (.sspack)" env PYTHONPATH=.:vendor python3 scripts/build_pack.py --all

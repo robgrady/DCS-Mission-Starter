@@ -677,7 +677,7 @@ class StarterBuilder:
             names = pattern.add_pattern_traffic(
                 m, own_country, home, era_cfg[r.coalition],
                 r.pattern_mode, r.pattern_kind, r.pattern_count,
-                self.rng, self.warnings, lineup=_lineup_on)
+                self.rng, self.warnings, lineup=_lineup_on, map_key=r.map)
             if names:
                 _nm = set(names)
                 _ac = sum(len(g.units) for g in (list(own_country.plane_group)
@@ -1663,7 +1663,7 @@ class StarterBuilder:
             "comms": comms, "own_fields": own_fields, "enemy_fields": enemy_fields,
             "bullseye": {"x": midpoint.x, "y": midpoint.y},
             "map_label": map_cfg["label"], "era_label": era_cfg["label"],
-            "era_year": era_cfg["year"],
+            "era_year": era_cfg["year"], "map_key": r.map,
             "home_name": (csg.units[0].name if carrier_home and csg else home.name),
             "support_names": stats["support"],
             "nav_points": [(n, p) for n, p, _t, _note in nav_pts],

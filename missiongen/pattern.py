@@ -73,13 +73,19 @@ def activity_line(pat: dict) -> str:
     return line
 
 
-def _field_elevation(airport) -> float:
-    """Field elevation in metres. pydcs Airports carry no elevation, but every
-    parking slot does — any stand is within a few feet of field elevation."""
-    try:
-        return float(airport.parking_slots[0].height)
-    except Exception:
-        return 0.0
+def _field_elevation(airport, map_key=None):
+    """Field elevation in metres from data/airfield_elevations.json, or None.
+
+    This used to return `parking_slots[0].height` on the belief that a stand
+    is within a few feet of the field. It is not: pydcs's `height` is the
+    stand's CLEARANCE height (6-18 m), the same at Nellis as at Batumi. On
+    the Caucasus the error was fifty feet and nobody noticed; at Nellis it
+    put every airborne pattern spawn 1,800 ft below the runway. pydcs has no
+    elevation anywhere, so the only honest source is a table — and a field
+    the table lacks gets NO airborne spawn, with a warning, rather than one
+    at a guessed altitude."""
+    from .fieldguide import elevation_m
+    return elevation_m(airport, map_key)
 
 
 def _approach_agl(dist, helo=False) -> float:
@@ -190,7 +196,7 @@ def _add_takeoff(m, country, airport, actype, name, slot, elev, rng, size=1):
 
 
 def add_pattern_traffic(m, country, airport, era_side_cfg, mode, kind, count,
-                        rng: random.Random, warnings=None, lineup=False):
+                        rng: random.Random, warnings=None, lineup=False, map_key=None):
     """Place `count` AI aircraft in the pattern at `airport`.
 
     Returns the list of group names created. Best-effort throughout: a full ramp
@@ -209,7 +215,19 @@ def add_pattern_traffic(m, country, airport, era_side_cfg, mode, kind, count,
                 f"pattern traffic skipped")
         return []
     count = max(1, min(MAX_COUNT, int(count)))
-    elev = _field_elevation(airport)
+    elev = _field_elevation(airport, map_key)
+    if elev is None and mode != "takeoff":
+        # No elevation on record: an airborne spawn at a guessed altitude is
+        # the one thing worse than no traffic. Departures start on the ramp,
+        # which DCS places on the ground whatever we think the ground is.
+        if warnings is not None:
+            warnings.append(
+                f"no field elevation on record for {airport.name} - pattern "
+                f"landings skipped; departures only (data/airfield_elevations.json)")
+        if mode == "landing":
+            return []
+        mode = "takeoff"
+    elev = elev or 0.0
     created, sizes_created = [], []
     land_slot = depart_slot = 0
     for i, (leg, size) in enumerate(_sections(_plan(mode, count, rng), lineup)):

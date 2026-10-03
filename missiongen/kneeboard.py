@@ -185,17 +185,24 @@ def page_comms(comms, map_label, era_label, home_name, qnh_hpa=None,
     return img
 
 
-def page_airfields(own_fields, enemy_fields, era_year, enemy_air=None):
+def page_airfields(own_fields, enemy_fields, era_year, enemy_air=None, map_key=None):
     img, d, f = _page("AIRFIELD DATA", f"friendly and known enemy fields · circa {era_year}")
     y = 150
     for label, fields, color in (("FRIENDLY", own_fields, BLUE), ("ENEMY (KNOWN)", enemy_fields, RED)):
         d.text((40, y), label, font=f["h2"], fill=color)
         y += 52
-        d.text((40, y), f"{'FIELD':<22}{'RWY':<8}{'STANDS'}", font=f["mono_b"], fill=ACCENT)
+        # ATC per DCS auto-assign — the comm card's note points here, so the
+        # page has to carry it (fieldguide.py reads it out of the terrain).
+        from . import fieldguide as _fg
+        d.text((40, y), f"{'FIELD':<18}{'ATC UHF':<9}{'VHF':<9}{'RWY':<9}{'ELEV':<6}{'STD'}",
+               font=f["mono_b"], fill=ACCENT)
         y += 40
         for ap in fields:
-            rwys = "/".join(f"{int(round(r.heading/10)):02d}" for r in ap.runways) or "-"
-            d.text((40, y), f"{ap.name[:21]:<22}{rwys:<8}{len(ap.parking_slots)}",
+            r = _fg.row(ap, map_key=map_key)
+            rwys = _fg.fmt_rwy(r, first_only=True)[:8] if r["runways"] else "-"
+            elev = f"{r['elev_ft']}" if r["elev_ft"] is not None else "-"
+            d.text((40, y), f"{ap.name[:17]:<18}{_fg.fmt_mhz(r['atc']['uhf']):<9}"
+                            f"{_fg.fmt_mhz(r['atc']['vhf']):<9}{rwys:<9}{elev:<6}{r['stands']}",
                    font=f["mono"], fill=FG)
             y += 40
         y += 30
@@ -615,13 +622,13 @@ def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
                     route_target=None, pylons=None, loadout_label=None,
                     loadout_role=None, aircraft_id=None, card=None,
                     card_title=None, diagram=None, diagram_caption=None,
-                    timing=None, nttr_plan=None):
+                    timing=None, nttr_plan=None, map_key=None):
     home_pos = next((a.position for a in own_fields if a.name == home_name), None)
     pages = [
         page_comms(comms, map_label, era_label, home_name, qnh_hpa,
                    own_fields=own_fields, home_pos=home_pos,
                    fuel_max_kg=fuel_max_kg, routed=bool(route)),
-        page_airfields(own_fields, enemy_fields, era_year, enemy_air=enemy_air),
+        page_airfields(own_fields, enemy_fields, era_year, enemy_air=enemy_air, map_key=map_key),
         page_theater(own_fields, enemy_fields, bullseye, map_label, support_names,
                      nav_points, threats=threats, targets=targets),
     ]

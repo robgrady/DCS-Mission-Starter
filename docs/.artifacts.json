@@ -10,7 +10,7 @@
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110"
  },
  "docs/img/hero.png": {
-  "frontend/index.html": "382c65e7f6c262b6"
+  "frontend/index.html": "1a53d842f953246e"
  },
  "docs/img/nttr_corridors.png": {
   "missiongen/corridor_chart.py": "f8e9b3c01506f678",
@@ -19,6 +19,14 @@
   "missiongen/data/corridors/nevada.json": "b3832103a56706fb",
   "missiongen/data/corridors/syria.json": "fd6e16d87fdd9dd7",
   "scripts/build_corridor_charts.py": "9963c541e9f4a3ab"
+ },
+ "missiongen/data/checkride/checkride_overall_q.png": {
+  "missiongen/checkride.py": "a28db3aea3ee74b1",
+  "scripts/build_checkride_cards.py": "9a480e3ef144d3df"
+ },
+ "missiongen/data/formation_hud/formation_hud_hold.png": {
+  "missiongen/formation_hud.py": "fbeba1ee04a7c54e",
+  "scripts/build_formation_hud.py": "b78d48d669665246"
  },
  "missiongen/data/wk_brief/wk_brief_pop.png": {
   "missiongen/data/wk/wk_bnai.png": "e8d36a4633224dea",

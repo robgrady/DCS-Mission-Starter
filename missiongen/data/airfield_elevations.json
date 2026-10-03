@@ -1,0 +1,22 @@
+{
+  "_comment": "Field elevation in FEET MSL, by pydcs airport name, per map. pydcs carries no elevation at all — ParkingSlot.height is the stand's clearance height (6-18 m), which pattern.py mistook for elevation until v1.107.0; at Nellis that put pattern landers 1,800 ft underground. These are real-world published field elevations; DCS's terrain agrees within a few feet. `source` says where each map's numbers come from — 'ours' means read from aviation references by hand and NOT yet checked against the sim. A field absent here has NO elevation on record: the pattern block then skips airborne spawns at that field and says so, rather than guessing. To add a map: dump `land.getHeight(Airbase.getPoint())` for every airbase from a DCS mission script, convert to feet, and cite it.",
+  "caucasus": {
+    "source": "ours",
+    "fields": {
+      "Anapa-Vityazevo": 141, "Krasnodar-Center": 98, "Novorossiysk": 131, "Krymsk": 66,
+      "Maykop-Khanskaya": 591, "Gelendzhik": 72, "Sochi-Adler": 89, "Krasnodar-Pashkovsky": 112,
+      "Sukhumi-Babushara": 43, "Gudauta": 69, "Batumi": 32, "Senaki-Kolkhi": 43,
+      "Kobuleti": 59, "Kutaisi": 148, "Mineralnye Vody": 1054, "Nalchik": 1410,
+      "Mozdok": 507, "Tbilisi-Lochini": 1624, "Soganlug": 1474, "Vaziani": 1500, "Beslan": 1719
+    }
+  },
+  "nevada": {
+    "source": "ours",
+    "fields": {
+      "Creech": 3133, "Groom Lake": 4462, "McCarran International": 2181, "Nellis": 1868,
+      "Beatty": 3170, "Boulder City": 2201, "Echo Bay": 1535, "Henderson Executive": 2492,
+      "Jean": 2832, "Laughlin": 701, "Lincoln County": 4815, "Mesquite": 1978, "Mina": 4552,
+      "North Las Vegas": 2205, "Pahute Mesa": 5050, "Tonopah": 5430, "Tonopah Test Range": 5549
+    }
+  }
+}
