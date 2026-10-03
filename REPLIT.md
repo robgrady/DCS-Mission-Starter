@@ -6,9 +6,13 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.108.0.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.108.1.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
+
+Increment the semantic application version for every delivered change batch,
+including refactors and documentation corrections on development branches.
+Never deploy changed code under an earlier release's version; see `AGENTS.md`.
 
 ## 1. What this application is
 

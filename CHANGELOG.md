@@ -15,6 +15,11 @@ The version lives in one place — `missiongen/__init__.py` (`__version__`) — 
 is surfaced in the web UI header, `/api/options`, `/api/health`, and the PDF
 guide cover.
 
+Every delivered change batch increments this version, including development
+branches, documentation corrections and compatible refactoring. Never deploy
+changed code under the previous release's version or reuse a released version
+for different artifacts. Architecture milestones do not defer version bumps.
+
 ---
 
 > **Entries 1.104.0 – 1.105.0 were reconstructed on 2026-09-29.** The originals
@@ -24,6 +29,31 @@ guide cover.
 > (`formation_hud.py`, `checkride.py`, `server/app.py`, `docs/AGENT_HANDBOOK.md`)
 > and the session record. Where the code is silent the entry is short rather
 > than invented.
+
+## [1.108.1] — Iraq parking directions and era-aware Phantom skins
+
+Released 3 October 2026. Backwards-compatible fixes and internal refactoring.
+
+- Import all 1,397 measured Iraq stands across 20 airfields, validated by stand
+  ID, display name and terrain coordinates and cross-checked against the DCS
+  debrief. Static aircraft use these headings exactly, without jitter.
+- Pass the selected era to static livery selection. Cold War U.S. stock F-4E
+  statics explicitly use the compatible Air Force `af standard` skin; the
+  separate Heatblur model uses its own verified SEA skin. Other countries and
+  periods retain defaults until compatible choices are verified. Clean style
+  and explicit skin choices retain their existing behavior.
+- Preserve the seeded random sequence when applying a single verified skin,
+  keeping existing Germany corridors and subsequent placement unchanged.
+- Extract the carrier placement phase and pure browser preset calculations,
+  preserving public APIs, recipe/share links and visual design. The complete
+  architecture migration remains in progress.
+- Exclude audit outputs and generated packs from Docker build context.
+- Require a semantic version increment for every delivered change batch on
+  every branch. Record the rule in AGENTS.md and the Agent Handbook.
+- Rebuild official generated packs with independent content patch versions.
+
+DCS rendered-skin and flight checks remain separate from archive/browser
+validation. Channel and Falklands parking captures remain pending.
 
 ## [1.108.0] — Library missions match their descriptions
 

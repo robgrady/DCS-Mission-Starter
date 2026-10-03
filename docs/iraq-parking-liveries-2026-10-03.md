@@ -49,5 +49,7 @@ Visual-check missions are in `outputs/parking-direction-surveys/verification/`:
 `iraq-parking-check.miz` has 56 exact-heading Al-Asad statics, and
 `f4-static-skin-check.miz` has 28 USA stock Phantoms across friendly Germany
 fields, including four at Spangdahlem, with explicit `af standard` paint.
-These are development validation artifacts. Production remains at 1.108.0;
-this change is on `codex/refactor-2.0` and is not yet deployed.
+These were development validation artifacts for `codex/refactor-2.0` before
+the owner requested deployment. The imported data, skin fixes and compatible
+refactor slice are included in the 1.108.1 release. Deployment evidence is
+saved in `outputs/releases/1.108.1/production/` outside the versioned tree.

@@ -30,7 +30,7 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.108.0**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.108.1**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. The release adds the airfield guide and reliability
 boundaries for recipe validation, Mission Kits, generation capacity, artifact
@@ -39,6 +39,10 @@ generators are included. The 17 audited behavioral Library mismatches and
 preset inconsistency are corrected; three exercises explicitly require human
 instruction. See [correction evidence](library-validation-1.108.0.md). DCS flight
 validation and the separate historical boundary/date findings remain open.
+The latest patch imports all 1,397 Iraq stand directions, corrects Cold War
+U.S. Phantom static skins, and ships the compatible carrier/preset extraction.
+Every delivered change now receives a semantic version increment, including
+development branches; the larger architecture migration is still in progress.
 
 ## The bets
 
@@ -81,7 +85,8 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   are documented separately; do not treat a successful build as historical proof. *Bet 1.*
 - **2.0 architecture refactor.** Preset resolution is unified in 1.108.0.
   Next extract builder placement phases, browser recipe state and API services
-  on `codex/refactor-2.0`, retaining the corrected production release.
+  on `codex/refactor-2.0`, releasing validated compatible slices with a new
+  semantic version each time.
   Carrier placement and pure browser preset calculations are the first slice;
   see [2.0 implementation scope](architecture-2.0.md). Shared pack publication
   must address independent Fly volumes before adding saved missions/accounts.
@@ -131,7 +136,7 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   code. **Timing on the other routed cards** (White Knights, Case III).
 - **AI loadouts, phase 3** — Iron Hand strikers and escorted bombers still
   carry the air-to-air table. **Verified liveries** — blocked on one
-  command against a real DCS install for broad coverage. The 2.0 branch now
+  command against a real DCS install for broad coverage. Version 1.108.1 now
   supplies bounded Cold War USA F-4 static choices with exact-model provenance;
   other eras/nations still need verified choices and rendered checks.
   **Verified magnetic variation** —

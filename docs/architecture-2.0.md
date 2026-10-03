@@ -6,13 +6,16 @@
 
 ## Decision
 
-Keep production on the validated 1.108.0 release while extracting domain
-responsibilities into explicit interfaces. Keep PyDCS, measured airport slots
+Ship validated, backwards-compatible slices with a new semantic version for
+every delivered change. The first slice and Iraq/Phantom corrections ship as
+1.108.1; the broader migration remains in progress. Keep PyDCS, measured airport slots
 and headings, Flightline visual tokens, recipe/share-link compatibility and
 existing HTTP endpoints. Treat 2.0 as the requested product milestone; do not
-invent an API break solely to justify the number. Set the final 2.0 version and
-produce its release artifacts when the migration and release gates are complete.
-The development tree therefore retains the current application version stamp.
+invent an API break solely to justify the number. Use patch versions for fixes
+and compatible internal refactoring, minor versions for new compatible features,
+and a major version only for breaking public contracts. The owner superseded
+the original plan to retain the production stamp on development code: every
+delivered development change now gets its own version. See `../AGENTS.md`.
 
 ## First implementation slice
 

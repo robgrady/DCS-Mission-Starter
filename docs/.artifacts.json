@@ -3,7 +3,7 @@
   "docs/USER_GUIDE.md": "033943be39648a30",
   "docs/img/hero.png": "c140a0ddee198224",
   "docs/img/review.png": "b045b451f3f613e9",
-  "missiongen/__init__.py": "f3475cbf81457fcc"
+  "missiongen/__init__.py": "089a106016950c2e"
  },
  "docs/WK_BNAI_VOICEOVER.md": {
   "missiongen/wk_brief.py": "9703314b74e569de",
@@ -42,12 +42,16 @@
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "packs/wk_proud_phantom.sspack": {
+  "missiongen/__init__.py": "089a106016950c2e",
   "missiongen/data/mission_templates.json": "ef853d8382cdb89c",
+  "missiongen/data/parking_headings.json": "65fb5a5c6b7b4660",
+  "missiongen/data/static_liveries.json": "fb1a9015a28731e4",
   "missiongen/data/tracks.json": "437e46ea7036af0b",
+  "missiongen/dressing.py": "5a1c904762d3451c",
   "missiongen/wk.py": "6fa84f538b6adcd1",
   "missiongen/wk_brief.py": "9703314b74e569de",
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
   "missiongen/wk_route.py": "aaff19e241d25ade",
-  "scripts/build_pack.py": "06bb9f9fa9a631b8"
+  "scripts/build_pack.py": "ce394577afc8e4b0"
  }
 }

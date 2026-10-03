@@ -31,6 +31,7 @@ MANIFEST=(
   REPLIT.md                # implementation brief for Replit / hosting agents
   README.md
   CHANGELOG.md
+  AGENTS.md                # Owner versioning rules must survive a release restore.
   LICENSE
   requirements.txt
   Dockerfile

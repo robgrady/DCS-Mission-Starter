@@ -343,6 +343,15 @@ the two-ship predicate and the source of the numbers cards print).
 
 ## 10. The release ritual
 
+**Owner rule, 3 October 2026:** every delivered change batch increments the
+application's semantic version on every branch, including internal refactors,
+data fixes and documentation corrections. Patch for compatible corrections and
+refactoring; minor for new compatible capabilities; major for breaking public
+contracts. Do not retain the previous release stamp while working toward an
+architecture milestone, reuse a released version for changed artifacts, or
+deploy changed code under an old version. `AGENTS.md` records this standing rule.
+Increment content versions separately when generated mission content changes.
+
 ```bash
 # docs first: CHANGELOG.md (the record — release.sh refuses a version with no
 # entry), ROADMAP.md + REPLIT.md version stamps, bump
@@ -354,7 +363,9 @@ setsid nohup bash scripts/release.sh X.Y.Z > /tmp/rel.log 2>&1 < /dev/null & dis
 # packages dcs-mission-starter-X.Y.Z.zip (repo root). ~25 min.
 git add -A && git commit   # Rob does not use git — you do it
 # deliver the zip (and any changed .sspack) to Rob
-# Rob then: fly deploy; re-upload packs at /admin (volume survives deploys)
+# When Rob authorizes deployment: deploy the exact validated commit, verify
+# every Fly machine's version, and publish changed official packs to all public
+# pack stores. Preserve authored packs and private volume stores.
 ```
 
 **Never edit a running shell script** (bash re-reads at a byte offset), and
