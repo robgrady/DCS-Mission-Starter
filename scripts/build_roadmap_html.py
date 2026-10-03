@@ -79,14 +79,35 @@ def md_inline(s: str) -> str:
 
 def build() -> str:
     lines = SRC.read_text().splitlines()
-    out, in_list, north_done = [], False, False
     body = []
+    list_kind = None
+    paragraph, item = [], []
+
+    def flush_item():
+        if item:
+            body.append(f"<li>{md_inline(' '.join(item))}</li>")
+            item.clear()
 
     def close_list():
-        nonlocal in_list
-        if in_list:
-            body.append("</ul>")
-            in_list = False
+        nonlocal list_kind
+        flush_item()
+        if list_kind:
+            body.append(f"</{list_kind}>")
+            list_kind = None
+
+    def flush_paragraph():
+        if not paragraph:
+            return
+        text = ' '.join(paragraph)
+        paragraph.clear()
+        if text.startswith("**North star:**"):
+            body.append(f"<div class=north>{md_inline(text)}</div>")
+        elif text.startswith("*Rule of the page"):
+            body.append(f"<div class=rule>{md_inline(text.strip('*'))}</div>")
+        elif text.startswith("*") and "CHANGELOG" in text:
+            body.append(f"<p class=sub>{md_inline(text.strip('*'))}</p>")
+        else:
+            body.append(f"<p>{md_inline(text)}</p>")
 
     title_seen = False
     for raw in lines:
@@ -94,30 +115,33 @@ def build() -> str:
         if line.startswith("# ") and not title_seen:
             title_seen = True
             continue                    # rendered in the header block below
-        if line.startswith("## "):
+        if not line.strip():
             close_list()
+            flush_paragraph()
+        elif line.startswith("## "):
+            close_list()
+            flush_paragraph()
             body.append(f"<h2>{md_inline(line[3:])}</h2>")
-        elif line.startswith("- "):
-            if not in_list:
-                body.append("<ul>")
-                in_list = True
-            body.append(f"<li>{md_inline(line[2:])}</li>")
+        elif line.startswith("- ") or re.match(r"\d+\. ", line):
+            flush_paragraph()
+            kind = "ul" if line.startswith("- ") else "ol"
+            if list_kind != kind:
+                close_list()
+                body.append(f"<{kind}>")
+                list_kind = kind
+            else:
+                flush_item()
+            item.append(re.sub(r"^(?:- |\d+\. )", "", line))
         elif line.startswith("---"):
             close_list()
-        elif line.startswith("*Rule of the page"):
+            flush_paragraph()
+        elif item and raw.startswith("  "):
+            item.append(line.strip())
+        else:
             close_list()
-            body.append(f"<div class=rule>{md_inline(line.strip('*'))}</div>")
-        elif line.startswith("**North star:**"):
-            body.append(f"<div class=north>{md_inline(line)}</div>")
-        elif line.startswith("*") and not north_done and "CHANGELOG" in line:
-            body.append(f"<p class=sub>{md_inline(line.strip('*'))}</p>")
-            north_done = True
-        elif line.strip():
-            if in_list:                 # continuation of the previous bullet
-                body[-1] = body[-1][:-5] + " " + md_inline(line.strip()) + "</li>"
-            else:
-                body.append(f"<p>{md_inline(line)}</p>")
+            paragraph.append(line.strip())
     close_list()
+    flush_paragraph()
 
     return f"""<!doctype html>
 <html lang="en">
