@@ -15,6 +15,9 @@ import random
 from dcs.mission import StartType
 
 from .resolver import resolve
+from . import lineup as _lineup
+
+SECTION = _lineup.SECTION
 
 MODES = ("landing", "takeoff", "both")
 KINDS = ("fighter", "cargo", "helicopter", "mixed")
@@ -54,6 +57,20 @@ DEPART_MAX = 9000
 # sees. Departures are bounded by free parking stands anyway, and the
 # best-effort loop already warns when the ramp runs out.
 MAX_COUNT = 8
+
+
+def activity_line(pat: dict) -> str:
+    """The one sentence both the in-game briefing and the printed brief say
+    about pattern traffic, from the build's stats block."""
+    what = {"landing": "recovering", "takeoff": "departing",
+            "both": "in the pattern"}[pat["mode"]]
+    line = (f"Field activity: {pat.get('aircraft', len(pat['names']))}x "
+            f"{KIND_LABELS.get(pat['kind'], pat['kind'])} {what} at "
+            f"{pat['field']} - expect traffic on the approach and in the overhead.")
+    if pat.get("lineup"):
+        line += (" Departures line up on the runway and roll as sections "
+                 "(AI runway line-up) - give them the runway, then take it.")
+    return line
 
 
 def _field_elevation(airport) -> float:
@@ -106,6 +123,24 @@ def _plan(mode, count, rng):
     return ["landing" if i % 2 == 0 else "takeoff" for i in range(count)]
 
 
+def _sections(legs, lineup):
+    """(leg, size) per group. With line-up on, departing aircraft pair up into
+    two-ship sections — `count` still means AIRCRAFT, so two takeoff legs
+    become one section of two, and an odd one departs alone. Landing legs
+    keep their place so 'both' still shows an approach first."""
+    if not lineup:
+        return [(leg, 1) for leg in legs]
+    n_takeoff = sum(1 for leg in legs if leg == "takeoff")
+    sizes = [SECTION] * (n_takeoff // SECTION) + ([1] if n_takeoff % SECTION else [])
+    out = []
+    for leg in legs:
+        if leg == "landing":
+            out.append((leg, 1))
+        elif sizes:
+            out.append((leg, sizes.pop(0)))
+    return out
+
+
 def _add_landing(m, country, airport, actype, name, slot, elev, rng):
     """Spawn airborne on the extended centerline and let DCS fly the approach."""
     runway = airport.runways[0]
@@ -123,14 +158,20 @@ def _add_landing(m, country, airport, actype, name, slot, elev, rng):
     return fg
 
 
-def _add_takeoff(m, country, airport, actype, name, slot, elev, rng):
+def _add_takeoff(m, country, airport, actype, name, slot, elev, rng, size=1):
     """Engines running on the ramp: they taxi, roll and fly a closed circuit back
-    to the same field, so the pattern stays populated the whole time."""
+    to the same field, so the pattern stays populated the whole time. `size`
+    > 1 is a formation departure: the section carries the AI runway line-up
+    action on its takeoff waypoint (lineup.py) and rolls as a flight."""
     runway = airport.runways[0]
     heading = runway.heading
     fg = m.flight_group_from_airport(
         country, name, actype, airport,
-        start_type=StartType.Warm, group_size=1)
+        start_type=StartType.Warm, group_size=size)
+    if size > 1 and not _lineup.apply(fg):
+        # A section without the action would depart one at a time with the
+        # wingman waiting on the runway — worse than two singles. Refuse.
+        raise RuntimeError(_lineup.NOT_SUPPORTED)
     helo = actype.helicopter
     speed = HELO_SPEED if helo else APPROACH_SPEED
     # pass distance from the SEEDED rng — pydcs's default arg is a random value
@@ -149,12 +190,15 @@ def _add_takeoff(m, country, airport, actype, name, slot, elev, rng):
 
 
 def add_pattern_traffic(m, country, airport, era_side_cfg, mode, kind, count,
-                        rng: random.Random, warnings=None):
+                        rng: random.Random, warnings=None, lineup=False):
     """Place `count` AI aircraft in the pattern at `airport`.
 
     Returns the list of group names created. Best-effort throughout: a full ramp
-    or an unusable type costs one aircraft, never the mission.
+    or an unusable type costs one aircraft, never the mission. `lineup` pairs
+    the departures into two-ship sections with the AI runway line-up action
+    (only when lineup.supported(); Recipe.validate refuses it otherwise).
     """
+    lineup = bool(lineup) and _lineup.supported()
     if airport is None:
         return []
     refs = types_for(era_side_cfg, kind)
@@ -166,9 +210,9 @@ def add_pattern_traffic(m, country, airport, era_side_cfg, mode, kind, count,
         return []
     count = max(1, min(MAX_COUNT, int(count)))
     elev = _field_elevation(airport)
-    created = []
+    created, sizes_created = [], []
     land_slot = depart_slot = 0
-    for i, leg in enumerate(_plan(mode, count, rng)):
+    for i, (leg, size) in enumerate(_sections(_plan(mode, count, rng), lineup)):
         name = f"Pattern {i + 1}"
         # try the whole category before giving up on this aircraft: a departing
         # C-47 needs a large stand that a WWII strip may not have, but a fighter
@@ -184,18 +228,20 @@ def add_pattern_traffic(m, country, airport, era_side_cfg, mode, kind, count,
                     land_slot += 1
                 else:
                     fg = _add_takeoff(m, country, airport, actype, name,
-                                      depart_slot, elev, rng)
+                                      depart_slot, elev, rng, size=size)
                     depart_slot += 1
                 created.append(fg.name)
+                sizes_created.append(size)
                 break
             except Exception:
                 continue    # ramp full or type unusable: try the next type
+    placed = sum(sizes_created)
     if warnings is not None:
         if not created:
             warnings.append(
                 f"pattern traffic could not be placed at {airport.name}")
-        elif len(created) < count:
+        elif placed < count:
             warnings.append(
-                f"{count - len(created)} of {count} pattern aircraft did not "
-                f"fit at {airport.name} - placed {len(created)}")
+                f"{count - placed} of {count} pattern aircraft did not "
+                f"fit at {airport.name} - placed {placed}")
     return created

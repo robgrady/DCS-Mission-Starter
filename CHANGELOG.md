@@ -66,6 +66,17 @@ and the cockpit holds.
   `.miz` (`channelsNames`, the way the Mission Editor writes them), so the
   ME's radio page and any module that renders labels show *Tanker* on CH 4.
 - `scripts/mutate_commplan.sh` — 26 mutations, all caught.
+- **Formation departures, built and gated** (`missiongen/lineup.py`). DCS
+  2.9.24 added the *AI Runway Line Up* advanced waypoint action and 2.9.30
+  an *AI runway lineup* group option; pydcs carries neither. The knob —
+  *Formation departures* under Pattern traffic — pairs departing aircraft
+  into two-ship sections carrying the action on their takeoff waypoint,
+  counts aircraft not groups, says so in the brief, and never touches the
+  player's flight. It is invisible until `lineup.TASK` holds an encoding
+  read from a Mission-Editor-saved file: the recipe refuses it with the
+  reason, `/api/options` says `lineup_supported: false`, the page hides
+  the checkbox. `scripts/mutate_lineup.sh` — 17 mutations, all caught,
+  the supported branch proven through a stand-in.
 
 ### Fixed
 - **Timing rides ran 51 minutes.** The 1.104 rename that introduced

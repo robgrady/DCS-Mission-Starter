@@ -33,6 +33,7 @@ from missiongen import contact as contact_store
 from missiongen import tracks as _tracks_mod
 from missiongen import courses as _courses_mod
 from missiongen import aar as _aar_mod
+from missiongen import lineup as _lineup_mod
 
 log = logging.getLogger("missionstarter")
 
@@ -232,6 +233,9 @@ def options():
     eras = load_json("eras")
     return {
         "version": __version__,
+        # Formation departures (pattern_lineup) exist only when lineup.py
+        # holds a verified DCS encoding; the Builder hides the knob otherwise.
+        "lineup_supported": _lineup_mod.supported(),
         "maps": {k: {"label": v["label"], "free": v["free"],
                      "has_carrier": "carrier" in v,
                      "presets": {e: {"blue_airbases": p["blue_airbases"],

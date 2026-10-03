@@ -174,6 +174,13 @@ the API (`{"comms": {"tanker": 271.5}}`).
   **War on Terror** era there is no red AWACS, because there is no red air force.
 - **Carrier strike group** — see below.
 - **Ambient air traffic** — AI transports starting up and flying between friendly fields.
+- **Pattern traffic** — AI aircraft recovering into, or departing from, your own
+  field at mission start (landing / takeoff / both; fighters, cargo, helicopters
+  or mixed; up to 8 aircraft). *Formation departures* — departing aircraft
+  lining up on the runway and rolling as two-ship sections, using DCS 2.9.30's
+  AI runway line-up — appears here once the feature's encoding has been
+  verified against a Mission-Editor-saved file; until then the option is
+  not offered rather than offered and ignored.
 - **Functional FARPs** — pads with the fuel/ammo/command/comms vehicles required for
   rearm/refuel to actually work.
 - **Strike targets** — depot / convoy / C2 packages in the enemy rear, each with a

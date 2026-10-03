@@ -48,11 +48,14 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 2. **The pipeline, finished before it is widened.** One aircraft flown to
    graduation beats three shipped. Growth is by reuse (BFM cards, AAR lanes,
    Case III are airframe-agnostic), not by new syllabi.
-3. **Dash-One.** The squadron platform is its own product (dash-one.app):
-   the ladder, the pilot-owned record, attestation, Tacview evidence. Sortie
-   Starter is its mission engine. The boundary: *generation, cards, packs
-   stay here; records, squadrons, credit live there.* Progress in this app
-   stays browser-local by design — a roster is Dash-One's business.
+3. **The squadron's desk is someone else's product.** Digital Kneeboard
+   Simulator shipped, in Aug–Oct 2026, a roster, courses with gradesheets,
+   a currency board, ATO posting, LSO grading and Tacview debriefs — most
+   of what the Dash-One PRD described. **Dash-One is paused** (October
+   2026) pending a decision on what, if anything, it does that DKS does
+   not. Sortie Starter's job is unchanged: be the mission engine whose file
+   cannot disagree with its brief, and hand that file to whichever desk
+   the squadron uses. Progress in this app stays browser-local by design.
 4. **The Doc folder and the campaign.** What every commercial campaign ships
    and we do not yet: a printed brief, a kneeboard PDF, an in-flight guide
    per map, and chained sorties with the clock and fuel carried — all derived
@@ -77,16 +80,30 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 - **Mutation harness audit.** A `-k` filter that matches nothing is read as
   "caught" (pytest exit 5). Finish the audit of every runner before the
   next release leans on a green harness.
+- **Formation departures (AI runway line-up).** DCS 2.9.24 added the
+  advanced waypoint action, 2.9.30 the group option; pydcs has neither and
+  does not need to. The feature is built end to end — a *Formation
+  departures* knob beside Pattern traffic, two-ship sections that carry
+  the action, the brief sentence, 17/17 mutations — behind one gate: the
+  Lua encoding has to come from a Mission-Editor-saved `.miz`, not a
+  guess. **Rob: save the same 2-ship AI group twice, option on and off,
+  and send both files.** One dict later the knob appears. Note ED's own
+  campaign authors removed the feature in the same patch that shipped the
+  option; it stays off by default. *Bet 1.*
 
 ## ◇ Next
 
 - **A squadron's ladder inside its pack.** The comm table is per mission and
   per browser; a `comms` block in a course pack makes it per squadron, so
   every mission in the pack is on the SOP without anyone typing. *Bet 3.*
-- **The Dash-One handoff.** Course and reference packs are the unit Dash-One
-  consumes; each flight ships its `.miz` plus artifact set; mission states
-  (draft · practice · validation-candidate · validated) agreed on both sides.
-  Design before code — the PRD is on the Dash-One side. *Bet 3.*
+- **DKS integration — waiting on his MCP.** Pull, not push: a Sortie Starter
+  MCP server over the JSON API we already have (`generate_mission(recipe)
+  → .miz + manifest`), so a squadron in DKS or in Claude asks for a Case
+  III and the file lands in their ATO with brief, kneeboard pages, DTC and
+  comm plan as a sidecar. Until then: import one of ours into DKS and
+  write down what survives (our `channelsNames` is what his comm-plan
+  import would read); ask him for the tool list, the comm import's source
+  fields and his kneeboard page size. *Bet 3.*
 - **Cockpit-parameter verification.** The readback gate is built and off on
   the F-14 and Hornet until `list_cockpit_params()` output arrives for each;
   then `cockpit.py` gains two lines and the channel-2 problem is caught by
@@ -121,8 +138,12 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 - **No waypoint editor.** Where a mission needs a plan, the mission brings it.
 - **No Lua in the library.** Trigger-only, so every mission is inspectable
   and portable. Revisit only as an opt-in for the campaign engine.
+- **No guessed encodings.** A Mission Editor feature enters the generator
+  only after a file the Editor saved has been read; until then the knob
+  does not exist (see `lineup.py`).
 - **No accounts, nothing server-side about a pilot.** Progress is
-  browser-local; squadrons and records are Dash-One.
+  browser-local; squadrons and records belong to the squadron's desk
+  (DKS today; Dash-One if it resumes).
 - **Channels are fixed.** Frequencies are what SOPs differ on; the ladder's
   shape is what makes it learnable.
 - **This page is the owner's.** The public reads the changelog.

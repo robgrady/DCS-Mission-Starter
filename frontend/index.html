@@ -960,6 +960,11 @@
           <option value="7">7 aircraft</option>
           <option value="8">8 aircraft</option>
         </select></div>
+      <!-- Formation departures: DCS 2.9.30's "AI runway line-up". Rendered only
+           when the server says the encoding is verified (OPT.lineup_supported)
+           — a knob that silently does nothing is worse than no knob. -->
+      <div id="pattern_lineup_wrap" style="display:none"><label for="pattern_lineup" style="display:flex;gap:8px;align-items:center;cursor:pointer"><input type="checkbox" id="pattern_lineup"> Formation departures</label>
+        <small style="color:var(--dim);display:block">Departing aircraft go as two-ship sections that line up on the runway and roll together (AI runway line-up, DCS 2.9.30). "How many" still counts aircraft.</small></div>
     </div>
     <div class="subcat">Carrier</div>
     <div class="blocks" id="tog_carrier"></div>
@@ -1259,7 +1264,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
   bb_kneeboard:true,bb_carrier:false,bb_ambient:true,bb_navpoints:true,bb_farps:false,bb_targets:false,bb_range:false,
   bb_route:false,
   timing_anchor:"takeoff",timing_at:null,timing_hold_min:0,timing_coach:false,timing_package:false,
-  bb_pattern:false,pattern_mode:"landing",pattern_kind:"fighter",pattern_count:2,
+  bb_pattern:false,pattern_mode:"landing",pattern_kind:"fighter",pattern_count:2,pattern_lineup:false,
   bb_historical_airspace:false,bb_alignment:true,
   carrier_hull:null,carrier_layout:"recovery",carrier_deck_aircraft:[],carrier_equipment:true,
   carrier_cap:false,carrier_aew:false,carrier_strike:false,template:null,crew_difficulty:"qualified",
@@ -1738,8 +1743,9 @@ async function init(){
   document.getElementById('bb_carrier').addEventListener('change', ()=>{ refreshCarrierUI(); refreshCommTable(); updateRail(); });
   for (const k of ['carrier_cap','carrier_aew']) document.getElementById(k)?.addEventListener('change', ()=>refreshCommTable());
   document.getElementById('bb_pattern').addEventListener('change', ()=>{ refreshPatternUI(); sum(); });
-  for (const k of ['pattern_mode','pattern_kind','pattern_count'])
+  for (const k of ['pattern_mode','pattern_kind','pattern_count','pattern_lineup'])
     document.getElementById(k).addEventListener('change', sum);
+  document.getElementById('pattern_mode').addEventListener('change', refreshPatternUI);
   refreshPatternUI();
   document.getElementById('bb_route').addEventListener('change', ()=>{ refreshTimingUI(); sum(); });
   document.getElementById('timing_anchor').addEventListener('change', ()=>{ refreshTimingUI(); sum(); });
@@ -1854,6 +1860,7 @@ function applyRecipe(r){
   for (const [k] of BLOCKS) document.getElementById(k).checked = !!r[k];
   for (const k of ['pattern_mode','pattern_kind','pattern_count'])
     if (r[k] != null) document.getElementById(k).value = r[k];
+  const plu = document.getElementById('pattern_lineup'); if (plu) plu.checked = !!r.pattern_lineup;
   refreshPatternUI();
   setTimingUI(r);
   refreshDressUI();
@@ -2037,6 +2044,11 @@ function setTimingUI(rc){
 function refreshPatternUI(){
   const on = !!document.getElementById('bb_pattern')?.checked;
   document.getElementById('pattern_opts').style.display = on ? '' : 'none';
+  // Formation departures: only when the server has a verified encoding, and
+  // only when something actually departs.
+  const lw = document.getElementById('pattern_lineup_wrap');
+  if (lw) lw.style.display = (OPT && OPT.lineup_supported
+      && document.getElementById('pattern_mode').value !== 'landing') ? '' : 'none';
   // no helicopters in 1944 — the era packs have none, so don't offer the choice
   const kind = document.getElementById('pattern_kind');
   const helo = [...kind.options].find(o=>o.value==='helicopter');
@@ -2814,6 +2826,8 @@ function recipe(){
     r.pattern_mode = document.getElementById('pattern_mode').value;
     r.pattern_kind = document.getElementById('pattern_kind').value;
     r.pattern_count = +document.getElementById('pattern_count').value;
+    r.pattern_lineup = !!(OPT && OPT.lineup_supported) && r.pattern_mode !== 'landing'
+                       && !!document.getElementById('pattern_lineup')?.checked;
   }
   if (r.bb_route){
     r.timing_anchor = document.getElementById('timing_anchor').value;

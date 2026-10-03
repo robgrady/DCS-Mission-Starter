@@ -697,6 +697,9 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
                 L.append(f"  - {imp}")
         L += [""]
     L += ["## Support", ""] + [f"- {s}" for s in stats.get("support", [])]
+    if stats.get("pattern"):
+        from .pattern import activity_line
+        L.append(f"- {activity_line(stats['pattern'])}")
     if stats.get("nttr"):
         n = stats["nttr"]
         L += ["", f"## {n.get('title', 'Corridors')}", "", n["md_line"]]

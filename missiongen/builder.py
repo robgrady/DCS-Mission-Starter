@@ -673,14 +673,20 @@ class StarterBuilder:
         # when home plate is the boat (no runway pattern to fly).
         if getattr(r, "bb_pattern", False) and not carrier_home and home is not None:
             from . import pattern
+            _lineup_on = bool(getattr(r, "pattern_lineup", False))
             names = pattern.add_pattern_traffic(
                 m, own_country, home, era_cfg[r.coalition],
                 r.pattern_mode, r.pattern_kind, r.pattern_count,
-                self.rng, self.warnings)
+                self.rng, self.warnings, lineup=_lineup_on)
             if names:
+                _nm = set(names)
+                _ac = sum(len(g.units) for g in (list(own_country.plane_group)
+                                                  + list(own_country.helicopter_group))
+                          if g.name in _nm)
                 stats["pattern"] = {
                     "names": names, "mode": r.pattern_mode,
-                    "kind": r.pattern_kind, "field": home.name}
+                    "kind": r.pattern_kind, "field": home.name,
+                    "lineup": _lineup_on, "aircraft": _ac or len(names)}
 
         if r.bb_dressing:
             enemy_side = "red" if r.coalition == "blue" else "blue"
@@ -2145,14 +2151,8 @@ class StarterBuilder:
             ]
         pat = stats.get("pattern")
         if pat:
-            from .pattern import KIND_LABELS
-            what = {"landing": "recovering", "takeoff": "departing",
-                    "both": "in the pattern"}[pat["mode"]]
-            lines.append(
-                f"Field activity: {len(pat['names'])}x "
-                f"{KIND_LABELS.get(pat['kind'], pat['kind'])} {what} at "
-                f"{pat['field']} - expect traffic on the approach and in the "
-                f"overhead.")
+            from .pattern import activity_line
+            lines.append(activity_line(pat))
         lines += [""]
         if r.bb_comms:
             lines.append(comms.card())

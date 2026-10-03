@@ -183,6 +183,11 @@ class Recipe:
     pattern_count: int = 2             # how many aircraft in the pattern
                                        # (1..pattern.MAX_COUNT — one bound,
                                        # owned by the module that flies them)
+    # Formation departures: departing pattern aircraft go as two-ship
+    # sections carrying DCS 2.9.30's "AI runway line-up" action, so they
+    # line up together and roll as a flight. Gated on missiongen/lineup.py
+    # holding a VERIFIED encoding — refused, with the reason, until it does.
+    pattern_lineup: bool = False
 
     bb_navpoints: bool = True          # BB-22 named geo reference points (F10 map + kneeboard)
     bb_alignment: bool = True          # Theater Identity P1: dress each base with its real owning nation (country + liveries). No-op where no theater_identity data.
@@ -393,6 +398,10 @@ class Recipe:
         if not (1 <= self.pattern_count <= _PATTERN_MAX):
             raise RecipeError(
                 f"pattern_count must be 1-{_PATTERN_MAX}, got {self.pattern_count!r}.")
+        if self.pattern_lineup:
+            from . import lineup as _lineup
+            if not _lineup.supported():
+                raise RecipeError(_lineup.NOT_SUPPORTED)
         if not (1 <= self.threat_intensity <= 5):
             raise RecipeError(
                 f"threat_intensity must be 1-5, got {self.threat_intensity!r}.")
