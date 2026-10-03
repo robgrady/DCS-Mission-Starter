@@ -99,10 +99,11 @@ Three layers, each winning over the next:
 
 1. **Exact per-stand measured heading** — `data/parking_headings.json`,
    `map -> airfield -> {"default": n, "slots": {"<stand name>": heading}}`.
-   About 9,500 individually measured stands across ten maps (Nevada,
+   10,921 individually measured stands across eleven maps (Nevada,
    Germany, Caucasus, Kola, Marianas, Normandy, Persian Gulf, Sinai, Syria,
-   Afghanistan). Every airfield on those maps has a default; most have every
-   stand.
+   Afghanistan, Iraq). Iraq's 1,397 stands are identified by crossroad ID,
+   display name and source coordinates; these take priority over name-only
+   measurements. Unmeasured stands retain the field/geometric fallback.
 2. **Field-wide measured default** — the dominant apron heading, used for
    any stand of a surveyed field that the survey missed.
 3. **Geometric guess** (`AirfieldKeepOut.slot_headings()`, v1.5.1) — a

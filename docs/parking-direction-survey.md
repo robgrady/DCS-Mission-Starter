@@ -53,6 +53,14 @@ python3 scripts/build_survey_mission.py iraq "Al-Kut Airport" "Kharg Airfield"
 Merge each batch into the same map key. Rebuild the survey after changing its
 terrain export; do not reuse a log against different stand coordinates.
 
-The three maps still have **zero verified per-stand headings** until their DCS
-logs are imported. The packet does not invent headings or mark these maps as
-surveyed. Extend the same process to unsurveyed fields on the other ten maps.
+Iraq is now imported: **1,397 verified stands across all 20 exported airfields**
+from the user's DCS run on 2026-10-03. Every stand ID, name and source coordinate
+validated against the current terrain export. All 1,397 survey aircraft also
+appear in the supplied debrief; their final headings differ from the timed
+export by less than 0.088 degrees. The timed orientation-vector export is the
+measurement stored in the application. See `iraq-parking-liveries-2026-10-03.md`
+for source hashes and validation.
+
+The Channel and Falklands still have **zero verified per-stand headings**.
+Their packets remain ready to run. Extend the same process to unsurveyed fields
+on the other maps; an imported Iraq survey does not verify those fields.

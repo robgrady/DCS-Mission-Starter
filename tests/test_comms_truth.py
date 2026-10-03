@@ -201,11 +201,13 @@ def test_no_livery_id_is_written_while_the_pack_is_unverified(tmp_path):
                                    aircraft="FA_18C_hornet", dress_fill=100,
                                    bb_ambient=False, seed=2)), out)
     m = _mission(out)
+    from missiongen.dressing import _verified_static_liveries
     guessed = [u for coal in m["coalition"].values()
                for c in coal.get("country", {}).values()
                for g in c.get("static", {}).get("group", {}).values()
                for u in g.get("units", {}).values()
-               if u.get("livery_id")]
+               if u.get("livery_id") and u["livery_id"] not in
+               _verified_static_liveries(u["type"], c["name"], "modern")]
     assert not guessed, (
         f"{len(guessed)} static aircraft carry a guessed livery_id, e.g. "
         f"{[u.get('livery_id') for u in guessed[:3]]}")

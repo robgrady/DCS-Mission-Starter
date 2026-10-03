@@ -129,3 +129,33 @@ def test_survey_leaves_all_stands_available_and_exports_unique_ids(tmp_path):
     assert len(units) == len(eligible) and len(set(units)) == len(units)
     assert len(observer) == 1 and observer[0]['route']['points'][1]['type'] == 'Turning Point'
     assert 'PSURVEY2_OUT|' in json.dumps(mission)
+
+
+def test_iraq_capture_covers_every_eligible_stand_and_generated_headings(tmp_path):
+    terrain = resolve_terrain(load_json('maps')['iraq']['terrain_class'])()
+    fields = load_json('parking_headings')['iraq']
+    assert len(fields) == 20
+    assert sum(len(f['stands']) for f in fields.values()) == 1397
+    for ap in terrain.airport_list():
+        expected = {str(s.crossroad_idx) for s in ap.parking_slots if s.airplanes or s.helicopter}
+        assert set(fields[ap.name]['stands']) == expected
+    path = tmp_path / 'iraq-directions.miz'
+    generate(Recipe.from_dict({'map': 'iraq', 'era': 'modern', 'aircraft': 'FA_18C_hornet',
+        'home_airbase': 'Al-Asad Airbase', 'dress_overrides': {'Al-Asad Airbase': 50},
+        'seed': 3, 'bb_ambient': False, 'bb_kneeboard': False}), str(path))
+    with zipfile.ZipFile(path) as z:
+        mission = lua.loads(z.read('mission').decode())['mission']
+    stands = {f'x{s.crossroad_idx}': s for s in terrain.airports['Al-Asad Airbase'].parking_slots}
+    checked = 0
+    for coal in mission['coalition'].values():
+        for country in coal.get('country', {}).values():
+            for group in country.get('static', {}).get('group', {}).values():
+                prefix = 'ST Al-Asad Airbase '
+                if not group['name'].startswith(prefix):
+                    continue
+                stand = stands[group['name'][len(prefix):].split()[0]]
+                expected = _measured_slot_heading(fields['Al-Asad Airbase'], stand)
+                for unit in group['units'].values():
+                    assert math.degrees(unit['heading']) % 360 == pytest.approx(expected, abs=1e-6)
+                    checked += 1
+    assert checked >= 10

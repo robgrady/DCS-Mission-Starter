@@ -76,6 +76,7 @@ def _weighted(rng, pairs):
 _STATIC_CATALOG = None
 _LIVERY_PACK = None
 _LIVERY_RAW = None
+_STATIC_LIVERIES = None
 
 
 def _livery_pack() -> dict:
@@ -92,7 +93,8 @@ def livery_pack_verified() -> bool:
     """True once the pack has been read out of a real DCS install.
 
     scripts/dump_liveries.py --merge writes "_verified": true. Until then the
-    ids are guesses and the engine leaves livery_id unset.
+    ids in that pack are guesses. Separately sourced exact-model static skins
+    do not change this flag.
     """
     return bool(_livery_pack().get("_verified"))
 _AIRFRAME_DIMS = None
@@ -294,13 +296,26 @@ def player_livery(type_id, era, country_name=None, style="squadron"):
     return None
 
 
-def _pick_livery(type_id, country_name, rng, style="squadron"):
+def _verified_static_liveries(type_id, country_name, era):
+    """Source-backed choices for this exact DCS model, nation and period.
+
+    A small verified set must not enable the unrelated hand-authored pack.
+    In particular F-4E and F-4E-45MC use different meshes and texture folders.
+    """
+    global _STATIC_LIVERIES
+    if _STATIC_LIVERIES is None:
+        _STATIC_LIVERIES = load_json("static_liveries").get("types", {})
+    entry = _STATIC_LIVERIES.get(type_id, {})
+    return entry.get("eras", {}).get(era, {}).get(country_name, [])
+
+
+def _pick_livery(type_id, country_name, rng, style="squadron", era=None):
     """Livery for a parked static, or None (DCS stock default).
 
     Curated pack (data/liveries.json), keyed types.<type_id>.<COUNTRY> with a
-    'default' fallback. Fixes wrong-nation skins on statics that otherwise ship
-    no livery_id (e.g. a USAF F-4E drawing a USMC scheme). Unknown ids are
-    harmless — DCS falls back to the stock default — so a stale string is safe.
+    'default' fallback. Source-backed era/nation choices take precedence over
+    that pack. Unknown ids can render incorrectly, so only verified strings
+    are written. Missing era/nation coverage leaves the DCS default in place.
 
     style (global "livery style" control):
       squadron  — nation-correct mix (default)
@@ -310,6 +325,13 @@ def _pick_livery(type_id, country_name, rng, style="squadron"):
     """
     if style == "clean":
         return None
+    verified = _verified_static_liveries(type_id, country_name, era)
+    if verified:
+        if style == "aggressors":
+            verified = [v for v in verified if _is_aggressor(v)] or verified
+        # A single deterministic paint override must not consume a draw and
+        # reshuffle subsequent aircraft placement or the player's route.
+        return verified[0] if len(verified) == 1 else rng.choice(verified)
     # The pack ships with "_verified": false because its ids are hand-authored
     # GUESSES at DCS livery folder names, and nothing server-side can check them
     # — pydcs's liveries package is a scanner over a DCS install, not bundled
@@ -330,13 +352,17 @@ def _pick_livery(type_id, country_name, rng, style="squadron"):
     entry = _LIVERY_PACK.get(type_id) or _LIVERY_PACK.get(str(type_id).replace("-", "_"))
     if not entry:
         return None
+    # Optional installed-pack era overrides. Once authored for a type, a
+    # missing period/nation must not fall through to a skin from another era.
+    if "static" in entry:
+        entry = entry["static"].get(era, {})
     nation = entry.get(country_name) or entry.get("default")
     if style == "random":
-        allv = sorted({v for k, vals in entry.items() if not k.startswith("_")
+        allv = sorted({v for k, vals in entry.items() if not k.startswith("_") and isinstance(vals, list)
                        for v in (vals or [])})
         return rng.choice(allv) if allv else (rng.choice(nation) if nation else None)
     if style == "aggressors":
-        allv = [v for k, vals in entry.items() if not k.startswith("_")
+        allv = [v for k, vals in entry.items() if not k.startswith("_") and isinstance(vals, list)
                 for v in (vals or [])]
         aggr = sorted({v for v in allv if _is_aggressor(v)})
         if aggr:
@@ -482,7 +508,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                    used_slot_names=None, theme=None, fill=None,
                    include_aircraft=True, include_gse=True, include_infra=True,
                    aircraft_mode="static", field_heading=None, mix=None,
-                   livery_style="squadron", map_key=None, ramp_heavies="auto"):
+                   livery_style="squadron", map_key=None, ramp_heavies="auto", era=None):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
@@ -631,7 +657,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         # F-4E showing a USMC scheme). country.name = "USA"/"Russia"/"Israel"...
         if not livery:
             livery = _pick_livery(unit_type.id, getattr(country, "name", None),
-                                  rng, livery_style)
+                                  rng, livery_style, era=era)
         if livery:
             grp.units[0].livery_id = livery
         _occ_register(slot.position, ac_half * 0.6)

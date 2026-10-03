@@ -488,6 +488,7 @@ class StarterBuilder:
                             include_gse=r.dress_gse,
                             include_infra=r.dress_infra,
                             aircraft_mode=r.dress_aircraft_mode,
+                            era=r.era,
                             ramp_heavies=getattr(r, "ramp_heavies", "auto"),
                             livery_style=getattr(r, "dress_livery_style", "squadron"))
             # ONLY MILITARY INSTALLATIONS get ramp dressing. Civilian airports
@@ -605,8 +606,9 @@ class StarterBuilder:
             from .dressing import livery_pack_verified as _lv
             if r.dress_livery_style != "clean" and not _lv():
                 self.warnings.append(
-                    "Parked statics use DCS stock skins: the curated livery pack "
-                    "is unverified, so its names are not written. Run "
+                    "Parked statics use source-verified era/nation skins where "
+                    "available, otherwise DCS stock skins. The broader curated "
+                    "livery pack is unverified, so its names are not written. Run "
                     "scripts/dump_liveries.py --merge against your DCS install "
                     "to enable nation-correct skins.")
             if aligned_used:

@@ -54,7 +54,8 @@ def test_every_pinned_commit_matches_the_terrain_it_claims():
 # decisions (which airframe a theme parks, what a threat tier means) are not
 # listed, because there is nothing external to cite.
 EXTERNALLY_SOURCED = {
-    "parking_headings": "9,550 hand measurements nobody else has published",
+    "parking_headings": "legacy stand measurements and identified in-sim surveys",
+    "static_liveries": "exact-model livery IDs with external source evidence",
     "airframe_dimensions": "read out of dcs.log by an in-sim survey",
     "aircraft_service": "real service windows gate every era",
     "weapon_service": "same, for stores",

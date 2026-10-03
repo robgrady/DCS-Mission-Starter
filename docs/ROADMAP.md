@@ -131,7 +131,10 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   code. **Timing on the other routed cards** (White Knights, Case III).
 - **AI loadouts, phase 3** — Iron Hand strikers and escorted bombers still
   carry the air-to-air table. **Verified liveries** — blocked on one
-  command against a real DCS install. **Verified magnetic variation** —
+  command against a real DCS install for broad coverage. The 2.0 branch now
+  supplies bounded Cold War USA F-4 static choices with exact-model provenance;
+  other eras/nations still need verified choices and rendered checks.
+  **Verified magnetic variation** —
   until a per-theater table exists, TRUE and labelled is the honest answer.
 
 ## ◈ Later (demand-gated — the analytics tab decides)
