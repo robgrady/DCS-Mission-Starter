@@ -42,7 +42,13 @@
           "Sukhumi-Babushara",
           "Mineralnye Vody",
           "Anapa-Vityazevo"
-        ]
+        ],
+        "historical_classification": "fictional_exercise",
+        "historical_notes": [
+          "1978 Georgia was the Georgian SSR within the USSR. The USA/Russia coalition split is a fictional exercise; unit operators are not certified by display nationality.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "modern": {
         "blue_country": "USA",
@@ -75,7 +81,12 @@
           "Beslan",
           "Nalchik",
           "Krasnodar-Pashkovsky"
-        ]
+        ],
+        "historical_classification": "fictional_exercise",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   },
@@ -103,7 +114,12 @@
           "Merville Calonne",
           "Dunkirk Mardyck"
         ],
-        "frontline_hint": "The Channel coast, 1944"
+        "frontline_hint": "The Channel coast, 1944",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   },
@@ -154,7 +170,13 @@
           "Lar",
           "Kerman",
           "Qeshm Island"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Al Dhafra, Al Minhad and Liwa use UAE display nationality. US visiting detachments are distinct from territorial ownership; Cold War operators and unit rosters remain unverified.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "modern": {
         "blue_country": "USA",
@@ -189,6 +211,14 @@
           "Bandar Lengeh",
           "Lar",
           "Qeshm Island"
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Al Dhafra, Al Minhad and Liwa use UAE display nationality. US visiting detachments are distinct from territorial ownership; Cold War operators and unit rosters remain unverified.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.afcent.af.mil/News/Article/3347556/cas-aircraft-arrive-in-middle-east/"
         ]
       }
     }
@@ -229,7 +259,12 @@
         ],
         "blue_field_themes": {
           "Nellis": "red_flag"
-        }
+        },
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "modern": {
         "blue_country": "USA",
@@ -261,7 +296,12 @@
         ],
         "blue_field_themes": {
           "Nellis": "red_flag"
-        }
+        },
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     },
     "covered_ramp": [
@@ -299,7 +339,16 @@
           "Rouen-Boos"
         ],
         "frontline_hint": "Normandy beachhead, summer 1944",
-        "blue_theme": "usaaf"
+        "blue_theme": "usaaf",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Carpiquet was captured in July, after this default June date. Allied use of Carpiquet and other later campaign fields is a training substitution; capture dates and operational opening dates are distinct.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://veterans.gc.ca/en/remembrance/military-history/second-world-war/d-day-and-battle-normandy"
+        ],
+        "scenario_date": "1944-06-21"
       }
     }
   },
@@ -341,7 +390,12 @@
         "civilian_airbases": [
           "Haifa",
           "Kiryat Shmona"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "modern": {
         "blue_country": "USA",
@@ -376,7 +430,16 @@
           "Aleppo",
           "Damascus",
           "Deir ez-Zor"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Adaptation using the date of a coalition report that attests to Euphrates deconfliction. The approximate river sketch is not an authenticated operational boundary or proof of its continuous validity.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.inherentresolve.mil/NEWSROOM/News-Releases/Article/1435218/unprovoked-attack-by-syrian-pro-regime-forces-prompts-coalition-defensive-strik/"
+        ],
+        "scenario_date": "2018-02-07"
       }
     }
   },
@@ -387,8 +450,10 @@
     "lineups": {
       "proud_phantom": {
         "label": "Proud Phantom, 1980 — the USAF deployed to Egypt",
-        "eras": ["coldwar"],
-        "note": "NOT the 1973 order of battle. Exercise PROUD PHANTOM ran June to 3 October 1980: twelve F-4Es of the 347th TFW flew to CAIRO WEST for the first USAF deployment to Egypt, sixteen months after the Egypt-Israel peace treaty of March 1979 and squarely because of it. Egypt is the HOST, so the Egyptian fields are blue and the player flies as the USA off Cairo West. Israel is on neither side: in 1980 it is at peace with the country you are standing in, and putting it on red would assert the opposite of why the exercise happened. WHAT DCS FORCES: a mission needs an enemy that owns airfields, and Libya — the real standing threat to Egypt in 1980, three years after the 1977 border war — has none on this terrain. So the notional aggressor holds the three WESTERN fields, the direction Libya lies. The guide says so rather than letting a pilot infer that Alexandria changed hands.",
+        "eras": [
+          "coldwar"
+        ],
+        "note": "NOT the 1973 order of battle. Exercise PROUD PHANTOM fighter deployment ran 10 July to 3 October 1980 (advance parties arrived in May/June): twelve F-4Es of the 347th TFW flew to CAIRO WEST for the first USAF deployment to Egypt, sixteen months after the Egypt-Israel peace treaty of March 1979 and squarely because of it. Egypt is the HOST, so the Egyptian fields are blue and the player flies as the USA off Cairo West. Israel is on neither side: in 1980 it is at peace with the country you are standing in, and putting it on red would assert the opposite of why the exercise happened. WHAT DCS FORCES: a mission needs an enemy that owns airfields, and Libya — the real standing threat to Egypt in 1980, three years after the 1977 border war — has none on this terrain. So the notional aggressor holds the three WESTERN fields, the direction Libya lies. The guide says so rather than letting a pilot infer that Alexandria changed hands.",
         "blue_country": "USA",
         "red_country": "Libya",
         "blue_airbases": [
@@ -410,6 +475,17 @@
         "blue_theme": "usafe",
         "civilian_airbases": [
           "Borg El Arab International Airport"
+        ],
+        "scenario_date": "1980-07-10",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Proud Phantom: twelve Moody F-4s arrived at Cairo West on 10 July 1980; advance parties preceded them in May/June. This authored date anchors the fighter deployment, not an exact sortie reconstruction.",
+          "Egypt is the host and the USAF is the visiting operator. Libyan aggressors at western Egyptian fields are a DCS training substitution; no change of sovereignty is asserted.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.govinfo.gov/content/pkg/GOVPUB-D301-PURL-gpo63711/pdf/GOVPUB-D301-PURL-gpo63711.pdf",
+          "https://history.state.gov/historicaldocuments/frus1977-80v18/d96"
         ]
       }
     },
@@ -450,7 +526,16 @@
         "blue_theme": "usafe",
         "civilian_airbases": [
           "Abu Rudeis"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "October 1973 campaign adaptation. The date anchors the setting; the generated front, airfield control and module variants do not reconstruct the opening day.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://history.state.gov/historicaldocuments/frus1969-76v25/d109"
+        ],
+        "scenario_date": "1973-10-06"
       },
       "modern": {
         "blue_country": "Israel",
@@ -479,7 +564,12 @@
         "civilian_airbases": [
           "Hurghada International Airport",
           "Borg El Arab International Airport"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   },
@@ -510,7 +600,16 @@
           "Rota Intl"
         ],
         "frontline_hint": "Marianas campaign, 1944 (Saipan Intl = the old Aslito Field)",
-        "note": "DCS has no Japanese WWII aircraft - red fields dress with the generic WWII pack"
+        "note": "DCS has no Japanese WWII aircraft - red fields dress with the generic WWII pack",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Tinian landings began 24 July 1944 and the island was secured on 1 August, after this default June date. Allied Tinian basing and the broader Saipan/Guam lineup are campaign training substitutions.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.history.navy.mil/research/library/online-reading-room/title-list-alphabetically/u/us-navy-at-war-second-official-report.html"
+        ],
+        "scenario_date": "1944-06-21"
       },
       "coldwar": {
         "blue_country": "USA",
@@ -533,7 +632,12 @@
           "Tinian Intl",
           "Rota Intl",
           "Antonio B. Won Pat Intl"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "modern": {
         "blue_country": "USA",
@@ -556,7 +660,12 @@
           "Tinian Intl",
           "Rota Intl",
           "Antonio B. Won Pat Intl"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   },
@@ -593,7 +702,15 @@
           "Finow"
         ],
         "frontline_hint": "The Inner German Border - Fulda Gap",
-        "blue_theme": "usafe"
+        "blue_theme": "usafe",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Parchim is displayed with its Soviet operator in GDR territory. Base display nationality and the generated ramp roster do not certify territorial ownership or exact unit occupancy.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.parchim.de/de/ortsrecht/bau-und-stadtentwicklung/flaechennutzungsplaene/stadt-parchim/erlaeuterungsbericht-zum-flaechennutzungsplan-der-stadt-parchim.pdf?cid=4sv"
+        ]
       },
       "modern": {
         "blue_country": "USA",
@@ -621,7 +738,13 @@
         "frontline_hint": "Central Europe - the old NATO/WP line",
         "civilian_airbases": [
           "Cologne"
-        ]
+        ],
+        "historical_classification": "fictional_exercise",
+        "historical_notes": [
+          "A modern opposing-force exercise using the old NATO/Warsaw Pact geographic split, not a modern political frontier.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   },
@@ -665,7 +788,12 @@
         "civilian_airbases": [
           "Alta",
           "Kirkenes"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "modern": {
         "blue_country": "USA",
@@ -696,7 +824,16 @@
           "Kirkenes",
           "Kiruna",
           "Murmansk International"
-        ]
+        ],
+        "historical_classification": "fictional_exercise",
+        "historical_notes": [
+          "Fictional NATO exercise after Finland joined on 4 April 2023 and Sweden on 7 March 2024. Expanded NATO basing is not a 2011 reconstruction.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.nato.int/cps/en/natohq/topics_49212.htm?selectedLocale=en"
+        ],
+        "scenario_date": "2024-06-21"
       }
     }
   },
@@ -730,13 +867,22 @@
           "Ushuaia"
         ],
         "frontline_hint": "Falklands, 1982",
-        "note": "San Julian and Puerto Santa Cruz hosted the Daggers and A-4s in 1982. Mount Pleasant is a 1984 build - kept for playability.",
+        "note": "San Julian and Puerto Santa Cruz hosted the Daggers and A-4s in 1982. Mount Pleasant opened in 1985 - a postwar substitution kept for playability.",
         "civilian_airbases": [
           "Goose Green",
           "Port Stanley",
           "San Julian",
           "Puerto Santa Cruz"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Falklands 1982 campaign adaptation on a combat-period reference day. Mount Pleasant opened in 1985 and is a postwar terrain/base substitution; no exact 21 May order of battle is asserted.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.raf.mod.uk/what-we-do/our-history/air-historical-branch/post-coldwar-studies/raf-command-and-control-1982-2014/"
+        ],
+        "scenario_date": "1982-05-21"
       },
       "modern": {
         "blue_country": "UK",
@@ -760,7 +906,12 @@
           "Port Stanley",
           "San Julian",
           "Puerto Santa Cruz"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   },
@@ -793,7 +944,14 @@
           "Herat"
         ],
         "blue_theme": null,
-        "red_theme": null
+        "red_theme": null,
+        "historical_classification": "fictional_exercise",
+        "historical_notes": [
+          "Fictional opposing-air exercise over Afghanistan. The Russia/USA airfield split is gameplay, not the OEF order of battle.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [],
+        "scenario_date": "2011-06-21"
       },
       "gwot": {
         "blue_country": "USA",
@@ -820,7 +978,16 @@
           "Kabul"
         ],
         "blue_theme": "coalition",
-        "red_theme": "abandoned"
+        "red_theme": "abandoned",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "OEF training setting before the 2013 Salerno and October 2014 Bastion handovers. OEF ended in December 2014; the named bases are not represented as 2016 coalition holdings. Later DCS module variants remain substitutions.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.gov.uk/government/news/british-troops-leave-helmand-province-for-the-last-time"
+        ],
+        "scenario_date": "2011-06-21"
       }
     }
   },
@@ -854,7 +1021,16 @@
           "Baghdad International Airport",
           "Mosul International Airport",
           "Erbil International Airport"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Iran–Iraq/Tanker War adaptation using an authored 1984 reference day. The war began in 1980 and sustained tanker-war escalation belongs to 1984; generated forces are not a dated order of battle.",
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": [
+          "https://www.govinfo.gov/app/details/GOVPUB-D208_200-PURL-gpo3918"
+        ],
+        "scenario_date": "1984-06-21"
       },
       "modern": {
         "blue_country": "USA",
@@ -881,7 +1057,12 @@
         "civilian_airbases": [
           "Mosul International Airport",
           "Bashur Airport"
-        ]
+        ],
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       },
       "gwot": {
         "blue_country": "USA",
@@ -907,7 +1088,12 @@
           "Bashur Airport"
         ],
         "blue_theme": "coalition",
-        "red_theme": "abandoned"
+        "red_theme": "abandoned",
+        "historical_classification": "historically_inspired_adaptation",
+        "historical_notes": [
+          "Modern DCS terrain, airfields and available module variants are used. Coalition bases and unit rosters are authored training assignments, not a verified order of battle for this day."
+        ],
+        "historical_sources": []
       }
     }
   }

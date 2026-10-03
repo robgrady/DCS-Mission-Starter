@@ -88,7 +88,7 @@ def _pages():
          f"You are a new wingman in the {wk.SQUADRON}, the {wk.NICKNAME}, "
          f"flying F-4E Phantoms with tail code {wk.TAILCODE} under the "
          f"callsign {wk.CALLSIGN} — on the sim's radio, {wk.RADIO_CALLSIGN}. "
-         f"From June to the third of October, "
+         f"From the tenth of July to the third of October, "
          f"nineteen eighty, twelve of the squadron's aircraft deployed to "
          f"Cairo West in Egypt for exercise Proud Phantom. That is where you "
          f"are sitting. Your squadron commander is {wk.COMMANDER}."),

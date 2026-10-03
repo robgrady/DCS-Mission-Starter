@@ -85,6 +85,18 @@ def _wrap(d, font, text, width_px):
     kept local so the kneeboard never imports the brief renderer)."""
     words, lines, cur = (text or "").split(), [], ""
     for w in words:
+        if d.textlength(w, font=font) > width_px:
+            if cur:
+                lines.append(cur)
+                cur = ""
+            fragment = ""
+            for ch in w:
+                if fragment and d.textlength(fragment + ch, font=font) > width_px:
+                    lines.append(fragment)
+                    fragment = ""
+                fragment += ch
+            cur = fragment
+            continue
         t = (cur + " " + w).strip()
         if d.textlength(t, font=font) > width_px and cur:
             lines.append(cur); cur = w
@@ -622,7 +634,7 @@ def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
                     route_target=None, pylons=None, loadout_label=None,
                     loadout_role=None, aircraft_id=None, card=None,
                     card_title=None, diagram=None, diagram_caption=None,
-                    timing=None, nttr_plan=None, map_key=None):
+                    timing=None, nttr_plan=None, map_key=None, historical_notes=None):
     home_pos = next((a.position for a in own_fields if a.name == home_name), None)
     pages = [
         page_comms(comms, map_label, era_label, home_name, qnh_hpa,
@@ -653,6 +665,8 @@ def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
         # THE CHART. A corridor plan on NTTR gets the picture of the airspace
         # it flies through, with its own road drawn hot.
         pages.append(page_nttr_chart(nttr_plan))
+    if historical_notes:
+        pages.extend(pages_text('HISTORICAL CONTEXT', map_label, historical_notes))
     # A generated ride card APPENDS, after everything else, for the same reason
     # the optional pages do: a pilot who knows the theater page is 03 must not
     # find something else there because a different card was flown.

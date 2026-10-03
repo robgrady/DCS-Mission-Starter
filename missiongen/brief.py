@@ -118,12 +118,26 @@ def _dtg(ctx):
     # when it has, the builder records the moved clock and the DTG prints it.
     moved = (ctx.get("stats") or {}).get("start_clock")
     hhmm = moved.replace(":", "") if moved else f"{HOUR.get(r.time_of_day, '12')}00"
-    return f"21{hhmm}L {MONTH_ABBR} {ctx['era_year']}"
+    when = ctx.get('mission_date')
+    return (f"{when.day:02d}{hhmm}L {when.strftime('%b').upper()} {when.year}" if when
+            else f"21{hhmm}L {MONTH_ABBR} {ctx['era_year']}")
 
 
 def _wrap(d, font, text, width_px):
     words, lines, cur = text.split(), [], ""
     for w in words:
+        if d.textlength(w, font=font) > width_px:
+            if cur:
+                lines.append(cur)
+                cur = ""
+            fragment = ""
+            for ch in w:
+                if fragment and d.textlength(fragment + ch, font=font) > width_px:
+                    lines.append(fragment)
+                    fragment = ""
+                fragment += ch
+            cur = fragment
+            continue
         t = (cur + " " + w).strip()
         if d.textlength(t, font=font) > width_px and cur:
             lines.append(cur); cur = w
@@ -151,6 +165,12 @@ def _smea(ctx):
                     "in this theater." if tier == "guns" else
                     " Threat rings and the numbered order of battle are on the "
                     "theater chart."))
+    history = stats.get("historical_context", {})
+    if history:
+        from .historical_world import CLASSIFICATIONS
+        situation += (f" Scenario date {history['date']} — "
+                      f"{CLASSIFICATIONS[history['classification']]}. "
+                      + "Adaptations and sources are on the historical context page.")
     # Enemy air, in the SITUATION paragraph where a real brief puts it: what
     # they fly AND what they carry. The fit changes how you fight them, so it
     # belongs in the words, not only in a table further down.
@@ -833,6 +853,14 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
         if stats.get("timing_coach_triggers"):
             L.append("The timing coach grades wheels-up, WP1, IP and TARGET "
                      "in-mission and opens a scorecard a minute after the target.")
+    if stats.get("historical_context"):
+        h = stats["historical_context"]
+        from .historical_world import CLASSIFICATIONS
+        L += ["", "## Historical context", "", f"{h['date']} — {CLASSIFICATIONS[h['classification']]}"]
+        L += [f"- {n}" for n in h.get("notes", [])]
+        L += ["- Recorded weapon service years and DCS station compatibility are checked. Unknown service dates, operator availability and module variants remain uncertified."]
+        L += [f"- Source: {url}" for url in h.get("sources", [])]
+        L += [f"- {n}" for n in stats.get("airspace_notes", []) if n]
     if stats.get("known_issues"):
         # Every expert campaign carries this page. Ours is generated per
         # mission, so the callsign line is about THIS jet.
@@ -863,6 +891,24 @@ def page_nttr_chart(plan):
     return img
 
 
+def pages_historical(ctx, lines):
+    """Paginate evidence and limitations without truncating long source URLs."""
+    pages = []
+    img, d, f = _page("HISTORICAL CONTEXT", ctx['map_label'])
+    y = 210
+    for paragraph in lines:
+        for line in _wrap(d, f['small'], paragraph, W - 120):
+            if y > H - 150:
+                pages.append(img)
+                img, d, f = _page("HISTORICAL CONTEXT", ctx['map_label'])
+                y = 210
+            d.text((60, y), line, font=f['small'], fill=INK)
+            y += 34
+        y += 16
+    pages.append(img)
+    return pages
+
+
 def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
     """Render the 4-page brief PDF (+ optional markdown). Returns page count."""
     ctx = dict(brief_ctx)
@@ -886,6 +932,8 @@ def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
         # The NTTR corridor chart: the road this mission flies, on the
         # airspace it flies through (nttr_chart.py).
         pages.append(page_nttr_chart(kb_ctx["nttr_plan"]))
+    if kb_ctx.get("historical_notes"):
+        pages.extend(pages_historical(ctx, kb_ctx["historical_notes"]))
     # Page locator, centered in the footer rail. The classification-style line
     # this used to print is retired with the Flightline adoption — the kit is
     # explicit about not imitating classification markings, and the _page()
@@ -910,7 +958,8 @@ def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
     # mission date — same recipe => byte-identical brief (share-link contract)
     import time
     r = ctx["recipe"]
-    stamp = time.struct_time((ctx["era_year"], 6, 21, 12, 0, 0, 0, 173, 0))
+    when = ctx.get("mission_date")
+    stamp = time.struct_time((when.year, when.month, when.day, 12, 0, 0, 0, when.timetuple().tm_yday, 0)) if when else time.struct_time((ctx["era_year"], 6, 21, 12, 0, 0, 0, 173, 0))
     meta = dict(
         title=f"Mission Brief - {ctx['map_label']} {ctx['era_label']} seed {r.seed}",
         author="DCS Sortie Starter", producer=f"Sortie Starter v{__version__}",

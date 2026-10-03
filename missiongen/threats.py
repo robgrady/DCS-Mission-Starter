@@ -403,10 +403,10 @@ def add_enemy_cap(m, country, era, enemy_side, tier, n, own_center, enemy_center
         for u in fg.units:
             u.skill = skill
         _loadouts.arm(fg, ctype.id, _loadouts.ROLE_CAP, era, intensity,
-                      warnings=warnings)
+                      warnings=warnings, year=m.start_time.year)
         if fits is not None:
             fits.append(_loadouts.describe(ctype.id, _loadouts.ROLE_CAP, era,
-                                           intensity, count=len(fg.units)))
+                                           intensity, count=len(fg.units), year=m.start_time.year))
         created.append(f"{name} ({ctype.id})")
         if gfx is not None:
             gfx.setdefault("threats", [])
@@ -496,9 +496,9 @@ def add_bfm_adversary(m, country, era, enemy_side, tier, player_pos, player_alt,
     # fight, so the bandit carries IR and a gun, never the radar-missile load
     # that would kill the player 20 nm before the exercise starts.
     _loadouts.arm(fg, ctype.id, _loadouts.ROLE_BFM, era, intensity,
-                  warnings=warnings)
+                  warnings=warnings, year=m.start_time.year)
     record = _loadouts.describe(ctype.id, _loadouts.ROLE_BFM, era,
-                               intensity, count=len(fg.units))
+                               intensity, count=len(fg.units), year=m.start_time.year)
     if guns_only:
         for u in fg.units:
             u.pylons = {}

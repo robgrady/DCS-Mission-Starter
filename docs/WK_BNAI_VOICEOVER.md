@@ -24,7 +24,7 @@ Drop a WAV in and the next build wires it to its cue. Drop nothing in and that c
 
 ### B1. `wk_brief_situation.wav`
 
-> You are a new wingman in the 70th Tactical Fighter Squadron, the White Knights, flying F-4E Phantoms with tail code MY under the callsign REX — on the sim's radio, Enfield. From June to the third of October, nineteen eighty, twelve of the squadron's aircraft deployed to Cairo West in Egypt for exercise Proud Phantom. That is where you are sitting. Your squadron commander is Lt Col Barry M. Meuse.
+> You are a new wingman in the 70th Tactical Fighter Squadron, the White Knights, flying F-4E Phantoms with tail code MY under the callsign REX — on the sim's radio, Enfield. From the tenth of July to the third of October, nineteen eighty, twelve of the squadron's aircraft deployed to Cairo West in Egypt for exercise Proud Phantom. That is where you are sitting. Your squadron commander is Lt Col Barry M. Meuse.
 
 - **On screen:** the page headed **SITUATION**.
 - **Delivery:** Unhurried, slightly formal. This is the opening of a mass brief and everybody in the room already knows most of it.

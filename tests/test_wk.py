@@ -666,7 +666,7 @@ def test_the_ride_card_is_on_the_kneeboard_not_only_in_the_briefing(key, tmp_pat
     assert len(pages) > 4, (key, len(pages))
 
 
-def test_a_non_white_knights_card_still_gets_exactly_the_old_four_pages(tmp_path):
+def test_a_non_white_knights_card_keeps_reference_pages_and_adds_context(tmp_path):
     """The card pages APPEND. A pilot who knows the theater page is 03 must not
     find something else there because a different mission was built."""
     import zipfile as _z
@@ -677,7 +677,7 @@ def test_a_non_white_knights_card_still_gets_exactly_the_old_four_pages(tmp_path
     out = tmp_path / "f100.miz"
     generate(r, str(out))
     pages = [n for n in _z.ZipFile(out).namelist() if n.startswith("KNEEBOARD/")]
-    assert len(pages) == 4, len(pages)
+    assert len(pages) == 5, len(pages)
 
 
 def test_no_kneeboard_page_runs_text_off_the_right_edge(tmp_path):
@@ -795,7 +795,7 @@ def _expected_pages(key, map_key):
                                   in wk_route.legs_for(key, map_key)])
     if fp:
         card = card + [""] + fp
-    n = 4 + len(kneeboard.pages_text("T", "S", card))
+    n = 5 + len(kneeboard.pages_text("T", "S", card))
     if (wk.RIDES[key].get("attack")
             and wk.diagram_path(wk.RIDES[key]["attack"])):
         n += 1

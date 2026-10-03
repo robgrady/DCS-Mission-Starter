@@ -54,6 +54,7 @@ def _pack_templates() -> dict:
             "needs_carrier": False, "needs_acls": False,
             "recipe": {}, "kind": "full", "tasked": True, "quick": False,
             "default_map": (man.get("maps") or [None])[0],
+            "historical_context": man.get("historical_context") or {},
             "pack": {"id": pid, "image": man.get("image"),
                      "guide_pdf": (man.get("docs") or {}).get("guide"),
                      "readme_pdf": (man.get("docs") or {}).get("readme"),

@@ -4,11 +4,11 @@ from .recipe import RecipeError
 from .resolver import load_json
 
 
-def resolve_fit(recipe, aircraft_id):
+def resolve_fit(recipe, aircraft_id, *, year=None):
     profile = recipe.player_fit
     if profile == "auto":
         return loadouts.player_loadout(aircraft_id, recipe.mission_kind,
-                                      recipe.era, recipe.player_load)
+                                      recipe.era, recipe.player_load, year=year)
     if profile in ("clean", "guns"):
         return {"label": "Clean carrier qualification fit" if profile == "clean"
                 else "Guns only — no external weapons or tanks", "pylons": {}}
@@ -27,7 +27,7 @@ def resolve_fit(recipe, aircraft_id):
         stations = sorted(aircraft.pylons)
         candidates = {p: {c: n for c, n in loadouts._pylon_stores(aircraft, p).items()
                           if ("mk-82" in n.lower() or "mk82" in n.lower())
-                          and loadouts._era_ok(c, recipe.era)} for p in stations}
+                          and loadouts._era_ok(c, recipe.era, year)} for p in stations}
         pylons = {}
         for a, b in loadouts._mirror_pairs([p for p in stations if candidates[p]], stations):
             if a == b:
@@ -41,7 +41,7 @@ def resolve_fit(recipe, aircraft_id):
         if not pylons:
             raise RecipeError(f"No paired unguided Mk-82 fit for {aircraft_id}.")
         return {"label": "Unguided Mk-82 training/attack fit", "pylons": pylons}
-    fit = loadouts.player_loadout(aircraft_id, "strike", recipe.era, recipe.player_load)
+    fit = loadouts.player_loadout(aircraft_id, "strike", recipe.era, recipe.player_load, year=year)
     # A precision/talk-on scenario needs a visual designator even when the
     # composed bombs are dual-mode GPS weapons rather than pure laser weapons.
     fit = {**fit, "pylons": dict(fit["pylons"])}

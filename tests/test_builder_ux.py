@@ -182,6 +182,7 @@ def test_the_outline_rail_describes_every_step_and_no_others():
 # is supposed to be closed; listing it here keeps that an explicit decision
 # rather than a hole in the guard.
 COLLAPSIBLE_BY_DESIGN = {
+    "libhistory": "Library evidence and adaptation notes, below the always-visible date and classification; not Builder controls",
     "cctx": "contact form: 'what we'll include with your message' — disclosure "
             "of auto-captured context, secondary to the act of writing",
 }

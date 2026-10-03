@@ -85,7 +85,7 @@ class Recipe:
                                        # says WHO, and one map+era can honestly
                                        # have more than one. Sinai's Cold War
                                        # preset is October 1973 (Israel blue,
-                                       # Egypt red); Proud Phantom is June 1980
+                                       # Egypt red); Proud Phantom is July 1980
                                        # with the USAF flying out of Cairo West
                                        # as Egypt's guest. Both are Sinai, both
                                        # are Cold War, and nothing short of this
@@ -403,7 +403,7 @@ class Recipe:
                     f"lineup={self.lineup!r} is not an order of battle on "
                     f"{self.map!r}. Known: {', '.join(sorted(ups)) or '(none)'}.")
             eras = ups[self.lineup].get("eras")
-            # A lineup is a DATED order of battle. Proud Phantom is June 1980;
+            # A lineup is a DATED order of battle. Proud Phantom is July 1980;
             # asking for it in a modern mission is not a preference, it is a
             # question with no answer, and answering it silently is how the
             # 1973 preset came to serve a 1980 exercise.

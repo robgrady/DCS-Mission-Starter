@@ -71,6 +71,7 @@ def flyable_aircraft():
 def options():
     maps = load_json("maps")
     eras = load_json("eras")
+    from missiongen.historical_world import preview, template_previews
     return {
         "version": __version__,
         # Formation departures (pattern_lineup) exist only when lineup.py
@@ -83,7 +84,8 @@ def options():
                                      "red_airbases": p["red_airbases"],
                                      "blue_country": p["blue_country"],
                                      "red_country": p["red_country"],
-                                     "civilian_airbases": p.get("civilian_airbases", [])}
+                                     "civilian_airbases": p.get("civilian_airbases", []),
+                                     "historical_context": preview(k, e)}
                                  for e, p in v["presets"].items()}}
                  for k, v in maps.items()},
         "eras": {k: {"label": v["label"], "window": v.get("window")}
@@ -108,6 +110,7 @@ def options():
                    # spans eras cannot pin one aircraft
                    "by_era": v.get("by_era") or {},
                    "by_map": v.get("by_map") or {},
+                   "historical_context": template_previews(k),
                    # per-era list of airframes this card is willing to fly.
                    # Formation training uses it so the Library can offer a
                    # choice instead of pinning one jet — the syllabus is

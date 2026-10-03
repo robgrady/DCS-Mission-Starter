@@ -1,5 +1,5 @@
 {
- "_comment": "Theater Identity pillar 1 \u2014 International Alignment. Per-map/era REAL national ownership of each airbase. The builder dresses each base with its owning nation's DCS country, so statics carry the correct national identity + liveries (an Israeli base shows Israeli jets, RAF Akrotiri shows RAF, Syrian bases show Syrian) instead of one country per side. Nation values are pydcs country class names (USA, Turkey, Israel, Syria, UK, Cyprus, Germany, GDR, USSR, ...). Additive: a base with no entry falls back to the side's preset country, and a map/era with no block is a full no-op. Aircraft TYPES still come from the side ramp theme (per-nation rosters are a later ramp-themes expansion); alignment sets COUNTRY + LIVERY today.",
+ "_comment": "Display nationality for DCS statics, separate from territorial host, military operator and game coalition. Legacy display assignments do not certify ownership or unit rosters. Sourced roles are additive; omitted roles and dates remain unknown.",
  "syria": {
   "modern": {
    "bases": {
@@ -55,7 +55,7 @@
     "Fassberg": "Germany",
     "Templin": "GDR",
     "Neuruppin": "GDR",
-    "Parchim": "GDR",
+    "Parchim": "USSR",
     "Falkenberg": "GDR",
     "Sperenberg": "USSR",
     "Werneuchen": "USSR",
@@ -63,15 +63,26 @@
     "Merseburg": "USSR",
     "Wittstock": "USSR",
     "Finow": "USSR"
+   },
+   "identities": {
+    "Parchim": {
+     "territorial_host": "GDR",
+     "military_operator": "USSR",
+     "display_nation": "USSR",
+     "sources": [
+      "https://www.parchim.de/de/ortsrecht/bau-und-stadtentwicklung/flaechennutzungsplaene/stadt-parchim/erlaeuterungsbericht-zum-flaechennutzungsplan-der-stadt-parchim.pdf?cid=4sv"
+     ],
+     "period_note": "Municipal history records Soviet operation 1953\u20131992; exact transfer days are unknown."
+    }
    }
   }
  },
  "persiangulf": {
   "coldwar": {
    "bases": {
-    "Al Dhafra AFB": "USA",
-    "Al Minhad AFB": "USA",
-    "Liwa AFB": "USA",
+    "Al Dhafra AFB": "UnitedArabEmirates",
+    "Al Minhad AFB": "UnitedArabEmirates",
+    "Liwa AFB": "UnitedArabEmirates",
     "Sharjah Intl": "UnitedArabEmirates",
     "Fujairah Intl": "UnitedArabEmirates",
     "Abu Dhabi Intl": "UnitedArabEmirates",
@@ -85,13 +96,30 @@
     "Kerman": "Iran",
     "Bandar-e-Jask": "Iran",
     "Qeshm Island": "Iran"
+   },
+   "identities": {
+    "Al Dhafra AFB": {
+     "territorial_host": "United Arab Emirates",
+     "sources": [],
+     "period_note": "US visiting detachments do not imply US territorial ownership. Cold War operator details are unverified."
+    },
+    "Al Minhad AFB": {
+     "territorial_host": "United Arab Emirates",
+     "sources": [],
+     "period_note": "US visiting detachments do not imply US territorial ownership. Cold War operator details are unverified."
+    },
+    "Liwa AFB": {
+     "territorial_host": "United Arab Emirates",
+     "sources": [],
+     "period_note": "US visiting detachments do not imply US territorial ownership. Cold War operator details are unverified."
+    }
    }
   },
   "modern": {
    "bases": {
-    "Al Dhafra AFB": "USA",
-    "Al Minhad AFB": "USA",
-    "Liwa AFB": "USA",
+    "Al Dhafra AFB": "UnitedArabEmirates",
+    "Al Minhad AFB": "UnitedArabEmirates",
+    "Liwa AFB": "UnitedArabEmirates",
     "Khasab": "Oman",
     "Sharjah Intl": "UnitedArabEmirates",
     "Fujairah Intl": "UnitedArabEmirates",
@@ -105,19 +133,82 @@
     "Bandar Lengeh": "Iran",
     "Lar": "Iran",
     "Bandar-e-Jask": "Iran"
+   },
+   "identities": {
+    "Al Dhafra AFB": {
+     "territorial_host": "United Arab Emirates",
+     "sources": [
+      "https://www.afcent.af.mil/News/Article/3347556/cas-aircraft-arrive-in-middle-east/"
+     ],
+     "period_note": "US visiting detachments do not imply US territorial ownership. Cold War operator details are unverified."
+    },
+    "Al Minhad AFB": {
+     "territorial_host": "United Arab Emirates",
+     "sources": [],
+     "period_note": "US visiting detachments do not imply US territorial ownership. Cold War operator details are unverified."
+    },
+    "Liwa AFB": {
+     "territorial_host": "United Arab Emirates",
+     "sources": [],
+     "period_note": "US visiting detachments do not imply US territorial ownership. Cold War operator details are unverified."
+    }
    }
   }
  },
  "caucasus": {
   "coldwar": {
    "bases": {
-    "Kutaisi": "Georgia",
-    "Senaki-Kolkhi": "Georgia",
-    "Batumi": "Georgia",
-    "Vaziani": "Georgia",
-    "Kobuleti": "Georgia",
-    "Tbilisi-Lochini": "Georgia",
-    "Soganlug": "Georgia"
+    "Kutaisi": "USSR",
+    "Senaki-Kolkhi": "USSR",
+    "Batumi": "USSR",
+    "Vaziani": "USSR",
+    "Kobuleti": "USSR",
+    "Tbilisi-Lochini": "USSR",
+    "Soganlug": "USSR"
+   },
+   "identities": {
+    "Kutaisi": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    },
+    "Senaki-Kolkhi": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    },
+    "Batumi": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    },
+    "Vaziani": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    },
+    "Kobuleti": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    },
+    "Tbilisi-Lochini": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    },
+    "Soganlug": {
+     "territorial_host": "Georgian SSR (USSR)",
+     "sources": [
+      "https://ais.archive.gov.ge/en/sakartvelos-damoukideblobis-aghdgena-1"
+     ]
+    }
    }
   },
   "modern": {
@@ -178,10 +269,39 @@
   "modern": {
    "bases": {
     "Kandahar": "USA",
-    "Camp Bastion": "USA",
+    "Camp Bastion": "UK",
     "Dwyer": "USA",
     "Shindand": "Afghanistan",
     "Herat": "Afghanistan"
+   },
+   "identities": {
+    "Camp Bastion": {
+     "territorial_host": "Afghanistan",
+     "military_operator": "UK",
+     "display_nation": "UK",
+     "sources": [
+      "https://www.gov.uk/government/news/british-troops-leave-helmand-province-for-the-last-time"
+     ],
+     "valid_to": "2014-10-26",
+     "period_note": "British base; neighbouring Camp Leatherneck was US. This setting uses a pre-handover date."
+    }
+   }
+  },
+  "gwot": {
+   "bases": {
+    "Camp Bastion": "UK"
+   },
+   "identities": {
+    "Camp Bastion": {
+     "territorial_host": "Afghanistan",
+     "military_operator": "UK",
+     "display_nation": "UK",
+     "sources": [
+      "https://www.gov.uk/government/news/british-troops-leave-helmand-province-for-the-last-time"
+     ],
+     "valid_to": "2014-10-26",
+     "period_note": "British base; neighbouring Camp Leatherneck was US. This setting uses a pre-handover date."
+    }
    }
   }
  }

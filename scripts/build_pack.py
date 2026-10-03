@@ -55,12 +55,12 @@ OUT = ROOT / "packs"
 # the app version. `built_with.app` records which release produced the bytes;
 # this records what the author thinks changed.
 CONTENT_VERSION = {
-    "wk_checkout": "1.0.4",
+    "wk_checkout": "1.0.5",
     # 2.0: the rides flew from Israel. Egypt is the host nation, the squadron
     # is USAF and Cairo West is home — different missions, not a patch.
     # 3.0: the wingman moved INTO the player's flight — the two-ship is flown
     # differently and a pilot's notes about REX 2 stop being true.
-    "wk_proud_phantom": "3.0.4",     # 1.1: the coached B'NAI joined the track
+    "wk_proud_phantom": "3.0.5",     # 1.1: the coached B'NAI joined the track
                                      # 1.1.1: the brief leaves the screen
                                      # 2.1: the wingman waits for your brief
                                      # 2.1.1: ...and then actually takes off
@@ -68,14 +68,14 @@ CONTENT_VERSION = {
                                      #      target standing on the target leg
                                      # 2.3: gates on the coached ride, and the
                                      #      wingman gets his shelter to himself
-    "aar_boom": "1.0.4",
-    "aar_probe": "1.0.4",
+    "aar_boom": "1.0.5",
+    "aar_probe": "1.0.5",
     # v1.107.0 regenerates mission documents with the airfield guide and
     # exact measured stand directions. Patch content versions describe these
     # corrections independently of the application release version.
-    "cq_case3_f14": "1.0.4",
-    "cq_case3_hornet": "1.0.4",
-    "timing_f4e": "1.0.4",
+    "cq_case3_f14": "1.0.5",
+    "cq_case3_hornet": "1.0.5",
+    "timing_f4e": "1.0.5",
 }
 
 # Which terrain module each map key needs a pilot to own, in the words DCS
@@ -185,12 +185,14 @@ def build(track_id: str, out_dir: pathlib.Path,
         files[guide_rel] = pathlib.Path(pdf).read_bytes()
         files["READ_ME_FIRST.md"] = pathlib.Path(md).read_bytes()
 
+        from missiongen.historical_world import template_previews
         man = {
             "format": packfmt.FORMAT,
             "id": track_id,
             "label": t.get("label") or track_id,
             "version": CONTENT_VERSION.get(track_id, "1.0.0"),
             "author": "Rob Grady",
+            "historical_context": template_previews(rides[0][1]),
             "requires": {
                 "terrains": sorted(maps),
                 "terrain_names": [TERRAIN_NAME.get(m, m) for m in sorted(maps)],

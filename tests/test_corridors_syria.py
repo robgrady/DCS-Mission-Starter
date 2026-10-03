@@ -252,7 +252,7 @@ def test_the_galilee_brief_f10_and_kneeboard_carry_the_levant(galilee):
     assert "GATE AT TANF" in joined and "GATE AT TANF~" not in joined, "a published gate is not marked curated"
     z = zipfile.ZipFile(out)
     pages = sorted(n for n in z.namelist() if n.startswith("KNEEBOARD/"))
-    assert len(pages) == 7, pages
+    assert len(pages) == 8, pages
     from PIL import Image
     img = Image.open(io.BytesIO(z.read(pages[-1])))
     assert img.size == (1024, 1366)

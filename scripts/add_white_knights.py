@@ -176,6 +176,10 @@ def card(key: str, ride: dict) -> dict:
         "wk_ride": key,
         "track": {"id": track, "n": ride["n"]},
     }
+    out["historical"] = {"scenario_date": "1980-06-21",
+        "historical_notes": ["The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."]}
+    if "sinai" in maps:
+        out["historical_by_map"] = {"sinai": {"scenario_date": "1980-07-10"}}
     # Per-map overrides. The only field that actually changes is where you
     # start from; everything else the theater changes is derived in the brief.
     if checkout and "sinai" in maps:
@@ -220,7 +224,7 @@ TRACKS = {
         "featured": True,
         "series": "The White Knights, 1980",
         "follows": "wk_checkout",
-        "premise": "From June to 3 October 1980 the 70th TFS flew twelve F-4Es "
+        "premise": "From 10 July to 3 October 1980 the 70th TFS flew twelve F-4Es "
                    "out of Cairo West, Egypt. Ten rides from the squadron's "
                    "Conventional Tactics guide of 27 January 1980 — five "
                    "delivery planning sheets and ALL FIVE two-ship attacks, "

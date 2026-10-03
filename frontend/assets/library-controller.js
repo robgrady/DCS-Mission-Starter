@@ -640,6 +640,15 @@ function numWord(n){
   return w[n] || (n+' missions');
 }
 function tankerLabel(k){ const t=(OPT.tankers||{})[k]; return t?t.label:k; }
+function historicalBlock(t, era){
+  const map=((t.by_era||{})[era]||{}).map || t.default_map || S.map;
+  const h=((t.historical_context||{})[era]||{})[map];
+  if(!h) return t.pack ? '<p class="dnote">Historical context is not supplied for this published pack. Consult its author’s brief.</p>' : '';
+  return '<div class="dblock"><h4>Historical context</h4><p>'+esc(h.date)+' · '+esc(h.label)+'</p>'+
+    '<details class="libhistory"><summary>Setting, sources &amp; adaptations</summary><ul>'+ (h.notes||[]).map(n=>'<li>'+esc(n)+'</li>').join('')+'</ul>'+
+    '<p class="dnote">Recorded weapon service years are checked; unknown dates, operators and module variants remain uncertified.</p>'+
+    (h.sources||[]).filter(u=>/^https:\/\//.test(u)).map((u,i)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">Source '+(i+1)+'</a> ').join('')+'</details></div>';
+}
 function openDetail(k, pref){
   if(k.startsWith('track_')) return openTrack(k.slice(6), pref);
   const t=libFind(k); if(!t) return;
@@ -678,6 +687,7 @@ function openDetail(k, pref){
       // panel and the track panel. Both say it.
       (t.requires?'<span class="lchip needsmod"><svg class="icon"><use href="#i-lock"/></svg> Requires '+t.requires+'</span>':'')+'</div>'+
     '<div class="dblock"><h4>Era</h4><div class="pillrow" id="dEras">'+eras+'</div></div>'+
+    '<div id="dHistorical">'+historicalBlock(t,libState.era)+'</div>'+
     acChoiceBlock(t)+crew+
     '<div class="dblock"><h4>What\'s set up for you</h4><ul class="incl">'+
       inclLines(t).map(x=>'<li><span class="k">✓</span>'+x+'</li>').join('')+'</ul></div>'+
@@ -728,6 +738,7 @@ function pickEra(e){ libState.era=e;
   const t=libFind(libState.cur); if(!t) return;
   libState.aircraft=acDefaultFor(t, e);
   const row=document.getElementById('dAcRow'); if(row) row.innerHTML=acChoiceRow(t);
+  const h=document.getElementById('dHistorical'); if(h) h.innerHTML=historicalBlock(t,e);
 }
 function pickCrew(c){ libState.crew=c; document.querySelectorAll('#libdetail .pbtn').forEach(b=>{ if(b.textContent.startsWith('Qualified')||b.textContent.startsWith('Trainee')) b.classList.toggle('on',(c==='qualified')===b.textContent.startsWith('Qualified')); }); }
 function setupFromLib(k){

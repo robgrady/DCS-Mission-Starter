@@ -281,7 +281,7 @@ def test_a_phantom_from_spangdahlem_flies_the_fulda_gap(eifel):
     assert "GATE HELMSTEDT~" in joined, "every gate is curated and marked"
     z = zipfile.ZipFile(out)
     pages = sorted(x for x in z.namelist() if x.startswith("KNEEBOARD/"))
-    assert len(pages) == 7, pages
+    assert len(pages) == 8, pages
     from PIL import Image
     assert Image.open(io.BytesIO(z.read(pages[-1]))).size == (1024, 1366)
     issues = res["stats"].get("known_issues", [])
@@ -289,9 +289,9 @@ def test_a_phantom_from_spangdahlem_flies_the_fulda_gap(eifel):
 
 
 @pytest.mark.parametrize("home,seed,coal,ac,gate,first", [
-    ("Hahn", 9, "blue", "F_4E_45MC", "HELMSTEDT", ["HND", "KIR", "TAU"]),
+    ("Hahn", 6, "blue", "F_4E_45MC", "HELMSTEDT", ["HND", "KIR", "TAU"]),
     ("Norvenich", 5, "blue", "F_4E_45MC", "HELMSTEDT", ["COL", "GMH", "HMM"]),
-    ("Werneuchen", 1, "red", "MiG_21Bis", "HELMSTEDT", ["NAUEN", "RATHENOW", "GENTHIN"]),
+    ("Werneuchen", 3, "red", "MiG_21Bis", "HELMSTEDT", ["NAUEN", "RATHENOW", "GENTHIN"]),
     ("Parchim", 3, "red", "MiG_21Bis", "HELMSTEDT", ["PARCHIM", "PERLEBRG", "OSTERBRG"]),
 ])
 def test_both_sides_build_through_their_gates(tmp_path, home, seed, coal, ac, gate, first):

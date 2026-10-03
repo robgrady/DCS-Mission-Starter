@@ -1,8 +1,8 @@
 {
  "_comment": "Training TRACKS: an ordered set of Library cards that travel together. A card joins a track by carrying {\"track\": {\"id\": ..., \"n\": ...}} in mission_templates.json. The track itself is described here so the Library can render one grouped card per track instead of nine loose ones, and so /api/track/<id>/all.zip knows what to build. Order is the `n` on each card, not the order here.",
  "aar_boom": {
-  "label": "Air-to-Air Refuelling Academy — Boom and Receptacle (USAF)",
-  "short": "Air-to-Air Refuelling · Boom",
+  "label": "Air-to-Air Refuelling Academy \u2014 Boom and Receptacle (USAF)",
+  "short": "Air-to-Air Refuelling \u00b7 Boom",
   "role": "training",
   "lane": "boom",
   "service": "USAF",
@@ -14,17 +14,17 @@
   "default_map": "caucasus",
   "guide": "aar-academy-boom",
   "featured": true,
-  "premise": "Eleven short rides that teach flying-boom refuelling the way it is actually taught — formation first, plug last. You start in position every time; the commute is deleted until ride 7, where it comes back on purpose. Ten of the eleven are graded in-mission — every ride except the operational capstone.",
+  "premise": "Eleven short rides that teach flying-boom refuelling the way it is actually taught \u2014 formation first, plug last. You start in position every time; the commute is deleted until ride 7, where it comes back on purpose. Ten of the eleven are graded in-mission \u2014 every ride except the operational capstone.",
   "blurb": [
    "The receiver holds still and a boom operator flies the boom into the",
    "receptacle. Your entire job is to stop moving. That is a formation",
    "problem wearing a refuelling costume, and this track trains it in that",
-   "order: hold a position, control closure, then plug — not the reverse."
+   "order: hold a position, control closure, then plug \u2014 not the reverse."
   ]
  },
  "aar_probe": {
-  "label": "Air-to-Air Refuelling Academy — Probe and Drogue (Navy / Marine)",
-  "short": "Air-to-Air Refuelling · Probe",
+  "label": "Air-to-Air Refuelling Academy \u2014 Probe and Drogue (Navy / Marine)",
+  "short": "Air-to-Air Refuelling \u00b7 Probe",
   "role": "training",
   "lane": "probe",
   "service": "USN/USMC",
@@ -36,17 +36,17 @@
   "default_map": "caucasus",
   "guide": "aar-academy-probe",
   "featured": true,
-  "premise": "Eleven short rides for probe-and-drogue — a different problem from the boom, not a variation on it. Nobody is helping: you fly a probe into a basket that is doing whatever it likes. Ten of the eleven are graded in-mission — every ride except the operational capstone.",
+  "premise": "Eleven short rides for probe-and-drogue \u2014 a different problem from the boom, not a variation on it. Nobody is helping: you fly a probe into a basket that is doing whatever it likes. Ten of the eleven are graded in-mission \u2014 every ride except the operational capstone.",
   "blurb": [
    "There is no operator, no director lights and no calls. The basket does",
    "nothing to help you, and staring at it is the failure mode. So this",
-   "track spends longer on the thing that actually works — flying formation",
+   "track spends longer on the thing that actually works \u2014 flying formation",
    "on the tanker and letting the probe arrive in your peripheral vision."
   ]
  },
  "wk_checkout": {
-  "label": "70th TFS White Knights — Squadron Checkout (F-4E, 1980)",
-  "short": "White Knights · Checkout",
+  "label": "70th TFS White Knights \u2014 Squadron Checkout (F-4E, 1980)",
+  "short": "White Knights \u00b7 Checkout",
   "role": "training",
   "service": "USAF",
   "aircraft": "F_4E_45MC",
@@ -57,7 +57,7 @@
   "guide": "white-knights-checkout",
   "featured": true,
   "series": "The White Knights, 1980",
-  "premise": "Eleven rides from the three documents a new arrival at the 70th was handed in January and February 1980 — Standards, Low Level Training, and Weapons Information Sheet No. 1. Everything that makes you a wingman, and not a bomb between them. Ends when you are signed off on a two-ship.",
+  "premise": "Eleven rides from the three documents a new arrival at the 70th was handed in January and February 1980 \u2014 Standards, Low Level Training, and Weapons Information Sheet No. 1. Everything that makes you a wingman, and not a bomb between them. Ends when you are signed off on a two-ship.",
   "blurb": [
    "The 347th was drafted into NATO contingency plans and never flew",
    "to Europe in the Phantom. This is the war it was assigned, flown",
@@ -67,8 +67,8 @@
   ]
  },
  "wk_proud_phantom": {
-  "label": "70th TFS White Knights — Proud Phantom, Egypt 1980",
-  "short": "White Knights · Proud Phantom",
+  "label": "70th TFS White Knights \u2014 Proud Phantom, Egypt 1980",
+  "short": "White Knights \u00b7 Proud Phantom",
   "role": "training",
   "service": "USAF",
   "aircraft": "F_4E_45MC",
@@ -80,7 +80,7 @@
   "featured": true,
   "series": "The White Knights, 1980",
   "follows": "wk_checkout",
-  "premise": "From June to 3 October 1980 the 70th TFS flew twelve F-4Es out of Cairo West, Egypt. Ten rides from the squadron's Conventional Tactics guide of 27 January 1980 — five delivery planning sheets and ALL FIVE two-ship attacks, both halves of the split included — flown from the base they actually deployed to. The B'NAI is taught twice: once with a cue at every decision, once with nothing.",
+  "premise": "From 10 July to 3 October 1980 the 70th TFS flew twelve F-4Es out of Cairo West, Egypt. Ten rides from the squadron's Conventional Tactics guide of 27 January 1980 \u2014 five delivery planning sheets and ALL FIVE two-ship attacks, both halves of the split included \u2014 flown from the base they actually deployed to. The B'NAI is taught twice: once with a cue at every decision, once with nothing.",
   "blurb": [
    "The B'NAI attack was designed by the Israelis in the 1973 war to",
    "survive an SA-6 environment. Your squadron wrote it down five",
@@ -90,8 +90,8 @@
   ]
  },
  "cq_case3_f14": {
-  "label": "VF-101 Grim Reapers — Case III Night Recovery (F-14)",
-  "short": "Case III · Tomcat",
+  "label": "VF-101 Grim Reapers \u2014 Case III Night Recovery (F-14)",
+  "short": "Case III \u00b7 Tomcat",
   "role": "training",
   "service": "USN",
   "aircraft": "F_14B",
@@ -101,18 +101,18 @@
   "default_map": "persiangulf",
   "requires": "DCS: Supercarrier",
   "featured": true,
-  "series": "Case III — night carrier recovery",
-  "premise": "Five rides from CV NATOPS section 6.4: the marshal stack and holding to a time, the push and the descent gates, dirty up and the approach, the ball and the bolter pattern, then a night check in weather with every aid switched off. The Tomcat half — ICLS on the AN/ARA-63, Link 4 coupled through the nosewheel steering button, on speed at 15 units.",
+  "series": "Case III \u2014 night carrier recovery",
+  "premise": "Five rides from CV NATOPS section 6.4: the marshal stack and holding to a time, the push and the descent gates, dirty up and the approach, the ball and the bolter pattern, then a night check in weather with every aid switched off. The Tomcat half \u2014 ICLS on the AN/ARA-63, Link 4 coupled through the nosewheel steering button, on speed at 15 units.",
   "blurb": [
    "A night recovery fails in one of four places, and each has a",
    "different cause. So this is one ride per gate, each starting where",
-   "the last one ended — you can fly the piece you keep failing ten",
+   "the last one ended \u2014 you can fly the piece you keep failing ten",
    "times in the span of a single full approach."
   ]
  },
  "cq_case3_hornet": {
-  "label": "VFA-106 Gladiators — Case III Night Recovery (F/A-18C)",
-  "short": "Case III · Hornet",
+  "label": "VFA-106 Gladiators \u2014 Case III Night Recovery (F/A-18C)",
+  "short": "Case III \u00b7 Hornet",
   "role": "training",
   "service": "USN",
   "aircraft": "FA_18C_hornet",
@@ -122,7 +122,7 @@
   "default_map": "persiangulf",
   "requires": "DCS: Supercarrier",
   "featured": false,
-  "series": "Case III — night carrier recovery",
+  "series": "Case III \u2014 night carrier recovery",
   "premise": "The same five gates in the Hornet: ILS on the UFC, ACLS Mode I coupled in pitch and roll with ATC holding AOA for the throttle, on speed at 8.1 units. Marshal, the approach controller and Paddles do their half; the mission grades the half they ignore.",
   "blurb": [
    "Supercarrier will let you push half an hour before your approach",
@@ -132,8 +132,8 @@
   ]
  },
  "timing_f4e": {
-  "label": "Timing — The Clock on the Card (F-4E, 1980)",
-  "short": "Timing · F-4E",
+  "label": "Timing \u2014 The Clock on the Card (F-4E, 1980)",
+  "short": "Timing \u00b7 F-4E",
   "role": "training",
   "service": "USAF",
   "aircraft": "F_4E_45MC",
@@ -143,10 +143,10 @@
   "default_map": "germany",
   "featured": true,
   "series": "The Clock on the Card",
-  "premise": "Four short Phantom rides from Fassberg that teach waypoint timing the way planners learn it — fly the card on a stopwatch, hit a fixed TOT, fit in behind a package on locked ETAs, absorb an early arrival with a hold — then a silent check ride. Every ride is graded in-mission.",
+  "premise": "Four short Phantom rides from Fassberg that teach waypoint timing the way planners learn it \u2014 fly the card on a stopwatch, hit a fixed TOT, fit in behind a package on locked ETAs, absorb an early arrival with a hold \u2014 then a silent check ride. Every ride is graded in-mission.",
   "blurb": [
-   "Timing is anchored, not accumulated. One time is fixed — the",
-   "takeoff, the push, or the time on target — and every other number",
+   "Timing is anchored, not accumulated. One time is fixed \u2014 the",
+   "takeoff, the push, or the time on target \u2014 and every other number",
    "on the card is solved from it. These four rides fix a different",
    "one each, and the mission clock moves to make it true."
   ]

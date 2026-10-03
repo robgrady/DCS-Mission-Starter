@@ -86,8 +86,8 @@ def test_a_normal_mission_has_no_route_kneeboard_page(tmp_path):
     # player_arm off, so the STORES card cannot mask the thing under test:
     # this is about the ROUTE page and nothing else.
     _res, out = _build(tmp_path, bb_kneeboard=True, player_arm=False)
-    assert len(_kneeboard_pages(out)) == 3, \
-        "the kneeboard grew a page nobody asked for"
+    assert len(_kneeboard_pages(out)) == 4, \
+        "three references plus historical context; no route page"
 
 
 def test_a_normal_cartridge_carries_no_route(tmp_path):
@@ -174,8 +174,8 @@ def test_the_legs_are_era_plausible(tmp_path):
 def test_the_kneeboard_gets_a_leg_card(tmp_path):
     res, out = _build(tmp_path, bb_route=True, bb_kneeboard=True,
                       player_arm=False)
-    assert len(_kneeboard_pages(out)) == 4
-    assert res["stats"]["kneeboard_pages"] == 4
+    assert len(_kneeboard_pages(out)) == 5
+    assert res["stats"]["kneeboard_pages"] == 5
 
 
 def test_the_reference_pages_keep_their_numbers(tmp_path):
@@ -309,7 +309,7 @@ def test_an_armed_jet_gets_a_stores_card(tmp_path):
     res, out = _build(tmp_path, mission_kind="strike", player_arm=True,
                       bb_kneeboard=True, name="armed")
     assert res["stats"]["player_pylons"], "no station list was captured"
-    assert _stores_page_count(out) == 4
+    assert _stores_page_count(out) == 5
 
 
 def test_a_clean_jet_gets_no_stores_card(tmp_path):
@@ -318,7 +318,7 @@ def test_a_clean_jet_gets_no_stores_card(tmp_path):
     res, out = _build(tmp_path, player_arm=False, bb_kneeboard=True,
                       name="clean")
     assert res["stats"].get("player_pylons") in (None, [])
-    assert _stores_page_count(out) == 3
+    assert _stores_page_count(out) == 4
 
 
 def test_the_card_describes_the_jet_you_are_sitting_in(tmp_path):
@@ -354,7 +354,7 @@ def test_the_stores_card_comes_before_the_route_card(tmp_path):
     _res, out = _build(tmp_path, mission_kind="strike", player_arm=True,
                        bb_route=True, bb_kneeboard=True, name="both")
     pages = _kneeboard_pages(out)
-    assert len(pages) == 5
+    assert len(pages) == 6
     z = zipfile.ZipFile(out)
     # page 04 is STORES, page 05 is FLIGHT PLAN — compare against a mission
     # built with only one of them switched on.

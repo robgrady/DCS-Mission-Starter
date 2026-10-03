@@ -82,3 +82,27 @@ def test_carrier_restore_share_and_library_use_the_assembled_controllers(site,wi
         assert page.evaluate('CURRENT_VIEW') == 'builder'
         assert not errors
         browser.close()
+
+
+@pytest.mark.parametrize('width',[1280,390])
+def test_historical_details_follow_the_selected_era_without_overflow(site,width):
+    pw=pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as p:
+        browser=p.chromium.launch()
+        page=browser.new_page(viewport={'width':width,'height':900});errors=[]
+        page.on('pageerror',lambda e:errors.append(str(e)))
+        page.goto(site);page.wait_for_function('OPT !== null')
+        page.evaluate('showView("library");openDetail("berlin_corridor_transit")')
+        box=page.locator('#dHistorical')
+        assert '1978-06-21' in box.inner_text()
+        box.locator('summary').click()
+        assert 'exercise limit' in box.inner_text()
+        assert box.locator('a').count()==4
+        assert box.evaluate('(el)=>el.scrollWidth <= el.clientWidth+1')
+        page.keyboard.press('Escape')
+        page.evaluate('openDetail("qf_bfm");pickEra("coldwar")')
+        assert '1978-06-21' in page.locator('#dHistorical').inner_text()
+        page.evaluate('pickEra("modern")')
+        assert '2011-06-21' in page.locator('#dHistorical').inner_text()
+        assert not errors
+        browser.close()

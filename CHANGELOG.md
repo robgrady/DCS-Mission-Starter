@@ -1,5 +1,27 @@
 # Changelog — DCS Sortie Starter
 
+## [1.108.3] — Historical context and dated content corrections
+
+- Give named scenarios authored dates: Proud Phantom's 10 July 1980 fighter
+  arrival, White Knights 1980 checkout, October 1973 Sinai, combat-period 1982
+  Falklands, post-accession 2024 Kola NATO, pre-handover 2011 Afghanistan OEF,
+  a 2018 Euphrates reference and 1984 Tanker War adaptation.
+- Show date, historical classification, sources and adaptations in Library
+  details, native mission descriptions, Markdown/PDF briefs and kneeboards.
+  Correct Proud Phantom narration and regenerate official pack content.
+- Filter recorded weapon service windows by the actual mission year while
+  retaining DCS station compatibility. Unknown dates, operator availability
+  and module variants remain explicitly uncertified.
+- Correct Parchim's Soviet operator, UAE host/display assignments, Georgian
+  SSR context and British Camp Bastion identity without conflating coalition,
+  territorial host and visiting units.
+- Preserve overlay geometry while disclosing approximate Berlin/Euphrates
+  references, illustrative Afghan shapes and the 1995 Nevada polygon. Correct
+  the FAA citation; qualify the bounding-circle trigger and Berlin exercise
+  ceiling. Repeat F-100 and WWII campaign basing substitutions in generated
+  historical context. Update the User Manual and versioned release artifacts.
+
+
 All notable changes are documented here. This project follows
 [Semantic Versioning](https://semver.org/) as of 1.0.0.
 

@@ -1,26 +1,18 @@
 {
-  "_comment": "Historical airspace overlays (Theater Identity pillar 3): real corridors, no-fly zones and deconfliction lines for a given map+era, drawn on the F10 Common draw layer + briefed on the kneeboard. INFORMATION, NOT ROUTING - no player waypoints. Geometry is lat/lon so it is projection-independent; the renderer (airspace.py) projects to map meters at build time. width_sm / radius_sm are STATUTE MILES (the historical unit for Berlin airspace). Coordinates for corridor terminals are curated approximations of the historical structure - tune against the in-game F10 map.",
+  "_comment": "Historical/training overlays. Geometry and source dates are disclosed per overlay. Missing operational validity, vertical limits or controlling agencies remain unknown. Information only; no automatic routing or polygon violation enforcement.",
   "germany": {
     "berlin_corridors": {
       "label": "Berlin Air Corridors (BASC)",
       "eras": [
         "coldwar"
       ],
-      "brief_title": "BERLIN AIR CORRIDORS — BASC CONTROLLED AIRSPACE",
+      "brief_title": "BERLIN CORRIDORS — SCHEMATIC TRAINING REFERENCE",
       "brief": [
-        "Three 20-statute-mile-wide corridors connect the West German air system to",
-        "West Berlin across GDR airspace, all terminating in the Berlin Control Zone.",
-        "Agreed by the Allied Control Authority ~30 Nov 1945; controlled by the four-",
-        "power Berlin Air Safety Center (BASC, est. 12 Dec 1945). In force until the",
-        "BASC closed 31 Dec 1990 at reunification — a Cold-War feature only.",
-        "Ceiling 10,000 ft (raised to 13,000 ft at times for Soviet exercises).",
-        "RULE: remain WITHIN a corridor and BELOW the ceiling. Straying out of the",
-        "lateral or vertical limits over GDR territory risks interception. These are",
-        "drawn on the F10 map for reference — they are airspace, not a routed plan.",
-        " - NORTH  corridor: Hamburg (Bremen / Northern Europe) → Berlin",
-        " - CENTER corridor: Hannover, early 'Bückeburg' (Düsseldorf/Köln) → Berlin",
-        " - SOUTH  corridor: Frankfurt (Stuttgart/Munich/Nuremberg) → Berlin",
-        " - BERLIN CONTROL ZONE: 20 sm radius over the city, all corridors converge."
+        "Three western corridors of 20 statute miles width were approved on 30 November 1945.",
+        "The Berlin Control Zone has a 20-statute-mile radius; stored terminals are approximate.",
+        "10,000 ft is this exercise limit. The original control-zone ceiling is not an uncontested ceiling for every corridor flight; 1962 Allied discussions included higher flights and conditional fighter escort.",
+        "The F-4 transit is a training adaptation. No universal ban on fighters is asserted.",
+        "Drawn for reference; no routed plan or automatic boundary enforcement."
       ],
       "features": [
         {
@@ -75,6 +67,13 @@
           "radius_sm": 20,
           "ceiling_ft": 10000
         }
+      ],
+      "geometry_accuracy": "approximate_terminals",
+      "attested_on": "1945-11-30",
+      "historical_sources": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1206",
+        "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
       ]
     }
   },
@@ -84,19 +83,17 @@
       "eras": [
         "modern"
       ],
-      "brief_title": "EUPHRATES DECONFLICTION LINE — US/RUSSIA FLIGHT-SAFETY MOU",
+      "brief_title": "EUPHRATES — APPROXIMATE 2018 DECONFLICTION REFERENCE",
       "brief": [
-        "The Euphrates River valley is the de-facto deconfliction line between the",
-        "coalition (east of the river) and Russian/Syrian forces (west), under the",
-        "US-Russia flight-safety memorandum. It is a COORDINATION line, not a border.",
-        "RULE: coordinate before crossing; hold your side unless deconflicted. Drawn",
-        "on the F10 map (amber dashed) for reference — airspace, not a routed plan.",
-        " - Runs NW→SE: Turkish border → Raqqa → Deir ez-Zor → Abu Kamal (Iraq border)."
+        "A coalition report on 7 February 2018 attests to a Euphrates deconfliction line.",
+        "The four stored points are an approximate river sketch, not an authenticated operational boundary. Establishment date and continuous validity are unknown.",
+        "The 2015 US–Russia flight-safety memorandum did not establish zones of cooperation; it is not the source of this boundary.",
+        "Coordination is an exercise instruction; this reference does not encode current crossing permissions."
       ],
       "features": [
         {
           "kind": "line",
-          "name": "EUPHRATES DECONFLICTION LINE",
+          "name": "EUPHRATES — APPROXIMATE 2018 REFERENCE",
           "category": "deconfliction",
           "points": [
             [
@@ -117,6 +114,12 @@
             ]
           ]
         }
+      ],
+      "geometry_accuracy": "approximate_four_point_sketch",
+      "attested_on": "2018-02-07",
+      "historical_sources": [
+        "https://www.inherentresolve.mil/NEWSROOM/News-Releases/Article/1435218/unprovoked-attack-by-syrian-pro-regime-forces-prompts-coalition-defensive-strik/",
+        "https://www.defense.gov/News/Transcripts/Transcript/Article/624976/department-of-defense-press-briefing-by-pentagon-press-secretary-peter-cook-in/"
       ]
     }
   },
@@ -124,24 +127,19 @@
     "oef_airspace_control": {
       "label": "OEF Airspace Control (Kabul TMA + ROZ)",
       "eras": [
-        "modern"
+        "modern",
+        "gwot"
       ],
-      "brief_title": "OEF AIRSPACE CONTROL — KABUL TMA / RESTRICTED OPERATING ZONE",
+      "brief_title": "AFGHANISTAN — ILLUSTRATIVE TRAINING AIRSPACE",
       "brief": [
-        "Coalition air operations over Afghanistan ran under a daily Airspace Control",
-        "Order (ACO): terminal areas around the major fields, and Restricted Operating",
-        "Zones (ROZs) deconflicting fires, ISR orbits and CAS stacks over the fight.",
-        "KABUL TMA: terminal control area around Kabul/OAKB — remain clear unless",
-        "arriving/departing; the valley funnels all traffic over the city.",
-        "ROZ HELMAND (representative of the OEF ACO): active fires and CAS stack —",
-        "contact the controlling agency before entry; keep SAFE altitudes above the",
-        "small-arms/MANPADS envelope except when working a tasking inside the ROZ.",
-        "Drawn for reference — airspace, not a routed plan."
+        "The Kabul circle (30 statute miles radius) and Helmand rectangle are illustrative training geometry.",
+        "No authenticated AIP/ACO establishes these dimensions. Vertical limits, controlling agency and operational validity are unknown.",
+        "These are not verified Kabul TMA or Helmand ROZ boundaries. Drawn for exercise reference only."
       ],
       "features": [
         {
           "kind": "zone",
-          "name": "KABUL TMA",
+          "name": "KABUL — ILLUSTRATIVE TRAINING CIRCLE",
           "center": [
             34.566,
             69.212
@@ -150,7 +148,7 @@
         },
         {
           "kind": "line",
-          "name": "ROZ HELMAND",
+          "name": "HELMAND — ILLUSTRATIVE TRAINING BOX",
           "category": "deconfliction",
           "points": [
             [
@@ -175,7 +173,12 @@
             ]
           ]
         }
-      ]
+      ],
+      "geometry_accuracy": "illustrative",
+      "vertical_limits": null,
+      "controlling_agency": null,
+      "operational_validity": null,
+      "historical_sources": []
     }
   },
   "nevada": {
@@ -188,15 +191,10 @@
       "always": true,
       "brief_title": "R-4808N — RESTRICTED AREA (THE 'BOX') — ENTRY PROHIBITED",
       "brief": [
-        "The airspace over Groom Lake and the Nevada Test Site is R-4808N — 'the Box'",
-        "(also 'the Container'). Sectional data panel:  ALTITUDE: SURFACE TO",
-        "UNLIMITED · TIME OF USE: CONTINUOUS · NOT JOINT-USE — no transit, no",
-        "exceptions, no A/G. This is the one piece of the NTTR that is off-limits",
-        "EVEN TO PLAYERS in Red Flag: crews are briefed that entering the Box — or",
-        "loitering on its boundary looking in — is a career-ending event. Treat the",
-        "hatched boundary on the F10 map as a wall from the surface up.",
-        "(Missions basing FROM Groom Lake operate inside by design — everyone",
-        "else stays out.)"
+        "R-4808N polygon: 14 vertices from the 1995 FAA realignment (60 FR 20625–20626), effective 20 July 1995 at 0901 UTC.",
+        "This later boundary is retained as a training reference on earlier-era Nevada missions. Earlier geometry is not verified.",
+        "Treat the drawn polygon as the exercise restricted area. The trigger zone is only a bounding circle, NOT the legal polygon; no polygon violation penalty is implemented.",
+        "Surface to unlimited; continuous. Operational permissions are not modeled. Groom-based missions start inside by design."
       ],
       "features": [
         {
@@ -264,10 +262,16 @@
           "panel": [
             "SFC — UNLTD",
             "CONTINUOUS",
-            "NOT JOINT-USE — NO ENTRY"
+            "NOT JOINT-USE — NO ENTRY",
+            "1995 BOUNDARY REFERENCE"
           ],
-          "source": "14-point legal boundary, FAA realignment of R-4808N effective 1995 (60 FR 20661, 1995-04-27). NOT a lat/lon rectangle — the real area steps around the Nevada Test Site, which is why a bounding box never lined up with the boundary DCS draws on the NTTR F10 map."
+          "source": "FAA 60 FR 20625–20626, 27 April 1995; effective 20 July 1995 0901 UTC. Fourteen sourced vertices rounded to six decimal places."
         }
+      ],
+      "geometry_accuracy": "sourced_1995_polygon",
+      "source_effective_date": "1995-07-20",
+      "historical_sources": [
+        "https://www.govinfo.gov/content/pkg/FR-1995-04-27/pdf/FR-1995-04-27.pdf"
       ]
     }
   }

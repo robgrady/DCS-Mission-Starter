@@ -820,7 +820,7 @@ def staging_note(map_key: str) -> list:
     """
     if map_key == "sinai":
         return ["STAGING: Cairo West and the Egyptian ranges. The squadron was "
-                "actually here — twelve F-4Es, June to 3 October 1980, "
+                "actually here — twelve F-4Es, 10 July to 3 October 1980, "
                 "exercise PROUD PHANTOM.", ""]
     if map_key == "germany":
         return ["STAGING: the 347th was drafted into NATO contingency plans "

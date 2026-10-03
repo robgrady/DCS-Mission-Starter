@@ -30,7 +30,7 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.108.2**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.108.3**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. The release adds the airfield guide and reliability
 boundaries for recipe validation, Mission Kits, generation capacity, artifact
@@ -79,10 +79,10 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   same way. Discriminator: fly the same mission in the plain F-14B. The ME
   now shows channel names, which is the second way to check. Rob's sortie,
   not code. *Bet 1.*
-- **Historical truth before expansion.** Resolve the remaining historical
-  boundary, scenario date and airbase-operator findings in the
-  [original Library audit](library-validation-2026-10-02.md). Behavioral fixes
-  are documented separately; do not treat a successful build as historical proof. *Bet 1.*
+- **Historical truth before expansion.** Dated corrections and adaptation
+  disclosures shipped in v1.108.3 ([correction ledger](historical-content-1.108.3.md)).
+  Research the remaining exact geometry, operational validity, capture/opening
+  dates and unit rosters; a successful build is not historical proof. *Bet 1.*
 - **Architecture migration completed in v1.108.2.** Builder phases, document
   facts, API routers/services and browser controllers have explicit owners.
   Release producers share one registry; public pack publication uses immutable

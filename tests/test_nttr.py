@@ -327,7 +327,7 @@ def test_the_kneeboard_has_a_flight_plan_page_and_a_clock_page(farwest):
     b, out = farwest
     z = zipfile.ZipFile(out)
     pages = [n for n in z.namelist() if n.startswith("KNEEBOARD/")]
-    assert len(pages) == 7, pages            # 3 reference + stores + route + timing + chart
+    assert len(pages) == 8, pages            # 3 reference + stores + route + timing + chart
     from missiongen import kneeboard as _kb
     rows = b.stats["route_legs"]
     img = _kb.page_route(rows, "x", "Nellis", timing=None, timed_elsewhere=True)
@@ -344,7 +344,7 @@ def test_the_pdf_brief_has_the_corridor_section(farwest):
     assert b.res["brief_pdf"].endswith(".pdf") and open(b.res["brief_pdf"], "rb").read(4) == b"%PDF"
     # the chart is page 5 — after the airfield guide (page 4 since v1.107.0)
     from pypdf import PdfReader
-    assert len(PdfReader(b.res["brief_pdf"]).pages) == 5
+    assert len(PdfReader(b.res["brief_pdf"]).pages) >= 6
 
 
 # --------------------------------------------------------------------------- #

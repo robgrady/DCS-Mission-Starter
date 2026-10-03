@@ -485,7 +485,7 @@ run_pp "take the base they deployed to off their own side" \
        "egypt_is_the_host or no_card_anywhere or takes_off_from_cairo"
 
 mut missiongen/data/maps.json '        "eras": ["coldwar"],' '        "eras": ["coldwar", "modern"],'
-run_pp "let a June 1980 order of battle serve a modern mission" "wrong_era"
+run_pp "let a July 1980 order of battle serve a modern mission" "wrong_era"
 
 # The 1973 reading of the map must SURVIVE. A lineup adds a scenario; it does
 # not delete the one the map already had.

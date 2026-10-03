@@ -31,7 +31,7 @@ const BLOCKS = [
   ["bb_briefing","Starter briefing","Situation + contents summary", true, "sup_brief"],
   ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true, "sup_brief"],
   ["bb_navpoints","Nav reference points","Named landmarks (Belted Peak, Student Gap...) on F10 map + kneeboard", true, "sup_brief"],
-  ["bb_historical_airspace","Historical airspace","Real corridors & deconfliction zones for this map+era (Berlin Air Corridors, Syria Euphrates line) — drawn on the F10 map + briefed", false, "sup_brief"],
+  ["bb_historical_airspace","Historical airspace","Historical and illustrative training airspace — drawn on F10; accuracy and reference dates are in the brief and kneeboard", false, "sup_brief"],
   ["bb_alignment","Theater identity (nation alignment)","Each airbase dresses as its real owning nation — country, aircraft types, liveries (Akrotiri = RAF, Ramat David = Israel...)", true, "tog_dress"],
 ];
 

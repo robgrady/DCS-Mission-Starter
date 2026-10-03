@@ -233,7 +233,7 @@ def _pylon_stores(plane_type, pylon: int) -> dict:
 
 
 # ------------------------------------------------------------------ selection
-def loadout_for(type_id: str, role: str, era: str, intensity=3):
+def loadout_for(type_id: str, role: str, era: str, intensity=3, *, year=None):
     """Resolve a loadout record. NEVER raises and never blocks a build.
 
     Resolution order — exact, then progressively looser:
@@ -263,8 +263,9 @@ def loadout_for(type_id: str, role: str, era: str, intensity=3):
                 light = False
             if light and isinstance(entry.get("light"), dict):
                 entry = entry["light"]
-            return {"label": entry.get("label", ""),
-                    "pylons": dict(entry.get("pylons") or {})}
+            fit = {"label": entry.get("label", ""),
+                   "pylons": dict(entry.get("pylons") or {})}
+            return dated_fit(fit, type_id, year) if year is not None else fit
     return None
 
 
@@ -307,7 +308,7 @@ _AAM_STATIONS = {ROLE_CAP: 99, ROLE_BFM: 99}
 _AAM_STATIONS_DEFAULT = {"light": 2, "standard": 2, "heavy": 4}
 
 
-def _era_ok(clsid: str, era: str) -> bool:
+def _era_ok(clsid: str, era: str, year=None) -> bool:
     """A store is era-legal unless its service window says otherwise.
 
     Unlisted stores pass. That is deliberate: `weapon_service.json` covers the
@@ -317,6 +318,8 @@ def _era_ok(clsid: str, era: str) -> bool:
     win = window_for(clsid)
     if not win:
         return True
+    if year is not None:
+        return (win[0] or 0) <= year <= (win[1] or 9999)
     eras = load_json("eras")
     if era not in eras:
         return True
@@ -347,12 +350,12 @@ def _rank(clsid: str, name: str) -> tuple:
     return (year, name.lower(), clsid)
 
 
-def _pylon_candidates(plane_type, pylon: int, era: str) -> dict:
+def _pylon_candidates(plane_type, pylon: int, era: str, year=None) -> dict:
     """{store class: [clsid, ...]} of era-legal stores on this station."""
     out = {}
     for clsid, name in sorted(_pylon_stores(plane_type, pylon).items(),
                               key=lambda kv: _rank(kv[0], kv[1])):
-        if not _era_ok(clsid, era):
+        if not _era_ok(clsid, era, year):
             continue
         out.setdefault(store_class(clsid), []).append(clsid)
     return out
@@ -405,7 +408,7 @@ def _mirror_pairs(carriers, stations):
     return pairs
 
 
-def derive_loadout(type_id: str, role: str, era: str, weight="standard") -> dict:
+def derive_loadout(type_id: str, role: str, era: str, weight="standard", *, year=None) -> dict:
     """Compose a fit for `type_id` from what DCS says it can carry.
 
     Returns {"label": str, "pylons": {station: clsid}} — possibly empty pylons
@@ -418,7 +421,7 @@ def derive_loadout(type_id: str, role: str, era: str, weight="standard") -> dict
     budget = _WEIGHT_STATIONS.get(weight, _WEIGHT_STATIONS["standard"])
 
     stations = sorted(getattr(t, "pylons", ()) or ())
-    cand = {p: _pylon_candidates(t, p, era) for p in stations}
+    cand = {p: _pylon_candidates(t, p, era, year) for p in stations}
 
     # Pass 1 — AIR-TO-AIR on the stations that can do nothing else.
     # A station whose only weapons are AAMs is a wingtip rail or a fuselage
@@ -613,8 +616,37 @@ def _label(pylons: dict) -> str:
                      for n in order)
 
 
+def dated_fit(fit, type_id, year):
+    """Correct known service windows using legal DCS stations, without guessing
+    operator availability. Unknown windows remain explicitly uncertified.
+    Replacement stays in the same AAM guidance class and has a known window.
+    """
+    if year is None:
+        return fit
+    out = {**fit, 'pylons': dict(fit.get('pylons', {}))}
+    aircraft = _plane_type(type_id)
+    changed = False
+    for station, clsid in list(out['pylons'].items()):
+        if _era_ok(clsid, '', year):
+            continue
+        changed = True
+        klass = store_class(clsid)
+        candidates = _pylon_stores(aircraft, int(station)) if aircraft else {}
+        legal = [(c, n) for c, n in candidates.items()
+                 if klass in _A2A_ORDER and store_class(c) == klass
+                 and window_for(c) and _era_ok(c, '', year)]
+        if legal:
+            out['pylons'][station] = min(legal, key=lambda cn: _rank(*cn))[0]
+        else:
+            del out['pylons'][station]
+    if changed:
+        out['label'] = f'Date-filtered DCS fit ({year}): ' + ', '.join(
+            n for _s, n in station_list(out)) if out['pylons'] else f'Date-filtered fit ({year}) — clean'
+    return out
+
+
 def player_loadout(type_id: str, mission_kind: str, era: str,
-                   weight="standard") -> dict:
+                   weight="standard", *, year=None) -> dict:
     """The player's fit for the mission they asked for.
 
     Authored entries win; anything else is derived. Both go through the same
@@ -628,7 +660,7 @@ def player_loadout(type_id: str, mission_kind: str, era: str,
     # airframes that happen to be in the AI table.
     node = (table().get(type_id) or {}).get(role) or {}
     if node.get(era) or node.get("*"):
-        authored = loadout_for(type_id, role, era)
+        authored = loadout_for(type_id, role, era, year=year)
         if authored and authored.get("pylons"):
             # An entry authored for THIS era is authoritative. A wildcard one is
             # not: the AI table's "*" fits were written for the era each threat
@@ -636,7 +668,7 @@ def player_loadout(type_id: str, mission_kind: str, era: str,
             # era-gated, so nobody ever checked them against another decade.
             # The player can fly a MiG-21Bis in the modern era, and the wildcard
             # fit hangs 1974 R-13Ms on it — out of service since 1995.
-            if node.get(era) or all(_era_ok(c, era)
+            if node.get(era) or all(_era_ok(c, era, year)
                                     for c in authored["pylons"].values()):
                 return authored
 
@@ -656,14 +688,14 @@ def player_loadout(type_id: str, mission_kind: str, era: str,
     else:
         chain += [ROLE_CAS]
     for r in chain:
-        fit = derive_loadout(type_id, r, era, weight)
+        fit = derive_loadout(type_id, r, era, weight, year=year)
         if fit.get("pylons"):
             return fit
     return {"label": "", "pylons": {}}
 
 
 # ------------------------------------------------------------------- applying
-def arm(group, type_id: str, role: str, era: str, intensity=3, warnings=None):
+def arm(group, type_id: str, role: str, era: str, intensity=3, warnings=None, *, year=None):
     """Load the resolved fit onto every unit in `group`; return its label.
 
     Returns None (and appends to `warnings`) when the table has no entry —
@@ -671,7 +703,7 @@ def arm(group, type_id: str, role: str, era: str, intensity=3, warnings=None):
     the data must degrade, never explode: a new airframe added to a threat pool
     should not be able to break generation.
     """
-    fit = loadout_for(type_id, role, era, intensity)
+    fit = loadout_for(type_id, role, era, intensity, year=year)
     if fit is None:
         if warnings is not None:
             warnings.append(
@@ -883,9 +915,9 @@ def implication(clsids) -> str:
     return line
 
 
-def describe(type_id: str, role: str, era: str, intensity=3, count=1) -> dict:
+def describe(type_id: str, role: str, era: str, intensity=3, count=1, *, year=None) -> dict:
     """Everything the brief needs about one enemy flight, in one record."""
-    fit = loadout_for(type_id, role, era, intensity)
+    fit = loadout_for(type_id, role, era, intensity, year=year)
     label = (fit or {}).get("label") or "Fit unknown — assume guns"
     clsids = list((fit or {}).get("pylons", {}).values())
     return {"type": type_id, "count": int(count), "role": role,

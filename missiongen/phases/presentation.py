@@ -126,9 +126,17 @@ def place_presentation(builder: StarterBuilder, ctx: WorldContext, targets: Scen
         aircraft=getattr(self._resolve_aircraft(r.aircraft), "id", r.aircraft))
 
     # --- briefing ----------------------------------------------------------
+    from ..historical_world import brief_lines
+    history_lines = brief_lines(ctx.historical)
+    stats['historical_context'] = {'date': m.start_time.date().isoformat(),
+                                 'classification': ctx.historical.classification,
+                                 'notes': list(ctx.historical.notes),
+                                 'sources': list(ctx.historical.sources)}
+    stats['airspace_notes'] = airspace_brief.splitlines() if airspace_brief else []
     if r.bb_briefing:
         brief = self._briefing(map_cfg, era_cfg, preset, home,
                                comms, stats, template_brief)
+        brief += '\n\n' + '\n'.join(history_lines)
         if nav_pts:
             from .. import navpoints
             brief += "\n" + navpoints.briefing_block(nav_pts)

@@ -314,7 +314,7 @@ def place_player(builder: StarterBuilder, ctx: WorldContext, carrier: CarrierPla
         # for people who would rather start from a clean jet.
         if r.player_arm:
             from ..scenario_payloads import resolve_fit
-            fit = resolve_fit(r, aircraft.id)
+            fit = resolve_fit(r, aircraft.id, year=m.start_time.year)
             label = loadouts.apply_fit(player_group, fit, aircraft.id,
                                        self.warnings)
             if label:
@@ -340,6 +340,8 @@ def place_player(builder: StarterBuilder, ctx: WorldContext, carrier: CarrierPla
                 from .. import wk as _wkfit
                 _pyl = _wkfit.loadout_for(_wkr_ride)
                 if _pyl:
+                    _pyl = {int(st): cl for st, cl in loadouts.dated_fit(
+                        {'pylons': _pyl}, aircraft.id, m.start_time.year)['pylons'].items()}
                     # CLEAR FIRST. The composed CAP fit already ran, and
                     # merely adding a MER on top left four Sparrows, a
                     # tank and a pair of AIM-9P5s hanging beside it — so

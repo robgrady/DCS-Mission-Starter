@@ -33,7 +33,7 @@ def document_facts(builder, ctx: WorldContext, home, carrier: CarrierPlacement,
     brief_context = {
         "gfx": gfx, "stats": stats, "recipe": r,
         "map_label": map_cfg["label"], "era_label": era_cfg["label"],
-        "era_year": era_cfg["year"], "home": home,
+        "era_year": ctx.mission.start_time.year, "mission_date": ctx.mission.start_time.date(), "home": home,
         "carrier_home": carrier_home,
     }
     # context the kneeboard renderer needs after save
@@ -41,7 +41,7 @@ def document_facts(builder, ctx: WorldContext, home, carrier: CarrierPlacement,
         "comms": comms, "own_fields": own_fields, "enemy_fields": enemy_fields,
         "bullseye": {"x": midpoint.x, "y": midpoint.y},
         "map_label": map_cfg["label"], "era_label": era_cfg["label"],
-        "era_year": era_cfg["year"], "map_key": r.map,
+        "era_year": ctx.mission.start_time.year, "map_key": r.map,
         "home_name": (csg.units[0].name if carrier_home and csg else home.name),
         "support_names": stats["support"],
         "nav_points": [(n, p) for n, p, _t, _note in nav_pts],
@@ -80,6 +80,8 @@ def document_facts(builder, ctx: WorldContext, home, carrier: CarrierPlacement,
         "aircraft_id": getattr(self._resolve_aircraft(r.aircraft), "id",
                                r.aircraft),
     }
+    from .historical_world import brief_lines
+    kneeboard_context['historical_notes'] = brief_lines(ctx.historical) + list(stats.get('airspace_notes', []))
     return MissionFacts(ctx.mission.start_time.date(), ctx.historical, ctx.mission.start_time.hour * 3600
                         + ctx.mission.start_time.minute * 60 + ctx.mission.start_time.second,
                         home, comms, stats.get('route_legs'), stats.get('timing'),

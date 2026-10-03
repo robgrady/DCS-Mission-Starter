@@ -123,7 +123,7 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
                 # an authored direction and the chart should say so.
                 _arrow_head(layer, p1, end, cc)
                 cs.label(layer, _mid(p1, end, terrain),
-                         f"» {f['name']}  ≤{f['ceiling_ft']:,} ft", col)
+                         f"» {f['name']} — schematic; exercise ≤{f['ceiling_ft']:,} ft", col)
             elif kind == "zone":
                 col, fill, wt, st = cs.spec("zone")
                 c = _ll(f["center"][0], f["center"][1], terrain)
@@ -149,7 +149,7 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
                 import math as _math
                 rad = max(_math.hypot(p.x - cx, p.y - cy) for p in pts)
                 m.triggers.add_triggerzone(center, radius=rad,
-                                           name=f"AIRSPACE {f['name']}")
+                                           name=f"AIRSPACE {f['name']} — BOUNDING CIRCLE, NOT POLYGON")
             elif kind == "line":
                 col, _fill, wt, st = cs.spec(f.get("category", "deconfliction"))
                 pts = [_ll(v[0], v[1], terrain) for v in f["points"]]
@@ -160,6 +160,7 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
         briefs.append("")
         briefs.append(f"== {ov.get('brief_title', ov['label'])} ==")
         briefs.extend(ov.get("brief", []))
+        briefs.extend(f"Source: {url}" for url in ov.get("historical_sources", []))
         drawn.append(oid)
 
     return drawn, briefs

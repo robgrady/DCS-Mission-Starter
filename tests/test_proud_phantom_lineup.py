@@ -22,7 +22,7 @@ THE FIX, IN TWO PARTS
 ---------------------
 A **lineup** — a named order of battle layered over the era preset. An era says
 WHEN, a lineup says WHO, and Sinai's Cold War honestly has two: October 1973,
-and June 1980 with the USAF as Egypt's guest at Cairo West. Israel is on
+and July 1980 with the USAF as Egypt's guest at Cairo West. Israel is on
 neither side in 1980; the peace treaty of March 1979 is *why* the exercise
 happened. Libya — the standing threat after the 1977 border war — is red, and
 because it owns no field on this terrain the notional aggressor holds the three
@@ -186,7 +186,7 @@ def test_an_unknown_lineup_is_refused_by_name():
 
 
 def test_a_lineup_cannot_be_dragged_into_the_wrong_era():
-    """Proud Phantom is June 1980. Asking for it in a modern mission is a
+    """Proud Phantom is July 1980. Asking for it in a modern mission is a
     question with no answer; answering it silently is exactly how the 1973
     preset came to serve a 1980 exercise."""
     with pytest.raises(RecipeError) as e:

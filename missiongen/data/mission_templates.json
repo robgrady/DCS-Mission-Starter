@@ -1,7 +1,7 @@
 {
  "_comment": "Scenario templates: opinionated PRESETS that arrange the sandbox into a recognizable mission, filtered by map/era/needs_carrier. Each carries a recipe preset (applied by the frontend to pre-fill the wizard, editable) and a 'brief' tasking block (appended to the mission briefing by the builder - suggested tasking only, NO forced waypoints). EXCEPTION: a template with \"route\": \"strike\" gets a player flight plan (WP1 > IP > TARGET > home) built against the first bb_targets package - the one deliberate opt-out from the no-waypoints rule (see builder.py 'strike route'). These are distinct from the crew-ops templates (backseat_*/rio_fleet_defense) which are handled by dedicated builder branches.",
  "carrier_qual": {
-  "label": "Carrier Qualification (CQ) — Case I/III recovery practice at the boat",
+  "label": "Carrier Qualification (CQ) \u2014 Case I/III recovery practice at the boat",
   "eras": [
    "coldwar",
    "modern"
@@ -26,20 +26,20 @@
    "bb_ambient": false
   },
   "brief": [
-   "=== TASKING (suggested) — CARRIER QUALIFICATION ===",
+   "=== TASKING (suggested) \u2014 CARRIER QUALIFICATION ===",
    "The boat is steaming into the wind with the pattern open. This is a CASE I",
-   "setup — day, clear, and you start on the deck: overhead break, downwind,",
+   "setup \u2014 day, clear, and you start on the deck: overhead break, downwind,",
    "groove, fuel state to Marshal. Currency and traps, no enemy tasking.",
    "Recovery tanker is overhead for your bolters and low-state passes.",
    "Grade yourself: bolter, 1-wire to OK-3.",
    "",
-   "FOR CASE III — the night marshal stack, the push on time, the descent gates",
-   "and the ball — fly the Case III track in the Library. It is a taught",
+   "FOR CASE III \u2014 the night marshal stack, the push on time, the descent gates",
+   "and the ball \u2014 fly the Case III track in the Library. It is a taught",
    "syllabus with cues and grades, and it needs DCS: Supercarrier."
   ],
   "library": {
    "role": "carrier",
-   "premise": "Traps at the boat — Case I pattern work until your boarding rate is where you want it. Calm deck, empty jet, day. The night recovery is a syllabus of its own: see the Case III track.",
+   "premise": "Traps at the boat \u2014 Case I pattern work until your boarding rate is where you want it. Calm deck, empty jet, day. The night recovery is a syllabus of its own: see the Case III track.",
    "threat": 1,
    "players": "SP",
    "featured": true,
@@ -53,7 +53,7 @@
   }
  },
  "acls_practice": {
-  "label": "ACLS Practice — Mode I/IA coupled approaches (SuperCarrier)",
+  "label": "ACLS Practice \u2014 Mode I/IA coupled approaches (SuperCarrier)",
   "eras": [
    "modern"
   ],
@@ -75,7 +75,7 @@
    "weather": "scattered"
   },
   "brief": [
-   "=== TASKING (suggested) — ACLS PRACTICE ===",
+   "=== TASKING (suggested) \u2014 ACLS PRACTICE ===",
    "SuperCarrier boat, Link4 + ACLS radiating (see the Boat Card for channels).",
    "Work the coupled approach:",
    " - Fly to Marshal, set Link4 (F/A-18: DL20; F-14 RIO enters the freq), ICLS on.",
@@ -87,7 +87,7 @@
   ],
   "library": {
    "role": "carrier",
-   "premise": "Mode I/IA coupled approach — fly the needles down to a hands-off night trap in the weather.",
+   "premise": "Mode I/IA coupled approach \u2014 fly the needles down to a hands-off night trap in the weather.",
    "threat": 1,
    "players": "SP",
    "new": false
@@ -95,7 +95,7 @@
   "default_map": "caucasus"
  },
  "cap_alert5": {
-  "label": "CAP / Alert-5 — hold the line, intercept inbound raiders",
+  "label": "CAP / Alert-5 \u2014 hold the line, intercept inbound raiders",
   "eras": [
    "coldwar",
    "modern"
@@ -112,7 +112,7 @@
    "weather": "scattered"
   },
   "brief": [
-   "=== TASKING (suggested) — COMBAT AIR PATROL ===",
+   "=== TASKING (suggested) \u2014 COMBAT AIR PATROL ===",
    "You own a CAP station on the threat axis. AWACS has the picture; check in and",
    "work the intercepts. Enemy CAP is up and probing - expect commit calls.",
    "Tanker on station to keep you on the wall. ROE: your call - this is a training",
@@ -122,7 +122,7 @@
    "role": "a2a",
    "premise": "Hold the line. Sit Alert-5 and scramble to intercept inbound raiders before they cross into friendly airspace.",
    "threat": 4,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "featured": true,
    "new": false
   },
@@ -134,7 +134,7 @@
   }
  },
  "sead_range": {
-  "label": "SEAD / Wild Weasel Range — work a defended target complex",
+  "label": "SEAD / Wild Weasel Range \u2014 work a defended target complex",
   "eras": [
    "coldwar",
    "modern"
@@ -155,7 +155,7 @@
    ]
   },
   "brief": [
-   "=== TASKING (suggested) — SEAD / WILD WEASEL ===",
+   "=== TASKING (suggested) \u2014 SEAD / WILD WEASEL ===",
    "A defended target area is up ahead - SAM belt around the enemy fields (see the",
    "F10 threat rings and the kneeboard). Roll back the air defenses:",
    " - First on the RWR, sort the emitters, respect the rings.",
@@ -165,9 +165,9 @@
   ],
   "library": {
    "role": "sead",
-   "premise": "Wild Weasel work over a defended target — bait the SAMs, kill the radars, open the door for the strikers.",
+   "premise": "Wild Weasel work over a defended target \u2014 bait the SAMs, kill the radars, open the door for the strikers.",
    "threat": 4,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "featured": true,
    "new": false
   },
@@ -179,7 +179,7 @@
   }
  },
  "berlin_corridor_transit": {
-  "label": "Berlin Corridor Transit — fly the Cold War air corridors to Berlin",
+  "label": "Berlin Corridor Transit \u2014 fly the Cold War air corridors to Berlin",
   "eras": [
    "coldwar"
   ],
@@ -201,28 +201,38 @@
    "weather": "scattered"
   },
   "brief": [
-   "=== TASKING (suggested) — BERLIN CORRIDOR TRANSIT ===",
+   "=== TASKING (suggested) \u2014 BERLIN CORRIDOR TRANSIT ===",
    "Three 20-mile-wide corridors run across GDR airspace to West Berlin, ceiling",
-   "10,000 ft, all converging on the Berlin Control Zone (see the F10 map — violet",
-   "swaths — and the airspace note below). This is an airspace-discipline sortie:",
+   "10,000 ft, all converging on the Berlin Control Zone (see the F10 map \u2014 violet",
+   "swaths \u2014 and the airspace note below). This is an airspace-discipline sortie:",
    " - Pick a corridor (North/Hamburg, Center/Hannover, South/Frankfurt) and hold",
    "   inside its lateral limits, below the ceiling, all the way to the Control Zone.",
-   " - Straying out over GDR territory is what got you intercepted historically —",
+   " - Straying out over GDR territory is what got you intercepted historically \u2014",
    "   the win here is a clean transit, not a fight.",
    "No enemy tasking, no fixed waypoints. Fly the lanes, respect the ceiling, RTB.",
-   "(Historical note: the real corridors were open to unarmed transports only — fighters were prohibited. Flying one in an F-4E is a training conceit; the discipline is period-real, your airplane is not.)"
+   "Historical note: this F-4 sortie is a training adaptation. The 10,000-ft exercise limit is not a complete legal history of corridor altitudes or permissions; 1962 Allied discussions included higher flights and conditional fighter escort."
   ],
   "library": {
    "role": "historic",
-   "premise": "Thread the real Cold-War air corridors into Berlin — stay in the lane, the whole world is watching.",
+   "premise": "Practice corridor discipline in an F-4 using a schematic Cold War Berlin overlay and a 10,000-ft exercise limit.",
    "threat": 1,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false
   },
-  "default_map": "germany"
+  "default_map": "germany",
+  "historical": {
+   "historical_notes": [
+    "Berlin corridor training adaptation in an F-4. Terminals are approximate; 10,000 ft is the exercise limit, not a universal historical prohibition on higher flights or fighters."
+   ],
+   "historical_sources": [
+    "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+    "https://history.state.gov/historicaldocuments/frus1945v03/d1206",
+    "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
+   ]
+  }
  },
  "af_tic_cas": {
-  "label": "Troops in Contact — Ridge-Line CAS (Kandahar A-10)",
+  "label": "Troops in Contact \u2014 Ridge-Line CAS (Kandahar A-10)",
   "eras": [
    "modern"
   ],
@@ -233,7 +243,7 @@
   "library": {
    "role": "cas",
    "threat": 2,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "featured": true,
    "premise": "A friendly patrol faces hostile vehicles 800 m away. Check in with a dedicated DCS JTAC on 30 MHz FM, identify the target and provide CAS. No scripted 9-line or automatic danger-close clearance.",
    "new": false
@@ -262,7 +272,7 @@
   ]
  },
  "af_bastion_scramble": {
-  "label": "Bastion Scramble — Harrier Alert (VMA-211)",
+  "label": "Bastion Scramble \u2014 Harrier Alert (VMA-211)",
   "eras": [
    "modern"
   ],
@@ -274,7 +284,7 @@
    "role": "strike",
    "threat": 2,
    "players": "SP",
-   "premise": "Alert Harrier at Camp Bastion. The QRF needs air NOW — runway alert, first pass counts.",
+   "premise": "Alert Harrier at Camp Bastion. The QRF needs air NOW \u2014 runway alert, first pass counts.",
    "new": false
   },
   "recipe": {
@@ -307,7 +317,7 @@
   "library": {
    "role": "cas",
    "threat": 2,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "premise": "A friendly four-truck convoy follows a marked DCS road route after dark. Protect it when two hostile armored vehicles activate near the ambush zone. A notional local overwatch exercise.",
    "new": false
   },
@@ -336,7 +346,7 @@
   ]
  },
  "af_hindu_kush_qra": {
-  "label": "Hindu Kush QRA — Northern Intercept",
+  "label": "Hindu Kush QRA \u2014 Northern Intercept",
   "eras": [
    "modern"
   ],
@@ -347,7 +357,7 @@
   "library": {
    "role": "a2a",
    "threat": 3,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "premise": "Fast movers pushing south over the Hindu Kush. Scramble from Kandahar, climb hard, and meet them in the high passes.",
    "new": false
   },
@@ -372,7 +382,7 @@
   ]
  },
  "f100_victor_alert": {
-  "label": "Victor Alert — Nuclear QRA (Bitburg F-100D)",
+  "label": "Victor Alert \u2014 Nuclear QRA (Bitburg F-100D)",
   "eras": [
    "coldwar"
   ],
@@ -387,7 +397,7 @@
    "new": false,
    "featured": true,
    "module": "F-100D",
-   "premise": "The Hun's Cold War job: cocked on strip alert, ready to run a low-level strike deep into the SAM belt. Delivery is simulated conventionally — the mission is the profile: low ingress, toss, survive the egress. Notional 1978 DCS adaptation: Bitburg's historical F-100 basing ended in 1961; no nuclear store or automatic toss grading."
+   "premise": "The Hun's Cold War job: cocked on strip alert, ready to run a low-level strike deep into the SAM belt. Delivery is simulated conventionally \u2014 the mission is the profile: low ingress, toss, survive the egress. Notional 1978 DCS adaptation: Bitburg's historical F-100 basing ended in 1961; no nuclear store or automatic toss grading."
   },
   "recipe": {
    "aircraft": "F_100D",
@@ -408,17 +418,25 @@
    ]
   },
   "brief": [
-   "== TASKING (suggested): VICTOR ALERT — NUCLEAR QRA ==",
+   "== TASKING (suggested): VICTOR ALERT \u2014 NUCLEAR QRA ==",
    "You are the alert bird at Bitburg, conventionally armed on wing racks. The klaxon just went.",
    "A designated target sits deep behind the front (DGZ ring on the F10 map).",
-   " - Get airborne and go LOW — the SA-2/SA-3 belt owns the medium altitudes.",
+   " - Get airborne and go LOW \u2014 the SA-2/SA-3 belt owns the medium altitudes.",
    " - Run the corridor on the deck, pop for the toss/LADD delivery, egress low and fast.",
-   "No fixed waypoints: pick your own run-in around the threat rings. GCI only — no AWACS.",
+   "No fixed waypoints: pick your own run-in around the threat rings. GCI only \u2014 no AWACS.",
    "The whole sortie is about the profile: get in low, deliver, survive the egress."
-  ]
+  ],
+  "historical": {
+   "historical_notes": [
+    "Notional 1978 conventional-delivery adaptation. Bitburg's historical F-100 basing ended in 1961; the F-100D/module variant and this unit assignment are not certified for 1978. No nuclear store or automatic toss grading."
+   ],
+   "historical_sources": [
+    "https://www.dafhistory.af.mil/About-Us/Fact-Sheets/Display/Article/434045/53-fighter-squadron/"
+   ]
+  }
  },
  "f100_fulda_cas": {
-  "label": "Fulda Gap CAS — Stop the Armor (Hahn F-100D)",
+  "label": "Fulda Gap CAS \u2014 Stop the Armor (Hahn F-100D)",
   "eras": [
    "coldwar"
   ],
@@ -429,7 +447,7 @@
   "library": {
    "role": "cas",
    "threat": 3,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "featured": true,
    "module": "F-100D",
@@ -451,16 +469,16 @@
    "bb_ambient": false
   },
   "brief": [
-   "== TASKING (suggested): BATTLEFIELD CAS — STOP THE ARMOR ==",
+   "== TASKING (suggested): BATTLEFIELD CAS \u2014 STOP THE ARMOR ==",
    "Red armor is rolling through the target area (F10 + kneeboard). Blunt it.",
    " - Work with guns and the fitted unguided Mk-82s. Identify the moving armor before release.",
    " - Threats are ZSU-23/SA-9 SHORAD class down low: jink, don't loiter, re-attack from a new axis.",
-   "No JTAC datalink in this era — talk-on off the F10 picture and your own eyes.",
+   "No JTAC datalink in this era \u2014 talk-on off the F10 picture and your own eyes.",
    "Kill the lead vehicles, break the column's momentum, and get home."
   ]
  },
  "f100_iron_hand": {
-  "label": "Iron Hand — Flak Suppression Escort (Spangdahlem F-100D)",
+  "label": "Iron Hand \u2014 Flak Suppression Escort (Spangdahlem F-100D)",
   "eras": [
    "coldwar"
   ],
@@ -471,10 +489,10 @@
   "library": {
    "role": "sead",
    "threat": 4,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "module": "F-100D",
-   "premise": "Ride shotgun for the strikers — bait the guns, roll in on the SAM sites and flak that come up. The dangerous, low-tech ancestor of Wild Weasel."
+   "premise": "Ride shotgun for the strikers \u2014 bait the guns, roll in on the SAM sites and flak that come up. The dangerous, low-tech ancestor of Wild Weasel."
   },
   "recipe": {
    "aircraft": "F_100D",
@@ -494,16 +512,16 @@
    ]
   },
   "brief": [
-   "== TASKING (suggested): IRON HAND — FLAK SUPPRESSION ==",
+   "== TASKING (suggested): IRON HAND \u2014 FLAK SUPPRESSION ==",
    "A defended target complex is ringed with guns and SAMs (threat rings on the F10 map).",
    " - You are the flak-suppression flight: draw the defenses, then roll in on whatever shoots.",
-   " - Unguided Mk-82 bombs and the four 20mm on AAA and SAM sites — kill the shooters.",
+   " - Unguided Mk-82 bombs and the four 20mm on AAA and SAM sites \u2014 kill the shooters.",
    "No RWR-cued HARM here: this is eyeballs, the RHAW gear and nerve. Respect the rings.",
    "Success = the strikers get their pass without a launch coming up at them."
   ]
  },
  "f100_sabre_dance_bfm": {
-  "label": "Sabre Dance — Gunfighter BFM (Nevada F-100D)",
+  "label": "Sabre Dance \u2014 Gunfighter BFM (Nevada F-100D)",
   "eras": [
    "coldwar"
   ],
@@ -514,10 +532,10 @@
   "library": {
    "role": "a2a",
    "threat": 2,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "module": "F-100D",
-   "premise": "Guns-only day fighter work over the range — learn to fly the Hun on the edge, no missiles, just the pipper and energy."
+   "premise": "Guns-only day fighter work over the range \u2014 learn to fly the Hun on the edge, no missiles, just the pipper and energy."
   },
   "recipe": {
    "aircraft": "F_100D",
@@ -540,13 +558,13 @@
   "brief": [
    "== TASKING (suggested): GUNFIGHTER BFM ==",
    "A dedicated, clean adversary is up for guns-only BFM. No external missiles on either aircraft.",
-   " - This is an energy fight: the Hun bleeds speed in the turn — fly it smart, don't get slow.",
-   " - Merge, fight, knock it off, reset. No missiles, no score — just stick-and-rudder.",
+   " - This is an energy fight: the Hun bleeds speed in the turn \u2014 fly it smart, don't get slow.",
+   " - Merge, fight, knock it off, reset. No missiles, no score \u2014 just stick-and-rudder.",
    "A practice range is laid on if you want to warm up on strafe first. RTB with gas."
   ]
  },
  "f14_tarps_recon": {
-  "label": "TARPS Recon Run — Photo Pass on a Defended Target (F-14B(U))",
+  "label": "TARPS Recon Run \u2014 Photo Pass on a Defended Target (F-14B(U))",
   "eras": [
    "modern"
   ],
@@ -557,11 +575,11 @@
   "library": {
    "role": "strike",
    "threat": 3,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "featured": true,
    "module": "F-14B(U)",
-   "premise": "The Tomcat's other job: run the TARPS camera pod over a defended target and get the imagery out. No shooting — speed, timing and a clean pass are the mission."
+   "premise": "The Tomcat's other job: run the TARPS camera pod over a defended target and get the imagery out. No shooting \u2014 speed, timing and a clean pass are the mission."
   },
   "recipe": {
    "aircraft": "F_14B_U",
@@ -583,9 +601,9 @@
   "brief": [
    "== TASKING (suggested): TARPS RECONNAISSANCE ==",
    "You're carrying the recon pod. A target complex needs imagery (F10 + kneeboard).",
-   " - Plan a straight, steady run-in across the target for the cameras — wings level, on speed.",
+   " - Plan a straight, steady run-in across the target for the cameras \u2014 wings level, on speed.",
    " - Threat rings are up: time your pass, come in fast, and don't linger for a second look.",
-   "AWACS has the picture and a tanker is on the wall. No fixed waypoints — build your run.",
+   "AWACS has the picture and a tanker is on the wall. No fixed waypoints \u2014 build your run.",
    "Win = a clean photo pass and a live jet on the ramp. Don't trade the airframe for a picture.",
    "TARPS is fitted on exported pylon 6 (physical weapons station 5).",
    "Use the RIO FILM/FRAME controls or Jester Utilities > Air to Ground.",
@@ -593,7 +611,7 @@
   ]
  },
  "f14_bombcat_strike": {
-  "label": "Bombcat Precision Strike — Self-Designate a Point Target (F-14B(U))",
+  "label": "Bombcat Precision Strike \u2014 Self-Designate a Point Target (F-14B(U))",
   "eras": [
    "modern"
   ],
@@ -604,11 +622,11 @@
   "library": {
    "role": "strike",
    "threat": 4,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "featured": true,
    "module": "F-14B(U)",
-   "premise": "Bombcat. A hardened point target sits inside a SAM ring — lase it yourself and put a LGB through the roof. The multirole Tomcat at its best."
+   "premise": "Bombcat. A hardened point target sits inside a SAM ring \u2014 lase it yourself and put a LGB through the roof. The multirole Tomcat at its best."
   },
   "recipe": {
    "aircraft": "F_14B_U",
@@ -631,13 +649,13 @@
    "== TASKING (suggested): PRECISION STRIKE ==",
    "A defended point target is marked on the F10 map, ringed by air defenses.",
    " - Ingress around the threat rings, self-designate with the pod and drop LGBs.",
-   " - Medium-altitude work above the SHORAD, but the SA belt reaches up — respect it.",
-   "AWACS and a tanker are laid on. No fixed waypoints — pick the axis that keeps you alive.",
+   " - Medium-altitude work above the SHORAD, but the SA belt reaches up \u2014 respect it.",
+   "AWACS and a tanker are laid on. No fixed waypoints \u2014 pick the axis that keeps you alive.",
    "One good pass beats three sloppy ones. Confirm the hit, then egress."
   ]
  },
  "f14_case3_night": {
-  "label": "Case III Night Recovery — Bring It Aboard in the Weather (F-14B(U))",
+  "label": "Case III Night Recovery \u2014 Bring It Aboard in the Weather (F-14B(U))",
   "eras": [
    "modern"
   ],
@@ -684,7 +702,7 @@
   ]
  },
  "cv_alpha_strike_escort": {
-  "label": "Alpha Strike Escort — TARCAP for the Intruders (Forrestal F-14A)",
+  "label": "Alpha Strike Escort \u2014 TARCAP for the Intruders (Forrestal F-14A)",
   "eras": [
    "coldwar"
   ],
@@ -696,7 +714,7 @@
   "library": {
    "role": "a2a",
    "threat": 4,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "featured": true,
    "premise": "The air wing's A-6 Intruders are going downtown. Fly TARCAP off the Forrestal, sanitize the threat axis and keep the MiGs off the strike package."
@@ -724,17 +742,17 @@
   },
   "brief": [
    "== TASKING (suggested): ALPHA STRIKE ESCORT (TARCAP) ==",
-   "The air wing is launching a medium-attack package — VA-176's A-6 Intruders,",
+   "The air wing is launching a medium-attack package \u2014 VA-176's A-6 Intruders,",
    "outbound on the threat axis (see the F10 map). You are their fighter cover.",
    " - Launch, sanitize ahead of and around the strike, and hold the CAP between",
-   "   the Intruders and the enemy fields. Bandits are up — expect commit calls.",
+   "   the Intruders and the enemy fields. Bandits are up \u2014 expect commit calls.",
    " - The KA-6D is your gas on the way home (Texaco). AEW has the picture.",
    "No fixed waypoints for you: work the escort geometry off the strike's ingress.",
    "Win = the Intruders get feet-dry and back with no losses to air threats."
   ]
  },
  "gun_belt_strike": {
-  "label": "Gun Belt Strike — routed package attack through the flak (F-4E)",
+  "label": "Gun Belt Strike \u2014 routed package attack through the flak (F-4E)",
   "eras": [
    "coldwar"
   ],
@@ -742,10 +760,10 @@
   "library": {
    "role": "strike",
    "threat": 4,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
    "featured": true,
-   "premise": "A fragged target deep in the gun belt — fly the route, WP1 to IP to TARGET. No SAMs anywhere: every threat ring on the map is guns, and every gun is between you and the aim point."
+   "premise": "A fragged target deep in the gun belt \u2014 fly the route, WP1 to IP to TARGET. No SAMs anywhere: every threat ring on the map is guns, and every gun is between you and the aim point."
   },
   "recipe": {
    "aircraft": "F_4E_45MC",
@@ -763,17 +781,17 @@
   "brief": [
    "== TASKING: GUN BELT STRIKE ==",
    "Your flight plan is loaded: WP1 (ingress) > IP > TARGET > home plate. Unusual",
-   "for us — this one is fragged, so fly the black line and hit your TOT.",
+   "for us \u2014 this one is fragged, so fly the black line and hit your TOT.",
    " - The target package sits at your TARGET steerpoint (marked on the F10 map).",
    " - There are NO missiles in this war. Every ring on the map is guns: 23mm,",
-   "   57mm, 100mm. They cannot reach you at altitude — but you cannot hit the",
+   "   57mm, 100mm. They cannot reach you at altitude \u2014 but you cannot hit the",
    "   target from altitude either. That trade is the whole mission.",
    " - One pass, haul ass. The second pass is where the gunners have your number.",
    "Off target, egress AWAY from the ring, then direct home plate."
   ]
  },
  "armed_recon_route": {
-  "label": "Armed Reconnaissance — low-level route hunt under the flak (F-5E)",
+  "label": "Armed Reconnaissance \u2014 low-level route hunt under the flak (F-5E)",
   "eras": [
    "coldwar"
   ],
@@ -781,9 +799,9 @@
   "library": {
    "role": "strike",
    "threat": 3,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
-   "premise": "Fly the fragged route with eyes out — the briefed target is the anchor, but anything that moves along the way is fair game. Guns only, and the light stuff you never see is the stuff that gets Tigers."
+   "premise": "Fly the fragged route with eyes out \u2014 the briefed target is the anchor, but anything that moves along the way is fair game. Guns only, and the light stuff you never see is the stuff that gets Tigers."
   },
   "recipe": {
    "aircraft": "F_5E_3",
@@ -803,7 +821,7 @@
    "Route is loaded: WP1 > IP > TARGET > home. The TARGET package is your",
    "briefed objective; everything along the route is your hunting ground.",
    " - Two Tigers, guns and slick bombs. Nothing on this route out-accelerates you.",
-   " - The threat is ALL guns — no launch warnings, no smoke trails. The first",
+   " - The threat is ALL guns \u2014 no launch warnings, no smoke trails. The first",
    "   cue you are in a gun ring is tracer. Keep the speed up, never straight",
    "   and level below 10,000 ft for more than 20 seconds.",
    " - Log anything you can't kill: convoys, sites, movers. That's the recon half.",
@@ -811,7 +829,7 @@
   ]
  },
  "mig_gun_belt_strike": {
-  "label": "Frontal Aviation Strike — MiG-21 routed attack, guns only (red side)",
+  "label": "Frontal Aviation Strike \u2014 MiG-21 routed attack, guns only (red side)",
   "eras": [
    "coldwar"
   ],
@@ -819,9 +837,9 @@
   "library": {
    "role": "strike",
    "threat": 3,
-   "players": "SP · MP",
+   "players": "SP \u00b7 MP",
    "new": false,
-   "premise": "The other cockpit: a MiG-21 with pylons full, a fragged route into NATO's gun line, and a stopwatch. Vulcans and quad-mounts at the target — fast in, one pass, faster out."
+   "premise": "The other cockpit: a MiG-21 with pylons full, a fragged route into NATO's gun line, and a stopwatch. Vulcans and quad-mounts at the target \u2014 fast in, one pass, faster out."
   },
   "recipe": {
    "coalition": "red",
@@ -839,17 +857,17 @@
   },
   "brief": [
    "== TASKING: FRONTAL AVIATION STRIKE ==",
-   "Shturman has your route: WP1 > IP > TARGET > home. Fly it on the clock —",
+   "Shturman has your route: WP1 > IP > TARGET > home. Fly it on the clock \u2014",
    "the regiment grades TOT, not style.",
    " - Target package at the TARGET steerpoint. NATO defends it with guns:",
-   "   Vulcans and 40mm — short-ranged, radar-laid, deadly below 2,000 meters.",
+   "   Vulcans and 40mm \u2014 short-ranged, radar-laid, deadly below 2,000 meters.",
    " - The 21 does one thing well here: speed. Come in fast, put the pipper on,",
    "   off in one pass. You have fuel for the route and one attack, not a duel.",
    "RTB direct. A MiG that brings the film home flies again tomorrow."
   ]
  },
  "qf_tanker": {
-  "label": "Tanker Time — air refuelling, starting at the boom",
+  "label": "Tanker Time \u2014 air refuelling, starting at the boom",
   "eras": [
    "coldwar",
    "modern"
@@ -881,8 +899,8 @@
    "go again. When that gets boring, drop back a mile and re-join from",
    "observation. When THAT gets boring, you can refuel.",
    "",
-   "The full procedure card — the four positions, the three mistakes, and this",
-   "tanker's speed and altitude — is in the briefing and on your kneeboard.",
+   "The full procedure card \u2014 the four positions, the three mistakes, and this",
+   "tanker's speed and altitude \u2014 is in the briefing and on your kneeboard.",
    "Nothing up here shoots."
   ],
   "by_era": {
@@ -894,13 +912,13 @@
    "role": "training",
    "new": false,
    "featured": true,
-   "premise": "Start 1 nm astern the tanker, already at his speed. No commute — just the thirty seconds that are actually hard, as many times as you want them.",
+   "premise": "Start 1 nm astern the tanker, already at his speed. No commute \u2014 just the thirty seconds that are actually hard, as many times as you want them.",
    "threat": 1,
    "players": "SP"
   }
  },
  "qf_bfm": {
-  "label": "BFM Merge — one bandit, co-altitude, fight's on",
+  "label": "BFM Merge \u2014 one bandit, co-altitude, fight's on",
   "eras": [
    "wwii",
    "coldwar",
@@ -924,7 +942,7 @@
    "== TASKING: BFM MERGE ==",
    "One adversary, two nautical miles abeam, your altitude. He is looking at you.",
    " - Fight starts at the merge. Energy before angles; check your fuel and",
-   "   your altitude — the ground has killed more BFM sorties than any bandit.",
+   "   your altitude \u2014 the ground has killed more BFM sorties than any bandit.",
    " - Knock it off when someone is dead, defensive at the deck, or bingo.",
    "Re-roll the mission for a different adversary type. Same seed, same bandit."
   ],
@@ -943,7 +961,7 @@
   }
  },
  "qf_guns": {
-  "label": "Kill the Guns — airborne on the run-in, AAA-defended target",
+  "label": "Kill the Guns \u2014 airborne on the run-in, AAA-defended target",
   "eras": [
    "wwii",
    "coldwar",
@@ -968,7 +986,7 @@
   "brief": [
    "== TASKING: KILL THE GUNS ==",
    "One target: the vehicle depot marked TGT1 on the F10 map. It defends",
-   "itself with gun clusters at the aim point — 23mm up close, heavier out.",
+   "itself with gun clusters at the aim point \u2014 23mm up close, heavier out.",
    " - There are NO missiles in this mission. Every ring on the map is guns.",
    " - They can't reach you at altitude; you can't hit anything from altitude.",
    "   That trade is the whole sortie. One pass, haul ass.",
@@ -990,7 +1008,7 @@
   }
  },
  "qf_sam": {
-  "label": "Beat the SAM — airborne just outside the ring",
+  "label": "Beat the SAM \u2014 airborne just outside the ring",
   "eras": [
    "coldwar",
    "modern"
@@ -1014,7 +1032,7 @@
   "brief": [
    "== TASKING: BEAT THE SAM ==",
    "The C2 site marked TGT1 sits inside a SAM ring (threat circles on the F10",
-   "map — era-correct systems, so learn THIS threat's timeline).",
+   "map \u2014 era-correct systems, so learn THIS threat's timeline).",
    " - Your choice of answer: stand-off outside the ring, run the notch and",
    "   trash the shot, or come in under the radar floor on the deck.",
    " - The RWR is the syllabus here. Respect the rings; they are honest.",
@@ -1033,7 +1051,7 @@
  },
  "_by_era": "Per-era overrides on top of `recipe`. A template that declares several eras cannot pin one aircraft: the Library offered Carrier Qualification in the Cold War and then handed the engine an F/A-18C. Keys are era -> partial recipe (plus an optional `map` when the default map has no preset for that era).",
  "form_route": {
-  "label": "Formation 1: Route Position — wingman training, no threats",
+  "label": "Formation 1: Route Position \u2014 wingman training, no threats",
   "eras": [
    "wwii",
    "coldwar",
@@ -1111,9 +1129,9 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — STAGE 1 OF 5 ===",
+   "=== FORMATION SYLLABUS \u2014 STAGE 1 OF 5 ===",
    "You are DASH 2. Lead is a SEPARATE AI aircraft of the same type as",
-   "yours, flying a scripted profile that never varies — you cannot build",
+   "yours, flying a scripted profile that never varies \u2014 you cannot build",
    "a sight picture against a leader who improvises.",
    "Lead calls you on the radio when you drift out of position, and once",
    "more when you get back in. One call per excursion, not a running",
@@ -1127,7 +1145,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "Fly Dash 2 on a lead who does nothing at all: straight, level, one speed. You sit in ROUTE — a few hundred feet out, where there is room to breathe. Deliberately boring, because this is the sortie that builds the sight picture everything else stands on.",
+   "premise": "Fly Dash 2 on a lead who does nothing at all: straight, level, one speed. You sit in ROUTE \u2014 a few hundred feet out, where there is room to breathe. Deliberately boring, because this is the sortie that builds the sight picture everything else stands on.",
    "threat": 1,
    "players": "SP",
    "featured": true,
@@ -1136,7 +1154,7 @@
   "default_map": "caucasus"
  },
  "form_close": {
-  "label": "Formation 2: Close Formation — wingman training, no threats",
+  "label": "Formation 2: Close Formation \u2014 wingman training, no threats",
   "eras": [
    "wwii",
    "coldwar",
@@ -1214,9 +1232,9 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — STAGE 2 OF 5 ===",
+   "=== FORMATION SYLLABUS \u2014 STAGE 2 OF 5 ===",
    "You are DASH 2. Lead is a SEPARATE AI aircraft of the same type as",
-   "yours, flying a scripted profile that never varies — you cannot build",
+   "yours, flying a scripted profile that never varies \u2014 you cannot build",
    "a sight picture against a leader who improvises.",
    "Lead calls you on the radio when you drift out of position, and once",
    "more when you get back in. One call per excursion, not a running",
@@ -1239,7 +1257,7 @@
   "default_map": "caucasus"
  },
  "form_energy": {
-  "label": "Formation 3: Climbs, Descents and Speed — wingman training, no threats",
+  "label": "Formation 3: Climbs, Descents and Speed \u2014 wingman training, no threats",
   "eras": [
    "wwii",
    "coldwar",
@@ -1317,9 +1335,9 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — STAGE 3 OF 5 ===",
+   "=== FORMATION SYLLABUS \u2014 STAGE 3 OF 5 ===",
    "You are DASH 2. Lead is a SEPARATE AI aircraft of the same type as",
-   "yours, flying a scripted profile that never varies — you cannot build",
+   "yours, flying a scripted profile that never varies \u2014 you cannot build",
    "a sight picture against a leader who improvises.",
    "Lead calls you on the radio when you drift out of position, and once",
    "more when you get back in. One call per excursion, not a running",
@@ -1333,7 +1351,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "Lead changes energy state — climbs, descends, accelerates, decelerates. By the time you SEE the change you are already late, so this is the sortie that teaches you to read the wing and move first.",
+   "premise": "Lead changes energy state \u2014 climbs, descends, accelerates, decelerates. By the time you SEE the change you are already late, so this is the sortie that teaches you to read the wing and move first.",
    "threat": 1,
    "players": "SP",
    "featured": false,
@@ -1342,7 +1360,7 @@
   "default_map": "caucasus"
  },
  "form_rejoin": {
-  "label": "Formation 4: The Rejoin — wingman training, no threats",
+  "label": "Formation 4: The Rejoin \u2014 wingman training, no threats",
   "eras": [
    "wwii",
    "coldwar",
@@ -1420,9 +1438,9 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — STAGE 4 OF 5 ===",
+   "=== FORMATION SYLLABUS \u2014 STAGE 4 OF 5 ===",
    "You are DASH 2. Lead is a SEPARATE AI aircraft of the same type as",
-   "yours, flying a scripted profile that never varies — you cannot build",
+   "yours, flying a scripted profile that never varies \u2014 you cannot build",
    "a sight picture against a leader who improvises.",
    "Lead calls you on the radio when you drift out of position, and once",
    "more when you get back in. One call per excursion, not a running",
@@ -1445,7 +1463,7 @@
   "default_map": "caucasus"
  },
  "form_takeoff": {
-  "label": "Formation 5: Takeoff to Landing — wingman training, no threats",
+  "label": "Formation 5: Takeoff to Landing \u2014 wingman training, no threats",
   "eras": [
    "wwii",
    "coldwar",
@@ -1523,9 +1541,9 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — STAGE 5 OF 5 ===",
+   "=== FORMATION SYLLABUS \u2014 STAGE 5 OF 5 ===",
    "You are DASH 2. Lead is a SEPARATE AI aircraft of the same type as",
-   "yours, flying a scripted profile that never varies — you cannot build",
+   "yours, flying a scripted profile that never varies \u2014 you cannot build",
    "a sight picture against a leader who improvises.",
    "Lead calls you on the radio when you drift out of position, and once",
    "more when you get back in. One call per excursion, not a running",
@@ -1548,7 +1566,7 @@
   "default_map": "caucasus"
  },
  "bc_tr1": {
-  "label": "B-Course TR-1 — Single-Ship Operations",
+  "label": "B-Course TR-1 \u2014 Single-Ship Operations",
   "eras": [
    "modern"
   ],
@@ -1573,7 +1591,7 @@
    "bb_ambient": false
   },
   "brief": [
-   "=== B-COURSE TR-1 · SINGLE-SHIP OPERATIONS ===",
+   "=== B-COURSE TR-1 \u00b7 SINGLE-SHIP OPERATIONS ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-4. Sortie 1 of 53.",
    "",
    "This is the first ride. Nothing is trying to kill you and nothing is",
@@ -1587,7 +1605,7 @@
    "     c. Nose-high recovery; horn demonstration",
    "     d. Advanced handling: vertical recovery, AOA limiter,",
    "        30-degree climb limiter, G-command, slow flight",
-   "     e. G-AWARENESS EXERCISE / HIGH-G PROFILE — see below",
+   "     e. G-AWARENESS EXERCISE / HIGH-G PROFILE \u2014 see below",
    " *4. Instrument procedures: non-precision approach, precision approach",
    " *5. VFR patterns and landings: visual straight-in, overhead and closed",
    "     patterns, touch-and-go, SIMULATED FLAMEOUT (SFO), full stop",
@@ -1605,7 +1623,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The first ride of the F-16 B-Course, flown the way Luke flies it. Instrument departure, the full airwork block, the 4G/6-8G/8-9G G-awareness profile, then patterns and an SFO. No threats — the airplane is the syllabus.",
+   "premise": "The first ride of the F-16 B-Course, flown the way Luke flies it. Instrument departure, the full airwork block, the 4G/6-8G/8-9G G-awareness profile, then patterns and an SFO. No threats \u2014 the airplane is the syllabus.",
    "threat": 1,
    "players": "SP",
    "new": false
@@ -1613,7 +1631,7 @@
   "default_map": "nevada"
  },
  "bc_ahc": {
-  "label": "B-Course AHC — Advanced Handling Characteristics",
+  "label": "B-Course AHC \u2014 Advanced Handling Characteristics",
   "eras": [
    "modern"
   ],
@@ -1633,11 +1651,11 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE AHC · ADVANCED HANDLING CHARACTERISTICS ===",
+   "=== B-COURSE AHC \u00b7 ADVANCED HANDLING CHARACTERISTICS ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-8.",
    "",
    "The bridge sortie between flying the jet and fighting it. You are NOT",
-   "here to win a fight — you are here to arrive at his turn circle knowing",
+   "here to win a fight \u2014 you are here to arrive at his turn circle knowing",
    "where it is.",
    "",
    "THE EXERCISE (syllabus task 8b): turn circle entry, run from FIGHT'S ON",
@@ -1653,7 +1671,7 @@
    "",
    "THE SECOND SETUP: fly the 9,000 ft exercise until arriving at the turn",
    "circle is boring, then fly the whole card again from the 6,000 ft perch",
-   "— 'B-Course AHC (6,000 ft)' in the Library. Same sortie, second half.",
+   "\u2014 'B-Course AHC (6,000 ft)' in the Library. Same sortie, second half.",
    "",
    "Tanker is up: air refuelling is on this card in the real course, and it",
    "is a solo-clearance item."
@@ -1668,7 +1686,7 @@
   "default_map": "nevada"
  },
  "bc_bfm1": {
-  "label": "B-Course BFM-1 — Offensive BFM",
+  "label": "B-Course BFM-1 \u2014 Offensive BFM",
   "eras": [
    "modern"
   ],
@@ -1688,7 +1706,7 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-1 · OFFENSIVE BFM ===",
+   "=== B-COURSE BFM-1 \u00b7 OFFENSIVE BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
    "You start at his six with a turn circle to spend. Nine thousand feet is enough room to think and enough rope to hang yourself with an overshoot.",
@@ -1696,7 +1714,7 @@
    "THE SORTIE IS THREE SETUPS, not one:",
    "  a. 9,000 ft   b. 6,000 ft   c. 3,000 ft",
    "This card opens at 9,000 ft. The 6,000 and 3,000 ft perches are their own",
-   "cards in the Library — 'BFM-1 (6,000 ft)' and 'BFM-1 (3,000 ft)'. Fly all",
+   "cards in the Library \u2014 'BFM-1 (6,000 ft)' and 'BFM-1 (3,000 ft)'. Fly all",
    "three; that is the sortie.",
    "",
    "Closer is not easier. At 3,000 ft you have a snapshot and a decision;",
@@ -1719,7 +1737,7 @@
   "default_map": "nevada"
  },
  "bc_bfm4": {
-  "label": "B-Course BFM-4 — Defensive BFM",
+  "label": "B-Course BFM-4 \u2014 Defensive BFM",
   "eras": [
    "modern"
   ],
@@ -1739,10 +1757,10 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-4 · DEFENSIVE BFM ===",
+   "=== B-COURSE BFM-4 \u00b7 DEFENSIVE BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
-   "He starts at YOUR six, slightly high, tracking. Your job is not to win — it is to deny the shot and force the overshoot.",
+   "He starts at YOUR six, slightly high, tracking. Your job is not to win \u2014 it is to deny the shot and force the overshoot.",
    "",
    "THE SORTIE IS THREE SETUPS, not one:",
    "  a. 9,000 ft   b. 6,000 ft   c. 3,000 ft",
@@ -1750,7 +1768,7 @@
    "are their own cards. Fly all three.",
    "",
    "Before the fights, the syllabus flies a DEFENSIVE RANGING EXERCISE and a",
-   "DEFENSIVE HEAT-TO-GUNS EXERCISE — learn what 9,000, 6,000 and 3,000 feet",
+   "DEFENSIVE HEAT-TO-GUNS EXERCISE \u2014 learn what 9,000, 6,000 and 3,000 feet",
    "of trailer LOOK like over your shoulder before you have to fight one.",
    "",
    "FLOOR AWARENESS is a milestone task here. Know your hard deck and call",
@@ -1761,7 +1779,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "He starts at YOUR six, slightly high, tracking. Your job is not to win — it is to deny the shot and force the overshoot.",
+   "premise": "He starts at YOUR six, slightly high, tracking. Your job is not to win \u2014 it is to deny the shot and force the overshoot.",
    "threat": 2,
    "players": "SP",
    "new": false
@@ -1769,7 +1787,7 @@
   "default_map": "nevada"
  },
  "bc_bfm7": {
-  "label": "B-Course BFM-7 — High-Aspect BFM",
+  "label": "B-Course BFM-7 \u2014 High-Aspect BFM",
   "eras": [
    "modern"
   ],
@@ -1789,12 +1807,12 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-7 · HIGH-ASPECT BFM ===",
+   "=== B-COURSE BFM-7 \u00b7 HIGH-ASPECT BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
    "Both hot, nose to nose. The first 90 degrees decides the fight, and the decision is made before the merge.",
    "",
-   "The syllabus states NO setup range for high-aspect BFM — unlike the",
+   "The syllabus states NO setup range for high-aspect BFM \u2014 unlike the",
    "offensive and defensive rides, it is not a range ladder. You get one",
    "merge and one choice.",
    "",
@@ -1802,7 +1820,7 @@
    "flies it alone, with an IP in the other jet.",
    "",
    "In the real course dissimilar adversaries are authorised on BFM-7 to",
-   "BFM-9 — if you have another module, fly this one against a type that",
+   "BFM-9 \u2014 if you have another module, fly this one against a type that",
    "does not turn like you do.",
    "",
    "The standards card for this perch is generated for your aircraft and",
@@ -1818,7 +1836,7 @@
   "default_map": "nevada"
  },
  "bc_acm1": {
-  "label": "B-Course ACM-1 — Defensive Air Combat Maneuvering",
+  "label": "B-Course ACM-1 \u2014 Defensive Air Combat Maneuvering",
   "eras": [
    "modern"
   ],
@@ -1839,11 +1857,11 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE ACM-1 · DEFENSIVE ACM ===",
+   "=== B-COURSE ACM-1 \u00b7 DEFENSIVE ACM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-11.",
    "",
    "BFM is one jet against one jet. ACM is what happens when you have a",
-   "wingman and he has a shooter — the fight stops being about your turn",
+   "wingman and he has a shooter \u2014 the fight stops being about your turn",
    "circle and starts being about the FLIGHT surviving.",
    "",
    "The real ACM-1 is a THREE-SHIP: an IP leads, the student flies No. 2,",
@@ -1863,13 +1881,13 @@
    "role": "training",
    "premise": "Where BFM stops and fighting as a pair starts. Every engagement begins from a defensive perch, and the first thing you owe your wingman is a radio call, not a break turn.",
    "threat": 2,
-   "players": "SP·MP",
+   "players": "SP\u00b7MP",
    "new": false
   },
   "default_map": "nevada"
  },
  "bc_ti1": {
-  "label": "B-Course TI-1 — Single-Ship Tactical Intercepts",
+  "label": "B-Course TI-1 \u2014 Single-Ship Tactical Intercepts",
   "eras": [
    "modern"
   ],
@@ -1889,7 +1907,7 @@
    "slots": 1
   },
   "brief": [
-   "=== B-COURSE TI-1 · SINGLE-SHIP TACTICAL INTERCEPTS ===",
+   "=== B-COURSE TI-1 \u00b7 SINGLE-SHIP TACTICAL INTERCEPTS ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-12.",
    "",
    "The first sortie where the radar is the weapon. In the real course the",
@@ -1898,16 +1916,16 @@
    "",
    "REQUIRED TASKS:",
    " *2. Single-ship tactical intercepts",
-   " *3. AAMD — air-to-air missile defense",
+   " *3. AAMD \u2014 air-to-air missile defense",
    " *5. Precision approach on recovery",
    "",
-   "WHAT YOU ARE ACTUALLY LEARNING: not the intercept geometry — the RADAR.",
+   "WHAT YOU ARE ACTUALLY LEARNING: not the intercept geometry \u2014 the RADAR.",
    " - Set the scan so the target is IN it before you need him.",
    " - Sort what you see. One contact or two? Which one matters?",
    " - Commit, or do not. An intercept you fly halfway is worse than one you",
    "   never started.",
    "",
-   "AWACS is up. Use the picture, then check it against your own — the day",
+   "AWACS is up. Use the picture, then check it against your own \u2014 the day",
    "you take a controller's word over your radar is the day you get gunned."
   ],
   "library": {
@@ -1920,7 +1938,7 @@
   "default_map": "nevada"
  },
  "bc_lasdt1": {
-  "label": "B-Course LASDT-1 — Low Altitude Step Down Training",
+  "label": "B-Course LASDT-1 \u2014 Low Altitude Step Down Training",
   "eras": [
    "modern"
   ],
@@ -1939,7 +1957,7 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE LASDT-1 · LOW ALTITUDE STEP DOWN TRAINING ===",
+   "=== B-COURSE LASDT-1 \u00b7 LOW ALTITUDE STEP DOWN TRAINING ===",
    "SELF-DIRECTED EXERCISE: printed step-down syllabus only. No AI lead, staged descent route, automatic AGL monitoring or grading. A human instructor must demonstrate formation/turns.",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-17.",
    "",
@@ -1961,7 +1979,7 @@
    " h. Reversals",
    "",
    "THE THREE RULES the real brief must cover, from AFI 11-214 and",
-   "AFTTP 3-3.F-16 — know them before you push:",
+   "AFTTP 3-3.F-16 \u2014 know them before you push:",
    " - The 1 PERCENT RULE",
    " - The 50 PERCENT RULE",
    " - The 10 DEGREE RULE",
@@ -1984,7 +2002,7 @@
   "default_map": "nevada"
  },
  "bc_sa1": {
-  "label": "B-Course SA-1 — Basic Surface Attack",
+  "label": "B-Course SA-1 \u2014 Basic Surface Attack",
   "eras": [
    "modern"
   ],
@@ -2004,7 +2022,7 @@
    "bb_ambient": false
   },
   "brief": [
-   "=== B-COURSE SA-1 · BASIC SURFACE ATTACK ===",
+   "=== B-COURSE SA-1 \u00b7 BASIC SURFACE ATTACK ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-18.",
    "",
    "SYLLABUS NOTE, verbatim in intent: do NOT schedule a low level with this",
@@ -2012,15 +2030,15 @@
    "the delivery.",
    "",
    "THE BOX PATTERN DELIVERIES (syllabus task 8):",
-   " a. HARB  — high-angle rocket / bomb",
-   " b. HADB  — high-angle dive bomb",
-   " c. LAHD  — low-angle high drag",
+   " a. HARB  \u2014 high-angle rocket / bomb",
+   " b. HADB  \u2014 high-angle dive bomb",
+   " c. LAHD  \u2014 low-angle high drag",
    "",
    "Also on the card: ARTS 1 and 2, the A-S weapon systems check, TMLT, LAS,",
    "and simulated hung-ordnance procedures on recovery.",
    "",
    "The real SA-1 needs a Class A range. You have a practice range in the",
-   "friendly rear — targets, a pit, and nobody shooting back.",
+   "friendly rear \u2014 targets, a pit, and nobody shooting back.",
    "",
    "WHAT TO GRADE YOURSELF ON: not whether you hit. Whether you flew the",
    "SAME pattern three times. A hit off a pattern you cannot repeat is luck,",
@@ -2028,7 +2046,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "Fly direct to the range and do nothing but deliveries. Box patterns — HARB, HADB, LAHD — flown until the pattern repeats. Grade the pattern, not the hit.",
+   "premise": "Fly direct to the range and do nothing but deliveries. Box patterns \u2014 HARB, HADB, LAHD \u2014 flown until the pattern repeats. Grade the pattern, not the hit.",
    "threat": 1,
    "players": "SP",
    "new": false
@@ -2036,7 +2054,7 @@
   "default_map": "nevada"
  },
  "bc_sat2": {
-  "label": "B-Course SAT-2 — Element Surface Attack Tactics",
+  "label": "B-Course SAT-2 \u2014 Element Surface Attack Tactics",
   "eras": [
    "modern"
   ],
@@ -2057,7 +2075,7 @@
    "player_fit": "unguided"
   },
   "brief": [
-   "=== B-COURSE SAT-2 · ELEMENT SAT / PREPLANNED TARGETING ===",
+   "=== B-COURSE SAT-2 \u00b7 ELEMENT SAT / PREPLANNED TARGETING ===",
    "PARTNER EXERCISE: two client aircraft with unguided bombs. A human instructor/partner must simulate the wounded bird; no scripted damage event or automatic recovery grade.",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-19.",
    "",
@@ -2067,7 +2085,7 @@
    "REQUIRED TASKS:",
    " *2. Target area ingress (low or medium altitude)",
    " *4. Surface-to-air threat reactions",
-   " *5. Unguided weapons employment — element low-altitude attacks, element",
+   " *5. Unguided weapons employment \u2014 element low-altitude attacks, element",
    "     medium-altitude attacks, and a fighter-sweep weapons delivery",
    " *6. High-angle strafe",
    " *7. WOUNDED BIRD EXERCISE",
@@ -2080,14 +2098,14 @@
    "the bombs come off.",
    "",
    "UNGUIDED WEAPONS EMPLOYMENT (TACTICAL) is a milestone task here. Not",
-   "'can you hit it' — can you hit it while the SAM ring is live and your",
+   "'can you hit it' \u2014 can you hit it while the SAM ring is live and your",
    "wingman needs a call."
   ],
   "library": {
    "role": "training",
    "premise": "PARTNER EXERCISE: two client aircraft with unguided bombs. A human instructor/partner must simulate the wounded bird; no scripted damage event or automatic recovery grade.",
    "threat": 3,
-   "players": "SP·MP",
+   "players": "SP\u00b7MP",
    "new": false,
    "mode": "self-directed exercise",
    "disclosure": "PARTNER EXERCISE: two client aircraft with unguided bombs. A human instructor/partner must simulate the wounded bird; no scripted damage event or automatic recovery grade."
@@ -2095,7 +2113,7 @@
   "default_map": "nevada"
  },
  "bc_cas1": {
-  "label": "B-Course CAS-1 — Close Air Support",
+  "label": "B-Course CAS-1 \u2014 Close Air Support",
   "eras": [
    "modern"
   ],
@@ -2114,10 +2132,10 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE CAS-1 · CLOSE AIR SUPPORT ===",
+   "=== B-COURSE CAS-1 \u00b7 CLOSE AIR SUPPORT ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-20.",
    "",
-   "Everything up to here you decided. On CAS you do not decide — someone on",
+   "Everything up to here you decided. On CAS you do not decide \u2014 someone on",
    "the ground with a radio decides, and your job is to be the weapon he can",
    "aim.",
    "",
@@ -2139,30 +2157,30 @@
    "SO FLY IT LIKE THIS INSTEAD:",
    " - Work the target packages as your own talk-on. Say the 9-line to",
    "   yourself out loud, in order, and hold yourself to reading it back.",
-   " - Pick your own restrictions before you push — attack heading, final",
-   "   attack cone, minimum altitude — and then obey them.",
+   " - Pick your own restrictions before you push \u2014 attack heading, final",
+   "   attack cone, minimum altitude \u2014 and then obey them.",
    " - If you can crew a JTAC on the ground or a second seat, do. This is",
    "   the one card in the track that is meaningfully better with a human",
    "   on the radio.",
    "",
    "THE 9-LINE IS STILL THE DISCIPLINE. In the real course, if a line",
    "does not make sense you say so on the radio before you are",
-   "established — not after you are wings level in the dive.",
+   "established \u2014 not after you are wings level in the dive.",
    "say so on the radio before you are established, not after you are wings",
    "level in the dive.",
    ""
   ],
   "library": {
    "role": "training",
-   "premise": "The sortie where you stop deciding — except there is no controller to decide for you, so you brief your own 9-line and then hold yourself to it. Two target packages, AAA at the aim point, and the discipline is all yours.",
+   "premise": "The sortie where you stop deciding \u2014 except there is no controller to decide for you, so you brief your own 9-line and then hold yourself to it. Two target packages, AAA at the aim point, and the discipline is all yours.",
    "threat": 3,
-   "players": "SP·MP",
+   "players": "SP\u00b7MP",
    "new": false
   },
   "default_map": "nevada"
  },
  "f4_turning_phantom": {
-  "label": "Turning the Phantom — keep your speed up, Podner",
+  "label": "Turning the Phantom \u2014 keep your speed up, Podner",
   "eras": [
    "coldwar"
   ],
@@ -2191,11 +2209,11 @@
    "TAC reviewed 22 F-4 accidents. In ELEVEN of them the aircrew lost",
    "control of the airplane. Line those eleven up and they rhyme:",
    "",
-   "  - TEN were maneuvering — pulling G — when they got into trouble.",
+   "  - TEN were maneuvering \u2014 pulling G \u2014 when they got into trouble.",
    "  - EIGHT were at 300 knots or below. One was between 180 and 200.",
    "  - ALL ELEVEN were carrying external stores. Nine had two 370s.",
    "  - SEVEN had 12,000 to 14,000 lb of fuel aboard.",
-   "  - EIGHT were at low altitude — no time or space to recover from a",
+   "  - EIGHT were at low altitude \u2014 no time or space to recover from a",
    "    post-stall gyration.",
    "",
    "These were not beginners. Seven of them averaged 175 hours in the",
@@ -2214,29 +2232,29 @@
    "   Category II stability and control tests found external stores cut the",
    "   stick force gradient by an average of FIFTY PERCENT. The jet feels",
    "   light. Stores also reduce the roll rate that shows up as pre-stall",
-   "   wing rock — so the airframe's own warning gets quieter exactly when",
+   "   wing rock \u2014 so the airframe's own warning gets quieter exactly when",
    "   you need it loudest.",
    "",
    "3. WHAT BUFFET IS ACTUALLY TELLING YOU.",
    "   Two things at once: you are near critical angle of attack, AND you",
    "   have picked up a large amount of drag. Neither helps you turn. Pull",
-   "   far enough and the drag pulls the speed down — at which point you are",
+   "   far enough and the drag pulls the speed down \u2014 at which point you are",
    "   buying turn with airspeed, not with pull. In the article's words: you",
    "   end up 'an unmaneuverable sitting duck in free fall trying to regain",
    "   what you just threw away.'",
    "",
    "FLY IT LIKE THIS",
    "",
-   "  BLOCK 1 — THE 3G DEMONSTRATION. Clean up, get to 250-300 KCAS, and",
+   "  BLOCK 1 \u2014 THE 3G DEMONSTRATION. Clean up, get to 250-300 KCAS, and",
    "  find the buffet in a level turn. Note the G. Note that it is about 3.",
    "  Do it again at 350. That difference is the whole article.",
    "",
-   "  BLOCK 2 — THE DRAG LESSON. From 350, roll into a hard sustained turn",
+   "  BLOCK 2 \u2014 THE DRAG LESSON. From 350, roll into a hard sustained turn",
    "  and hold it. Watch the airspeed. Find the moment where pulling harder",
    "  stops increasing your turn rate and starts costing you speed. Mark it.",
    "  That is your corner, and it is not where you think it is.",
    "",
-   "  BLOCK 3 — THE FIGHT. Line abreast, both hot, and now try to keep 350",
+   "  BLOCK 3 \u2014 THE FIGHT. Line abreast, both hot, and now try to keep 350",
    "  KCAS while somebody gives you a reason not to. This is where it stops",
    "  being an exercise. The instinct is to trade speed for nose position.",
    "  The article is one long argument against that instinct.",
@@ -2245,16 +2263,16 @@
    "The Dash One warns about abrupt entry into accelerated stalls: snatch",
    "the stick back fast enough and you can enter the stall with no",
    "noticeable buffet and no wing rock. All you get is moderate buffet AT",
-   "the stall — not before it.",
+   "the stall \u2014 not before it.",
    "",
    "AFT CG, BRIEFLY. The handbook permits external stores until CG reaches",
    "36 percent MAC. A normal range load with standard fuel sequencing sits",
-   "around 35.1 percent — under one percent from the limit — and aft CG is",
+   "around 35.1 percent \u2014 under one percent from the limit \u2014 and aft CG is",
    "where the light stick and the pitch-up tendency are worst.",
    "",
    "THE CONCLUSION, VERBATIM FROM THE ARTICLE'S CLOSE:",
    "'Keep your speed up, Podner, and you won't get into trouble.'",
-   "  — Don Stuck, McDonnell Field Service Digest",
+   "  \u2014 Don Stuck, McDonnell Field Service Digest",
    "",
    "TAC's own summary, one line: in fifty percent of F-4 accidents the",
    "pilot lost control while maneuvering, with stores on, at too low a",
@@ -2262,7 +2280,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "February 1967. TAC had lost control of eleven Phantoms out of twenty-two accidents, and the eleven rhymed: maneuvering, stores on, below 300 knots, low. This is that article flown — how little G you really have down there, what the stores did to your stick, and why buffet is not a turn.",
+   "premise": "February 1967. TAC had lost control of eleven Phantoms out of twenty-two accidents, and the eleven rhymed: maneuvering, stores on, below 300 knots, low. This is that article flown \u2014 how little G you really have down there, what the stores did to your stick, and why buffet is not a turn.",
    "threat": 2,
    "players": "SP",
    "new": false,
@@ -2271,7 +2289,7 @@
   "default_map": "nevada"
  },
  "bc_ahc_6k": {
-  "label": "B-Course AHC (6,000 ft) — Advanced Handling Characteristics",
+  "label": "B-Course AHC (6,000 ft) \u2014 Advanced Handling Characteristics",
   "eras": [
    "modern"
   ],
@@ -2291,12 +2309,12 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE AHC · ADVANCED HANDLING CHARACTERISTICS ===",
+   "=== B-COURSE AHC \u00b7 ADVANCED HANDLING CHARACTERISTICS ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-8.",
    "",
    "THIS CARD IS THE 6,000 FT SETUP of that sortie.",
    "The bridge sortie between flying the jet and fighting it. You are NOT",
-   "here to win a fight — you are here to arrive at his turn circle knowing",
+   "here to win a fight \u2014 you are here to arrive at his turn circle knowing",
    "where it is.",
    "",
    "THE EXERCISE (syllabus task 8b): turn circle entry, run from FIGHT'S ON",
@@ -2325,7 +2343,7 @@
   "default_map": "nevada"
  },
  "bc_bfm1_6k": {
-  "label": "B-Course BFM-1 (6,000 ft) — Offensive BFM",
+  "label": "B-Course BFM-1 (6,000 ft) \u2014 Offensive BFM",
   "eras": [
    "modern"
   ],
@@ -2345,7 +2363,7 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-1 · OFFENSIVE BFM ===",
+   "=== B-COURSE BFM-1 \u00b7 OFFENSIVE BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
    "THIS CARD IS THE 6,000 FT SETUP of that sortie.",
@@ -2366,7 +2384,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The middle rung of the offensive ladder. Less room than 9,000 and more than 3,000 — which is exactly the problem.",
+   "premise": "The middle rung of the offensive ladder. Less room than 9,000 and more than 3,000 \u2014 which is exactly the problem.",
    "threat": 2,
    "players": "SP",
    "new": false,
@@ -2375,7 +2393,7 @@
   "default_map": "nevada"
  },
  "bc_bfm1_3k": {
-  "label": "B-Course BFM-1 (3,000 ft) — Offensive BFM",
+  "label": "B-Course BFM-1 (3,000 ft) \u2014 Offensive BFM",
   "eras": [
    "modern"
   ],
@@ -2395,7 +2413,7 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-1 · OFFENSIVE BFM ===",
+   "=== B-COURSE BFM-1 \u00b7 OFFENSIVE BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
    "THIS CARD IS THE 3,000 FT SETUP of that sortie.",
@@ -2425,7 +2443,7 @@
   "default_map": "nevada"
  },
  "bc_bfm4_6k": {
-  "label": "B-Course BFM-4 (6,000 ft) — Defensive BFM",
+  "label": "B-Course BFM-4 (6,000 ft) \u2014 Defensive BFM",
   "eras": [
    "modern"
   ],
@@ -2445,17 +2463,17 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-4 · DEFENSIVE BFM ===",
+   "=== B-COURSE BFM-4 \u00b7 DEFENSIVE BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
    "THIS CARD IS THE 6,000 FT SETUP of that sortie.",
-   "He starts at YOUR six, slightly high, tracking. Your job is not to win — it is to deny the shot and force the overshoot.",
+   "He starts at YOUR six, slightly high, tracking. Your job is not to win \u2014 it is to deny the shot and force the overshoot.",
    "",
    "THE SORTIE IS THREE SETUPS, not one:",
    "  a. 9,000 ft   b. 6,000 ft   c. 3,000 ft",
    "",
    "Before the fights, the syllabus flies a DEFENSIVE RANGING EXERCISE and a",
-   "DEFENSIVE HEAT-TO-GUNS EXERCISE — learn what 9,000, 6,000 and 3,000 feet",
+   "DEFENSIVE HEAT-TO-GUNS EXERCISE \u2014 learn what 9,000, 6,000 and 3,000 feet",
    "of trailer LOOK like over your shoulder before you have to fight one.",
    "",
    "FLOOR AWARENESS is a milestone task here. Know your hard deck and call",
@@ -2475,7 +2493,7 @@
   "default_map": "nevada"
  },
  "bc_bfm4_3k": {
-  "label": "B-Course BFM-4 (3,000 ft) — Defensive BFM",
+  "label": "B-Course BFM-4 (3,000 ft) \u2014 Defensive BFM",
   "eras": [
    "modern"
   ],
@@ -2495,17 +2513,17 @@
    "weather": "clear"
   },
   "brief": [
-   "=== B-COURSE BFM-4 · DEFENSIVE BFM ===",
+   "=== B-COURSE BFM-4 \u00b7 DEFENSIVE BFM ===",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-9.",
    "",
    "THIS CARD IS THE 3,000 FT SETUP of that sortie.",
-   "He starts at YOUR six, slightly high, tracking. Your job is not to win — it is to deny the shot and force the overshoot.",
+   "He starts at YOUR six, slightly high, tracking. Your job is not to win \u2014 it is to deny the shot and force the overshoot.",
    "",
    "THE SORTIE IS THREE SETUPS, not one:",
    "  a. 9,000 ft   b. 6,000 ft   c. 3,000 ft",
    "",
    "Before the fights, the syllabus flies a DEFENSIVE RANGING EXERCISE and a",
-   "DEFENSIVE HEAT-TO-GUNS EXERCISE — learn what 9,000, 6,000 and 3,000 feet",
+   "DEFENSIVE HEAT-TO-GUNS EXERCISE \u2014 learn what 9,000, 6,000 and 3,000 feet",
    "of trailer LOOK like over your shoulder before you have to fight one.",
    "",
    "FLOOR AWARENESS is a milestone task here. Know your hard deck and call",
@@ -2525,7 +2543,7 @@
   "default_map": "nevada"
  },
  "aar_1_join": {
-  "label": "Air-to-Air Refuelling 1 (Boom) — Formation on the Tanker",
+  "label": "Air-to-Air Refuelling 1 (Boom) \u2014 Formation on the Tanker",
   "eras": [
    "coldwar",
    "modern"
@@ -2546,7 +2564,7 @@
    "tanker_type": "kc135"
   },
   "brief": [
-   "== 1 · THE ANCHOR ==",
+   "== 1 \u00b7 THE ANCHOR ==",
    "",
    "NEW DEMAND: a stable formation sight picture, held, with no contact objective at all.",
    "",
@@ -2556,7 +2574,7 @@
    "",
    "",
    "",
-   "Ride 1 of the boom track. You are airborne a few miles in trail — the",
+   "Ride 1 of the boom track. You are airborne a few miles in trail \u2014 the",
    "is to arrive at the observation position and sit there.",
    "",
    "DO NOT PLUG ON THIS RIDE. Seriously. The single biggest reason people",
@@ -2606,7 +2624,7 @@
   }
  },
  "aar_2_contact": {
-  "label": "Air-to-Air Refuelling 3 (Boom) — First Contact on the Boom",
+  "label": "Air-to-Air Refuelling 3 (Boom) \u2014 First Contact on the Boom",
   "eras": [
    "coldwar",
    "modern"
@@ -2627,9 +2645,9 @@
    "tanker_type": "kc135"
   },
   "brief": [
-   "== 3 · FIRST PLUG ==",
+   "== 3 \u00b7 FIRST PLUG ==",
    "",
-   "NEW DEMAND: contact mechanics. One plug, then another — the connection itself, not yet the minute after it.",
+   "NEW DEMAND: contact mechanics. One plug, then another \u2014 the connection itself, not yet the minute after it.",
    "",
    "",
    "",
@@ -2645,7 +2663,7 @@
    "Ten of those is a good sortie. Twenty is a better one.",
    "",
    "COUNT YOUR ATTEMPTS OUT LOUD and write the number down. The thing you",
-   "are training is not the plug, it is the RECOVERY from a bad approach —",
+   "are training is not the plug, it is the RECOVERY from a bad approach \u2014",
    "and you only get that by having bad approaches on purpose.",
    "",
    "PASS CRITERION: three consecutive contacts with no more than one back-out",
@@ -2687,7 +2705,7 @@
   }
  },
  "aar_3_probe": {
-  "label": "Air-to-Air Refuelling 3 (Probe) — First Contact with the Basket",
+  "label": "Air-to-Air Refuelling 3 (Probe) \u2014 First Contact with the Basket",
   "eras": [
    "coldwar",
    "modern"
@@ -2708,7 +2726,7 @@
    "tanker_type": "kc130"
   },
   "brief": [
-   "== 3 · FIRST BASKET ==",
+   "== 3 \u00b7 FIRST BASKET ==",
    "",
    "NEW DEMAND: contact mechanics with nobody helping. The basket does nothing for you and chasing it is the whole failure mode.",
    "",
@@ -2718,7 +2736,7 @@
    "",
    "",
    "",
-   "Ride 3 of the probe track, and a genuinely different task from the boom —",
+   "Ride 3 of the probe track, and a genuinely different task from the boom \u2014",
    "why it gets its own ride rather than a paragraph.",
    "",
    "BOOM: you hold still and a human being flies the boom into you.",
@@ -2775,7 +2793,7 @@
   }
  },
  "aar_4_night": {
-  "label": "Air-to-Air Refuelling 10 (Boom) — Night Refuelling (extra)",
+  "label": "Air-to-Air Refuelling 10 (Boom) \u2014 Night Refuelling (extra)",
   "eras": [
    "coldwar",
    "modern"
@@ -2796,7 +2814,7 @@
    "tanker_type": "kc135"
   },
   "brief": [
-   "== 10 · NIGHT TANKING (extra) ==",
+   "== 10 \u00b7 NIGHT TANKING (extra) ==",
    "",
    "NEW DEMAND: none. Same procedure with the visual cues removed, which is why it is an extra and not a ride.",
    "",
@@ -2858,7 +2876,7 @@
   }
  },
  "aar_boat": {
-  "label": "Air-to-Air Refuelling 10 (Probe) — Carrier Organic Tanking (extra)",
+  "label": "Air-to-Air Refuelling 10 (Probe) \u2014 Carrier Organic Tanking (extra)",
   "eras": [
    "coldwar",
    "modern"
@@ -2886,7 +2904,7 @@
   },
   "needs_carrier": false,
   "brief": [
-   "== 10 · OFF THE BOAT (extra) ==",
+   "== 10 \u00b7 OFF THE BOAT (extra) ==",
    "",
    "NEW DEMAND: none. The same skill from the air wing's own tanker, lower and slower, which is why it is an extra.",
    "",
@@ -2901,7 +2919,7 @@
    "",
    "NO CAT SHOT ON THIS CARD, and that is deliberate. You start astern the",
    "tanker, airborne. Launching off the deck and finding him would be a",
-   "prettier mission and a worse lesson — this set exists to delete the",
+   "prettier mission and a worse lesson \u2014 this set exists to delete the",
    "commute and leave the part that is actually hard.",
    "",
    "Both organic tankers work lower and slower than a KC-135, because they",
@@ -2916,7 +2934,7 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The air wing's own gas — a Viking today, an Intruder with a buddy pack in the Cold War. Lower, slower, and the difference between a bolter and a swim.",
+   "premise": "The air wing's own gas \u2014 a Viking today, an Intruder with a buddy pack in the Cold War. Lower, slower, and the difference between a bolter and a swim.",
    "threat": 1,
    "players": "SP"
   },
@@ -2949,7 +2967,7 @@
   }
  },
  "aar_boom_0_fit": {
-  "label": "Air-to-Air Refuelling 0 (Boom) — Orientation and Control Check",
+  "label": "Air-to-Air Refuelling 0 (Boom) \u2014 Orientation and Control Check",
   "eras": [
    "coldwar",
    "modern"
@@ -3001,7 +3019,7 @@
    "n": 0
   },
   "brief": [
-   "== 0 · FIT CHECK ==",
+   "== 0 \u00b7 FIT CHECK ==",
    "NEW DEMAND: none. This is the diagnostic. Can you sit next to a",
    "large airplane and stay there, and do your controls do what you",
    "think they do.",
@@ -3027,12 +3045,12 @@
    "  4. Stop the aft drift.",
    "  5. Return to the original sight picture.",
    "Three smooth cycles and you are ready for the next ride. Fewer than",
-   "three and you are not — which is worth knowing now rather than at the",
+   "three and you are not \u2014 which is worth knowing now rather than at the",
    "boom.",
    "",
    "PULSE AND COUNTER-PULSE. Find the power setting that produces zero",
    "fore/aft drift; that is your BASELINE. Drifting aft: add a small pulse.",
-   "Then — before the closure becomes obvious — take most of it back out.",
+   "Then \u2014 before the closure becomes obvious \u2014 take most of it back out.",
    "That second movement is the counter-pulse and it is the part people",
    "skip. Leaving the correction in is what carries you through zero and",
    "into the overshoot.",
@@ -3042,7 +3060,7 @@
    "so a difference you cannot see becomes an aircraft length in ten.",
    "",
    "BOOM LANE NOTE. When you get there, an operator will fly the boom into",
-   "your receptacle. That is half the problem solved for you — and it is",
+   "your receptacle. That is half the problem solved for you \u2014 and it is",
    "exactly why your half has to be still. Your job in contact is to stop",
    "moving, and this ride is where you find out whether you can.",
    "",
@@ -3053,7 +3071,7 @@
    "",
    "THIS RIDE IS GRADED. You will be told when you have held position",
    "for fifteen seconds, and again at sixty. If you never hear the",
-   "first call, this is exactly the ride you needed — fly it again",
+   "first call, this is exactly the ride you needed \u2014 fly it again",
    "rather than moving on. That is not a setback. It is the diagnostic",
    "doing its job."
   ],
@@ -3066,7 +3084,7 @@
   "default_map": "caucasus"
  },
  "aar_boom_2_closure": {
-  "label": "Air-to-Air Refuelling 2 (Boom) — Closure Control to Pre-Contact",
+  "label": "Air-to-Air Refuelling 2 (Boom) \u2014 Closure Control to Pre-Contact",
   "eras": [
    "coldwar",
    "modern"
@@ -3118,7 +3136,7 @@
    "n": 2
   },
   "brief": [
-   "== 2 · THE CLOSURE ==",
+   "== 2 \u00b7 THE CLOSURE ==",
    "NEW DEMAND: arriving slowly enough that stopping is a decision",
    "rather than a hope.",
    "",
@@ -3130,7 +3148,7 @@
    "print only the first:",
    " - APPROACH, from pre-contact: 1 to 3 knots of overtake. Not 10.",
    " - THE LAST FEW FEET: about ONE FOOT PER SECOND. That is roughly",
-   "   half a knot — THREE TIMES SLOWER than the approach. This is the",
+   "   half a knot \u2014 THREE TIMES SLOWER than the approach. This is the",
    "   number people miss. The closure that gets you to the position",
    "   is not the closure that makes the connection.",
    "",
@@ -3147,20 +3165,20 @@
    "the tanker. A pilot flying the lights instead of the airplane has",
    "simply swapped one thing to chase for another.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Ten arrivals at the contact position, zero plugs. Two closure numbers — one for the approach, and one three times slower for the last few feet.",
+   "premise": "Ten arrivals at the contact position, zero plugs. Two closure numbers \u2014 one for the approach, and one three times slower for the last few feet.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_boom_4_flow": {
-  "label": "Air-to-Air Refuelling 4 (Boom) — Sustained Contact and Fuel Transfer",
+  "label": "Air-to-Air Refuelling 4 (Boom) \u2014 Sustained Contact and Fuel Transfer",
   "eras": [
    "coldwar",
    "modern"
@@ -3212,12 +3230,12 @@
    "n": 4
   },
   "brief": [
-   "== 4 · THE FLOW ==",
+   "== 4 \u00b7 THE FLOW ==",
    "NEW DEMAND: staying there. Contact is a moment; this ride is about",
    "the minute after it.",
    "",
    "TARGET: 45 continuous seconds connected, then longer. Not a",
-   "handful of one-second stabs — a connection you could have taken",
+   "handful of one-second stabs \u2014 a connection you could have taken",
    "fuel through.",
    "",
    "WHAT CHANGES WHILE YOU ARE THERE. You are getting HEAVIER. The",
@@ -3231,26 +3249,26 @@
    "you have the airplane. Chasing the boom nozzle is chasing something",
    "somebody else is already flying.",
    "",
-   "IF THE OSCILLATION IS GROWING, BACK OUT. Not as a failure — as the",
+   "IF THE OSCILLATION IS GROWING, BACK OUT. Not as a failure \u2014 as the",
    "procedure. Fatigue and growing oscillation are the standard reason",
    "to disconnect, stabilise and rest, and doing that produces better",
    "refuelling in less time than pressing does. Pressing a bad",
    "connection has never once fixed it.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Contact is a moment; this is the minute after it. Forty-five continuous seconds — and you are getting heavier the whole time, so the power that held you at the start will not hold you at the end.",
+   "premise": "Contact is a moment; this is the minute after it. Forty-five continuous seconds \u2014 and you are getting heavier the whole time, so the power that held you at the start will not hold you at the end.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_boom_5_reset": {
-  "label": "Air-to-Air Refuelling 5 (Boom) — Disconnect Recovery and Reset",
+  "label": "Air-to-Air Refuelling 5 (Boom) \u2014 Disconnect Recovery and Reset",
   "eras": [
    "coldwar",
    "modern"
@@ -3302,14 +3320,14 @@
    "n": 5
   },
   "brief": [
-   "== 5 · RESET ==",
+   "== 5 \u00b7 RESET ==",
    "NEW DEMAND: getting it wrong ON PURPOSE, and recovering.",
    "",
    "Everything so far trained the good approach. This ride trains the",
    "bad one, because the bad one is what you will actually have.",
    "",
    "THE DRILL, ten times. Arrive deliberately fast. Arrive",
-   "deliberately high. Let yourself get out of position — then FIX IT:",
+   "deliberately high. Let yourself get out of position \u2014 then FIX IT:",
    "back out to pre-contact, stabilise, come again.",
    "",
    "A RESET IS NOT A FAILED RUN. It is good airmanship and it is the",
@@ -3326,19 +3344,19 @@
    "pre-contact, and wait for the next clearance. Do not creep forward while",
    "you are sorting the switches out.",
    "",
-   "GRADED on position — so expect to break the grade repeatedly.",
+   "GRADED on position \u2014 so expect to break the grade repeatedly.",
    "Today that IS the exercise, not a failure."
   ],
   "library": {
    "role": "training",
-   "premise": "Get it wrong on purpose, ten times, and recover each time. A reset is not a failed run — it is the skill that makes refuelling reliable rather than lucky.",
+   "premise": "Get it wrong on purpose, ten times, and recover each time. A reset is not a failed run \u2014 it is the skill that makes refuelling reliable rather than lucky.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_boom_6_turn": {
-  "label": "Air-to-Air Refuelling 6 (Boom) — Refuelling Through the Turn",
+  "label": "Air-to-Air Refuelling 6 (Boom) \u2014 Refuelling Through the Turn",
   "eras": [
    "coldwar",
    "modern"
@@ -3390,17 +3408,17 @@
    "n": 6
   },
   "brief": [
-   "== 6 · THE TURN ==",
+   "== 6 \u00b7 THE TURN ==",
    "NEW DEMAND: staying in position while the tanker banks.",
    "",
    "The tanker flies a racetrack, so it turns at each end. That is not",
-   "staged for you — it is simply what a tanker on a track does, and",
+   "staged for you \u2014 it is simply what a tanker on a track does, and",
    "it is where a lot of otherwise-solid refuelling falls apart.",
    "",
    "WHAT CHANGES. Inside the turn you need less power and will slide",
    "forward. Outside you need more, and will fall back and get high.",
    "The sight picture rotates. Your chosen reference on the tanker",
-   "does not — keep using it.",
+   "does not \u2014 keep using it.",
    "",
    "WHAT DOES NOT CHANGE: everything else. Same tolerances, same two",
    "closure numbers, same one-input-then-wait.",
@@ -3410,14 +3428,14 @@
    "same small inputs.",
    "",
    "THE DRILL. Get into position on a straight leg. Stay there through",
-   "the turn. When you lose it — and you will, the first few times —",
+   "the turn. When you lose it \u2014 and you will, the first few times \u2014",
    "back out, rejoin on the straight, wait for the next end.",
    "",
    "HONESTLY: we did not time the tanker's turn to meet you, and no",
    "countdown is called. You will wait for it. Waiting is part of",
    "tanking.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
@@ -3430,7 +3448,7 @@
   "default_map": "caucasus"
  },
  "aar_boom_7_rv": {
-  "label": "Air-to-Air Refuelling 7 (Boom) — Rendezvous, Radio Flow and Join",
+  "label": "Air-to-Air Refuelling 7 (Boom) \u2014 Rendezvous, Radio Flow and Join",
   "eras": [
    "coldwar",
    "modern"
@@ -3484,13 +3502,13 @@
    "n": 7
   },
   "brief": [
-   "== 7 · THE RENDEZVOUS ==",
+   "== 7 \u00b7 THE RENDEZVOUS ==",
    "NEW DEMAND: everything that happens BEFORE the part you have been",
    "practicing. Navigation, the radio flow, the join, observation,",
    "and only then pre-contact.",
    "",
    "READ THIS FIRST. Every ride until now deliberately deleted the",
-   "commute — you started 1 nm astern, on speed, because thirty",
+   "commute \u2014 you started 1 nm astern, on speed, because thirty",
    "seconds of skill wrapped in half an hour of transit is not",
    "practice. This ride puts the commute back ON PURPOSE, once,",
    "because finding him and arriving already matched is its own skill",
@@ -3508,20 +3526,20 @@
    "close. It changes how the jet handles, and the moment to discover that",
    "is not at pre-contact.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Everything before the part you have been practicing: navigation, the radio flow, the join, observation. The commute is back, once, on purpose — arriving already matched is its own skill.",
+   "premise": "Everything before the part you have been practicing: navigation, the radio flow, the join, observation. The commute is back, once, on purpose \u2014 arriving already matched is its own skill.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_boom_8_qual": {
-  "label": "Air-to-Air Refuelling 8 (Boom) — Qualification Check Ride",
+  "label": "Air-to-Air Refuelling 8 (Boom) \u2014 Qualification Check Ride",
   "eras": [
    "coldwar",
    "modern"
@@ -3573,10 +3591,10 @@
    "n": 8
   },
   "brief": [
-   "== 8 · QUALIFICATION ==",
+   "== 8 \u00b7 QUALIFICATION ==",
    "NEW DEMAND: doing all of it with nobody talking to you.",
    "",
-   "The check ride. Nothing new is taught and nothing is coached —",
+   "The check ride. Nothing new is taught and nothing is coached \u2014",
    "the grader is on and the instructor is not talking.",
    "",
    "THE STANDARD, which you have already met piece by piece:",
@@ -3584,13 +3602,13 @@
    "    15 seconds before moving forward. That is the gate.",
    " 2. Hold the close-in envelope on speed for 60 unbroken seconds.",
    "    That is the standard, and it is OURS rather than anyone's",
-   "    manual — no document we hold states a duration.",
+   "    manual \u2014 no document we hold states a duration.",
    " 3. No overtake above 25 knots inside a quarter mile. Not once.",
    " 4. Plug and take fuel to a full transfer, and hold each connection long enough to be worth having.",
    " 5. A stable disconnect and a safe separation. Stay steady until",
    "    you are confirmed clear, THEN move aft smoothly.",
    "",
-   "WHAT THE MISSION CAN AND CANNOT SEE — read this, because it is the",
+   "WHAT THE MISSION CAN AND CANNOT SEE \u2014 read this, because it is the",
    "difference between a grade and a decoration. Items 1 to 3 are",
    "measured by the mission and you will get a message when you pass",
    "them. Items 4 and 5 are NOT measured. DCS mission triggers cannot",
@@ -3606,14 +3624,14 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The check ride. Grader on, coaching off. Three of the five criteria are measured by the mission and two are on your honor — and the card says exactly which is which.",
+   "premise": "The check ride. Grader on, coaching off. Three of the five criteria are measured by the mission and two are on your honor \u2014 and the card says exactly which is which.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_boom_9_transfer": {
-  "label": "Air-to-Air Refuelling 9 (Boom) — Operational Transfer on a Live Sortie",
+  "label": "Air-to-Air Refuelling 9 (Boom) \u2014 Operational Transfer on a Live Sortie",
   "eras": [
    "coldwar",
    "modern"
@@ -3664,8 +3682,8 @@
    "n": 9
   },
   "brief": [
-   "== 9 · OPERATIONAL TRANSFER ==",
-   "NEW DEMAND: mission workload and a fuel decision — refuelling as",
+   "== 9 \u00b7 OPERATIONAL TRANSFER ==",
+   "NEW DEMAND: mission workload and a fuel decision \u2014 refuelling as",
    "something you fit around a job, rather than the job.",
    "",
    "The point of all of it. A real sortie with real tasking and a",
@@ -3678,28 +3696,28 @@
    "scoring.",
    "",
    "TANK BEFORE YOU NEED TO. The commonest operational refuelling",
-   "error is not technique — it is arriving at the tanker at minimum",
+   "error is not technique \u2014 it is arriving at the tanker at minimum",
    "fuel with no margin for three bad approaches. Decide early, go",
    "early, and leave yourself the retries.",
    "",
    "BOOM SPECIFIC: door open early, gains settled, then fly the tanker.",
-   "Under a task load the temptation is to rush the configuration — that is",
+   "Under a task load the temptation is to rush the configuration \u2014 that is",
    "how a routine top-up becomes the hardest part of the sortie.",
    "",
    "This is the transfer test. Not another coached repetition of the",
-   "same setup — a different problem that happens to contain the one",
+   "same setup \u2014 a different problem that happens to contain the one",
    "you trained."
   ],
   "library": {
    "role": "training",
-   "premise": "A real sortie with real tasking and a tanker on station. No prompts, no grade — the measure is whether you came home with the job done.",
+   "premise": "A real sortie with real tasking and a tanker on station. No prompts, no grade \u2014 the measure is whether you came home with the job done.",
    "threat": 2,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_0_fit": {
-  "label": "Air-to-Air Refuelling 0 (Probe) — Orientation and Control Check",
+  "label": "Air-to-Air Refuelling 0 (Probe) \u2014 Orientation and Control Check",
   "eras": [
    "coldwar",
    "modern"
@@ -3756,7 +3774,7 @@
    "n": 0
   },
   "brief": [
-   "== 0 · FIT CHECK ==",
+   "== 0 \u00b7 FIT CHECK ==",
    "NEW DEMAND: none. This is the diagnostic. Can you sit next to a",
    "large airplane and stay there, and do your controls do what you",
    "think they do.",
@@ -3782,12 +3800,12 @@
    "  4. Stop the aft drift.",
    "  5. Return to the original sight picture.",
    "Three smooth cycles and you are ready for the next ride. Fewer than",
-   "three and you are not — which is worth knowing now rather than at the",
+   "three and you are not \u2014 which is worth knowing now rather than at the",
    "boom.",
    "",
    "PULSE AND COUNTER-PULSE. Find the power setting that produces zero",
    "fore/aft drift; that is your BASELINE. Drifting aft: add a small pulse.",
-   "Then — before the closure becomes obvious — take most of it back out.",
+   "Then \u2014 before the closure becomes obvious \u2014 take most of it back out.",
    "That second movement is the counter-pulse and it is the part people",
    "skip. Leaving the correction in is what carries you through zero and",
    "into the overshoot.",
@@ -3804,7 +3822,7 @@
    "",
    "THIS RIDE IS GRADED. You will be told when you have held position",
    "for fifteen seconds, and again at sixty. If you never hear the",
-   "first call, this is exactly the ride you needed — fly it again",
+   "first call, this is exactly the ride you needed \u2014 fly it again",
    "rather than moving on. That is not a setback. It is the diagnostic",
    "doing its job."
   ],
@@ -3817,7 +3835,7 @@
   "default_map": "caucasus"
  },
  "aar_probe_2_closure": {
-  "label": "Air-to-Air Refuelling 2 (Probe) — Closure Control to the Basket",
+  "label": "Air-to-Air Refuelling 2 (Probe) \u2014 Closure Control to the Basket",
   "eras": [
    "coldwar",
    "modern"
@@ -3874,7 +3892,7 @@
    "n": 2
   },
   "brief": [
-   "== 2 · THE CLOSURE ==",
+   "== 2 \u00b7 THE CLOSURE ==",
    "NEW DEMAND: arriving slowly enough that stopping is a decision",
    "rather than a hope.",
    "",
@@ -3886,7 +3904,7 @@
    "print only the first:",
    " - APPROACH, from pre-contact: 1 to 3 knots of overtake. Not 10.",
    " - THE LAST FEW FEET: about ONE FOOT PER SECOND. That is roughly",
-   "   half a knot — THREE TIMES SLOWER than the approach. This is the",
+   "   half a knot \u2014 THREE TIMES SLOWER than the approach. This is the",
    "   number people miss. The closure that gets you to the position",
    "   is not the closure that makes the connection.",
    "",
@@ -3903,20 +3921,20 @@
    "the next three attempts. Arriving slowly is not politeness. It is the",
    "difference between one attempt and four.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Ten arrivals at the contact position, zero plugs. Two closure numbers — one for the approach, and one three times slower for the last few feet.",
+   "premise": "Ten arrivals at the contact position, zero plugs. Two closure numbers \u2014 one for the approach, and one three times slower for the last few feet.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_4_flow": {
-  "label": "Air-to-Air Refuelling 4 (Probe) — Sustained Contact and Hose Management",
+  "label": "Air-to-Air Refuelling 4 (Probe) \u2014 Sustained Contact and Hose Management",
   "eras": [
    "coldwar",
    "modern"
@@ -3973,12 +3991,12 @@
    "n": 4
   },
   "brief": [
-   "== 4 · THE FLOW ==",
+   "== 4 \u00b7 THE FLOW ==",
    "NEW DEMAND: staying there. Contact is a moment; this ride is about",
    "the minute after it.",
    "",
    "TARGET: 45 continuous seconds connected, then longer. Not a",
-   "handful of one-second stabs — a connection you could have taken",
+   "handful of one-second stabs \u2014 a connection you could have taken",
    "fuel through.",
    "",
    "WHAT CHANGES WHILE YOU ARE THERE. You are getting HEAVIER. The",
@@ -3989,30 +4007,30 @@
    "",
    "PROBE SPECIFIC: after the probe goes in, keep coming forward enough to",
    "put a healthy bend in the hose, then hold formation. Do NOT stop dead at",
-   "the instant of contact and drift straight back out — that is the",
+   "the instant of contact and drift straight back out \u2014 that is the",
    "commonest way a good plug becomes a disconnect three seconds later.",
    "Then stop looking at the basket. Back to the tanker reference.",
    "",
-   "IF THE OSCILLATION IS GROWING, BACK OUT. Not as a failure — as the",
+   "IF THE OSCILLATION IS GROWING, BACK OUT. Not as a failure \u2014 as the",
    "procedure. Fatigue and growing oscillation are the standard reason",
    "to disconnect, stabilise and rest, and doing that produces better",
    "refuelling in less time than pressing does. Pressing a bad",
    "connection has never once fixed it.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Contact is a moment; this is the minute after it. Forty-five continuous seconds — and you are getting heavier the whole time, so the power that held you at the start will not hold you at the end.",
+   "premise": "Contact is a moment; this is the minute after it. Forty-five continuous seconds \u2014 and you are getting heavier the whole time, so the power that held you at the start will not hold you at the end.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_5_reset": {
-  "label": "Air-to-Air Refuelling 5 (Probe) — Missed Approach Recovery and Reset",
+  "label": "Air-to-Air Refuelling 5 (Probe) \u2014 Missed Approach Recovery and Reset",
   "eras": [
    "coldwar",
    "modern"
@@ -4069,14 +4087,14 @@
    "n": 5
   },
   "brief": [
-   "== 5 · RESET ==",
+   "== 5 \u00b7 RESET ==",
    "NEW DEMAND: getting it wrong ON PURPOSE, and recovering.",
    "",
    "Everything so far trained the good approach. This ride trains the",
    "bad one, because the bad one is what you will actually have.",
    "",
    "THE DRILL, ten times. Arrive deliberately fast. Arrive",
-   "deliberately high. Let yourself get out of position — then FIX IT:",
+   "deliberately high. Let yourself get out of position \u2014 then FIX IT:",
    "back out to pre-contact, stabilise, come again.",
    "",
    "A RESET IS NOT A FAILED RUN. It is good airmanship and it is the",
@@ -4094,21 +4112,21 @@
    "",
    "A MISS IS NORMAL AND COSTS YOU NOTHING. That sentence is the whole",
    "lesson. Every pilot who cannot refuel has quietly decided a miss is a",
-   "failure, so they press — and pressing is what actually costs them.",
+   "failure, so they press \u2014 and pressing is what actually costs them.",
    "",
-   "GRADED on position — so expect to break the grade repeatedly.",
+   "GRADED on position \u2014 so expect to break the grade repeatedly.",
    "Today that IS the exercise, not a failure."
   ],
   "library": {
    "role": "training",
-   "premise": "Get it wrong on purpose, ten times, and recover each time. A reset is not a failed run — it is the skill that makes refuelling reliable rather than lucky.",
+   "premise": "Get it wrong on purpose, ten times, and recover each time. A reset is not a failed run \u2014 it is the skill that makes refuelling reliable rather than lucky.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_6_turn": {
-  "label": "Air-to-Air Refuelling 6 (Probe) — Refuelling Through the Turn",
+  "label": "Air-to-Air Refuelling 6 (Probe) \u2014 Refuelling Through the Turn",
   "eras": [
    "coldwar",
    "modern"
@@ -4165,17 +4183,17 @@
    "n": 6
   },
   "brief": [
-   "== 6 · THE TURN ==",
+   "== 6 \u00b7 THE TURN ==",
    "NEW DEMAND: staying in position while the tanker banks.",
    "",
    "The tanker flies a racetrack, so it turns at each end. That is not",
-   "staged for you — it is simply what a tanker on a track does, and",
+   "staged for you \u2014 it is simply what a tanker on a track does, and",
    "it is where a lot of otherwise-solid refuelling falls apart.",
    "",
    "WHAT CHANGES. Inside the turn you need less power and will slide",
    "forward. Outside you need more, and will fall back and get high.",
    "The sight picture rotates. Your chosen reference on the tanker",
-   "does not — keep using it.",
+   "does not \u2014 keep using it.",
    "",
    "WHAT DOES NOT CHANGE: everything else. Same tolerances, same two",
    "closure numbers, same one-input-then-wait.",
@@ -4186,14 +4204,14 @@
    "tanker.",
    "",
    "THE DRILL. Get into position on a straight leg. Stay there through",
-   "the turn. When you lose it — and you will, the first few times —",
+   "the turn. When you lose it \u2014 and you will, the first few times \u2014",
    "back out, rejoin on the straight, wait for the next end.",
    "",
    "HONESTLY: we did not time the tanker's turn to meet you, and no",
    "countdown is called. You will wait for it. Waiting is part of",
    "tanking.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
@@ -4206,7 +4224,7 @@
   "default_map": "caucasus"
  },
  "aar_probe_7_rv": {
-  "label": "Air-to-Air Refuelling 7 (Probe) — Rendezvous, Radio Flow and Join",
+  "label": "Air-to-Air Refuelling 7 (Probe) \u2014 Rendezvous, Radio Flow and Join",
   "eras": [
    "coldwar",
    "modern"
@@ -4265,13 +4283,13 @@
    "n": 7
   },
   "brief": [
-   "== 7 · THE RENDEZVOUS ==",
+   "== 7 \u00b7 THE RENDEZVOUS ==",
    "NEW DEMAND: everything that happens BEFORE the part you have been",
    "practicing. Navigation, the radio flow, the join, observation,",
    "and only then pre-contact.",
    "",
    "READ THIS FIRST. Every ride until now deliberately deleted the",
-   "commute — you started 1 nm astern, on speed, because thirty",
+   "commute \u2014 you started 1 nm astern, on speed, because thirty",
    "seconds of skill wrapped in half an hour of transit is not",
    "practice. This ride puts the commute back ON PURPOSE, once,",
    "because finding him and arriving already matched is its own skill",
@@ -4288,20 +4306,20 @@
    "PROBE SPECIFIC: probe out early and confirm it. There is no operator to",
    "tell you it is still stowed.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Everything before the part you have been practicing: navigation, the radio flow, the join, observation. The commute is back, once, on purpose — arriving already matched is its own skill.",
+   "premise": "Everything before the part you have been practicing: navigation, the radio flow, the join, observation. The commute is back, once, on purpose \u2014 arriving already matched is its own skill.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_8_qual": {
-  "label": "Air-to-Air Refuelling 8 (Probe) — Qualification Check Ride",
+  "label": "Air-to-Air Refuelling 8 (Probe) \u2014 Qualification Check Ride",
   "eras": [
    "coldwar",
    "modern"
@@ -4358,10 +4376,10 @@
    "n": 8
   },
   "brief": [
-   "== 8 · QUALIFICATION ==",
+   "== 8 \u00b7 QUALIFICATION ==",
    "NEW DEMAND: doing all of it with nobody talking to you.",
    "",
-   "The check ride. Nothing new is taught and nothing is coached —",
+   "The check ride. Nothing new is taught and nothing is coached \u2014",
    "the grader is on and the instructor is not talking.",
    "",
    "THE STANDARD, which you have already met piece by piece:",
@@ -4369,13 +4387,13 @@
    "    15 seconds before moving forward. That is the gate.",
    " 2. Hold the close-in envelope on speed for 60 unbroken seconds.",
    "    That is the standard, and it is OURS rather than anyone's",
-   "    manual — no document we hold states a duration.",
+   "    manual \u2014 no document we hold states a duration.",
    " 3. No overtake above 25 knots inside a quarter mile. Not once.",
-   " 4. Plug and take fuel to a full transfer. Count your attempts — a qualification with eleven stabs in it is not one.",
+   " 4. Plug and take fuel to a full transfer. Count your attempts \u2014 a qualification with eleven stabs in it is not one.",
    " 5. A stable disconnect and a safe separation. Stay steady until",
    "    you are confirmed clear, THEN move aft smoothly.",
    "",
-   "WHAT THE MISSION CAN AND CANNOT SEE — read this, because it is the",
+   "WHAT THE MISSION CAN AND CANNOT SEE \u2014 read this, because it is the",
    "difference between a grade and a decoration. Items 1 to 3 are",
    "measured by the mission and you will get a message when you pass",
    "them. Items 4 and 5 are NOT measured. DCS mission triggers cannot",
@@ -4391,14 +4409,14 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The check ride. Grader on, coaching off. Three of the five criteria are measured by the mission and two are on your honor — and the card says exactly which is which.",
+   "premise": "The check ride. Grader on, coaching off. Three of the five criteria are measured by the mission and two are on your honor \u2014 and the card says exactly which is which.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_9_transfer": {
-  "label": "Air-to-Air Refuelling 9 (Probe) — Operational Transfer on a Live Sortie",
+  "label": "Air-to-Air Refuelling 9 (Probe) \u2014 Operational Transfer on a Live Sortie",
   "eras": [
    "coldwar",
    "modern"
@@ -4454,8 +4472,8 @@
    "n": 9
   },
   "brief": [
-   "== 9 · OPERATIONAL TRANSFER ==",
-   "NEW DEMAND: mission workload and a fuel decision — refuelling as",
+   "== 9 \u00b7 OPERATIONAL TRANSFER ==",
+   "NEW DEMAND: mission workload and a fuel decision \u2014 refuelling as",
    "something you fit around a job, rather than the job.",
    "",
    "The point of all of it. A real sortie with real tasking and a",
@@ -4468,7 +4486,7 @@
    "scoring.",
    "",
    "TANK BEFORE YOU NEED TO. The commonest operational refuelling",
-   "error is not technique — it is arriving at the tanker at minimum",
+   "error is not technique \u2014 it is arriving at the tanker at minimum",
    "fuel with no margin for three bad approaches. Decide early, go",
    "early, and leave yourself the retries.",
    "",
@@ -4477,19 +4495,19 @@
    "rather than treating it as the thing you do when the light comes on.",
    "",
    "This is the transfer test. Not another coached repetition of the",
-   "same setup — a different problem that happens to contain the one",
+   "same setup \u2014 a different problem that happens to contain the one",
    "you trained."
   ],
   "library": {
    "role": "training",
-   "premise": "A real sortie with real tasking and a tanker on station. No prompts, no grade — the measure is whether you came home with the job done.",
+   "premise": "A real sortie with real tasking and a tanker on station. No prompts, no grade \u2014 the measure is whether you came home with the job done.",
    "threat": 2,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "aar_probe_1_anchor": {
-  "label": "Air-to-Air Refuelling 1 (Probe) — Formation on the Tanker",
+  "label": "Air-to-Air Refuelling 1 (Probe) \u2014 Formation on the Tanker",
   "eras": [
    "coldwar",
    "modern"
@@ -4546,12 +4564,12 @@
    "n": 1
   },
   "brief": [
-   "== 1 · THE ANCHOR ==",
+   "== 1 \u00b7 THE ANCHOR ==",
    "NEW DEMAND: a stable formation sight picture, held, with no contact",
    "objective at all.",
    "",
-   "You are airborne in trail. The only job is to arrive at OBSERVATION —",
-   "line abreast the wing, stepped down — and sit there. DO NOT GO FOR",
+   "You are airborne in trail. The only job is to arrive at OBSERVATION \u2014",
+   "line abreast the wing, stepped down \u2014 and sit there. DO NOT GO FOR",
    "THE BASKET on this ride. Seriously.",
    "",
    "PICK A FIXED REFERENCE ON THE TANKER and keep it nearly motionless:",
@@ -4566,20 +4584,20 @@
    "change you did not intend. If the tanker keeps sliding around your",
    "canopy, contact practice is premature and ride 2 will be miserable.",
    "",
-   "GRADED. Silence means you are inside tolerance — the mission speaks only",
+   "GRADED. Silence means you are inside tolerance \u2014 the mission speaks only",
    "when something needs saying, and the closure call fires three times and",
    "then stops. Everything else is on the F10 menu when YOU want it."
   ],
   "library": {
    "role": "training",
-   "premise": "Join from trail and park line abreast — no basket this ride. Pick one reference on the tanker and keep it motionless; that reference is the instrument you are flying.",
+   "premise": "Join from trail and park line abreast \u2014 no basket this ride. Pick one reference on the tanker and keep it motionless; that reference is the instrument you are flying.",
    "threat": 1,
    "players": "SP"
   },
   "default_map": "caucasus"
  },
  "wk_1_stepstart": {
-  "label": "70 TFS White Knights 1 (Squadron Checkout) — Step, Start, Taxi, Go",
+  "label": "70 TFS White Knights 1 (Squadron Checkout) \u2014 Step, Start, Taxi, Go",
   "eras": [
    "coldwar"
   ],
@@ -4596,7 +4614,7 @@
    "new": false,
    "featured": false,
    "module": "F-4E",
-   "premise": "Step, start, taxi and the tactical split — on the squadron's own comm card, with its own code names."
+   "premise": "Step, start, taxi and the tactical split \u2014 on the squadron's own comm card, with its own code names."
   },
   "recipe": {
    "aircraft": "F_4E_45MC",
@@ -4621,10 +4639,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_2_overhead": {
-  "label": "70 TFS White Knights 2 (Squadron Checkout) — The Overhead and the Landing",
+  "label": "70 TFS White Knights 2 (Squadron Checkout) \u2014 The Overhead and the Landing",
   "eras": [
    "coldwar"
   ],
@@ -4666,10 +4695,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_3_cqt": {
-  "label": "70 TFS White Knights 3 (Squadron Checkout) — Combat Quick Turn",
+  "label": "70 TFS White Knights 3 (Squadron Checkout) \u2014 Combat Quick Turn",
   "eras": [
    "coldwar"
   ],
@@ -4711,10 +4751,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_4_lineabreast": {
-  "label": "70 TFS White Knights 4 (Squadron Checkout) — Line Abreast",
+  "label": "70 TFS White Knights 4 (Squadron Checkout) \u2014 Line Abreast",
   "eras": [
    "coldwar"
   ],
@@ -4756,10 +4807,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_5_commout": {
-  "label": "70 TFS White Knights 5 (Squadron Checkout) — Comm-Out Turns",
+  "label": "70 TFS White Knights 5 (Squadron Checkout) \u2014 Comm-Out Turns",
   "eras": [
    "coldwar"
   ],
@@ -4801,10 +4863,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_6_ridge": {
-  "label": "70 TFS White Knights 6 (Squadron Checkout) — Ridge Crossing",
+  "label": "70 TFS White Knights 6 (Squadron Checkout) \u2014 Ridge Crossing",
   "eras": [
    "coldwar"
   ],
@@ -4846,10 +4919,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_7_threats": {
-  "label": "70 TFS White Knights 7 (Squadron Checkout) — Threats on the Route",
+  "label": "70 TFS White Knights 7 (Squadron Checkout) \u2014 Threats on the Route",
   "eras": [
    "coldwar"
   ],
@@ -4893,10 +4977,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_8_abort": {
-  "label": "70 TFS White Knights 8 (Squadron Checkout) — Route Abort",
+  "label": "70 TFS White Knights 8 (Squadron Checkout) \u2014 Route Abort",
   "eras": [
    "coldwar"
   ],
@@ -4931,10 +5026,16 @@
   "track": {
    "id": "wk_checkout",
    "n": 8
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
   }
  },
  "wk_9_intercepts": {
-  "label": "70 TFS White Knights 9 (Squadron Checkout) — Basic Intercepts",
+  "label": "70 TFS White Knights 9 (Squadron Checkout) \u2014 Basic Intercepts",
   "eras": [
    "coldwar"
   ],
@@ -4978,10 +5079,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_10_threeship": {
-  "label": "70 TFS White Knights 10 (Squadron Checkout) — Three-Ship Intercepts",
+  "label": "70 TFS White Knights 10 (Squadron Checkout) \u2014 Three-Ship Intercepts",
   "eras": [
    "coldwar"
   ],
@@ -5025,10 +5137,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "wk_11_bfm": {
-  "label": "70 TFS White Knights 11 (Squadron Checkout) — BFM Maneuvers on Command",
+  "label": "70 TFS White Knights 11 (Squadron Checkout) \u2014 BFM Maneuvers on Command",
   "eras": [
    "coldwar"
   ],
@@ -5075,10 +5198,21 @@
     "home_airbase": "Beni Suef",
     "lineup": "proud_phantom"
    }
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_1_drag": {
-  "label": "70 TFS White Knights 1 (Proud Phantom) — The Tanker Drag",
+  "label": "70 TFS White Knights 1 (Proud Phantom) \u2014 The Tanker Drag",
   "eras": [
    "coldwar"
   ],
@@ -5115,10 +5249,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 1
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_2_lald": {
-  "label": "70 TFS White Knights 2 (Proud Phantom) — Low Angle Low Drag, 15 Degrees",
+  "label": "70 TFS White Knights 2 (Proud Phantom) \u2014 Low Angle Low Drag, 15 Degrees",
   "eras": [
    "coldwar"
   ],
@@ -5155,10 +5300,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 2
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_3_dive30": {
-  "label": "70 TFS White Knights 3 (Proud Phantom) — Dive Bomb, 30 Degrees",
+  "label": "70 TFS White Knights 3 (Proud Phantom) \u2014 Dive Bomb, 30 Degrees",
   "eras": [
    "coldwar"
   ],
@@ -5174,7 +5330,7 @@
    "new": false,
    "featured": false,
    "module": "F-4E",
-   "premise": "A real pop — forty-five degree climb, ten thousand foot apex — and the wind corrections appear."
+   "premise": "A real pop \u2014 forty-five degree climb, ten thousand foot apex \u2014 and the wind corrections appear."
   },
   "recipe": {
    "aircraft": "F_4E_45MC",
@@ -5195,10 +5351,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 3
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_4_hidrag": {
-  "label": "70 TFS White Knights 4 (Proud Phantom) — High Drag, 10 Degrees — and the Frag",
+  "label": "70 TFS White Knights 4 (Proud Phantom) \u2014 High Drag, 10 Degrees \u2014 and the Frag",
   "eras": [
    "coldwar"
   ],
@@ -5235,10 +5402,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 4
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_5_divetoss": {
-  "label": "70 TFS White Knights 5 (Proud Phantom) — Dive Toss, and the Back-Up",
+  "label": "70 TFS White Knights 5 (Proud Phantom) \u2014 Dive Toss, and the Back-Up",
   "eras": [
    "coldwar"
   ],
@@ -5275,10 +5453,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 5
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_6_echelon": {
-  "label": "70 TFS White Knights 6 (Proud Phantom) — Echelon Attack",
+  "label": "70 TFS White Knights 6 (Proud Phantom) \u2014 Echelon Attack",
   "eras": [
    "coldwar"
   ],
@@ -5314,10 +5503,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 6
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_7_double90": {
-  "label": "70 TFS White Knights 7 (Proud Phantom) — Double 90 Attack",
+  "label": "70 TFS White Knights 7 (Proud Phantom) \u2014 Double 90 Attack",
   "eras": [
    "coldwar"
   ],
@@ -5354,10 +5554,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 7
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_8_bnai": {
-  "label": "70 TFS White Knights 9 (Proud Phantom) — B'NAI Attack",
+  "label": "70 TFS White Knights 9 (Proud Phantom) \u2014 B'NAI Attack",
   "eras": [
    "coldwar"
   ],
@@ -5373,7 +5584,7 @@
    "new": false,
    "featured": false,
    "module": "F-4E",
-   "premise": "Israeli, 1973, built for the SA-6 — flown over the ground it was invented on, with an SA-6 in the mission. No coaching: this is ride 8 with the calls switched off."
+   "premise": "Israeli, 1973, built for the SA-6 \u2014 flown over the ground it was invented on, with an SA-6 in the mission. No coaching: this is ride 8 with the calls switched off."
   },
   "recipe": {
    "aircraft": "F_4E_45MC",
@@ -5395,10 +5606,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 9
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_9_split": {
-  "label": "70 TFS White Knights 11 (Proud Phantom) — Split Attack, Low/Low",
+  "label": "70 TFS White Knights 11 (Proud Phantom) \u2014 Split Attack, Low/Low",
   "eras": [
    "coldwar"
   ],
@@ -5434,10 +5656,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 11
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_9_splithigh": {
-  "label": "70 TFS White Knights 10 (Proud Phantom) — Split Attack, Low/High",
+  "label": "70 TFS White Knights 10 (Proud Phantom) \u2014 Split Attack, Low/High",
   "eras": [
    "coldwar"
   ],
@@ -5473,10 +5706,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 10
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "pp_8_bnai_coach": {
-  "label": "70 TFS White Knights 8 (Proud Phantom) — B'NAI Attack — Coached",
+  "label": "70 TFS White Knights 8 (Proud Phantom) \u2014 B'NAI Attack \u2014 Coached",
   "eras": [
    "coldwar"
   ],
@@ -5515,10 +5759,21 @@
   "track": {
    "id": "wk_proud_phantom",
    "n": 8
+  },
+  "historical": {
+   "scenario_date": "1980-06-21",
+   "historical_notes": [
+    "The 1980 squadron syllabus is adapted to DCS. The date is an authored training reference; these are not archived individual sorties."
+   ]
+  },
+  "historical_by_map": {
+   "sinai": {
+    "scenario_date": "1980-07-10"
+   }
   }
  },
  "bnai_coach_green": {
-  "label": "B'NAI Attack — Coached, Green Rings & Gates (Proud Phantom)",
+  "label": "B'NAI Attack \u2014 Coached, Green Rings & Gates (Proud Phantom)",
   "eras": [
    "coldwar"
   ],
@@ -5557,7 +5812,7 @@
   "wk_ride": "pp_8_bnai_coach"
  },
  "cq_1_stack_f14": {
-  "label": "VF-101 Grim Reapers — Case III 1 of 5: The Stack (F-14B)",
+  "label": "VF-101 Grim Reapers \u2014 Case III 1 of 5: The Stack (F-14B)",
   "eras": [
    "modern"
   ],
@@ -5574,7 +5829,7 @@
    "featured": true,
    "module": "F-14B",
    "requires": "DCS: Supercarrier",
-   "premise": "Holding, and only holding. Left-hand, six-minute racetrack, inbound leg over the fix — and the thing that actually takes practice: stretching and shortening the legs so you depart at the assigned second."
+   "premise": "Holding, and only holding. Left-hand, six-minute racetrack, inbound leg over the fix \u2014 and the thing that actually takes practice: stretching and shortening the legs so you depart at the assigned second."
   },
   "recipe": {
    "aircraft": "F_14B",
@@ -5601,7 +5856,7 @@
   }
  },
  "cq_2_push_f14": {
-  "label": "VF-101 Grim Reapers — Case III 2 of 5: The Push (F-14B)",
+  "label": "VF-101 Grim Reapers \u2014 Case III 2 of 5: The Push (F-14B)",
   "eras": [
    "modern"
   ],
@@ -5645,7 +5900,7 @@
   }
  },
  "cq_3_approach_f14": {
-  "label": "VF-101 Grim Reapers — Case III 3 of 5: The Approach (F-14B)",
+  "label": "VF-101 Grim Reapers \u2014 Case III 3 of 5: The Approach (F-14B)",
   "eras": [
    "modern"
   ],
@@ -5689,7 +5944,7 @@
   }
  },
  "cq_4_ball_f14": {
-  "label": "VF-101 Grim Reapers — Case III 4 of 5: The Ball (F-14B)",
+  "label": "VF-101 Grim Reapers \u2014 Case III 4 of 5: The Ball (F-14B)",
   "eras": [
    "modern"
   ],
@@ -5706,7 +5961,7 @@
    "featured": false,
    "module": "F-14B",
    "requires": "DCS: Supercarrier",
-   "premise": "The last mile, over and over. Ball call in the right format, then flying the ball instead of spotting the deck — and the bolter pattern taught rather than discovered."
+   "premise": "The last mile, over and over. Ball call in the right format, then flying the ball instead of spotting the deck \u2014 and the bolter pattern taught rather than discovered."
   },
   "recipe": {
    "aircraft": "F_14B",
@@ -5733,7 +5988,7 @@
   }
  },
  "cq_5_nightcq_f14": {
-  "label": "VF-101 Grim Reapers — Case III 5 of 5: Night CQ (F-14B)",
+  "label": "VF-101 Grim Reapers \u2014 Case III 5 of 5: Night CQ (F-14B)",
   "eras": [
    "modern"
   ],
@@ -5777,7 +6032,7 @@
   }
  },
  "cq_1_stack_fa18": {
-  "label": "VFA-106 Gladiators — Case III 1 of 5: The Stack (F/A-18C)",
+  "label": "VFA-106 Gladiators \u2014 Case III 1 of 5: The Stack (F/A-18C)",
   "eras": [
    "modern"
   ],
@@ -5794,7 +6049,7 @@
    "featured": false,
    "module": "F/A-18C",
    "requires": "DCS: Supercarrier",
-   "premise": "Holding, and only holding. Left-hand, six-minute racetrack, inbound leg over the fix — and the thing that actually takes practice: stretching and shortening the legs so you depart at the assigned second."
+   "premise": "Holding, and only holding. Left-hand, six-minute racetrack, inbound leg over the fix \u2014 and the thing that actually takes practice: stretching and shortening the legs so you depart at the assigned second."
   },
   "recipe": {
    "aircraft": "FA_18C_hornet",
@@ -5821,7 +6076,7 @@
   }
  },
  "cq_2_push_fa18": {
-  "label": "VFA-106 Gladiators — Case III 2 of 5: The Push (F/A-18C)",
+  "label": "VFA-106 Gladiators \u2014 Case III 2 of 5: The Push (F/A-18C)",
   "eras": [
    "modern"
   ],
@@ -5865,7 +6120,7 @@
   }
  },
  "cq_3_approach_fa18": {
-  "label": "VFA-106 Gladiators — Case III 3 of 5: The Approach (F/A-18C)",
+  "label": "VFA-106 Gladiators \u2014 Case III 3 of 5: The Approach (F/A-18C)",
   "eras": [
    "modern"
   ],
@@ -5909,7 +6164,7 @@
   }
  },
  "cq_4_ball_fa18": {
-  "label": "VFA-106 Gladiators — Case III 4 of 5: The Ball (F/A-18C)",
+  "label": "VFA-106 Gladiators \u2014 Case III 4 of 5: The Ball (F/A-18C)",
   "eras": [
    "modern"
   ],
@@ -5926,7 +6181,7 @@
    "featured": false,
    "module": "F/A-18C",
    "requires": "DCS: Supercarrier",
-   "premise": "The last mile, over and over. Ball call in the right format, then flying the ball instead of spotting the deck — and the bolter pattern taught rather than discovered."
+   "premise": "The last mile, over and over. Ball call in the right format, then flying the ball instead of spotting the deck \u2014 and the bolter pattern taught rather than discovered."
   },
   "recipe": {
    "aircraft": "FA_18C_hornet",
@@ -5953,7 +6208,7 @@
   }
  },
  "cq_5_nightcq_fa18": {
-  "label": "VFA-106 Gladiators — Case III 5 of 5: Night CQ (F/A-18C)",
+  "label": "VFA-106 Gladiators \u2014 Case III 5 of 5: Night CQ (F/A-18C)",
   "eras": [
    "modern"
   ],
@@ -5997,7 +6252,7 @@
   }
  },
  "timing_1_flythecard": {
-  "label": "Timing 1 — Fly the Card (F-4E)",
+  "label": "Timing 1 \u2014 Fly the Card (F-4E)",
   "eras": [
    "coldwar"
   ],
@@ -6053,7 +6308,7 @@
   ]
  },
  "timing_2_hitthetot": {
-  "label": "Timing 2 — Hit the TOT (F-4E)",
+  "label": "Timing 2 \u2014 Hit the TOT (F-4E)",
   "eras": [
    "coldwar"
   ],
@@ -6099,7 +6354,7 @@
    "== TIMING 2: HIT THE TOT ==",
    "The anchor is the TOT: 05:45:00 at TARGET, plus or minus thirty",
    "seconds. Read the timing block: the mission clock starts when it",
-   "does BECAUSE that time has to be met — wheels up, WP1 and IP are",
+   "does BECAUSE that time has to be met \u2014 wheels up, WP1 and IP are",
    "all derived from the target time, not the other way round.",
    " - Late at WP1 is recoverable: the IP leg has speed in hand.",
    " - Late at the IP is not. The run-in is 76 seconds long.",
@@ -6109,7 +6364,7 @@
   ]
  },
  "timing_3_thepackage": {
-  "label": "Timing 3 — The Package (F-4E)",
+  "label": "Timing 3 \u2014 The Package (F-4E)",
   "eras": [
    "coldwar"
   ],
@@ -6155,10 +6410,10 @@
   "brief": [
    "== TIMING 3: THE PACKAGE ==",
    "A two-ship of Phantoms flies the same card two minutes ahead of",
-   "you, and their ETAs are LOCKED — DCS will fly them to the second.",
+   "you, and their ETAs are LOCKED \u2014 DCS will fly them to the second.",
    "The anchor is the PUSH: WP1 at 12:35:00, plus or minus a minute.",
    " - The package calls when it crosses the IP. If you are on time,",
-   "   you are two minutes behind it — outside its frag, inside its",
+   "   you are two minutes behind it \u2014 outside its frag, inside its",
    "   suppression. That spacing IS the mission.",
    " - Do not catch them up. Faster than the card at the IP puts you",
    "   over the target while their bombs are still in the air.",
@@ -6167,7 +6422,7 @@
   ]
  },
  "timing_4_absorbtheearly": {
-  "label": "Timing 4 — Absorb the Early (F-4E)",
+  "label": "Timing 4 \u2014 Absorb the Early (F-4E)",
   "eras": [
    "coldwar"
   ],
@@ -6212,11 +6467,11 @@
   },
   "brief": [
    "== TIMING 4: ABSORB THE EARLY ==",
-   "Same anchor as ride 2 — TOT 05:50:00, plus or minus thirty seconds",
-   "— but the card carries a three-minute HOLD at WP1. You will reach",
+   "Same anchor as ride 2 \u2014 TOT 05:50:00, plus or minus thirty seconds",
+   "\u2014 but the card carries a three-minute HOLD at WP1. You will reach",
    "WP1 about three minutes before its printed ETA. That is planned.",
    " - Arrive at WP1, turn onto a racetrack (one-minute legs), and",
-   "   push out of the hold on the WP1 ETA — not when you get there.",
+   "   push out of the hold on the WP1 ETA \u2014 not when you get there.",
    " - The WP1 grade is taken when you enter the zone, so expect an",
    "   EARLY call there. It is the IP and the TARGET that count.",
    " - This is how every professional package absorbs an early takeoff,",
@@ -6225,7 +6480,7 @@
   ]
  },
  "form_precheck": {
-  "label": "Formation 6: Pre-Check — the check profile, coach on",
+  "label": "Formation 6: Pre-Check \u2014 the check profile, coach on",
   "eras": [
    "wwii",
    "coldwar",
@@ -6303,17 +6558,17 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — PRE-CHECK ===",
+   "=== FORMATION SYLLABUS \u2014 PRE-CHECK ===",
    "You are DASH 2 on an AI lead flying the CHECK profile, unchanged.",
    "The coach is still on: lead calls you out of position and back in.",
    "The check-ride engine runs alongside and prints its card at the end,",
-   "labelled PRACTICE — items U / F / G / E, overall Q / Q- / U.",
+   "labelled PRACTICE \u2014 items U / F / G / E, overall Q / Q- / U.",
    "The last dual ride before a check flies the check profile. Fly this",
    "until the card says Q, then fly the check."
   ],
   "library": {
    "role": "training",
-   "premise": "The check ride's exact profile — level, a turn each way, a climb, two speed changes, a descent, then the pitchout and rejoin — with lead still calling you out of position, and the check's own card at the end so you know what it will score.",
+   "premise": "The check ride's exact profile \u2014 level, a turn each way, a climb, two speed changes, a descent, then the pitchout and rejoin \u2014 with lead still calling you out of position, and the check's own card at the end so you know what it will score.",
    "threat": 1,
    "players": "SP",
    "featured": false,
@@ -6322,7 +6577,7 @@
   "default_map": "caucasus"
  },
  "form_check": {
-  "label": "Formation 7: Check Ride — Fingertip, silent",
+  "label": "Formation 7: Check Ride \u2014 Fingertip, silent",
   "eras": [
    "wwii",
    "coldwar",
@@ -6400,12 +6655,12 @@
    ]
   },
   "brief": [
-   "=== FORMATION SYLLABUS — CHECK RIDE ===",
+   "=== FORMATION SYLLABUS \u2014 CHECK RIDE ===",
    "You are DASH 2. Lead flies the check profile and says three things:",
    "the brief, the pitchout, and the card. Nothing else.",
    "Grading arms 20 s after you settle in the 60 m band and runs until",
    "the pitchout; then the rejoin is timed. Inside 12 m of lead, lost",
-   "for 30 s, or not rejoined in 300 s is a critical item — a U.",
+   "for 30 s, or not rejoined in 300 s is a critical item \u2014 a U.",
    "Record the card on the gradesheet. An instructor in the other",
    "seat, or watching in multiplayer, grades line, corrections and",
    "radio; alone, grade those yourself against the Standards."
@@ -6421,7 +6676,7 @@
   "default_map": "caucasus"
  },
  "timing_5_check": {
-  "label": "Timing 5 — Check Ride (F-4E)",
+  "label": "Timing 5 \u2014 Check Ride (F-4E)",
   "eras": [
    "coldwar"
   ],
@@ -6466,7 +6721,7 @@
   },
   "brief": [
    "== TIMING 5: CHECK RIDE ==",
-   "The anchor is the TOT: 06:00:00 at TARGET. The coach is silent —",
+   "The anchor is the TOT: 06:00:00 at TARGET. The coach is silent \u2014",
    "one hack at the start, then the card a minute after the target.",
    " - E inside ten seconds of a point's time; G inside its window;",
    "   F early; U late or not reached.",

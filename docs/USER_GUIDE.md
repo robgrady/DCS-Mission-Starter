@@ -1,6 +1,6 @@
 # DCS Sortie Starter — User Guide
 
-**Select, don't search.** Get a living, period-accurate DCS mission in under a
+**Select, don't search.** Get a living DCS mission with period-inspired settings in under a
 minute — no editor, no Lua. We set the stage, you write the play: you are never
 handed a flight plan you did not ask for — and there is no waypoint editor,
 because none is needed. Waypoints appear only where the mission itself calls
@@ -43,7 +43,7 @@ support, corridors, map graphics — everything, in seven screens.
 ## Your mission kit
 
 Every generate ends with the **Mission Kit**: the `.miz` (with its install
-path), the **briefing pack** (a 3-page PDF — SITUATION/MISSION/EXECUTION brief,
+path), the **briefing pack** (a PDF — SITUATION/MISSION/EXECUTION brief,
 theater chart with the numbered threat order of battle, comms/nav card with
 diverts and fuel boxes — plus Markdown for Discord), the **kneeboard** riding
 in-jet (RShift+K: comms card, airfield data, theater overview with the live
@@ -250,7 +250,7 @@ everything is ordinary groups and statics you can move, delete, or build on.
 
 **Why can't I pick aircraft X in era Y?** Hard era gate by service window — e.g.
 the Hornet entered service in 1987, so it can't appear in a Cold War (1965–1985)
-starter. This keeps every starter period-authentic.
+starter. This is a broad era filter, not certification that every module variant served on the authored scenario date.
 
 **What is the "War on Terror" era for?** Iraq and Afghanistan, 2003–2020. It offers
 the same aircraft as Modern — the difference is not what you fly, it's what flies
@@ -279,6 +279,47 @@ it cannot confirm a fuel transfer. Follow each ride's printed standards and
 known issues. Historical overlays distinguish sourced boundaries from
 approximate or illustrative geometry; map-era presets are broad settings,
 not exact historical reconstructions of every aircraft and installation.
+
+### Scenario dates and historical context
+
+Library mission details show an authored **scenario date** and identify the
+setting as a **historically inspired adaptation** or **fictional exercise**.
+Expand **Setting, sources & adaptations** before generating. The same context
+appears in the mission description, Markdown/PDF brief and an additional
+kneeboard page. Published packs use the context supplied with their stored
+revision; older or externally authored packs may have no historical metadata.
+
+Named settings have their own dates: Proud Phantom uses **10 July 1980**, the
+fighter arrival date (advance parties arrived earlier); the White Knights
+checkout uses a 1980 reference day. Sinai's October War setting uses **6 October
+1973**, Falklands **21 May 1982**, the expanded Kola NATO exercise **21 June
+2024**, and Afghanistan OEF **21 June 2011**, before the base handovers. These
+are training anchors, not reconstructions of the individual day's sorties.
+
+Known weapon service windows are checked against the actual mission year for
+player, adversary and carrier strike fits. Unknown service dates remain
+uncertified; station compatibility does not establish national/operator
+availability. The aircraft picker still filters by the broader era, so later
+module variants can remain as disclosed training substitutions.
+
+Historical overlays are references, not automatic routing or violation grading:
+
+- **Berlin:** approximate corridor terminals; the 10,000-ft limit is an exercise
+  rule. Historical altitude and escort permissions were more complex.
+- **Nevada:** the 14-vertex R-4808N polygon uses the **1995 FAA boundary**, also
+  retained on earlier-era training missions. Its trigger zone is a bounding
+  circle, not the legal polygon.
+- **Syria:** the Euphrates sketch references a **7 February 2018** coalition
+  report. Four approximate points do not establish a precise operational line
+  or its continuous validity; the 2015 flight-safety MOU did not create it.
+- **Afghanistan:** the Kabul circle and Helmand rectangle are illustrative.
+  Operational dates, vertical limits and controlling agencies are unknown.
+
+The Normandy and Marianas WWII presets use broad campaign basing substitutions:
+Carpiquet and Tinian were not Allied operational bases on the default June
+1944 date. Falklands Mount Pleasant is a postwar substitution. Display
+nationality is distinct from territorial host, visiting operator and game
+coalition; it does not certify an aircraft roster.
 
 ## Release identity and the manual
 

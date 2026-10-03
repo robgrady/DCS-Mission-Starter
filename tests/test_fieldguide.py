@@ -145,7 +145,7 @@ def test_brief_and_markdown_carry_the_guide(tmp_path):
     assert "NORDO: squawk 7600, return to Nellis, overhead for RWY 03L" in md
     import pypdfium2 as pdfium
     pdf = pdfium.PdfDocument(res["brief_pdf"])
-    assert len(pdf) == 4, "the airfield guide is page 4 of the brief"
+    assert len(pdf) == 5, "airfield guide remains page 4; historical context appends page 5"
     # The brief is drawn with PIL (no text layer), so the page is checked as a
     # picture: it must be a real page — table rows of ink, not the blank
     # paper a skipped renderer would leave — and differ from page 3.

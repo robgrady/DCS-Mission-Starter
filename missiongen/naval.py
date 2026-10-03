@@ -240,7 +240,7 @@ def add_carrier_strike(m, country, hull_key, carrier_pos, brc, threat_bearing,
     from .scenario_payloads import resolve_fit
     from .loadouts import apply_fit
     fit = resolve_fit(SimpleNamespace(player_fit="unguided", era="coldwar",
-                                     mission_kind="strike", player_load="standard"), st_type.id)
+                                     mission_kind="strike", player_load="standard"), st_type.id, year=m.start_time.year)
     apply_fit(fg, fit, st_type.id, warnings)
     from dcs import task
     fg.task = task.GroundAttack.name

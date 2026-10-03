@@ -124,6 +124,8 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
     # lineup exists on this map and covers this era.
     if r.lineup:
         preset = {**preset, **(map_cfg.get("lineups") or {})[r.lineup]}
+    from .historical_world import resolve_setting, scenario_date
+    preset = resolve_setting(r.map, r.era, preset, r.template)
 
     crew_ops = r.template in CREW_OPS_TEMPLATES
     formation_stage = getattr(r, "formation", None)
@@ -139,7 +141,8 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
     m = dcs.Mission(terrain())
 
     # --- time & weather -------------------------------------------------
-    m.start_time = datetime(era_cfg["year"], 6, 21, TIME_PRESETS[r.time_of_day], 0)
+    when = scenario_date(preset, era_cfg)
+    m.start_time = datetime(when.year, when.month, when.day, TIME_PRESETS[r.time_of_day], 0)
     builder._mission = m
     builder._apply_weather(m)
 

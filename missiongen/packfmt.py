@@ -448,6 +448,7 @@ def card_view(man: dict) -> dict:
         "threat": lib.get("threat", 3),
         "players": lib.get("players", "SP"),
         "premise": lib.get("premise", ""),
+        "historical_context": man.get("historical_context") or {},
         "image": lib.get("image"),
         "eras": lib.get("eras") or ["modern"],
         "maps": lib.get("maps"),
