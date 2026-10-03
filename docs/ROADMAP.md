@@ -81,7 +81,10 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   are documented separately; do not treat a successful build as historical proof. *Bet 1.*
 - **2.0 architecture refactor.** Preset resolution is unified in 1.108.0.
   Next extract builder placement phases, browser recipe state and API services
-  on a development branch, retaining the corrected production release.
+  on `codex/refactor-2.0`, retaining the corrected production release.
+  Carrier placement and pure browser preset calculations are the first slice;
+  see [2.0 implementation scope](architecture-2.0.md). Shared pack publication
+  must address independent Fly volumes before adding saved missions/accounts.
   See the [refactor decision](architecture-refactor-followups.md) for scope,
   compatibility limits and verification. GitHub pushes work; verify remote
   commit IDs when reporting release status.

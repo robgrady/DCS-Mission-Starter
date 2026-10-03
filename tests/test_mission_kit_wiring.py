@@ -8,6 +8,7 @@ import subprocess
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent
+PRESET_MODULE = (ROOT / 'frontend/assets/recipe-presets.js').read_text()
 UI = (ROOT / 'frontend/index.html').read_text() + '\n' + (ROOT / 'frontend/assets/mission-results.js').read_text()
 
 
@@ -27,7 +28,7 @@ def run_js(body, names):
     node = shutil.which('node')
     if not node:
         pytest.skip('Node.js needed for frontend behavior tests')
-    script = '\n'.join(function(name) for name in names) + '\n' + body
+    script = PRESET_MODULE + '\n' + '\n'.join(function(name) for name in names) + '\n' + body
     result = subprocess.run([node, '-e', script], capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     return json.loads(result.stdout)

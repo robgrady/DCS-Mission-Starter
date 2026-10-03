@@ -101,59 +101,14 @@ class StarterBuilder:
 
         # --- carrier strike group (built FIRST so the boat can be home plate) --
         gfx = {"targets": [], "farps": [], "threats": []}   # map-graphics geometry
-        csg, brc, hull_key = None, None, None
-        strike_group = None
-        if bb_carrier:
-            from . import naval, deck
-            if r.coalition == "blue":
-                default_hull = {"wwii": "essex", "coldwar": "forrestal",
-                                "modern": "stennis", "gwot": "stennis"}.get(r.era)
-                hull_key = r.carrier_hull or default_hull
-                csg, brc = naval.add_carrier_group(
-                    m, own_country, r.era, "blue", map_cfg, m.weather, comms,
-                    self.warnings, hull_key=hull_key)
-                if csg:
-                    stats["support"].append(csg.name)
-                    gfx["carrier"] = (csg.units[0].position, brc, csg.name)
-                    n = deck.configure_deck(
-                        m, own_country, csg, brc, hull_key, r.carrier_layout,
-                        r.carrier_deck_aircraft, r.carrier_equipment,
-                        self.rng, self.warnings)
-                    stats["deck_statics"] = n
-                    carrier_pos = csg.units[0].position
-                    # flight ops underway (launch/recovery deck) => the SAR
-                    # helo is airborne in Starboard Delta before the first
-                    # cat shot ("first off, last on")
-                    if r.carrier_layout in ("launch", "recovery"):
-                        pg = naval.add_plane_guard(m, own_country, hull_key,
-                                                   csg, brc, comms,
-                                                   self.warnings)
-                        if pg:
-                            stats["support"].append(pg.name)
-                    if r.carrier_cap:
-                        cap = naval.add_carrier_cap(m, own_country, hull_key,
-                                                    carrier_pos, brc, threat_bearing,
-                                                    comms, self.warnings, gfx=gfx)
-                        if cap:
-                            stats["support"].append(cap.name)
-                    if r.carrier_aew:
-                        aew = naval.add_carrier_aew(m, own_country, hull_key,
-                                                    carrier_pos, brc, threat_bearing,
-                                                    comms, self.warnings, gfx=gfx)
-                        if aew:
-                            stats["support"].append(aew.name)
-                    if r.carrier_strike:
-                        stk = naval.add_carrier_strike(m, own_country, hull_key,
-                                                       carrier_pos, brc, threat_bearing,
-                                                       comms, self.warnings, gfx=gfx)
-                        if stk:
-                            strike_group = stk
-                            stats["support"].append(stk.name)
-            else:
-                self.warnings.append("carrier group is blue-only for now - skipped")
-        if carrier_home and csg is None:
-            raise EraViolation("Carrier home base selected but no carrier strike group "
-                               "could be created on this map/era")
+        from .phases.carrier import place_carrier
+        carrier = place_carrier(ctx, r, self.rng, self.warnings)
+        csg, brc, hull_key = carrier.group, carrier.brc, carrier.hull_key
+        strike_group = carrier.strike
+        stats["support"].extend(carrier.support_names)
+        if carrier.deck_statics is not None:
+            stats["deck_statics"] = carrier.deck_statics
+        gfx.update(carrier.graphics)
         self._csg, self._brc, self._hull_key = csg, brc, hull_key
 
         # --- player flight (unless a template pack owns the player) ---------

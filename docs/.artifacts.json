@@ -11,7 +11,8 @@
  },
  "docs/img/hero.png": {
   "frontend/assets/mission-results.js": "1dc1fb70e5f2e15a",
-  "frontend/index.html": "750ddf753603c87e"
+  "frontend/assets/recipe-presets.js": "57078621729e5121",
+  "frontend/index.html": "f7163aac84275b06"
  },
  "docs/img/nttr_corridors.png": {
   "missiongen/corridor_chart.py": "f8e9b3c01506f678",

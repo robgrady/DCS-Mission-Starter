@@ -24,3 +24,6 @@ instance/
 
 # Recovery evidence kept beside the working tree in Dropbox, never source
 _recovery/
+
+# Local validation evidence and release bundles.
+outputs/

@@ -1249,6 +1249,7 @@
   <div id="summary"></div><div id="status" role="status" aria-live="polite"></div>
 </div>
 <script src="/assets/mission-results.js"></script>
+<script src="/assets/recipe-presets.js"></script>
 <script>
 const S = { map:null, era:null, template:null, kind:null, corridors:[], comms:{} };
 // Flightline modes: paper is the default identity; night is the kit's
@@ -2025,14 +2026,7 @@ function sel(container, card){
 // downstream screens (flight, airfields, threats, carrier) show the scenario's
 // choices ready to review — never a late override.
 function presetRecipe(k, era, map){
-  const t = OPT.templates[k] || {};
-  const rc = Object.assign({}, t.recipe || {}, (t.by_era || {})[era] || {});
-  rc.era = era;
-  rc.map = map || rc.map || t.default_map || 'caucasus';
-  Object.assign(rc, (t.by_map || {})[rc.map] || {});
-  rc.map = map || rc.map || t.default_map || 'caucasus';
-  if (rc.bb_carrier && !rc.home_airbase) rc.home_airbase = 'CARRIER';
-  return rc;
+  return effectiveScenarioPreset(OPT, k, era, map);
 }
 function applyScenarioPreset(k){
   const rc = Object.assign({}, OPT.recipe_defaults || RECIPE_DEFAULTS,
@@ -2213,8 +2207,7 @@ function eraHull(){
   return (cat||ents[0])[0];
 }
 function selectedMapPreset(){
-  const map = OPT.maps[S.map];
-  return {...map.presets[S.era], ...(map.lineups||{})[S.engineSettings?.lineup]};
+  return effectiveMapPreset(OPT, S.map, S.era, S.engineSettings?.lineup);
 }
 function fillHome(){
   if(!S.map||!S.era) return;

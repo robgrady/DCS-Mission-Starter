@@ -16,3 +16,7 @@ node_modules
 tmp
 *.log
 REPLIT*.txt
+
+# Published separately; never COPY these into the application image.
+outputs/
+packs/
