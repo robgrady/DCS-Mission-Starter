@@ -19,7 +19,11 @@
    "bb_range": false,
    "start": "warm",
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "mission_kind": "carrier",
+   "player_fit": "clean",
+   "bb_sams": false,
+   "bb_ambient": false
   },
   "brief": [
    "=== TASKING (suggested) — CARRIER QUALIFICATION ===",
@@ -144,7 +148,11 @@
    "bb_range": false,
    "start": "runway",
    "time_of_day": "day",
-   "weather": "scattered"
+   "weather": "scattered",
+   "mission_kind": "sead",
+   "target_packages": [
+    "depot"
+   ]
   },
   "brief": [
    "=== TASKING (suggested) — SEAD / WILD WEASEL ===",
@@ -227,27 +235,30 @@
    "threat": 2,
    "players": "SP · MP",
    "featured": true,
-   "premise": "A JTAC has troops pinned on a ridge in the green zone. Check in, get eyes on, and put warheads on foreheads — danger close.",
+   "premise": "A friendly patrol faces hostile vehicles 800 m away. Check in with a dedicated DCS JTAC on 30 MHz FM, identify the target and provide CAS. No scripted 9-line or automatic danger-close clearance.",
    "new": false
   },
   "recipe": {
    "aircraft": "A_10C_2",
    "home_airbase": "Kandahar",
    "start": "warm",
-   "bb_targets": true,
+   "bb_targets": false,
    "bb_tanker": true,
    "bb_awacs": true,
    "threat_intensity": 2,
    "threat_tier": "light",
    "bb_historical_airspace": true,
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "mission_kind": "cas",
+   "player_fit": "precision",
+   "bb_ambient": false
   },
   "brief": [
    "== TASKING: TROOPS IN CONTACT ==",
-   "Friendly patrol in contact in the target area (see F10 + kneeboard).",
-   "Check in with AWACS, work the target package as your JTAC talk-on.",
-   "Threats are SHORAD/MANPADS class - keep smart altitudes between attacks."
+   "A friendly patrol and dedicated Pointer JTAC are placed near the hostile vehicles.",
+   "Check in on 30.000 MHz FM using the native DCS JTAC radio menu.",
+   "Confirm clearance and friendly positions before release; AWACS is air-picture support, not JTAC."
   ]
  },
  "af_bastion_scramble": {
@@ -297,27 +308,31 @@
    "role": "cas",
    "threat": 2,
    "players": "SP · MP",
-   "premise": "A logistics convoy is threading the Helmand river road after dark. Own the overhead, find the ambush before it happens.",
+   "premise": "A friendly four-truck convoy follows a marked DCS road route after dark. Protect it when two hostile armored vehicles activate near the ambush zone. A notional local overwatch exercise.",
    "new": false
   },
   "recipe": {
    "aircraft": "F_16C_50",
    "home_airbase": "Kandahar",
    "start": "cold",
-   "bb_targets": true,
+   "bb_targets": false,
    "bb_tanker": true,
    "bb_awacs": true,
    "threat_intensity": 2,
    "threat_tier": "light",
    "bb_historical_airspace": true,
    "time_of_day": "night",
-   "weather": "clear"
+   "weather": "clear",
+   "mission_kind": "cas",
+   "player_fit": "precision",
+   "bb_ambient": false
   },
   "brief": [
    "== TASKING: CONVOY OVERWATCH ==",
-   "Convoy route and target package marked on the F10 map.",
-   "Work the targeting pod down the route ahead of the convoy;",
-   "strike only positively identified threats - ROE is tight tonight."
+   "The friendly road route and ambush approach area are marked on F10.",
+   "A dedicated convoy and proximity-activated hostile ambush are generated.",
+   "Use the fitted targeting pod and verify identification before attacking.",
+   "This uses the DCS road graph, not a surveyed historical Helmand route."
   ]
  },
  "af_hindu_kush_qra": {
@@ -372,7 +387,7 @@
    "new": false,
    "featured": true,
    "module": "F-100D",
-   "premise": "The Hun's Cold War job: cocked on strip alert, ready to run a low-level strike deep into the SAM belt. Delivery is simulated conventionally — the mission is the profile: low ingress, toss, survive the egress."
+   "premise": "The Hun's Cold War job: cocked on strip alert, ready to run a low-level strike deep into the SAM belt. Delivery is simulated conventionally — the mission is the profile: low ingress, toss, survive the egress. Notional 1978 DCS adaptation: Bitburg's historical F-100 basing ended in 1961; no nuclear store or automatic toss grading."
   },
   "recipe": {
    "aircraft": "F_100D",
@@ -385,11 +400,16 @@
    "threat_intensity": 4,
    "threat_tier": "heavy",
    "time_of_day": "day",
-   "weather": "scattered"
+   "weather": "scattered",
+   "mission_kind": "strike",
+   "player_fit": "unguided",
+   "target_packages": [
+    "depot"
+   ]
   },
   "brief": [
    "== TASKING (suggested): VICTOR ALERT — NUCLEAR QRA ==",
-   "You are the alert bird at Bitburg, weapon on the centerline. The klaxon just went.",
+   "You are the alert bird at Bitburg, conventionally armed on wing racks. The klaxon just went.",
    "A designated target sits deep behind the front (DGZ ring on the F10 map).",
    " - Get airborne and go LOW — the SA-2/SA-3 belt owns the medium altitudes.",
    " - Run the corridor on the deck, pop for the toss/LADD delivery, egress low and fast.",
@@ -413,24 +433,27 @@
    "new": false,
    "featured": true,
    "module": "F-100D",
-   "premise": "A Warsaw Pact armor column is pushing through the gap. Low-level guns, bombs and napalm — the fighter-bomber mission the Hun was built for."
+   "premise": "A moving armor column advances on a DCS road route. Find it and stop it with guns and unguided bombs. A notional Fulda-inspired exercise."
   },
   "recipe": {
    "aircraft": "F_100D",
    "home_airbase": "Hahn",
    "start": "warm",
-   "bb_targets": true,
+   "bb_targets": false,
    "bb_tanker": false,
    "bb_awacs": false,
    "threat_intensity": 3,
    "threat_tier": "mixed",
    "time_of_day": "day",
-   "weather": "scattered"
+   "weather": "scattered",
+   "mission_kind": "cas",
+   "player_fit": "unguided",
+   "bb_ambient": false
   },
   "brief": [
    "== TASKING (suggested): BATTLEFIELD CAS — STOP THE ARMOR ==",
    "Red armor is rolling through the target area (F10 + kneeboard). Blunt it.",
-   " - Work low and fast with guns, snakeye/napalm and rockets — first pass counts.",
+   " - Work with guns and the fitted unguided Mk-82s. Identify the moving armor before release.",
    " - Threats are ZSU-23/SA-9 SHORAD class down low: jink, don't loiter, re-attack from a new axis.",
    "No JTAC datalink in this era — talk-on off the F10 picture and your own eyes.",
    "Kill the lead vehicles, break the column's momentum, and get home."
@@ -463,13 +486,18 @@
    "threat_intensity": 4,
    "threat_tier": "heavy",
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "mission_kind": "cas",
+   "player_fit": "unguided",
+   "target_packages": [
+    "depot"
+   ]
   },
   "brief": [
    "== TASKING (suggested): IRON HAND — FLAK SUPPRESSION ==",
    "A defended target complex is ringed with guns and SAMs (threat rings on the F10 map).",
    " - You are the flak-suppression flight: draw the defenses, then roll in on whatever shoots.",
-   " - Rockets, bombs and the four 20mm on the AAA sites and SAM launchers — kill the shooters.",
+   " - Unguided Mk-82 bombs and the four 20mm on AAA and SAM sites — kill the shooters.",
    "No RWR-cued HARM here: this is eyeballs, the RHAW gear and nerve. Respect the rings.",
    "Success = the strikers get their pass without a launch coming up at them."
   ]
@@ -502,11 +530,16 @@
    "threat_intensity": 2,
    "threat_tier": "light",
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "mission_kind": "a2a",
+   "bb_bfm": true,
+   "bfm_setup": "high_aspect",
+   "player_fit": "guns",
+   "bb_ambient": false
   },
   "brief": [
    "== TASKING (suggested): GUNFIGHTER BFM ==",
-   "Adversary flight is up over the range for basic fighter maneuvers. Guns only.",
+   "A dedicated, clean adversary is up for guns-only BFM. No external missiles on either aircraft.",
    " - This is an energy fight: the Hun bleeds speed in the turn — fly it smart, don't get slow.",
    " - Merge, fight, knock it off, reset. No missiles, no score — just stick-and-rudder.",
    "A practice range is laid on if you want to warm up on strafe first. RTB with gas."
@@ -540,7 +573,12 @@
    "threat_intensity": 3,
    "threat_tier": "mixed",
    "time_of_day": "day",
-   "weather": "scattered"
+   "weather": "scattered",
+   "mission_kind": "training",
+   "player_fit": "recon",
+   "target_packages": [
+    "depot"
+   ]
   },
   "brief": [
    "== TASKING (suggested): TARPS RECONNAISSANCE ==",
@@ -548,7 +586,10 @@
    " - Plan a straight, steady run-in across the target for the cameras — wings level, on speed.",
    " - Threat rings are up: time your pass, come in fast, and don't linger for a second look.",
    "AWACS has the picture and a tanker is on the wall. No fixed waypoints — build your run.",
-   "Win = a clean photo pass and a live jet on the ramp. Don't trade the airframe for a picture."
+   "Win = a clean photo pass and a live jet on the ramp. Don't trade the airframe for a picture.",
+   "TARPS is fitted on exported pylon 6 (physical weapons station 5).",
+   "Use the RIO FILM/FRAME controls or Jester Utilities > Air to Ground.",
+   "After ending the flight, review Saved Games/DCS_F14/TARPS. No automatic imagery grade."
   ]
  },
  "f14_bombcat_strike": {
@@ -579,7 +620,12 @@
    "threat_intensity": 4,
    "threat_tier": "heavy",
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "mission_kind": "strike",
+   "player_fit": "precision",
+   "target_packages": [
+    "depot"
+   ]
   },
   "brief": [
    "== TASKING (suggested): PRECISION STRIKE ==",
@@ -670,7 +716,11 @@
    "threat_tier": "mixed",
    "start": "warm",
    "time_of_day": "day",
-   "weather": "scattered"
+   "weather": "scattered",
+   "mission_kind": "a2a",
+   "target_packages": [
+    "depot"
+   ]
   },
   "brief": [
    "== TASKING (suggested): ALPHA STRIKE ESCORT (TARCAP) ==",
@@ -1834,7 +1884,9 @@
    "bb_tanker": true,
    "bb_awacs": true,
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "bb_ambient": false,
+   "slots": 1
   },
   "brief": [
    "=== B-COURSE TI-1 · SINGLE-SHIP TACTICAL INTERCEPTS ===",
@@ -1888,6 +1940,7 @@
   },
   "brief": [
    "=== B-COURSE LASDT-1 · LOW ALTITUDE STEP DOWN TRAINING ===",
+   "SELF-DIRECTED EXERCISE: printed step-down syllabus only. No AI lead, staged descent route, automatic AGL monitoring or grading. A human instructor must demonstrate formation/turns.",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-17.",
    "",
    "THE FLOOR IS 500 FEET AGL. It is not a guideline. Everything below is",
@@ -1921,10 +1974,12 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The floor is 500 feet AGL and the course walks you down to it in bands rather than dropping you there. Level turns, turning room, descent awareness, vertical jinks, the orthogonal SAM break.",
+   "premise": "SELF-DIRECTED EXERCISE: printed step-down syllabus only. No AI lead, staged descent route, automatic AGL monitoring or grading. A human instructor must demonstrate formation/turns.",
    "threat": 2,
    "players": "SP",
-   "new": false
+   "new": false,
+   "mode": "self-directed exercise",
+   "disclosure": "SELF-DIRECTED EXERCISE: printed step-down syllabus only. No AI lead, staged descent route, automatic AGL monitoring or grading. A human instructor must demonstrate formation/turns."
   },
   "default_map": "nevada"
  },
@@ -1998,10 +2053,12 @@
    "bb_tanker": true,
    "bb_awacs": true,
    "time_of_day": "day",
-   "weather": "clear"
+   "weather": "clear",
+   "player_fit": "unguided"
   },
   "brief": [
    "=== B-COURSE SAT-2 · ELEMENT SAT / PREPLANNED TARGETING ===",
+   "PARTNER EXERCISE: two client aircraft with unguided bombs. A human instructor/partner must simulate the wounded bird; no scripted damage event or automatic recovery grade.",
    "AETC Syllabus F16C0B00PL (56 FW), Chapter 5, para 5-19.",
    "",
    "SA-1 taught you to put a bomb on a spot on a range. This is the sortie",
@@ -2028,10 +2085,12 @@
   ],
   "library": {
    "role": "training",
-   "premise": "The range taught you the delivery. This teaches the war around it — ingress, threat reactions, the attack, egress, and the wounded-bird recovery that most people never practice.",
+   "premise": "PARTNER EXERCISE: two client aircraft with unguided bombs. A human instructor/partner must simulate the wounded bird; no scripted damage event or automatic recovery grade.",
    "threat": 3,
    "players": "SP·MP",
-   "new": false
+   "new": false,
+   "mode": "self-directed exercise",
+   "disclosure": "PARTNER EXERCISE: two client aircraft with unguided bombs. A human instructor/partner must simulate the wounded bird; no scripted damage event or automatic recovery grade."
   },
   "default_map": "nevada"
  },
@@ -4905,7 +4964,9 @@
    "threat_intensity": 1,
    "time_of_day": "day",
    "weather": "clear",
-   "home_airbase": "Ramstein"
+   "home_airbase": "Ramstein",
+   "mission_kind": "a2a",
+   "slots": 1
   },
   "wk_ride": "wk_9_intercepts",
   "track": {
@@ -4950,7 +5011,9 @@
    "threat_intensity": 1,
    "time_of_day": "day",
    "weather": "clear",
-   "home_airbase": "Ramstein"
+   "home_airbase": "Ramstein",
+   "mission_kind": "a2a",
+   "slots": 1
   },
   "wk_ride": "wk_10_threeship",
   "track": {
@@ -4982,7 +5045,9 @@
    "new": false,
    "featured": false,
    "module": "F-4E",
-   "premise": "The squadron's own directive calls, made to you as the fight develops. Sixteen of them, with their parameters."
+   "premise": "SELF-DIRECTED EXERCISE: a live BFM bandit and sixteen printed directive-call references. The mission does not deliver calls automatically; brief and call them yourself or with a human instructor.",
+   "mode": "self-directed exercise",
+   "disclosure": "SELF-DIRECTED EXERCISE: a live BFM bandit and sixteen printed directive-call references. The mission does not deliver calls automatically; brief and call them yourself or with a human instructor."
   },
   "recipe": {
    "aircraft": "F_4E_45MC",
@@ -4997,7 +5062,8 @@
    "weather": "clear",
    "home_airbase": "Ramstein",
    "bb_bfm": true,
-   "bfm_setup": "neutral"
+   "bfm_setup": "neutral",
+   "mission_kind": "a2a"
   },
   "wk_ride": "wk_11_bfm",
   "track": {

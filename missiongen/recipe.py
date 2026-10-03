@@ -44,6 +44,7 @@ RECIPE_ENUMS = {
     "dress_livery_style": ("squadron", "aggressors", "clean", "random"),
     "ramp_heavies": ("none", "light", "auto", "surge"),
     "player_load": ("light", "standard", "heavy"),
+    "player_fit": ("auto", "clean", "unguided", "precision", "recon", "guns"),
     # Formation training: which stage of the syllabus. None = not a formation
     # sortie (every other mission the tool makes).
     "formation": (None, "route", "close", "energy", "rejoin", "takeoff",
@@ -155,6 +156,7 @@ class Recipe:
                                        # exist) | "clean" (DCS stock default) |
                                        # "random" (any scheme in the pack). Applies
                                        # to statics on BOTH sides. See dressing._pick_livery.
+    player_fit: str = "auto"           # explicit scenario stores; auto keeps existing role fits
     player_arm: bool = True            # arm YOUR jet from the mission kind. It used
                                        # to spawn clean on every kind, described as
                                        # "your loadout is yours to set in the Mission
@@ -357,14 +359,12 @@ class Recipe:
         tpl = d.get("template")
         if not tpl:
             return d
-        try:
-            from .resolver import load_json
-            block = (load_json("mission_templates").get(tpl) or {}).get("recipe")
-        except Exception:
-            block = None
-        if not isinstance(block, dict) or not block:
+        from .templates import templates, effective_recipe
+        template = templates().get(tpl)
+        if template is None:
             return d
-        merged = dict(block)
+        era = d.get("era") or (template.get("eras") or [Recipe.era])[0]
+        merged = effective_recipe(tpl, era, d.get("map") or "")
         merged.update({k: v for k, v in d.items()})
         return merged
 

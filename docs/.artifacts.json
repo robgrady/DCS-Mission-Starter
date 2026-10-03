@@ -3,7 +3,7 @@
   "docs/USER_GUIDE.md": "033943be39648a30",
   "docs/img/hero.png": "c140a0ddee198224",
   "docs/img/review.png": "b045b451f3f613e9",
-  "missiongen/__init__.py": "c919806e09d2ead1"
+  "missiongen/__init__.py": "f3475cbf81457fcc"
  },
  "docs/WK_BNAI_VOICEOVER.md": {
   "missiongen/wk_brief.py": "9703314b74e569de",
@@ -11,7 +11,7 @@
  },
  "docs/img/hero.png": {
   "frontend/assets/mission-results.js": "1dc1fb70e5f2e15a",
-  "frontend/index.html": "a5e06a2479087d61"
+  "frontend/index.html": "750ddf753603c87e"
  },
  "docs/img/nttr_corridors.png": {
   "missiongen/corridor_chart.py": "f8e9b3c01506f678",
@@ -41,12 +41,12 @@
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "packs/wk_proud_phantom.sspack": {
-  "missiongen/data/mission_templates.json": "a4cdbfe45ef71ffb",
+  "missiongen/data/mission_templates.json": "ef853d8382cdb89c",
   "missiongen/data/tracks.json": "437e46ea7036af0b",
   "missiongen/wk.py": "6fa84f538b6adcd1",
   "missiongen/wk_brief.py": "9703314b74e569de",
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
   "missiongen/wk_route.py": "aaff19e241d25ade",
-  "scripts/build_pack.py": "a8c46ce1a2e54eda"
+  "scripts/build_pack.py": "06bb9f9fa9a631b8"
  }
 }

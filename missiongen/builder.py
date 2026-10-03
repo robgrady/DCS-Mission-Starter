@@ -102,6 +102,7 @@ class StarterBuilder:
         # --- carrier strike group (built FIRST so the boat can be home plate) --
         gfx = {"targets": [], "farps": [], "threats": []}   # map-graphics geometry
         csg, brc, hull_key = None, None, None
+        strike_group = None
         if bb_carrier:
             from . import naval, deck
             if r.coalition == "blue":
@@ -146,6 +147,7 @@ class StarterBuilder:
                                                        carrier_pos, brc, threat_bearing,
                                                        comms, self.warnings, gfx=gfx)
                         if stk:
+                            strike_group = stk
                             stats["support"].append(stk.name)
             else:
                 self.warnings.append("carrier group is blue-only for now - skipped")
@@ -395,8 +397,8 @@ class StarterBuilder:
             # the Mission Editor, and `player_arm=False` turns it off entirely
             # for people who would rather start from a clean jet.
             if r.player_arm:
-                fit = loadouts.player_loadout(
-                    aircraft.id, r.mission_kind, r.era, r.player_load)
+                from .scenario_payloads import resolve_fit
+                fit = resolve_fit(r, aircraft.id)
                 label = loadouts.apply_fit(player_group, fit, aircraft.id,
                                            self.warnings)
                 if label:
@@ -988,7 +990,7 @@ class StarterBuilder:
             bfm = _thr2.add_bfm_adversary(
                 m, enemy_country, r.era, enemy_side2, r.threat_tier,
                 ppos, palt, skill2, self.rng,
-                guns_only=(r.era == "wwii"),
+                guns_only=(r.era == "wwii" or r.player_fit == "guns"),
                 intensity=r.threat_intensity,
                 fits=stats.setdefault("enemy_air", []),
                 warnings=self.warnings,
@@ -1198,6 +1200,9 @@ class StarterBuilder:
                 "card that places a target.")
 
         # --- template packs ---------------------------------------------------
+        from . import library_scenarios
+        library_lines = library_scenarios.add_actors(ctx, r, player_group, gfx)
+        library_lines += library_scenarios.complete_strike(ctx, strike_group, csg, gfx)
         template_brief = ""
         crew_flight = None                     # crew-ops flight owns the player jet
         if r.cq_ride:
@@ -1247,6 +1252,9 @@ class StarterBuilder:
             _wk_card = _wk.brief_lines(
                 _wk_ride, map_key=r.map,
                 aircraft_id=getattr(self._resolve_aircraft(r.aircraft), "id", ""))
+            _disclosure = ((_scenario_templates().get(r.template) or {}).get("library") or {}).get("disclosure")
+            if _disclosure:
+                _wk_card = [_disclosure, ""] + _wk_card
             _fp = _wkr.brief_lines(_wk_ride, r.map, _wk_rows)
             if _fp:
                 _wk_card = _wk_card + [""] + _fp
@@ -1339,6 +1347,13 @@ class StarterBuilder:
                 _extra = _extra + [""] + _ahuddoc2.gate_brief_lines()
             template_brief = ((template_brief + "\n\n") if template_brief else "") \
                 + "\n".join(_extra)
+
+        disclosure = ((_scenario_templates().get(r.template) or {}).get("library") or {}).get("disclosure")
+        if disclosure:
+            library_lines.insert(0, disclosure)
+        if library_lines:
+            stats["scenario_facts"] = library_lines
+            template_brief = "\n".join(library_lines) + "\n\n" + (template_brief or "")
 
         # --- air corridors: brief the lane + enemy picture, draw the axis ------
         if self._corridors:

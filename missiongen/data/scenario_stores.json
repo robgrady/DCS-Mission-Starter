@@ -1,0 +1,16 @@
+{
+  "_source": {
+    "repository": "Quaggles/dcs-lua-datamine",
+    "revision": "fdd11ed960d5402909a876558b7bec3b2653b268",
+    "path": "_G/db/Units/Planes/Plane/F-14BU.lua",
+    "sha256": "609df992ca93abd820068d121ebb3b0e6f3516c7bef2fe0686406cedee93c526",
+    "manual": "https://f14.manuals.heatblur.se/f14ab/systems/tarps.html",
+    "note": "DCS unit export, pylon Number 6. Compatibility data missing from vendored PyDCS; not guessed."
+  },
+  "F-14BU": {
+    "6": {
+      "clsid": "{F14-TARPS}",
+      "name": "TARPS"
+    }
+  }
+}

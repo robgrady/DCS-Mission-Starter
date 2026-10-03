@@ -47,6 +47,8 @@ def effective_recipe(key: str, era: str, map_key: str = "") -> dict:
     # override a teleport, and the caller who asked for Sinai would get
     # Germany with no error.
     rc["map"] = map_key or rc.get("map") or (tpl.get("default_map") or "caucasus")
+    if rc.get("bb_carrier") and not rc.get("home_airbase"):
+        rc["home_airbase"] = "CARRIER"
     return rc
 
 

@@ -70,6 +70,7 @@ pickKind('training');console.log(JSON.stringify({template:S.template,engine:S.en
 @pytest.mark.parametrize('template', [None, 'carrier_qualification'])
 def test_reopening_carrier_recipe_restores_hull_deck_support_and_aircraft(deck, template):
     out = run_js("""
+const sel=()=>{};
 let S={}, RECIPE_ENGINE_FIELDS=[], BLOCKS=[['bb_carrier']], events=[];
 const nodes={bb_carrier:{checked:false},
  carrier_cap:{checked:false},

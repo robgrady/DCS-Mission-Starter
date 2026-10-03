@@ -25,6 +25,37 @@ guide cover.
 > and the session record. Where the code is silent the entry is short rather
 > than invented.
 
+## [1.108.0] — Library missions match their descriptions
+
+Released 3 October 2026. Closes the 17 behavioral Library findings (C1–C6)
+and the preset-resolution defect (C7) in the October content audit.
+
+- Scenario roles and explicit payload profiles supply SEAD weapons, precision
+  bombs with targeting pods, unguided attack/training bombs, clean CQ aircraft
+  and the verified F-14B(U) TARPS pod.
+- TIC includes friendly patrol, hostile vehicles and native JTAC tasking.
+  Convoy overwatch includes a moving friendly convoy and a triggered ambush;
+  Fulda CAS includes advancing armor. These are notional local road exercises.
+- TI-1 and WK-9/10 get controlled, unarmed radar targets; WK-10 preserves the player and AI
+  wingman, plus its separate target. Sabre Dance gets a guns-only BFM bandit.
+- The A-6 escort strike carries bombs, attacks its generated depot and has a
+  carrier recovery leg. TARPS instructions explain the module's manual imagery
+  workflow. Victor Alert is explicitly a historically inspired DCS adaptation.
+- LASDT, WK-11 and SAT-2 clearly disclose their self-directed/instructor-led
+  limits before generation and in the mission. SAT-2 carries unguided bombs.
+  No automatic low-level coaching, sixteen-call sequence or wounded-bird event
+  is claimed for those three entries.
+- API, Library, Builder and Quick Flight merge base, era and map presets
+  consistently. Selecting a card resets previous role/slot/store settings;
+  explicit recipe edits still win. Sinai lineups expose their actual home fields.
+- Emitted-archive contracts cover all affected entries. Full Library evidence
+  covers 334 builds; real browser checks exercise stale state and Sinai.
+  Official packs receive independent content patch versions.
+
+Historical boundary/date findings remain separate follow-up work. Structural
+checks do not certify DCS flight behavior. The requested 2.0 architecture work
+starts from this corrected release on its own development branch.
+
 ## [1.107.0] — Reliable generation and the airfield guide
 
 Released 3 October 2026. Backward-compatible architecture and reliability

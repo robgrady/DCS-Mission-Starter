@@ -29,6 +29,19 @@ The mission-file framework everything is built on.
   precisely so the vendored library stays separable and replaceable, which is
   what LGPL-3.0 §4/§5 requires. Full statement: `vendor/dcs/PYDCS_PROVENANCE.md`.
 
+### F-14B(U) TARPS compatibility store
+
+`missiongen/data/scenario_stores.json` supplies the verified TARPS store absent
+from vendored PyDCS. It does not modify the vendor library.
+
+- [Heatblur TARPS manual](https://f14.manuals.heatblur.se/f14ab/systems/tarps.html)
+  describes controls, imagery and simulator limitations.
+- [DCS exported F-14BU unit data](https://github.com/Quaggles/dcs-lua-datamine/blob/fdd11ed960d5402909a876558b7bec3b2653b268/_G/db/Units/Planes/Plane/F-14BU.lua)
+  lists `{F14-TARPS}` on pylon Number 6. Pinned export SHA-256:
+  `609df992ca93abd820068d121ebb3b0e6f3516c7bef2fe0686406cedee93c526`.
+- This is the F-14B(U) encoding only; unsupported reconnaissance aircraft fail
+  with a clear message. Image recording is operated manually in the module.
+
 ### The dcs-retribution pydcs fork
 Two terrain packages are lifted from a fork, not from upstream.
 

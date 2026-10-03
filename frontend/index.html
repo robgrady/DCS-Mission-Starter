@@ -1309,7 +1309,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
 // template supply its own defaults on the server.
 const RECIPE_ENGINE_FIELDS = ['lineup','coach_gates','coach_ring','cq_ride',
   'formation','tanker_type','bb_branding','bb_dtc','bb_bfm','bfm_setup',
-  'target_packages','published_corridors','check_ride'];
+  'target_packages','published_corridors','check_ride','player_fit'];
 
 // --- Mission kind (v1.45.0) -------------------------------------------------
 // The Builder's missing first question. Each kind stamps DEFAULTS onto the
@@ -1951,6 +1951,8 @@ function applyRecipe(r){
   if (r.mission_kind) { S.kind = r.mission_kind; }
   document.querySelector(`#eras .card[data-k="${r.era}"]`)?.click();
   document.querySelector(`#maps .card[data-k="${r.map}"]`)?.click();
+  S.engineSettings = Object.fromEntries(RECIPE_ENGINE_FIELDS
+    .filter(k => Object.hasOwn(r, k)).map(k => [k, r[k]]));
   document.getElementById('coalition').value = r.coalition; fillHome();
   if (r.home_airbase) document.getElementById('home').value = r.home_airbase;
   document.getElementById('aircraft').value = r.aircraft;
@@ -2008,7 +2010,8 @@ function applyRecipe(r){
   renderCorridors();
   setCommOverrides(r.comms, true);
   const tsel = document.querySelector(`#templates .card[data-k="${r.template||''}"]`);
-  if (tsel) tsel.click();
+  S.template = r.template || null;
+  if (tsel) sel(document.getElementById('templates'), tsel);
   restoreCarrierRecipe(r);
   S.engineSettings = Object.fromEntries(RECIPE_ENGINE_FIELDS
     .filter(k => Object.hasOwn(r, k)).map(k => [k, r[k]]));
@@ -2021,47 +2024,21 @@ function sel(container, card){
 // Scenario = a preset that FILLS the wizard, then you tweak. Applied here so the
 // downstream screens (flight, airfields, threats, carrier) show the scenario's
 // choices ready to review — never a late override.
+function presetRecipe(k, era, map){
+  const t = OPT.templates[k] || {};
+  const rc = Object.assign({}, t.recipe || {}, (t.by_era || {})[era] || {});
+  rc.era = era;
+  rc.map = map || rc.map || t.default_map || 'caucasus';
+  Object.assign(rc, (t.by_map || {})[rc.map] || {});
+  rc.map = map || rc.map || t.default_map || 'caucasus';
+  if (rc.bb_carrier && !rc.home_airbase) rc.home_airbase = 'CARRIER';
+  return rc;
+}
 function applyScenarioPreset(k){
-  if (S.template !== k) S.engineSettings = {};
-  S.template = k;
-  const v = OPT.templates[k] || {};
-  // The card's recipe pins ONE aircraft; a card that spans eras overrides it
-  // per era. Without this the Library offered "Carrier Qualification, Cold War"
-  // and then handed the engine an F/A-18C, which the era guard rejected — the
-  // card looked broken when the DATA was wrong. Same merge the engine does in
-  // missiongen/templates.effective_recipe().
-  const rc = Object.assign({}, v.recipe || {}, (v.by_era || {})[S.era] || {});
-  // carrier first — it changes the home list and the jet roster
-  if ('bb_carrier' in rc){ const cb=document.getElementById('bb_carrier'); cb.checked=!!rc.bb_carrier; refreshCarrierUI(); }
-  // Pin the scenario's hull, or force a CATOBAR deck for a carrier scenario that
-  // doesn't specify one (e.g. CQ) — otherwise it can inherit a previously-picked
-  // V/STOL Invincible and collapse the jet list to the AV-8B.
-  if (rc.carrier_hull){ const ch=document.getElementById('carrier_hull'); if([...ch.options].some(o=>o.value===rc.carrier_hull)) ch.value=rc.carrier_hull; }
-  else if (rc.bb_carrier){ const ch=document.getElementById('carrier_hull'); const def=eraHull(); if(def && [...ch.options].some(o=>o.value===def)) ch.value=def; }
-  if (rc.carrier_layout){ const clay=document.getElementById('carrier_layout'); if([...clay.options].some(o=>o.value===rc.carrier_layout)) clay.value=rc.carrier_layout; }
-  if (rc.bb_carrier){ fillHome(); const h=document.getElementById('home');
-    if([...h.options].some(o=>o.value==='CARRIER')) h.value='CARRIER'; }
-  // map-locked scenarios can pin a home field (e.g. Bastion Scramble)
-  if (rc.home_airbase && !rc.bb_carrier){ fillHome(); const h=document.getElementById('home');
-    if([...h.options].some(o=>o.value===rc.home_airbase)) h.value=rc.home_airbase; }
-  // basing enums
-  for (const key of ['start','time_of_day','weather','density']) if (rc[key]){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
-  // building blocks
-  for (const key of ['bb_dressing','bb_sams','bb_tanker','bb_awacs','bb_comms','bb_briefing','bb_kneeboard','bb_ambient','bb_navpoints','bb_farps','bb_targets','bb_range','bb_route','bb_historical_airspace','bb_alignment','bb_pattern','carrier_cap','carrier_aew','carrier_strike'])
-    if (key in rc){ const e=document.getElementById(key); if(e) e.checked=!!rc[key]; }
-  for (const key of ['pattern_mode','pattern_kind','pattern_count'])
-    if (key in rc){ const e=document.getElementById(key); if(e) e.value=rc[key]; }
-  refreshPatternUI();
-  setTimingUI(rc);
-  // threats
-  if ('threat_intensity' in rc){ const e=document.getElementById('threat_intensity'); if(e){ e.value=rc.threat_intensity; setIntensityLabel(rc.threat_intensity); } }
-  if (rc.threat_tier){ const e=document.getElementById('threat_tier'); if(e) e.value=rc.threat_tier; }
-  // aircraft suggestion last (roster depends on carrier/era) — only if offered
-  refreshAircraft();
-  if (rc.aircraft){ const a=document.getElementById('aircraft'); if([...a.options].some(o=>o.value===rc.aircraft)) a.value=rc.aircraft; }
-  if (Array.isArray(rc.corridors)) S.corridors = rc.corridors.slice();
-  renderCorridors();
-  refreshCarrierUI(); refreshDressUI(); sum(); updateRail();
+  const rc = Object.assign({}, OPT.recipe_defaults || RECIPE_DEFAULTS,
+    presetRecipe(k, S.era, S.map), {template:k});
+  applyRecipe(rc);
+  renderKinds(); sum(); updateRail();
 }
 // Only offer scenarios that fit the chosen map + era (contextual filter). A
 // scenario that stops being valid (era/map change) silently resets to "Build
@@ -2235,10 +2212,14 @@ function eraHull(){
   const cat = ents.find(([k])=>(OPT.carrier_capable.hull_class||{})[k]==='catobar');
   return (cat||ents[0])[0];
 }
+function selectedMapPreset(){
+  const map = OPT.maps[S.map];
+  return {...map.presets[S.era], ...(map.lineups||{})[S.engineSettings?.lineup]};
+}
 function fillHome(){
   if(!S.map||!S.era) return;
   const side = document.getElementById('coalition').value;
-  const p = OPT.maps[S.map].presets[S.era];
+  const p = selectedMapPreset();
   const list = side==='blue'? p.blue_airbases : p.red_airbases;
   const civ = new Set(p.civilian_airbases || []);
   const h = document.getElementById('home');
@@ -2891,7 +2872,7 @@ function setDressMode(seedIfEmpty){
 }
 function buildPerBase(){
   if(!OPT||!S.map||!S.era) return;
-  const p = OPT.maps[S.map].presets[S.era];
+  const p = selectedMapPreset();
   const civ = new Set(p.civilian_airbases || []);
   const c = document.getElementById('perbase_rows');
   const prev = {};   // keep values across rebuilds (state never lost)
@@ -3165,7 +3146,7 @@ function qfPick(what, v){
 
 function qfRecipe(){
   const tpl = OPT.templates[QF.type] || {};
-  const rc = Object.assign({}, tpl.recipe || {});
+  const rc = presetRecipe(QF.type, qfEra(QF.type, QF.map, QF.ac), QF.map);
   rc.template = QF.type;
   rc.aircraft = QF.ac;
   rc.map = QF.map;

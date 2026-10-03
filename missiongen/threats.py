@@ -497,9 +497,15 @@ def add_bfm_adversary(m, country, era, enemy_side, tier, player_pos, player_alt,
     # that would kill the player 20 nm before the exercise starts.
     _loadouts.arm(fg, ctype.id, _loadouts.ROLE_BFM, era, intensity,
                   warnings=warnings)
+    record = _loadouts.describe(ctype.id, _loadouts.ROLE_BFM, era,
+                               intensity, count=len(fg.units))
+    if guns_only:
+        for u in fg.units:
+            u.pylons = {}
+        record["fit"] = "Guns only — no external weapons"
+        record["implication"] = _loadouts.implication([])
     if fits is not None:
-        fits.append(_loadouts.describe(ctype.id, _loadouts.ROLE_BFM, era,
-                                       intensity, count=len(fg.units)))
+        fits.append(record)
     return [f"{name} ({ctype.id})"]
 
 

@@ -164,6 +164,11 @@ def _store_names() -> dict:
         for p in getattr(t, "pylons", ()):
             for _clsid, _name in _pylon_stores(t, p).items():
                 idx.setdefault(_clsid, _name)
+    for ident, stores in load_json("scenario_stores").items():
+        if ident.startswith("_"):
+            continue
+        for store in stores.values():
+            idx.setdefault(store["clsid"], store["name"])
     return idx
 
 

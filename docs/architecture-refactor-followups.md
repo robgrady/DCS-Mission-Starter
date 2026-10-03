@@ -1,7 +1,8 @@
 # Architecture decision: finish the refactor incrementally
 
 3 October 2026 · application v1.107.0 · accepted direction, follow-up work
-not implemented by this document.
+not implemented by this document. Updated after 1.108.0: effective presets are
+unified; the owner requested a 2.0 refactor milestone on a separate branch.
 
 ## Context and decision
 
@@ -61,14 +62,15 @@ keeps a working release at each step, at the cost of temporarily retaining some
 globals and a large orchestrator. Each phase must own a clear responsibility and
 earn its boundary through observable behavior checks.
 
-The Library audit's 17 mismatched entries remain unresolved by this release.
+The Library audit's 17 behavioral entries are corrected in 1.108.0; see
+`library-validation-1.108.0.md`. Historical boundary/date findings remain open.
 Automated release checks validate the code and artifacts; DCS cockpit and flight
 validation remains a separate requirement. Discord login, sharing and saved
 missions can follow these stable contracts after existing content works as promised.
 
 ## Action items
 
-1. Resolve effective presets with regression examples drawn from the Library audit.
+1. Completed in 1.108.0: effective presets with archive and real-browser regression examples.
 2. Correct and re-audit the affected mission descriptions, behavior and historical data.
 3. Extract builder phases, browser state and API services in separate reviewable changes.
 4. Consolidate release regeneration and freshness registration.

@@ -236,6 +236,14 @@ def add_carrier_strike(m, country, hull_key, carrier_pos, brc, threat_bearing,
     fg = m.flight_group_inflight(
         country, f"STRIKE {st_cfg['squadron']}", st_type, ingress,
         altitude=4572, speed=780, group_size=2)
+    from types import SimpleNamespace
+    from .scenario_payloads import resolve_fit
+    from .loadouts import apply_fit
+    fit = resolve_fit(SimpleNamespace(player_fit="unguided", era="coldwar",
+                                     mission_kind="strike", player_load="standard"), st_type.id)
+    apply_fit(fg, fit, st_type.id, warnings)
+    from dcs import task
+    fg.task = task.GroundAttack.name
     fg.add_waypoint(push, altitude=3000)                          # ingress low toward the target axis
     freq = comms.freq("flight_common")
     try:

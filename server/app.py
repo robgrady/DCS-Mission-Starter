@@ -226,6 +226,7 @@ def options():
         "lineup_supported": _lineup_mod.supported(),
         "maps": {k: {"label": v["label"], "free": v["free"],
                      "has_carrier": "carrier" in v,
+                     "lineups": v.get("lineups", {}),
                      "presets": {e: {"blue_airbases": p["blue_airbases"],
                                      "red_airbases": p["red_airbases"],
                                      "blue_country": p["blue_country"],
@@ -238,6 +239,7 @@ def options():
         "aircraft": flyable_aircraft(),
         "air_corridors": {k: v for k, v in load_json("air_corridors").items()
                           if not k.startswith("_")},
+        "recipe_defaults": Recipe().to_dict(),
         "templates": {
             # kind: "full" = the .miz places a flown route/waypoints (crew-ops);
             # "open" = a dressed theater, no waypoints placed (you fly/build it).
@@ -253,6 +255,7 @@ def options():
                    # per-era overrides (see missiongen/templates.py): a card that
                    # spans eras cannot pin one aircraft
                    "by_era": v.get("by_era") or {},
+                   "by_map": v.get("by_map") or {},
                    # per-era list of airframes this card is willing to fly.
                    # Formation training uses it so the Library can offer a
                    # choice instead of pinning one jet — the syllabus is

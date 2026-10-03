@@ -30,13 +30,15 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.107.0**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.108.0**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. The release adds the airfield guide and reliability
 boundaries for recipe validation, Mission Kits, generation capacity, artifact
 serialization and pack publication. The comm-plan layout and three recovered
-generators are included. The Library audit still has 17 entries with confirmed
-behavior mismatches; generation success is not a content-validation pass.
+generators are included. The 17 audited behavioral Library mismatches and
+preset inconsistency are corrected; three exercises explicitly require human
+instruction. See [correction evidence](library-validation-1.108.0.md). DCS flight
+validation and the separate historical boundary/date findings remain open.
 
 ## The bets
 
@@ -65,19 +67,21 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 
 ## ▶ Now
 
-- **Deploy 1.107.0** (`fly deploy` from the unzipped release) and check
-  `/api/health` says so. *Bet 1.*
+- **Verify 1.108.0 in DCS.** Fly the corrected moving convoy, native JTAC,
+  A-6 strike/recovery and TARPS sorties end to end. Code/archive checks and
+  production health are separate from simulator flight verification. *Bet 1.*
 - **Close the F-14B(U) front-seat question in the cockpit.** The file, the
   card and both radios agree; Heatblur's own missions program the jet the
   same way. Discriminator: fly the same mission in the plain F-14B. The ME
   now shows channel names, which is the second way to check. Rob's sortie,
   not code. *Bet 1.*
-- **Library truth before expansion.** Resolve the 17 behavior mismatches
-  and historical boundary issues in the [Library audit](library-validation-2026-10-02.md).
-  Check the recipe submitted from the actual Library and Builder as well as
-  generated groups, routes, objectives and printed claims. *Bet 1.*
-- **Architecture follow-ups.** First unify recipe/preset resolution, then
-  extract builder placement phases, browser recipe state and API services.
+- **Historical truth before expansion.** Resolve the remaining historical
+  boundary, scenario date and airbase-operator findings in the
+  [original Library audit](library-validation-2026-10-02.md). Behavioral fixes
+  are documented separately; do not treat a successful build as historical proof. *Bet 1.*
+- **2.0 architecture refactor.** Preset resolution is unified in 1.108.0.
+  Next extract builder placement phases, browser recipe state and API services
+  on a development branch, retaining the corrected production release.
   See the [refactor decision](architecture-refactor-followups.md) for scope,
   compatibility limits and verification. GitHub pushes work; verify remote
   commit IDs when reporting release status.
@@ -139,9 +143,9 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 These are **proposals for owner review**, not delivery commitments or additions
 to the active Now queue. They combine the product, DCS and architecture views.
 The [Library validation audit](library-validation-2026-10-02.md) found behavior
-mismatches in 17 entries despite 334 successful builds. The first investment
-should make the existing missions work as described; new missions and social
-features follow that foundation. Existing roadmap items are refined below,
+mismatches in 17 entries despite 334 successful builds. Release 1.108.0
+corrects those contracts and disclosures. Simulator verification and historical
+corrections continue before new missions and social features. Existing roadmap items are refined below,
 rather than counted as newly invented capabilities.
 
 **Priority and sizing:** P1 = consider first; P2 = consider after the mission
