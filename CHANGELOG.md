@@ -1,5 +1,34 @@
 # Changelog — DCS Sortie Starter
 
+## [1.111.0] — Library discovery and compatibility
+
+- Separate Missions and Collections; preserve complete distinguishing titles and show collection size, aircraft, maps and textual threat. Remove stale NEW badges and the unsupported Newest sort.
+- Share a catalog projection across search, filters, cards, ownership checks and mission configuration. Match supported variants and every fixed collection requirement; unknown requirements remain unconfirmed. Include Supercarrier in declared ownership.
+- Carry matching era, aircraft and map into the Library detail and Builder. Refresh summaries as selections change.
+- Limit featured recommendations to three, without repeating them in the remaining catalog; collapse secondary filters and keep useful content near search on narrow screens.
+- Unify download links and buttons, retain historical disclosures, improve dialog and filter accessibility, and keep the existing fonts and color palette.
+- Render authored collection requirements as text and encode filenames in download links.
+- Includes MCP and its publicly available agent integration guide from the preceding development batch.
+
+
+## [1.110.0] — Sortie Starter MCP and integration mission kits
+
+- Add the official MCP SDK and a public, stateless Streamable HTTP endpoint
+  at `/mcp/`: paginated catalog search, full item metadata, canonical recipe
+  schema, recipe validation and native mission generation with structured
+  results. Published packs remain fixed downloads.
+- Return version-pinned mission/kit links, a native `.miz` checksum and a
+  manifest of actual generated files. Kits include available PDF/Markdown
+  briefs, kneeboard pages, DTC setup card and resolved comm/nav JSON sidecars.
+  Downloads regenerate recipes and refuse links from older app versions.
+- Share website generation admission, clean temporary files after errors or
+  downloads, enforce MCP body/Host/Origin limits, and route MCP catalog calls
+  to the published catalog owner. Update the User Manual and integration docs.
+  Publish the agent guide at `/api/mcp-guide`, index it in `/llms.txt`, and
+  expose the same source as an MCP resource. Wait for initial UI navigation
+  before manual screenshots so slow option loading cannot hide the Builder.
+  DKS interoperability remains to be validated with DKS.
+
 ## [1.109.0] — Veteran wingmen and a simpler Library
 
 - Remove the static “New in DCS” aircraft promotions so the Library leads

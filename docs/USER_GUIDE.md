@@ -18,9 +18,27 @@ notch sets the opposition (calm / realistic / hostile) and the 🎲 re-rolls a
 fresh layout of the same picks. Tanker Time and BFM Merge start you **airborne**
 — behind the tanker at its assigned block, or in your chosen BFM geometry.
 
-**📚 Library** — curated, ready-to-fly missions: air-to-air, strike, SEAD, CAS,
-carrier and crew ops, historic scenarios, and the routed Cold War gun-belt
-strike pack. Filter by era, aircraft, map, and what you own.
+**📚 Library** — find individual **Missions** or multi-mission **Collections**.
+Search titles, aircraft/nicknames, maps, activities and collection mission names.
+Expand **Filters & sort** for aircraft, map, era, activity, mission setup and
+**Threat** (opposition intensity, not pilot skill). Three featured picks appear
+when unfiltered; each appears only once. Collection cards show their mission
+count and fixed requirements.
+
+Use **My DCS content** to declare installed maps, aircraft and additional
+modules such as Supercarrier. These preferences stay on this device.
+**Compatible with my content** checks all requirements of a fixed collection;
+unknown or incomplete requirements remain unconfirmed and are excluded. For
+configurable missions, it looks for a matching aircraft, era and map and opens
+that combination in the detail view. Changing those selections refreshes the
+summary. Generate from the detail or **Customize in Builder**. Ownership is
+your declaration, not an inspection of your DCS installation.
+
+A collection download contains its authored missions and does not change with
+Builder selections. The detail lists the flying sequence and separate Mission
+and Briefing links. Historical dates, classifications and sources remain in
+the setting disclosure. **Train** organizes the same rides into a learning
+sequence and records progress in this browser.
 
 **🎓 Train** — the Training Pipeline. *Learn it, fly it, fight it.* Three schools in the order every air
 force runs them: *Ground School and UPT* (the history chapter, then fly an airplane —
@@ -260,6 +278,40 @@ recipe and seed reproduce the same mission. Later releases may correct content
 or update DCS compatibility while retaining the recipe; keep the downloaded
 `.miz` when you need an exact archived mission. Change the seed to reroll the details while
 keeping your selections.
+
+## Missions through an AI assistant (MCP)
+
+An MCP-compatible assistant can connect to
+**https://dcs-mission-starter.fly.dev/mcp/** using **Streamable HTTP**. Add this
+URL as a remote MCP server in your assistant's settings; configuration names
+vary by client. Sortie Starter's public tools do not require a login. The
+public agent guide is available at **/api/mcp-guide**, indexed by **/llms.txt**,
+and as the MCP resource **sortiestarter://integration-guide**.
+
+Ask the assistant to search the catalog, inspect a mission's requirements,
+validate your selections, and generate a mission. For example: “Build a modern
+Caucasus F-16 four-ship with three veteran AI wingmen and a kneeboard.” You
+still need to own the relevant DCS map and aircraft modules.
+
+Generation returns a mission manifest plus links to the **mission .miz** and
+**full mission kit ZIP**. Download and unzip the kit, then put `mission.miz` in
+`Saved Games/DCS/Missions/`. Use single-player for one human aircraft and
+multiplayer for two or more human seats. Available briefs, kneeboard PNGs,
+DTC setup card, `comms.json`, and `navigation.json` accompany the mission.
+DTC files are supplied only when the selected aircraft supports them and
+rendering succeeds. Check the manifest's file list and warnings.
+
+Links regenerate the recipe on the stated app version and check its native
+mission checksum. If mission content changes, ask for fresh links. After a deployment,
+a link from an older version returns “another app version”; ask the assistant
+to generate fresh links. Keep downloaded files for an exact archive. A busy
+generator asks you to retry after three seconds. Recipe validation checks
+fields and template defaults; generation makes the final compatibility checks.
+
+Published packs remain authored downloads: the assistant retrieves their
+pack link rather than rebuilding a `pack_` template. Missions are not saved
+in an account or installed in another application. DKS import compatibility
+still needs testing with DKS; this connection does not place files in its ATO.
 
 ## FAQ
 

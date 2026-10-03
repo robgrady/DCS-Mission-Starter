@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.109.0.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.111.0.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
@@ -16,12 +16,12 @@ Never deploy changed code under an earlier release's version; see `AGENTS.md`.
 
 ## 1. What this application is
 
-**DCS Sortie Starter** generates ready-to-fly missions for DCS World. A user
-either picks a curated scenario from the **Mission Library** or configures one in
-the **Builder** wizard; the server generates a downloadable `.miz` on demand from
-a small "recipe" (map, era, coalition, aircraft, threats, seed…). Same recipe +
-seed always produces a byte-identical mission — that determinism powers share
-links, so **missions are never pre-baked or stored; only recipes matter.**
+**DCS Sortie Starter** generates ready-to-fly missions for DCS World from a
+recipe (map, era, aircraft, threats and seed). Fly now, Library, Train and
+Builder share the same engine. A recipe and seed reproduce the mission within
+the same generator release; preserve a downloaded `.miz` for an exact archive.
+Published collections are fixed authored downloads stored separately from the
+application image.
 
 Architecture (all included, nothing to scaffold):
 
@@ -29,10 +29,13 @@ Architecture (all included, nothing to scaffold):
   `GET /api/options` (all wizard/Library data incl. templates + version),
   `POST /api/generate` (recipe JSON → `.miz` download),
   `GET /api/dl?r=<code>` (share link → regenerated download),
+  `/mcp/` (Streamable HTTP integration; see `docs/MCP.md`),
+  `GET /api/mission-kit?r=<code>&version=<release>&sha256=<native-checksum>` (complete mission kit),
+  `GET /api/mcp-guide` and `/llms.txt` (public agent guide and discovery index),
   `POST /api/brief` (briefing pack), `GET /api/health` (readiness; 503 on bad data),
   `GET /api/sources` (the product's bibliography, with the admin-curated
   Thanks list injected at request time), `GET /api/credits` (that list as JSON).
-- `frontend/index.html` — the complete single-file UI (entry, Library, Builder).
+- `frontend/index.html` and `frontend/assets/*.js` — the assembled UI and explicit controller adapters.
 - `missiongen/` — the generation engine (pure Python).
 - `vendor/dcs` — vendored pydcs library (LGPL-3.0, unmodified — do not edit).
 - `requirements.txt`, `.replit` — install + run config.
@@ -69,19 +72,25 @@ following must be preserved **exactly**:
 
 1. **Two paths at entry:** "Pick from the Library" and "Build a Mission", with a
    persistent toggle between them.
-2. **ALL scenario templates live in the Mission Library — there is NO
-   Scenario/Template step inside the Builder wizard. Do not add one back.**
-   The static New in DCS promotion rail is removed. The Library is a card gallery: each template from `/api/options` → `templates`
-   renders as a card using its `library` block (`role`, `premise`, `threat` 1–5,
-   `players`, `featured`, `new`) plus `eras`, `needs_carrier`, `default_map`.
-   Cards are colour-coded by role (air-to-air, strike, SEAD, CAS, carrier,
-   training, historic) and filterable by role, era, and difficulty. A template
-   with no `library` block still gets a card (synthesize sensible defaults).
-3. **Card → detail → two actions:** a detail view shows the premise, era
-   selector (for multi-era templates), crew-difficulty for crew-ops templates,
-   and "what's set up for you"; its two actions are **Generate & Download** and
-   **Open in Builder to tweak** (pre-fills the wizard from the template's
-   `recipe`, then the user lands in the Builder with everything editable).
+2. **Scenario templates live in the Library; there is no Scenario step in
+   Builder.** Keep one catalog with **All content / Missions / Collections**.
+   `frontend/assets/library-catalog.js` projects declared variants and fixed
+   requirements for cards, search, filters, ownership and detail configuration.
+   Quick-flight items and individual track members stay off the shelf; only
+   installed packs appear as collection cards. Preserve full distinguishing
+   titles, collection count, actual aircraft/maps and textual **Threat**. Do not
+   restore static NEW promotions, NEW badges or the unsupported Newest sort.
+   Show at most three featured picks without duplicating them in the remaining
+   catalog. Keep secondary filters collapsible and preserve active filters.
+3. **Card → detail → action.** Configurable missions honor matching aircraft,
+   era and map selections and offer **Generate & Download** and
+   **Customize in Builder**. Summaries and historical context update with the
+   selection. Fixed collections display their complete requirements and flying
+   sequence, offer an authored collection ZIP and individual Mission/Briefing
+   links, and have no misleading configuration controls. **My DCS content**
+   declares maps, aircraft and additional modules in this browser. Compatibility
+   checks every fixed requirement or a matching configurable variant; unknown
+   requirements remain unconfirmed. Preserve the existing fonts and palette.
 4. **The Builder keeps every existing step and option** — Era, Map, Coalition &
    basing, Airfields (ramp themes + per-base overrides + Ramp Composer), Threats
    (intensity + tier), Support & extras, Carrier deck, F10 Map graphics, Review.

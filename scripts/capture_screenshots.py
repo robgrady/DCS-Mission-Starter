@@ -42,6 +42,7 @@ CARRIER_SHOT = ("flight", "carrier.png")
 
 def enter_builder(page):
     """Click through the landing page. The wizard is not on screen at load."""
+    page.wait_for_function('OPT !== null && NAV_READY', timeout=30000)
     page.wait_for_selector("text=Builder", timeout=15000)
     page.click("text=Builder")
     page.wait_for_function(

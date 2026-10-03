@@ -138,3 +138,22 @@ def test_historical_details_follow_the_selected_era_without_overflow(site,width)
         assert '2011-06-21' in page.locator('#dHistorical').inner_text()
         assert not errors
         browser.close()
+
+
+def test_manual_capture_waits_for_slow_options_and_initial_navigation(site):
+    from scripts.capture_screenshots import enter_builder
+    pw=pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as p:
+        browser=p.chromium.launch();page=browser.new_page()
+        page.add_init_script('''const realFetch=window.fetch;window.fetch=async(...args)=>{
+          const response=await realFetch(...args);
+          if(String(args[0]).includes('/api/options'))await new Promise(resolve=>setTimeout(resolve,2000));
+          return response;
+        };''')
+        page.goto(site)
+        enter_builder(page)
+        assert page.evaluate('NAV_READY && OPT !== null')
+        assert page.locator('main').is_visible()
+        page.wait_for_timeout(400)
+        assert page.locator('main').is_visible()
+        browser.close()

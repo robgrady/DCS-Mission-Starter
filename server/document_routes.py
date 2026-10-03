@@ -17,6 +17,30 @@ from . import ga as _ga
 router = APIRouter()
 
 DOCS_PDF = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
+MCP_GUIDE = Path(__file__).parent.parent / 'docs' / 'MCP.md'
+
+
+@router.get('/api/mcp-guide')
+def mcp_guide():
+    """Public agent integration reference; one source also serves MCP readers."""
+    return Response(MCP_GUIDE.read_text(), media_type='text/markdown',
+                    headers={'Cache-Control': 'no-store'})
+
+
+@router.get('/llms.txt')
+def agent_document_index():
+    from missiongen import __version__
+    return PlainTextResponse(
+        '# DCS Sortie Starter\n\n'
+        f'> Native DCS mission generation and public MCP integration. App v{__version__}.\n\n'
+        '## Integration documentation\n\n'
+        '- [MCP agent guide](/api/mcp-guide): Tools, schemas, examples, workflow and errors.\n'
+        '- [Recipe JSON Schema](/api/recipe-schema): Canonical fields, defaults and enums.\n'
+        '- [User Manual PDF](/api/guide): Product behavior, ownership and limitations.\n\n'
+        '## Connection\n\n'
+        'Streamable HTTP MCP endpoint: `/mcp/`. Public tools require no login.\n'
+        'The MCP resource `sortiestarter://integration-guide` contains the same agent guide.\n',
+        headers={'Cache-Control': 'no-store'})
 
 
 ROADMAP_MD = Path(__file__).parent.parent / "docs" / "ROADMAP.md"
@@ -193,4 +217,3 @@ def guide_download():
     """Downloadable Sortie Starter documentation (professional PDF)."""
     return FileResponse(str(DOCS_PDF), filename="DCS_Mission_Starter_Guide.pdf",
                         media_type="application/pdf")
-

@@ -1604,7 +1604,7 @@ function qfRender(){
   document.getElementById('qf_acs').innerHTML = list.map(a=>
     `<div class="qcard${QF.ac===a.key?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.ac===a.key}" onclick="qfPick('ac','${a.key}')">`+
     `<b>${acDisplay(a.key, a.id)}</b></div>`).join('') +
-    (owned?'':'<div class="qcard dis"><small>Tip: set “My content” in the Library to trim this to what you own.</small></div>');
+    (owned?'':'<div class="qcard dis"><small>Tip: set “My DCS content” in the Library to trim this to what you own.</small></div>');
   const maps = qfMapsFor(QF.type||'qf_bfm');
   if (QF.map && !maps.includes(QF.map)) QF.map = null;
   const sorted = maps.sort((a,b)=>(OPT.maps[b].free-OPT.maps[a].free)||a.localeCompare(b));

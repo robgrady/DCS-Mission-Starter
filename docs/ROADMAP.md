@@ -30,11 +30,15 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.109.0**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.111.0**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. Builder supports veteran AI wingmen within the
 player flight, including a solo four-ship; the static New in DCS promotion
-rail is removed. The release includes the airfield guide and reliability
+rail is removed. A public Streamable HTTP MCP endpoint now exposes catalog
+discovery, recipe validation and native mission-kit downloads, with a public
+agent integration guide and discovery index. Library separates missions from
+collections, checks fixed requirements and selectable variants, and keeps
+search close to a shorter catalog with accessible controls. The release includes the airfield guide and reliability
 boundaries for recipe validation, Mission Kits, generation capacity, artifact
 serialization and pack publication. The comm-plan layout and three recovered
 generators are included. The 17 audited behavioral Library mismatches and
@@ -109,14 +113,13 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 - **A squadron's ladder inside its pack.** The comm table is per mission and
   per browser; a `comms` block in a course pack makes it per squadron, so
   every mission in the pack is on the SOP without anyone typing. *Bet 3.*
-- **DKS integration — waiting on his MCP.** Pull, not push: a Sortie Starter
-  MCP server over the JSON API we already have (`generate_mission(recipe)
-  → .miz + manifest`), so a squadron in DKS or in Claude asks for a Case
-  III and the file lands in their ATO with brief, kneeboard pages, DTC and
-  comm plan as a sidecar. Until then: import one of ours into DKS and
-  write down what survives (our `channelsNames` is what his comm-plan
-  import would read); ask him for the tool list, the comm import's source
-  fields and his kneeboard page size. *Bet 3.*
+- **DKS import validation.** Sortie Starter's MCP is implemented at `/mcp/`,
+  with catalog search, recipe validation, native `.miz` generation, a manifest
+  and version-pinned mission-kit downloads. The kit contains actual comm/nav
+  sidecars and available brief, kneeboard and DTC files. Next: import one into
+  DKS and record what survives; confirm its tool contract, comm import fields
+  and kneeboard page size. Automatic ATO placement remains unimplemented and
+  unverified. *Bet 3.*
 - **Cockpit-parameter verification.** The readback gate is built and off on
   the F-14 and Hornet until `list_cockpit_params()` output arrives for each;
   then `cockpit.py` gains two lines and the channel-2 problem is caught by

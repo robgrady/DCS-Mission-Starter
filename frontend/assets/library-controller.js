@@ -55,29 +55,15 @@ function trackOf(k){ const t=(OPT.templates[k]||{}).track; return t&&t.id; }
 // simply does not list tracks. The track itself is untouched: `OPT.tracks`
 // still carries every one, `openTrack` reads it directly, and any link that
 // ever pointed at `track_<id>` still opens the panel and still builds.
-function libItems(){ return (Object.entries(OPT.templates)
-  .filter(([k,v])=>v&&!k.startsWith('_')&&!v.quick&&!trackOf(k))
-  .map(([k,v])=>{
-    const lib=v.library||{};
-    const parts=(v.label||k).split(' — ');
-    return {k,...v,
-      role: lib.role||inferRole(k,v),
-      premise: lib.premise||parts[1]||parts[0],
-      threat: lib.threat!=null?lib.threat:(v.recipe&&v.recipe.threat_intensity)||1,
-      players: lib.players||'SP',
-      aircraft: (v.recipe&&v.recipe.aircraft)||null,
-      module: lib.module||null,
-      // A PAID MODULE THE CARD DEPENDS ON. Not the same thing as the
-      // ownership check below: that compares against maps and aircraft
-      // the user has ticked, and Supercarrier is neither. It is a boat
-      // and a set of radio procedures, so nothing in the ownership
-      // picker can answer for it — the honest move is to state it on
-      // every card and let the pilot decide, rather than hide the card
-      // or let him download a Case III ride with no Marshal in it.
-      requires: lib.requires||null,
-      kind: v.kind||'open', tasked: !!v.tasked,
-      featured: !!lib.featured, new: !!lib.new};
-  })); }
+function libItems(){ return Object.entries(OPT.templates)
+ .filter(([k,v])=>v&&!k.startsWith('_')&&!v.quick&&!trackOf(k))
+ .map(([k,v])=>{const lib=v.library||{},parts=(v.label||k).split(' — ');
+  const t={k,...v,role:lib.role||inferRole(k,v),premise:lib.premise||parts[1]||parts[0],
+   threat:lib.threat??v.recipe?.threat_intensity??1,players:lib.players||'SP',
+   aircraft:v.recipe?.aircraft||null,module:lib.module||null,requires:lib.requires||null,
+   kind:v.kind||'open',tasked:!!v.tasked,featured:!!lib.featured};
+  t.catalog=buildLibraryCatalog(t,getOptions());return t;
+ }); }
 // A ride opened from inside a track card: the ordinary template item, fetched
 // by key even though the grid does not list it.
 function rideItem(k){ const v=OPT.templates[k]; if(!v) return null;
@@ -88,11 +74,9 @@ function rideItem(k){ const v=OPT.templates[k]; if(!v) return null;
     requires:lib.requires||null,
     kind:v.kind||'open', tasked:!!v.tasked, featured:false, new:!!lib.new}; }
 function ownRow(t){
-  if(!ownSetP()) return '';                    // ownership not declared yet
-  const req=libReq(t);
-  return req
-    ? '<div class="ownrow needs"><svg class="icon"><use href="#i-lock"/></svg> Needs: '+reqLabel(req)+'</div>'
-    : '<div class="ownrow have">✓ You own the terrain &amp; aircraft</div>';
+ if(!ownSetP())return '';
+ const req=libReq(t);
+ return req?'<div class="ownrow needs">'+(req.unknown?'Compatibility unconfirmed: ':'Needs: ')+esc(reqLabel(req))+'</div>':'<div class="ownrow have">✓ Compatible with your DCS content</div>';
 }
 // Short form for badges, chips and the rail: cleaned designation, no name.
 function acLabel(key){ if(!key) return null; const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?acCleanId(a.id, AC_NAME[a.key]):key; }
@@ -103,21 +87,16 @@ function acLabelFull(key){ if(!key) return null;
 function mapKeyOf(t){ return t.default_map || (t.maps&&t.maps[0]) || null; }
 function mapLabel(mk){ return (OPT.maps[mk]&&OPT.maps[mk].label)||mk; }
 function initLibFilters(){
-  if(libState.initd) return; libState.initd=true;
-  const items=libItems();
-  const add=(selId,pairs)=>{const s=document.getElementById(selId);
-    pairs.forEach(([k,lab])=>{const o=document.createElement('option');o.value=k;o.textContent=lab;s.appendChild(o);});};
-  add('lfAc',[...new Set(items.map(t=>t.aircraft).filter(Boolean))].map(k=>[k,acLabelFull(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
-  add('lfMap',[...new Set(items.map(mapKeyOf).filter(Boolean))].map(k=>[k,mapLabel(k)]).sort((a,b)=>a[1].localeCompare(b[1])));
+ if(libState.initd)return;libState.initd=true;const items=libItems();
+ const add=(id,keys,label)=>{const sel=document.getElementById(id);[...new Set(keys)].sort((a,b)=>label(a).localeCompare(label(b))).forEach(k=>{const o=document.createElement('option');o.value=k;o.textContent=label(k);sel.appendChild(o);});};
+ add('lfAc',items.flatMap(t=>t.catalog.aircraft),acLabelFull);
+ add('lfMap',items.flatMap(t=>t.catalog.maps),mapLabel);
 }
 function libSort(a,b){
-  const s=document.getElementById('lfSort').value;
-  const la=libReq(a)?1:0, lb=libReq(b)?1:0;   // owned first, locked sink
-  if(la!==lb) return la-lb;
-  if(s==='az') return a.label.localeCompare(b.label);
-  if(s==='new') return (b.new-a.new)||a.label.localeCompare(b.label);
-  if(s==='threat') return (b.threat-a.threat)||a.label.localeCompare(b.label);
-  return (b.featured-a.featured)||(b.new-a.new)||a.label.localeCompare(b.label);
+ const sort=document.getElementById('lfSort').value;
+ if(sort==='az')return a.catalog.title.localeCompare(b.catalog.title);
+ if(sort==='threat')return b.threat-a.threat||a.catalog.title.localeCompare(b.catalog.title);
+ return Number(b.featured)-Number(a.featured)||a.catalog.title.localeCompare(b.catalog.title);
 }
 function filterModule(m){ libState.module=m; renderLib(); window.scrollTo(0,0); }
 function renderChips(anyF){
@@ -126,22 +105,23 @@ function renderChips(anyF){
   if(libState.module) chips.push(['Module',libState.module,"clearModule()"]);
   if(libState.role!=='all') chips.push(['Role',(ROLES[libState.role]||{}).label||libState.role,"setRole('all')"]);
   const g=id=>document.getElementById(id);
+  if(g('lfFormat').value!=='all') chips.push(['Format',g('lfFormat').value==='collection'?'Collections':'Missions',"clearFilter('lfFormat')"]);
   if(g('lfType').value!=='all') chips.push(['Type',g('lfType').options[g('lfType').selectedIndex].text,"clearFilter('lfType')"]);
   if(g('lfAc').value!=='all') chips.push(['Aircraft',acLabel(g('lfAc').value),"clearFilter('lfAc')"]);
   if(g('lfMap').value!=='all') chips.push(['Map',mapLabel(g('lfMap').value),"clearFilter('lfMap')"]);
   if(g('lfEra').value!=='all') chips.push(['Era',g('lfEra').options[g('lfEra').selectedIndex].text,"clearFilter('lfEra')"]);
   if(g('lfDiff').value!=='all') chips.push(['Threat',g('lfDiff').options[g('lfDiff').selectedIndex].text,"clearFilter('lfDiff')"]);
   if(g('lfSearch').value.trim()) chips.push(['Search','“'+g('lfSearch').value.trim()+'”',"clearFilter('lfSearch')"]);
-  if(libState.own) chips.push(['','Only what I own',"toggleOwn()"]);
-  let h=chips.map(([k,v,fn])=>'<span class="fchip" role="button" tabindex="0" onclick="'+fn+'">'+(k?'<b>'+k+':</b> ':'')+v+' <span class="x">✕</span></span>').join('');
+  if(libState.own) chips.push(['','Compatible with my content',"toggleOwn()"]);
+  let h=chips.map(([k,v,fn])=>'<button class="fchip" onclick="'+fn+'">'+(k?'<b>'+k+':</b> ':'')+esc(v)+' <span class="x" aria-hidden="true">✕</span></button>').join('');
   if(chips.length) h+='<button class="fclear" onclick="clearFilters()">Clear all</button>';
   bar.innerHTML=h;
 }
 function clearModule(){ libState.module=null; renderLib(); }
 function clearFilter(id){ const e=document.getElementById(id); if(e.type==='search') e.value=''; else e.value='all'; renderLib(); }
 function clearFilters(){ libState.role='all'; libState.own=false; libState.module=null;
-  document.getElementById('lown').classList.remove('on');
-  ['lfType','lfAc','lfMap','lfEra','lfDiff'].forEach(i=>document.getElementById(i).value='all');
+  document.getElementById('lown').classList.remove('on');document.getElementById('lown').setAttribute('aria-checked','false');
+  ['lfType','lfAc','lfMap','lfEra','lfDiff','lfFormat'].forEach(i=>document.getElementById(i).value='all');
   document.getElementById('lfSearch').value=''; document.getElementById('lfSort').value='featured';
   buildRoleTabs(); renderLib(); }
 // ---- ownership: the user declares which maps + modules they own (stored on
@@ -155,23 +135,35 @@ function ownedMaps(){ const o=ownStore(); if(!(o&&o.set)) return null;   // null
 function ownedAc(){ const o=ownStore(); if(!(o&&o.set)) return null;
   return new Set([...BASE_AC,...(o.aircraft||[])]); }
 // returns {map,ac} of what a mission needs but the user doesn't own, or null
-function libReq(t){
-  const om=ownedMaps(), oa=ownedAc(); const mk=mapKeyOf(t);
-  let mReq=(om&&mk&&!om.has(mk))?mapLabel(mk):null;
-  let aReq=(oa&&t.aircraft&&!oa.has(t.aircraft))?acLabel(t.aircraft):null;
-  return (mReq||aReq)?{map:mReq,ac:aReq}:null;
+
+function libFilters(){const value=id=>document.getElementById(id)?.value;return {era:value('lfEra')==='all'?null:value('lfEra'),map:value('lfMap')==='all'?null:value('lfMap'),aircraft:value('lfAc')==='all'?null:value('lfAc')};}
+function ownedModules(){const o=ownStore();return o?.set?new Set(o.modules||[]):null;}
+function libCompatibility(t,filters={}){return catalogCompatibility(t.catalog,ownedMaps(),ownedAc(),ownedModules(),filters);}
+function libSelection(t,pref){const filters={...libFilters(),...pref};return libCompatibility(t,filters).variant||(pref?libCompatibility(t,pref).variant:null)||libCompatibility(t).variant;}
+function setLibraryFormat(value){document.getElementById('lfFormat').value=value;renderLib();}
+function detailSummary(t){
+ if(t.pack)return '<span class="lchip">Aircraft: '+esc(t.catalog.aircraft.map(acLabel).join(', ')||'See collection requirements')+'</span><span class="lchip">Maps: '+esc(t.catalog.requirements.maps.map(m=>m.label).join(', ')||'Unspecified')+'</span>';
+ const n=acChoices(t,libState.era).length;
+ return '<span class="lchip">Aircraft: '+esc(acLabel(libState.aircraft)||'Unspecified')+(n>1?' · '+n+' types available':'')+'</span><span class="lchip">Map: '+esc(mapLabel(libState.map))+'</span>';
 }
-function reqLabel(req){ return [req.ac,req.map].filter(Boolean).join(' · '); }
-function thrBar(n){ let s='<span class="thr">'; for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>'; return s+'</span>'; }
+function refreshDetailSummary(t){const box=document.getElementById('dSummary');if(box)box.innerHTML=detailSummary(t)+'<span class="lchip">'+esc(t.players||'SP')+'</span><span class="lchip">'+thrBar(t.threat||1)+'</span>';}
+function detailMapRow(t){const keys=[...new Set(t.catalog.variants.filter(v=>v.era===libState.era).map(v=>v.map))];return keys.length>1?'<div class="dblock"><label for="dMap">Map</label><select id="dMap" onchange="pickMap(this.value)">'+keys.map(k=>'<option value="'+k+'"'+(k===libState.map?' selected':'')+'>'+esc(mapLabel(k))+'</option>').join('')+'</select></div>':'';}
+function pickMap(key){const t=libFind(libState.cur);if(!t)return;libState.map=key;const choices=acChoices(t,libState.era);if(!choices.includes(libState.aircraft))libState.aircraft=acDefaultFor(t,libState.era);const row=document.getElementById('dAcRow');if(row)row.innerHTML=acChoiceRow(t);refreshDetailSummary(t);document.getElementById('dHistorical').innerHTML=historicalBlock(t,libState.era);}
+
+function libReq(t){
+ if(!ownSetP())return null;
+ const result=libCompatibility(t);
+ return result.compatible?null:{missing:result.missing,unknown:result.unknown};
+}
+function reqLabel(req){ return (req.missing||[req.ac,req.map]).filter(Boolean).map(x=>acLabel(x)||x).join(' · '); }
+function thrBar(n){ const names=['','Minimal','Low','Moderate','High','Maximum'];let s='<span class="thr" aria-hidden="true">';for(let i=1;i<=5;i++)s+='<i class="'+(i<=n?'f'+n:'')+'"></i>';return '<span>Threat: '+(names[n]||n)+' '+s+'</span>'; }
 function eraLabels(er){ return (er||[]).map(e=>OPT.eras[e]?OPT.eras[e].label:e).join(' · '); }
 
 function buildRoleTabs(){
-  const present=new Set(libItems().map(t=>t.role));
-  const order=['a2a','strike','sead','cas','carrier','training','historic'];
-  let h='<button class="rtab '+(libState.role==='all'?'on':'')+'" onclick="setRole(\'all\')">All</button>';
-  for(const k of order) if(present.has(k)) h+='<button class="rtab '+(libState.role===k?'on':'')+
-    '" onclick="setRole(\''+k+'\')"><span class="rc" style="background:'+ROLES[k].c+'"></span>'+ROLES[k].label+'</button>';
-  document.getElementById('roletabs').innerHTML=h;
+ const present=new Set(libItems().flatMap(t=>t.catalog.activity)),order=['a2a','strike','sead','cas','carrier','training','historic'];
+ let h='<button class="rtab '+(libState.role==='all'?'on':'')+'" aria-pressed="'+(libState.role==='all')+'" onclick="setRole(\'all\')">All activities</button>';
+ for(const k of order)if(present.has(k))h+='<button class="rtab '+(libState.role===k?'on':'')+'" aria-pressed="'+(libState.role===k)+'" onclick="setRole(\''+k+'\')"><span class="rc" style="background:'+ROLES[k].c+'"></span>'+ROLES[k].label+'</button>';
+ document.getElementById('roletabs').innerHTML=h;
 }
 function setRole(r){ libState.role=r; buildRoleTabs(); renderLib(); }
 function toggleOwn(){
@@ -203,6 +195,7 @@ function ownCats(){
     byCat[c].push({key:a.key,label:a.id}); });
   const s=arr=>arr.sort((x,y)=>x.label.localeCompare(y.label));
   return [
+    {kind:'modules',id:'additional',title:'Additional modules',items:[{key:'Supercarrier',label:'DCS: Supercarrier'}]},
     {kind:'maps',id:'terrains',title:'Terrains',items:s(maps)},
     {kind:'aircraft',id:'modern',title:'Modern jets',items:s(byCat.modern)},
     {kind:'aircraft',id:'coldwar',title:'Cold War jets',items:s(byCat.coldwar)},
@@ -213,11 +206,11 @@ function ownMatch(it,q){ if(!q)return true; q=q.toLowerCase();
   return (it.label||'').toLowerCase().includes(q)||(OWN_ALIAS[it.key]||'').toLowerCase().includes(q)||it.key.toLowerCase().includes(q); }
 let ownEdit=null;
 function openOwn(){ const o=ownStore();
-  ownEdit={maps:new Set((o&&o.maps)||[]), aircraft:new Set((o&&o.aircraft)||[])};
-  const h='<button class="dclose" onclick="closeOwn()">×</button>'+
+  ownEdit={maps:new Set((o&&o.maps)||[]), aircraft:new Set((o&&o.aircraft)||[]),modules:new Set((o&&o.modules)||[])};
+  const h='<button class="dclose" aria-label="Close my DCS content" onclick="closeOwn()">×</button>'+
     '<div class="eyebrow" style="margin-bottom:6px">My DCS install</div>'+
     '<h2 style="margin:0 0 4px;font-size:24px">What do you own?</h2>'+
-    '<p class="dprem" style="font-size:13.5px">Tick your terrains and aircraft — search by name or nickname (Hornet, Warthog, Fulda…), or Select all per category. Saved on this device only; free content is always included.</p>'+
+    '<p class="dprem" style="font-size:13.5px">Tick your terrains, aircraft and additional modules — search by name or nickname (Hornet, Warthog, Fulda…), or Select all per category. Saved on this device only; free content is always included.</p>'+
     '<div class="osearch"><span class="lsi"><svg class="icon"><use href="#i-search"/></svg></span><input id="ownsearch" type="search" aria-label="Search modules" placeholder="Search modules — e.g. Hornet, Syria, Apache…" oninput="renderOwnBody()" autocomplete="off"></div>'+
     '<div id="ownbody" class="ownbody"></div>'+
     '<div class="dcta"><span id="ownfoot" style="align-self:center;color:var(--dim);font-size:12px;margin-right:auto"></span>'+
@@ -251,77 +244,47 @@ function renderOwnBody(){
   });
   document.getElementById('ownbody').innerHTML=h;
   const fc=document.getElementById('ownfoot');
-  if(fc) fc.textContent=(ownEdit.maps.size+ownEdit.aircraft.size)+' modules marked owned';
+  if(fc) fc.textContent=(ownEdit.maps.size+ownEdit.aircraft.size+ownEdit.modules.size)+' modules marked owned';
 }
-function saveOwn(){ ownSet_({set:true, maps:[...ownEdit.maps], aircraft:[...ownEdit.aircraft]});
-  libState.own=true; document.getElementById('lown').classList.add('on'); closeOwn(); renderLib(); }
+function saveOwn(){ ownSet_({set:true, maps:[...ownEdit.maps], aircraft:[...ownEdit.aircraft],modules:[...ownEdit.modules]});
+  libState.own=true; document.getElementById('lown').classList.add('on');document.getElementById('lown').setAttribute('aria-checked','true'); closeOwn(); renderLib(); }
 function ownSet_(o){ try{localStorage.setItem('ms_owned',JSON.stringify(o))}catch(e){} }
 function libCard(t){
-  const r=ROLES[t.role]||ROLES.training, req=libReq(t), locked=libState.own&&req;
-  // pack cards with cover art (the NATC seal on AWI Basics) get a media
-  // header — the one place a Library card earns an image
-  const media = (t.pack&&t.pack.image)
-    ? '<div class="lmedia"><img src="/api/pack/'+t.pack.id+'/'+t.pack.image+'" alt=""> '+
-      '<span class="lmcount">'+((t.pack.events||[]).length||1)+' MISSIONS</span></div>' : '';
-  // A track wears its length on the card. "Eleven rides in order" is the
-  // whole proposition, and burying it in the modal loses the argument.
-  const tbadge = t.track
-    ? '<span class="lchip"><svg class="icon"><use href="#i-clipboard"/></svg> '+
-      t.track.rides.length+'-ride track</span>' : '';
-  return '<div class="libcard'+(locked?' locked':'')+'" role="button" tabindex="0" onclick="openDetail(\''+t.k+'\')">'+
-    '<div class="bar" style="background:'+r.c+'"></div>'+media+
-    (t.new?'<span class="lnew">NEW</span>':'')+(req?'<span class="lreq"><svg class="icon"><use href="#i-lock"/></svg> '+reqLabel(req)+'</span>':'')+
-    '<div class="cbody"><div class="rt"><div class="ric" style="background:'+r.c+'22">'+roleIcon(r)+'</div>'+
-      '<div class="role" style="color:'+r.c+'">'+r.label+'</div>'+
-      '<span class="kindb '+(t.kind==='full'?'full':'open')+'">'+(t.kind==='full'?'FULL MISSION':'OPEN STARTER')+'</span></div>'+
-      '<h3>'+(t.title||t.label.split(' —')[0])+'</h3><p class="prem">'+(t.premise||'')+'</p>'+
-      '<div class="lchips">'+tbadge+
-        (t.aircraft?'<span class="acbadge"><svg class="icon"><use href="#i-plane"/></svg> '+acLabel(t.aircraft)+'</span>':'')+
-        '<span class="lchip">'+eraLabels(t.eras)+'</span>'+
-        '<span class="lchip">'+thrBar(t.threat||1)+'</span>'+
-        '<span class="lchip">'+(t.players||'SP')+'</span>'+
-        (t.tasked?'<span class="lchip"><svg class="icon"><use href="#i-clipboard"/></svg> Tasking brief</span>':'')+
-        (t.needs_carrier?'<span class="lchip"><svg class="icon"><use href="#i-anchor"/></svg> Carrier</span>':'')+
-        (t.requires?'<span class="lchip needsmod"><svg class="icon"><use href="#i-lock"/></svg> Requires '+t.requires+'</span>':'')+'</div>'+
-      ownRow(t)+
-    '</div></div>';
+ const c=t.catalog,r=ROLES[t.role]||ROLES.training;
+ const aircraft=c.aircraft.length===1?acLabel(c.aircraft[0]):(t.pack?c.aircraft.map(acLabel).join(', '):'Aircraft selectable');
+ const maps=t.pack?c.requirements.maps.map(m=>m.label).join(', '):(c.maps.length===1?mapLabel(c.maps[0]):'Map selectable');
+ return '<div class="libcard" role="button" tabindex="0" aria-label="View '+esc(c.title)+'" onclick="openDetail(\''+t.k+'\')">'+
+  '<div class="bar" style="background:'+r.c+'"></div><div class="cbody"><div class="rt"><div class="role" style="color:'+r.c+'">'+r.label+'</div><span class="kindb '+(t.kind==='full'?'full':'open')+'">'+c.subtype+(t.pack?' · '+c.count+' missions':'')+'</span></div>'+
+  '<h3>'+esc(c.title)+'</h3><p class="prem">'+esc(t.premise||'')+'</p><p class="lsuit">'+esc(aircraft||'Aircraft requirements unconfirmed')+' · '+esc(maps||'Terrain requirements unconfirmed')+'</p>'+
+  '<div class="lchips"><span class="lchip">'+esc(eraLabels(t.eras))+'</span><span class="lchip">'+thrBar(t.threat||1)+'</span><span class="lchip">'+esc(t.players||'SP')+'</span></div>'+ownRow(t)+
+  (c.requirements.extras.length?'<div class="dnote">Requires '+esc(c.requirements.extras.map(k=>k==='Supercarrier'?'DCS: Supercarrier':k).join(', '))+'</div>':'')+
+  '<div class="lview">View '+(t.pack?'collection':'mission')+' →</div></div></div>';
 }
 function libPasses(t){
-  if(libState.module&&t.module!==libState.module) return false;
-  if(libState.role!=='all'&&t.role!==libState.role) return false;
-  const ty=document.getElementById('lfType').value; if(ty!=='all'&&(t.kind||'open')!==ty) return false;
-  const e=document.getElementById('lfEra').value; if(e!=='all'&&!(t.eras||[]).includes(e)) return false;
-  const d=document.getElementById('lfDiff').value, th=t.threat||1;
-  if(d==='lo'&&th>2) return false; if(d==='md'&&th!==3) return false; if(d==='hi'&&th<4) return false;
-  const ac=document.getElementById('lfAc').value; if(ac!=='all'&&t.aircraft!==ac) return false;
-  const mp=document.getElementById('lfMap').value; if(mp!=='all'&&mapKeyOf(t)!==mp) return false;
-  const q=(document.getElementById('lfSearch').value||'').trim().toLowerCase();
-  // R2: simmers search by callsign ("Warthog", "Viper"), not by DCS type id.
-  // Fold in the popular name AND the nickname list the "What do you own?" modal
-  // already used, so the same words work everywhere in the app.
-  // acLabelFull is the cleaned designation; keep the raw type id in the haystack
-  // too so anyone pasting "FA-18C_hornet" out of a .miz still gets a hit.
-  if(q){ const hay=((t.label||'')+' '+(t.premise||'')+' '+(acLabelFull(t.aircraft)||'')+' '+
-    (((OPT.aircraft||[]).find(x=>x.key===t.aircraft)||{}).id||'')+' '+
-    (OWN_ALIAS[t.aircraft]||'')+' '+(OWN_ALIAS[mapKeyOf(t)]||'')+' '+(mapKeyOf(t)?mapLabel(mapKeyOf(t)):'')+' '+
-    (t.module||'')+' '+((ROLES[t.role]||{}).label||'')).toLowerCase();
-    if(!hay.includes(q)) return false; }
-  if(libState.own&&libReq(t)) return false;
-  return true;
+ const c=t.catalog,g=id=>document.getElementById(id).value;
+ if(libState.module&&t.module!==libState.module)return false;
+ if(libState.role!=='all'&&!c.activity.includes(libState.role))return false;
+ if(g('lfFormat')!=='all'&&c.structure!==g('lfFormat'))return false;
+ if(g('lfType')!=='all'&&(t.pack||t.kind!==g('lfType')))return false;
+ const filters=libFilters();
+ if(filters.era&&!(t.eras||[]).includes(filters.era))return false;
+ if(filters.aircraft&&!c.aircraft.includes(filters.aircraft))return false;
+ if(filters.map&&!c.maps.includes(filters.map))return false;
+ if(!t.pack&&!c.variants.some(v=>(!filters.era||v.era===filters.era)&&(!filters.aircraft||v.aircraft===filters.aircraft)&&(!filters.map||v.map===filters.map)))return false;
+ const d=g('lfDiff'),th=t.threat||1;if(d==='lo'&&th>2||d==='md'&&th!==3||d==='hi'&&th<4)return false;
+ const q=g('lfSearch').trim().toLowerCase();
+ if(q){const hay=[c.title,t.premise,t.module,...c.aircraft.flatMap(k=>[acLabelFull(k),k,OWN_ALIAS[k]]),...c.maps.flatMap(k=>[mapLabel(k),OWN_ALIAS[k]]),...c.activity.map(k=>ROLES[k]?.label||k),...(t.pack?.events||[]).map(e=>e.label)].join(' ').toLowerCase();if(!hay.includes(q))return false;}
+ return !libState.own||libCompatibility(t,filters).compatible;
 }
 function renderLib(){
-  initLibFilters();
-  const items=libItems(), g=id=>document.getElementById(id);
-  const anyF=libState.module||libState.role!=='all'||g('lfEra').value!=='all'||g('lfDiff').value!=='all'||
-    g('lfType').value!=='all'||g('lfAc').value!=='all'||g('lfMap').value!=='all'||g('lfSearch').value.trim()||libState.own;
-  g('lfeatwrap').style.display=anyF?'none':'';
-  g('lallhead').textContent=anyF?'Results':'All missions';
-  g('lfeat').innerHTML=items.filter(t=>t.featured).sort(libSort).map(libCard).join('');
-  const list=items.filter(libPasses).sort(libSort);
-  g('lgrid').innerHTML=list.length?list.map(libCard).join(''):
-    '<div class="lempty">No missions match those filters. Loosen a filter, clear the search, or switch to <b>Build</b> to make one from scratch.</div>';
-  g('libcount').textContent=list.length+' mission'+(list.length!==1?'s':'');
-  renderChips(anyF);
+ initLibFilters();const items=libItems(),g=id=>document.getElementById(id);
+ const anyF=libState.module||libState.role!=='all'||['lfEra','lfDiff','lfType','lfAc','lfMap','lfFormat'].some(id=>g(id).value!=='all')||g('lfSearch').value.trim()||libState.own;
+ const list=items.filter(libPasses).sort(libSort),featured=anyF?[]:list.filter(t=>t.featured).slice(0,3),keys=new Set(featured.map(t=>t.k));
+ g('lfeatwrap').style.display=featured.length?'':'none';g('lfeat').innerHTML=featured.map(libCard).join('');
+ g('lallhead').textContent=anyF?'Results':featured.length?'More to fly':'All content';
+ g('lgrid').innerHTML=list.length?list.filter(t=>!keys.has(t.k)).map(libCard).join(''):'<div class="lempty">No content matches these filters.<div class="dcta"><button class="ghost" onclick="clearFilters()">Clear filters</button><button class="prime" onclick="showView(\'builder\')">Open Builder</button></div></div>';
+ g('libcount').textContent=list.length+' items · '+list.filter(t=>!t.pack).length+' missions · '+list.filter(t=>t.pack).length+' collections';
+ document.querySelectorAll('[data-lib-format]').forEach(b=>{const on=b.dataset.libFormat===g('lfFormat').value;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on));});renderChips(anyF);
 }
 function inclLines(t){
   const rc=t.recipe||{}, L=[];
@@ -338,10 +301,8 @@ function inclLines(t){
 // A card that offers a SET of airframes (formation training) rather than
 // pinning one. Falls back to the card's by_era/recipe pin, so cards without
 // aircraft_choices behave exactly as before.
-function acChoices(t, era){ return ((t.aircraft_choices||{})[era])||[]; }
-function acDefaultFor(t, era){
-  return ((t.by_era||{})[era]||{}).aircraft || (t.recipe||{}).aircraft || null;
-}
+function acChoices(t, era){ return t.pack?[]:[...new Set(t.catalog.variants.filter(v=>v.era===era&&(!libState.map||v.map===libState.map)).map(v=>v.aircraft))]; }
+function acDefaultFor(t, era){const choices=acChoices(t,era),pin=t.by_map?.[libState.map]?.aircraft||t.by_era?.[era]?.aircraft||t.recipe?.aircraft;return choices.includes(pin)?pin:choices[0]||null;}
 function acChoiceRow(t){
   const era=libState.era, list=acChoices(t, era);
   if(!list.length) return '';
@@ -350,19 +311,19 @@ function acChoiceRow(t){
   const known=list.filter(key=>(OPT.aircraft||[]).some(a=>a.key===key));
   if(!known.length) return '';
   return known.map(key=>'<button class="pbtn '+(key===libState.aircraft?'on':'')+
-    '" onclick="pickAircraft(\''+key+'\')">'+(acLabel(key)||key)+'</button>').join('');
+    '" aria-pressed="'+(key===libState.aircraft)+'" onclick="pickAircraft(\''+key+'\')">'+(acLabel(key)||key)+'</button>').join('');
 }
 function acChoiceBlock(t){
   if(!acChoices(t, libState.era).length) return '';
-  return '<div class="dblock"><h4>Aircraft — lead flies the same type</h4>'+
+  return '<div class="dblock"><h4>Aircraft</h4>'+
     '<div class="pillrow" id="dAcRow">'+acChoiceRow(t)+'</div></div>';
 }
 function pickAircraft(key){
   libState.aircraft=key;
   const t=libFind(libState.cur); if(!t) return;
-  const row=document.getElementById('dAcRow'); if(row) row.innerHTML=acChoiceRow(t);
+  const row=document.getElementById('dAcRow'); if(row) row.innerHTML=acChoiceRow(t);refreshDetailSummary(t);
 }
-function libFind(k){ return libItems().find(x=>x.k===k) || rideItem(k); }
+function libFind(k){ const t=libItems().find(x=>x.k===k)||rideItem(k);if(t&&!t.catalog)t.catalog=buildLibraryCatalog(t,getOptions());return t; }
 // The track card: the syllabus in flying order, one row per ride, each row a
 // button that opens that ride's ordinary card. Plus the two downloads Rob
 // asked for — the whole track as one zip, and the printed guide.
@@ -461,7 +422,7 @@ async function openReading(cid, doc){
   let r; try{ r=await (await fetch('/api/course/'+encodeURIComponent(cid)+'/reading/'+encodeURIComponent(doc))).json(); }catch(e){ return; }
   ga('pipeline_reading', {course: cid, doc: doc});
   document.getElementById('dcardinner').innerHTML=
-    '<button class="dclose" onclick="closeDetail()">×</button>'+
+    '<button class="dclose" aria-label="Close details" onclick="closeDetail()">×</button>'+
     '<div class="reading"><div class="eyebrow" style="margin-bottom:6px">Reading · '+esc((OPT.courses[cid]||{}).short||cid)+'</div>'+
     r.html+'</div>';
   document.getElementById('libdetail').classList.add('on');
@@ -483,7 +444,7 @@ function openTrack(id, pref){
   if(pref&&pref.aircraft&&pk[era]&&pk[era][pref.aircraft]) trackState.ac=pref.aircraft;
   trackState.tk=trackPick(pk,trackState).includes(tr.tanker)?tr.tanker:trackPick(pk,trackState)[0];
   document.getElementById('dcardinner').innerHTML=
-    '<button class="dclose" onclick="closeDetail()">×</button>'+
+    '<button class="dclose" aria-label="Close details" onclick="closeDetail()">×</button>'+
     '<div class="eyebrow" style="margin-bottom:6px">Training track · '+(tr.service||'')+'</div>'+
     '<h2>'+tr.label+'</h2><p class="dprem">'+tr.premise+'</p>'+
     // THE PAID MODULE, ABOVE THE FOLD. A Case III track without Supercarrier
@@ -602,6 +563,7 @@ function renderTrackWizard(){
 // somebody afterwards that he needed Sinai is the say/do gap wearing a
 // shopping receipt, so `requires` from the pack manifest is rendered before
 // the thing that starts the download.
+function packHref(id,name){return '/api/pack/'+encodeURIComponent(id)+'/'+String(name).split('/').map(encodeURIComponent).join('/');}
 function packRequires(p){
   const r = (p && p.requires) || {};
   const terr = (r.terrain_names && r.terrain_names.length ? r.terrain_names
@@ -609,8 +571,8 @@ function packRequires(p){
   const mods = r.modules || [];
   if(!terr.length && !mods.length) return '';
   const bits = [];
-  if(terr.length) bits.push('<b>'+terr.join('</b>, <b>')+'</b>');
-  if(mods.length) bits.push('<b>'+mods.join('</b>, <b>')+'</b>');
+  if(terr.length) bits.push('<b>'+terr.map(esc).join('</b>, <b>')+'</b>');
+  if(mods.length) bits.push('<b>'+mods.map(esc).join('</b>, <b>')+'</b>');
   return '<div class="dnote" style="border-left:3px solid var(--accent);'+
          'padding-left:10px;margin-bottom:10px">To fly this you need '+
          bits.join(' and ')+'.</div>';
@@ -623,7 +585,7 @@ function numWord(n){
 }
 function tankerLabel(k){ const t=(OPT.tankers||{})[k]; return t?t.label:k; }
 function historicalBlock(t, era){
-  const map=((t.by_era||{})[era]||{}).map || t.default_map || S.map;
+  const map=libState.map||((t.by_era||{})[era]||{}).map || t.default_map || S.map;
   const h=((t.historical_context||{})[era]||{})[map];
   if(!h) return t.pack ? '<p class="dnote">Historical context is not supplied for this published pack. Consult its author’s brief.</p>' : '';
   return '<div class="dblock"><h4>Historical context</h4><p>'+esc(h.date)+' · '+esc(h.label)+'</p>'+
@@ -632,101 +594,41 @@ function historicalBlock(t, era){
     (h.sources||[]).filter(u=>/^https:\/\//.test(u)).map((u,i)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">Source '+(i+1)+'</a> ').join('')+'</details></div>';
 }
 function openDetail(k, pref){
-  if(k.startsWith('track_')) return openTrack(k.slice(6), pref);
-  const t=libFind(k); if(!t) return;
-  ga('library_open', {mission: k});
-  libState.cur=k; libState.era=(pref&&pref.era&&(t.eras||[]).includes(pref.era))?pref.era:t.eras[0];
-  libState.crew='qualified'; libState.seed=1000+Math.floor(Math.random()*8999);
-  libState.aircraft=acDefaultFor(t, libState.era);
-  // The pipeline opens a card with the jet the course is built for, when the
-  // card offers it. A card that does not offer it keeps its own default —
-  // never a key the engine would reject.
-  if(pref&&pref.aircraft&&acChoices(t, libState.era).includes(pref.aircraft)) libState.aircraft=pref.aircraft;
-  const r=ROLES[t.role]||ROLES.training, req=libReq(t);
-  const eras=(t.eras||[]).length>1
-    ? t.eras.map(e=>'<button class="pbtn '+(e===libState.era?'on':'')+'" onclick="pickEra(\''+e+'\')">'+(OPT.eras[e]?.label||e)+'</button>').join('')
-    : '<button class="pbtn on" style="cursor:default">'+eraLabels(t.eras)+'</button>';
-  const crew=t.aircraft_locked
-    ? '<div class="dblock"><h4>Crew difficulty</h4><div class="pillrow">'+
-      ['qualified','trainee'].map(c=>'<button class="pbtn '+(c===libState.crew?'on':'')+'" onclick="pickCrew(\''+c+'\')">'+
-      (c==='qualified'?'Qualified — your calls':'Trainee — crew hints')+'</button>').join('')+'</div></div>' : '';
-  document.getElementById('dcardinner').innerHTML=
-    '<button class="dclose" onclick="closeDetail()">×</button>'+
-    '<div class="drole"><div class="ric" style="background:'+r.c+'22">'+roleIcon(r)+'</div>'+
-      '<div class="role" style="color:'+r.c+'">'+r.label+'</div></div>'+
-    '<h2>'+(t.track?t.label:t.label.split(' —')[0])+'</h2><p class="dprem">'+(t.premise||'')+'</p>'+
-    '<div class="lchips" style="margin-bottom:18px">'+
-      '<span class="lchip">Aircraft: '+(acChoices(t,libState.era).length
-        ? 'your pick — '+acChoices(t,libState.era).length+' types'
-        : (t.recipe?.aircraft?prettyAc(t.recipe.aircraft):(t.aircraft_locked?'F-14 (locked)':'your pick')))+'</span>'+
-      '<span class="lchip">'+(t.players||'SP')+'</span>'+
-      '<span class="lchip">Threat '+thrBar(t.threat||1)+'</span>'+
-      (t.needs_carrier?'<span class="lchip"><svg class="icon"><use href="#i-anchor"/></svg> Carrier</span>':'')+
-      (req?'<span class="lchip" style="color:#ffd27a">Requires '+req+'</span>':'')+
-      // A PAID MODULE, ON THE PANEL A PILOT ACTUALLY OPENS. The chip on the
-      // grid card is not enough for these rides: a ride that belongs to a
-      // track is never a grid card, so the only surfaces it has are this
-      // panel and the track panel. Both say it.
-      (t.requires?'<span class="lchip needsmod"><svg class="icon"><use href="#i-lock"/></svg> Requires '+t.requires+'</span>':'')+'</div>'+
-    '<div class="dblock"><h4>Era</h4><div class="pillrow" id="dEras">'+eras+'</div></div>'+
-    '<div id="dHistorical">'+historicalBlock(t,libState.era)+'</div>'+
-    acChoiceBlock(t)+crew+
-    '<div class="dblock"><h4>What\'s set up for you</h4><ul class="incl">'+
-      inclLines(t).map(x=>'<li><span class="k">✓</span>'+x+'</li>').join('')+'</ul></div>'+
-    (t.pack
-      // Curated pack (AWI Basics): the syllabus TRAVELS TOGETHER — one card,
-      // every event listed in flying order, each with its .miz + printed
-      // brief, and one button for the whole thing.
-      ? packRequires(t.pack)+
-        '<div class="dcta">'+
-          '<a class="prime" style="text-decoration:none;text-align:center" '+
-            'href="/api/pack/'+t.pack.id+'/all.zip" download><svg class="icon"><use href="#i-download"/></svg> Download complete syllabus (.zip)</a>'+
-          (t.pack.guide_pdf ? '<a class="ghost" style="text-decoration:none;text-align:center" '+
-            'href="/api/pack/'+t.pack.id+'/'+t.pack.guide_pdf+'" download><svg class="icon"><use href="#i-book"/></svg> In-flight guide</a>' : '')+
-          (t.pack.readme_pdf ? '<a class="ghost" style="text-decoration:none;text-align:center" '+
-            'href="/api/pack/'+t.pack.id+'/'+t.pack.readme_pdf+'" download><svg class="icon"><use href="#i-file"/></svg> Read me first</a>' : '')+
-        '</div>'+
-        ((t.pack.events||[]).length
-          ? '<div class="sechead" style="margin-top:14px">The '+numWord(t.pack.events.length)+' — fly them in order</div>'+
-            t.pack.events.map(ev=>
-              '<div class="evrow"><span class="evn">'+String(ev.n).padStart(2,'0')+'</span>'+
-              '<span class="evt">'+ev.label.replace(/^AWI \d+ · /,'')+
-                '<small>'+(ev.premise||'')+'</small></span>'+
-              '<a href="/api/pack/'+t.pack.id+'/'+ev.miz+'" download>.miz</a>'+
-              '<a href="/api/pack/'+t.pack.id+'/'+ev.brief_pdf+'" download>brief</a></div>').join('')
-          : '')+
-        '<div class="dnote">Published pack'+
-        (t.pack.version?' v'+t.pack.version:'')+
-        (t.pack.size_mb?' · '+t.pack.size_mb+' MB':'')+
-        ' — exact missions, byte for byte, not generated when you press the '+
-        'button. Unzip into Saved Games\\DCS\\Missions and fly 01 first.</div>'
-      : '<div class="dcta"><button class="prime" id="dgen" onclick="generateFromLib(\''+k+'\')"><svg class="icon"><use href="#i-download"/></svg> Generate &amp; Download</button>'+
-        '<button class="ghost" onclick="openInBuilder(\''+k+'\')"><svg class="icon"><use href="#i-sliders"/></svg> Open in Builder to tweak</button></div>'+
-        '<p id="libstatus" role="status" aria-live="polite"></p>'+
-        '<div id="libkit" class="revlist" style="display:none;margin-top:12px"></div>'+
-        '<div class="dnote">Pre-fills every builder step — change anything, keep the rest, then fly.</div>');
-  document.getElementById('libdetail').classList.add('on');
-  modalOpen(document.getElementById('libdetail'));
-  syncGenerationButtons();
+ if(k.startsWith('track_')) return openTrack(k.slice(6), pref);
+ const t=libFind(k);if(!t)return;const c=t.catalog;
+ ga('library_open',{mission:k});libState.cur=k;libState.crew='qualified';libState.seed=1000+Math.floor(Math.random()*8999);
+ const selected=libSelection(t,pref);libState.era=selected?.era||(t.eras||[])[0];libState.map=selected?.map||t.default_map;libState.aircraft=selected?.aircraft||acDefaultFor(t,libState.era);
+ if(pref&&pref.aircraft&&acChoices(t, libState.era).includes(pref.aircraft))libState.aircraft=pref.aircraft;
+ const req=libReq(t),eras=[...new Set(c.variants.map(v=>v.era))];
+ const choices=!t.pack?'<div class="dblock"><h4>Era</h4><div class="pillrow" id="dEras">'+eras.map(e=>'<button class="pbtn '+(e===libState.era?'on':'')+'" data-era="'+e+'" aria-pressed="'+(e===libState.era)+'" onclick="pickEra(\''+e+'\')">'+esc(OPT.eras[e]?.label||e)+'</button>').join('')+'</div></div><div id="dMaps">'+detailMapRow(t)+'</div>'+acChoiceBlock(t):'';
+ const crew=t.aircraft_locked?'<div class="dblock"><h4>Crew difficulty</h4><div class="pillrow">'+['qualified','trainee'].map(v=>'<button class="pbtn '+(v===libState.crew?'on':'')+'" onclick="pickCrew(\''+v+'\')">'+(v==='qualified'?'Qualified — your calls':'Trainee — crew hints')+'</button>').join('')+'</div></div>':'';
+ const actions=t.pack?packRequires(t.pack)+'<div class="dcta"><a class="prime" href="/api/pack/'+t.pack.id+'/all.zip" download><svg class="icon"><use href="#i-download"/></svg> Download collection · '+c.count+' missions</a>'+(t.pack.guide_pdf?'<a class="ghost" href="'+packHref(t.pack.id,t.pack.guide_pdf)+'" download>In-flight guide</a>':'')+(t.pack.readme_pdf?'<a class="ghost" href="'+packHref(t.pack.id,t.pack.readme_pdf)+'" download>Read me first</a>':'')+'</div>':
+  '<div class="dcta"><button class="prime" id="dgen" onclick="generateFromLib(\''+k+'\')"><svg class="icon"><use href="#i-download"/></svg> Generate &amp; Download</button><button class="ghost" onclick="openInBuilder(\''+k+'\')">Customize in Builder</button></div><p id="libstatus" role="status" aria-live="polite"></p><div id="libkit" class="revlist" style="display:none;margin-top:12px"></div>';
+ const events=t.pack?'<div class="sechead">'+c.count+' missions — fly them in order</div>'+(t.pack.events||[]).map(ev=>'<div class="evrow"><span class="evn">'+String(ev.n).padStart(2,'0')+'</span><span class="evt">'+esc(ev.label)+'<small>'+esc(ev.premise||'')+'</small></span><div class="evlinks"><a href="'+packHref(t.pack.id,ev.miz)+'" aria-label="Download mission '+esc(ev.label)+'" download>Mission</a>'+(ev.brief_pdf?'<a href="'+packHref(t.pack.id,ev.brief_pdf)+'" aria-label="Download briefing '+esc(ev.label)+'" download>Briefing</a>':'')+'</div></div>').join('')+'<div class="dnote">Published collection'+(t.pack.version?' v'+esc(t.pack.version):'')+(t.pack.size_mb?' · '+t.pack.size_mb+' MB':'')+'. These are stored missions. Unzip into Saved Games\\DCS\\Missions and follow the sequence above.</div>':
+  '<div class="dblock"><h4>What\'s set up for you</h4><ul class="incl">'+inclLines(t).map(x=>'<li><span class="k">✓</span>'+x+'</li>').join('')+'</ul></div><p class="dnote">Selections fill the Builder. Customize any setting before you fly.</p>';
+ document.getElementById('dcardinner').innerHTML='<div class="detailhead"><span>'+c.subtype+(t.pack?' · '+c.count+' missions':'')+'</span><button class="dclose" aria-label="Close details" onclick="closeDetail()">×</button></div>'+
+  '<h2>'+esc(c.title)+'</h2>'+(t.premise?.length>220?'<details class="libhistory"><summary>About this collection</summary><p class="dprem">'+esc(t.premise)+'</p></details>':'<p class="dprem">'+esc(t.premise||'')+'</p>')+
+  '<div class="lchips" id="dSummary"></div>'+(req?'<div class="ownrow needs">'+(req.unknown?'Compatibility unconfirmed: ':'Needs: ')+esc(reqLabel(req))+'</div>':'')+
+  (c.requirements.extras.length?'<div class="ownrow needs">Requires '+esc(c.requirements.extras.map(k=>k==='Supercarrier'?'DCS: Supercarrier':k).join(', '))+'</div>':'')+
+  choices+crew+actions+events+'<div id="dHistorical">'+historicalBlock(t,libState.era)+'</div>';
+ refreshDetailSummary(t);document.getElementById('dcardinner').scrollTop=0;
+ document.getElementById('libdetail').classList.add('on');modalOpen(document.getElementById('libdetail'));syncGenerationButtons();
 }
 function prettyAc(key){ const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
 function closeDetail(){ document.getElementById('libdetail').classList.remove('on'); modalClose(); }
-function pickEra(e){ libState.era=e;
-  document.querySelectorAll('#dEras .pbtn').forEach(b=>b.classList.toggle('on',b.textContent===(OPT.eras[e]?.label||e)));
-  // The offered airframes are era-specific, so switching era has to re-pick
-  // AND re-render. Leaving a Spitfire selected under "Modern" would have sent
-  // the engine a jet the era guard rejects — the card looking broken when the
-  // STATE was stale (the same failure mode by_era was added to fix).
-  const t=libFind(libState.cur); if(!t) return;
-  libState.aircraft=acDefaultFor(t, e);
-  const row=document.getElementById('dAcRow'); if(row) row.innerHTML=acChoiceRow(t);
-  const h=document.getElementById('dHistorical'); if(h) h.innerHTML=historicalBlock(t,e);
+function pickEra(e){
+ const t=libFind(libState.cur);if(!t||t.pack)return;
+ libState.era=e;const match=libCompatibility(t,{era:e}).variant;libState.map=match?.map||t.default_map;libState.aircraft=acDefaultFor(t,e);
+ document.querySelectorAll('#dEras .pbtn').forEach(b=>{const on=b.dataset.era===e;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on));});
+ const row=document.getElementById('dAcRow');if(row)row.innerHTML=acChoiceRow(t);
+ document.getElementById('dMaps').innerHTML=detailMapRow(t);refreshDetailSummary(t);
+ document.getElementById('dHistorical').innerHTML=historicalBlock(t,e);
 }
 function pickCrew(c){ libState.crew=c; document.querySelectorAll('#libdetail .pbtn').forEach(b=>{ if(b.textContent.startsWith('Qualified')||b.textContent.startsWith('Trainee')) b.classList.toggle('on',(c==='qualified')===b.textContent.startsWith('Qualified')); }); }
 function setupFromLib(k){
-  const t=OPT.templates[k], era=libState.era||t.eras[0];
+  const t=libFind(k), era=libState.era||t.eras[0];
   // a WWII card cannot use a default map with no WWII preset
-  const map=((t.by_era||{})[era]||{}).map || t.default_map || S.map;
+  const map=libState.map||((t.by_era||{})[era]||{}).map || t.default_map || S.map;
   document.querySelector('#eras .card[data-k="'+era+'"]')?.click();
   const mc=document.querySelector('#maps .card[data-k="'+map+'"]'); if(mc) mc.click();
   applyScenarioPreset(k);
@@ -751,5 +653,5 @@ async function generateFromLib(k){
 function openInBuilder(k){ setupFromLib(k); closeDetail(); showView('builder'); showScreen('flight'); }
 
 
-return { acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
+return { setLibraryFormat, pickMap, libCompatibility, libSelection, ownedModules, detailSummary, acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
 }

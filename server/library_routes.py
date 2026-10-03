@@ -69,6 +69,7 @@ def _pack_templates() -> dict:
                      "size_mb": man.get("size_mb")},
             "library": {"role": man.get("role", "training"),
                         "threat": man.get("threat", 3),
+                        "requires": (_tracks_mod.get(pid) or {}).get("requires"),
                         "players": man.get("players", "SP"),
                         "new": True, "featured": bool(man.get("featured")),
                         "module": man.get("module"), "kind": "full",

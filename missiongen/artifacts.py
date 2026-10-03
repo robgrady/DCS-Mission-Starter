@@ -28,7 +28,13 @@ def generate(recipe: Recipe, out_path: str, brief_dir: str = None) -> dict:
             b.stats["kneeboard_pages"] = n
         except Exception as e:
             b.warnings.append(f"kneeboard rendering failed: {e}")
-    result = {"stats": b.stats, "warnings": b.warnings, "path": out_path}
+    # The resolved comm card, including dynamically allocated agencies and
+    # aircraft-specific presets, is also the integration sidecar's source.
+    comms = b.document_facts.comms
+    result = {"stats": b.stats, "warnings": b.warnings, "path": out_path,
+              "communications": [{"agency": a, "callsign": c, "frequency_mhz": f,
+                                  "preset": comms.chan_label(a), "tacan": t, "notes": n}
+                                 for a, c, f, t, n in comms.entries]}
 
     # F-14B(U) DTC setup card (schema-independent Day-0 artifact). Defensive:
     # any failure is a warning, never a broken mission. Auto-on for the B(U).

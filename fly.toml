@@ -18,6 +18,7 @@ primary_region = 'dfw'
   destination = '/data'
 
 [env]
+  PUBLIC_BASE_URL = 'https://dcs-mission-starter.fly.dev'
   # Google Analytics 4. Set HERE and nowhere else: server/ga.py reads it from
   # the environment precisely so that a self-hosted copy of this app does not
   # report into our property. A measurement id is not a secret — it is public

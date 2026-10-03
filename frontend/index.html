@@ -544,8 +544,8 @@
   .kindb.full{color:var(--green-small);background:var(--panel2);border:1px solid var(--line)}
   .kindb.open{color:var(--accent-small);background:var(--panel2);border:1px solid var(--line)}
   .ownrow{margin-top:10px;font-size:11.5px;font-weight:600;border-radius: var(--radius);padding:6px 9px;display:flex;align-items:center;gap:7px}
-  .ownrow.have{color:#8FD14F;background:rgba(143,209,79,.08);border:1px solid rgba(143,209,79,.22)}
-  .ownrow.needs{color:#FF9d5c;background:rgba(255,157,92,.09);border:1px solid rgba(255,157,92,.26)}
+  .ownrow.have{color:var(--green-small);background:rgba(143,209,79,.08);border:1px solid rgba(143,209,79,.22)}
+  .ownrow.needs{color:var(--text);background:rgba(255,157,92,.09);border:1px solid rgba(255,157,92,.26)}
   .subf{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end}
   .subf label{font-size:10.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim);display:block;margin-bottom:3px}
   .subf select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius: var(--radius);padding:8px 11px;font-size:13px}
@@ -555,7 +555,7 @@
   .owntg.on .sw{background:var(--green)}.owntg.on .sw::after{left:19px}.owntg.on{color:var(--text)}
   .sechead{display:flex;align-items:center;gap:9px;margin:20px 0 12px;font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);font-weight:700}
   .sechead::after{content:"";flex:1;height:1px;background:var(--line)}
-  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:16px}
+  .lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,268px),1fr));gap:16px}
   .lmedia{position:relative;height:120px;background:radial-gradient(circle at 50% 40%,#1c2733,#0d1218);
           display:flex;align-items:center;justify-content:center;overflow:hidden}
   .lmedia img{height:150px;opacity:.92;filter:drop-shadow(0 2px 8px rgba(0,0,0,.6))}
@@ -578,8 +578,8 @@
   .libcard .rt{display:flex;align-items:center;gap:10px;margin-bottom:10px}
   .libcard .ric{width:32px;height:32px;border-radius: var(--radius);display:grid;place-items:center;font-size:17px}
   .libcard .role{font-size:10.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
-  .libcard h3{margin:0 0 5px;font-size:16px;line-height:1.25}
-  .libcard .prem{color:var(--dim);font-size:12.7px;line-height:1.45;margin:0 0 13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:37px}
+  .libcard h3{margin:0 0 5px;font-size:19px;line-height:1.25}
+  .libcard .prem{color:var(--dim);font-size:14px;line-height:1.45;margin:0 0 13px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:37px}
   .lchips{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
   .lchip{font-size:11px;color:var(--dim);background:var(--panel2);border:1px solid var(--line);border-radius: var(--radius);padding:3px 8px}
   /* AMBER, NOT RED. --warn is the error color and this is not an error:
@@ -638,12 +638,42 @@
   .incl{list-style:none;padding:0;margin:0;display:grid;gap:8px}
   .incl li{display:flex;gap:9px;font-size:13.5px;color:var(--text)}.incl .k{color:var(--accent-small)}
   .dcta{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}
-  .dcta button{border:none;border-radius: var(--radius);padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;flex:1;min-width:170px}
+  .dcta button,.dcta a.prime{border:none;border-radius: var(--radius);padding:13px 20px;font-size:14px;font-weight:700;cursor:pointer;flex:1;min-width:170px}
   .dcta .prime{background:var(--accent-solid);color:var(--accent-text)}
   .dcta .ghost{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
   .dcta a.ghost{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:var(--radius);padding:13px 20px;font-size:14px;font-weight:700;flex:1;min-width:170px;text-decoration:none}
   .dnote{font-size:11.5px;color:var(--dim);text-align:center;margin-top:12px}
   @media(max-width:820px){.epaths{grid-template-columns:1fr}.whyus,.cflav{grid-template-columns:1fr}.ehero h1{font-size:44px}}
+
+  #lfeat{grid-template-columns:repeat(3,minmax(0,1fr))}
+  @media(max-width:850px){#lfeat{grid-template-columns:1fr}}
+  .libintro{color:var(--dim);margin:0 0 16px;font-size:15px}
+  .libformats{display:flex;gap:6px;flex-wrap:wrap}
+  .libraryfilters summary{cursor:pointer;font-weight:600;padding:10px 0;min-height:24px}
+  .filterbody{display:grid;gap:14px;padding:12px 0}
+  .filterbody .ownwrap{margin:0;flex-wrap:wrap}
+  #libcount{color:var(--dim);font-size:13px}
+  .lsuit{margin:0 0 12px;font-size:13px;line-height:1.5}
+  .lview{color:var(--accent-small);font-weight:600;margin-top:auto;padding-top:14px;font-size:13px}
+  .libcard .rt{flex-wrap:wrap;gap:6px}
+  .kindb{white-space:normal;font-size:11px;margin-left:0}
+  .detailhead{position:sticky;top:-26px;z-index:5;background:var(--panel);display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:44px;margin:-26px -26px 18px;padding:8px 20px;border-bottom:1px solid var(--line);font-size:13px}
+  .detailhead .dclose{min-width:44px;min-height:44px;flex:none}
+  #libdetail .dcta{position:sticky;top:34px;z-index:4;background:var(--panel);padding:12px 0;border-bottom:1px solid var(--line);margin-bottom:16px}
+  .dcta a.prime{box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;gap:6px;text-align:center;text-decoration:none}
+  #libdetail select{max-width:100%;background:var(--panel2);color:var(--text);border:1px solid var(--line);border-radius:var(--radius);padding:10px;font-size:14px}
+  #libdetail label{display:block;margin-bottom:6px;font-weight:600}
+  .evlinks{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+  .libhistory summary{cursor:pointer;min-height:24px;padding:8px 0}
+  @media(max-width:600px){
+    .libwrap{padding:16px 16px 60px}.libintro{font-size:14px}.rtab{min-height:30px;padding:6px 10px}
+    .subf>div{flex:1;min-width:120px}.subf select{width:100%}
+    #libdetail{padding:8px}.dcard{box-sizing:border-box;max-height:calc(100dvh - 16px);padding:20px;width:100%;overflow-x:hidden}
+    .detailhead{top:-20px;margin:-20px -20px 16px;padding:6px 16px}
+    #libdetail .dcta{top:36px;gap:8px}.dcta button,.dcta a.prime,.dcta a.ghost{min-width:0;flex:1 1 100%;padding:12px}
+    .evrow{flex-wrap:wrap}.evlinks{width:100%;padding-left:34px;justify-content:flex-start;box-sizing:border-box}.evrow a{min-height:24px;display:inline-flex;align-items:center}
+    .ownwrap .owntg{margin-left:0}.lchip{max-width:100%;overflow-wrap:anywhere}
+  }
 </style>
 </head>
 <body data-mode="paper">
@@ -773,36 +803,31 @@
 
 <section id="library">
   <div class="libwrap">
-    <div class="lhead"><div class="slantb"><span>Mission Library</span></div><span id="libcount"></span></div>
+    <div class="lhead"><div class="slantb"><span>Library</span></div></div>
+    <p class="libintro">Find a mission or a collection to fly. For a guided learning sequence, visit Train.</p>
     <div class="lfilters">
-      <div class="lsearchrow">
-        <div class="lsearchwrap"><span class="lsi"><svg class="icon"><use href="#i-search"/></svg></span>
-          <input id="lfSearch" class="lsearch" type="search" aria-label="Search missions, aircraft, role" placeholder="Search missions, aircraft, role…" oninput="renderLib()" autocomplete="off"></div>
-        <div class="lsort"><label for="lfSort">Sort</label><select id="lfSort" onchange="renderLib()">
-          <option value="featured">Featured first</option><option value="new">Newest</option>
-          <option value="threat">Difficulty</option><option value="az">A–Z</option></select></div>
+      <div class="lsearchwrap"><span class="lsi"><svg class="icon"><use href="#i-search"/></svg></span><input id="lfSearch" class="lsearch" type="search" aria-label="Search content, aircraft, maps and activities" placeholder="Search content, aircraft, maps…" oninput="renderLib()" autocomplete="off"></div>
+      <div class="libformats" aria-label="Content format"><input type="hidden" id="lfFormat" value="all">
+        <button class="rtab on" data-lib-format="all" aria-pressed="true" onclick="setLibraryFormat('all')">All content</button>
+        <button class="rtab" data-lib-format="mission" aria-pressed="false" onclick="setLibraryFormat('mission')">Missions</button>
+        <button class="rtab" data-lib-format="collection" aria-pressed="false" onclick="setLibraryFormat('collection')">Collections</button>
       </div>
-      <div class="roletabs" id="roletabs"></div>
-      <div class="subf">
-        <div><label for="lfAc">Aircraft</label><select id="lfAc" onchange="renderLib()"><option value="all">All aircraft</option></select></div>
-        <div><label for="lfMap">Map</label><select id="lfMap" onchange="renderLib()"><option value="all">All maps</option></select></div>
-        <div><label for="lfType">Type</label><select id="lfType" onchange="renderLib()">
-          <option value="all">All types</option><option value="full">Full mission</option>
-          <option value="open">Open starter</option></select></div>
-        <div><label for="lfEra">Era</label><select id="lfEra" onchange="renderLib()">
-          <option value="all">All eras</option></select></div>
-        <div><label for="lfDiff">Difficulty</label><select id="lfDiff" onchange="renderLib()">
-          <option value="all">Any threat</option><option value="lo">Low (1–2)</option>
-          <option value="md">Medium (3)</option><option value="hi">High (4–5)</option></select></div>
-        <div class="ownwrap">
-          <div class="owntg" id="lown" role="switch" tabindex="0" aria-checked="false" onclick="toggleOwn()"><span class="sw"></span>Only what I own</div>
-          <button class="ownedit" onclick="openOwn()" title="Choose your maps &amp; modules"><svg class="icon"><use href="#i-gear"/></svg> My content</button>
+      <details class="libraryfilters"><summary>Filters &amp; sort</summary><div class="filterbody">
+        <div class="subf">
+          <div><label for="lfAc">Aircraft</label><select id="lfAc" onchange="renderLib()"><option value="all">All aircraft</option></select></div>
+          <div><label for="lfMap">Map</label><select id="lfMap" onchange="renderLib()"><option value="all">All maps</option></select></div>
+          <div><label for="lfEra">Era</label><select id="lfEra" onchange="renderLib()"><option value="all">All eras</option></select></div>
+          <div><label for="lfType">Mission setup</label><select id="lfType" onchange="renderLib()"><option value="all">Any setup</option><option value="full">Full mission</option><option value="open">Open starter</option></select></div>
+          <div><label for="lfDiff">Threat</label><select id="lfDiff" onchange="renderLib()"><option value="all">Any threat</option><option value="lo">Low (1–2)</option><option value="md">Moderate (3)</option><option value="hi">High (4–5)</option></select></div>
+          <div><label for="lfSort">Sort</label><select id="lfSort" onchange="renderLib()"><option value="featured">Featured first</option><option value="threat">Threat: high to low</option><option value="az">A–Z</option></select></div>
         </div>
-      </div>
-      <div class="lchipbar" id="lchipbar"></div>
+        <div class="roletabs" id="roletabs" aria-label="Activities"></div>
+        <div class="ownwrap"><div class="owntg" id="lown" role="switch" tabindex="0" aria-checked="false" onclick="toggleOwn()"><span class="sw"></span>Compatible with my content</div><button class="ownedit" onclick="openOwn()">My DCS content</button></div>
+      </div></details>
+      <div class="lchipbar" id="lchipbar"></div><span id="libcount" role="status" aria-live="polite"></span>
     </div>
-    <div id="lfeatwrap"><div class="sechead"><svg class="icon"><use href="#i-star"/></svg> Start here</div><div class="lgrid" id="lfeat"></div></div>
-    <div class="sechead" id="lallhead">All missions</div>
+    <div id="lfeatwrap"><div class="sechead"><svg class="icon"><use href="#i-star"/></svg> Start here · three featured picks</div><div class="lgrid" id="lfeat"></div></div>
+    <div class="sechead" id="lallhead">All content</div>
     <div class="lgrid" id="lgrid"></div>
   </div>
 </section>
@@ -1247,6 +1272,7 @@
 <script src="/assets/mission-results.js"></script>
 <script src="/assets/recipe-presets.js"></script>
 <script src="/assets/comm-controller.js"></script>
+<script src="/assets/library-catalog.js"></script>
 <script src="/assets/library-controller.js"></script>
 <script src="/assets/recipe-state.js"></script>
 <script src="/assets/app.js"></script>

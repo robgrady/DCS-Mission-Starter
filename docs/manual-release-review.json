@@ -1,7 +1,7 @@
 {
-  "version": "1.109.0",
+  "version": "1.111.0",
   "documentation_required": true,
-  "reason": "Document veteran AI wingmen, same-flight High skill, mixed human/AI seat assignment, launch mode, sharing, size changes and fixed-flight limitations.",
+  "reason": "Document mission/collection browsing, collapsed filters, threat semantics, declared additional modules and all-requirement compatibility, matching configuration and authored collection downloads.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -15,8 +15,9 @@
     "Parking, skins and historical fidelity",
     "Release identity and the manual",
     "Scenario dates and historical context",
-    "Flying with veteran AI wingmen"
+    "Flying with veteran AI wingmen",
+    "Missions through an AI assistant (MCP)"
   ],
-  "source_sha256": "a3c0cec4003fc17555101d4750d3732bdaeef597ef8e22203a734ee0335d08bc",
-  "previous_source_sha256": "17dce23957e7a0c50b1da27f6212db7e79f03800747431a55573d2f5729e6e9c"
+  "source_sha256": "b809f49588924afc3712a73c34002d813bba3a5f4a2c06673e6898e076c1fcda",
+  "previous_source_sha256": "a3c0cec4003fc17555101d4750d3732bdaeef597ef8e22203a734ee0335d08bc"
 }

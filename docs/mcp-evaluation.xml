@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='utf-8'?>
+<evaluation>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the naval probe-and-drogue academy extra ride that uses the air wing's own refuelling aircraft. Resolve that ride with only its template and era=coldwar supplied. Which tanker_type does the normalized recipe select? Return the exact tanker key.</question>
+    <answer>ka6d</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the Phantom training track about flying a schedule, then its ride that deliberately absorbs an early arrival with a three-minute hold. Resolve the recipe supplying only that template. What is the normalized timing_at value? Return the exact HH:MM string.</question>
+    <answer>05:50</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the threat-free wingman exercise that starts on the ground, flies the route beside lead, and returns home. Resolve it supplying only its template and era=wwii. What is the display label of the normalized recipe's map? Return the exact map label.</question>
+    <answer>Normandy 2</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the 1980 Egyptian Phantom deployment track and its two consecutive versions of the Israeli attack designed for an SA-6 environment. Validate each with only its template supplied, checking that the earlier version enables coach_gates while the later disables them. What exact home_airbase string do both normalized recipes share?</question>
+    <answer>Cairo West</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, compare all free maps with carrier support. Of those, find the map whose WWII preset assigns Japan to the red coalition. What date anchors that preset's historical context? Return YYYY-MM-DD.</question>
+    <answer>1944-06-21</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, compare the Cold War carrier presets and find the one whose required module names the same terrain as the map with a UK-versus-Argentina Cold War lineup. Inspect its deck_aircraft reference and resolve that reference through the aircraft catalog. What is the exact DCS aircraft id, rather than the catalog key or planes. reference?</question>
+    <answer>AV8BNA</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the era labeled for the War on Terror and use its actual service-window filter to inspect the aircraft catalog. Among helicopters returned by that filter with a known service-entry year, which has the latest entry year? Inspect the winner and return its exact DCS aircraft id.</question>
+    <answer>Ka-50_3</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the training pipeline course for the Phantom, then inspect every training track whose default map is Cold War Germany. Among those tracks using the course's aircraft, how many ride entries are there in total? Count the rides arrays, not prose claims; return an integer.</question>
+    <answer>16</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, find the Phantom track about the 1980 Egyptian deployment, follow its follows link to the prerequisite squadron checkout, and compare every prerequisite ride's advertised template maps. Exactly one of those ride templates excludes Sinai while the others include it. Validate that exceptional ride with only its template supplied. What is its normalized weather enum? Return only the enum string.</question>
+    <answer>overcast</answer>
+  </qa_pair>
+  <qa_pair>
+    <question>Using only the built-in catalogs and read-only validation in Sortie Starter v1.110.0, locate the modern training template for hands-off Mode I/IA night carrier approaches. Inspect its full metadata and recipe schema, then validate with only its template supplied. Resolve the normalized carrier_hull in the carrier catalog. What is that hull's exact display label?</question>
+    <answer>CVN-73 George Washington (CSG-5)</answer>
+  </qa_pair>
+</evaluation>

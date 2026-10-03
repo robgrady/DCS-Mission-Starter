@@ -1,20 +1,35 @@
 """Compose the HTTP application; route modules own transport responsibilities."""
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 from fastapi.staticfiles import StaticFiles
+from starlette.routing import Mount
 from . import artifact_service
 from . import ROOT as _root
 from missiongen import __version__
 from . import site_routes, catalog_routes, document_routes, comm_routes
 from . import health_routes, mission_routes, library_routes, contact_routes
 from .admin import router as admin_router
+from . import mission_kit, mcp_server
 
-app = FastAPI(title="DCS Sortie Starter", version=__version__)
+@asynccontextmanager
+async def lifespan(app):
+    # The SDK manager is single-use. Create one on every application start,
+    # including sequential TestClient lifespans, and mount that same instance.
+    transport = mcp_server.create_http_app()
+    app.state.mcp_mount.app = transport
+    async with mcp_server.mcp.session_manager.run():
+        yield
+
+app = FastAPI(title="DCS Sortie Starter", version=__version__, lifespan=lifespan)
 app.mount("/assets", StaticFiles(directory=_root / "frontend" / "assets"), name="assets")
 for module in (site_routes, catalog_routes, document_routes, comm_routes,
-               health_routes, mission_routes, library_routes, contact_routes):
+               health_routes, mission_routes, library_routes, contact_routes, mission_kit):
     app.include_router(module.router)
 app.include_router(admin_router)
 app.add_exception_handler(404, site_routes.not_found)
+mcp_mount = Mount('/mcp', app=mcp_server.create_http_app(), name='mcp')
+app.router.routes.append(mcp_mount)
+app.state.mcp_mount = mcp_mount
 
 # Historical Python imports remain available; new code imports the owning module.
 from .artifact_service import (generate, USER_ERRORS, _HEADER_TRANSLIT, _header_safe, _build_and_respond)  # noqa: F401,E402

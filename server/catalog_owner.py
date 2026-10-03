@@ -9,7 +9,7 @@ from fastapi.responses import Response
 
 
 def owns_catalog_path(path):
-    return (path == '/api/options' or path.startswith('/api/pack/')
+    return (path in ('/api/options', '/api/mission-kit') or path == '/mcp' or path.startswith('/mcp/') or path.startswith('/api/pack/')
             or path.startswith('/api/track/') or path.startswith('/admin/packs'))
 
 
