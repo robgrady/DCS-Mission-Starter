@@ -38,7 +38,7 @@ def test_sdk_discovers_structured_schemas_annotations_and_resources():
     async def work():
         async with Client(mcp_server.mcp) as client:
             tools = (await client.list_tools()).tools
-            assert len(tools) == 5
+            assert len(tools) == 6
             for tool in tools:
                 assert tool.name.startswith('sortiestarter_')
                 assert tool.output_schema and tool.annotations.destructive_hint is False
@@ -46,7 +46,9 @@ def test_sdk_discovers_structured_schemas_annotations_and_resources():
             assert generate.annotations.read_only_hint is False
             assert 'params' in generate.input_schema['properties']
             resources = (await client.list_resources()).resources
-            assert {str(r.uri) for r in resources} == {'sortiestarter://recipe-schema','sortiestarter://user-guide','sortiestarter://integration-guide'}
+            assert {str(r.uri) for r in resources} == {'sortiestarter://recipe-schema','sortiestarter://user-guide','sortiestarter://integration-guide','sortiestarter://historical-library'}
+            history = await client.read_resource('sortiestarter://historical-library')
+            assert len(json.loads(history.contents[0].text)['entries']) == 18
             schema = await client.read_resource('sortiestarter://recipe-schema')
             assert json.loads(schema.contents[0].text)['x-engine-version'] == __version__
             guide = await client.read_resource('sortiestarter://user-guide')
@@ -224,7 +226,7 @@ def mcp_site(tmp_path_factory):
 def test_real_http_sdk_client_session_modes_resources_and_errors(mcp_site,mode):
     async def work():
         async with Client(mcp_site+'/mcp/',mode=mode) as client:
-            assert len((await client.list_tools()).tools)==5
+            assert len((await client.list_tools()).tools)==6
             result=await client.call_tool('sortiestarter_validate_recipe',{'params':{'recipe':RECIPE}})
             assert not result.is_error and result.structured_content['recipe']['veteran_wingmen']==3
             assert json.loads((await client.read_resource('sortiestarter://recipe-schema')).contents[0].text)['x-engine-version']==__version__
@@ -346,3 +348,14 @@ def test_original_app_transport_starts_after_application_module_reload():
             response = client.post('/mcp/', json={'jsonrpc':'2.0','id':1,'method':'tools/list','params':{}},
                                    headers={'Accept':'application/json, text/event-stream', 'Host':'evil.example'})
             assert response.status_code == 421
+
+
+def test_historical_references_tool_filters_without_certifying_units_or_routes():
+    result = call('sortiestarter_get_historical_references', {'params':{'map':'nevada','period':'nevada-1981'}})
+    assert not result.is_error
+    data = result.structured_content
+    assert len(data['entries']) == 2
+    assert all(r['period']=='nevada-1981' for r in data['entries'])
+    assert not data['profiles']['nevada-1981']['routing_enabled']
+    bad = call('sortiestarter_get_historical_references', {'params':{'on':'20261004'}})
+    assert bad.is_error

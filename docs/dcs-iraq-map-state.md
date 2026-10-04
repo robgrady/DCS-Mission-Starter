@@ -1,24 +1,32 @@
 # What Eagle Dynamics has actually shipped for DCS: Iraq
 
-*Product research, 14 August 2026. Every claim below has a source; where I could
-not verify something I say so rather than filling the gap.*
+*Original product snapshot: 14 August 2026. Coverage correction: 4 October
+2026. The release-state table below is a dated snapshot, not a current store
+status or price check.*
 
 ---
 
 ## The finding that changes our plan
 
-We shipped seven Iraq air corridors in v1.68.0 aimed at the Iran–Iraq war and at
-Desert Storm / Iraqi Freedom. **Eagle Dynamics has not built the terrain for
-either of those yet, and has built it for a third war we had no era for.**
+The initial northern region prioritizes GWOT/ISIS scenery; that does not limit
+flyable coverage to the detailed region. [ED's Iraq release FAQ](https://forum.dcs.world/topic/365676-dcs-iraq-release-faq/)
+explicitly describes the entire map as flyable with Iraq North. Gulf carrier
+operations therefore do not depend on the separate southern detail region
+being complete. The earlier wording incorrectly treated detail coverage as a
+flight-area boundary.
 
-Their own framing of the region that ships today:
+Sortie Starter v1.114.0 adds an offshore Iraq carrier anchor at 28.8°N /
+49.65°E. The carrier, escort screen and 40-km wind-clamped steaming leg have
+native mission, terrain-bound and geographic shoreline checks. A public
+[author's native Iraq mission](https://github.com/loreair/MISSIONE-DINAMICA-IRAQ-2026)
+also places CVN groups in the Gulf; this corroborates terrain use, not a
+simulator flight test of our generated mission. DCS flight validation remains
+pending. Our generated force is an authored exercise, not a verified historical
+naval deployment or evidence that Iraq operated US carriers.
 
-> *"The focus of this initial, Northern region, is provided to support missions
-> and campaigns mainly pertaining to the Global War on Terror and ISIS."*
-> — [ED, 13 December 2024](https://www.digitalcombatsimulator.com/en/news/2024-12-13/)
-
-And, in the same post, that **Desert Storm and Iraqi Freedom are the *southern*
-region** — which has not shipped.
+The regional detail and airfield statements below retain their August
+research date. Recheck ED release notes before claiming all southern scenery
+or a newer airport/navigation database is complete.
 
 ## Release state
 

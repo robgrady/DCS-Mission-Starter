@@ -995,6 +995,15 @@
     "label": "Iraq",
     "terrain_class": "missiongen.terrains.iraq.Iraq",
     "free": false,
+    "carrier": {
+      "anchor": {
+        "x": -485340.63496921165,
+        "y": 526337.6303516435
+      },
+      "heading": 315,
+      "note": "Northern Gulf, 28.8 N / 49.65 E; 40 km steaming leg and escort screen checked against geographic coastline and Iraq terrain bounds. DCS flight validation pending.",
+      "historical_note": "Iraq carrier group is an authored training force, not a dated naval order of battle. In the Cold War preset, blue-country assignment does not claim Iraqi ownership of a US carrier."
+    },
     "presets": {
       "coldwar": {
         "blue_country": "Iraq",

@@ -1,15 +1,37 @@
 {
- "_note": "Bounded, source-backed static skins. Keys are exact DCS model IDs; no punctuation aliases or cross-model borrowing. Era and country must both match. These entries do not verify the separate authored liveries.json pack. Broad era eligibility is not a claim that a named squadron served at every field or throughout the entire period.",
- "types": {
-  "F-4E": {
-   "sources": ["https://forum.dcs.world/topic/273353-installer-freezing/"],
-   "evidence": "DCS updater output records Bazar/Liveries/f-4e/af standard/. The stock model's built-in Air Force skin avoids campaign/custom Marine defaults without requiring Heatblur textures. Render confirmation on the user's current DCS install remains required.",
-   "eras": {"coldwar": {"USA": ["af standard"]}}
-  },
-  "F-4E-45MC": {
-   "sources": ["Iraq parking survey dcs.log, 2026-10-03 10:06:34.942 UTC"],
-   "evidence": "DCS reports the existing mounted texture folder /textures//liveries/F-4E-45MC/421st_TFS_SEA_68-336. This proves the installed ID for this model only; it is not a stock F-4E skin.",
-   "eras": {"coldwar": {"USA": ["421st_TFS_SEA_68-336"]}}
+  "_note": "Bounded, source-backed static skins. Keys are exact DCS model IDs; no punctuation aliases or cross-model borrowing. Era and country must both match. These entries do not verify the separate authored liveries.json pack. Broad era eligibility is not a claim that a named squadron served at every field or throughout the entire period.",
+  "types": {
+    "F-4E": {
+      "sources": [
+        "https://forum.dcs.world/topic/273353-installer-freezing/"
+      ],
+      "evidence": "DCS updater output records Bazar/Liveries/f-4e/af standard/. The stock model's built-in Air Force skin avoids campaign/custom Marine defaults without requiring Heatblur textures. Render confirmation on the user's current DCS install remains required.",
+      "eras": {
+        "coldwar": {
+          "USA": [
+            "af standard"
+          ]
+        }
+      },
+      "historical": [],
+      "historical_identity_verified": false,
+      "historical_scope": "Verified installed paint ID and broad era/nation eligibility only. A named unit/base/date requires a separately sourced bounded assignment."
+    },
+    "F-4E-45MC": {
+      "sources": [
+        "Iraq parking survey dcs.log, 2026-10-03 10:06:34.942 UTC"
+      ],
+      "evidence": "DCS reports the existing mounted texture folder /textures//liveries/F-4E-45MC/421st_TFS_SEA_68-336. This proves the installed ID for this model only; it is not a stock F-4E skin.",
+      "eras": {
+        "coldwar": {
+          "USA": [
+            "421st_TFS_SEA_68-336"
+          ]
+        }
+      },
+      "historical": [],
+      "historical_identity_verified": false,
+      "historical_scope": "Verified installed paint ID and broad era/nation eligibility only. A named unit/base/date requires a separately sourced bounded assignment."
+    }
   }
- }
 }

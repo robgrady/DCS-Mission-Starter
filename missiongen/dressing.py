@@ -296,7 +296,7 @@ def player_livery(type_id, era, country_name=None, style="squadron"):
     return None
 
 
-def _verified_static_liveries(type_id, country_name, era):
+def _verified_static_liveries(type_id, country_name, era, base=None, on=None):
     """Source-backed choices for this exact DCS model, nation and period.
 
     A small verified set must not enable the unrelated hand-authored pack.
@@ -306,10 +306,15 @@ def _verified_static_liveries(type_id, country_name, era):
     if _STATIC_LIVERIES is None:
         _STATIC_LIVERIES = load_json("static_liveries").get("types", {})
     entry = _STATIC_LIVERIES.get(type_id, {})
+    from .historical_library import livery_matches
+    dated = [row['livery_id'] for row in entry.get('historical', [])
+             if livery_matches(row, type_id, country_name, base, on)]
+    if dated:
+        return dated
     return entry.get("eras", {}).get(era, {}).get(country_name, [])
 
 
-def _pick_livery(type_id, country_name, rng, style="squadron", era=None):
+def _pick_livery(type_id, country_name, rng, style="squadron", era=None, base=None, on=None):
     """Livery for a parked static, or None (DCS stock default).
 
     Curated pack (data/liveries.json), keyed types.<type_id>.<COUNTRY> with a
@@ -325,7 +330,7 @@ def _pick_livery(type_id, country_name, rng, style="squadron", era=None):
     """
     if style == "clean":
         return None
-    verified = _verified_static_liveries(type_id, country_name, era)
+    verified = _verified_static_liveries(type_id, country_name, era, base, on)
     if verified:
         if style == "aggressors":
             verified = [v for v in verified if _is_aggressor(v)] or verified
@@ -508,7 +513,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                    used_slot_names=None, theme=None, fill=None,
                    include_aircraft=True, include_gse=True, include_infra=True,
                    aircraft_mode="static", field_heading=None, mix=None,
-                   livery_style="squadron", map_key=None, ramp_heavies="auto", era=None):
+                   livery_style="squadron", map_key=None, ramp_heavies="auto", era=None,
+                   on=None):
     """Fill an airfield with era/faction-correct static aircraft + ground equipment.
 
     Placement discipline: aircraft go on surveyed parking stands only (always
@@ -657,7 +663,7 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
         # F-4E showing a USMC scheme). country.name = "USA"/"Russia"/"Israel"...
         if not livery:
             livery = _pick_livery(unit_type.id, getattr(country, "name", None),
-                                  rng, livery_style, era=era)
+                                  rng, livery_style, era=era, base=airport.name, on=on)
         if livery:
             grp.units[0].livery_id = livery
         _occ_register(slot.position, ac_half * 0.6)
@@ -744,7 +750,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                 ref, theme_liv = _weighted(rng, avail)
                 ut = resolve(ref)
                 liv = theme_liv or _pick_livery(
-                    ut.id, getattr(country, "name", None), rng, livery_style)
+                    ut.id, getattr(country, "name", None), rng, livery_style,
+                    era=era, base=airport.name, on=on)
                 sid = _squadron_id(ut.id, liv, None)
                 if _room(sid) > 0:
                     return ref, ut, liv, sid
@@ -764,7 +771,8 @@ def dress_airfield(m, airport, country, era_side_cfg, density, rng: random.Rando
                 e = squad_plan.pop(0)
                 ut = resolve(e["ref"])
                 liv = e.get("livery") or _pick_livery(
-                    ut.id, getattr(country, "name", None), rng, livery_style)
+                    ut.id, getattr(country, "name", None), rng, livery_style,
+                    era=era, base=airport.name, on=on)
                 sid = _squadron_id(ut.id, liv, e.get("name"))
                 room = _room(sid)
                 if room <= 0:            # already on the ramp; next squadron

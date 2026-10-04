@@ -38,6 +38,7 @@ def agent_document_index():
         '- [Recipe JSON Schema](/api/recipe-schema): Canonical fields, defaults and enums.\n'
         '- [User Manual PDF](/api/guide): Product behavior, ownership and limitations.\n\n'
         '- [Historical coverage register](/api/historical-coverage): Map/era evidence, dates and research gaps.\n\n'
+        '- [Historical reference catalog](/api/historical-library/catalog): Dated readings, unit observations, reference-only point profiles and provenance.\n\n'
         '## Connection\n\n'
         'Streamable HTTP MCP endpoint: `/mcp/`. Public tools require no login.\n'
         'The MCP resource `sortiestarter://integration-guide` contains the same agent guide.\n',
@@ -99,6 +100,49 @@ def whatsnew_gone():
 
 
 DOCS_IMG = Path(__file__).parent.parent / "docs" / "img"
+
+
+@router.get('/api/historical-library')
+def historical_library_page():
+    return HTMLResponse(_ga.inject((DOCS_IMG.parent / 'historical_library.html').read_text()))
+
+
+@router.get('/api/historical-library/catalog')
+def historical_library_catalog(map: str | None = None, period: str | None = None,
+                               topic: str | None = None, on: str | None = None):
+    from missiongen.historical_library import catalog
+    try:
+        return catalog(map, period, topic, on)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get('/api/historical-library/units')
+def historical_unit_records(map: str | None = None, base: str | None = None,
+                            on: str | None = None, variant: str | None = None):
+    from missiongen.historical_library import unit_history
+    try:
+        return unit_history(map, base, on, variant)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get('/api/historical-library/profiles/{profile_id}/chart.svg')
+def historical_reference_chart(profile_id: str, view: str = 'overview'):
+    from missiongen.historical_reference_chart import render_svg
+    try:
+        return Response(render_svg(profile_id, view), media_type='image/svg+xml')
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+@router.get('/api/historical-library/profiles/{profile_id}')
+def historical_reference_profile(profile_id: str):
+    from missiongen.historical_library import profile
+    try:
+        return profile(profile_id)
+    except ValueError as exc:
+        raise HTTPException(status_code=404, detail=str(exc)) from exc
 
 
 @router.get('/api/historical-coverage')

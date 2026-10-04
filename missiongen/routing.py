@@ -105,7 +105,23 @@ def route_for(home_pos, target_pos, era, rng, terrain=None):
     ]
 
 
-def apply(player_group, legs, home_airport=None):
+def add_recovery(group, home_airport=None, home_carrier=None):
+    """Use a ship link for carrier recovery; airport IDs belong to airfields."""
+    if home_carrier is not None:
+        from dcs.point import PointAction
+        point = group.add_waypoint(home_carrier.position, altitude=0, speed=250,
+                                   name="RECOVER AT CARRIER")
+        point.type = "Land"
+        point.action = PointAction.Landing
+        point.link_unit = point.helipad_id = home_carrier.id
+        return True
+    if home_airport is not None:
+        group.land_at(home_airport)
+        return True
+    return False
+
+
+def apply(player_group, legs, home_airport=None, home_carrier=None):
     """Write the legs onto the player's flight and try to land him at home.
 
     The landing point is best-effort on purpose: `land_at` depends on the
@@ -116,10 +132,9 @@ def apply(player_group, legs, home_airport=None):
     for leg in legs:
         player_group.add_waypoint(leg["point"], altitude=leg["alt"],
                                   speed=leg["speed"], name=leg["name"])
-    if home_airport is not None:
+    if home_airport is not None or home_carrier is not None:
         try:
-            player_group.land_at(home_airport)
-            return True
+            return add_recovery(player_group, home_airport, home_carrier)
         except Exception:
             pass
     return False

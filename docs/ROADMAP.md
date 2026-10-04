@@ -30,7 +30,9 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.113.0**: four doors (Fly now · Library · Train · Builder), thirteen
+The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
+
+**v1.114.0**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. Builder supports veteran AI wingmen within the
 player flight, including a solo four-ship; the static New in DCS promotion

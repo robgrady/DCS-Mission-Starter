@@ -81,7 +81,10 @@ def document_facts(builder, ctx: WorldContext, home, carrier: CarrierPlacement,
                                r.aircraft),
     }
     from .historical_world import brief_lines
-    kneeboard_context['historical_notes'] = brief_lines(ctx.historical) + list(stats.get('airspace_notes', []))
+    from .historical_library import reference_lines
+    kneeboard_context['historical_notes'] = (brief_lines(ctx.historical)
+        + reference_lines(stats.get('historical_references', []))
+        + list(stats.get('airspace_notes', [])))
     return MissionFacts(ctx.mission.start_time.date(), ctx.historical, ctx.mission.start_time.hour * 3600
                         + ctx.mission.start_time.minute * 60 + ctx.mission.start_time.second,
                         home, comms, stats.get('route_legs'), stats.get('timing'),

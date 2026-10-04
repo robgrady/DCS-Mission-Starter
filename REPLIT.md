@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.113.0.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.114.0.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
@@ -169,3 +169,20 @@ pointers too, with no symlink permission requirement.
 
 Every release records a manual impact review in `docs/manual-release-review.json`.
 The title, API and PDF cover all derive their version from the application.
+
+
+## Historical content maintenance (v1.114.0)
+
+The Historical Library is served at `/api/historical-library`; its JSON
+provenance, unit-event and dated point-profile APIs share
+`missiongen/data/historical_library.json`. A read-only MCP tool/resource exposes
+the same data. Source scans/private paths are not hosted. New reference periods
+are not recipe eras, and their unverified geometry cannot drive native routing.
+Generated briefs receive up to three relevant map/date/aircraft reading links.
+The exact-model/base/date static matcher requires verified continuous aircraft
+and station evidence; broad-era installed paints remain cosmetic eligibility.
+
+Use `scripts/audit_historical_content.py --output <review-ledger.json>` and
+`--previous <prior-ledger.json>` to identify affected Library content after new
+evidence or authoring changes. Follow `docs/HISTORICAL_CONTENT_MAINTENANCE.md`.
+The inventory does not independently verify every source or DCS lesson.

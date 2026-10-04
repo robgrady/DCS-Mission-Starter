@@ -244,7 +244,10 @@ class FlightOperations:
                 g.add_waypoint(t["point"], altitude=t["alt_ft"] * 0.3048,
                                speed=t["kt"] * 1.852, name=t["to"])
             try:
-                g.land_at(home)
+                from ..routing import add_recovery
+                carrier_home = self._csg.units[0] if self._carrier_home and self._csg else None
+                add_recovery(g, home_airport=home if carrier_home is None else None,
+                             home_carrier=carrier_home)
             except Exception:
                 pass
             _tm.apply_to_group(g, tl, locked=True, offset_s=-lead_s)
@@ -332,4 +335,3 @@ class FlightOperations:
             m.weather.qnh = pressure.qnh_mmhg(self._qnh_hpa)
         except AttributeError:
             pass
-

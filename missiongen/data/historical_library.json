@@ -1,0 +1,2747 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-04",
+  "scope": "Selected document review; reference history, not mission or operational certification.",
+  "topics": {
+    "navigation": "Navigation and airspace",
+    "units": "Units, bases and aircraft",
+    "campaign": "Campaign background",
+    "systems": "Weapons and avionics",
+    "crew": "Crew practice and lessons"
+  },
+  "periods": {
+    "nevada-1981": {
+      "id": "nevada-1981",
+      "label": "Nellis / Red Flag: February 1981",
+      "subject_from": "1981-02-01",
+      "subject_to": "1981-02-28",
+      "recipe_era": null
+    },
+    "nevada-2014": {
+      "id": "nevada-2014",
+      "label": "Nellis / Red Flag: 2014",
+      "subject_from": "2014-01-01",
+      "subject_to": "2014-12-31",
+      "recipe_era": null
+    },
+    "normandy-1944": {
+      "id": "normandy-1944",
+      "label": "Normandy: summer 1944",
+      "subject_from": "1944-06-01",
+      "subject_to": "1944-08-31",
+      "recipe_era": null
+    },
+    "coldwar-reference": {
+      "id": "coldwar-reference",
+      "label": "Cold War unit histories",
+      "subject_from": "1956-01-01",
+      "subject_to": "1989-12-31",
+      "recipe_era": null
+    },
+    "fleet-1973": {
+      "id": "fleet-1973",
+      "label": "Fleet exercises and alert: 1973",
+      "subject_from": "1973-01-01",
+      "subject_to": "1973-12-31",
+      "recipe_era": null
+    },
+    "gulfwar-1990-1991": {
+      "id": "gulfwar-1990-1991",
+      "label": "Desert Shield / Desert Storm: 1990-1991",
+      "subject_from": "1990-08-01",
+      "subject_to": "1991-02-28",
+      "recipe_era": null
+    },
+    "oif-2003": {
+      "id": "oif-2003",
+      "label": "Operation Iraqi Freedom: March-April 2003",
+      "subject_from": "2003-03-19",
+      "subject_to": "2003-04-18",
+      "recipe_era": null
+    },
+    "navy-training-2003": {
+      "id": "navy-training-2003",
+      "label": "Naval training and workups: 2003",
+      "subject_from": "2003-01-01",
+      "subject_to": "2003-12-31",
+      "recipe_era": null
+    },
+    "f4-reference": {
+      "id": "f4-reference",
+      "label": "F-4 period references: 1978-1980",
+      "subject_from": "1978-01-01",
+      "subject_to": "1980-12-31",
+      "recipe_era": null
+    },
+    "sea-1969-1972": {
+      "id": "sea-1969-1972",
+      "label": "Southeast Asia: 1969-1972",
+      "subject_from": "1969-11-01",
+      "subject_to": "1972-12-31",
+      "recipe_era": null
+    },
+    "afghan-1989-2001": {
+      "id": "afghan-1989-2001",
+      "label": "Afghan air forces: 1989-2001",
+      "subject_from": "1989-01-01",
+      "subject_to": "2001-12-31",
+      "recipe_era": null
+    }
+  },
+  "sources": {
+    "5fe8e37375": {
+      "id": "5fe8e37375",
+      "title": "1981_Red_Flag_Nellis_Inflight_Guide.pdf",
+      "sha256": "def700eeb86360a8ce311bda2568cc04709834e3e307ce4327804ef0e12e9ca9",
+      "pdf_pages": 20,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1981-02",
+      "publication_date_precision": "month"
+    },
+    "4a7e739048": {
+      "id": "4a7e739048",
+      "title": "2014_Red_Flag_Nellis_Inflight_Guide.pdf",
+      "sha256": "80d680e07e7ab31098f1a2e4e634471dc500465f410222e52cfad1608794d1ef",
+      "pdf_pages": 79,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "2014",
+      "publication_date_precision": "year"
+    },
+    "402cbfff4f": {
+      "id": "402cbfff4f",
+      "title": "Early 36WG Heritage Pamphlet_USAF 75th Anniv (2022-23).pdf",
+      "sha256": "5a02bfe7d0564bd8898fdd75dc27c9b8f179050c51372480ca6b42ed49b07fbd",
+      "pdf_pages": 12,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "official_retrospective",
+      "public_url": null,
+      "publication_date": "2022-03",
+      "publication_date_precision": "month"
+    },
+    "3b259d9ee9": {
+      "id": "3b259d9ee9",
+      "title": "NONUM_53-FIGHTER-SQ-Lineage-History_ND_Unk.pdf",
+      "sha256": "5fe6436e8e52c8e03115908b15eac832e1dc6c399bc4d6d1a930d744870c84bb",
+      "pdf_pages": 5,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "lineage_compilation",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "c0a7a34076": {
+      "id": "c0a7a34076",
+      "title": "NONUM_23-FIGHTER-SQ-Lineage-History_ND_Unk.pdf",
+      "sha256": "cfad018bb7d283c00f71337a12ce57fdb128650fe28116519b874658c86fa256",
+      "pdf_pages": 8,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "lineage_compilation",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "1ef59cc082": {
+      "id": "1ef59cc082",
+      "title": "NONUM_70-FIGHTER-SQ-Lineage-History_ND_Unk.pdf",
+      "sha256": "994b554e7ef38a2fa39932e5365fa867ee829817c25696d3c872cd9eb4f865d5",
+      "pdf_pages": 4,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "lineage_compilation",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "99e7b4bb65": {
+      "id": "99e7b4bb65",
+      "title": "COR-VFA-14_Command-Operations-Report_1973_Unk.pdf",
+      "sha256": "c14db6047c4975a64d7c7a579fff33ed646dda0f14314c18adae623675ba4f9a",
+      "pdf_pages": 14,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "5a5af95308": {
+      "id": "5a5af95308",
+      "title": "DTIC-ADA279745_Gulf-War-Air-Power-Survey-Volume-5-A-Statistical-Compendium_ND_DTIC.pdf",
+      "sha256": "5ea23b85c084a6b08101cf8a93d92b897a5750d561e2c23bf80dcc8a7ee9a835",
+      "pdf_pages": 972,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "official_retrospective",
+      "public_url": null,
+      "publication_date": "1993",
+      "publication_date_precision": "year"
+    },
+    "a411834573": {
+      "id": "a411834573",
+      "title": "NONUM_Operation-Iraqi-Freedom-By-The-Numbers-USCENTAF-30_ND_Unk.pdf",
+      "sha256": "2e80590577af7745dfd4fd042ec41ed4aa724cd45e9cb042fedd9b07bdddd4b9",
+      "pdf_pages": 16,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "2003-04-30",
+      "publication_date_precision": "day"
+    },
+    "e73845f3b9": {
+      "id": "e73845f3b9",
+      "title": "COR-VFA-11_Command-Operations-Report_2003_Unk.pdf",
+      "sha256": "5645c7229d821f24586dcbc9c00700d1996a8bd923f7b5d733a2d934161601fc",
+      "pdf_pages": 5,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "d0f5a538c9": {
+      "id": "d0f5a538c9",
+      "title": "20-347th TFW DOW NIP #22 Dissimilar Air Combat Training with the F-5.pdf",
+      "sha256": "2d4f0299295a2d8bd7db49a97fb41783f6a0921d4b81b9ab476101b89090a11a",
+      "pdf_pages": 12,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "85fde7eec8": {
+      "id": "85fde7eec8",
+      "title": "19-347th TFW DOW NIP #24 Pave Spike.pdf",
+      "sha256": "c68dea2ac19015fb8434fa4348a41c7456c884728cc00b8c09bdcd6a0a4d64ce",
+      "pdf_pages": 113,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1980-06",
+      "publication_date_precision": "month"
+    },
+    "c0888caaf3": {
+      "id": "c0888caaf3",
+      "title": "17-347th TFW DOW NIP #30 Dive Toss.pdf",
+      "sha256": "f4ad9239a2a346458e71f7dbd9572cb436c7631f99b9e4daa52aab77656f49f2",
+      "pdf_pages": 58,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1980-06",
+      "publication_date_precision": "month"
+    },
+    "b93aea5234": {
+      "id": "b93aea5234",
+      "title": "18-347th TFW DOW NIP #28 AN_APX-80A.pdf",
+      "sha256": "41b4347bfa48f7d250f456f2b9a632c9daafbdf0b5a03c4bd652e30842a836be",
+      "pdf_pages": 20,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1980-03",
+      "publication_date_precision": "month"
+    },
+    "7cc451620a": {
+      "id": "7cc451620a",
+      "title": "TAC78_03.pdf",
+      "sha256": "f2c64f9e1e9270b1f0d72c6b5206b204c3ef8aa2916699221af47eeed643cd7d",
+      "pdf_pages": 32,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1978-03",
+      "publication_date_precision": "month"
+    },
+    "9539ddb615": {
+      "id": "9539ddb615",
+      "title": "10-3rd TFS New Guy Book #2.pdf",
+      "sha256": "1ea661791ae35009aa53c8586af4358fac802189315690c2c370cbf01204d36b",
+      "pdf_pages": 18,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "dbee9c7ac3": {
+      "id": "dbee9c7ac3",
+      "title": "16-36th TFS Standard Mission Procedures.pdf",
+      "sha256": "167ff0c9f5801c60844884a1b4708db9a9b5b2f687e7935d3b9fde362046d223",
+      "pdf_pages": 5,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1978-09-14",
+      "publication_date_precision": "day"
+    },
+    "6cccf6acb7": {
+      "id": "6cccf6acb7",
+      "title": "15-36th TFS Standard Top Gun Program.pdf",
+      "sha256": "7900f0044db9f222db6e78e92cfb2bf6334dfb766db3dec78ef7698e3b99b9b3",
+      "pdf_pages": 5,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1978-10-02",
+      "publication_date_precision": "day"
+    },
+    "88af29c416": {
+      "id": "88af29c416",
+      "title": "14-36th TFS Standard Visual Lookout and Radio Calls.pdf",
+      "sha256": "fc1b8a415ea3287ddd0cabbdf6020fc8ee47ad657ca55ada0c511b1ad5181284",
+      "pdf_pages": 4,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": null,
+      "publication_date_precision": null
+    },
+    "3166e9c442": {
+      "id": "3166e9c442",
+      "title": "DTIC-ADA486836_ADA486836-Project-CHECO-Southeast-Asia-Report-Guided-Bomb_ND_DTIC-r2.pdf",
+      "sha256": "774e7eb8011bcd0c9624e3bb34665e3ab6c07144cd4165f2aeb03019e3479a68",
+      "pdf_pages": 62,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1973-10-01",
+      "publication_date_precision": "day"
+    },
+    "049dd752a7": {
+      "id": "049dd752a7",
+      "title": "DTIC-ADA486569_Project-CHECO-Southeast-Asia-Report-Rules-of-Engagement_1969-11_DTIC.pdf",
+      "sha256": "6fe89dec0e2819f645d70b4787c959496e0fc4f727e298ec7990ca21f0a8cfaf",
+      "pdf_pages": 80,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "period_record",
+      "public_url": null,
+      "publication_date": "1973-03-01",
+      "publication_date_precision": "day"
+    },
+    "56248863fe": {
+      "id": "56248863fe",
+      "title": "Wings over the Hindu Kush - Air Forces, Aircraft and Air Warfare of Afghanistan, 1989-2001.pdf",
+      "sha256": "0090f3022d9be17cbdd285788f066c7f5ea45898d80dab77c506e7fcd8e96b64",
+      "pdf_pages": 89,
+      "access": "Supplied document reviewed; original scan is not hosted here.",
+      "kind": "secondary_history",
+      "public_url": null,
+      "publication_date": "2020",
+      "publication_date_precision": "year"
+    }
+  },
+  "entries": [
+    {
+      "id": "nevada-1981",
+      "title": "February 1981 Nellis procedures",
+      "maps": [
+        "nevada"
+      ],
+      "period": "nevada-1981",
+      "subject_from": "1981-02-01",
+      "subject_to": "1981-02-28",
+      "topic": "navigation",
+      "priority": 1,
+      "status": "reference",
+      "facts": [
+        "Cover is dated February 1981.",
+        "Pages 7-8 publish 22 ATC points and 10 navaids.",
+        "LOTUS ONE, PLAZA 1 and FLEX procedures appear on pages 10-12."
+      ],
+      "limits": [
+        "Unknown coordinate datum; do not silently merge with modern fixes.",
+        "PLAZA STAR includes a DME arc; reconstructed route needs separate geometry review."
+      ],
+      "sources": [
+        {
+          "source_id": "5fe8e37375",
+          "pdf_pages": [
+            1,
+            7,
+            8,
+            10,
+            11,
+            12
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "nevada-aar-1981",
+      "title": "1981 tanker tracks and entry references",
+      "maps": [
+        "nevada"
+      ],
+      "period": "nevada-1981",
+      "subject_from": "1981-02-01",
+      "subject_to": "1981-02-28",
+      "topic": "navigation",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "Page 13 lists AR624, AR625 HI/LO, AR635, AR641A, AR230V and AR231V."
+      ],
+      "limits": [
+        "AR641A entry is N/A.",
+        "Schematic racetracks do not establish complete vertices, leg lengths or turns.",
+        "Mixed level notation is retained without inventing pressure bases."
+      ],
+      "sources": [
+        {
+          "source_id": "5fe8e37375",
+          "pdf_pages": [
+            13
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "nevada-2014",
+      "title": "2014 Elgin, Sally and weather recall",
+      "maps": [
+        "nevada"
+      ],
+      "period": "nevada-2014",
+      "subject_from": "2014-01-01",
+      "subject_to": "2014-12-31",
+      "topic": "navigation",
+      "priority": 1,
+      "status": "reference",
+      "facts": [
+        "Elgin is marked VMC only, 13K-FL230.",
+        "Simultaneous North/South War procedures generally close Sally and open Elgin.",
+        "Recall gates specify Caliente north of N37-40 and Coyote north of N37-48 at/above FL310."
+      ],
+      "limits": [
+        "Missing exact polygon boundary vertices.",
+        "FL230 and FL310 must stay flight levels.",
+        "MOPAR is a western recovery point, not an Elgin vertex."
+      ],
+      "sources": [
+        {
+          "source_id": "4a7e739048",
+          "pdf_pages": [
+            37,
+            40,
+            41
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "normandy-unit-dates",
+      "title": "Normandy: group movement and squadron arrival",
+      "maps": [
+        "normandy"
+      ],
+      "period": "normandy-1944",
+      "subject_from": "1944-06-01",
+      "subject_to": "1944-08-31",
+      "topic": "units",
+      "priority": 1,
+      "status": "reference",
+      "facts": [
+        "Wing heritage says parts of the 36th Group began moving to Brucheville on 4 July 1944.",
+        "Official 53 FS station date is circa 7 July 1944; official 23 FS date is 3 August 1944."
+      ],
+      "limits": [
+        "Group movement is not proof of arrival of every squadron.",
+        "Current June 21 Normandy preset already discloses some airfield substitutions; this would refine them, not newly discover all of them."
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            4
+          ]
+        },
+        {
+          "source_id": "3b259d9ee9",
+          "pdf_pages": [
+            1,
+            2
+          ]
+        },
+        {
+          "source_id": "c0a7a34076",
+          "pdf_pages": [
+            1,
+            2
+          ]
+        }
+      ],
+      "corroboration_urls": [
+        "https://www.dafhistory.af.mil/About-Us/Fact-Sheets/Display/Article/434045/53-fighter-squadron/",
+        "https://www.dafhistory.af.mil/Sandbox/Fact-Sheets/Display/Article/433429/23-fighter-squadron-usafe/"
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "bitburg-transitions",
+      "title": "Bitburg and Spangdahlem aircraft transitions",
+      "maps": [
+        "germany"
+      ],
+      "period": "coldwar-reference",
+      "subject_from": "1956-03-13",
+      "subject_to": "1985-12-31",
+      "topic": "units",
+      "priority": 1,
+      "status": "reference",
+      "facts": [
+        "F-100 on 13 March 1956; first F-105s on 13 May 1961; F-4C/D arrivals began 20 March 1966.",
+        "All three flying squadrons completed F-4E conversion by 30 September 1973.",
+        "F-15A/B arrivals on 27 April 1977; GULLY JUMP moved flying operations to Spangdahlem July-November 1968."
+      ],
+      "limits": [
+        "F-15A/B is not the DCS F-15C.",
+        "36 TFW / Wing is not the 36 TFS at Osan.",
+        "A 2017 heritage repaint pictured in the pamphlet is not a contemporary 1973 livery photograph."
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "unit-roster-provenance",
+      "title": "Aircraft markings, unit identity and deployments",
+      "maps": [],
+      "period": "coldwar-reference",
+      "subject_from": "1965-01-01",
+      "subject_to": "1989-12-31",
+      "topic": "units",
+      "priority": 1,
+      "status": "reference",
+      "facts": [
+        "The downloaded lineage sheets are compilations and may lose qualifiers.",
+        "70 FS operated F-4s at Moody in 1975-1987, followed by F-16s; the 1989 Ramstein deployment is outside its F-4 period."
+      ],
+      "limits": [
+        "A squadron name or modern museum repaint alone does not certify a DCS skin.",
+        "Do not overwrite measured parking directions using historical parking row labels."
+      ],
+      "sources": [
+        {
+          "source_id": "1ef59cc082",
+          "pdf_pages": [
+            1,
+            2
+          ]
+        },
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7
+          ]
+        }
+      ],
+      "corroboration_urls": [
+        "https://www.dafhistory.af.mil/About-Us/Fact-Sheets/Display/Article/433546/70-fighter-squadron/"
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "vf14-northern-1973",
+      "title": "Swift Move 1973: carrier alert in northern waters",
+      "maps": [
+        "kola"
+      ],
+      "period": "fleet-1973",
+      "subject_from": "1973-09-01",
+      "subject_to": "1973-10-08",
+      "topic": "campaign",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "VF-14 describes Norwegian/North Sea operations, sometimes above the Arctic Circle, ending 8 October 1973.",
+        "Reported 92 sorties / 163 hours and 18 Soviet interceptions: 12 Tu-95 and 6 Tu-16."
+      ],
+      "limits": [
+        "No exact patrol tracks or carrier coordinates.",
+        "VF-14 then used F-4B, not F-4E; carrier was JFK, CVA-67."
+      ],
+      "sources": [
+        {
+          "source_id": "99e7b4bb65",
+          "pdf_pages": [
+            4,
+            5
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "vf14-med-1973",
+      "title": "Mediterranean fleet alert, October-November 1973",
+      "maps": [
+        "sinai",
+        "syria"
+      ],
+      "period": "fleet-1973",
+      "subject_from": "1973-10-25",
+      "subject_to": "1973-11-18",
+      "topic": "campaign",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "JFK assumed station south of Crete on 25 October 1973.",
+        "VF-14 maintained five-minute alert and intercepted Soviet An-12 / An-22 resupply transports.",
+        "All twelve F-4Bs were transferred in December during preparations for F-14A transition."
+      ],
+      "limits": [
+        "Current filename says VFA-14; original 1973 designation is VF-14.",
+        "This does not establish an Israeli, Egyptian or Syrian air corridor, nor exact carrier station geometry."
+      ],
+      "sources": [
+        {
+          "source_id": "99e7b4bb65",
+          "pdf_pages": [
+            4,
+            5
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "gulf-1991-proven-force",
+      "title": "Proven Force: Incirlik and the 1991 air order of battle",
+      "maps": [
+        "iraq",
+        "persiangulf",
+        "syria"
+      ],
+      "period": "gulfwar-1990-1991",
+      "subject_from": "1990-08-01",
+      "subject_to": "1991-02-01",
+      "topic": "campaign",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "GWAPS Volume V Table 6 lists airfields and aircraft by monthly snapshot.",
+        "Incirlik column for 1 February 1991 includes 4 F-4Es, 15 F-4Gs and 6 RF-4Cs."
+      ],
+      "limits": [
+        "A monthly snapshot is not proof of unit identity, every intervening day or sortie routes.",
+        "1991 falls outside current Cold War 1965-1985 and modern 2000s+ presets.",
+        "Do not substitute F-4E for F-4G without disclosure or infer livery from aircraft totals."
+      ],
+      "sources": [
+        {
+          "source_id": "5a5af95308",
+          "pdf_pages": [
+            59,
+            60,
+            61,
+            642
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oif2003-structure",
+      "title": "OIF 2003: the air campaign and changing airspace",
+      "maps": [
+        "iraq",
+        "persiangulf",
+        "syria"
+      ],
+      "period": "oif-2003",
+      "subject_from": "2003-03-19",
+      "subject_to": "2003-04-18",
+      "topic": "campaign",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "USCENTAF By the Numbers is dated 30 April 2003, covering 0300Z 19 March to 0259Z 18 April.",
+        "Reports approximately 1,800 control measures in database, about 1,200 managed daily, about 12 ACO changes daily."
+      ],
+      "limits": [
+        "The report says initial best-available figures, not final analytical findings.",
+        "The totals do not supply corridor coordinates or individual validity windows."
+      ],
+      "sources": [
+        {
+          "source_id": "a411834573",
+          "pdf_pages": [
+            1,
+            2,
+            6,
+            7
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "vf11-2003-training",
+      "title": "VF-11: F-14B training and workups in 2003",
+      "maps": [
+        "nevada"
+      ],
+      "period": "navy-training-2003",
+      "subject_from": "2003-01-01",
+      "subject_to": "2003-12-31",
+      "topic": "units",
+      "priority": 3,
+      "status": "reference",
+      "facts": [
+        "VF-11 reported 11 F-14B aircraft, tail AG, assigned to USS George Washington CVN-73.",
+        "April, July and August-September 2003 entries document Fallon training; autumn documents ship workups."
+      ],
+      "limits": [
+        "Do not label the entire 2003 report an OIF combat deployment.",
+        "Fallon training cannot be silently relocated to Nellis as an exact recreation.",
+        "Original designation VF-11, not current VFA-11."
+      ],
+      "sources": [
+        {
+          "source_id": "e73845f3b9",
+          "pdf_pages": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "moody-dact-1979",
+      "title": "Moody 1979: a scheduled F-5 aggressor visit",
+      "maps": [],
+      "period": "f4-reference",
+      "subject_from": "1979-06-22",
+      "subject_to": "1979-07-06",
+      "topic": "crew",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "347 TFW NIP 22 describes a planned 65 FWS visit, 25 June-6 July 1979, with 108 aggressor sorties across three squadrons and academics on 22 June."
+      ],
+      "limits": [
+        "This planning document does not prove all scheduled sorties took place.",
+        "Moody is outside supported maps; any playable relocation is an adaptation."
+      ],
+      "sources": [
+        {
+          "source_id": "d0f5a538c9",
+          "pdf_pages": [
+            1,
+            2
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": [
+        "F-4"
+      ]
+    },
+    {
+      "id": "f4-1980-systems",
+      "title": "1980 F-4E weapons and identification references",
+      "maps": [],
+      "period": "f4-reference",
+      "subject_from": "1980-03-01",
+      "subject_to": "1980-06-30",
+      "topic": "systems",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "Pave Spike instructor handout marked revised June 1980.",
+        "Dive Toss NIP 30 dated June 1980.",
+        "AN/APX-80A NIP 28 dated March 1980."
+      ],
+      "limits": [
+        "No promise of unsupported DCS avionics or automatic coaching.",
+        "Dive Toss material and four 70 TFS pamphlets already underpin existing courses; do not duplicate them as newly invented syllabi."
+      ],
+      "sources": [
+        {
+          "source_id": "85fde7eec8",
+          "pdf_pages": [
+            1,
+            4
+          ]
+        },
+        {
+          "source_id": "c0888caaf3",
+          "pdf_pages": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_id": "b93aea5234",
+          "pdf_pages": [
+            1,
+            2
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": [
+        "F-4"
+      ]
+    },
+    {
+      "id": "f4-dmas-era",
+      "title": "Analog and digital F-4E configurations",
+      "maps": [],
+      "period": "f4-reference",
+      "subject_from": "1978-03-01",
+      "subject_to": "1980-12-31",
+      "topic": "systems",
+      "priority": 1,
+      "status": "reference",
+      "facts": [
+        "March 1978 TAC Attack describes ARN-101 procurement for block 48 and later aircraft and anticipated 1979 introduction.",
+        "The 3 TFS New Guy Part 2 material describes ARN-101 DMAS."
+      ],
+      "limits": [
+        "A 1978 forecast is not proof of fielding dates or retrofit completion for every squadron.",
+        "Do not treat every Cold War F-4E as identical or infer a pamphlet date from the filename."
+      ],
+      "sources": [
+        {
+          "source_id": "7cc451620a",
+          "pdf_pages": [
+            18
+          ]
+        },
+        {
+          "source_id": "9539ddb615",
+          "pdf_pages": [
+            2
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": [
+        "F-4"
+      ]
+    },
+    {
+      "id": "crew-briefs-1978",
+      "title": "Osan 1978: two-seat briefing and evaluation",
+      "maps": [],
+      "period": "f4-reference",
+      "subject_from": "1978-09-14",
+      "subject_to": "1978-10-02",
+      "topic": "crew",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "36 TFS Mission Procedures dated 14 September 1978 include Osan forecasts, GCI, threat of the day and crew planning.",
+        "2 October 1978 Top Gun program relies on gun-camera film, including 24-fps scoring criteria."
+      ],
+      "limits": [
+        "36 TFS Osan is not 36 TFW Bitburg.",
+        "Do not promise automatic DCS scoring of historical film-frame gun solutions."
+      ],
+      "sources": [
+        {
+          "source_id": "dbee9c7ac3",
+          "pdf_pages": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_id": "6cccf6acb7",
+          "pdf_pages": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "source_id": "88af29c416",
+          "pdf_pages": [
+            1,
+            2,
+            3
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": [
+        "F-4"
+      ]
+    },
+    {
+      "id": "redflag-lessons-1978",
+      "title": "Red Flag 1978: coordination and debrief lessons",
+      "maps": [
+        "nevada"
+      ],
+      "period": "f4-reference",
+      "subject_from": "1978-03-01",
+      "subject_to": "1978-03-31",
+      "topic": "crew",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "March 1978 Red Flag Mistakes article by a 70 TFS / 347 TFW pilot discusses interservice visual-signal misunderstandings and recce/strike formation coordination."
+      ],
+      "limits": [
+        "Narrative lesson is not a complete exercise SPINS document or universal regulation.",
+        "Do not claim automated evaluation of every behavior described."
+      ],
+      "sources": [
+        {
+          "source_id": "7cc451620a",
+          "pdf_pages": [
+            10
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": [
+        "F-4"
+      ]
+    },
+    {
+      "id": "checo-weather1972",
+      "title": "Southeast Asia: weather, guided bombs and changing ROE",
+      "maps": [],
+      "period": "sea-1969-1972",
+      "subject_from": "1969-11-01",
+      "subject_to": "1972-12-31",
+      "topic": "systems",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "Guided Bomb Operations in SEA: The Weather Dimension covers 1 February-31 December 1972; report dated 1 October 1973.",
+        "Explains target acquisition, cloud/haze limitations and specific supported delivery exceptions.",
+        "Separate ROE report covers November 1969-September 1972, dated 1 March 1973."
+      ],
+      "limits": [
+        "Vietnam/Laos geography is not faithfully recreated by drawing its historical boundaries on Syria or Sinai.",
+        "Period experimental techniques and Paveway I configurations must not be assumed to exist in current DCS modules."
+      ],
+      "sources": [
+        {
+          "source_id": "3166e9c442",
+          "pdf_pages": [
+            5,
+            13,
+            14,
+            15
+          ]
+        },
+        {
+          "source_id": "049dd752a7",
+          "pdf_pages": [
+            1,
+            2,
+            13,
+            14
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": [
+        "F-4"
+      ]
+    },
+    {
+      "id": "afghan1989-2001",
+      "title": "Afghan air forces and civil wars, 1989-2001",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "afghan-1989-2001",
+      "subject_from": "1989-01-01",
+      "subject_to": "2001-12-31",
+      "topic": "campaign",
+      "priority": 3,
+      "status": "reference",
+      "facts": [
+        "Lukas Müller’s 2020 history focuses on Afghan air forces, rather than detailing foreign air operations.",
+        "Its chapter periods distinguish the Najibullah government (1989-1992), factional wars (1992-1996), the Taliban’s northern conquest (1996-1998), and later advances and fall (1999-2001).",
+        "These periods differ from the product’s post-2003 War on Terror setting."
+      ],
+      "limits": [
+        "Secondary historical interpretation; unit and aircraft claims require case-by-case corroboration.",
+        "No corridor coordinates or operational airspace validity established."
+      ],
+      "sources": [
+        {
+          "source_id": "56248863fe",
+          "pdf_pages": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    }
+  ],
+  "profiles": {
+    "nevada-1981": {
+      "schema_version": 1,
+      "purpose": "research transcription, not a mission-generation configuration",
+      "map": "nevada",
+      "reference_date": "1981-02",
+      "date_precision": "month",
+      "source": {
+        "source_id": "5fe8e37375",
+        "pdf_pages": [
+          1,
+          7,
+          8,
+          10,
+          11,
+          12,
+          13
+        ]
+      },
+      "source_class": "period operational guide; edition confirmed from supplied cover",
+      "limitations": [
+        "No datum established. Decimal conversions do not establish WGS84.",
+        "The edition date is not evidence of continuous operational validity.",
+        "Published magnetic radial/DME and coordinates must remain distinct from current DCS navaids.",
+        "Do not assign an X/Y TACAN band absent supporting evidence.",
+        "Historical field and parking coordinates do not establish modern DCS parking IDs or headings."
+      ],
+      "refueling_reference_rows": [
+        {
+          "track_name": "AR624",
+          "entry_radial_dme_raw": "BCE 182/39",
+          "entry_coordinate_raw": "N3705 W11233",
+          "level_raw": "190-220",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR625 HI",
+          "entry_radial_dme_raw": "MVA 164/77",
+          "entry_coordinate_raw": "N3717 W11802",
+          "level_raw": "230-250",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR625 LO",
+          "entry_radial_dme_raw": "MVA 164/77",
+          "entry_coordinate_raw": "N3717 W11802",
+          "level_raw": "180-210",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR635",
+          "entry_radial_dme_raw": "MLF 260/127",
+          "entry_coordinate_raw": "N3831 W11543",
+          "level_raw": "190-260",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR635",
+          "entry_radial_dme_raw": "MLF 290/42",
+          "entry_coordinate_raw": "N3846 W11345",
+          "level_raw": "190-260",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR641A",
+          "entry_radial_dme_raw": null,
+          "entry_coordinate_raw": "N/A",
+          "level_raw": "12K-230",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR230V",
+          "entry_radial_dme_raw": "LAS 025/46",
+          "entry_coordinate_raw": "N3640 W11431",
+          "level_raw": "6K-8K",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        },
+        {
+          "track_name": "AR231V",
+          "entry_radial_dme_raw": "BTY 124/36",
+          "entry_coordinate_raw": "N3620 W11614",
+          "level_raw": "6K-8K",
+          "level_basis": "retain source notation; normalization pending",
+          "geometry": null,
+          "geometry_status": "schematic track; closed geometry not established",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              13
+            ]
+          }
+        }
+      ],
+      "procedure_candidates": [
+        {
+          "name": "LOTUS ONE departure",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              10
+            ]
+          },
+          "branches": [
+            {
+              "runway": "03L/R",
+              "sequence": [
+                "Apex vicinity / LSV 9-10 DME",
+                "Plaza",
+                "Nuget",
+                "Lotus"
+              ]
+            },
+            {
+              "runway": "21L/R",
+              "sequence": [
+                "LAS radial 349 intercept",
+                "Mint",
+                "Queen",
+                "Lotus"
+              ]
+            }
+          ],
+          "geometry": null,
+          "description": "Branches differ for runways 03 and 21. Crossing restrictions and turns are described in the source; this diagram shows reference points only."
+        },
+        {
+          "name": "PLAZA 1 STAR RWY 21",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              11
+            ]
+          },
+          "sequence": [
+            "Nuget or assigned join",
+            "Plaza",
+            "LSV 26 DME arc",
+            "Craps IAF"
+          ],
+          "geometry": null,
+          "description": "The arrival uses a 26-DME arc around LSV before CRAPS. The arc is not reconstructed here."
+        },
+        {
+          "name": "FLEX reentry and straight-in",
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              12
+            ]
+          },
+          "geometry": null,
+          "description": "Runway-specific height and distance restrictions apply. Points do not establish a modern clearance."
+        }
+      ],
+      "id": "nevada-1981",
+      "label": "Nellis: February 1981",
+      "routing_enabled": false,
+      "geometry_accuracy": "published points; datum unverified",
+      "plotting_note": "Point positions are plotted directly from the printed degrees and minutes. The source datum is unverified; the diagram is a reference, not a validated DCS route.",
+      "points": [
+        {
+          "id": "5fe8e37375:atc_point:acton",
+          "name": "Acton",
+          "coordinate_raw": {
+            "north_lat": "36-44.0",
+            "west_lon": "114-37.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.733333333333334,
+          "longitude_decimal_degrees": -114.61666666666666,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 019/36",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:apex_mine",
+          "name": "Apex Mine",
+          "coordinate_raw": {
+            "north_lat": "36-21.3",
+            "west_lon": "114-55.3"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.355,
+          "longitude_decimal_degrees": -114.92166666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 025/09",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:beatty_066_14",
+          "name": "Beatty 066/14",
+          "coordinate_raw": {
+            "north_lat": "36-50.0",
+            "west_lon": "116-28.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.833333333333336,
+          "longitude_decimal_degrees": -116.46666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BTY 066/14",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:beatty_066_19",
+          "name": "Beatty 066/19",
+          "coordinate_raw": {
+            "north_lat": "36-51.0",
+            "west_lon": "116-21.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.85,
+          "longitude_decimal_degrees": -116.35,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BTY 066/19",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:cesar",
+          "name": "Cesar",
+          "coordinate_raw": {
+            "north_lat": "37-04.0",
+            "west_lon": "116-28.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.06666666666667,
+          "longitude_decimal_degrees": -116.46666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BTY 024/21",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:craig_ranch",
+          "name": "Craig Ranch",
+          "coordinate_raw": {
+            "north_lat": "36-15.0",
+            "west_lon": "115-10.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.25,
+          "longitude_decimal_degrees": -115.16666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 265/6.5",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:craps_iaf",
+          "name": "Craps IAF",
+          "coordinate_raw": {
+            "north_lat": "36-33.0",
+            "west_lon": "114-40.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.55,
+          "longitude_decimal_degrees": -114.66666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 029/26",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:flex",
+          "name": "Flex",
+          "coordinate_raw": {
+            "north_lat": "36-19.0",
+            "west_lon": "115-05.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.31666666666667,
+          "longitude_decimal_degrees": -115.08333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 310/5",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:hiway",
+          "name": "Hiway",
+          "coordinate_raw": {
+            "north_lat": "36-26.0",
+            "west_lon": "115-27.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.43333333333333,
+          "longitude_decimal_degrees": -115.45,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 284/24",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:hoppe_iaf",
+          "name": "Hoppe IAF",
+          "coordinate_raw": {
+            "north_lat": "35-41.0",
+            "west_lon": "115-11.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 35.68333333333333,
+          "longitude_decimal_degrees": -115.18333333333334,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LAS 160/24",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:indian_springs_afaf",
+          "name": "Indian Springs AFAF",
+          "coordinate_raw": {
+            "north_lat": "36-35.0",
+            "west_lon": "115-40.7"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.583333333333336,
+          "longitude_decimal_degrees": -115.67833333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 289/38",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:lee",
+          "name": "Lee",
+          "coordinate_raw": {
+            "north_lat": "36-20.3",
+            "west_lon": "115-39.3"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.33833333333333,
+          "longitude_decimal_degrees": -115.655,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 265/32",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:lotus",
+          "name": "Lotus",
+          "coordinate_raw": {
+            "north_lat": "37-16.0",
+            "west_lon": "115-00.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.266666666666666,
+          "longitude_decimal_degrees": -115.0,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LAS 351/72; BLD 340/76",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:maxim",
+          "name": "Maxim",
+          "coordinate_raw": {
+            "north_lat": "37-04.0",
+            "west_lon": "116-21.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.06666666666667,
+          "longitude_decimal_degrees": -116.35,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BTY 037/25",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:mint",
+          "name": "Mint",
+          "coordinate_raw": {
+            "north_lat": "36-42.0",
+            "west_lon": "115-06.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.7,
+          "longitude_decimal_degrees": -115.1,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LAS 349/38",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:nuget",
+          "name": "Nuget",
+          "coordinate_raw": {
+            "north_lat": "37-08.0",
+            "west_lon": "114-53.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.13333333333333,
+          "longitude_decimal_degrees": -114.88333333333334,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BLD 344/68",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:plaza",
+          "name": "Plaza",
+          "coordinate_raw": {
+            "north_lat": "36-43.4",
+            "west_lon": "114-53.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.723333333333336,
+          "longitude_decimal_degrees": -114.88333333333334,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BLD 344/44",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:queen",
+          "name": "Queen",
+          "coordinate_raw": {
+            "north_lat": "37-06.0",
+            "west_lon": "115-04.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.1,
+          "longitude_decimal_degrees": -115.06666666666666,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LAS 349/62",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:rock",
+          "name": "Rock",
+          "coordinate_raw": {
+            "north_lat": "36-34.0",
+            "west_lon": "115-57.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.56666666666667,
+          "longitude_decimal_degrees": -115.95,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "BTY 094/41",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:sheep",
+          "name": "Sheep",
+          "coordinate_raw": {
+            "north_lat": "36-34.0",
+            "west_lon": "115-14.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.56666666666667,
+          "longitude_decimal_degrees": -115.23333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 318/22",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:sherry_iaf",
+          "name": "Sherry IAF",
+          "coordinate_raw": {
+            "north_lat": "36-19.0",
+            "west_lon": "114-59.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.31666666666667,
+          "longitude_decimal_degrees": -114.98333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "LSV 009/06",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:atc_point:tonopah_t.r._afld",
+          "name": "Tonopah T.R. Afld",
+          "coordinate_raw": {
+            "north_lat": "37-48.0",
+            "west_lon": "116-47.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.8,
+          "longitude_decimal_degrees": -116.78333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              8
+            ]
+          },
+          "kind": "atc_point",
+          "radial_dme_raw": "TPH 130/20",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:beatty",
+          "name": "Beatty",
+          "coordinate_raw": {
+            "north_lat": "36-48.0",
+            "west_lon": "116-44.8"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.8,
+          "longitude_decimal_degrees": -116.74666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "BTY",
+          "channel_number": 94,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:boulder_city",
+          "name": "Boulder City",
+          "coordinate_raw": {
+            "north_lat": "35-59.8",
+            "west_lon": "114-51.8"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 35.99666666666667,
+          "longitude_decimal_degrees": -114.86333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "BLD",
+          "channel_number": 114,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:cedar_peak",
+          "name": "Cedar Peak",
+          "coordinate_raw": {
+            "north_lat": "37-42.2",
+            "west_lon": "116-20.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.70333333333333,
+          "longitude_decimal_degrees": -116.33333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "CPJ",
+          "channel_number": 68,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:indian_springs",
+          "name": "Indian Springs",
+          "coordinate_raw": {
+            "north_lat": "36-35.0",
+            "west_lon": "115-40.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.583333333333336,
+          "longitude_decimal_degrees": -115.66666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "INS",
+          "channel_number": 67,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:las_vegas",
+          "name": "Las Vegas",
+          "coordinate_raw": {
+            "north_lat": "36-04.8",
+            "west_lon": "115-09.5"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.08,
+          "longitude_decimal_degrees": -115.15833333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "LAS",
+          "channel_number": 116,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:mormon_mesa",
+          "name": "Mormon Mesa",
+          "coordinate_raw": {
+            "north_lat": "36-46.2",
+            "west_lon": "114-16.6"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.77,
+          "longitude_decimal_degrees": -114.27666666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "MMM",
+          "channel_number": 90,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:nellis",
+          "name": "Nellis",
+          "coordinate_raw": {
+            "north_lat": "36-14.7",
+            "west_lon": "115-01.5"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.245,
+          "longitude_decimal_degrees": -115.025,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "LSV",
+          "channel_number": 7,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:tonopah",
+          "name": "Tonopah",
+          "coordinate_raw": {
+            "north_lat": "38-01.8",
+            "west_lon": "117-01.9"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 38.03,
+          "longitude_decimal_degrees": -117.03166666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "TPH",
+          "channel_number": 119,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:tonopah_t.r._afld",
+          "name": "Tonopah T.R. Afld",
+          "coordinate_raw": {
+            "north_lat": "37-48.0",
+            "west_lon": "116-47.0"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.8,
+          "longitude_decimal_degrees": -116.78333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "TQQ",
+          "channel_number": 77,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "5fe8e37375:navaid:wilson_creek",
+          "name": "Wilson Creek",
+          "coordinate_raw": {
+            "north_lat": "38-15.0",
+            "west_lon": "114-23.6"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 38.25,
+          "longitude_decimal_degrees": -114.39333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.1,
+          "source": {
+            "source_id": "5fe8e37375",
+            "pdf_pages": [
+              7
+            ]
+          },
+          "kind": "navaid",
+          "ident": "ILC",
+          "channel_number": 110,
+          "channel_band": null,
+          "channel_band_status": "not printed in this table",
+          "valid_from": null,
+          "valid_to": null
+        }
+      ]
+    },
+    "nevada-2014": {
+      "schema_version": 1,
+      "purpose": "research transcription, not a mission-generation configuration",
+      "map": "nevada",
+      "reference_date": "2014",
+      "date_precision": "year",
+      "source": {
+        "source_id": "4a7e739048",
+        "pdf_pages": [
+          1,
+          37,
+          40,
+          41
+        ]
+      },
+      "points": [
+        {
+          "id": "4a7e739048:reference_point:bighorn",
+          "name": "BIGHORN",
+          "coordinate_raw": {
+            "north_lat": "37-52.00",
+            "west_lon": "115-02.00"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.86666666666667,
+          "longitude_decimal_degrees": -115.03333333333333,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.01,
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "radial_dme_raw": "LSV 345/97",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "4a7e739048:reference_point:elkxx",
+          "name": "ELKXX",
+          "coordinate_raw": {
+            "north_lat": "37-52.00",
+            "west_lon": "114-30.00"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.86666666666667,
+          "longitude_decimal_degrees": -114.5,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.01,
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "radial_dme_raw": "LSV 359/100",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "4a7e739048:reference_point:moose",
+          "name": "MOOSE",
+          "coordinate_raw": {
+            "north_lat": "37-36.77",
+            "west_lon": "114-04.42"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.612833333333334,
+          "longitude_decimal_degrees": -114.07366666666667,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.01,
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "radial_dme_raw": "LSV 014/94",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "4a7e739048:reference_point:mopar",
+          "name": "MOPAR",
+          "coordinate_raw": {
+            "north_lat": "37-17.00",
+            "west_lon": "116-45.00"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 37.28333333333333,
+          "longitude_decimal_degrees": -116.75,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.01,
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "radial_dme_raw": "BTY 344/29",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "4a7e739048:reference_point:rammm",
+          "name": "RAMMM",
+          "coordinate_raw": {
+            "north_lat": "36-45.00",
+            "west_lon": "114-33.33"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.75,
+          "longitude_decimal_degrees": -114.5555,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.01,
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "radial_dme_raw": "LSV 021/38",
+          "valid_from": null,
+          "valid_to": null
+        },
+        {
+          "id": "4a7e739048:reference_point:timbr",
+          "name": "TIMBR",
+          "coordinate_raw": {
+            "north_lat": "36-45.00",
+            "west_lon": "114-44.58"
+          },
+          "coordinate_format": "degrees-decimal-minutes",
+          "latitude_decimal_degrees": 36.75,
+          "longitude_decimal_degrees": -114.743,
+          "datum": null,
+          "datum_status": "not established from reviewed pages",
+          "coordinate_precision_minutes": 0.01,
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "radial_dme_raw": "LSV 009/33",
+          "valid_from": null,
+          "valid_to": null
+        }
+      ],
+      "conditions": [
+        {
+          "element": "Elgin corridor",
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              40
+            ]
+          },
+          "altitude_raw": "13K-FL230",
+          "weather": "VMC only; pilot responsible for terrain avoidance",
+          "geometry": null,
+          "geometry_status": "diagram outline not transcribed into exact polygon"
+        },
+        {
+          "element": "Sally / Elgin scheduling",
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              41
+            ]
+          },
+          "condition": "generally Sally closed and Elgin open during simultaneous North/South War procedures",
+          "request": "South War mission commander requests Sally closure at least 5 minutes before VUL; VUL starts at least 10 minutes into scheduled airspace time",
+          "reopen": "South War completion report requests Sally reopening"
+        },
+        {
+          "element": "Airspace recall A/B",
+          "source": {
+            "source_id": "4a7e739048",
+            "pdf_pages": [
+              37
+            ]
+          },
+          "condition": "Northern Caliente A/B/C north of N37-40 and Northern Coyote north of N37-48 recalled at/above FL310",
+          "geometry": null,
+          "geometry_status": "latitude gates present; complete parent airspace polygons still needed"
+        }
+      ],
+      "limitations": [
+        "MOPAR is an additional western recovery point on the same page, not an Elgin route vertex.",
+        "Source has duplicate two-up printing. PDF page 40 is printed page 2-9.",
+        "The 2014 edition alone does not establish operational validity for every modern date."
+      ],
+      "id": "nevada-2014",
+      "label": "Nellis: 2014",
+      "routing_enabled": false,
+      "geometry_accuracy": "published points; datum unverified",
+      "plotting_note": "Point positions are plotted directly from the printed degrees and minutes. The source datum is unverified; the diagram is a reference, not a validated DCS route."
+    }
+  },
+  "unit_records": [
+    {
+      "id": "36group-brucheville",
+      "kind": "group_movement",
+      "title": "36 Fighter Group: movement to A-16 begins",
+      "unit": "36 Fighter Group",
+      "base": "Brucheville",
+      "event_date": "1944-07-04",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "P-47"
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            4
+          ]
+        }
+      ],
+      "notes": [
+        "Parts of the group began moving; this is not every subordinate squadron’s arrival."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "normandy"
+    },
+    {
+      "id": "53fs-brucheville",
+      "kind": "station_event",
+      "title": "53 Fighter Squadron: Brucheville",
+      "unit": "53 FS",
+      "base": "Brucheville",
+      "event_date": "1944-07-07",
+      "date_precision": "circa",
+      "aircraft_variants": [
+        "P-47"
+      ],
+      "sources": [
+        {
+          "source_id": "3b259d9ee9",
+          "pdf_pages": [
+            2
+          ]
+        }
+      ],
+      "notes": [
+        "Official history preserves circa; the supplied compilation omits it."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "normandy",
+      "corroboration_urls": [
+        "https://www.dafhistory.af.mil/About-Us/Fact-Sheets/Display/Article/434045/53-fighter-squadron/"
+      ]
+    },
+    {
+      "id": "23fs-brucheville",
+      "kind": "station_event",
+      "title": "23 Fighter Squadron: Brucheville",
+      "unit": "23 FS",
+      "base": "Brucheville",
+      "event_date": "1944-08-03",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "P-47"
+      ],
+      "sources": [
+        {
+          "source_id": "c0a7a34076",
+          "pdf_pages": [
+            2
+          ]
+        }
+      ],
+      "notes": [
+        "Individual squadron station event, distinct from group movement."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "normandy",
+      "corroboration_urls": [
+        "https://www.dafhistory.af.mil/Sandbox/Fact-Sheets/Display/Article/433429/23-fighter-squadron-usafe/"
+      ]
+    },
+    {
+      "id": "36tfw-f100",
+      "kind": "aircraft_transition",
+      "title": "36 Wing equipped with F-100",
+      "unit": "36 TFW",
+      "base": "Bitburg",
+      "event_date": "1956-03-13",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-100"
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "notes": [
+        "Transition milestone does not certify every squadron or continuous base occupancy."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "germany"
+    },
+    {
+      "id": "36tfw-f105",
+      "kind": "aircraft_transition",
+      "title": "First F-105s assigned",
+      "unit": "36 TFW",
+      "base": "Bitburg",
+      "event_date": "1961-05-13",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-105"
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "notes": [
+        "Transition milestone does not certify every squadron or continuous base occupancy."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "germany"
+    },
+    {
+      "id": "36tfw-f4cd",
+      "kind": "aircraft_transition",
+      "title": "F-4C/D arrivals began",
+      "unit": "36 TFW",
+      "base": "Bitburg",
+      "event_date": "1966-03-20",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-4C",
+        "F-4D"
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "notes": [
+        "Transition milestone does not certify every squadron or continuous base occupancy."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "germany"
+    },
+    {
+      "id": "36tfw-f4e",
+      "kind": "aircraft_transition",
+      "title": "All three flying squadrons completed F-4E transition",
+      "unit": "36 TFW",
+      "base": "Bitburg",
+      "event_date": "1973-09-30",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-4E"
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "notes": [
+        "Transition milestone does not certify every squadron or continuous base occupancy."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "germany"
+    },
+    {
+      "id": "36tfw-f15ab",
+      "kind": "aircraft_transition",
+      "title": "First F-15A/B arrivals",
+      "unit": "36 TFW",
+      "base": "Bitburg",
+      "event_date": "1977-04-27",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-15A",
+        "F-15B"
+      ],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7,
+            9
+          ]
+        }
+      ],
+      "notes": [
+        "Transition milestone does not certify every squadron or continuous base occupancy."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "germany"
+    },
+    {
+      "id": "36tfw-gully-jump",
+      "kind": "temporary_flying_station",
+      "title": "GULLY JUMP flying operations at Spangdahlem",
+      "unit": "36 TFW",
+      "base": "Spangdahlem",
+      "event_date": "1968-07",
+      "date_precision": "month",
+      "aircraft_variants": [],
+      "sources": [
+        {
+          "source_id": "402cbfff4f",
+          "pdf_pages": [
+            7
+          ]
+        }
+      ],
+      "notes": [
+        "July-November 1968 is a month-resolution interval; the permanent station and flying location differ."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "germany",
+      "event_end": "1968-11"
+    },
+    {
+      "id": "70fs-moody",
+      "kind": "station_event",
+      "title": "70 FS arrives at Moody",
+      "unit": "70 FS",
+      "base": "Moody",
+      "event_date": "1975-09-30",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-4"
+      ],
+      "sources": [
+        {
+          "source_id": "1ef59cc082",
+          "pdf_pages": [
+            1,
+            2
+          ]
+        }
+      ],
+      "notes": [
+        "F-4 service 1975-1987; F-16 service followed. Off supported maps."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": null,
+      "corroboration_urls": [
+        "https://www.dafhistory.af.mil/About-Us/Fact-Sheets/Display/Article/433546/70-fighter-squadron/"
+      ]
+    },
+    {
+      "id": "vf14-1973",
+      "kind": "aircraft_snapshot",
+      "title": "VF-14 in 1973: F-4B and JFK",
+      "unit": "VF-14",
+      "base": "CVA-67",
+      "event_date": "1973",
+      "date_precision": "year",
+      "aircraft_variants": [
+        "F-4B"
+      ],
+      "sources": [
+        {
+          "source_id": "99e7b4bb65",
+          "pdf_pages": [
+            2,
+            4,
+            5
+          ]
+        }
+      ],
+      "notes": [
+        "Original designation VF-14, not VFA-14. F-4E is a different variant. Twelve F-4Bs transferred in December."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": null
+    },
+    {
+      "id": "vf11-2003",
+      "kind": "aircraft_snapshot",
+      "title": "VF-11 in 2003: F-14B, AG, George Washington",
+      "unit": "VF-11",
+      "base": "CVN-73",
+      "event_date": "2003",
+      "date_precision": "year",
+      "aircraft_variants": [
+        "F-14B"
+      ],
+      "sources": [
+        {
+          "source_id": "e73845f3b9",
+          "pdf_pages": [
+            2,
+            3,
+            4
+          ]
+        }
+      ],
+      "notes": [
+        "Eleven aircraft; annual report includes training/workups, not a blanket OIF deployment."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": null,
+      "tail_code": "AG",
+      "aircraft_count": 11
+    },
+    {
+      "id": "incirlik1991-f-4e",
+      "kind": "aircraft_snapshot",
+      "title": "Incirlik: 4 F-4E aircraft on 1 February 1991",
+      "unit": null,
+      "base": "Incirlik",
+      "event_date": "1991-02-01",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-4E"
+      ],
+      "sources": [
+        {
+          "source_id": "5a5af95308",
+          "pdf_pages": [
+            60,
+            642
+          ]
+        }
+      ],
+      "notes": [
+        "Monthly order-of-battle snapshot; unit, livery and between-snapshot dates are not inferred."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "syria",
+      "aircraft_count": 4
+    },
+    {
+      "id": "incirlik1991-f-4g",
+      "kind": "aircraft_snapshot",
+      "title": "Incirlik: 15 F-4G aircraft on 1 February 1991",
+      "unit": null,
+      "base": "Incirlik",
+      "event_date": "1991-02-01",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-4G"
+      ],
+      "sources": [
+        {
+          "source_id": "5a5af95308",
+          "pdf_pages": [
+            60,
+            642
+          ]
+        }
+      ],
+      "notes": [
+        "Monthly order-of-battle snapshot; unit, livery and between-snapshot dates are not inferred."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "syria",
+      "aircraft_count": 15
+    },
+    {
+      "id": "incirlik1991-rf-4c",
+      "kind": "aircraft_snapshot",
+      "title": "Incirlik: 6 RF-4C aircraft on 1 February 1991",
+      "unit": null,
+      "base": "Incirlik",
+      "event_date": "1991-02-01",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "RF-4C"
+      ],
+      "sources": [
+        {
+          "source_id": "5a5af95308",
+          "pdf_pages": [
+            60,
+            642
+          ]
+        }
+      ],
+      "notes": [
+        "Monthly order-of-battle snapshot; unit, livery and between-snapshot dates are not inferred."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "syria",
+      "aircraft_count": 6
+    }
+  ],
+  "source_assessments": [
+    {
+      "id": "virtual64th",
+      "title": "64th Aggressor Squadron SOP v1",
+      "reason": "2019 virtual community SOP, not historical USAF squadron authority."
+    },
+    {
+      "id": "middleeast-adaptation",
+      "title": "Adapting Red Flag In-Flight Guide: Middle East",
+      "reason": "Issuer/date and numerical airfield claims are unverified; no geometry imported."
+    },
+    {
+      "id": "redflag2006-spins",
+      "title": "2006 Red Flag SPINS",
+      "reason": "Exercise existence is corroborated; supplied document provenance remains unverified."
+    },
+    {
+      "id": "493fs-typo",
+      "title": "493 FS compilation: Iraq deployment date",
+      "reason": "1980 in the supplied narrative conflicts with 1990 context; date not imported."
+    },
+    {
+      "id": "airspace2009",
+      "title": "MTTP Airspace Control, May 2009",
+      "reason": "Supplied edition has restricted-distribution text. No original hosted or restricted tables imported."
+    },
+    {
+      "id": "1488-redirect",
+      "title": "1488-contribs.html",
+      "reason": "Saved sign-in redirect contains no historical reference."
+    },
+    {
+      "id": "hunt-music",
+      "title": "The Hunt - J. Ployhar",
+      "reason": "Music score; excluded from aviation history."
+    }
+  ],
+  "limitations": [
+    "Reference periods are study collections, not additional playable recipe eras.",
+    "Source dates and subject periods do not establish continuous operational validity.",
+    "Aircraft variants, units, permanent stations and temporary deployments remain separate facts.",
+    "Published point coordinates with unverified datum are reference-only; no route or boundary is inferred."
+  ]
+}

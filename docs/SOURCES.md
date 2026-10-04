@@ -448,3 +448,46 @@ original URL returns 404; indexed official text establishes their names,
 not coordinates or today's validity. UN annex-map fetches were unavailable;
 no precise Sinai treaty polygons were manufactured. Reference dates never
 substitute for operational start/end dates. No map is claimed exhaustive.
+
+
+## Historical document additions (v1.114.0)
+
+The [Historical Library](/api/historical-library) publishes 18 bounded readings
+from selected documents in the supplied archive. Its canonical register is
+`missiongen/data/historical_library.json`; sources carry the supplied filename,
+edition SHA-256, physical PDF page count, publication precision where known,
+and access limits. Original scans and private filesystem paths are not served.
+The archive inventory is broader than the targeted page review; this is not an
+exhaustive reading of every document.
+
+February 1981 Nevada ATC/navaid coordinates, eight tanker reference rows and
+LOTUS/PLAZA/FLEX procedure notes remain separate from the 2014 recall gates and
+Elgin/Sally activation conditions. Unknown datum, closed-track geometry and
+operational validity are retained. Printed mixed level notation is not silently
+converted into a universal altitude basis.
+
+USAF lineage records and the 36th Wing retrospective distinguish 1944 group
+moves from squadron arrivals, Bitburg aircraft transitions and temporary GULLY
+JUMP basing. Official squadron fact sheets provide independent corroboration.
+1973 VF-14 histories preserve original designations and aircraft variants;
+VF-11's 2003 training/workups are not relabelled as an OIF deployment. GWAPS
+monthly 1991 strength records and the dated 2003 USCENTAF assessment establish
+snapshots and campaign structure, not exact theater corridors.
+
+The 1978–80 F-4 pamphlets provide period systems and crew context. The ARN-101
+forecast is not a universal fielding date; a planned 1979 DACT visit is not proof
+of execution. CHECO weather/weapon lessons remain dated off-map context. The
+Afghanistan 1989–2001 overview is secondary background based on selected early
+pages, not authenticated airspace geometry. Unverified virtual-unit SOPs,
+undated adaptations, the restricted MTTP and unrelated music/link files remain
+explicitly held or excluded. No restricted tables or supplied scans are copied.
+
+Iraq Gulf carrier coverage: [ED's Iraq Release FAQ](https://forum.dcs.world/topic/365676-dcs-iraq-release-faq/)
+distinguishes entire-map flyability from regional scenery detail. The selected
+anchor, screen and steaming window are authored geometry checked against the
+Iraq projection/bounds and existing Gulf shoreline schematic; these are not a
+simulator land-mask survey or a historical naval station. A public author's
+[native Iraq mission](https://github.com/loreair/MISSIONE-DINAMICA-IRAQ-2026)
+corroborates Gulf carrier placement. Its scripts and mission content are not
+imported into our generator. See `docs/dcs-iraq-map-state.md` for the dated
+research snapshot and coverage correction.

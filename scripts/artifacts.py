@@ -59,10 +59,20 @@ STAMPS = ROOT / "docs" / ".artifacts.json"
 
 ARTIFACTS = [
     {
+        'path': 'docs/historical_library.html',
+        'rule': 'stamp',
+        'generator': ['scripts/build_historical_library.py'],
+        'inputs': ['missiongen/data/historical_library.json', 'missiongen/historical_library.py',
+                   'missiongen/historical_reference_chart.py', 'scripts/build_historical_library.py',
+                   'scripts/build_sources_html.py', 'frontend/assets/historical-library.js',
+                   'missiongen/data/maps.json', 'missiongen/__init__.py'],
+        'why': 'Dated reference readings, point diagrams and unit observations must match their provenance data.',
+    },
+    {
         'path': 'docs/historical_coverage.html',
         'rule': 'stamp',
         'generator': ['scripts/build_historical_coverage.py'],
-        'inputs': ['missiongen/data/historical_coverage.json', 'missiongen/historical_coverage.py',
+        'inputs': ['scripts/build_historical_coverage.py', 'missiongen/data/historical_coverage.json', 'missiongen/historical_coverage.py',
                    'missiongen/historical_symbols.py', 'missiongen/corridor_chart.py',
                    'scripts/build_sources_html.py', 'missiongen/data/maps.json',
                    'missiongen/data/eras.json', 'missiongen/__init__.py'],
@@ -73,7 +83,7 @@ ARTIFACTS = [
         'path': 'docs/research/HISTORICAL_AIRSPACE_RESEARCH.md',
         'rule': 'stamp',
         'generator': ['scripts/build_historical_coverage.py'],
-        'inputs': ['missiongen/data/historical_coverage.json', 'missiongen/historical_coverage.py',
+        'inputs': ['scripts/build_historical_coverage.py', 'missiongen/data/historical_coverage.json', 'missiongen/historical_coverage.py',
                    'missiongen/__init__.py'],
         'why': 'Research conclusions and primary sources are generated from the register.',
     },

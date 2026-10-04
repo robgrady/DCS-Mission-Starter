@@ -3,6 +3,11 @@
 v1.108.3 intentionally corrects dated content and base nationality. The
 pre-refactor v1.108.2 facts and field-level review are retained in release
 evidence; these hashes now pin the reviewed historical-content release.
+
+v1.114.0 adds bounded historical reading links and their presentation stats.
+All eight native group/route/trigger/weather/drawing contracts were compared
+with the prior release; old briefing text is retained after removing only the
+new reading block. Evidence: outputs/releases/1.114.0/native-contract-review.json.
 """
 import hashlib
 import json

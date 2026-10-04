@@ -169,6 +169,10 @@ def place_routes(builder: StarterBuilder, ctx: WorldContext, gfx: dict, player: 
         r.template and _scenario_templates().get(r.template, {}).get("route") == "strike"))
     if player_group is not None and wants_route and gfx["targets"]:
         from .. import routing
+        from types import SimpleNamespace
+        carrier_home = self._csg.units[0] if ctx.carrier_home and self._csg else None
+        route_home = (SimpleNamespace(position=carrier_home.position, name="CARRIER")
+                      if carrier_home is not None else home)
         tgt_pos, tgt_label = gfx["targets"][0]
         # Where the map has published corridors (corridors.py: Nevada,
         # Syria) the plan is threaded through them - departure, corridor,
@@ -178,15 +182,16 @@ def place_routes(builder: StarterBuilder, ctx: WorldContext, gfx: dict, player: 
         from .. import corridors as _nttr
         self._nttr = _nttr.plan_route(home.position, tgt_pos, r.era,
                                       self.rng, m.terrain, r.map,
-                                      home_name=home.name) if r.published_corridors else None
+                                      home_name=home.name) if r.published_corridors and carrier_home is None else None
         legs = (self._nttr["legs"] if self._nttr else
-                routing.route_for(home.position, tgt_pos, r.era, self.rng,
+                routing.route_for(route_home.position, tgt_pos, r.era, self.rng,
                                   m.terrain))
         if legs:
             landed = routing.apply(legs=legs, player_group=player_group,
-                                   home_airport=home)
-            route_rows = routing.leg_card(home.position, legs, home.name)
-            stats["route"] = routing.summary(legs, tgt_label, home.name)
+                                   home_airport=home if carrier_home is None else None,
+                                   home_carrier=carrier_home)
+            route_rows = routing.leg_card(route_home.position, legs, route_home.name)
+            stats["route"] = routing.summary(legs, tgt_label, route_home.name)
             stats["route_legs"] = route_rows
             stats["route_target"] = tgt_label
             if self._nttr:
@@ -209,7 +214,7 @@ def place_routes(builder: StarterBuilder, ctx: WorldContext, gfx: dict, player: 
             # MOVED here, before anything prints it.
             self._timing = self._time_the_route(m, stats, route_rows,
                                                 player_group, own_country,
-                                                home)
+                                                route_home)
             if not landed:
                 self.warnings.append(
                     "the flight plan has no recovery point: this airfield "

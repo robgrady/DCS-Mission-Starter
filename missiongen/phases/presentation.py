@@ -128,6 +128,11 @@ def place_presentation(builder: StarterBuilder, ctx: WorldContext, targets: Scen
     # --- briefing ----------------------------------------------------------
     from ..historical_world import brief_lines
     history_lines = brief_lines(ctx.historical)
+    from ..historical_library import mission_references, reference_lines
+    reference_rows = mission_references(r.map, m.start_time.date().isoformat(),
+        getattr(self._resolve_aircraft(r.aircraft), 'id', r.aircraft))
+    stats['historical_references'] = reference_rows
+    history_lines += reference_lines(reference_rows)
     stats['historical_context'] = {'date': m.start_time.date().isoformat(),
                                  'classification': ctx.historical.classification,
                                  'notes': list(ctx.historical.notes),

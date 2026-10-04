@@ -54,3 +54,16 @@ Written for this pipeline from the following, all of which say more than this ch
 - National Museum of the United States Air Force, fact sheets for the F-4C, F-4D, F-4E and F-4G.
 - Heatblur Simulations, *DCS: F-4E Phantom II* manual — the Block 45 airframe, slats and APQ-120 as modelled.
 - 70th Tactical Fighter Squadron, *Standards*, *Low Level Training* and *Weapons Information Sheet No. 1* (1980) — the documents the White Knights rides are transcribed from; see the product's Sources page.
+
+
+## Period documents: systems and crew context
+
+The [Historical Library](/api/historical-library) adds selected 1978–80 squadron
+pamphlets: June 1980 Pave Spike and Dive Toss, March 1980 IFF, a March 1978
+ARN-101/DMAS discussion, and dated September/October 1978 crew brief notes.
+Open each reading for its edition hash and physical PDF page citations.
+An equipment forecast does not establish every squadron's fielding date;
+analog and digital configurations must be distinguished. Printed film timing
+and crew procedures are historical reference, not automatically measurable DCS
+coaching. Planned DACT sorties and Red Flag coordination lessons remain
+planning/after-action context. These additions create no new course or checkride.

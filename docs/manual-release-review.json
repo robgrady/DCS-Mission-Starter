@@ -1,7 +1,7 @@
 {
-  "version": "1.113.0",
+  "version": "1.114.0",
   "documentation_required": true,
-  "reason": "All manual sections reviewed; document coverage filtering, dated research additions, map symbol semantics and remaining geometry/validity gaps.",
+  "reason": "Reviewed all existing manual sections and documented the Historical Library, chart editions and evidence limits, event-date comparison, contextual mission readings and read-only agent access. Also updated the carrier section for Iraq Gulf support and its scenery, historical and flight-validation limits.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -19,8 +19,9 @@
     "Missions through an AI assistant (MCP)",
     "Mission readiness before Generate",
     "Importing a mission into Digital Kneeboard Simulator",
-    "Historical map coverage and symbols"
+    "Historical map coverage and symbols",
+    "Historical Library: dated readings and charts"
   ],
-  "source_sha256": "cb610305a185d6af7fdce7c05d9cbfef6aa917cc9c6c04515ca7df5097505ed8",
-  "previous_source_sha256": "ea9753a9efd523e7e895dcb628f83e66f45dc995d4a6b4d5109af8b37e6d5b4e"
+  "source_sha256": "7202303b92017ab26cb05c3cdb688e6d12f05e9fde9c046b5d28e7df72d64cc5",
+  "previous_source_sha256": "cb610305a185d6af7fdce7c05d9cbfef6aa917cc9c6c04515ca7df5097505ed8"
 }

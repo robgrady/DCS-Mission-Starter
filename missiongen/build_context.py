@@ -4,7 +4,7 @@ Weather and placement retain their original seeded RNG sequence and order.
 PyDCS remains the mission model and serializer.
 """
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 from typing import TYPE_CHECKING, Callable
 
@@ -263,6 +263,10 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
         stats["comms_custom"] = _cp.describe(comms.overrides)
 
 
+    historical = snapshot(r.map, r.era, m.start_time.date(), preset)
+    if bb_carrier and r.coalition == "blue":
+        if note := map_cfg.get("carrier", {}).get("historical_note"):
+            historical = replace(historical, notes=historical.notes + (note,))
     return WorldContext(
         map_cfg=map_cfg,
         era_cfg=era_cfg,
@@ -289,5 +293,5 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
         away_bearing=away_bearing,
         comms=comms,
         stats=stats,
-        historical=snapshot(r.map, r.era, m.start_time.date(), preset),
+        historical=historical,
     )

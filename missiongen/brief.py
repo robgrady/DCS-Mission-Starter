@@ -865,6 +865,8 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
         L += ["- Recorded weapon service years and DCS station compatibility are checked. Unknown service dates, operator availability and module variants remain uncertified."]
         L += [f"- Source: {url}" for url in h.get("sources", [])]
         L += [f"- {n}" for n in stats.get("airspace_notes", []) if n]
+        from .historical_library import reference_lines
+        L += [f"- {n}" for n in reference_lines(stats.get('historical_references', []))]
     if stats.get("known_issues"):
         # Every expert campaign carries this page. Ours is generated per
         # mission, so the callsign line is about THIS jet.

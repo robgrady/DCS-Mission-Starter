@@ -66,6 +66,29 @@ class RecipeInput(BaseModel):
         json_schema_extra=recipe_json_schema())
 
 
+class HistoricalQuery(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    map: str | None = Field(default=None, max_length=40, description='Exact map key, or omit for all references.')
+    period: str | None = Field(default=None, max_length=60, description='Historical reference period key; these are not recipe eras.')
+    topic: str | None = Field(default=None, max_length=40)
+    on: str | None = Field(default=None, max_length=10, description='YYYY-MM-DD subject-date filter, not operational certification.')
+
+
+@mcp.tool(annotations=READ, structured_output=True)
+def sortiestarter_get_historical_references(params: HistoricalQuery) -> dict[str, Any]:
+    """Read dated background, original source pages, unit observations and point profiles.
+
+    Reference periods do not add playable eras. Station events and snapshots do
+    not prove continuous occupancy. Profile routing is disabled; unverified
+    coordinate datum and missing boundaries remain explicit.
+    """
+    from missiongen.historical_library import catalog
+    try:
+        return catalog(params.map, params.period, params.topic, params.on)
+    except ValueError as exc:
+        raise ToolError(str(exc)) from exc
+
+
 def _catalog(kind: CatalogKind, data: dict) -> dict[str, Any]:
     value = data[kind]
     if isinstance(value, list):
@@ -226,6 +249,13 @@ def guide_resource() -> str:
 def integration_guide_resource() -> str:
     """Public guide for agents: workflow, tool contracts and error recovery."""
     return (ROOT / 'docs' / 'MCP.md').read_text()
+
+
+@mcp.resource('sortiestarter://historical-library', mime_type='application/json')
+def historical_library_resource() -> str:
+    """Source/page provenance and dated reference metadata from the public catalog."""
+    from missiongen.historical_library import catalog
+    return json.dumps(catalog(), ensure_ascii=False)
 
 
 security = TransportSecuritySettings(

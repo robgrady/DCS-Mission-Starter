@@ -93,6 +93,7 @@ def place_environment(builder: StarterBuilder, ctx: WorldContext, player: Player
                         include_infra=r.dress_infra,
                         aircraft_mode=r.dress_aircraft_mode,
                         era=r.era,
+                        on=m.start_time.date().isoformat(),
                         ramp_heavies=getattr(r, "ramp_heavies", "auto"),
                         livery_style=getattr(r, "dress_livery_style", "squadron"))
         # ONLY MILITARY INSTALLATIONS get ramp dressing. Civilian airports

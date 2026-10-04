@@ -1,5 +1,15 @@
 # Changelog — DCS Sortie Starter
 
+## [1.114.0] — Source-backed historical reference library
+
+- Add 18 dated readings, 15 unit/aircraft observations and two separate Nevada chart editions from the reviewed archive. Preserve physical PDF pages, edition hashes, publication precision, approximate dates, unknown datum and evidence limits.
+- Add map/period/topic/search filters, keyboard-selectable reference points, a Nellis inset, raw-coordinate tables and source-linked JSON/SVG downloads, using the existing fonts and palette.
+- Match short historical reading links to the actual mission map, date and aircraft in native briefings, Markdown/PDF briefs and kneeboards. New chart editions remain reference material and do not change route clearance, Builder eras or AI behavior.
+- Expose the same research through HTTP and a read-only MCP tool/resource. Separate installed paint eligibility from verified unit/base/variant/date assignments; require exact bounded evidence for historical skin overrides. Apply the existing era filter to all static selection paths.
+- Enable Iraq Gulf carrier groups and carrier home-base selection. Check offshore placement, escort screens, wind-clamped steaming tracks and native launch/recovery links. Correct optional carrier strike routes and timed packages to originate/recover at the ship; disclose authored naval force and pending DCS flight validation.
+- Add an affected-content review ledger and continuous maintenance workflow, including aircraft-specific checks for borrowed training procedures.
+- Update the User Manual, sources, agent guide, roadmap, F-4 history reference and all seven official pack content revisions. Source/readback checks do not certify simulator flights or unknown historical geometry.
+
 ## [1.113.0] — Historical coverage, research and map symbols
 
 - Audit all 13 maps / 26 supported map-era pairs and all existing route, threat-axis and historical-overlay elements. Publish filterable coverage, evidence classes, source dates, unknown validity and remaining gaps.
