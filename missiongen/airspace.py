@@ -15,6 +15,8 @@ from dcs.mapping import LatLng
 from . import chartstyle as cs
 from .resolver import load_json
 from .historical_world import Validity
+from . import historical_symbols as symbols
+from .historical_coverage import element
 
 SM = 1609.34  # one statute mile in metres (the historical unit for Berlin airspace)
 
@@ -91,6 +93,10 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
     drawn, briefs = [], []
 
     for oid, ov in data.items():
+        # Snapshot references may be older than the scenario, never from its
+        # future. This is a reference-date gate, not inferred legal validity.
+        if ov.get('reference_only') and ov.get('attested_on', '') > m.start_time.date().isoformat():
+            continue
         if not Validity.from_data(ov).contains(m.start_time.date()):
             continue
         if era not in ov.get("eras", []):
@@ -102,10 +108,12 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
 
         nest = _zone_radius_m(ov)
 
-        for f in ov["features"]:
+        for index, f in enumerate(ov["features"]):
+            metadata = element(f'overlay/{map_key}/{oid}/{index}')
+            tag = symbols.label_tag(metadata)
             kind = f["kind"]
             if kind == "corridor":
-                col, fill, wt, st = cs.spec("corridor")
+                col, fill, wt, st = symbols.style('reconstructed_lane')
                 p1 = _ll(f["from"][0], f["from"][1], terrain)
                 p2 = _ll(f["to"][0], f["to"][1], terrain)
                 half = f["width_sm"] * SM / 2.0
@@ -123,13 +131,13 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
                 # an authored direction and the chart should say so.
                 _arrow_head(layer, p1, end, cc)
                 cs.label(layer, _mid(p1, end, terrain),
-                         f"» {f['name']} — schematic; exercise ≤{f['ceiling_ft']:,} ft", col)
+                         f"» {f['name']} — schematic; exercise ≤{f['ceiling_ft']:,} ft\n{tag}", col)
             elif kind == "zone":
-                col, fill, wt, st = cs.spec("zone")
+                col, fill, wt, st = symbols.style(metadata['depiction'])
                 c = _ll(f["center"][0], f["center"][1], terrain)
                 layer.add_circle(c, radius=f["radius_sm"] * SM, color=col,
                                  fill=fill, line_thickness=wt, line_style=st)
-                cs.label(layer, c, f"⬡ {f['name']}", col)
+                cs.label(layer, c, f"⬡ {f['name']}\n{tag}", col)
                 m.triggers.add_triggerzone(c, radius=f["radius_sm"] * SM,
                                            name=f"AIRSPACE {f['name']}")
             elif kind == "box":
@@ -140,10 +148,11 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
                 col, fill, wt, st = cs.spec(f.get("category", "restricted"))
                 pts = [_ll(v[0], v[1], terrain) for v in f["corners"]]
                 _draw_poly(layer, pts, col, fill, wt, st)
+                symbols.boundary_ticks(layer, pts)
                 cx = sum(p.x for p in pts) / len(pts)
                 cy = sum(p.y for p in pts) / len(pts)
                 center = mapping.Point(cx, cy, terrain)
-                panel = [f"▨ {f['name']}"] + f.get("panel", [])
+                panel = [f"▨ {f['name']}"] + f.get("panel", []) + [tag]
                 cs.label(layer, center, "\n".join(panel), col)
                 # trigger zone so scripts/designers can hook violations
                 import math as _math
@@ -151,11 +160,27 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
                 m.triggers.add_triggerzone(center, radius=rad,
                                            name=f"AIRSPACE {f['name']} — BOUNDING CIRCLE, NOT POLYGON")
             elif kind == "line":
-                col, _fill, wt, st = cs.spec(f.get("category", "deconfliction"))
+                col, _fill, wt, st = symbols.style(metadata['depiction'])
                 pts = [_ll(v[0], v[1], terrain) for v in f["points"]]
                 _draw_line(layer, pts, col, wt, st)
                 midi = pts[len(pts) // 2]
-                cs.label(layer, midi, f"— {f['name']}", col, size=12)
+                cs.label(layer, midi, f"— {f['name']}\n{tag}", col, size=12)
+            elif kind == 'geodesic_circle':
+                col, fill, wt, st = symbols.style('restricted_area')
+                center = _ll(*f['center'], terrain)
+                points = symbols.circle_points(center, f['radius_nm']*1852.0)
+                _draw_poly(layer, points, col, fill, wt, st)
+                symbols.boundary_ticks(layer, points)
+                cs.label(layer, center, f"▨ {f['name']}\n{f['radius_nm']} NM radius\n{tag}", col)
+            elif kind == 'route_reference':
+                col, _, wt, st = symbols.style('reported_route')
+                points = [_ll(*v, terrain) for v in f['points']]
+                _draw_line(layer, points, col, wt, st)
+                for gate in f.get('gates', []):
+                    point = _ll(*gate['point'], terrain)
+                    symbols.diamond(layer,point,approximate=gate['approximate'])
+                    cs.label(layer,point,'GATE '+gate['name'],col)
+                cs.label(layer,points[-1],f"{f['name']}\n{tag}\nReconstructed terminals; no route width",col)
 
         briefs.append("")
         briefs.append(f"== {ov.get('brief_title', ov['label'])} ==")
@@ -163,4 +188,6 @@ def add_historical_airspace(m, map_key, era, overlay_ids=None, only_always=False
         briefs.extend(f"Source: {url}" for url in ov.get("historical_sources", []))
         drawn.append(oid)
 
+    if drawn:
+        symbols.legend(m)
     return drawn, briefs

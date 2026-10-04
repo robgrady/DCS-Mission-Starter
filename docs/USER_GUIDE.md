@@ -411,6 +411,51 @@ known issues. Historical overlays distinguish sourced boundaries from
 approximate or illustrative geometry; map-era presets are broad settings,
 not exact historical reconstructions of every aircraft and installation.
 
+### Historical map coverage and symbols
+
+Open **Historical coverage & map symbols** under Builder → Air corridors, or
+visit **/api/historical-coverage/report**. Filter the research register by map
+and era. All **13 maps / 26 supported map-era pairs** have a recorded review;
+none is certified complete. Expand a finding for its primary sources and
+remaining evidence gaps, or audit the individual drawn elements. The same
+register is available as JSON at **/api/historical-coverage** with optional
+`map` and `era` filters.
+
+F10 reference shapes use meaning beyond color:
+
+- **Dashed lanes:** reconstructed routes. Network widths and altitude blocks
+  remain planning values, with unknown per-segment historical validity.
+- **Diamonds:** reporting gates; **~** marks approximate geometry.
+- **Circles:** control or reference zones; check radius units in the briefing.
+- **Hatched edges:** restricted or exclusion boundaries.
+- **Dash-dot lines:** deconfliction references.
+- **Dotted shapes / TRAINING:** illustrative exercise geometry.
+- **Arrows / AXIS / TRAINING:** tactical threat direction, not a flight route.
+
+**DOC** identifies a documented structure; it does not certify the drawing's
+precision. **REPORTED** identifies a reported track; **TRAINING** identifies
+an authored exercise. **REF** is a source or event date, not continuous
+operational validity. **DATE ?** means the date is unknown.
+
+Enable **Historical airspace** for dated references: the Falklands **30 April
+1982** announcement's **200-NM** geodesic exclusion circle, Normandy's **6 June
+1944** NEPTUNE transport ingress (published HOBOKEN fix, reconstructed
+terminals), and separate Iraq **1992 / September 1996** southern no-fly
+boundary segments at **32°N / 33°N**. The Iraq segment endpoints are diagram
+extents, not national borders. These snapshots can depict an earlier event
+than the mission date; new snapshots are omitted before their reference date.
+They are labelled dated references and change no flight
+route, AI behavior, clearance or engagement rule. Normandy's transport route
+is not generalized to fighters. Existing Berlin, Nevada, Syria and illustrative
+Afghanistan overlays retain their disclosed limitations.
+
+The research also identifies six Afghan ATS route designators, Sinai
+agreements, Arctic intercept events, Channel operating regions and Marianas
+references. Where georeferenced fixes or era-specific boundaries remain
+unverified, the register records the gap and draws no invented corridor.
+Native archive readback verifies these additions; their in-game appearance
+and pilot use still need DCS flight validation.
+
 ### Scenario dates and historical context
 
 Library mission details show an authored **scenario date** and identify the

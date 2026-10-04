@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 650" role="img"><title>Historical map symbols</title><rect width="100%" height="100%" fill="white"/><text x="32.0" y="32.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="26.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">HISTORICAL MAP SYMBOLS</text>
+<text x="32.0" y="32.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="26.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">HISTORICAL MAP SYMBOLS</text>
+<text x="32.0" y="65.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="15.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Shape + line pattern + label carry meaning. Existing Flightline palette.</text>
+<text x="32.0" y="65.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="15.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Shape + line pattern + label carry meaning. Existing Flightline palette.</text>
+<polygon points="40.0,101.0 165.0,101.0 165.0,125.0 40.0,125.0" fill="none" stroke="#1d4e89" stroke-width="2" stroke-dasharray="7,4" stroke-linejoin="round"/>
+<text x="205.0" y="106.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Reconstructed route</text>
+<text x="205.0" y="106.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Reconstructed route</text>
+<text x="205.0" y="129.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Dashed lane; width and block are planning values.</text>
+<text x="205.0" y="129.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Dashed lane; width and block are planning values.</text>
+<polygon points="100.0,159.0 119.0,178.0 100.0,197.0 81.0,178.0" fill="none" stroke="#1d4e89" stroke-width="2" stroke-linejoin="round"/>
+<text x="205.0" y="171.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Reporting gate</text>
+<text x="205.0" y="171.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Reporting gate</text>
+<text x="205.0" y="194.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Diamond; ~ marks approximate placement.</text>
+<text x="205.0" y="194.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Diamond; ~ marks approximate placement.</text>
+<circle cx="100.0" cy="243.0" r="21.0" fill="none" stroke="#1d4e89" stroke-width="2"/>
+<text x="205.0" y="236.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Control / reference zone</text>
+<text x="205.0" y="236.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Control / reference zone</text>
+<text x="205.0" y="259.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Circle; radius units and source date in the label.</text>
+<text x="205.0" y="259.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Circle; radius units and source date in the label.</text>
+<polygon points="40.0,289.0 165.0,289.0 165.0,327.0 40.0,327.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linejoin="round"/>
+<polyline points="46.0,289.0 46.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="58.0,289.0 58.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="70.0,289.0 70.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="82.0,289.0 82.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="94.0,289.0 94.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="106.0,289.0 106.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="118.0,289.0 118.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="130.0,289.0 130.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="142.0,289.0 142.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="154.0,289.0 154.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="165.0,295.0 159.0,295.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="165.0,307.0 159.0,307.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="165.0,319.0 159.0,319.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="159.0,327.0 159.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="147.0,327.0 147.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="135.0,327.0 135.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="123.0,327.0 123.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="111.0,327.0 111.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="99.0,327.0 99.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="87.0,327.0 87.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="75.0,327.0 75.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="63.0,327.0 63.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="51.0,327.0 51.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="40.0,321.0 46.0,321.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="40.0,309.0 46.0,309.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<polyline points="40.0,297.0 46.0,297.0" fill="none" stroke="#b45309" stroke-width="0.8" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="205.0" y="301.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Restricted / exclusion boundary</text>
+<text x="205.0" y="301.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Restricted / exclusion boundary</text>
+<text x="205.0" y="324.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Hatched edge; legal effect comes from its dated source.</text>
+<text x="205.0" y="324.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Hatched edge; legal effect comes from its dated source.</text>
+<polyline points="40.0,373.0 54.0,373.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="59.0" cy="373.0" r="1.2" fill="#b45309" stroke="none" stroke-width="1.0"/>
+<polyline points="64.0,373.0 78.0,373.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="83.0" cy="373.0" r="1.2" fill="#b45309" stroke="none" stroke-width="1.0"/>
+<polyline points="88.0,373.0 102.0,373.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="107.0" cy="373.0" r="1.2" fill="#b45309" stroke="none" stroke-width="1.0"/>
+<polyline points="112.0,373.0 126.0,373.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="131.0" cy="373.0" r="1.2" fill="#b45309" stroke="none" stroke-width="1.0"/>
+<polyline points="136.0,373.0 150.0,373.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="155.0" cy="373.0" r="1.2" fill="#b45309" stroke="none" stroke-width="1.0"/>
+<polyline points="160.0,373.0 165.0,373.0" fill="none" stroke="#b45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="205.0" y="366.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Deconfliction reference</text>
+<text x="205.0" y="366.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Deconfliction reference</text>
+<text x="205.0" y="389.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Dash-dot line; coordination permissions are not modeled.</text>
+<text x="205.0" y="389.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Dash-dot line; coordination permissions are not modeled.</text>
+<polygon points="40.0,420.0 165.0,420.0 165.0,456.0 40.0,456.0" fill="none" stroke="#b45309" stroke-width="2" stroke-dasharray="1,5" stroke-linejoin="round"/>
+<text x="205.0" y="431.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Illustrative training geometry</text>
+<text x="205.0" y="431.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Illustrative training geometry</text>
+<text x="205.0" y="454.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Dotted shape + TRAINING. No verified real boundary.</text>
+<text x="205.0" y="454.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Dotted shape + TRAINING. No verified real boundary.</text>
+<polyline points="40.0,503.0 144.0,503.0" fill="none" stroke="#b45309" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+<polygon points="165.0,503.0 142.0,491.0 142.0,515.0" fill="#b45309" stroke="none" stroke-width="1.0" stroke-linejoin="round"/>
+<text x="205.0" y="496.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Tactical threat axis</text>
+<text x="205.0" y="496.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="17.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">Tactical threat axis</text>
+<text x="205.0" y="519.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">Arrow + AXIS / TRAINING. No flight route is implied.</text>
+<text x="205.0" y="519.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">Arrow + AXIS / TRAINING. No flight route is implied.</text>
+<text x="32.0" y="600.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">DOC = documented structure · REPORTED = reported track · TRAINING = authored exercise</text>
+<text x="32.0" y="600.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="700" text-anchor="start" dominant-baseline="middle" fill="#101828">DOC = documented structure · REPORTED = reported track · TRAINING = authored exercise</text>
+<text x="32.0" y="626.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#ffffff" stroke="#ffffff" stroke-width="3" stroke-linejoin="round">REF = source/event date, not ongoing validity · DATE ? = unknown · ~ = reconstructed</text>
+<text x="32.0" y="626.0" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif" font-size="14.0" font-weight="400" text-anchor="start" dominant-baseline="middle" fill="#101828">REF = source/event date, not ongoing validity · DATE ? = unknown · ~ = reconstructed</text></svg>

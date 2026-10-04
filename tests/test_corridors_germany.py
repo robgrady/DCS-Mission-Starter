@@ -114,7 +114,7 @@ def test_the_published_structure_is_in_the_data():
     assert "40 km" in areas["ADIZ"]["alt"] and areas["ADIZ"].get("approx"), "the ADIZ is a band on a schematic border"
     assert areas["HAWK"]["kind"] == "moa" and areas["NIKE"]["kind"] == "alert"
     for k in ("CORR-N", "CORR-C", "CORR-S"):
-        assert areas[k]["kind"] == "tma" and "20 mi" in areas[k]["label"] and not areas[k].get("approx")
+        assert areas[k]["kind"] == "tma" and "20 SM" in areas[k]["label"] and "exercise" in areas[k]["label"] and areas[k].get("approx")
     assert len(areas["BCZ"]["poly"]) == 36
     assert len(areas["ED-R 37"]["poly"]) == 24 and not areas["ED-R 37"].get("approx"), "a printed circle"
     assert len(areas["ED-R 31"]["poly"]) == 11 and len(areas["LFA3"]["poly"]) == 53, "printed vertices, every one"

@@ -263,7 +263,7 @@ def _lane(cv, a, b, half, stroke, fill):
     L = math.hypot(x2 - x1, y2 - y1) or 1.0
     nx, ny = -(y2 - y1) / L * half, (x2 - x1) / L * half
     cv.polygon([(x1 + nx, y1 + ny), (x2 + nx, y2 + ny), (x2 - nx, y2 - ny), (x1 - nx, y1 - ny)],
-               fill=fill, stroke=stroke, width=1.2)
+               fill=fill, stroke=stroke, width=1.2, dash=(5,3))
 
 
 def _arrow(cv, a, b, color, size=8):
@@ -404,9 +404,7 @@ def _draw_lanes(cv, P, c, mk, stroke, fill, fs, drawn):
         drawn.add(key)
         _lane(cv, a, b, half, stroke, fill)
     for a, b in zip(pts, pts[1:]):
-        if c["role"] == "recovery":
-            _arrow(cv, b, a, stroke, 7 * fs)
-        elif c["role"] == "departure":
+        if c["role"] in ("recovery", "departure"):
             _arrow(cv, a, b, stroke, 7 * fs)
 
 
@@ -451,8 +449,10 @@ def _corridor_layer(cv, P, D, mk, plan, lanes_for, fs=1.0, overrides=None):
         ay = anchor[1] + dy * (half + 8 * fs) + ny * fs
         anc = "start" if dx > 0 else "end" if dx < 0 else "middle"
         lo, hi = c["block_ft"]
+        from .historical_coverage import element, visual_tag
+        tag = visual_tag(element(f"network/{mk}/{c['id']}"))
         cv.text((ax, ay - 6 * fs), c["name"], 11 * fs, stroke, weight="bold", anchor=anc)
-        cv.text((ax, ay + 6 * fs), f"{lo // 1000}-{hi // 1000}k ft", 9.5 * fs, stroke, anchor=anc, mono=True)
+        cv.text((ax, ay + 6 * fs), f"{lo // 1000}-{hi // 1000}k ft / ~{tag[0]}", 9.5 * fs, stroke, anchor=anc, mono=True)
 
 
 def _point_layer(cv, P, D, mk, fs=1.0, terminal=False):
@@ -471,7 +471,7 @@ def _point_layer(cv, P, D, mk, fs=1.0, terminal=False):
         tag = "~" if fx.get("approx") else ""
         if name in gates or kind == "gate":
             r = 2.0 * P.px_per_nm()
-            cv.circle((x, y), r, stroke=TRANSIT, width=1.6)
+            cv.polygon([(x,y-r),(x+r,y),(x,y+r),(x-r,y)],stroke=TRANSIT,width=1.6)
             cv.circle((x, y), 2.5, fill=TRANSIT)
             cv.text((x + r + 3, y), f"GATE {name}{tag}", 10 * fs, TRANSIT, weight="bold", mono=True)
         elif kind in ("fix", "navaid"):
@@ -652,6 +652,8 @@ def legend_lines(plan: dict | None = None, mk: str | None = None) -> list:
     mk = mk or (plan or {}).get("map", "nevada")
     t = _D(mk).get("text", {})
     L = ["Lanes: BLUE transit corridor, GREEN departure, AMBER recovery; arrow = direction. A lane two procedures share is drawn once and labelled twice."]
+    L += ["Dashed lanes = reconstructed geometry; widths and altitude blocks are planning values. Diamond = gate; ~ = approximate fix.",
+          "D = DOC; R = REPORTED; T = TRAINING. Evidence and dates: /api/historical-coverage/report. Per-segment operational validity remains unknown."]
     L += t.get("legend", [])
     L.append("The overview draws departures and recoveries as dotted centerlines only; the terminal panels draw them at several times the scale.")
     if plan:

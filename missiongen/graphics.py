@@ -200,7 +200,9 @@ def draw_layers(m, gfx, layers, side):
             # different form. A head reads as a head or it isn't one.
             own.add_arrow(tail, (brg - 90) % 360, head_m,
                           color=CORRIDOR, fill=CORRIDOR, line_thickness=2)
-            _label(own, _offset(b, 11000, 90), label, CORRIDOR, size=12)
+            _label(own, _offset(b, 11000, 90), label+'\nAXIS / TRAINING — not a flight route', CORRIDOR, size=12)
         drawn.append("corridors")
+        from .historical_symbols import legend
+        legend(m)
 
     return drawn

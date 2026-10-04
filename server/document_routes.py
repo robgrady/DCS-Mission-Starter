@@ -37,6 +37,7 @@ def agent_document_index():
         '- [MCP agent guide](/api/mcp-guide): Tools, schemas, examples, workflow and errors.\n'
         '- [Recipe JSON Schema](/api/recipe-schema): Canonical fields, defaults and enums.\n'
         '- [User Manual PDF](/api/guide): Product behavior, ownership and limitations.\n\n'
+        '- [Historical coverage register](/api/historical-coverage): Map/era evidence, dates and research gaps.\n\n'
         '## Connection\n\n'
         'Streamable HTTP MCP endpoint: `/mcp/`. Public tools require no login.\n'
         'The MCP resource `sortiestarter://integration-guide` contains the same agent guide.\n',
@@ -98,6 +99,28 @@ def whatsnew_gone():
 
 
 DOCS_IMG = Path(__file__).parent.parent / "docs" / "img"
+
+
+@router.get('/api/historical-coverage')
+def historical_coverage(map: str | None = None, era: str | None = None):
+    from missiongen.historical_coverage import report
+    try:
+        return report(map, era)
+    except ValueError as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+
+
+@router.get('/api/historical-coverage/report')
+def historical_coverage_page():
+    return HTMLResponse(_ga.inject((DOCS_IMG.parent/'historical_coverage.html').read_text()))
+
+
+@router.get('/api/historical-symbols.{format}')
+def historical_symbols(format: str):
+    if format not in ('svg', 'png'):
+        raise HTTPException(status_code=404, detail='Unknown symbol format')
+    return FileResponse(DOCS_IMG/f'historical_symbols.{format}',
+                        media_type='image/svg+xml' if format == 'svg' else 'image/png')
 
 
 CORRIDOR_CHARTS = {"nevada": "nttr_corridors", "syria": "syria_corridors", "germany": "germany_corridors"}

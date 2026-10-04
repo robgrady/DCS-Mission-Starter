@@ -1515,7 +1515,7 @@
    ],
    "width_nm": 5,
    "notes": [
-    "The Hamburg-Berlin corridor's centerline: 20 English miles wide, 10,000 ft. Below it the Wittstock 'polygon' and the 41. FRBr ring (Fehrbellin, Beetz, Schönermark)."
+    "The Hamburg-Berlin corridor's centerline: 20 statute miles wide; 10,000 ft is the exercise ceiling. Below it the Wittstock 'polygon' and the 41. FRBr ring (Fehrbellin, Beetz, Schönermark)."
    ],
    "src": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor; de.wikipedia Flugabwehrraketentruppen (NVA)",
    "label_seg": 2,
@@ -3087,7 +3087,7 @@
   "gate_out_label": "GATE OUT",
   "legend": [
    "Bands: amber = the ADIZ (40 km); magenta fill = the HAWK belt (LOMEZ); thin magenta = the Nike Hercules belt and the 41. FRBr ring. Thin dashed blue = a 250-ft Low Flying Area, the Berlin Control Zone. Navy hatched = a range (ED-R, or a Soviet Truppenübungsplatz, ~). Dashed amber line = the GDR flight-restriction line.",
-   "Gate ring = a crossing point on the inner-German border (all curated, ~). Fix triangle = a navaid or a GDR reference town (~ = placed on the town). The three wide blue lanes are the Berlin air corridors, 20 English miles wide and 10,000 ft - the roads to Berlin. The border, the Elbe and the autobahns are schematic."
+   "Gate diamond = a crossing point on the inner-German border (all curated, ~). Fix triangle = a navaid or a GDR reference town (~ = placed on the town). The three wide blue lanes are the Berlin air corridors, 20 statute miles wide; 10,000 ft is an exercise ceiling, not a universal historical limit. The border, the Elbe and the autobahns are schematic."
   ]
  },
  "chart": {
@@ -5730,7 +5730,7 @@
    {
     "id": "CORR-N",
     "kind": "tma",
-    "label": "NORTH CORRIDOR (Hamburg)\n20 mi / 10,000 ft",
+    "label": "NORTH CORRIDOR (Hamburg)\n20 SM / 10k exercise",
     "alt": "BASC",
     "poly": [
      [
@@ -5754,12 +5754,13 @@
      53.3,
      12.1
     ],
-    "src": "FRUS 1945 III/1206: 'Each of the above corridors is 20 English miles (32 kilometers) wide, i.e., 10 miles (16 kilometers) each side of the center line' - drawn from the border crossing to the Control Zone"
+    "src": "FRUS 1945 III/1206: 'Each of the above corridors is 20 English miles (32 kilometers) wide, i.e., 10 miles (16 kilometers) each side of the center line' - drawn from the border crossing to the Control Zone",
+    "approx": true
    },
    {
     "id": "CORR-C",
     "kind": "tma",
-    "label": "CENTER CORRIDOR (Bückeburg)\n20 mi / 10,000 ft",
+    "label": "CENTER CORRIDOR (Bückeburg)\n20 SM / 10k exercise",
     "alt": "BASC",
     "poly": [
      [
@@ -5783,12 +5784,13 @@
      52.08,
      12.0
     ],
-    "src": "FRUS 1945 III/1206 - the Bückeburg/Hannover corridor, 'the shortest of the three'"
+    "src": "FRUS 1945 III/1206 - the Bückeburg/Hannover corridor, 'the shortest of the three'",
+    "approx": true
    },
    {
     "id": "CORR-S",
     "kind": "tma",
-    "label": "SOUTH CORRIDOR (Frankfurt)\n20 mi / 10,000 ft",
+    "label": "SOUTH CORRIDOR (Frankfurt)\n20 SM / 10k exercise",
     "alt": "BASC",
     "poly": [
      [
@@ -5812,12 +5814,13 @@
      51.72,
      11.4
     ],
-    "src": "FRUS 1945 III/1206 - the Frankfurt corridor"
+    "src": "FRUS 1945 III/1206 - the Frankfurt corridor",
+    "approx": true
    },
    {
     "id": "BCZ",
     "kind": "tma",
-    "label": "BERLIN CONTROL ZONE\n20 mi / 10,000 ft",
+    "label": "BERLIN CONTROL ZONE\n20 SM / 10k exercise",
     "alt": "BASC",
     "poly": [
      [
@@ -5969,7 +5972,8 @@
      52.33,
      13.7
     ],
-    "src": "FRUS 1945 vol. III doc. 1206: 'a radius of 20 miles (32 kilometers) from the Allied Control Authority Building'"
+    "src": "FRUS 1945 vol. III doc. 1206: 'a radius of 20 miles (32 kilometers) from the Allied Control Authority Building'",
+    "approx": true
    },
    {
     "id": "FRBR41",

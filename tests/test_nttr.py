@@ -373,7 +373,7 @@ def test_a_short_nevada_plan_keeps_one_kneeboard_page(tmp_path):
 def test_the_chart_carries_the_legal_polygons_and_the_curated_flags():
     ch = D["chart"]
     by = {a["id"]: a for a in ch["areas"]}
-    assert len(by["R-4807A"]["poly"]) == 27 and not by["R-4807A"].get("approx"), "60 FR 20635 description, 27 vertices"
+    assert len(by["R-4807A"]["poly"]) == 27 and not by["R-4807A"].get("approx"), "60 FR 20625-20626 description, 27 vertices"
     assert len(by["R-4808N"]["poly"]) == 14 and not by["R-4808N"].get("approx")
     assert by["R-4808N"]["poly"][0] == [36.68333, -115.93417]
     for a in ch["areas"]:
@@ -408,7 +408,7 @@ def test_the_chart_renders_deterministically_at_every_size():
     assert (159, 18, 57) in hot_cols and (159, 18, 57) not in cold_cols, "the route line is red"
     assert (250, 214, 224) in hot_cols and (250, 214, 224) not in cold_cols, "the flown LANES are red-filled"
     leg = _nc.legend_lines(p)
-    assert leg[0].startswith("RED = this mission") and "60 FR 20635" in " ".join(leg)
+    assert leg[0].startswith("RED = this mission") and "60 FR 20625-20626" in " ".join(leg)
 
 
 def test_the_chart_page_is_in_the_kneeboard_and_the_site(farwest):

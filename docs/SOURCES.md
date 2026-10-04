@@ -246,7 +246,7 @@ FYTTR departure west, the recoveries. Structure and rules:
 - [opennav.com](https://opennav.com/waypoint/US/STRYK) — FYTTR, STRYK, JAYSN, INS, LSV, LAS, MMM, BLD positions
 - [Dreamland Resort, *Groom Range flight*](https://www.dreamlandresort.com/info/range_flight.html) — a civilian flight up the corridor: "parallel to I-15 north and then over Rt.93 north towards Alamo in what is known as Sally corridor"
 
-- [60 FR 20635 — Realignment of R-4807A and R-4808N](https://www.govinfo.gov/content/pkg/FR-1995-04-27/html/95-10388.htm) — the legal boundary descriptions drawn on the corridor chart (`nttr_chart.py`, `/api/nttr/chart.png`); every other outline on that chart is curated and marked `~`
+- [60 FR 20625–20626 — Realignment of R-4807A and R-4808N](https://www.govinfo.gov/content/pkg/FR-1995-04-27/html/95-10388.htm) — the legal boundary descriptions drawn on the corridor chart (`nttr_chart.py`, `/api/nttr/chart.png`); every other outline on that chart is curated and marked `~`
 - [Nellis / Creech / NTTR MACA pamphlet (FAASTeam)](https://www.faasafety.gov/files/events/WP/WP19/2019/WP1992982/KLSV_MACA_Pamphlet_12_Mar_19_V2.pdf) — the seven restricted areas, the Desert and Reveille MOAs as VFR-transitable, Alert Area 481 (7,000–17,000, 25 miles west), NATCF frequencies (Desert MOA 126.65 south / 124.45 north)
 
 The corridor charts themselves (Figures 4.1–4.9 of 11-250, the FLIP's
@@ -417,3 +417,34 @@ Also available as JSON at `/api/credits`. See `missiongen/credits.py`.
 | `docs/how-a-terrain-module-works.md`, `docs/afghanistan-terrain-export-runbook.md` | How terrain data is exported and verified |
 | `docs/chart-authenticity-evaluation.md` | How close the theatre chart gets to a real aeronautical product, and where it deliberately stops |
 | `vendor/dcs/PYDCS_PROVENANCE.md` | The vendoring discipline and the LGPL reasoning |
+
+
+## Historical airspace coverage research (v1.113.0)
+
+The [coverage register](/api/historical-coverage/report) separates routing
+networks, tactical axes and overlays for all 26 supported map-era pairs.
+The canonical dataset is `missiongen/data/historical_coverage.json`; the
+[research record](research/HISTORICAL_AIRSPACE_RESEARCH.md) includes primary
+links, access limitations, unresolved coordinates and date conflicts.
+
+The Falklands circle follows the [28 April 1982 Hansard announcement](https://hansard.parliament.uk/Commons/1982-04-28/debates/03f1abe8-1b23-49a6-ab51-dc740649cc5e/FalklandIslands):
+200 nautical miles around 51°40′S, 59°30′W, effective 30 April at 1100 GMT.
+A later Naval War College reprint has a conflicting longitude; the published
+Hansard coordinate is used. Termination and later changes are not inferred.
+
+Normandy's transport reference uses **USAF Historical Study 97**, printed
+pages 11–12 ([official host](https://www.dafhistory.af.mil/Portals/16/documents/Studies/51-100/AFD-090602-016.pdf),
+[reviewed primary-document mirror](https://www.ibiblio.org/hyperwar/NHC/NewPDFs/USArmy/USAF%20Airborne%20Ops%20in%20WWII,%20ETO.pdf)).
+HOBOKEN's coordinate is transcribed; Portland Bill and Portbail are reconstructed
+geographic terminals. No width is invented and no fighter clearance is inferred.
+
+Iraq's parallels follow [Canada DND](https://www.canada.ca/en/department-national-defence/services/military-history/history-heritage/past-operations/middle-east/iraq-1992.html)
+and [US Army FY1997 history](https://history.army.mil/portals/143/Images/Publications/catalog/101-28-1.pdf).
+September 1996 is month precision; an exact amendment day is not asserted.
+Finite drawing endpoints are diagram extents, not an authenticated border polygon.
+
+ICAO RASMAG/15 WP09 identifies six Afghan ATS route designators. Its old
+original URL returns 404; indexed official text establishes their names,
+not coordinates or today's validity. UN annex-map fetches were unavailable;
+no precise Sinai treaty polygons were manufactured. Reference dates never
+substitute for operational start/end dates. No map is claimed exhaustive.

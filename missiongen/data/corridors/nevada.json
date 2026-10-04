@@ -728,7 +728,7 @@
   }
  },
  "chart": {
-  "_comment": "Geometry for the corridor chart (nttr_chart.py). R-4807A and R-4808N are the legal descriptions from the Federal Register (60 FR 20635, 27 Apr 1995, realignment of R-4807A and R-4808N). Every other area is a curated outline (approx:true) drawn from the published structure - the NTTR Addendum A subrange table, the Nellis MACA pamphlet, the sectional - fitted to the two legal polygons; the chart says so. Altitudes: MACA pamphlet / CCAS EA Table 2-3 (R-4806E 100 AGL-unlimited, R-4806W surface-unlimited; A-481 7,000-17,000).",
+  "_comment": "Geometry for the corridor chart (nttr_chart.py). R-4807A and R-4808N are the legal descriptions from the Federal Register (60 FR 20625-20626, 27 Apr 1995, realignment of R-4807A and R-4808N). Every other area is a curated outline (approx:true) drawn from the published structure - the NTTR Addendum A subrange table, the Nellis MACA pamphlet, the sectional - fitted to the two legal polygons; the chart says so. Altitudes: MACA pamphlet / CCAS EA Table 2-3 (R-4806E 100 AGL-unlimited, R-4806W surface-unlimited; A-481 7,000-17,000).",
   "bounds": {
    "lat": [
     35.98,
@@ -855,7 +855,7 @@
       -116.55917
      ]
     ],
-    "src": "60 FR 20635",
+    "src": "60 FR 20625-20626",
     "label_at": [
      37.63,
      -116.05
@@ -924,7 +924,7 @@
       -115.93417
      ]
     ],
-    "src": "60 FR 20635",
+    "src": "60 FR 20625-20626",
     "label_at": [
      37.0,
      -116.15
@@ -1086,7 +1086,7 @@
       -116.434
      ]
     ],
-    "src": "NTTR Add A Table 2.1 (R-4809A/B, EC West); fitted to the R-4807A notch (60 FR 20635)",
+    "src": "NTTR Add A Table 2.1 (R-4809A/B, EC West); fitted to the R-4807A notch (60 FR 20625-20626)",
     "label_at": [
      37.7,
      -116.6
@@ -1512,10 +1512,10 @@
   "known_issues": [
    "DCS draws the restricted areas but not the corridors; ours are on the F10 map from published structure, and BLACKJACK's vectors are yours to fly - the AI controller does not know the Sally Corridor exists."
   ],
-  "sources_line": "NELLISAFBI 11-250 · AFMAN 13-212V1 NTTR Add A · 99 ABW local procedures · Nellis/Creech/NTTR MACA pamphlet · 60 FR 20635 · vJaBoG66 Nevada FLIP · opennav.com",
+  "sources_line": "NELLISAFBI 11-250 · AFMAN 13-212V1 NTTR Add A · 99 ABW local procedures · Nellis/Creech/NTTR MACA pamphlet · 60 FR 20625-20626 · vJaBoG66 Nevada FLIP · opennav.com",
   "legend": [
    "Restricted area: navy, hatched inside the boundary - entry only when scheduled; the Box (R-4808N) never. MOA: dashed magenta, joint use.",
-   "Gate ring = range entry/exit. Fix triangle. ~ = curated position or outline (the published figure is a chart); R-4807A and R-4808N are the legal descriptions (60 FR 20635)."
+   "Gate diamond = range entry/exit. Fix triangle. ~ = curated position or outline (the published figure is a chart); R-4807A and R-4808N use the 1995 published boundaries (60 FR 20625-20626; effective 20 July 1995), also retained as later references in Cold War exercises; earlier geometry is unverified."
   ],
   "md_title": "NTTR corridors",
   "kneeboard_subtitle": "Nellis and the range - your road in red",

@@ -1,7 +1,7 @@
 {
-  "version": "1.112.0",
+  "version": "1.113.0",
   "documentation_required": true,
-  "reason": "All manual sections reviewed; document readiness, human aircraft versus crew seats, and bounded native DKS import results and limitations.",
+  "reason": "All manual sections reviewed; document coverage filtering, dated research additions, map symbol semantics and remaining geometry/validity gaps.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -18,8 +18,9 @@
     "Flying with veteran AI wingmen",
     "Missions through an AI assistant (MCP)",
     "Mission readiness before Generate",
-    "Importing a mission into Digital Kneeboard Simulator"
+    "Importing a mission into Digital Kneeboard Simulator",
+    "Historical map coverage and symbols"
   ],
-  "source_sha256": "ea9753a9efd523e7e895dcb628f83e66f45dc995d4a6b4d5109af8b37e6d5b4e",
-  "previous_source_sha256": "bb632d423106d24f741c49d505b00e6cb67a7efdc5c8f725f3f98ee0ae77926f"
+  "source_sha256": "cb610305a185d6af7fdce7c05d9cbfef6aa917cc9c6c04515ca7df5097505ed8",
+  "previous_source_sha256": "ea9753a9efd523e7e895dcb628f83e66f45dc995d4a6b4d5109af8b37e6d5b4e"
 }

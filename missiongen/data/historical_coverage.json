@@ -1,0 +1,3996 @@
+{
+  "schema_version": 1,
+  "reviewed_on": "2026-10-03",
+  "scope": "Corridor networks, tactical threat axes and historical airspace overlays; not an exhaustive historical order of battle or map inventory.",
+  "limitations": [
+    "Coverage means modeled availability, not exhaustive identification or historical certification.",
+    "No map/era is certified complete.",
+    "Null validity dates mean unknown. Reference dates do not establish continuous validity.",
+    "Route segments include departure and recovery legs; counts are not counts of distinct historical corridors.",
+    "Later AIPs and illustrative shapes remain exercise references."
+  ],
+  "map_eras": [
+    {
+      "map": "caucasus",
+      "era": "coldwar",
+      "research_next": "Exact dated waypoints are not verified; 1958 precedes this product’s Cold War band and cannot authenticate the authored tactical axes.",
+      "research_findings": [
+        "black-sea-cold"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "caucasus",
+      "era": "modern",
+      "research_next": "No georeferenced track, corridor width or altitude block is published. Black Sea and Arctic events are distinct, not a connected route. Roki Tunnel and ground maneuver axes are not authenticated air corridors. The two existing tactical axes remain training design.",
+      "research_findings": [
+        "nato-2014",
+        "caucasus-2008"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "thechannel",
+      "era": "wwii",
+      "research_next": "Individual sortie tracks, dimensions and clearance boundaries remain unverified. Naval Dunkirk routes X/Y/Z must not be represented as air corridors.",
+      "research_findings": [
+        "channel-battle"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "persiangulf",
+      "era": "coldwar",
+      "research_next": "Targets and dates are established, not a flight centerline, width or launch-to-target track. Do not convert shipping lanes to air corridors.",
+      "research_findings": [
+        "kharg-1984"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "persiangulf",
+      "era": "modern",
+      "research_next": "A profile is not a formal corridor; precise tracks and individual sortie dates remain unverified. The article’s Stark date conflicts with the ship history, so it is not used to date a route.",
+      "research_findings": [
+        "tanker-war-profile"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "nevada",
+      "era": "coldwar",
+      "research_next": "Earlier Nevada boundaries and individual corridor-validity intervals remain unknown. The 1995 shape on Cold War missions is explicitly a later training reference.",
+      "research_findings": [
+        "nevada-boundary"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "nevada",
+      "era": "modern",
+      "research_next": "Earlier Nevada boundaries and individual corridor-validity intervals remain unknown. The 1995 shape on Cold War missions is explicitly a later training reference.",
+      "research_findings": [
+        "nevada-boundary"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "normandy",
+      "era": "wwii",
+      "research_next": "Portland Bill and Portbail are geographic reconstructions. HOBOKEN is transcribed. No continuous validity, clearance, exact flown tracks or generalized fighter use is established.",
+      "research_findings": [
+        "neptune"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "syria",
+      "era": "coldwar",
+      "research_next": "The four-point river sketch is approximate. No single source verifies all 26 route segments throughout both eras.",
+      "research_findings": [
+        "syria-review"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "syria",
+      "era": "modern",
+      "research_next": "The four-point river sketch is approximate. No single source verifies all 26 route segments throughout both eras.",
+      "research_findings": [
+        "syria-review"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "sinai",
+      "era": "coldwar",
+      "research_next": "Annex-map georeferencing and separate 1974/1975 geometry remain unresolved. Neither arrangement may be substituted for 1973 battle lines.",
+      "research_findings": [
+        "sinai-disengagement"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "sinai",
+      "era": "modern",
+      "research_next": "Protocol flight rules do not establish a generic corridor. Treaty-zone polygon coordinates and amendments need separate verification.",
+      "research_findings": [
+        "sinai-mfo"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "marianas",
+      "era": "wwii",
+      "research_next": "No single straight centerline or common corridor width is authenticated. Late-1944/1945 routes must not be applied to the default June-1944 setting; Iwo and Japan lie outside the playable map.",
+      "research_findings": [
+        "marianas-b29"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "marianas",
+      "era": "coldwar",
+      "research_next": "Coordinates and era-specific establishment/amendment records are not authenticated here. The 2025 supplement is a later reference, not proof of Cold War or 2011 boundaries.",
+      "research_findings": [
+        "guam-warning"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "marianas",
+      "era": "modern",
+      "research_next": "Coordinates and era-specific establishment/amendment records are not authenticated here. The 2025 supplement is a later reference, not proof of Cold War or 2011 boundaries.",
+      "research_findings": [
+        "guam-warning"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "germany",
+      "era": "coldwar",
+      "research_next": "Terminal placements remain approximate; other German route segments retain planning geometry and unknown operational validity.",
+      "research_findings": [
+        "berlin-review"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "germany",
+      "era": "modern",
+      "research_next": "Command organization establishes no modern replacement for the Cold War Berlin corridors or a dated German low-level route network.",
+      "research_findings": [
+        "germany-modern"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "kola",
+      "era": "coldwar",
+      "research_next": "Reported places and direction establish an event, not surveyed waypoints, a formal corridor or recurring validity.",
+      "research_findings": [
+        "vardoe-1975"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "kola",
+      "era": "modern",
+      "research_next": "No georeferenced track, corridor width or altitude block is published. Black Sea and Arctic events are distinct, not a connected route.",
+      "research_findings": [
+        "nato-2014"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "falklands",
+      "era": "coldwar",
+      "research_next": "Termination and later amendments remain unknown. This depicts the announced boundary, not an automatic engagement rule. A Naval War College reprint gives 59°39′W in its TEZ passage despite citing the same MEZ limits; Hansard’s 59°30′W is used. The source does not authenticate a complete georeferenced flight track or refueling anchors. Ascension is outside this terrain; no invented straight-line corridor is drawn.",
+      "research_findings": [
+        "falklands-tez",
+        "black-buck"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "falklands",
+      "era": "modern",
+      "research_next": "No recurring QRA flight track, patrol box or tanker anchor coordinates are provided. This later report does not certify the default modern mission date.",
+      "research_findings": [
+        "falklands-qra"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "afghanistan",
+      "era": "modern",
+      "research_next": "The airway names are established; georeferenced fixes, segment validity and later changes remain unavailable. This does not verify the existing illustrative Kabul circle or Helmand box.",
+      "research_findings": [
+        "afghan-airways"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "afghanistan",
+      "era": "gwot",
+      "research_next": "The airway names are established; georeferenced fixes, segment validity and later changes remain unavailable. This does not verify the existing illustrative Kabul circle or Helmand box.",
+      "research_findings": [
+        "afghan-airways"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "iraq",
+      "era": "coldwar",
+      "research_next": "Targets and dates are established, not a flight centerline, width or launch-to-target track. Do not convert shipping lanes to air corridors.",
+      "research_findings": [
+        "kharg-1984"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "iraq",
+      "era": "modern",
+      "research_next": "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence. A profile is not a formal corridor; precise tracks and individual sortie dates remain unverified. The article’s Stark date conflicts with the ship history, so it is not used to date a route. The article does not publish polygon coordinates. Planned later transfers are not treated as completed events.",
+      "research_findings": [
+        "iraq-south",
+        "tanker-war-profile",
+        "iraq-handover"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "map": "iraq",
+      "era": "gwot",
+      "research_next": "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence. The article does not publish polygon coordinates. Planned later transfers are not treated as completed events.",
+      "research_findings": [
+        "iraq-south",
+        "iraq-handover"
+      ],
+      "research_status": "sources_identified",
+      "reviewed_on": "2026-10-03"
+    }
+  ],
+  "elements": {
+    "network/nevada/flex": {
+      "id": "network/nevada/flex",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "flex",
+      "name": "FLEX turnout",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "vJaBoG66 FLIP p14; NELLISAFBI 11-250 4.6.12",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/dream": {
+      "id": "network/nevada/dream",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "dream",
+      "name": "DREAM departure",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "NELLISAFBI 11-250 4.6 (DREAM: northbound IFR departure for high-performance aircraft; FLEX fixes FYTTR / HAYFORD PEAK / DREAM / MORMON PEAK / MMM)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/sally": {
+      "id": "network/nevada/sally",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "sally",
+      "name": "Sally Corridor",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "NELLISAFBI 11-250 2.8.1; NTTR Add A Table 2.1; dreamlandresort range flight",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/alamo": {
+      "id": "network/nevada/alamo",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "alamo",
+      "name": "Alamo Corridor",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "NTTR Add A Table 2.1 note 3; vJaBoG66 FLIP ALAMO recovery; 99 ABW 4.14.5.5",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/westroad": {
+      "id": "network/nevada/westroad",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "westroad",
+      "name": "The west road (US-95)",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "NELLISAFBI 11-250 4.6.13.4 (north-west bound: FYTTR then BTY); historical_airspace groom_box",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/northrange": {
+      "id": "network/nevada/northrange",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "northrange",
+      "name": "North range transit to Tolicha",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "NTTR Add A Table 2.1 (R-4807A: 71N/S, 74, 75, 76, TPECR); historical_airspace groom_box",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/fyttr": {
+      "id": "network/nevada/fyttr",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "fyttr",
+      "name": "FYTTR departure west",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "vJaBoG66 FLIP p16; NELLISAFBI 11-250 4.6",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/mormon": {
+      "id": "network/nevada/mormon",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "mormon",
+      "name": "MORMON MESA departure east",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "NELLISAFBI 11-250 4.6 (MORMON MESA departure; FLEX fix MORMON PEAK)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/stryk": {
+      "id": "network/nevada/stryk",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "stryk",
+      "name": "STRYK recovery",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "vJaBoG66 FLIP p30; 99 ABW 4.14.5.1",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/jaysn": {
+      "id": "network/nevada/jaysn",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jaysn",
+      "name": "JAYSN recovery via Beatty",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "vJaBoG66 FLIP p29; NELLISAFBI 11-250 4.13",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/mintt": {
+      "id": "network/nevada/mintt",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "mintt",
+      "name": "MINTT recovery (RWY 03)",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "99 ABW 4.14.5.4; NELLISAFBI 11-250 4.13",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/arcoe": {
+      "id": "network/nevada/arcoe",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "arcoe",
+      "name": "ARCOE recovery (RWY 21)",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "99 ABW 4.14.5.3; NELLISAFBI 11-250 4.13",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/alamo_rec": {
+      "id": "network/nevada/alamo_rec",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "alamo_rec",
+      "name": "ALAMO recovery",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "vJaBoG66 FLIP p28; 99 ABW 4.14.5.5",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/nevada/acton": {
+      "id": "network/nevada/acton",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "acton",
+      "name": "ACTON recovery (Elgin)",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "99 ABW 4.14.5.2",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Published local procedures with community transcription and approximate chart fixes. Period-specific operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_j14": {
+      "id": "network/syria/il_j14",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_j14",
+      "name": "J14 north - Rosh Pina",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Israel ENR 3.1 (J14); ENR 2.1 (northern sector, PLUTO control)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_coast": {
+      "id": "network/syria/il_coast",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_coast",
+      "name": "The coast road north",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Israel ENR 3.1 (J15 ATLIT); ENR 5.1 LLR01",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_bekaa": {
+      "id": "network/syria/il_bekaa",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_bekaa",
+      "name": "The Bekaa road",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "Anadolu 2 Nov 2017; Times of Israel / Defense Post 9 Apr 2018 (T-4); Times of Israel 9 Apr 2022; Wikipedia Mole Cricket 19",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_sea": {
+      "id": "network/syria/il_sea",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_sea",
+      "name": "The sea road - west of Tripoli",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "TASS 18 Sep 2018; The War Zone 2018; Al Jazeera 28 Dec 2021, 2 Jul 2022",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_golan": {
+      "id": "network/syria/il_golan",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_golan",
+      "name": "The Golan road - Hermon",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "Al Jazeera 31 Jan 2013; GlobalSecurity MML (1973); Al Jazeera 24 Nov 2020, 17 Sep 2022",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_amman": {
+      "id": "network/syria/il_amman",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_amman",
+      "name": "The Amman road - Al-Tanf",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (L200); Times of Israel 9 Sep 2019; Washington Institute; Al Jazeera 20 Nov 2024",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_home_coast": {
+      "id": "network/syria/il_home_coast",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_home_coast",
+      "name": "Recovery down the coast",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Israel ENR 2.1 / 3.1 / 5.1",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_home_rop": {
+      "id": "network/syria/il_home_rop",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_home_rop",
+      "name": "Recovery via Rosh Pina",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Israel ENR 3.1 (J14)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/il_home_amman": {
+      "id": "network/syria/il_home_amman",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "il_home_amman",
+      "name": "Recovery down the Amman road",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (L200)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/cy_east": {
+      "id": "network/syria/cy_east",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "cy_east",
+      "name": "EAST SID 3 - IREFA",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "UK Mil AIP LCRA AD 2.22 and SID EAST 3",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/cy_west": {
+      "id": "network/syria/cy_west",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "cy_west",
+      "name": "WEST SID 1 - ANANE",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "UK Mil AIP LCRA SID WEST 1",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/cy_levant": {
+      "id": "network/syria/cy_levant",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "cy_levant",
+      "name": "The Levant sea road",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "UK Mil AIP LCRA; Syria eAIP ENR 3 (R785 NIKAS); safeairspace Cyprus",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/cy_amman": {
+      "id": "network/syria/cy_amman",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "cy_amman",
+      "name": "The Amman run",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "The Aviationist 5 Feb 2019 (Tornado GR4, 'via downtown Amman Jordan'); AIP Israel ENR 3.1 (MERVA, NAT, MUVIN)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/cy_home": {
+      "id": "network/syria/cy_home",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "cy_home",
+      "name": "STAR ALPHA - the TACAN",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "UK Mil AIP LCRA STAR ALPHA / TAC Rwy 28",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/tr_w74": {
+      "id": "network/syria/tr_w74",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "tr_w74",
+      "name": "W74 east - the Northern Watch road",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Türkiye ENR 3.1 (W74) / ENR 4.4; A&SF Feb 2000; Ricks/WaPo 25 Oct 2000; GAO OSI-98-4",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/tr_hatay": {
+      "id": "network/syria/tr_hatay",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "tr_hatay",
+      "name": "The Hatay gate - TUNLA",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Türkiye ENR 4.4 (TUNLA, HTY); Syria eAIP ENR 3 (L601)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/tr_kilis": {
+      "id": "network/syria/tr_kilis",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "tr_kilis",
+      "name": "The Kilis gate - NISAP",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Türkiye ENR 4.4 (NISAP); Syria eAIP ENR 3 (M861)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/tr_nusaybin": {
+      "id": "network/syria/tr_nusaybin",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "tr_nusaybin",
+      "name": "The Nusaybin gate - LESRI",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Türkiye ENR 4.4 (LESRI); Syria eAIP ENR 3 (L572/L573)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/tr_home": {
+      "id": "network/syria/tr_home",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "tr_home",
+      "name": "Recovery to Incirlik",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Türkiye ENR 2.1 (Adana MTMA); LTAG AD 2",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/tr_home_east": {
+      "id": "network/syria/tr_home_east",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "tr_home_east",
+      "name": "Recovery from the east - the ROZ",
+      "feature_type": "route_segment",
+      "evidence": "reported_track",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "A&SF Feb 2000; AIP Türkiye ENR 3.1 (W74)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/jo_amman": {
+      "id": "network/syria/jo_amman",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jo_amman",
+      "name": "Amman TMA departure",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC ENR 2.1 (Amman TMA); AMDT 19/2022 (ASLON-NADEK excluded from OJP9)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/jo_tanf": {
+      "id": "network/syria/jo_tanf",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jo_tanf",
+      "name": "L200 east - Al-Tanf",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (L200); VOA / Military Times 2017; TWZ 2019",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/jo_busra": {
+      "id": "network/syria/jo_busra",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jo_busra",
+      "name": "L513 north - Busra",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (L513); Syria eAIP ENR 3 (L513)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/jo_zelaf": {
+      "id": "network/syria/jo_zelaf",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jo_zelaf",
+      "name": "A412 - Zelaf",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (A412); Syria eAIP ENR 3",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/jo_home": {
+      "id": "network/syria/jo_home",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jo_home",
+      "name": "Recovery to Azraq",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (L200)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/syria/jo_home_busra": {
+      "id": "network/syria/jo_home_busra",
+      "map": "syria",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "network",
+      "data_key": "jo_home_busra",
+      "name": "Recovery via Busra",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "CARC AMDT 19/2022 (L513)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Network combines 1973/1982 accounts, 2013–2024 reporting and 2007–2026 AIPs. Per-route operational dates have not been authenticated.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/ef_out": {
+      "id": "network/germany/ef_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "ef_out",
+      "name": "The Eifel road - Nattenheim to the Taunus",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports NTM/BUE/TAU; usarmygermany.com 108th ADA Bde",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/ef_home": {
+      "id": "network/germany/ef_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "ef_home",
+      "name": "Recovery into the Eifel",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "ace-high-journal.eu CRC in Deutschland",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/hu_out": {
+      "id": "network/germany/hu_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "hu_out",
+      "name": "The Hunsrück road - Hahn to the Taunus",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports HND/KIR/TAU; en.wikipedia List of Nike missile sites",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/hu_home": {
+      "id": "network/germany/hu_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "hu_home",
+      "name": "Recovery over the Hunsrück",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports HND",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/pf_out": {
+      "id": "network/germany/pf_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "pf_out",
+      "name": "The Kirn road - Ramstein to the Taunus",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports RMS/KIR/TAU; usarmygermany.com 94th ADA Group",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/pf_home": {
+      "id": "network/germany/pf_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "pf_home",
+      "name": "Recovery via Kirn",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports RMS",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/rm_out": {
+      "id": "network/germany/rm_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "rm_out",
+      "name": "Rhein-Main to the Taunus",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "usarmygermany.com 10th ADA Bde",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/rm_home": {
+      "id": "network/germany/rm_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "rm_home",
+      "name": "Recovery into Rhein-Main",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports TAU/WIB",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/fulda": {
+      "id": "network/germany/fulda",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "fulda",
+      "name": "The Fulda Gap - LLTR to Point Alpha",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "GlobalSecurity ww3-fulda-gap; usarmygermany.com 10th ADA Bde",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/werra": {
+      "id": "network/germany/werra",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "werra",
+      "name": "The Werra road - LLTR to Herleshausen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "de.wikipedia Flugabwehrraketengruppe 38; en.wikipedia III Corps (Bundeswehr)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/harz": {
+      "id": "network/germany/harz",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "harz",
+      "name": "The Harz road - Kassel to Helmstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports FTZ/WRB; GlobalSecurity NORTHAG (Goslar-Paderborn)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/hofroad": {
+      "id": "network/germany/hofroad",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "hofroad",
+      "name": "The Hof corridor - Würzburg to Hof",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "usarmygermany.com 69th ADA Bde; GlobalSecurity ww3-hof-corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/rr_out": {
+      "id": "network/germany/rr_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "rr_out",
+      "name": "The Ruhr road - Cologne to the Porta",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports COL/GMH/HMM; JMSS (Minden Gap); relikte.com CRC call signs",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/rr_home": {
+      "id": "network/germany/rr_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "rr_home",
+      "name": "Recovery into the Rhineland",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_radar",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/ha_out": {
+      "id": "network/germany/ha_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "ha_out",
+      "name": "The Weser road - Wunstorf to Hehlingen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "dewiki ADIZ (Braunschweig); nl.wikipedia Groepen Geleide Wapens",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/ha_home": {
+      "id": "network/germany/ha_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "ha_home",
+      "name": "Recovery via the Leine",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_radar",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/he_out": {
+      "id": "network/germany/he_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "he_out",
+      "name": "The Heath road south - Fassberg to Hehlingen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "AIP Germany ENR 5.1 (ED-R 31/32); OurAirports FSB/CEL/HLZ",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/he_home": {
+      "id": "network/germany/he_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "he_home",
+      "name": "Recovery via Celle",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_radar",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/ha_north": {
+      "id": "network/germany/ha_north",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "ha_north",
+      "name": "The Heath road north - Fassberg to Uelzen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_radar; coldwardecoded I NL Corps",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/ha_north_home": {
+      "id": "network/germany/ha_north_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "ha_north_home",
+      "name": "Recovery via Fassberg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "OurAirports FSB",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/el_out": {
+      "id": "network/germany/el_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "el_out",
+      "name": "The Elbe road - Hamburg to Lauenburg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "coldwardecoded I NL Corps; en.wikipedia Inner German border",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/el_home": {
+      "id": "network/germany/el_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "el_home",
+      "name": "Recovery up the Elbe",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_radar",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/el_lub": {
+      "id": "network/germany/el_lub",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "el_lub",
+      "name": "The Trave road - Lübeck to Lauenburg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "de.wikipedia Innerdeutsche Grenze (Lübecker Bucht)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/porta_a2": {
+      "id": "network/germany/porta_a2",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "porta_a2",
+      "name": "The A2 - Porta to Helmstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/uelzen_gate": {
+      "id": "network/germany/uelzen_gate",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "uelzen_gate",
+      "name": "The Wendland - Uelzen to Dömitz",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "JMSS (I GE Corps); coldwardecoded",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/hlz_gate": {
+      "id": "network/germany/hlz_gate",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "hlz_gate",
+      "name": "Hehlingen to Helmstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_flarak_hawk",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/elbe_gate": {
+      "id": "network/germany/elbe_gate",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "elbe_gate",
+      "name": "Lauenburg to Boizenburg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/north_corr": {
+      "id": "network/germany/north_corr",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "north_corr",
+      "name": "The north corridor axis - Boizenburg to Berlin",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor; de.wikipedia Flugabwehrraketentruppen (NVA)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/center_corr": {
+      "id": "network/germany/center_corr",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "center_corr",
+      "name": "The center corridor axis - Helmstedt to Berlin",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/south_corr": {
+      "id": "network/germany/south_corr",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "south_corr",
+      "name": "The south corridor axis - Herleshausen to Berlin",
+      "feature_type": "route_segment",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor; nva-flieger.de Grenzsperrstreifen",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/be_out_w": {
+      "id": "network/germany/be_out_w",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "be_out_w",
+      "name": "Berlin west - Nauen to Rathenow",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de Luftraum der DDR",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/be_home_w": {
+      "id": "network/germany/be_home_w",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "be_home_w",
+      "name": "Recovery via Nauen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "d-d-r.de NVA Luftstreitkräfte",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/be_out_nw": {
+      "id": "network/germany/be_out_nw",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "be_out_nw",
+      "name": "Berlin north-west - Neuruppin to Pritzwalk",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "mil-airfields.de Wittstock (routes 023-029)",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/be_home_nw": {
+      "id": "network/germany/be_home_nw",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "be_home_nw",
+      "name": "Recovery via Neuruppin",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "mil-airfields.de Wittstock",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/be_out_sw": {
+      "id": "network/germany/be_out_sw",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "be_out_sw",
+      "name": "Berlin south-west - Sperenberg to Dessau",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/be_home_sw": {
+      "id": "network/germany/be_home_sw",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "be_home_sw",
+      "name": "Recovery via Sperenberg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gs_out": {
+      "id": "network/germany/gs_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gs_out",
+      "name": "Merseburg - the Harz foot to Kelbra",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de; en.wikipedia 16th Air Army",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gs_home": {
+      "id": "network/germany/gs_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gs_home",
+      "name": "Recovery via Kelbra",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gs_out_n": {
+      "id": "network/germany/gs_out_n",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gs_out_n",
+      "name": "Merseburg north - Cochstedt to Gröningen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gs_home_n": {
+      "id": "network/germany/gs_home_n",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gs_home_n",
+      "name": "Recovery via Cochstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gn_out": {
+      "id": "network/germany/gn_out",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gn_out",
+      "name": "Parchim - Neustadt-Glewe to Ludwigslust",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gn_home": {
+      "id": "network/germany/gn_home",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gn_home",
+      "name": "Recovery via Neustadt-Glewe",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gn_out_s": {
+      "id": "network/germany/gn_out_s",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gn_out_s",
+      "name": "Parchim south - Perleberg to Osterburg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/gn_home_s": {
+      "id": "network/germany/gn_home_s",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "gn_home_s",
+      "name": "Recovery via Perleberg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_hagenow": {
+      "id": "network/germany/r_hagenow",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_hagenow",
+      "name": "Ludwigslust to Boizenburg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "relikte.com nds_flarak_hawk",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_domitz": {
+      "id": "network/germany/r_domitz",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_domitz",
+      "name": "Ludwigslust to Dömitz",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_pritzwalk": {
+      "id": "network/germany/r_pritzwalk",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_pritzwalk",
+      "name": "Pritzwalk to Boizenburg",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_rathenow": {
+      "id": "network/germany/r_rathenow",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_rathenow",
+      "name": "Rathenow to Helmstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_altmark": {
+      "id": "network/germany/r_altmark",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_altmark",
+      "name": "Osterburg to Helmstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_groningen": {
+      "id": "network/germany/r_groningen",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_groningen",
+      "name": "Gröningen to Helmstedt",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_werra": {
+      "id": "network/germany/r_werra",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_werra",
+      "name": "Kelbra to Herleshausen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_fulda": {
+      "id": "network/germany/r_fulda",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_fulda",
+      "name": "Kelbra to Point Alpha",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "nva-flieger.de",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "network/germany/r_dessau": {
+      "id": "network/germany/r_dessau",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "network",
+      "data_key": "r_dessau",
+      "name": "Dessau to Herleshausen",
+      "feature_type": "route_segment",
+      "evidence": "training_design",
+      "geometry_accuracy": "reconstructed_path_and_planning_width",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": "FRUS 1945 vol. III doc. 1206 (the corridors, 20 English miles wide); nva-flieger.de Luftraum der DDR; en.wikipedia West Berlin Air Corridor",
+      "source_index": "docs/SOURCES.md#3-history--mission-and-corridor-design",
+      "source_date_notes": "Cold War structure reconstructed with undated navaid positions. Network airspace references also include AIP 2024 and NfL 2025; these do not certify 1980s geometry.",
+      "limitations": [
+        "Widths and altitude blocks are planning values unless separately documented; no historical width/ceiling certification.",
+        "Source text identifies the existing research; it does not establish an exact flown sortie or dated clearance."
+      ],
+      "depiction": "reconstructed_lane"
+    },
+    "tactical/caucasus/Black Sea Coastal Push": {
+      "id": "tactical/caucasus/Black Sea Coastal Push",
+      "map": "caucasus",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Black Sea Coastal Push",
+      "name": "Black Sea Coastal Push",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/caucasus/Kutaisi–Krasnodar Corridor": {
+      "id": "tactical/caucasus/Kutaisi–Krasnodar Corridor",
+      "map": "caucasus",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Kutaisi–Krasnodar Corridor",
+      "name": "Kutaisi–Krasnodar Corridor",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/persiangulf/Strait of Hormuz CAP": {
+      "id": "tactical/persiangulf/Strait of Hormuz CAP",
+      "map": "persiangulf",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Strait of Hormuz CAP",
+      "name": "Strait of Hormuz CAP",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/persiangulf/Bandar Abbas Strike Lane": {
+      "id": "tactical/persiangulf/Bandar Abbas Strike Lane",
+      "map": "persiangulf",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Bandar Abbas Strike Lane",
+      "name": "Bandar Abbas Strike Lane",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/syria/Damascus Approach": {
+      "id": "tactical/syria/Damascus Approach",
+      "map": "syria",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Damascus Approach",
+      "name": "Damascus Approach",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/syria/Golan–Bekaa Line": {
+      "id": "tactical/syria/Golan–Bekaa Line",
+      "map": "syria",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Golan–Bekaa Line",
+      "name": "Golan–Bekaa Line",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/germany/Fulda Gap": {
+      "id": "tactical/germany/Fulda Gap",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "tactical",
+      "data_key": "Fulda Gap",
+      "name": "Fulda Gap",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/germany/Inner-German Border": {
+      "id": "tactical/germany/Inner-German Border",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "tactical",
+      "data_key": "Inner-German Border",
+      "name": "Inner-German Border",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/germany/Ruhr Industrial Strike": {
+      "id": "tactical/germany/Ruhr Industrial Strike",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "tactical",
+      "data_key": "Ruhr Industrial Strike",
+      "name": "Ruhr Industrial Strike",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/nevada/Range 74 Threat Axis": {
+      "id": "tactical/nevada/Range 74 Threat Axis",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Range 74 Threat Axis",
+      "name": "Range 74 Threat Axis",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/afghanistan/Helmand River Corridor": {
+      "id": "tactical/afghanistan/Helmand River Corridor",
+      "map": "afghanistan",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Helmand River Corridor",
+      "name": "Helmand River Corridor",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/afghanistan/Hindu Kush Passes": {
+      "id": "tactical/afghanistan/Hindu Kush Passes",
+      "map": "afghanistan",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Hindu Kush Passes",
+      "name": "Hindu Kush Passes",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/afghanistan/Helmand Green Zone": {
+      "id": "tactical/afghanistan/Helmand Green Zone",
+      "map": "afghanistan",
+      "eras": [
+        "gwot"
+      ],
+      "dataset": "tactical",
+      "data_key": "Helmand Green Zone",
+      "name": "Helmand Green Zone",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/afghanistan/Khost Bowl": {
+      "id": "tactical/afghanistan/Khost Bowl",
+      "map": "afghanistan",
+      "eras": [
+        "gwot"
+      ],
+      "dataset": "tactical",
+      "data_key": "Khost Bowl",
+      "name": "Khost Bowl",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/afghanistan/Kunar Valley": {
+      "id": "tactical/afghanistan/Kunar Valley",
+      "map": "afghanistan",
+      "eras": [
+        "gwot"
+      ],
+      "dataset": "tactical",
+      "data_key": "Kunar Valley",
+      "name": "Kunar Valley",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Kharg Island Strike Lane": {
+      "id": "tactical/iraq/Kharg Island Strike Lane",
+      "map": "iraq",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "tactical",
+      "data_key": "Kharg Island Strike Lane",
+      "name": "Kharg Island Strike Lane",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Jafati Valley": {
+      "id": "tactical/iraq/Jafati Valley",
+      "map": "iraq",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "tactical",
+      "data_key": "Jafati Valley",
+      "name": "Jafati Valley",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/H-3 Raid Track": {
+      "id": "tactical/iraq/H-3 Raid Track",
+      "map": "iraq",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "tactical",
+      "data_key": "H-3 Raid Track",
+      "name": "H-3 Raid Track",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Northern Watch (36th Parallel)": {
+      "id": "tactical/iraq/Northern Watch (36th Parallel)",
+      "map": "iraq",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Northern Watch (36th Parallel)",
+      "name": "Northern Watch (36th Parallel)",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Southern Watch (33rd Parallel)": {
+      "id": "tactical/iraq/Southern Watch (33rd Parallel)",
+      "map": "iraq",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Southern Watch (33rd Parallel)",
+      "name": "Southern Watch (33rd Parallel)",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Karbala Gap": {
+      "id": "tactical/iraq/Karbala Gap",
+      "map": "iraq",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Karbala Gap",
+      "name": "Karbala Gap",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Western Scud Box": {
+      "id": "tactical/iraq/Western Scud Box",
+      "map": "iraq",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "tactical",
+      "data_key": "Western Scud Box",
+      "name": "Western Scud Box",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Tigris Valley": {
+      "id": "tactical/iraq/Tigris Valley",
+      "map": "iraq",
+      "eras": [
+        "gwot"
+      ],
+      "dataset": "tactical",
+      "data_key": "Tigris Valley",
+      "name": "Tigris Valley",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Haditha Dam Corridor": {
+      "id": "tactical/iraq/Haditha Dam Corridor",
+      "map": "iraq",
+      "eras": [
+        "gwot"
+      ],
+      "dataset": "tactical",
+      "data_key": "Haditha Dam Corridor",
+      "name": "Haditha Dam Corridor",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "tactical/iraq/Kirkuk-Hawija Pocket": {
+      "id": "tactical/iraq/Kirkuk-Hawija Pocket",
+      "map": "iraq",
+      "eras": [
+        "gwot"
+      ],
+      "dataset": "tactical",
+      "data_key": "Kirkuk-Hawija Pocket",
+      "name": "Kirkuk-Hawija Pocket",
+      "feature_type": "threat_axis",
+      "evidence": "training_design",
+      "geometry_accuracy": "bearing_from_friendly_centroid",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "source_index": "docs/iraq-air-corridors.md",
+      "source_date_notes": "Broad era assignment only. Individual historical route provenance remains unauthenticated.",
+      "limitations": [
+        "Shapes enemy placement, not a player flight route or formal corridor.",
+        "Some names refer to actual operations; the bearing/reach are authored planning geometry."
+      ],
+      "depiction": "training_axis"
+    },
+    "overlay/germany/berlin_corridors/0": {
+      "id": "overlay/germany/berlin_corridors/0",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "overlay",
+      "data_key": "berlin_corridors",
+      "feature_index": 0,
+      "name": "NORTH (Hamburg)",
+      "feature_type": "corridor",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "approximate_terminals",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1945-11-30",
+      "source_text": null,
+      "sources": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1206",
+        "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
+      ],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "Three western corridors of 20 statute miles width were approved on 30 November 1945.",
+        "The Berlin Control Zone has a 20-statute-mile radius; stored terminals are approximate.",
+        "10,000 ft is this exercise limit. The original control-zone ceiling is not an uncontested ceiling for every corridor flight; 1962 Allied discussions included higher flights and conditional fighter escort.",
+        "The F-4 transit is a training adaptation. No universal ban on fighters is asserted.",
+        "Drawn for reference; no routed plan or automatic boundary enforcement."
+      ],
+      "depiction": "formal_corridor"
+    },
+    "overlay/germany/berlin_corridors/1": {
+      "id": "overlay/germany/berlin_corridors/1",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "overlay",
+      "data_key": "berlin_corridors",
+      "feature_index": 1,
+      "name": "CENTER (Hannover)",
+      "feature_type": "corridor",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "approximate_terminals",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1945-11-30",
+      "source_text": null,
+      "sources": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1206",
+        "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
+      ],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "Three western corridors of 20 statute miles width were approved on 30 November 1945.",
+        "The Berlin Control Zone has a 20-statute-mile radius; stored terminals are approximate.",
+        "10,000 ft is this exercise limit. The original control-zone ceiling is not an uncontested ceiling for every corridor flight; 1962 Allied discussions included higher flights and conditional fighter escort.",
+        "The F-4 transit is a training adaptation. No universal ban on fighters is asserted.",
+        "Drawn for reference; no routed plan or automatic boundary enforcement."
+      ],
+      "depiction": "formal_corridor"
+    },
+    "overlay/germany/berlin_corridors/2": {
+      "id": "overlay/germany/berlin_corridors/2",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "overlay",
+      "data_key": "berlin_corridors",
+      "feature_index": 2,
+      "name": "SOUTH (Frankfurt)",
+      "feature_type": "corridor",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "approximate_terminals",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1945-11-30",
+      "source_text": null,
+      "sources": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1206",
+        "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
+      ],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "Three western corridors of 20 statute miles width were approved on 30 November 1945.",
+        "The Berlin Control Zone has a 20-statute-mile radius; stored terminals are approximate.",
+        "10,000 ft is this exercise limit. The original control-zone ceiling is not an uncontested ceiling for every corridor flight; 1962 Allied discussions included higher flights and conditional fighter escort.",
+        "The F-4 transit is a training adaptation. No universal ban on fighters is asserted.",
+        "Drawn for reference; no routed plan or automatic boundary enforcement."
+      ],
+      "depiction": "formal_corridor"
+    },
+    "overlay/germany/berlin_corridors/3": {
+      "id": "overlay/germany/berlin_corridors/3",
+      "map": "germany",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "overlay",
+      "data_key": "berlin_corridors",
+      "feature_index": 3,
+      "name": "BERLIN CONTROL ZONE",
+      "feature_type": "zone",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "approximate_terminals",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1945-11-30",
+      "source_text": null,
+      "sources": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1206",
+        "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
+      ],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "Three western corridors of 20 statute miles width were approved on 30 November 1945.",
+        "The Berlin Control Zone has a 20-statute-mile radius; stored terminals are approximate.",
+        "10,000 ft is this exercise limit. The original control-zone ceiling is not an uncontested ceiling for every corridor flight; 1962 Allied discussions included higher flights and conditional fighter escort.",
+        "The F-4 transit is a training adaptation. No universal ban on fighters is asserted.",
+        "Drawn for reference; no routed plan or automatic boundary enforcement."
+      ],
+      "depiction": "control_zone"
+    },
+    "overlay/syria/euphrates_deconfliction/0": {
+      "id": "overlay/syria/euphrates_deconfliction/0",
+      "map": "syria",
+      "eras": [
+        "modern"
+      ],
+      "dataset": "overlay",
+      "data_key": "euphrates_deconfliction",
+      "feature_index": 0,
+      "name": "EUPHRATES — APPROXIMATE 2018 REFERENCE",
+      "feature_type": "line",
+      "evidence": "reported_track",
+      "geometry_accuracy": "approximate_four_point_sketch",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "2018-02-07",
+      "source_text": null,
+      "sources": [
+        "https://www.inherentresolve.mil/NEWSROOM/News-Releases/Article/1435218/unprovoked-attack-by-syrian-pro-regime-forces-prompts-coalition-defensive-strik/",
+        "https://www.defense.gov/News/Transcripts/Transcript/Article/624976/department-of-defense-press-briefing-by-pentagon-press-secretary-peter-cook-in/"
+      ],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "A coalition report on 7 February 2018 attests to a Euphrates deconfliction line.",
+        "The four stored points are an approximate river sketch, not an authenticated operational boundary. Establishment date and continuous validity are unknown.",
+        "The 2015 US–Russia flight-safety memorandum did not establish zones of cooperation; it is not the source of this boundary.",
+        "Coordination is an exercise instruction; this reference does not encode current crossing permissions."
+      ],
+      "depiction": "deconfliction_line"
+    },
+    "overlay/afghanistan/oef_airspace_control/0": {
+      "id": "overlay/afghanistan/oef_airspace_control/0",
+      "map": "afghanistan",
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "dataset": "overlay",
+      "data_key": "oef_airspace_control",
+      "feature_index": 0,
+      "name": "KABUL — ILLUSTRATIVE TRAINING CIRCLE",
+      "feature_type": "zone",
+      "evidence": "training_design",
+      "geometry_accuracy": "illustrative",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "sources": [],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "The Kabul circle (30 statute miles radius) and Helmand rectangle are illustrative training geometry.",
+        "No authenticated AIP/ACO establishes these dimensions. Vertical limits, controlling agency and operational validity are unknown.",
+        "These are not verified Kabul TMA or Helmand ROZ boundaries. Drawn for exercise reference only."
+      ],
+      "depiction": "illustrative_zone"
+    },
+    "overlay/afghanistan/oef_airspace_control/1": {
+      "id": "overlay/afghanistan/oef_airspace_control/1",
+      "map": "afghanistan",
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "dataset": "overlay",
+      "data_key": "oef_airspace_control",
+      "feature_index": 1,
+      "name": "HELMAND — ILLUSTRATIVE TRAINING BOX",
+      "feature_type": "line",
+      "evidence": "training_design",
+      "geometry_accuracy": "illustrative",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": null,
+      "source_text": null,
+      "sources": [],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "The Kabul circle (30 statute miles radius) and Helmand rectangle are illustrative training geometry.",
+        "No authenticated AIP/ACO establishes these dimensions. Vertical limits, controlling agency and operational validity are unknown.",
+        "These are not verified Kabul TMA or Helmand ROZ boundaries. Drawn for exercise reference only."
+      ],
+      "depiction": "illustrative_zone"
+    },
+    "overlay/nevada/groom_box/0": {
+      "id": "overlay/nevada/groom_box/0",
+      "map": "nevada",
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "dataset": "overlay",
+      "data_key": "groom_box",
+      "feature_index": 0,
+      "name": "R-4808N",
+      "feature_type": "box",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "sourced_1995_polygon",
+      "valid_from": "1995-07-20",
+      "valid_to": null,
+      "reference_date": "1995-07-20",
+      "source_text": null,
+      "sources": [
+        "https://www.govinfo.gov/content/pkg/FR-1995-04-27/pdf/FR-1995-04-27.pdf"
+      ],
+      "source_index": "docs/SOURCES.md",
+      "source_date_notes": "Reference date is an attestation/source date, not continuous operational validity.",
+      "limitations": [
+        "R-4808N polygon: 14 vertices from the 1995 FAA realignment (60 FR 20625–20626), effective 20 July 1995 at 0901 UTC.",
+        "This later boundary is retained as a training reference on earlier-era Nevada missions. Earlier geometry is not verified.",
+        "Treat the drawn polygon as the exercise restricted area. The trigger zone is only a bounding circle, NOT the legal polygon; no polygon violation penalty is implemented.",
+        "Surface to unlimited; continuous. Operational permissions are not modeled. Groom-based missions start inside by design."
+      ],
+      "depiction": "restricted_area"
+    },
+    "overlay/falklands/total_exclusion_1982/0": {
+      "id": "overlay/falklands/total_exclusion_1982/0",
+      "map": "falklands",
+      "eras": [
+        "coldwar"
+      ],
+      "dataset": "overlay",
+      "data_key": "total_exclusion_1982",
+      "feature_index": 0,
+      "name": "1982 TOTAL EXCLUSION ZONE",
+      "feature_type": "geodesic_circle",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "sourced_center_and_radius",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1982-04-30",
+      "reference_date_precision": "day",
+      "source_text": "UK Parliament publishes a 200-nautical-mile circle centered on 51°40′S, 59°30′W, effective 1100 GMT on 30 April 1982. The announcement addresses ships and aircraft supporting the occupation.",
+      "sources": [
+        "https://hansard.parliament.uk/Commons/1982-04-28/debates/03f1abe8-1b23-49a6-ab51-dc740649cc5e/FalklandIslands"
+      ],
+      "source_index": "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md",
+      "source_date_notes": "Dated snapshot; no ongoing operational validity asserted.",
+      "limitations": [
+        "UK Parliament publishes a 200-nautical-mile circle centered on 51°40′S, 59°30′W, effective 1100 GMT on 30 April 1982. The announcement addresses ships and aircraft supporting the occupation.",
+        "Termination and later amendments remain unknown. This depicts the announced boundary, not an automatic engagement rule. A Naval War College reprint gives 59°39′W in its TEZ passage despite citing the same MEZ limits; Hansard’s 59°30′W is used.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "depiction": "restricted_area"
+    },
+    "overlay/normandy/neptune_ingress/0": {
+      "id": "overlay/normandy/neptune_ingress/0",
+      "map": "normandy",
+      "eras": [
+        "wwii"
+      ],
+      "dataset": "overlay",
+      "data_key": "neptune_ingress",
+      "feature_index": 0,
+      "name": "NEPTUNE / ALBANY INGRESS",
+      "feature_type": "route_reference",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "published_fix_and_reconstructed_terminals",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1944-06-06",
+      "reference_date_precision": "day",
+      "source_text": "USAF Study 97 identifies Portland Bill (FLATBUSH), the published HOBOKEN fix and the revised ALBANY landfall near Portbail (MULESHOE). This is a transport ingress, not a generic fighter corridor.",
+      "sources": [
+        "https://www.dafhistory.af.mil/Portals/16/documents/Studies/51-100/AFD-090602-016.pdf",
+        "https://www.ibiblio.org/hyperwar/NHC/NewPDFs/USArmy/USAF%20Airborne%20Ops%20in%20WWII,%20ETO.pdf"
+      ],
+      "source_index": "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md",
+      "source_date_notes": "Dated snapshot; no ongoing operational validity asserted.",
+      "limitations": [
+        "USAF Study 97 identifies Portland Bill (FLATBUSH), the published HOBOKEN fix and the revised ALBANY landfall near Portbail (MULESHOE). This is a transport ingress, not a generic fighter corridor.",
+        "Portland Bill and Portbail are geographic reconstructions. HOBOKEN is transcribed. No continuous validity, clearance, exact flown tracks or generalized fighter use is established.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "depiction": "reported_route"
+    },
+    "overlay/iraq/southern_watch_1992/0": {
+      "id": "overlay/iraq/southern_watch_1992/0",
+      "map": "iraq",
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "dataset": "overlay",
+      "data_key": "southern_watch_1992",
+      "feature_index": 0,
+      "name": "1992 SOUTHERN WATCH — 32°N BOUNDARY SEGMENT",
+      "feature_type": "line",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "sourced_parallel_with_diagram_endpoints",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1992-08-26",
+      "reference_date_precision": "day",
+      "source_text": "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+      "sources": [
+        "https://www.canada.ca/en/department-national-defence/services/military-history/history-heritage/past-operations/middle-east/iraq-1992.html",
+        "https://history.army.mil/portals/143/Images/Publications/catalog/101-28-1.pdf"
+      ],
+      "source_index": "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md",
+      "source_date_notes": "Dated snapshot; no ongoing operational validity asserted.",
+      "limitations": [
+        "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+        "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "depiction": "restricted_area"
+    },
+    "overlay/iraq/southern_watch_1996/0": {
+      "id": "overlay/iraq/southern_watch_1996/0",
+      "map": "iraq",
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "dataset": "overlay",
+      "data_key": "southern_watch_1996",
+      "feature_index": 0,
+      "name": "SEPT 1996 SOUTHERN WATCH — 33°N BOUNDARY SEGMENT",
+      "feature_type": "line",
+      "evidence": "documented_structure",
+      "geometry_accuracy": "sourced_parallel_with_diagram_endpoints",
+      "valid_from": null,
+      "valid_to": null,
+      "reference_date": "1996-09",
+      "reference_date_precision": "month",
+      "source_text": "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+      "sources": [
+        "https://www.canada.ca/en/department-national-defence/services/military-history/history-heritage/past-operations/middle-east/iraq-1992.html",
+        "https://history.army.mil/portals/143/Images/Publications/catalog/101-28-1.pdf"
+      ],
+      "source_index": "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md",
+      "source_date_notes": "Dated snapshot; no ongoing operational validity asserted.",
+      "limitations": [
+        "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+        "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "depiction": "restricted_area"
+    }
+  },
+  "research_findings": [
+    {
+      "id": "neptune",
+      "maps": [
+        "normandy"
+      ],
+      "eras": [
+        "wwii"
+      ],
+      "name": "NEPTUNE troop-carrier ingress",
+      "reference_date": "1944-06-06",
+      "claim": "USAF Study 97 identifies Portland Bill (FLATBUSH), the published HOBOKEN fix and the revised ALBANY landfall near Portbail (MULESHOE). This is a transport ingress, not a generic fighter corridor.",
+      "sources": [
+        "https://www.dafhistory.af.mil/Portals/16/documents/Studies/51-100/AFD-090602-016.pdf",
+        "https://www.ibiblio.org/hyperwar/NHC/NewPDFs/USArmy/USAF%20Airborne%20Ops%20in%20WWII,%20ETO.pdf"
+      ],
+      "remaining_gap": "Portland Bill and Portbail are geographic reconstructions. HOBOKEN is transcribed. No continuous validity, clearance, exact flown tracks or generalized fighter use is established.",
+      "geometry": {
+        "points": [
+          [
+            50.514,
+            -2.456
+          ],
+          [
+            49.7583333333,
+            -2.9416666667
+          ],
+          [
+            49.335,
+            -1.7
+          ]
+        ],
+        "gate": [
+          49.7583333333,
+          -2.9416666667
+        ]
+      },
+      "access": "Official study, printed pages 11–12; primary-host fetch 403; mirror text reviewed. Map image unavailable; no coordinates extracted from its image.",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "channel-battle",
+      "maps": [
+        "thechannel"
+      ],
+      "eras": [
+        "wwii"
+      ],
+      "name": "Channel Battle air operations",
+      "reference_date": "1940-07-17",
+      "claim": "RAF Museum describes attacks over the Channel, Dover Straits and south-east coast during 17 July–12 August 1940. These are operating regions, not fixed cleared lanes.",
+      "sources": [
+        "https://www.rafmuseum.org.uk/research/online-exhibitions/history-of-the-battle-of-britain/the-battle-of-britain-phase-two/"
+      ],
+      "remaining_gap": "Individual sortie tracks, dimensions and clearance boundaries remain unverified. Naval Dunkirk routes X/Y/Z must not be represented as air corridors.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "marianas-b29",
+      "maps": [
+        "marianas"
+      ],
+      "eras": [
+        "wwii"
+      ],
+      "name": "Marianas–Japan B-29 theater route",
+      "reference_date": "1944-11",
+      "claim": "NHHC places the first Marianas-based Japan attack in late November 1944 and Iwo Jima on the 1945 B-29 theater path. It also describes avoidance before capture.",
+      "sources": [
+        "https://www.history.navy.mil/about-us/leadership/director/directors-corner/h-grams/h-gram-042/h-042-1.html",
+        "https://www.history.navy.mil/browse-by-topic/wars-conflicts-and-operations/world-war-ii/1945/battle-of-iwo-jima.html"
+      ],
+      "remaining_gap": "No single straight centerline or common corridor width is authenticated. Late-1944/1945 routes must not be applied to the default June-1944 setting; Iwo and Japan lie outside the playable map.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "guam-warning",
+      "maps": [
+        "marianas"
+      ],
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "name": "Guam W-517 / R-7201 references",
+      "reference_date": "2025-11-27",
+      "claim": "FAA Pacific supplement identifies W-517 (unlimited, by NOTAM) and Farallon de Medinilla R-7201/R-7201A (to FL600, by NOTAM). Warning-area avoidance is not a universal flight prohibition.",
+      "sources": [
+        "https://aeronav.faa.gov/Upload_313-d/supplements/CS_PAC_20251127.pdf",
+        "https://www.faa.gov/documentLibrary/media/Order/7400.2N_Chg1_dtd_12_2_21_--_FOR_POST.pdf"
+      ],
+      "remaining_gap": "Coordinates and era-specific establishment/amendment records are not authenticated here. The 2025 supplement is a later reference, not proof of Cold War or 2011 boundaries.",
+      "geometry": null,
+      "access": "Official indexed supplement text reviewed; geometry not extracted",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "falklands-tez",
+      "maps": [
+        "falklands"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Falklands Total Exclusion Zone",
+      "reference_date": "1982-04-30",
+      "claim": "UK Parliament publishes a 200-nautical-mile circle centered on 51°40′S, 59°30′W, effective 1100 GMT on 30 April 1982. The announcement addresses ships and aircraft supporting the occupation.",
+      "sources": [
+        "https://hansard.parliament.uk/Commons/1982-04-28/debates/03f1abe8-1b23-49a6-ab51-dc740649cc5e/FalklandIslands"
+      ],
+      "remaining_gap": "Termination and later amendments remain unknown. This depicts the announced boundary, not an automatic engagement rule. A Naval War College reprint gives 59°39′W in its TEZ passage despite citing the same MEZ limits; Hansard’s 59°30′W is used.",
+      "geometry": {
+        "center": [
+          -51.666666666666664,
+          -59.5
+        ],
+        "radius_nm": 200
+      },
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "black-buck",
+      "maps": [
+        "falklands"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Black Buck 1 endpoints",
+      "reference_date": "1982-05-01",
+      "claim": "RAF identifies the Ascension departure on 30 April and Stanley attack on 1 May 1982.",
+      "sources": [
+        "https://www.raf.mod.uk/news/articles/40th-anniversary-of-op-black-buck/"
+      ],
+      "remaining_gap": "The source does not authenticate a complete georeferenced flight track or refueling anchors. Ascension is outside this terrain; no invented straight-line corridor is drawn.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "vardoe-1975",
+      "maps": [
+        "kola"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Vardø airspace incursion",
+      "reference_date": "1975-02-14",
+      "claim": "Norwegian Armed Forces recount a Soviet aircraft arriving from the Barents Sea, entering south of Vardø, turning right over Vardø and exiting.",
+      "sources": [
+        "https://www.forsvaret.no/aktuelt-og-presse/aktuelt/nato-og-norge-har-beskyttet-luftrommet-i-60-ar"
+      ],
+      "remaining_gap": "Reported places and direction establish an event, not surveyed waypoints, a formal corridor or recurring validity.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "nato-2014",
+      "maps": [
+        "kola",
+        "caucasus"
+      ],
+      "eras": [
+        "modern"
+      ],
+      "name": "NATO intercept reports",
+      "reference_date": "2014-10-29",
+      "claim": "NATO reports a Russian formation over the Norwegian Sea, two bombers continuing southwest along the Norwegian coast, and a separate Black Sea formation.",
+      "sources": [
+        "https://www.nato.int/en/news-and-events/articles/news/2014/10/30/nato-tracks-large-scale-russian-air-activity-in-europe"
+      ],
+      "remaining_gap": "No georeferenced track, corridor width or altitude block is published. Black Sea and Arctic events are distinct, not a connected route.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "sinai-disengagement",
+      "maps": [
+        "sinai"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Sinai disengagement zones",
+      "reference_date": "1974-01-18",
+      "claim": "UN documents the January-1974 disengagement and later UNEF buffer arrangements. This is subsequent to the October-1973 war setting.",
+      "sources": [
+        "https://peacekeeping.un.org/sites/default/files/past/unef2backgr2.html",
+        "https://digitallibrary.un.org/record/730231/files/S_11818_Add.3--2849X-EN.pdf"
+      ],
+      "remaining_gap": "Annex-map georeferencing and separate 1974/1975 geometry remain unresolved. Neither arrangement may be substituted for 1973 battle lines.",
+      "geometry": null,
+      "access": "Official indexed text reviewed; annex PDF fetch 403, geometry not extracted",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "sinai-mfo",
+      "maps": [
+        "sinai"
+      ],
+      "eras": [
+        "modern"
+      ],
+      "name": "MFO flight coordination",
+      "reference_date": "1981",
+      "claim": "MFO protocol requires verification-flight coordination and prior notification/clearance for international-boundary crossings; Zone C reconnaissance requires civil air-control notification.",
+      "sources": [
+        "https://assets.mfo.org/b798ff05e0773f72498063dd059cd536"
+      ],
+      "remaining_gap": "Protocol flight rules do not establish a generic corridor. Treaty-zone polygon coordinates and amendments need separate verification.",
+      "geometry": null,
+      "access": "Official protocol indexed text reviewed; original fetch unavailable",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "afghan-airways",
+      "maps": [
+        "afghanistan"
+      ],
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "name": "Six Afghan ATS route designators",
+      "reference_date": "2011-08-01",
+      "claim": "ICAO RASMAG/15 WP09 presented by AFCENT for MoTCA names UL333, B466/G792, L750, N644, A466/G796 and M881. It discusses pre-RVSM procedural control and planned changes.",
+      "sources": [
+        "https://www.icao.int/APAC/Meetings/2011_RASMAG_15/WP09%20AFG.pdf"
+      ],
+      "remaining_gap": "The airway names are established; georeferenced fixes, segment validity and later changes remain unavailable. This does not verify the existing illustrative Kabul circle or Helmand box.",
+      "geometry": null,
+      "access": "Official indexed working-paper text reviewed; original URL 404. No figure geometry extracted.",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "iraq-south",
+      "maps": [
+        "iraq"
+      ],
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "name": "Southern Watch boundary changes",
+      "reference_date": "1992-08-26",
+      "claim": "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+      "sources": [
+        "https://www.canada.ca/en/department-national-defence/services/military-history/history-heritage/past-operations/middle-east/iraq-1992.html",
+        "https://history.army.mil/portals/143/Images/Publications/catalog/101-28-1.pdf"
+      ],
+      "remaining_gap": "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence.",
+      "geometry": {
+        "parallels": [
+          32,
+          33
+        ]
+      },
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "kharg-1984",
+      "maps": [
+        "persiangulf",
+        "iraq"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Kharg Island strike operations",
+      "reference_date": "1984-03-27",
+      "claim": "NHHC’s Stark ship history dates Iraqi Super Étendard/Exocet attacks on Kharg to 27 March 1984 and describes another attack on 24 June.",
+      "sources": [
+        "https://www.history.navy.mil/research/histories/ship-histories/danfs/s/stark--ffg-31-.html"
+      ],
+      "remaining_gap": "Targets and dates are established, not a flight centerline, width or launch-to-target track. Do not convert shipping lanes to air corridors.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "tanker-war-profile",
+      "maps": [
+        "persiangulf",
+        "iraq"
+      ],
+      "eras": [
+        "modern"
+      ],
+      "name": "Tanker War attack profile",
+      "reference_date": null,
+      "claim": "NHHC describes Iraqi maritime-strike staging and low-level Gulf approaches in its Tanker War retrospective.",
+      "sources": [
+        "https://www.history.navy.mil/about-us/leadership/director/directors-corner/h-grams/h-gram-018/h-018-1.html"
+      ],
+      "remaining_gap": "A profile is not a formal corridor; precise tracks and individual sortie dates remain unverified. The article’s Stark date conflicts with the ship history, so it is not used to date a route.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "caucasus-2008",
+      "maps": [
+        "caucasus"
+      ],
+      "eras": [
+        "modern"
+      ],
+      "name": "2008 campaign geography",
+      "reference_date": "2008-08-08",
+      "claim": "US Army analysis covers Russian campaign operations and air support in Georgia.",
+      "sources": [
+        "https://www.govinfo.gov/content/pkg/GOVPUB-D109-PURL-gpo128719/pdf/GOVPUB-D109-PURL-gpo128719.pdf"
+      ],
+      "remaining_gap": "Roki Tunnel and ground maneuver axes are not authenticated air corridors. The two existing tactical axes remain training design.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "berlin-review",
+      "maps": [
+        "germany"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Berlin corridor documentary review",
+      "reference_date": "1945-11-30",
+      "claim": "US State Department records establish three 20-statute-mile corridors and Berlin control-zone arrangements; later discussions prevent treating the exercise ceiling as universal.",
+      "sources": [
+        "https://history.state.gov/historicaldocuments/frus1945v03/d1202",
+        "https://history.state.gov/historicaldocuments/frus1961-63v15/d6"
+      ],
+      "remaining_gap": "Terminal placements remain approximate; other German route segments retain planning geometry and unknown operational validity.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "germany-modern",
+      "maps": [
+        "germany"
+      ],
+      "eras": [
+        "modern"
+      ],
+      "name": "Modern NATO air policing",
+      "reference_date": null,
+      "claim": "NATO describes present air-policing command arrangements including Ramstein and Uedem.",
+      "sources": [
+        "https://www.nato.int/cps/en/natohq/topics_132685.htm?selectedLocale=us"
+      ],
+      "remaining_gap": "Command organization establishes no modern replacement for the Cold War Berlin corridors or a dated German low-level route network.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "nevada-boundary",
+      "maps": [
+        "nevada"
+      ],
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "name": "R-4808N dated boundary review",
+      "reference_date": "1995-07-20",
+      "claim": "FAA’s 1995 realignment supplies the stored fourteen-vertex R-4808N boundary and effective date.",
+      "sources": [
+        "https://www.govinfo.gov/content/pkg/FR-1995-04-27/pdf/FR-1995-04-27.pdf"
+      ],
+      "remaining_gap": "Earlier Nevada boundaries and individual corridor-validity intervals remain unknown. The 1995 shape on Cold War missions is explicitly a later training reference.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "syria-review",
+      "maps": [
+        "syria"
+      ],
+      "eras": [
+        "coldwar",
+        "modern"
+      ],
+      "name": "Levant route dating review",
+      "reference_date": "2018-02-07",
+      "claim": "The 2018 coalition release attests to a Euphrates deconfliction line; existing network citations mix civil publications and reported military profiles.",
+      "sources": [
+        "https://www.inherentresolve.mil/NEWSROOM/News-Releases/Article/1435218/unprovoked-attack-by-syrian-pro-regime-forces-prompts-coalition-defensive-strik/"
+      ],
+      "remaining_gap": "The four-point river sketch is approximate. No single source verifies all 26 route segments throughout both eras.",
+      "geometry": null,
+      "access": "primary text reviewed",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "iraq-handover",
+      "maps": [
+        "iraq"
+      ],
+      "eras": [
+        "gwot",
+        "modern"
+      ],
+      "name": "Iraqi airspace handover",
+      "reference_date": "2010-09-01",
+      "claim": "USAF reports transfer of the Kirkuk sector at FL150 and above to ICAA on 1 September 2010.",
+      "sources": [
+        "https://www.af.mil/News/Article-Display/Article/115703/af-transfers-northern-airspace-to-iraq/"
+      ],
+      "remaining_gap": "The article does not publish polygon coordinates. Planned later transfers are not treated as completed events.",
+      "geometry": null,
+      "access": "Official indexed text reviewed; no boundary coordinates extracted",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "falklands-qra",
+      "maps": [
+        "falklands"
+      ],
+      "eras": [
+        "modern"
+      ],
+      "name": "Mount Pleasant QRA",
+      "reference_date": "2023-04-08",
+      "claim": "RAF describes 1435 Flight QRA at Mount Pleasant and Voyager tanker support.",
+      "sources": [
+        "https://www.raf.mod.uk/news/articles/easter-in-the-falklands-with-1435-flight-royal-air-force/"
+      ],
+      "remaining_gap": "No recurring QRA flight track, patrol box or tanker anchor coordinates are provided. This later report does not certify the default modern mission date.",
+      "geometry": null,
+      "access": "Official indexed text reviewed; no boundary coordinates extracted",
+      "reviewed_on": "2026-10-03"
+    },
+    {
+      "id": "black-sea-cold",
+      "maps": [
+        "caucasus"
+      ],
+      "eras": [
+        "coldwar"
+      ],
+      "name": "Black Sea reconnaissance reference",
+      "reference_date": null,
+      "claim": "CIA’s declassified U-2 history describes a 1958 Black Sea flight that did not violate Soviet airspace.",
+      "sources": [
+        "https://www.cia.gov/readingroom/docs/2002-07-16.pdf"
+      ],
+      "remaining_gap": "Exact dated waypoints are not verified; 1958 precedes this product’s Cold War band and cannot authenticate the authored tactical axes.",
+      "geometry": null,
+      "access": "Official indexed text reviewed; no boundary coordinates extracted",
+      "reviewed_on": "2026-10-03"
+    }
+  ]
+}

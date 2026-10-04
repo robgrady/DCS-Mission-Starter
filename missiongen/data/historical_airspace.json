@@ -274,5 +274,168 @@
         "https://www.govinfo.gov/content/pkg/FR-1995-04-27/pdf/FR-1995-04-27.pdf"
       ]
     }
+  },
+  "falklands": {
+    "total_exclusion_1982": {
+      "label": "1982 TOTAL EXCLUSION ZONE",
+      "eras": [
+        "coldwar"
+      ],
+      "reference_only": true,
+      "attested_on": "1982-04-30",
+      "reference_date_precision": "day",
+      "brief_title": "1982 TOTAL EXCLUSION ZONE — DATED REFERENCE",
+      "brief": [
+        "UK Parliament publishes a 200-nautical-mile circle centered on 51°40′S, 59°30′W, effective 1100 GMT on 30 April 1982. The announcement addresses ships and aircraft supporting the occupation.",
+        "Termination and later amendments remain unknown. This depicts the announced boundary, not an automatic engagement rule. A Naval War College reprint gives 59°39′W in its TEZ passage despite citing the same MEZ limits; Hansard’s 59°30′W is used.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "features": [
+        {
+          "kind": "geodesic_circle",
+          "name": "1982 TOTAL EXCLUSION ZONE",
+          "center": [
+            -51.666666666666664,
+            -59.5
+          ],
+          "radius_nm": 200,
+          "category": "restricted"
+        }
+      ],
+      "geometry_accuracy": "sourced_center_and_radius",
+      "historical_sources": [
+        "https://hansard.parliament.uk/Commons/1982-04-28/debates/03f1abe8-1b23-49a6-ab51-dc740649cc5e/FalklandIslands"
+      ]
+    }
+  },
+  "normandy": {
+    "neptune_ingress": {
+      "label": "NEPTUNE / ALBANY INGRESS",
+      "eras": [
+        "wwii"
+      ],
+      "reference_only": true,
+      "attested_on": "1944-06-06",
+      "reference_date_precision": "day",
+      "brief_title": "NEPTUNE / ALBANY INGRESS — DATED REFERENCE",
+      "brief": [
+        "USAF Study 97 identifies Portland Bill (FLATBUSH), the published HOBOKEN fix and the revised ALBANY landfall near Portbail (MULESHOE). This is a transport ingress, not a generic fighter corridor.",
+        "Portland Bill and Portbail are geographic reconstructions. HOBOKEN is transcribed. No continuous validity, clearance, exact flown tracks or generalized fighter use is established.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "features": [
+        {
+          "kind": "route_reference",
+          "name": "NEPTUNE / ALBANY INGRESS",
+          "points": [
+            [
+              50.514,
+              -2.456
+            ],
+            [
+              49.7583333333,
+              -2.9416666667
+            ],
+            [
+              49.335,
+              -1.7
+            ]
+          ],
+          "gates": [
+            {
+              "name": "HOBOKEN",
+              "point": [
+                49.7583333333,
+                -2.9416666667
+              ],
+              "approximate": false
+            }
+          ]
+        }
+      ],
+      "geometry_accuracy": "published_fix_and_reconstructed_terminals",
+      "historical_sources": [
+        "https://www.dafhistory.af.mil/Portals/16/documents/Studies/51-100/AFD-090602-016.pdf",
+        "https://www.ibiblio.org/hyperwar/NHC/NewPDFs/USArmy/USAF%20Airborne%20Ops%20in%20WWII,%20ETO.pdf"
+      ]
+    }
+  },
+  "iraq": {
+    "southern_watch_1992": {
+      "label": "1992 SOUTHERN WATCH — 32°N BOUNDARY SEGMENT",
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "reference_only": true,
+      "attested_on": "1992-08-26",
+      "reference_date_precision": "day",
+      "brief_title": "1992 SOUTHERN WATCH — 32°N BOUNDARY SEGMENT — DATED REFERENCE",
+      "brief": [
+        "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+        "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "features": [
+        {
+          "kind": "line",
+          "name": "1992 SOUTHERN WATCH — 32°N BOUNDARY SEGMENT",
+          "points": [
+            [
+              32,
+              39
+            ],
+            [
+              32,
+              49
+            ]
+          ],
+          "category": "restricted"
+        }
+      ],
+      "geometry_accuracy": "sourced_parallel_with_diagram_endpoints",
+      "historical_sources": [
+        "https://www.canada.ca/en/department-national-defence/services/military-history/history-heritage/past-operations/middle-east/iraq-1992.html",
+        "https://history.army.mil/portals/143/Images/Publications/catalog/101-28-1.pdf"
+      ]
+    },
+    "southern_watch_1996": {
+      "label": "SEPT 1996 SOUTHERN WATCH — 33°N BOUNDARY SEGMENT",
+      "eras": [
+        "modern",
+        "gwot"
+      ],
+      "reference_only": true,
+      "attested_on": "1996-09",
+      "reference_date_precision": "month",
+      "brief_title": "SEPT 1996 SOUTHERN WATCH — 33°N BOUNDARY SEGMENT — DATED REFERENCE",
+      "brief": [
+        "Canada’s DND identifies the announcement south of 32°N in August 1992 and expansion to 33°N in 1996; US Army FY1997 history dates the expansion to September.",
+        "Latitude is sourced. Finite line endpoints are diagram extents, not Iraq’s borders. Exact amendment day and terminal validity require further evidence.",
+        "This is a dated reference, not airspace active on the mission date. It changes no route, clearance, AI behavior or engagement rule."
+      ],
+      "features": [
+        {
+          "kind": "line",
+          "name": "SEPT 1996 SOUTHERN WATCH — 33°N BOUNDARY SEGMENT",
+          "points": [
+            [
+              33,
+              39
+            ],
+            [
+              33,
+              49
+            ]
+          ],
+          "category": "restricted"
+        }
+      ],
+      "geometry_accuracy": "sourced_parallel_with_diagram_endpoints",
+      "historical_sources": [
+        "https://www.canada.ca/en/department-national-defence/services/military-history/history-heritage/past-operations/middle-east/iraq-1992.html",
+        "https://history.army.mil/portals/143/Images/Publications/catalog/101-28-1.pdf"
+      ]
+    }
   }
 }

@@ -322,6 +322,9 @@ def brief_lines(plan: dict) -> list:
               "chart or a road is reported by name; flagged on the F10 map): "
               + ", ".join(ap) + "."]
     L += t.get("brief_sources", ["Sources: see the corridor chart and the Sources page."])
+    L += ["Historical coverage: route geometry, widths and blocks are planning reconstructions.",
+          "Per-segment operational validity is unknown; a source date does not certify this mission date.",
+          "See /api/historical-coverage/report for evidence, dates and remaining gaps."]
     return L
 
 
@@ -340,17 +343,18 @@ def known_issue_lines(plan: dict) -> list:
 # the F10 picture
 # --------------------------------------------------------------------------- #
 def draw(m, plan: dict | None = None, map_key: str | None = None):
-    """Every corridor as a hairline lane; the ones this plan flies as solid
-    lanes; the gates as rings. Common layer, so both sides see it."""
+    """Reconstructed lanes with diamond gates on the shared reference layer."""
     mk = map_key or (plan or {}).get("map", "nevada")
     layer = m.drawings.get_layer_by_name("Common")
     terrain = m.terrain
     used = set(plan["corridors"]) if plan else set()
     from .airspace import _draw_poly
+    from . import historical_symbols as symbols
+    from .historical_coverage import element
     d = data(mk)
     for c in d["corridors"]:
-        cat = "corridor" if c["id"] in used else "centerline"
-        col, fill, wt, st = cs.spec(cat)
+        metadata = element(f"network/{mk}/{c['id']}")
+        col, fill, wt, st = symbols.style('reconstructed_lane', c['id'] in used)
         half = c["width_nm"] * NM / 2.0
         pts = [_pt(p, terrain, mk) for p in c["points"]]
         if len(pts) == 1:
@@ -360,12 +364,12 @@ def draw(m, plan: dict | None = None, map_key: str | None = None):
             _draw_poly(layer, cs.corridor_polygon(a, b, half), col, fill, wt, st)
         lo, hi = c["block_ft"]
         anchor = pts[len(pts) // 2]
-        cs.label(layer, anchor, f"{c['name']}\n{lo // 1000}-{hi // 1000}k", col,
+        cs.label(layer, anchor, f"{c['name']}\n{lo // 1000}-{hi // 1000}k planning\n{symbols.label_tag(metadata)}", col,
                  size=12 if c["id"] in used else 10)
     gcol, gfill, gwt, gst = cs.spec("zone")
     for g in d["gates"]:
         pt = _pt(g, terrain, mk)
-        layer.add_circle(pt, radius=2.0 * NM, color=gcol, fill=gfill,
-                         line_thickness=2, line_style=gst)
+        symbols.diamond(layer, pt, radius=2.0 * NM, approximate=bool(fix(g,mk).get('approx')))
         tag = "~" if fix(g, mk).get("approx") else ""
         cs.label(layer, pt, f"GATE {g}{tag}", gcol, size=11)
+    symbols.legend(m)

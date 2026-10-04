@@ -59,6 +59,25 @@ STAMPS = ROOT / "docs" / ".artifacts.json"
 
 ARTIFACTS = [
     {
+        'path': 'docs/historical_coverage.html',
+        'rule': 'stamp',
+        'generator': ['scripts/build_historical_coverage.py'],
+        'inputs': ['missiongen/data/historical_coverage.json', 'missiongen/historical_coverage.py',
+                   'missiongen/historical_symbols.py', 'missiongen/corridor_chart.py',
+                   'scripts/build_sources_html.py', 'missiongen/data/maps.json',
+                   'missiongen/data/eras.json', 'missiongen/__init__.py'],
+        'covers': 'docs/img/historical_symbols.*',
+        'why': 'Public map/era research and symbols must match the audited register.',
+    },
+    {
+        'path': 'docs/research/HISTORICAL_AIRSPACE_RESEARCH.md',
+        'rule': 'stamp',
+        'generator': ['scripts/build_historical_coverage.py'],
+        'inputs': ['missiongen/data/historical_coverage.json', 'missiongen/historical_coverage.py',
+                   'missiongen/__init__.py'],
+        'why': 'Research conclusions and primary sources are generated from the register.',
+    },
+    {
         # The site's color/font tokens are WRITTEN into frontend/index.html by
         # gen_theme.py from the same flightline.json every document renders
         # from. Registered so the site palette can never silently fork from
@@ -129,7 +148,7 @@ ARTIFACTS = [
         "rule": "stamp",
         "generator": ["scripts/build_corridor_charts.py"],
         "inputs": ["missiongen/data/corridors/nevada.json", "missiongen/data/corridors/syria.json", "missiongen/data/corridors/germany.json",
-                   "missiongen/corridor_chart.py", "missiongen/corridors.py",
+                   "missiongen/corridor_chart.py", "missiongen/corridors.py", "missiongen/historical_coverage.py", "missiongen/data/historical_coverage.json",
                    "scripts/build_corridor_charts.py"],
         "why": "The corridor charts the site serves. Generated from the "
                "routing data; stale means the picture and the flight plan "

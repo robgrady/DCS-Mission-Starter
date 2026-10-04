@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.113.0] — Historical coverage, research and map symbols
+
+- Audit all 13 maps / 26 supported map-era pairs and all existing route, threat-axis and historical-overlay elements. Publish filterable coverage, evidence classes, source dates, unknown validity and remaining gaps.
+- Research primary institutional sources for uncovered theaters. Add the published Falklands 200-NM exclusion circle, a dated NEPTUNE transport ingress with HOBOKEN, and distinct 1992/1996 Iraq southern no-fly boundary references. Record six Afghan ATS designators and other unmapped findings without inventing coordinates.
+- Use dashed reconstructed lanes, diamond reporting gates, dotted training geometry, hatched exclusion boundaries and labelled threat axes. Preserve route/AI behavior and the established fonts and palette.
+- Update the User Manual, sources, agent documentation and content revisions. Geometry/readback checks do not replace DCS flight validation.
+
 ## [1.112.0] — Mission readiness and integration validation
 
 - Add a Mission readiness card before Generate in Builder, Library and Fly Now:

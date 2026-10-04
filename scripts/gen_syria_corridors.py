@@ -496,7 +496,7 @@ TEXT = {
     "known_issues": ["DCS draws no airways or FIR boundaries; the corridors and gates on the F10 map are ours, from the published structure. The AI controllers do not know PLUTO, Flamingo Ops or the Amman TMA exist."],
     "sources_line": "AIP Israel · CARC Jordan · AIP Türkiye · UK Mil AIP LCRA · Syria GACA eAIP · Al Jazeera / ToI / TASS / TWZ 2013-2024 · GlobalSecurity MML 1973 · Wikipedia",
     "legend": ["Restricted area: navy, hatched (Israel's LLR training blocks, the Negev ranges; LLP prohibited areas cross-hatched). Control area / CTR: thin dashed blue. Firing area: dashed magenta. Deconfliction zone / line: dashed amber.",
-               "Gate ring = the entry/exit point of a road. Fix triangle = a published fix (AIP). ~ = curated: a reported road placed on the named town or summit, or an outline merged/approximated. Coast and borders are schematic."],
+               "Gate diamond = the entry/exit point of a road. Fix triangle = a published fix (AIP). ~ = curated: a reported road placed on the named town or summit, or an outline merged/approximated. Coast and borders are schematic."],
 }
 
 # Land polygons for the sea fill: the mainland is the Levant coast closed

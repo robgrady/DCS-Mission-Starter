@@ -55,12 +55,12 @@ OUT = ROOT / "packs"
 # the app version. `built_with.app` records which release produced the bytes;
 # this records what the author thinks changed.
 CONTENT_VERSION = {
-    "wk_checkout": "1.0.5",
+    "wk_checkout": "1.0.6",
     # 2.0: the rides flew from Israel. Egypt is the host nation, the squadron
     # is USAF and Cairo West is home — different missions, not a patch.
     # 3.0: the wingman moved INTO the player's flight — the two-ship is flown
     # differently and a pilot's notes about REX 2 stop being true.
-    "wk_proud_phantom": "3.0.6",     # 3.0.6: correct the eleven-ride introduction
+    "wk_proud_phantom": "3.0.7",     # 3.0.6: correct the eleven-ride introduction
                                      # 1.1.1: the brief leaves the screen
                                      # 2.1: the wingman waits for your brief
                                      # 2.1.1: ...and then actually takes off
@@ -68,14 +68,14 @@ CONTENT_VERSION = {
                                      #      target standing on the target leg
                                      # 2.3: gates on the coached ride, and the
                                      #      wingman gets his shelter to himself
-    "aar_boom": "1.0.5",
-    "aar_probe": "1.0.5",
+    "aar_boom": "1.0.6",
+    "aar_probe": "1.0.6",
     # v1.107.0 regenerates mission documents with the airfield guide and
     # exact measured stand directions. Patch content versions describe these
     # corrections independently of the application release version.
-    "cq_case3_f14": "1.0.5",
-    "cq_case3_hornet": "1.0.5",
-    "timing_f4e": "1.0.5",
+    "cq_case3_f14": "1.0.6",
+    "cq_case3_hornet": "1.0.6",
+    "timing_f4e": "1.0.6",
 }
 
 # Which terrain module each map key needs a pilot to own, in the words DCS

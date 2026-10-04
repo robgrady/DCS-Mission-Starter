@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.112.0.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.113.0.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
