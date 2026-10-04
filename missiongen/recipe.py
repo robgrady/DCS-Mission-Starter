@@ -72,6 +72,24 @@ RECIPE_ENUMS = {
     "timing_anchor": ("takeoff", "push", "tot"),
 }
 
+# Bounds belong to the engine; HTTP and MCP schemas project these same values.
+FILL_BOUNDS = (0, 100)
+TARGET_PACKAGE_BOUNDS = (1, 3)
+CALLSIGN_LENGTH = (1, 20)
+
+
+def recipe_numeric_bounds() -> dict[str, tuple[int, int]]:
+    from .pattern import MAX_COUNT
+    slots = (1, 4)
+    return {
+        "slots": slots,
+        "veteran_wingmen": (0, slots[1] - 1),
+        "dress_fill": FILL_BOUNDS,
+        "pattern_count": (1, MAX_COUNT),
+        "threat_intensity": (1, 5),
+        "timing_hold_min": (0, 15),
+    }
+
 
 @dataclass
 class Recipe:
@@ -381,8 +399,8 @@ class Recipe:
             for key, count in (getattr(self, name) or {}).items():
                 if not isinstance(key, str) or type(count) is not int or count < 0:
                     raise RecipeError(f"{name} must map names to non-negative integers.")
-                if name == "dress_overrides" and count > 100:
-                    raise RecipeError("dress_overrides fill must be 0-100.")
+                if name == "dress_overrides" and count > FILL_BOUNDS[1]:
+                    raise RecipeError(f"dress_overrides fill must be {FILL_BOUNDS[0]}-{FILL_BOUNDS[1]}.")
         for field_name, allowed in RECIPE_ENUMS.items():
             val = getattr(self, field_name)
             if val not in allowed:
@@ -435,27 +453,23 @@ class Recipe:
                     f"teaches by name.")
         if not isinstance(self.seed, int) or isinstance(self.seed, bool):
             raise RecipeError(f"seed must be an integer, got {self.seed!r}.")
-        if not (1 <= self.slots <= 4):
-            raise RecipeError(f"slots must be 1-4, got {self.slots!r}.")
-        if not (0 <= self.veteran_wingmen < self.slots):
+        bounds = recipe_numeric_bounds()
+        for name, (lower, upper) in bounds.items():
+            if name == "veteran_wingmen":
+                continue  # Its upper bound also depends on this flight's slots.
+            value = getattr(self, name)
+            if value is not None and not (lower <= value <= upper):
+                raise RecipeError(f"{name} must be {lower}-{upper}, got {value!r}.")
+        if not (bounds["veteran_wingmen"][0] <= self.veteran_wingmen < self.slots):
             raise RecipeError("veteran_wingmen must be 0 to slots - 1; keep at least one human seat.")
         if self.veteran_wingmen:
             from .build_context import CREW_OPS_TEMPLATES
             if self.cq_ride or self.template in CREW_OPS_TEMPLATES:
                 raise RecipeError("veteran_wingmen are not available for fixed Case III or crew-ops flights.")
-        if self.dress_fill is not None and not (0 <= self.dress_fill <= 100):
-            raise RecipeError(f"dress_fill must be 0-100, got {self.dress_fill!r}.")
-        from .pattern import MAX_COUNT as _PATTERN_MAX
-        if not (1 <= self.pattern_count <= _PATTERN_MAX):
-            raise RecipeError(
-                f"pattern_count must be 1-{_PATTERN_MAX}, got {self.pattern_count!r}.")
         if self.pattern_lineup:
             from . import lineup as _lineup
             if not _lineup.supported():
                 raise RecipeError(_lineup.NOT_SUPPORTED)
-        if not (1 <= self.threat_intensity <= 5):
-            raise RecipeError(
-                f"threat_intensity must be 1-5, got {self.threat_intensity!r}.")
         if self.target_packages is not None:
             from .targets import TARGET_PACKAGES
             bad = [p for p in self.target_packages if p not in TARGET_PACKAGES]
@@ -463,8 +477,8 @@ class Recipe:
                 raise RecipeError(
                     f"target_packages contains unknown package(s): "
                     f"{', '.join(bad)}. Known: {', '.join(TARGET_PACKAGES)}.")
-            if not (1 <= len(self.target_packages) <= 3):
-                raise RecipeError("target_packages must list 1-3 packages.")
+            if not (TARGET_PACKAGE_BOUNDS[0] <= len(self.target_packages) <= TARGET_PACKAGE_BOUNDS[1]):
+                raise RecipeError(f"target_packages must list {TARGET_PACKAGE_BOUNDS[0]}-{TARGET_PACKAGE_BOUNDS[1]} packages.")
         if self.timing_at is not None:
             from . import timing as _tm
             if _tm.parse_hhmm(self.timing_at) is None:
@@ -476,13 +490,10 @@ class Recipe:
                     "timing_at needs timing_anchor='push' or 'tot' — with a "
                     "takeoff anchor the clock is the mission start, not a time "
                     "you pick.")
-        if not (0 <= self.timing_hold_min <= 15):
-            raise RecipeError(
-                f"timing_hold_min must be 0-15, got {self.timing_hold_min!r}.")
         if self.callsign is not None:
             cs = str(self.callsign).strip()
-            if not (1 <= len(cs) <= 20):
-                raise RecipeError("callsign must be 1-20 characters.")
+            if not (CALLSIGN_LENGTH[0] <= len(cs) <= CALLSIGN_LENGTH[1]):
+                raise RecipeError(f"callsign must be {CALLSIGN_LENGTH[0]}-{CALLSIGN_LENGTH[1]} characters.")
             self.callsign = cs
         if self.comms is not None:
             # Refuse a bad comm table BEFORE the engine runs, with the row

@@ -60,7 +60,7 @@ CONTENT_VERSION = {
     # is USAF and Cairo West is home — different missions, not a patch.
     # 3.0: the wingman moved INTO the player's flight — the two-ship is flown
     # differently and a pilot's notes about REX 2 stop being true.
-    "wk_proud_phantom": "3.0.5",     # 1.1: the coached B'NAI joined the track
+    "wk_proud_phantom": "3.0.6",     # 3.0.6: correct the eleven-ride introduction
                                      # 1.1.1: the brief leaves the screen
                                      # 2.1: the wingman waits for your brief
                                      # 2.1.1: ...and then actually takes off

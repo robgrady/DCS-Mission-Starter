@@ -30,7 +30,7 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.111.0**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.111.1**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. Builder supports veteran AI wingmen within the
 player flight, including a solo four-ship; the static New in DCS promotion
@@ -45,10 +45,18 @@ generators are included. The 17 audited behavioral Library mismatches and
 preset inconsistency are corrected; three exercises explicitly require human
 instruction. See [correction evidence](library-validation-1.108.0.md). DCS flight
 validation and the separate historical boundary/date findings remain open.
-The latest patch imports all 1,397 Iraq stand directions, corrects Cold War
-U.S. Phantom static skins, and ships the compatible carrier/preset extraction.
+The earlier parking and livery corrections include all 1,397 Iraq stand
+directions and bounded Cold War U.S. Phantom static skins.
 Every delivered change now receives a semantic version increment, including
-development branches; the larger architecture migration is still in progress.
+development branches. **Architecture migration completed in v1.108.2:** Builder
+phases, document facts, API routers/services and browser controllers have explicit
+owners; release producers share one registry and public pack publication uses
+immutable revisions and one Fly catalog owner. Public contracts were preserved,
+so semantic versioning classifies that refactor as a patch. See
+[completion and evidence](architecture-2.0.md). Historical content research and
+DCS flight verification remain separate from source refactoring. The current
+patch aligns the War on Terror label with its existing 2003–2025 filter, corrects
+Proud Phantom's eleven-ride introduction, and exposes recipe limits to agents.
 
 ## The bets
 
@@ -89,14 +97,6 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
   disclosures shipped in v1.108.3 ([correction ledger](historical-content-1.108.3.md)).
   Research the remaining exact geometry, operational validity, capture/opening
   dates and unit rosters; a successful build is not historical proof. *Bet 1.*
-- **Architecture migration completed in v1.108.2.** Builder phases, document
-  facts, API routers/services and browser controllers have explicit owners.
-  Release producers share one registry; public pack publication uses immutable
-  revisions and one Fly catalog owner. The migration preserves public contracts,
-  so semantic versioning classifies it as a patch, rather than inventing a break
-  for the requested 2.0 milestone. See [completion and evidence](architecture-2.0.md).
-  Historical content research and DCS flight verification remain separate from
-  source refactoring. Discord/accounts remain deferred.
 - **Formation departures (AI runway line-up).** DCS 2.9.24 added the
   advanced waypoint action, 2.9.30 the group option; pydcs has neither and
   does not need to. The feature is built end to end — a *Formation

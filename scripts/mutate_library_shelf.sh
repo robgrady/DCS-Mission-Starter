@@ -166,8 +166,8 @@ mut missiongen/pattern.py '    return ["landing" if i % 2 == 0 else "takeoff" fo
                           '    return ["landing"] * count'
 run "make both-sides traffic all-landing" "both_mode"
 
-mut missiongen/recipe.py '        from .pattern import MAX_COUNT as _PATTERN_MAX' \
-                         '        _PATTERN_MAX = 4'
+mut missiongen/recipe.py '        "pattern_count": (1, MAX_COUNT)' \
+                         '        "pattern_count": (1, 4)'
 run "keep a private copy of the ceiling that can drift" "recipe_enforces"
 
 echo

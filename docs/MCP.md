@@ -49,7 +49,7 @@ return structured JSON plus the SDK's text representation.
 | --- | --- | --- |
 | `sortiestarter_list_catalog` | kind, query, era, map, limit, offset | Small summaries, total, has_more, next_offset |
 | `sortiestarter_get_catalog_item` | kind, key | Full metadata, historical context, presets/requirements |
-| `sortiestarter_get_recipe_schema` | none | Canonical types/defaults/enums and engine/share versions |
+| `sortiestarter_get_recipe_schema` | none | Canonical types/defaults/enums, bounds, seat rules and engine/share versions |
 | `sortiestarter_validate_recipe` | recipe | Normalized fields/template defaults, share code, Builder URL |
 | `sortiestarter_generate_mission` | recipe | Actual native mission manifest and download links |
 
@@ -81,6 +81,16 @@ aircraft/era/terrain/parking constraints and reports rendering or engine
 warnings. Errors are MCP tool errors with corrective guidance; unknown fields
 are refused. Generation is non-destructive, consumes compute and is annotated
 as not read-only. It is idempotent for a fixed recipe on this app version.
+
+The schema publishes `minimum`/`maximum` for numeric fields, array length and
+package choices for `target_packages`, and integer value limits for parking
+overrides and ramp mixes. `slots` is **1–4**; `veteran_wingmen` is **0–3**, must
+be less than `slots`, and is unavailable for fixed Case III or crew-ops flights.
+Standard JSON Schema `allOf`/`if`/`then` rules enforce that seat relationship
+when `slots` is supplied. Omitted fields still resolve through the selected
+template; do not apply global defaults before validation. Callsigns are trimmed
+before their 1–20-character limit is checked. Domain restrictions such as comm
+frequency compatibility and fixed-flight exclusions require validate_recipe.
 
 Resources: `sortiestarter://recipe-schema` (JSON),
 `sortiestarter://user-guide` and `sortiestarter://integration-guide` (Markdown). Their text and catalog descriptions are
@@ -142,6 +152,8 @@ Run `PYTHONPATH=.:vendor python -m pytest tests/test_mcp.py` for SDK/client,
 archive, capacity, lifecycle and transport checks. The registered mutation
 harness is `scripts/mutate_mcp.py`. Read-only workflow evaluation questions are
 in `docs/mcp-evaluation.xml`; they target the built-in v1.110.0 catalog.
+Catalog and recipe-limit guards are in `tests/test_catalog_truth.py`, with
+fault injection in `scripts/mutate_catalog_truth.py`.
 
 DKS import and ATO placement have not been tested against a DKS instance.
 

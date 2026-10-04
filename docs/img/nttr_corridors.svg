@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" font-family="'Source Sans 3', 'Segoe UI', Arial, sans-serif">
 <rect width="1600" height="1000" fill="#ffffff"/>
 <rect width="1600" height="40" fill="#00205b"/>
-<text x="20" y="20" fill="#fff" font-family="'IBM Plex Mono', Menlo, Consolas, monospace" font-size="12" font-weight="700" dominant-baseline="middle">DSS 1-1  ·  DCS SORTIE STARTER  ·  REV 1.111.0</text>
+<text x="20" y="20" fill="#fff" font-family="'IBM Plex Mono', Menlo, Consolas, monospace" font-size="12" font-weight="700" dominant-baseline="middle">DSS 1-1  ·  DCS SORTIE STARTER  ·  REV 1.111.1</text>
 <text x="1580" y="20" fill="#fff" font-family="'IBM Plex Mono', Menlo, Consolas, monospace" font-size="12" text-anchor="end" dominant-baseline="middle">SORTIE STARTER / NTTR CORRIDORS</text>
 <text x="20" y="76" fill="#00205b" font-family="Bangers, 'Barlow Condensed', Impact, sans-serif" font-size="40" dominant-baseline="middle">NTTR CORRIDORS</text>
 <text x="20" y="104" fill="#475467" font-size="14" dominant-baseline="middle">Nellis AFB and the Nevada Test and Training Range - how a flight gets to the range and back. Not for real-world navigation.</text>

@@ -225,9 +225,9 @@ TRACKS = {
         "series": "The White Knights, 1980",
         "follows": "wk_checkout",
         "premise": "From 10 July to 3 October 1980 the 70th TFS flew twelve F-4Es "
-                   "out of Cairo West, Egypt. Ten rides from the squadron's "
-                   "Conventional Tactics guide of 27 January 1980 — five "
-                   "delivery planning sheets and ALL FIVE two-ship attacks, "
+                   "out of Cairo West, Egypt. Eleven rides: the tanker drag, "
+                   "four delivery exercises and all five two-ship attack patterns "
+                   "from the squadron's Conventional Tactics guide of 27 January 1980, "
                    "both halves of the split included — flown from the base "
                    "they actually deployed to. The B'NAI is taught twice: "
                    "once with a cue at every decision, once with nothing.",

@@ -149,7 +149,7 @@ def sortiestarter_get_catalog_item(params: CatalogItem) -> dict[str, Any]:
 
 @mcp.tool(annotations=READ, structured_output=True)
 def sortiestarter_get_recipe_schema() -> dict[str, Any]:
-    """Return the complete recipe JSON Schema, defaults, enums and engine/share versions."""
+    """Return recipe JSON Schema with defaults, enums, bounds, seat rules and engine/share versions."""
     return recipe_json_schema()
 
 

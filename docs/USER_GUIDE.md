@@ -308,6 +308,13 @@ to generate fresh links. Keep downloaded files for an exact archive. A busy
 generator asks you to retry after three seconds. Recipe validation checks
 fields and template defaults; generation makes the final compatibility checks.
 
+The assistant's recipe schema includes numeric limits and the human-seat rule:
+**1–4 aircraft**, with **0–3 veteran AI wingmen** and always at least one human
+aircraft. Other bounds include parking fill (0–100%), pattern traffic (1–8),
+threat intensity (1–5) and timing hold (0–15 minutes). Fixed crew-ops and Case III
+rides still refuse custom veteran wingmen. Validate the selected recipe before
+generation; these limits do not replace the final compatibility checks.
+
 Published packs remain authored downloads: the assistant retrieves their
 pack link rather than rebuilding a `pack_` template. Missions are not saved
 in an account or installed in another application. DKS import compatibility
@@ -326,11 +333,13 @@ everything is ordinary groups and statics you can move, delete, or build on.
 the Hornet entered service in 1987, so it can't appear in a Cold War (1965–1985)
 starter. This is a broad era filter, not certification that every module variant served on the authored scenario date.
 
-**What is the "War on Terror" era for?** Iraq and Afghanistan, 2003–2020. It offers
-the same aircraft as Modern — the difference is not what you fly, it's what flies
-back. Nothing does. There is no enemy air force and no radar SAM; the threat is
-guns and MANPADS, which is why the transit profile sits higher than Modern's. If
-you want MiGs over Iraq, pick Modern instead.
+**What is the "War on Terror" era for?** Iraq and Afghanistan missions with a
+**2003–2025 aircraft service-window filter**. This broad preset is not a claim
+that a particular conflict or deployment lasted through 2025; named scenarios
+retain their authored dates. Its defining setting is the opposition: there is
+no enemy air force and no radar SAM; the threat is guns and MANPADS, which is
+why the transit profile sits higher than Modern's. If you want MiGs over Iraq,
+pick Modern instead.
 
 
 ## Parking, skins and historical fidelity

@@ -1,7 +1,7 @@
 {
-  "version": "1.111.0",
+  "version": "1.111.1",
   "documentation_required": true,
-  "reason": "Document mission/collection browsing, collapsed filters, threat semantics, declared additional modules and all-requirement compatibility, matching configuration and authored collection downloads.",
+  "reason": "Clarify the existing War on Terror service-window filter and expose recipe bounds, human-seat rules and fixed-flight exclusions to agents; all manual sections reviewed.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -18,6 +18,6 @@
     "Flying with veteran AI wingmen",
     "Missions through an AI assistant (MCP)"
   ],
-  "source_sha256": "b809f49588924afc3712a73c34002d813bba3a5f4a2c06673e6898e076c1fcda",
-  "previous_source_sha256": "a3c0cec4003fc17555101d4750d3732bdaeef597ef8e22203a734ee0335d08bc"
+  "source_sha256": "bb632d423106d24f741c49d505b00e6cb67a7efdc5c8f725f3f98ee0ae77926f",
+  "previous_source_sha256": "b809f49588924afc3712a73c34002d813bba3a5f4a2c06673e6898e076c1fcda"
 }

@@ -1,5 +1,18 @@
 # Changelog — DCS Sortie Starter
 
+## [1.111.1] — Catalog truth and discoverable recipe limits
+
+- Align the War on Terror label and manual with its existing 2003–2025 aircraft
+  filter; preserve the service window and authored scenario dates.
+- Correct Proud Phantom's introduction to eleven rides, including the tanker
+  drag; update its authoring source and publish content revision 3.0.6.
+- Project shared engine bounds into HTTP/OpenAPI and MCP recipe schemas,
+  including explicit flight-size/veteran seat rules, target package limits,
+  parking override values and ramp mix counts. Preserve template omissions and
+  callsign normalization; domain validation remains required.
+- Move the completed architecture migration out of the roadmap's active queue
+  and correct its stale summary. Update the User Manual and public agent guide.
+
 ## [1.111.0] — Library discovery and compatibility
 
 - Separate Missions and Collections; preserve complete distinguishing titles and show collection size, aircraft, maps and textual threat. Remove stale NEW badges and the unsupported Newest sort.
