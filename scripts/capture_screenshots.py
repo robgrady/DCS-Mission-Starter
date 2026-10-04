@@ -53,6 +53,8 @@ def enter_builder(page):
 
 def show(page, key):
     page.evaluate(f"showScreen({key!r})")
+    if key == "review":
+        page.wait_for_function("document.getElementById('builder_readiness').textContent.includes('Selection checked')", timeout=15000)
     page.wait_for_timeout(400)
 
 
@@ -90,7 +92,7 @@ def main():
         page.goto(BASE)
 
         # Landing shots, before we go anywhere.
-        page.wait_for_timeout(1200)
+        page.wait_for_function("OPT !== null && NAV_READY", timeout=30000)
         page.screenshot(path=str(OUT / "quick.png"),
                         clip={"x": 0, "y": 0, "width": 1380, "height": 820})
 

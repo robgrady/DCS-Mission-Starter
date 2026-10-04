@@ -1,5 +1,25 @@
 # Changelog — DCS Sortie Starter
 
+## [1.112.0] — Mission readiness and integration validation
+
+- Add a Mission readiness card before Generate in Builder, Library and Fly Now:
+  actual selection checks, terrain/aircraft/ship requirements, declared ownership,
+  human/AI aircraft, departure parking and measured static-direction coverage.
+  Distinguish selection checks from file generation and unverified DCS flights.
+- Include emitted human/AI counts and readiness in integration manifests;
+  correct single-player installation guidance for one human with AI wingmen.
+- Fix routed Mission Kit downloads by serializing route Points into explicit
+  coordinates. Include every human flight's native route, speed, altitude,
+  timing and mission clock in navigation.json with named units.
+- Supply a reproducible five-mission validation pack and checkpoint results
+  sheet for convoy, native JTAC, A-6 attack/recovery, TARPS and DKS import.
+  Archive readback is checked; simulator flights remain pending.
+- Import the F-14B(U) fixture into DKS and record preserved fields and limits;
+  update the User Manual and agent guide. This test does not certify cartridge
+  round trips, every aircraft/map, or automatic ATO placement.
+- Wait for navigation and readiness before manual screenshot capture so slow
+  initialization cannot produce a picture of empty controls.
+
 ## [1.111.1] — Catalog truth and discoverable recipe limits
 
 - Align the War on Terror label and manual with its existing 2003–2025 aircraft

@@ -1,9 +1,9 @@
 {
  "docs/DCS_Mission_Starter_Guide.pdf": {
-  "docs/USER_GUIDE.md": "bb632d423106d24f",
+  "docs/USER_GUIDE.md": "ea9753a9efd523e7",
   "docs/img/hero.png": "a9c3ae21f01f0698",
-  "docs/img/review.png": "b045b451f3f613e9",
-  "missiongen/__init__.py": "148771f6f86292b0",
+  "docs/img/review.png": "24c14f91e8409318",
+  "missiongen/__init__.py": "7909990cf3680147",
   "missiongen/authentic.py": "bb016757ea3cf784",
   "missiongen/data/brand/LICENSE-lucide.txt": "b495047bd93a9b06",
   "missiongen/data/brand/authentic_media.png": "2911b84231788ed2",
@@ -37,16 +37,17 @@
   "scripts/build_wk_voiceover_sheet.py": "054021c012eda7a4"
  },
  "docs/img/hero.png": {
-  "frontend/assets/app.js": "b14ac7673390244c",
+  "frontend/assets/app.js": "db60a4fea8001321",
   "frontend/assets/comm-controller.js": "5782becb27164a2b",
   "frontend/assets/library-catalog.js": "a370de73a89adc5c",
-  "frontend/assets/library-controller.js": "ad244e0490a93c56",
-  "frontend/assets/mission-results.js": "e9b4064ec260937d",
+  "frontend/assets/library-controller.js": "f5d0583c7a96dca0",
+  "frontend/assets/mission-results.js": "4e736d3c7d5c3e61",
+  "frontend/assets/readiness.js": "69f2f88dd971b901",
   "frontend/assets/recipe-presets.js": "57078621729e5121",
   "frontend/assets/recipe-state.js": "1a34d8cc5fb12bfa",
-  "frontend/index.html": "e6a87df55c0e9c0f",
+  "frontend/index.html": "b15440403b0833bc",
   "scripts/artifacts.py": "dbe8b91faee2909c",
-  "scripts/capture_screenshots.py": "cdc9ce45fdb9c366"
+  "scripts/capture_screenshots.py": "7cdfb2f0f6b63910"
  },
  "docs/img/nttr_corridors.png": {
   "missiongen/corridor_chart.py": "f8e9b3c01506f678",
@@ -81,7 +82,7 @@
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "packs/wk_proud_phantom.sspack": {
-  "missiongen/__init__.py": "148771f6f86292b0",
+  "missiongen/__init__.py": "7909990cf3680147",
   "missiongen/_determinism.py": "06395ce0d27e8e62",
   "missiongen/aar.py": "aa86bfe82da61e81",
   "missiongen/aar_grade.py": "7b289c17d8184251",
@@ -93,7 +94,7 @@
   "missiongen/alignment.py": "91e8868c29d2840e",
   "missiongen/ambient.py": "7019772fbdd3d7f1",
   "missiongen/analytics.py": "124953a4627e571d",
-  "missiongen/artifacts.py": "e70c9d6458a25101",
+  "missiongen/artifacts.py": "7f6448afb1285c92",
   "missiongen/authentic.py": "bb016757ea3cf784",
   "missiongen/backseat.py": "b373f143d8f34c1c",
   "missiongen/bfm.py": "af10afd6d4a1525a",
@@ -304,6 +305,7 @@
   "missiongen/presets.py": "d291ce11a5249cc0",
   "missiongen/pressure.py": "7cc119921f91f999",
   "missiongen/pydcs_patches.py": "75eb36057ccecda0",
+  "missiongen/readiness.py": "fb1c96446932a1a1",
   "missiongen/recipe.py": "8480ba599c29b2bd",
   "missiongen/resolver.py": "12ccc902a0eb49d7",
   "missiongen/routing.py": "135cf2d97bc4b2cf",

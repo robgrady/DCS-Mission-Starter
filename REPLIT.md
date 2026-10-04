@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.111.1.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.112.0.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
@@ -28,6 +28,7 @@ Architecture (all included, nothing to scaffold):
 - `server/app.py` — FastAPI backend. Serves the frontend at `/` and the API:
   `GET /api/options` (all wizard/Library data incl. templates + version),
   `POST /api/generate` (recipe JSON → `.miz` download),
+  `POST /api/readiness` (bounded selection checks and declared requirements),
   `GET /api/dl?r=<code>` (share link → regenerated download),
   `/mcp/` (Streamable HTTP integration; see `docs/MCP.md`),
   `GET /api/mission-kit?r=<code>&version=<release>&sha256=<native-checksum>` (complete mission kit),

@@ -1317,6 +1317,7 @@ function updateRail(){
 
 function buildReview(){
   if(!OPT || !S.map || !S.era) return;
+  readinessController.refresh("builder_readiness", recipe());
   // One clickable row per Builder screen (reuses each screen's live value);
   // clicking a row jumps back to that section to tweak it.
   const rows = visScreens().filter(s=>s.key!=='review').map((s,i)=>{
@@ -1624,6 +1625,8 @@ function qfRender(){
   const ready = QF.type && QF.ac && QF.map;
   const era = ready ? qfEra(QF.type, QF.map, QF.ac) : null;
   document.getElementById('qf_fly').disabled = GENERATING || !era;
+  if(era) readinessController.refresh('quick_readiness', qfRecipe());
+  else readinessController.clear('quick_readiness');
   document.getElementById('qf_hint').textContent = ready
     ? (era ? `${OPT.eras[era].label} · seed ${QF.seed} — era, base, weather and comms are set for you.`
            : 'That jet, mission and map have no era in common — pick another map.')
@@ -1926,7 +1929,7 @@ document.addEventListener('change', e=>{
 
 Object.assign(window, createCommController({state:S,getOptions:()=>OPT,callbacks:{sel: (...args) => sel(...args), updateRail: (...args) => updateRail(...args), recipe: (...args) => recipe(...args), saveState: (...args) => saveState(...args) , SUP_NAMES},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
 
-Object.assign(window, createLibraryController({state:S,getOptions:()=>OPT,callbacks:{acCleanId: (...args) => acCleanId(...args), acDisplay: (...args) => acDisplay(...args), applyScenarioPreset: (...args) => applyScenarioPreset(...args), ga: (...args) => ga(...args), modalClose: (...args) => modalClose(...args), modalOpen: (...args) => modalOpen(...args), refreshAircraft: (...args) => refreshAircraft(...args), showScreen: (...args) => showScreen(...args), showView: (...args) => showView(...args), sum: (...args) => sum(...args), track: (...args) => track(...args), updateRail: (...args) => updateRail(...args), recipe: (...args) => recipe(...args) , AC_NAME},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
+Object.assign(window, createLibraryController({state:S,getOptions:()=>OPT,callbacks:{refreshReadiness:(...args)=>readinessController.refresh(...args),acCleanId: (...args) => acCleanId(...args), acDisplay: (...args) => acDisplay(...args), applyScenarioPreset: (...args) => applyScenarioPreset(...args), ga: (...args) => ga(...args), modalClose: (...args) => modalClose(...args), modalOpen: (...args) => modalOpen(...args), refreshAircraft: (...args) => refreshAircraft(...args), showScreen: (...args) => showScreen(...args), showView: (...args) => showView(...args), sum: (...args) => sum(...args), track: (...args) => track(...args), updateRail: (...args) => updateRail(...args), recipe: (...args) => recipe(...args) , AC_NAME},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
 
 Object.assign(window, createRecipeController({state:S,getOptions:()=>OPT,callbacks:{applyRecipe: (...args) => applyRecipe(...args), composerMix: (...args) => composerMix(...args), dressMode: (...args) => dressMode(...args), perBaseOverrides: (...args) => perBaseOverrides(...args), commOverrides: (...args) => commOverrides(...args) , BLOCKS, RECIPE_DEFAULTS, RECIPE_ENGINE_FIELDS},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
 
@@ -1943,4 +1946,5 @@ Object.defineProperties(window, {
   GENERATING:{get:()=>missionResultsController.busy},
   MISSION_RESULTS:{get:()=>missionResultsController.results}
 });
+const readinessController = createReadinessController({document,fetch,ownedMaps,ownedAc,ownedModules,esc});
 init();

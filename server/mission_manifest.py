@@ -10,6 +10,7 @@ def kit_manifest(stats: dict) -> dict:
     from missiongen import loadouts as _lo
     from missiongen.bfm import geometry_summary
     kit = {
+        "flight": stats.get("flight_counts"),
         "kneeboard_pages": stats.get("kneeboard_pages", 0),
         "dtc": bool(stats.get("dtc_units_tagged")),
         "route": stats.get("route"),
@@ -40,3 +41,41 @@ def kit_manifest(stats: dict) -> dict:
     while len(json.dumps(kit)) > 1800 and kit["enemy_air"]:
         kit["enemy_air"].pop()
     return kit
+
+
+def navigation_manifest(stats, miz):
+    """JSON-safe leg cards plus every emitted human flight's native route.
+
+    Native speeds are m/s, altitudes metres, x/y theatre metres, ETAs seconds
+    from mission start. Leg-card kt/alt_ft fields retain their labelled units.
+    """
+    from dcs.mapping import Point
+    import dcs.lua as lua
+    import zipfile
+    def plain(value):
+        if isinstance(value, Point):
+            ll = value.latlng()
+            return {'x':value.x, 'y':value.y, 'latitude':ll.lat, 'longitude':ll.lng}
+        if isinstance(value, dict):
+            return {k:plain(v) for k,v in value.items()}
+        if isinstance(value,(list,tuple)):
+            return [plain(v) for v in value]
+        return value
+    def values(value):
+        return list(value.values()) if isinstance(value,dict) else list(value or [])
+    with zipfile.ZipFile(miz) as archive:
+        mission = lua.loads(archive.read('mission').decode())['mission']
+    flights=[]
+    for side in ('blue','red','neutrals'):
+        for country in values(mission.get('coalition',{}).get(side,{}).get('country')):
+            for kind in ('plane','helicopter'):
+                for group in values(country.get(kind,{}).get('group')):
+                    if not any(u.get('skill') in ('Player','Client') for u in values(group.get('units'))):
+                        continue
+                    points=[{k:p.get(k) for k in ('name','x','y','alt','alt_type','speed','action','airdromeId','linkUnit','helipadId','ETA','ETA_locked')}
+                            for p in values(group.get('route',{}).get('points'))]
+                    flights.append({'name':group.get('name'),'coalition':side,'points':points})
+    return {'route':plain(stats.get('route_legs') or stats.get('wk_route') or stats.get('cq_route') or []),
+            'target':stats.get('route_target'), 'timing':plain(stats.get('timing')),
+            'native_units':{'coordinates':'theatre metres','altitude':'metres','speed':'metres per second','ETA':'seconds from mission start'},
+            'mission_start_seconds':mission.get('start_time'), 'flights':flights}

@@ -30,7 +30,7 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-**v1.111.1**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.112.0**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. Builder supports veteran AI wingmen within the
 player flight, including a solo four-ship; the static New in DCS promotion
@@ -55,8 +55,11 @@ immutable revisions and one Fly catalog owner. Public contracts were preserved,
 so semantic versioning classifies that refactor as a patch. See
 [completion and evidence](architecture-2.0.md). Historical content research and
 DCS flight verification remain separate from source refactoring. The current
-patch aligns the War on Terror label with its existing 2003–2025 filter, corrects
-Proud Phantom's eleven-ride introduction, and exposes recipe limits to agents.
+release adds selection readiness to all generation doors and emitted flight
+counts to Mission Kits. Routed integration ZIPs now serialize actual coordinates
+and native navigation fields. A five-mission validation pack is generated;
+DCS flights remain unrun. A bounded native F-14B(U)/Caucasus DKS import was
+observed; see [import results](dks-validation-1.112.0.md).
 
 ## The bets
 
@@ -87,7 +90,11 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 
 - **Verify 1.108.0 in DCS.** Fly the corrected moving convoy, native JTAC,
   A-6 strike/recovery and TARPS sorties end to end. Code/archive checks and
-  production health are separate from simulator flight verification. *Bet 1.*
+  production health are separate from simulator flight verification. The
+  v1.112.0 pack (`scripts/build_validation_pack.py`) supplies deterministic
+  missions, native expected facts, checkpoint instructions and results.csv.
+  Record DCS/module versions and logs/tracks/imagery; all four flight cases
+  remain NOT RUN. *Bet 1.*
 - **Close the F-14B(U) front-seat question in the cockpit.** The file, the
   card and both radios agree; Heatblur's own missions program the jet the
   same way. Discriminator: fly the same mission in the plain F-14B. The ME
@@ -113,13 +120,12 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 - **A squadron's ladder inside its pack.** The comm table is per mission and
   per browser; a `comms` block in a course pack makes it per squadron, so
   every mission in the pack is on the SOP without anyone typing. *Bet 3.*
-- **DKS import validation.** Sortie Starter's MCP is implemented at `/mcp/`,
-  with catalog search, recipe validation, native `.miz` generation, a manifest
-  and version-pinned mission-kit downloads. The kit contains actual comm/nav
-  sidecars and available brief, kneeboard and DTC files. Next: import one into
-  DKS and record what survives; confirm its tool contract, comm import fields
-  and kneeboard page size. Automatic ATO placement remains unimplemented and
-  unverified. *Bet 3.*
+- **Extend the DKS import validation.** The v1.112.0 F-14B(U)/Caucasus
+  native fixture retained route, radio frequencies, support, stores and map
+  drawings. Agency names stayed blank; AI did not become human roster rows.
+  Cartridge round trips, cockpit loading, more aircraft/maps and kneeboard
+  export dimensions still need evidence. ATO posting remains unimplemented
+  and unverified. See [results](dks-validation-1.112.0.md). *Bet 3.*
 - **Cockpit-parameter verification.** The readback gate is built and off on
   the F-14 and Hornet until `list_cockpit_params()` output arrives for each;
   then `cockpit.py` gains two lines and the channel-2 problem is caught by
@@ -186,7 +192,13 @@ must remain identifiable after generator updates.
   content contracts. **Accept when:** each card and its generated brief agree
   about mode, actors and assessment; users can distinguish a lesson from a
   reference setup before downloading.
-- **F02 · Mission readiness and compatibility card.** P1 / M.
+- **F02 · Complete mission readiness and compatibility.** P1 / M.
+  First slice shipped in v1.112.0: all generation doors check effective
+  selections and show known terrain/player/ship requirements, declared
+  ownership, human/AI aircraft and parking/survey limits. Generated manifests
+  report actual flight counts. All DCS flights remain explicitly unverified.
+  Remaining: complete AI/mod dependency data and validated crew-seat metadata;
+  store simulator validation with exact content/DCS/module revisions.
   Show required terrain, aircraft/mods and ship modules, player/crew seats,
   essential equipment and validation status before Generate. Extend the existing
   owned-module selection into a check of the complete mission, including AI and

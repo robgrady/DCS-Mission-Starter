@@ -20,7 +20,7 @@ from starlette.background import BackgroundTask
 from missiongen import Recipe, __version__
 from missiongen.share import decode_recipe, encode_recipe
 from . import artifact_service
-from .mission_manifest import kit_manifest
+from .mission_manifest import kit_manifest, navigation_manifest
 
 log = logging.getLogger('missionstarter.kit')
 router = APIRouter()
@@ -32,8 +32,7 @@ def build_kit(recipe: Recipe, directory: Path) -> dict:
     miz = directory / 'mission.miz'
     result = artifact_service.generate(recipe, str(miz), brief_dir=str(directory))
     stats = result['stats']
-    navigation = {'route': stats.get('route_legs') or [],
-                  'target': stats.get('route_target'), 'timing': stats.get('timing')}
+    navigation = navigation_manifest(stats, miz)
     files = [('mission.miz', miz, 'application/zip')]
     for key, name, mime in [('brief_pdf', 'brief.pdf', 'application/pdf'),
                             ('brief_md', 'brief.md', 'text/markdown'),
@@ -46,6 +45,7 @@ def build_kit(recipe: Recipe, directory: Path) -> dict:
                             'bytes': miz.stat().st_size},
                 'warnings': result['warnings'], 'kit': kit_manifest(stats),
                 'flight_composition': stats.get('flight_composition'),
+                'readiness': result.get('readiness'),
                 'files': [{'name': name, 'media_type': mime} for name, _, mime in files]}
     bundle = directory / 'mission_kit.zip'
     with zipfile.ZipFile(bundle, 'w', zipfile.ZIP_DEFLATED) as out:

@@ -9,7 +9,7 @@ from missiongen import __version__
 from . import site_routes, catalog_routes, document_routes, comm_routes
 from . import health_routes, mission_routes, library_routes, contact_routes
 from .admin import router as admin_router
-from . import mission_kit, mcp_server
+from . import mission_kit, mcp_server, readiness
 
 @asynccontextmanager
 async def lifespan(app):
@@ -23,7 +23,7 @@ async def lifespan(app):
 app = FastAPI(title="DCS Sortie Starter", version=__version__, lifespan=lifespan)
 app.mount("/assets", StaticFiles(directory=_root / "frontend" / "assets"), name="assets")
 for module in (site_routes, catalog_routes, document_routes, comm_routes,
-               health_routes, mission_routes, library_routes, contact_routes, mission_kit):
+               health_routes, mission_routes, library_routes, contact_routes, mission_kit, readiness):
     app.include_router(module.router)
 app.include_router(admin_router)
 app.add_exception_handler(404, site_routes.not_found)

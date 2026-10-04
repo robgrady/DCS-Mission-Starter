@@ -17,7 +17,12 @@ BASELINES=json.loads((Path(__file__).parent/'fixtures/placement-contracts.json')
 def test_seeded_native_content_matches_the_reviewed_release_contract(baseline,tmp_path):
     recipe=Recipe.from_dict(baseline['recipe']); path=tmp_path/'m.miz'
     result=generate(recipe,str(path))
-    facts=json.loads(json.dumps({'stats':result['stats'],'warnings':result['warnings'],
+    # The historic projection predates the additive flight-count presentation
+    # field. Its native roles/counts are checked against emitted units in
+    # test_readiness; keep every pre-existing stat and native resource pinned.
+    stats = dict(result['stats'])
+    stats.pop('flight_counts', None)
+    facts=json.loads(json.dumps({'stats':stats,'warnings':result['warnings'],
                                  'mission':inspect_archive(path)},default=str))
     text=json.dumps(facts,sort_keys=True).replace(__version__,'<release>')
     assert hashlib.sha256(text.encode()).hexdigest() == baseline['sha256'], (

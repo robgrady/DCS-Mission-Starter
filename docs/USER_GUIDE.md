@@ -58,6 +58,31 @@ F-4E Phantom II.
 dressing, the Threat Dial (including the guns-only tier: AAA belts, zero SAMs),
 support, corridors, map graphics — everything, in seven screens.
 
+### Mission readiness before Generate
+
+Builder's Review, configurable Library mission details and Fly Now show a
+**Mission readiness** card. It checks the effective recipe and lists terrain,
+player aircraft and known ship-module requirements. **Your content** compares
+these requirements with your declaration in Library → My DCS content; it cannot
+inspect your installation. It identifies human aircraft and veteran AI wingmen,
+or says an authored flight will be counted after generation. Aircraft counts
+exclude cockpit crew positions; use the mission briefing and module's join
+instructions for a human crewmate.
+
+Ground departures show size-compatible stands before allocation and the
+number with measured static-aircraft directions. Remaining stands use field
+or geometric defaults. These measurements govern statics, not player taxi
+behavior; generation still allocates parking and may select a different
+friendly field when required. Carrier deck allocation happens during generation.
+Stores are composed then; inspect **Your loadout** in the resulting Mission Kit.
+
+**Selection checked** does not mean the sortie was flown. The card names the
+app release and explicitly marks DCS flight validation **unverified**. AI/support
+assets, installed module versions and every mod dependency are not fully
+certified. Read generation warnings and DCS load warnings. A failed setup check
+explains which selection needs correction. If the check is unavailable, Generate
+still performs the engine's compatibility checks.
+
 ## Your mission kit
 
 Every generate ends with the **Mission Kit**: the `.miz` (with its install
@@ -317,8 +342,31 @@ generation; these limits do not replace the final compatibility checks.
 
 Published packs remain authored downloads: the assistant retrieves their
 pack link rather than rebuilding a `pack_` template. Missions are not saved
-in an account or installed in another application. DKS import compatibility
-still needs testing with DKS; this connection does not place files in its ATO.
+in an account or installed in another application. A specific F-14B(U)/Caucasus native import was tested in DKS; see below for
+what survived. This connection does not place files in its ATO.
+
+### Importing a mission into Digital Kneeboard Simulator
+
+Download and unzip the Mission Kit. In DKS choose **New kneeboard → Import .miz**,
+select `mission.miz` and the human flight, then review and create the design.
+Import the native mission, not the kit ZIP. DKS designs belong to a squadron;
+an unpublished test design is still visible to its squadron members.
+
+The v1.112.0 F-14B(U)/Caucasus test retained the player aircraft, takeoff and
+route coordinates, route altitude/speed/elapsed times, radio frequencies,
+tanker/AWACS details, stores and mission map drawings. Its one human aircraft
+appeared in the crew roster; three AI wingmen did not become human roster rows.
+Radio **agency names** remained blank. DKS displayed landing as an unnamed
+steerpoint with no ETA, and its additional-point/plot-line lists were empty.
+Its cartridge sections used aircraft defaults. Native cartridge import/export,
+in-cockpit loading, other aircraft/maps, kneeboard export size and ATO posting
+remain unverified.
+
+Keep `comms.json`, `navigation.json`, brief and DTC setup card beside the mission
+for comparison. These JSON sidecars are integration references, not a DKS import
+format. DKS can recalculate a flight plan; compare its results with the original
+mission before exporting a replacement cartridge. Preserve the original `.miz`
+when exact mission bytes matter.
 
 ## FAQ
 

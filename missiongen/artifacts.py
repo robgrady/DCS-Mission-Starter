@@ -75,6 +75,9 @@ def generate(recipe: Recipe, out_path: str, brief_dir: str = None) -> dict:
         except Exception as e:
             b.warnings.append(f"brief rendering failed: {e}")
     _normalize_zip_times(out_path)
+    from .readiness import generated_report
+    result["readiness"] = generated_report(recipe, b)
+    b.stats["flight_counts"] = result["readiness"]["flight"]
     return result
 
 

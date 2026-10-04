@@ -15,7 +15,7 @@ function kitRows(kit, fname, warn, rc){
   // rc = the recipe that was actually generated. Quick Flight builds recipes
   // off-DOM, so the kit can't read builder inputs; the builder passes its own.
   rc = rc || {};
-  const n = rc.slots || 1;
+  const n = kit.flight?.human_aircraft ?? ((rc.slots || 1) - (rc.veteran_wingmen || 0));
   const rows = [];
   const row = (ico, title, sub, right) =>
     rows.push('<div class="kitrow"><span class="kitico">'
@@ -25,6 +25,7 @@ function kitRows(kit, fname, warn, rc){
     n > 1 ? 'Multiplayer — '+n+' client seats. Host it: Multiplayer → New Server, or drop it on your dedicated server. No single-player slot.'
           : 'Single-player. Install path: <span class="kitpath">Saved Games\\DCS\\Missions</span> — then Mission → fly.',
     '<span class="kitok">DOWNLOAD STARTED ✓</span>');
+  if(kit.flight) row('plane', 'Your flight', esc(kit.flight.text));
   row('file', 'Briefing pack — PDF + Markdown',
     'The full mission brief as documents: situation, comms &amp; TACAN card, threat picture. Print it or second-screen it.',
     '<button class="kitbtn kit_brief">Download</button>');

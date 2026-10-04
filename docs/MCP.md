@@ -115,12 +115,31 @@ The ZIP contains:
 
 Manifest `schema_version: 1` includes `app_version`, normalized `recipe`,
 `share_code`, native mission `filename`, `bytes`, `sha256`, warnings, compact
-Mission Kit facts, optional custom flight composition, and the actual file
+Mission Kit facts, emitted human/AI flight counts, readiness, optional custom flight composition, and the actual file
 list (excluding the manifest itself). It exposes no server filesystem paths.
 `comms.json` uses resolved agency/callsign/frequency/preset/TACAN/notes rows,
 including overrides and dynamically allocated agencies. `frequency_mhz` is
-the card's decimal string. `navigation.json` contains actual route rows,
-target and timing, empty/null when absent. No requested route is invented.
+the card's decimal string. `navigation.json` contains JSON-safe leg-card rows, target and timing,
+empty/null when absent. Point objects become x/y plus latitude/longitude.
+`flights` lists every emitted human flight's native route, preserving name,
+x/y, altitude/type, speed, action, airfield/carrier links and ETA/lock.
+`native_units` names metres, metres/second and ETA seconds from mission start;
+`mission_start_seconds` gives the mission clock for converting to time of day.
+Leg-card `kt`/`alt_ft` fields retain their labelled units. No requested route is invented.
+
+`readiness.stage: generated` reports terrain/player-aircraft/known ship-module
+requirements, actual human/AI aircraft within human flights, allocation notes,
+stores and warnings. Aircraft counts exclude cockpit crew seats. Validation
+reports `selection: checked`, `generated_file: generated`, `dcs_flight: unverified`,
+with null DCS/module revisions. File generation is not a simulator-flight pass.
+AI/support dependencies and installed versions remain uncertified.
+
+Website selection preview: POST `/api/readiness` with `{"recipe": {...}}`.
+It shares generation admission and resolves the same world/aircraft guards,
+without producing artifacts. It reports `stage: selection`, `generated_file:
+not_built`, fitting stands before allocation and stand-specific static-heading
+coverage. This is an HTTP endpoint, not an additional MCP tool. Ownership is
+checked against browser declarations by the website; agents must ask the user.
 
 Temporary files are removed after a response, on build failure and after
 cancelled native work finishes. Cancellation retains its generation slot while
@@ -155,7 +174,12 @@ in `docs/mcp-evaluation.xml`; they target the built-in v1.110.0 catalog.
 Catalog and recipe-limit guards are in `tests/test_catalog_truth.py`, with
 fault injection in `scripts/mutate_catalog_truth.py`.
 
-DKS import and ATO placement have not been tested against a DKS instance.
+One native F-14B(U)/Caucasus mission was imported into DKS. Route, radio
+frequencies, support, stores and drawings survived; agency names and cartridge
+round-trip fidelity were not established. See [bounded import evidence](https://github.com/robgrady/DCS-Mission-Starter/blob/main/docs/dks-validation-1.112.0.md).
+The kit ZIP and JSON sidecars are not advertised as DKS import formats.
+Other aircraft/maps, DKS kneeboard export dimensions, cockpit loading and ATO
+placement remain unverified.
 
 ## Agent workflow
 
