@@ -11,6 +11,7 @@ misconfigured deploy can never expose an open admin.
 from __future__ import annotations
 
 import os
+import errno
 import time
 import json
 import hmac
@@ -615,7 +616,13 @@ def admin_pack_add(request: Request, pack_id: str = Form(""), label: str = Form(
         # holding the file. Anything else gets the generic line, because an
         # internal repr is not an instruction.
         return _packs_page(f"Couldn't install that pack: {e}")
+    except OSError as e:
+        log.exception("pack upload storage failure")
+        response = _packs_page(_pack_storage_message(e))
+        response.status_code = 503
+        return response
     except Exception:
+        log.exception("pack upload failed")
         return _packs_page("Couldn't install that pack: unreadable upload.")
     # STRAIGHT TO REVIEW. The derived manifest is a good guess and a guess is
     # not authorship: the labels are filenames and the premise is a
@@ -624,7 +631,15 @@ def admin_pack_add(request: Request, pack_id: str = Form(""), label: str = Form(
     return _redirect(f"/admin/packs/{man['id']}/edit")
 
 
-def _pack_edit_page(pid: str, msg: str = "") -> HTMLResponse:
+def _pack_storage_message(error: OSError) -> str:
+    if error.errno in (errno.ENOSPC, errno.EDQUOT):
+        return ("Server storage is full. The pack could not be saved. "
+                "Ask the site operator to restore storage capacity, then retry.")
+    return ("Server storage is unavailable. The pack could not be saved. "
+            "Please try again; if it persists, contact the site operator.")
+
+
+def _pack_edit_page(pid: str, msg: str = "", draft: dict | None = None) -> HTMLResponse:
     """Review and correct what derivation guessed.
 
     Everything on this form is something a machine cannot know: what the pack
@@ -637,6 +652,14 @@ def _pack_edit_page(pid: str, msg: str = "") -> HTMLResponse:
     man = _packs.get_manifest(pid)
     if not man:
         return _packs_page("That pack is not installed on this server.")
+    # Keep the author's submitted words on a failed save, without publishing
+    # them or changing the stored manifest.
+    man = dict(man)
+    for key, value in (draft or {}).items():
+        if key in ("library", "requires"):
+            man[key] = {**(man.get(key) or {}), **value}
+        else:
+            man[key] = value
     lib = man.get("library") or {}
     req = man.get("requires") or {}
     flash = f"<div class=flash>{html.escape(msg)}</div>" if msg else ""
@@ -799,7 +822,12 @@ async def admin_pack_edit_save(request: Request, pid: str):
     try:
         _packs.update_manifest(pid, patch)
     except ValueError as e:
-        return _pack_edit_page(pid, f"Could not save: {e}")
+        return _pack_edit_page(pid, f"Could not save: {e}", draft=patch)
+    except OSError as e:
+        log.exception("pack review storage failure")
+        response = _pack_edit_page(pid, _pack_storage_message(e), draft=patch)
+        response.status_code = 503
+        return response
     return _packs_page("Saved. It is live in the Library now.")
 
 

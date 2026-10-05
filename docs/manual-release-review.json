@@ -1,27 +1,13 @@
 {
-  "version": "1.114.0",
+  "version": "1.114.1",
   "documentation_required": true,
-  "reason": "Reviewed all existing manual sections and documented the Historical Library, chart editions and evidence limits, event-date comparison, contextual mission readings and read-only agent access. Also updated the carrier section for Iraq Gulf support and its scenery, historical and flight-validation limits.",
+  "reason": "Reviewed Template packs, the new authored-pack upload section, Share links and recipes, and Release identity and the manual. Documented actionable server-storage failures and retry behavior; mission generation and downloads are unchanged.",
   "sections_reviewed": [
-    "The four doors",
-    "Your mission kit",
-    "Quick start (Builder path)",
-    "The standard comm ladder",
-    "Building blocks",
-    "The carrier strike group",
     "Template packs",
+    "Uploading an authored mission pack",
     "Share links & recipes",
-    "FAQ",
-    "Parking, skins and historical fidelity",
-    "Release identity and the manual",
-    "Scenario dates and historical context",
-    "Flying with veteran AI wingmen",
-    "Missions through an AI assistant (MCP)",
-    "Mission readiness before Generate",
-    "Importing a mission into Digital Kneeboard Simulator",
-    "Historical map coverage and symbols",
-    "Historical Library: dated readings and charts"
+    "Release identity and the manual"
   ],
-  "source_sha256": "7202303b92017ab26cb05c3cdb688e6d12f05e9fde9c046b5d28e7df72d64cc5",
-  "previous_source_sha256": "cb610305a185d6af7fdce7c05d9cbfef6aa917cc9c6c04515ca7df5097505ed8"
+  "source_sha256": "27bd44a6aaf9760820a3617024eb0c107d3d326c3a36eab644dbc6bc0d3cbe34",
+  "previous_source_sha256": "7202303b92017ab26cb05c3cdb688e6d12f05e9fde9c046b5d28e7df72d64cc5"
 }

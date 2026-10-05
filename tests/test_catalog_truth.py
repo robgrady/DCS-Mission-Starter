@@ -137,7 +137,7 @@ def test_published_proud_phantom_manifest_and_printed_guides_agree():
         pytest.skip('Published archive checks need local release packs.')
     with zipfile.ZipFile(path) as archive:
         man = json.loads(archive.read('pack.json'))
-        assert man['version'] == '3.0.8'
+        assert man['version'] == '3.0.9'
         assert len(man['syllabus']) == 11
         assert man['library']['premise'] == tracks.get('wk_proud_phantom')['premise']
         assert 'Eleven rides: the tanker drag' in archive.read(man['docs']['readme']).decode()

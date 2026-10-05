@@ -6,7 +6,7 @@ also served at `/api/options` → `version`.*
 
 ---
 
-> **This package is v1.114.0.** Verify a deploy with `GET /api/health` — it
+> **This package is v1.114.1.** Verify a deploy with `GET /api/health` — it
 > returns the running `version`, plus `data_pack_errors` (the endpoint returns
 > 503 when non-empty) and `liveries_verified`.
 
@@ -22,6 +22,12 @@ Builder share the same engine. A recipe and seed reproduce the mission within
 the same generator release; preserve a downloaded `.miz` for an exact archive.
 Published collections are fixed authored downloads stored separately from the
 application image.
+
+Pack uploads and review saves need writable persistent storage with room for
+the new immutable revision. Storage failures return HTTP 503 and an actionable
+message; failed review saves retain submitted fields. Monitor disk capacity
+alongside retained revisions and release backups. A healthy generation endpoint
+alone does not certify that catalog writes have enough free space.
 
 Architecture (all included, nothing to scaffold):
 

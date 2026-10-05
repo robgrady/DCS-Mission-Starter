@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.114.1] — Recoverable pack-storage errors
+
+- Report full or unavailable server storage during pack uploads and review saves with an actionable message and HTTP 503, instead of a generic unreadable-pack message or an unhandled server error.
+- Preserve submitted review fields after a failed save so the author can retry without rewriting the description. Log storage failures for diagnosis; keep internal paths out of the displayed message.
+- Document the upload/review workflow and retry behavior. Expand the production catalog volume from 1 GB to 3 GB after a full-disk failure, preserving all installed packs, revisions and release backups.
+- Rebuild official pack documents with the new release provenance and patch content versions; mission-generation behavior is unchanged.
+
 ## [1.114.0] — Source-backed historical reference library
 
 - Add 18 dated readings, 15 unit/aircraft observations and two separate Nevada chart editions from the reviewed archive. Preserve physical PDF pages, edition hashes, publication precision, approximate dates, unknown datum and evidence limits.

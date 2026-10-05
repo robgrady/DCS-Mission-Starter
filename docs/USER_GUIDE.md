@@ -305,6 +305,20 @@ exact ground track is the lesson. The third is **Automatic waypoints**, the
 tickbox on the Targets screen — off unless you turn it on, and it builds
 WP1 → IP → TARGET → home with a kneeboard leg card to fly it off.
 
+### Uploading an authored mission pack
+
+Site operators can open **Admin → Mission packs** and upload a `.sspack`, a
+ZIP of missions, or one `.miz` (maximum 256 MB). A successful upload opens the
+review page; check its title, prerequisites, flying order and descriptions,
+then choose **Save and publish**. Keep a local copy of the original pack.
+
+**Server storage is full/unavailable** means the server could not save the
+pack; it does not establish that the archive is invalid. Ask the site operator
+to restore capacity or access, then retry. A failed review save keeps your
+submitted fields on the returned page. For a failed upload, select the file
+again after storage is restored. Format and checksum errors are reported
+separately and need the archive corrected.
+
 ## Share links & recipes
 
 A starter is defined by its **recipe** (your wizard selections + a seed). Share

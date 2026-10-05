@@ -1,6 +1,6 @@
 # Historical airspace research — 3 October 2026
 
-Generated for v1.114.0 from `missiongen/data/historical_coverage.json`.
+Generated for v1.114.1 from `missiongen/data/historical_coverage.json`.
 
 This pass closes source-identification gaps, adds drawable references where geometry is supported, and records unresolved geometry and dates. No map is certified exhaustive. No new route, AI behavior, crossing permission or engagement rule is inferred from these findings.
 

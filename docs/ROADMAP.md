@@ -32,7 +32,7 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
-**v1.114.0**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.114.1**: four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. Builder supports veteran AI wingmen within the
 player flight, including a solo four-ship; the static New in DCS promotion
@@ -62,6 +62,12 @@ counts to Mission Kits. Routed integration ZIPs now serialize actual coordinates
 and native navigation fields. A five-mission validation pack is generated;
 DCS flights remain unrun. A bounded native F-14B(U)/Caucasus DKS import was
 observed; see [import results](dks-validation-1.113.0.md).
+
+Pack uploads and review saves now report server-storage failures explicitly;
+failed review saves retain the author's draft fields. The production catalog
+volume was expanded to 3 GB after reaching capacity, preserving installed
+packs, revisions and backups. Revision retention and capacity planning remain
+operational responsibilities.
 
 ## The bets
 
