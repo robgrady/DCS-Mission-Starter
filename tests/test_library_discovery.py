@@ -191,3 +191,26 @@ def test_authored_requirements_and_filenames_are_rendered_as_data(page):
     link=page.locator('#libdetail .evlinks a').first
     assert link.get_attribute('onclick') is None
     assert '%22' in link.get_attribute('href') and '%20' in link.get_attribute('href')
+
+
+@pytest.mark.parametrize('width',[1280,390])
+def test_collection_actions_share_typography_and_keep_titles_readable(page,width):
+    page.set_viewport_size({'width':width,'height':900})
+    page.evaluate("openDetail('pack_wk_proud_phantom')")
+    page.evaluate('document.fonts.ready')
+    for mode in ['paper','night']:
+        page.evaluate('(mode)=>document.body.dataset.mode=mode',mode)
+        row=page.locator('.evrow').first
+        actions=row.locator('.evlinks button,.evlinks a')
+        metrics=actions.evaluate_all("""els=>els.map(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return {font:s.fontFamily,size:parseFloat(s.fontSize),weight:s.fontWeight,height:r.height,top:r.top,bottom:r.bottom,width:r.width}})""")
+        assert len(metrics)==3
+        assert len({(m['font'],m['size'],m['weight']) for m in metrics})==1
+        assert 'Source Sans 3' in metrics[0]['font']
+        assert all(m['height']>=44 and m['width']>=44 for m in metrics)
+        assert max(m['height'] for m in metrics)-min(m['height'] for m in metrics)<1
+        assert max(m['top'] for m in metrics)-min(m['top'] for m in metrics)<1
+        assert row.locator('.evt').evaluate('(el)=>parseFloat(getComputedStyle(el).fontSize)')>metrics[0]['size']
+        assert row.locator('small').evaluate('(el)=>getComputedStyle(el).whiteSpace')!='nowrap'
+        assert page.locator('#dcardinner').evaluate('(el)=>el.scrollWidth<=el.clientWidth')
+        assert row.get_by_role('button',name='Save mission',exact=False).count()==1
+        assert row.get_by_role('link',name='Download mission',exact=False).get_attribute('download') is not None

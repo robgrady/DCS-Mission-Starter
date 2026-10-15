@@ -1,12 +1,11 @@
 {
-  "version": "1.118.0",
-  "documentation_required": true,
-  "reason": "Reviewed My missions browsing, original versus saved content, sharing and rename/remove instructions. Document visible Rename, name limits and stable files/links, combined map/aircraft filters and declared Library requirements with unspecified metadata.",
+  "version": "1.118.1",
+  "documentation_required": false,
+  "reason": "Reviewed Library collection instructions and saved-mission actions. This is a visual typography, wrapping and alignment correction; labels, available actions and workflows are unchanged, so no prose change is needed. Regenerate the versioned PDF cover.",
   "sections_reviewed": [
-    "Discord profiles and My missions",
-    "Share a mission or your page",
-    "Profile and saving settings"
+    "The four doors - Library",
+    "Discord profiles and My missions"
   ],
   "source_sha256": "10a6c95f3e2f0c3726d64eaf61c23a740c19efb7efb581adcc95e31a00361014",
-  "previous_source_sha256": "2013f48708c741ba5b0a7fea50bd8589eacd6ec45e1efeb14c6aad690e53ffc2"
+  "previous_source_sha256": "10a6c95f3e2f0c3726d64eaf61c23a740c19efb7efb581adcc95e31a00361014"
 }

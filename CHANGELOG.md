@@ -1,5 +1,11 @@
 # Changelog — DCS Sortie Starter
 
+## [1.118.1] — Consistent Library mission-row typography
+
+- Give Save, Mission and Briefing one shared Source Sans action style, matching font size, weight, alignment and 44px targets. Remove the oversized Save label without changing the brand fonts or palette.
+- Strengthen mission-title hierarchy, allow descriptions to wrap to two lines, and align mobile rows without clipping titles or actions. Verify both themes and desktop/mobile layouts.
+- Review the User Manual: actions and instructions are unchanged; regenerate its release cover and documentation artifacts.
+
 ## [1.118.0] — Mission names and map/aircraft filters
 
 - Make Rename visible on each owned mission card, validate empty names before saving, and preserve original files, settings and share links when the display name changes.
