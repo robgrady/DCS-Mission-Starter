@@ -182,6 +182,7 @@ def test_the_outline_rail_describes_every_step_and_no_others():
 # is supposed to be closed; listing it here keeps that an explicit decision
 # rather than a hole in the guard.
 COLLAPSIBLE_BY_DESIGN = {
+    "account_preferences": "Profile and saving preferences are secondary to My missions; this dialog is outside the Builder.",
     "libraryfilters": "Secondary Library filters collapse to keep missions near search; this is outside the Builder.",
     "libhistory": "Library evidence and adaptation notes, below the always-visible date and classification; not Builder controls",
     "cctx": "contact form: 'what we'll include with your message' — disclosure "

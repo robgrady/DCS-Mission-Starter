@@ -1,6 +1,6 @@
 # Discord login and private missions
 
-Status: implemented in v1.115.0. A real user must still complete the production
+Status: sign-in and archives implemented in v1.115.0; explicit saved selections added in v1.116.0. A real user must still complete the production
 Discord consent/callback and cross-device checks after deployment. Unit tests
 mock the provider; they do not certify a live client secret or Portal setting.
 
@@ -94,7 +94,15 @@ metadata includes resolved recipe, seed, app version, manifest and original
 SHA-256. Storage writes and quota checks are transactional. Duplicate mission
 hashes within a user's app version reuse their existing archive.
 
-Limits: 100 missions / 100 MB per user, 24 MB per combined archive, 512 MB
+Selections are separate rows with canonical recipes or validated published pack/mission
+references, selected content version and application version. They contain no
+archived mission bytes. Pack references follow the current published catalog;
+removing a publication can make a saved reference unavailable. Save requests
+require the same ownership, Origin and CSRF checks as archive mutations. An
+explicit browser save intent can survive OAuth in same-tab session storage for
+ten minutes; URL parameters never instruct the app to save a recipe.
+
+Limits: 100 saved selections plus 100 generated missions / 100 MB per user, 24 MB per combined archive, 512 MB
 total stored mission bytes, and at least 256 MB free disk after admission.
 Failed writes roll back; temporary generation directories are cleaned up.
 Deleted data may leave reusable SQLite pages: logical quota usage can fall
@@ -107,7 +115,7 @@ migrations, take a consistent copy with SQLite's backup API, store it in
 restricted operator storage, and verify restore to a separate location.
 Do not copy a live database file using a plain filesystem copy. This release
 does not configure off-site scheduled backups. Profile deletion cascades
-through live sessions and archives; independently retained operator backups
+through live sessions, selections and archives; independently retained operator backups
 must follow the operator's retention/deletion policy.
 
 ## Production verification
@@ -120,7 +128,7 @@ must follow the operator's retention/deletion policy.
    `.miz` bytes/hash with the Kit's mission and stored manifest.
 5. Sign in on another device: the same profile and originals appear. Another
    Discord account cannot access any of those mission IDs.
-6. Rename, edit in Builder, disable saving, export settings and sign out.
+6. Save a Library setup, collection and individual sortie before generation. Reopen them in My missions; verify settings versus published-reference labels, rename/remove, export and same-tab sign-in resumption. Rename an archive, edit in Builder, disable saving and sign out.
 7. On a disposable test profile, delete it and verify every session/archive
    is inaccessible. Never use a real pilot's profile for a destructive test.
 8. Verify current app version and account-owner routing on every Fly machine.

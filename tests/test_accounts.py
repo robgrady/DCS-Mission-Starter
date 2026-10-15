@@ -284,3 +284,60 @@ def test_real_generator_archives_one_matching_mission_and_kit(client, monkeypatc
         manifest = json.loads(archive.read('manifest.json'))
         assert manifest['mission']['sha256'] == hashlib.sha256(response.content).hexdigest()
         assert 'brief.pdf' in archive.namelist() and 'brief.md' in archive.namelist()
+
+
+def test_saved_selection_roundtrip_dedup_ownership_quota_and_export(client, monkeypatch):
+    account, _, _ = login(client, monkeypatch)
+    recipe = {'map':'caucasus','era':'coldwar','aircraft':'F_4E_45MC','slots':4,'veteran_wingmen':3,'seed':71}
+    body = {'kind':'recipe','name':'My four-ship','recipe':recipe}
+    assert client.post('/api/account/selections',json=body).status_code == 403
+    response = client.post('/api/account/selections',json=body,headers=headers(account))
+    assert response.status_code == 200, response.text
+    sid = response.json()['id']
+    monkeypatch.setattr(store,'MAX_SELECTIONS',1)
+    assert client.post('/api/account/selections',json=body,headers=headers(account)).json()['id'] == sid
+    assert client.post('/api/account/selections',json={**body,'recipe':{**recipe,'seed':72}},headers=headers(account)).status_code == 409
+    item = client.get('/api/account/selections').json()['selections'][0]
+    assert item['payload']['recipe']['veteran_wingmen'] == 3
+    assert item['payload']['recipe']['seed'] == 71
+    assert item['title'] == 'My four-ship'
+    assert client.get('/api/account/export').json()['selections'] == [item]
+    assert client.get('/api/account/missions').json()['missions'] == []
+    other, _, _ = login(client, monkeypatch, '67890')
+    assert client.get('/api/account/selections').json()['selections'] == []
+    for method in ('patch','delete'):
+        kw = {'json':{'name':'Intruder'}} if method == 'patch' else {}
+        assert getattr(client,method)('/api/account/selections/'+sid,headers=headers(other),**kw).status_code == 404
+    account, _, _ = login(client, monkeypatch)
+    assert client.patch('/api/account/selections/'+sid,json={'name':'Renamed'},headers=headers(account)).status_code == 200
+    assert client.get('/api/account/selections').json()['selections'][0]['title'] == 'Renamed'
+    assert client.delete('/api/account/selections/'+sid,headers=headers(account)).status_code == 200
+    assert client.get('/api/account/selections').json()['selections'] == []
+    client.post('/api/account/selections',json=body,headers=headers(account))
+    client.delete('/api/account',headers=headers(account))
+    account, _, _ = login(client, monkeypatch)
+    assert client.get('/api/account/selections').json()['selections'] == []
+
+
+def test_pack_references_validate_published_missions_without_archiving_files(client, monkeypatch, tmp_path):
+    account, _, _ = login(client, monkeypatch)
+    pack = {'id':'test_pack','label':'Published collection','version':'1.2.3',
+            'events':[{'miz':'missions/one.miz','label':'First sortie'}]}
+    monkeypatch.setattr(routes.packs,'list_packs',lambda:[pack])
+    mission = tmp_path/'one.miz';mission.write_bytes(b'published mission')
+    monkeypatch.setattr(routes.packs,'get_file',lambda pid,path:mission if path=='missions/one.miz' else None)
+    for path in (None,'missions/one.miz'):
+        response = client.post('/api/account/selections',json={'kind':'pack','pack_id':'test_pack','path':path},headers=headers(account))
+        assert response.status_code == 200, response.text
+    selections = client.get('/api/account/selections').json()['selections']
+    assert len(selections) == 2
+    assert {s['title'] for s in selections} == {'Published collection','First sortie'}
+    assert all(s['payload']['pack_version']=='1.2.3' for s in selections)
+    assert client.get('/api/account/missions').json()['missions'] == []
+    for body in ({'kind':'pack','pack_id':'missing'}, {'kind':'pack','pack_id':'test_pack','path':'../secret'},
+                 {'kind':'pack','pack_id':'test_pack','path':'https://evil.example/one.miz'},
+                 {'kind':'recipe','recipe':{'seed':'invalid'}}, {'kind':'recipe','recipe':{},'pack_id':'test_pack'}):
+        assert client.post('/api/account/selections',json=body,headers=headers(account)).status_code in (400,404,422)
+    monkeypatch.setattr(routes.packs,'list_packs',lambda:[])
+    assert len(client.get('/api/account/selections').json()['selections']) == 2
+    assert client.post('/api/account/selections',json={'kind':'pack','pack_id':'test_pack'},headers=headers(account)).status_code == 404

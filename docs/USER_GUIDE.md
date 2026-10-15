@@ -31,7 +31,7 @@ modules such as Supercarrier. These preferences stay on this device.
 unknown or incomplete requirements remain unconfirmed and are excluded. For
 configurable missions, it looks for a matching aircraft, era and map and opens
 that combination in the detail view. Changing those selections refreshes the
-summary. Generate from the detail or **Customize in Builder**. Ownership is
+summary. Generate from the detail or **Customize in Builder**. Use **Save to My missions** to keep this selection for later; **My missions** is also available at the top of Library. Ownership is
 your declaration, not an inspection of your DCS installation.
 
 A collection download contains its authored missions and does not change with
@@ -144,7 +144,28 @@ permission to post. We store your Discord ID, a stable Sortie Starter profile
 ID and profile name. This login currently applies to Sortie Starter; it does
 not automatically sign you into other Authentic applications.
 
-After signing in, open **My missions** in the header. Edit your profile name
+Use **Save to My missions** in Library details, Builder Review or Fly Now
+before generating. A collection also has a **Save** button beside each mission.
+Signing in is required to save to your profile. If you click Save as a guest,
+continue with Discord in the same tab; we finish that specific save after you
+return, provided session storage is available and you return within ten minutes.
+If browser storage is blocked, sign in first, select the mission again and click
+Save. Cancelling sign-in does not save the selection.
+
+Open **My missions** in the header or Library. **Saved selections** holds up to
+100 setups or Library references, separately from your generated-file allowance.
+For settings, **Open in Builder** restores the captured recipe and seed;
+generating uses the current application and content. For authored content,
+**Open in Library** and **Download published mission/collection** use the current
+published version. The version selected when saving is shown for context; a
+Library reference is not a retained copy of that version. Unpublished or removed
+content may no longer be available. Rename or Remove a selection as needed.
+Saving the same settings/reference again reuses its existing entry. Saved
+selections do not record training completion or create original generated files.
+An unsaved result's **Save settings** keeps the recipe that produced that result,
+not the downloaded original file.
+
+Under **Profile & saving settings**, edit your profile name
 and use **Save profile**. **Save newly generated missions to my profile on this
 browser** is initially enabled; turn it off to generate without storing a
 mission on your profile. The preference stays on this browser; if browser
@@ -169,14 +190,14 @@ existing archive. Briefing downloads for a saved result use its original Kit.
 
 Profiles are private: another user cannot list, download or change your
 missions. You can **Rename** or **Delete** each saved mission. The limit is
-100 missions or 100 MB per profile, including mission and Kit storage. If a
+100 generated missions or 100 MB per profile, including mission and Kit storage, plus 100 saved selections. If a
 save fails or space is full, the interface reports the error; turn saving
 off and Generate again for an unarchived download, or delete saved missions
 and retry. Do not assume a failed generation/save created an archive.
 
 **Export settings** downloads your profile and mission metadata/recipes as
-JSON; download original files separately. **Delete profile** removes this
-app's profile, archives and all its active sessions. Download anything you
+JSON, including saved selections; download original files separately. **Delete profile** removes this
+app's profile, saved selections, archives and all its active sessions. Download anything you
 want to keep before confirming. This does not delete your Discord account
 or records in another app. Saving is separate from the anonymous generation
 analytics ledger; saved missions are not public links or Discord posts.

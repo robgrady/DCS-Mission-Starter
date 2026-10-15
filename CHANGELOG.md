@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.116.0] — Save selected missions before generating
+
+- Add Save to My missions to configurable Library missions, published collections, individual collection sorties, Builder Review and Fly Now. Unsaved generation results offer Save settings using their captured recipe.
+- Add a visible My missions entry in Library and a private Saved selections list with reopen, published download, rename and remove actions. Keep saved settings/Library references distinct from original generated mission archives; references follow currently published content.
+- Preserve an explicitly clicked save through Discord sign-in in the same tab when session storage is available. Validate recipes and installed mission paths, enforce ownership/CSRF and a separate 100-selection limit, and include selections in profile export/deletion.
+- Update the User Manual and account operating guide. Rebuild official documents with the release provenance; retain existing fonts and colors.
+
 ## [1.115.0] — Discord profiles and private saved missions
 
 - Add optional Discord sign-in with the existing application, a stable profile ID, editable profile name, secure expiring sessions, CSRF protection and sign-out. Guest generation remains available; no Discord posting, server access or email permission is requested.

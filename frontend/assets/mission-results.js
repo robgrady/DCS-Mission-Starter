@@ -74,8 +74,8 @@ function kitRows(kit, fname, warn, rc, savedId){
   if (globalThis.SortieAccount)
     row('save', savedId ? 'Saved privately to your profile' : 'Keep missions across devices',
       savedId ? 'Download these originals later from My missions. Editing in Builder creates a new result.' :
-      'Sign in and enable saving before your next generation. This download is not archived to your profile.',
-      '<button type="button" class="kitbtn kit_account">'+(savedId?'My missions':'Profile & saving')+'</button>');
+      'Save these settings to use again. This download is not archived; enable saving before generating to keep original files.',
+      '<button type="button" class="kitbtn kit_account">'+(savedId?'My missions':'Save settings')+'</button>');
   return rows.join('');
 }
 
@@ -89,7 +89,7 @@ function wireKitButtons(box, result){
   const kb = box.querySelector('.kit_kb');
   if (kb) kb.onclick = ()=>downloadKneeboard(kb, result);
   const account=box.querySelector('.kit_account');
-  if(account && globalThis.SortieAccount)account.onclick=()=>globalThis.SortieAccount.open();
+  if(account && globalThis.SortieAccount)account.onclick=()=>result.savedId?globalThis.SortieAccount.open():globalThis.SortieAccount.saveSelection({kind:'recipe',recipe:result.rc});
 }
 
 function showKit(result, box){

@@ -20,7 +20,7 @@ from starlette.background import BackgroundTask
 from . import account_store as store
 from . import artifact_service, mission_kit
 from .mission_routes import GenerateRequest
-from missiongen import Recipe
+from missiongen import Recipe, packs
 
 router = APIRouter()
 log = logging.getLogger('missionstarter.accounts')
@@ -153,7 +153,8 @@ def account(request: Request):
     user = store.session(request.cookies.get(COOKIE)) if enabled() else None
     return {'enabled': enabled(), 'user': ({'id': user['id'], 'name': user['name'],
             'created_at': user['created_at']} if user else None),
-            'csrf': user['csrf'] if user else None, 'limits': {'missions': store.MAX_MISSIONS, 'bytes': store.MAX_USER_BYTES}}
+            'csrf': user['csrf'] if user else None, 'limits': {'missions': store.MAX_MISSIONS, 'bytes': store.MAX_USER_BYTES,
+                                                            'selections': store.MAX_SELECTIONS}}
 
 
 @router.post('/api/account/logout')
@@ -198,8 +199,68 @@ def missions(user=Depends(require_user)):
 @router.get('/api/account/export')
 def export_profile(user=Depends(require_user)):
     return JSONResponse({'profile': {k: user[k] for k in ('id', 'discord_id', 'name', 'created_at')},
-                         'missions': store.list_missions(user['id'])}, headers={
+                         'missions': store.list_missions(user['id']),
+                         'selections': store.list_selections(user['id'])}, headers={
                              'Content-Disposition': 'attachment; filename="sortie-starter-profile.json"'})
+
+
+class SelectionRequest(BaseModel):
+    model_config = {'extra': 'forbid'}
+    kind: Literal['recipe', 'pack']
+    name: str = Field(default='', max_length=80)
+    recipe: dict | None = None
+    pack_id: str | None = Field(default=None, pattern=r'^[a-z0-9][a-z0-9_-]{0,99}$')
+    path: str | None = Field(default=None, max_length=512)
+
+
+@router.get('/api/account/selections')
+def selections(user=Depends(require_user)):
+    return {'selections': store.list_selections(user['id'])}
+
+
+@router.post('/api/account/selections')
+def save_selection(req: SelectionRequest, user=Depends(require_user)):
+    if any(ord(c) < 32 for c in req.name):
+        raise HTTPException(400, 'Enter a name without control characters.')
+    if req.kind == 'recipe':
+        if req.recipe is None or req.pack_id is not None or req.path is not None:
+            raise HTTPException(400, 'Choose mission settings to save.')
+        try:
+            recipe = Recipe.from_dict(req.recipe)
+        except artifact_service.USER_ERRORS as exc:
+            raise HTTPException(400, str(exc)) from exc
+        payload = {'kind': 'recipe', 'recipe': recipe.to_dict()}
+        title = f'{recipe.map} · {recipe.aircraft} · {recipe.template or recipe.mission_kind}'
+    else:
+        if not req.pack_id or req.recipe is not None:
+            raise HTTPException(400, 'Choose a published Library collection.')
+        pack = next((p for p in packs.list_packs() if p['id'] == req.pack_id), None)
+        if not pack:
+            raise HTTPException(404, 'This collection is no longer published. Refresh the Library.')
+        event = next((e for e in pack.get('events', []) if e.get('miz') == req.path), None) if req.path else None
+        if req.path and (not event or not packs.get_file(req.pack_id, req.path)):
+            raise HTTPException(404, 'This published mission is unavailable. Refresh the Library.')
+        payload = {'kind': 'pack', 'pack_id': req.pack_id, 'path': req.path, 'pack_version': pack.get('version')}
+        title = (event.get('label') if event else pack.get('label')) or req.pack_id
+    try:
+        sid = store.save_selection(user['id'], (req.name.strip() or title)[:80], payload)
+    except store.QuotaError as exc:
+        raise HTTPException(409, str(exc)) from exc
+    return {'id': sid}
+
+
+@router.patch('/api/account/selections/{sid}')
+def rename_selection(sid: str, req: NameRequest, user=Depends(require_user)):
+    if not store.rename_selection(user['id'], sid, req.name):
+        raise HTTPException(404, 'Saved selection not found.')
+    return {'ok': True}
+
+
+@router.delete('/api/account/selections/{sid}')
+def delete_selection(sid: str, user=Depends(require_user)):
+    if not store.delete_selection(user['id'], sid):
+        raise HTTPException(404, 'Saved selection not found.')
+    return {'ok': True}
 
 
 @router.post('/api/account/generate')

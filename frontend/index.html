@@ -814,6 +814,7 @@
   <div id="quick_readiness" class="readiness"></div>
   <div class="qgo">
     <button class="fly" id="qf_fly" disabled>FLY ▸</button>
+    <button type="button" id="qf_save">Save to My missions</button>
     <button class="die" id="qf_die" title="Re-roll: same picks, fresh layout"><svg class="icon"><use href="#i-dice"/></svg></button>
     <span class="qhint" id="qf_hint" role="status" aria-live="polite">Pick a mission, a jet and a map.</span>
   </div>
@@ -822,7 +823,7 @@
 
 <section id="library">
   <div class="libwrap">
-    <div class="lhead"><div class="slantb"><span>Library</span></div></div>
+    <div class="lhead"><div class="slantb"><span>Library</span></div><button type="button" id="library_saved">My missions</button></div>
     <p class="libintro">Find a mission or a collection to fly. For a guided learning sequence, visit Train.</p>
     <p class="libintro"><a href="/api/historical-library">Historical Library: dated readings, Nevada charts and unit timelines →</a></p>
     <div class="lfilters">
@@ -1246,8 +1247,9 @@
     <p class="screenhint">One glance, then build. Any rail item jumps you back to tweak.</p>
     <div id="builder_readiness" class="readiness"></div>
     <div id="review_box" class="revlist"></div>
-    <div style="display:flex;gap:12px;margin-top:14px">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:14px">
       <button id="gen2">GENERATE .MIZ</button>
+      <button type="button" id="save_builder">Save to My missions</button>
       <button id="share2">Copy share link</button>
     </div>
     <div id="status2" role="status" aria-live="polite"></div>

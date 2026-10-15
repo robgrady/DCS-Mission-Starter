@@ -19,6 +19,7 @@ import uuid
 SESSION_TTL = 30 * 86400
 STATE_TTL = 600
 MAX_MISSIONS = 100
+MAX_SELECTIONS = 100
 MAX_USER_BYTES = 100 * 1024 * 1024
 MAX_TOTAL_BYTES = 512 * 1024 * 1024
 MAX_KIT_BYTES = 24 * 1024 * 1024
@@ -57,6 +58,11 @@ def database():
             miz BLOB NOT NULL, kit BLOB NOT NULL, bytes INTEGER NOT NULL,
             UNIQUE(user_id, sha256, version));
           CREATE INDEX IF NOT EXISTS mission_user ON missions(user_id, created_at);
+          CREATE TABLE IF NOT EXISTS selections (
+            id TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            title TEXT NOT NULL, created_at INTEGER NOT NULL, version TEXT NOT NULL,
+            payload TEXT NOT NULL, fingerprint TEXT NOT NULL, UNIQUE(user_id, fingerprint));
+          CREATE INDEX IF NOT EXISTS selection_user ON selections(user_id, created_at);
         ''')
         now = int(time.time())
         db.execute('DELETE FROM sessions WHERE expires <= ?', (now,))
@@ -171,6 +177,44 @@ def rename_mission(user_id, mid, title):
 def delete_mission(user_id, mid):
     with database() as db:
         return db.execute('DELETE FROM missions WHERE id=? AND user_id=?', (mid, user_id)).rowcount > 0
+
+
+def list_selections(user_id):
+    with database() as db:
+        items = [dict(row) for row in db.execute(
+            'SELECT id, title, created_at, version, payload FROM selections WHERE user_id=? '
+            'ORDER BY created_at DESC, id', (user_id,))]
+    for item in items:
+        item['payload'] = json.loads(item['payload'])
+    return items
+
+
+def save_selection(user_id, title, payload):
+    from missiongen import __version__
+    encoded = json.dumps(payload, sort_keys=True, separators=(',', ':'))
+    fingerprint = digest(encoded)
+    with database() as db:
+        db.execute('BEGIN IMMEDIATE')
+        existing = db.execute('SELECT id FROM selections WHERE user_id=? AND fingerprint=?',
+                              (user_id, fingerprint)).fetchone()
+        if existing:
+            return existing['id']
+        if db.execute('SELECT COUNT(*) FROM selections WHERE user_id=?', (user_id,)).fetchone()[0] >= MAX_SELECTIONS:
+            raise QuotaError('Your 100 saved selections are full. Remove one from My missions and try again.')
+        sid = str(uuid.uuid4())
+        db.execute('INSERT INTO selections VALUES (?, ?, ?, ?, ?, ?, ?)',
+                   (sid, user_id, title, int(time.time()), __version__, encoded, fingerprint))
+    return sid
+
+
+def rename_selection(user_id, sid, title):
+    with database() as db:
+        return db.execute('UPDATE selections SET title=? WHERE id=? AND user_id=?', (title, sid, user_id)).rowcount > 0
+
+
+def delete_selection(user_id, sid):
+    with database() as db:
+        return db.execute('DELETE FROM selections WHERE id=? AND user_id=?', (sid, user_id)).rowcount > 0
 
 
 def rename_user(user_id, name):

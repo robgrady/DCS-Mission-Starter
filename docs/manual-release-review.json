@@ -1,7 +1,7 @@
 {
-  "version": "1.115.0",
+  "version": "1.116.0",
   "documentation_required": true,
-  "reason": "Reviewed the four doors, Mission Kit, Quick start, Share links and release identity. Added the Discord profile and My missions workflow, explicit saving preference, privacy/storage limits, original versus regenerated downloads, export and deletion. Guest and authored-collection behavior remains explicit.",
+  "reason": "Reviewed Library, Builder/Fly Now, account saving and original archives. Document explicit selection saves, same-tab sign-in resumption and storage failure recovery, current published references versus retained originals, separate limits, export and cascading deletion.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -10,6 +10,6 @@
     "Share links & recipes",
     "Release identity and the manual"
   ],
-  "source_sha256": "3ca4ecdf7f852038b61403021c7ae3fe26567ccff0499f056b36ecaffd398532",
-  "previous_source_sha256": "27bd44a6aaf9760820a3617024eb0c107d3d326c3a36eab644dbc6bc0d3cbe34"
+  "source_sha256": "44f6d7a5179d342da75b8b396c0052e01908126561dda087c1d086fe42447c09",
+  "previous_source_sha256": "3ca4ecdf7f852038b61403021c7ae3fe26567ccff0499f056b36ecaffd398532"
 }

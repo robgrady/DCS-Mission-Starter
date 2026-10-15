@@ -32,8 +32,9 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
-**v1.115.0**: optional Discord profiles and private My missions archive original
-generated missions and matching Kits. Guest use remains available. Shared
+**v1.116.0**: explicit Save to My missions keeps selected Library missions,
+collections and Builder/Fly Now settings before generation. Saved selections
+are separate from original generated mission and Kit archives introduced in v1.115.0. Guest use remains available. Shared
 Authentic sign-in, cloud training progress and Discord posting remain future
 integration. The product has four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
@@ -298,7 +299,8 @@ must remain identifiable after generator updates.
   an unobserved action never becomes a scored pass, manual completion is labeled,
   and exported progress round-trips correctly.
 - **F13 · My Missions on this device.** P2 / M.
-  Extend the existing last-recipe restore into named saved missions, favorites,
+  Named cloud recipe selections are implemented in v1.116.0 alongside Library
+  references. Extend these into local/offline favorites,
   collections, notes and revision history, with JSON import/export. Separate
   saved recipes from downloaded mission files and identify when regeneration
   would change the content. **Evidence:** owner request to save missions.
@@ -320,8 +322,8 @@ must remain identifiable after generator updates.
   original `.miz` and matching Kit archives, saved recipes/release provenance,
   naming, export, deletion and owner-volume storage. Production consent and
   cross-device checks still require a real Discord user. Shared Authentic
-  identity, cloud collections/progress and local named-recipe management remain
-  follow-up work. Guest generation and local progress remain available.
+  identity and cloud training progress remain follow-up work. v1.116.0 adds
+  named recipe selections and published Library mission/collection references. Guest generation and local progress remain available.
 - **F16 · Share a mission on Discord.** P3 / M.
   Extend existing recipe links with a share card showing map, aircraft, era,
   player roles, prerequisites and a preview. Provide a stable landing page from
