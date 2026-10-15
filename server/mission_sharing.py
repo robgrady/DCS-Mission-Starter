@@ -9,6 +9,7 @@ import secrets
 from urllib.parse import quote
 
 from .account_store import database
+from missiongen import packs
 
 TABLES = {'mission': ('missions', 'mission_id'), 'selection': ('selections', 'selection_id')}
 
@@ -54,7 +55,7 @@ def builder_link(recipe):
     return '/?r=' + encoded
 
 
-def present(row, kind, share_token=None, private=False):
+def present(row, kind, share_token=None, private=False, catalog=None):
     item = {k: row[k] for k in ('title', 'created_at', 'version')}
     recipe = json.loads(row['recipe']) if kind == 'mission' else None
     payload = json.loads(row['payload']) if kind == 'selection' else None
@@ -62,12 +63,19 @@ def present(row, kind, share_token=None, private=False):
         recipe = payload['recipe']
     item['category'] = 'original' if kind == 'mission' else 'setup' if recipe else 'library'
     item['details'] = {k: recipe.get(k) for k in ('map', 'era', 'aircraft', 'slots', 'veteran_wingmen')} if recipe else {}
+    item['facets'] = {'maps': [recipe['map']] if recipe.get('map') else [], 'aircraft': [recipe['aircraft']] if recipe.get('aircraft') else []} if recipe else {'maps': [], 'aircraft': []}
     if recipe:
         item['open_path'] = builder_link(recipe)
     if kind == 'mission':
         prefix = '/api/account/missions/' + row['id'] if private else '/api/shared/' + share_token
         item.update(bytes=row['bytes'], miz_path=prefix + '/download?format=miz', kit_path=prefix + '/download?format=kit')
     elif payload['kind'] == 'pack':
+        catalog = catalog if catalog is not None else {}
+        pid = payload['pack_id']
+        if pid not in catalog:
+            catalog[pid] = packs.get_manifest(pid) or {}
+        requirements = catalog[pid].get('requires') or {}
+        item['facets'] = {'maps': requirements.get('terrains') or [], 'aircraft': requirements.get('modules') or []}
         item['collection'] = not bool(payload.get('path'))
         item['pack_version'] = payload.get('pack_version')
         item['open_path'] = '/?v=library&pack=' + quote(payload['pack_id'], safe='')
@@ -80,12 +88,13 @@ def present(row, kind, share_token=None, private=False):
 
 def private_library(user_id):
     items = []
+    catalog = {}
     with database() as db:
         for kind, (table, column) in TABLES.items():
             columns = 'm.id,m.title,m.created_at,m.version,' + ('m.recipe,m.bytes' if kind == 'mission' else 'm.payload')
             rows = db.execute(f'SELECT {columns},s.token FROM {table} m LEFT JOIN mission_shares s ON s.{column}=m.id '
                               'WHERE m.user_id=?', (user_id,)).fetchall()
-            items.extend(present(row, kind, row['token'], private=True) for row in rows)
+            items.extend(present(row, kind, row['token'], private=True, catalog=catalog) for row in rows)
     return sorted(items, key=lambda i: (i['created_at'], i['id']), reverse=True)
 
 
@@ -110,13 +119,14 @@ def public_page(token):
         if not user:
             return None
         items = []
+        catalog = {}
         for kind, (table, column) in TABLES.items():
             columns = 'm.id,m.title,m.created_at,m.version,' + ('m.recipe,m.bytes' if kind == 'mission' else 'm.payload')
             rows = db.execute(f'SELECT {columns},s.token FROM {table} m JOIN mission_shares s ON s.{column}=m.id '
                               'AND s.user_id=m.user_id JOIN shared_pages p ON p.user_id=s.user_id '
                               'WHERE p.token=?', (token,)).fetchall()
             for row in rows:
-                item = present(row, kind, row['token'])
+                item = present(row, kind, row['token'], catalog=catalog)
                 item['share_path'] = '/shared/' + row['token']
                 items.append(item)
     return {'name': user['name'], 'items': sorted(items, key=lambda i: i['created_at'], reverse=True)}

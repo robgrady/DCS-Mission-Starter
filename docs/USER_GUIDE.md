@@ -155,7 +155,14 @@ Save. Cancelling sign-in does not save the selection.
 Open **My missions** in the header or Library, or bookmark **/my-missions**.
 This is your personal page. Search by mission name, aircraft or map; filter
 **All missions**, **Original files**, **Saved setups**, **Library picks** or
-**Shared**, and sort by save date or mission name. Saving from the Library or
+**Shared**, and sort by save date or mission name. Use the **Map** and
+**Aircraft** dropdowns together to narrow the list; search and mission-type
+filters still apply. **Clear search and filters** resets all filters when no
+missions match. Library picks use their published collection’s declared map
+and aircraft requirements; these can cover several maps or aircraft and do
+not certify a specific aircraft in every sortie. Missing metadata appears as
+**Not specified**. Shared pages offer the same filters when they contain
+multiple missions. Saving from the Library or
 Builder keeps you where you are and shows a **View My missions** link.
 
 **Original files** are retained `.miz` and matching **Mission Kit** downloads,
@@ -164,8 +171,11 @@ seed; **Open in Builder** generates with the current app/content. **Library
 picks** reference authored missions or collections; their downloads use the
 current published version. The selected version is shown under the card’s
 additional details. A reference is not a retained copy of that publication;
-removed content may be unavailable. Use **More actions** to rename or remove
-an item. Removing an original deletes its retained files. An unsaved result’s
+removed content may be unavailable. Choose **Rename** directly on a card,
+enter a descriptive mission name (up to 80 characters), then **Save name**.
+The new name follows that saved item and its shared page; original files,
+settings and existing share links stay the same. Use **More actions → Remove**
+to remove an item. Removing an original deletes its retained files. An unsaved result’s
 **Save settings** keeps its captured recipe, not the downloaded original file.
 
 ### Share a mission or your page

@@ -36,11 +36,40 @@ def test_personal_page_is_browsable_and_sharing_requires_an_explicit_action(site
         assert page.locator('.mission-card').count()==2
         assert page.locator('.mission-card h2').first.inner_text()=='Phantom <mission>'
         assert page.locator('#mission_grid script').count()==0
+        page.get_by_label('Map',exact=True).select_option('caucasus')
+        assert page.locator('.mission-card').count()==1
+        page.get_by_label('Aircraft',exact=True).select_option('f16c50')
+        assert page.get_by_role('heading',name='No matching missions').is_visible()
+        page.get_by_role('button',name='Clear search and filters').click()
+        assert page.get_by_label('Map',exact=True).input_value()==''
+        assert page.get_by_label('Aircraft',exact=True).input_value()==''
+        page.get_by_label('Map',exact=True).select_option('nevada')
+        page.get_by_label('Aircraft',exact=True).select_option('f16c50')
+        assert page.locator('.mission-card h2').inner_text()=='Viper practice'
+        page.get_by_label('Map',exact=True).select_option('')
+        page.get_by_label('Aircraft',exact=True).select_option('')
         page.locator('#mission_search').fill('Viper');assert page.locator('.mission-card').count()==1
         page.locator('#mission_search').fill('F-16C Viper');assert page.locator('.mission-card').count()==1
         assert page.locator('.mission-card h2').inner_text()=='Viper practice'
         page.locator('#mission_search').fill('');page.get_by_role('button',name='Original files',exact=True).click()
         assert page.locator('.mission-card').count()==1
+        assert page.get_by_role('link',name='Download .miz').get_attribute('href')==item()['miz_path']
+        renamed=[]
+        def rename_mission(route):
+            renamed.append(route.request.post_data_json)
+            library['items'][0]['title']=renamed[-1]['name']
+            route.fulfill(json={'ok':True})
+        page.route('**/api/account/missions/mission-id',rename_mission)
+        page.get_by_role('button',name='Rename',exact=True).click()
+        page.get_by_label('Mission name',exact=True).fill(' ')
+        page.get_by_role('button',name='Save name',exact=True).click()
+        assert page.locator('#dialog_status').inner_text()=='Enter a mission name.'
+        assert not renamed
+        page.get_by_label('Mission name',exact=True).fill('Evening CAP <Phantom>')
+        page.get_by_role('button',name='Save name',exact=True).click()
+        page.wait_for_function('!document.querySelector("#shelf_dialog").open')
+        assert renamed==[{'name':'Evening CAP <Phantom>'}]
+        assert page.locator('.mission-card h2').inner_text()=='Evening CAP <Phantom>'
         assert page.get_by_role('link',name='Download .miz').get_attribute('href')==item()['miz_path']
         assert not posts
         page.get_by_role('button',name='Share',exact=True).click()
@@ -129,4 +158,39 @@ def test_guest_and_public_pages_explain_access_without_profile_controls(site):
         assert page.get_by_role('button',name='Remove',exact=True).count()==0
         assert page.get_by_role('link',name='Download .miz').count()==1
         assert page.get_by_role('button',name='Settings',exact=True).is_hidden()
+        browser.close()
+
+
+def test_library_aircraft_aliases_missing_metadata_and_public_filters(site):
+    pw=pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as p:
+        browser=p.chromium.launch();page=browser.new_page()
+        published={**item('library','Sinai collection'),'id':'pick-id','kind':'selection','details':{},
+                   'facets':{'maps':['sinai'],'aircraft':['F-4E-45MC — Phantom II']},'collection':True,
+                   'download_path':'/api/pack/test/all.zip'}
+        unknown={**published,'id':'unknown','title':'Unspecified collection','facets':{'maps':[],'aircraft':[]}}
+        state,library=setup_routes(page,items=[item(),published,unknown])
+        page.goto(site+'/my-missions');page.wait_for_selector('.mission-card')
+        page.get_by_label('Aircraft',exact=True).select_option('f4e45mc')
+        assert page.locator('.mission-card').count()==2
+        page.get_by_label('Map',exact=True).select_option('sinai')
+        assert page.locator('.mission-card h2').inner_text()=='Sinai collection'
+        def rename_pick(route):
+            published['title']=route.request.post_data_json['name'];route.fulfill(json={'ok':True})
+        page.route('**/api/account/selections/pick-id',rename_pick)
+        page.get_by_role('button',name='Rename',exact=True).click()
+        page.get_by_label('Mission name',exact=True).fill('Sinai attack practice')
+        page.get_by_role('button',name='Save name',exact=True).click()
+        page.wait_for_function('!document.querySelector("#shelf_dialog").open')
+        assert page.locator('.mission-card h2').inner_text()=='Sinai attack practice'
+        assert page.get_by_label('Map',exact=True).input_value()=='sinai'
+        assert page.get_by_label('Aircraft',exact=True).input_value()=='f4e45mc'
+        page.get_by_label('Aircraft',exact=True).select_option('')
+        page.get_by_label('Map',exact=True).select_option('unspecified')
+        assert page.locator('.mission-card h2').inner_text()=='Unspecified collection'
+        page.route('**/api/pilots/*',lambda route:route.fulfill(json={'name':'Pilot','items':[item(),published]}))
+        page.goto(site+'/pilots/'+'a'*32);page.wait_for_selector('.mission-card')
+        assert page.get_by_role('button',name='Rename',exact=True).count()==0
+        page.get_by_label('Map',exact=True).select_option('sinai')
+        assert page.locator('.mission-card h2').inner_text()=='Sinai attack practice'
         browser.close()

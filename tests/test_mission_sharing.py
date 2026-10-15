@@ -100,3 +100,27 @@ def test_my_missions_routes_auth_return_and_owner_routing(client,monkeypatch):
     record=logging.LogRecord('access',20,'',0,'%s %s %s',('client','GET','/shared/'+'a'*32),None)
     account_routes.AuthAccessFilter().filter(record)
     assert record.args[2]=='/[shared-link]'
+
+
+def test_library_filter_metadata_uses_published_requirements_and_missing_packs_stay_visible(client,monkeypatch):
+    from server import mission_sharing as sharing
+    account,_,_=login(client,monkeypatch)
+    manifest={'requires':{'terrains':['sinai','caucasus'],'modules':['F-4E-45MC — Phantom II']}}
+    calls=[]
+    def get_manifest(pid):
+        calls.append(pid)
+        return manifest if pid=='published' else None
+    monkeypatch.setattr(sharing.packs,'get_manifest',get_manifest)
+    for title,pid,path in [('Collection','published',None),('One sortie','published','one.miz'),('Unavailable','missing',None)]:
+        account_store.save_selection(account['user']['id'],title,{'kind':'pack','pack_id':pid,'path':path,'pack_version':'1.0.0'})
+    items=client.get('/api/account/library').json()['items']
+    assert len(items)==3 and sorted(calls)==['missing','published']
+    for item in items:
+        assert item['facets']==({'maps':['sinai','caucasus'],'aircraft':['F-4E-45MC — Phantom II']} if item['title']!='Unavailable' else {'maps':[],'aircraft':[]})
+    chosen=next(i for i in items if i['title']=='One sortie')
+    link=client.post('/api/account/shares',json={'kind':'selection','id':chosen['id']},headers=headers(account)).json()['path']
+    client.patch('/api/account/selections/'+chosen['id'],json={'name':'My descriptive sortie'},headers=headers(account))
+    client.cookies.clear()
+    public=client.get('/api'+link).json()['items'][0]
+    assert public['title']=='My descriptive sortie' and public['facets']==chosen['facets']
+    assert public['download_path']==chosen['download_path']

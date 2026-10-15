@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.118.0] — Mission names and map/aircraft filters
+
+- Make Rename visible on each owned mission card, validate empty names before saving, and preserve original files, settings and share links when the display name changes.
+- Add Map and Aircraft dropdowns that combine with search, mission type and sorting on personal and shared pages. Clear search and filters resets every filter.
+- Include published collection map/module requirements for Library picks, normalize matching aircraft labels, and keep missing metadata accessible as Not specified without guessing.
+- Update the User Manual and release documents.
+
 ## [1.117.0] — Personal mission pages and chosen sharing
 
 - Give every signed-in pilot a full My missions page with searchable, sortable cards for original files, saved setups and Library picks. Keep settings separate, label private/shared status, and provide direct download/open actions in the existing Flightline fonts and colors.

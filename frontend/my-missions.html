@@ -23,6 +23,8 @@
 <section class="shelf-controls" id="shelf_controls" aria-label="Find saved missions" hidden>
 <div class="shelf-search"><label for="mission_search">Search my missions</label><input type="search" id="mission_search" placeholder="Mission name, aircraft, map…" autocomplete="off"></div>
 <div class="shelf-sort"><label for="mission_sort">Sort by</label><select id="mission_sort"><option value="newest">Newest saved</option><option value="oldest">Oldest saved</option><option value="title">Mission name</option></select></div>
+<div class="shelf-facet"><label for="mission_map">Map</label><select id="mission_map"><option value="">All maps</option></select></div>
+<div class="shelf-facet"><label for="mission_aircraft">Aircraft</label><select id="mission_aircraft"><option value="">All aircraft</option></select></div>
 <div class="shelf-filters" aria-label="Mission type"><button type="button" data-filter="all" aria-pressed="true">All missions</button><button type="button" data-filter="original" aria-pressed="false">Original files</button><button type="button" data-filter="setup" aria-pressed="false">Saved setups</button><button type="button" data-filter="library" aria-pressed="false">Library picks</button><button type="button" data-filter="shared" aria-pressed="false" id="shared_filter">Shared</button></div>
 </section>
 <div class="shelf-count" id="shelf_count" aria-live="polite"></div>

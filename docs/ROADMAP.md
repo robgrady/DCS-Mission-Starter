@@ -32,7 +32,8 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
-**v1.117.0**: personal My missions pages add search, filters, sorting and
+**v1.118.0**: visible mission renaming and dedicated map/aircraft filters extend
+the personal pages added in v1.117.0, with search, sorting and
 explicit, revocable sharing of chosen missions or an unlisted personal page.
 v1.116.0 added selection saving before generation. Saved selections
 are separate from original generated mission and Kit archives introduced in v1.115.0. Guest use remains available. Shared

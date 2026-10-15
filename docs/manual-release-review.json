@@ -1,15 +1,12 @@
 {
-  "version": "1.117.0",
+  "version": "1.118.0",
   "documentation_required": true,
-  "reason": "Reviewed Library, mission kits, accounts, share links and manual release identity. Document the full personal page, search/filter/sort, contextual saves, explicit unlisted sharing and revocation, exact originals versus current content, settings and privacy boundaries.",
+  "reason": "Reviewed My missions browsing, original versus saved content, sharing and rename/remove instructions. Document visible Rename, name limits and stable files/links, combined map/aircraft filters and declared Library requirements with unspecified metadata.",
   "sections_reviewed": [
-    "The four doors",
-    "Your mission kit",
     "Discord profiles and My missions",
-    "Quick start (Builder path)",
-    "Share links & recipes",
-    "Release identity and the manual"
+    "Share a mission or your page",
+    "Profile and saving settings"
   ],
-  "source_sha256": "2013f48708c741ba5b0a7fea50bd8589eacd6ec45e1efeb14c6aad690e53ffc2",
-  "previous_source_sha256": "44f6d7a5179d342da75b8b396c0052e01908126561dda087c1d086fe42447c09"
+  "source_sha256": "10a6c95f3e2f0c3726d64eaf61c23a740c19efb7efb581adcc95e31a00361014",
+  "previous_source_sha256": "2013f48708c741ba5b0a7fea50bd8589eacd6ec45e1efeb14c6aad690e53ffc2"
 }
