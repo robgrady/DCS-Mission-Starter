@@ -134,11 +134,41 @@ Example (replace coordinates, map/era/aircraft and date for your mission):
 }}}
 ```
 
-Tool discovery uses inline parameter objects without `$ref`/`$defs` and omits
-conditional `allOf` seat rules to reduce host schema-translation requirements.
-The canonical schema tool/resource retains those rules and the engine enforces
-them on every call. Envelope and tool names are unchanged. This compatibility
-change does not establish that a particular app's connector successfully loads.
+As of **1.120.1**, tool discovery uses compact inline parameter objects without
+`$ref`/`$defs`, `anyOf`/`oneOf`, conditional rules or `outputSchema`. Omit unused
+optional fields rather than filling them with null; discovery shows their
+ordinary non-null shapes. The canonical schema tool/resource retains the full
+nullable types, defaults, alternatives and cross-field rules, and engine/model
+validation still enforces them. Discovery is a compatibility summary, not the
+complete validation contract. Tools keep their names and `params` envelopes,
+and results still include structured JSON plus serialized JSON text. The SDK's
+registered validation/output schemas are retained internally. Transport remains
+stateless Streamable HTTP with JSON responses; session/stream behavior is not
+changed in this test. App-side tool loading needs its own successful retest.
+
+### Authoring capability boundaries
+
+| Requirement | Current behavior |
+| --- | --- |
+| Catalog | Maps, eras, aircraft, templates, carriers, tracks and courses. Loadout and livery catalogs are not exposed by MCP yet. Catalog presence is not proof of installed DCS modules or skins. |
+| Exact weapons | `player_fit` and `player_load` choose supported role presets. There is no exact station-to-CLSID recipe field yet; unknown fields are rejected. Inspect the generated stores or edit the native mission. |
+| Radio frequencies | `comms` accepts exact agency frequencies in MHz on the radio's 25 kHz raster. Both F-14 UHF sets receive the applicable ladder. Fixed Guard remains 243.000 MHz. |
+| Radio channel numbers | Fixed ladder: Flight 1, Carrier 2, AWACS 3, Tanker 4, Plane guard 5, CAP 6, Tactical 7, AEW 8 (or 3 without AWACS), Guard last on each set. Arbitrary channel assignments and independent per-radio plans are not recipe inputs yet. Absent agencies do not create transmitters. |
+| Player/map | `player_slot: "player"`, `slots: 1`, `veteran_wingmen: 0` emits one solo Player aircraft. Set `map_view.center` to the start coordinates for saved map framing; this is not a runtime camera-follow command. |
+| Cartridge/kit | Native cartridge integration is currently specific to supported F-14B(U) DTM data. The kit includes only artifacts actually produced; inspect manifest files/warnings. It does not synthesize a cartridge format for every DCS module. |
+| Training/DO-M layer | The download is the generated base mission and available brief/comms/kneeboard/cartridge artifacts. Agent-authored training and DO-M documents are a separate downstream authoring step; archive the original `.miz`. |
+
+Exact frequency example (agencies must be enabled to generate their stations):
+
+```json
+{"comms":{"flight_common":310.0,"awacs":299.0,"tanker":271.5,"tactical":277.25}}
+```
+
+Do not invent fields such as `exact_stores`, `pylons` or `radio_channels` and
+assume they work. Fetch the canonical schema and inspect validation errors.
+The priorities for new authoring inputs are exact aircraft/station-compatible
+stores, explicit channel maps with both-radio readback, and searchable supported
+loadout/livery catalogs with availability/provenance caveats.
 
 Resources: `sortiestarter://recipe-schema` (JSON),
 `sortiestarter://historical-library` (JSON),
@@ -269,6 +299,13 @@ This follows [xAI's remote MCP configuration](https://docs.x.ai/developers/tools
 Names/settings in other Grokbot applications may differ. Reconnect or refresh
 the configured server after a domain correction. A direct HTTP request working
 does not establish that an application's stored connector can enumerate tools.
+
+For the **1.120.1 compatibility test**, refresh/reconnect the server and first
+confirm its reported version. Its wire tool list has no references, unions,
+conditional rules or output schemas. A direct request alone cannot certify the
+app-side loader. If it still fails, retain the exact app, endpoint, version and
+observable error; session/stream negotiation is a separate next experiment.
+Output schemas are optional under the [MCP tool specification](https://modelcontextprotocol.io/specification/2025-11-25/server/tools).
 
 To isolate discovery, POST `initialize`, then `tools/list` with
 `Content-Type: application/json` and

@@ -168,7 +168,7 @@ def test_discovery_and_canonical_schemas_are_valid_json_schema():
     async def run():
         for tool in await mcp.list_tools():
             jsonschema.Draft202012Validator.check_schema(tool.input_schema)
-            jsonschema.Draft202012Validator.check_schema(tool.output_schema)
+            assert tool.output_schema is None
     anyio.run(run)
 
 

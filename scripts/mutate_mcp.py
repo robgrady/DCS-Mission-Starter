@@ -7,6 +7,12 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parent.parent
 CASES = [
+ ('server/mcp_discovery.py', "'output_schema': None", "'output_schema': tool.output_schema",
+  'wire_tool_list', 'compact discovery leaks output schemas'),
+ ('server/mcp_discovery.py', "'input_schema': compact_schema(tool.input_schema)", "'input_schema': tool.input_schema",
+  'wire_tool_list', 'compact discovery leaks schema compositions'),
+ ('server/mcp_server.py', 'return Recipe.from_dict(values)', 'return Recipe.from_dict(values, validate=False)',
+  'simple_discovery_does_not_weaken', 'compact discovery bypasses runtime recipe validation'),
  ('server/app.py', '    app.state.mcp_mount.app = transport', '    mcp_mount.app = transport',
   'original_app_transport', 'module reload attaches transport to another application'),
  ('server/document_routes.py', "@router.get('/api/mcp-guide')", "@router.get('/api/mcp-guide-missing')",
@@ -65,7 +71,7 @@ CASES = [
 
 
 def run(selector):
-    return subprocess.run([sys.executable, '-m', 'pytest', 'tests/test_mcp.py', 'tests/test_mcp_analytics.py', 'tests/test_refactor_browser.py', '-q', '-x', '-k', selector],
+    return subprocess.run([sys.executable, '-m', 'pytest', 'tests/test_mcp.py', 'tests/test_mcp_discovery.py', 'tests/test_mcp_analytics.py', 'tests/test_refactor_browser.py', '-q', '-x', '-k', selector],
                           cwd=ROOT, capture_output=True, text=True)
 
 

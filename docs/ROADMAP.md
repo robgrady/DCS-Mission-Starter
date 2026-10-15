@@ -32,6 +32,14 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.120.1** publishes compact MCP discovery without output schemas, unions or
+conditional rules, preserving canonical validation and structured results. The
+remaining MCP authoring priorities are exact station-compatible stores, custom
+channel assignments verified on both F-14 radios, and searchable supported
+loadout/livery catalogs with installation and historical-provenance caveats.
+These capabilities are planned, not current recipe controls. App connector
+acceptance still requires its own successful retest.
+
 **v1.120.0** adds exact airborne position/altitude, mission date, native Player/Client
 control and saved map framing/F10 visibility to agent/API recipes. Inline MCP
 discovery schemas reduce translation requirements; app connector acceptance remains

@@ -431,7 +431,13 @@ Existing connections to **https://dcs-mission-starter.fly.dev/mcp/** also work.
 Use the trailing slash, leave authentication unset and refresh/reconnect the
 server if the assistant cannot list tools. Opening the website directly does
 not check its MCP connection. The agent guide includes Grok configuration and
-HTTP error troubleshooting.
+HTTP error troubleshooting. Starting in **v1.120.1**, the tool list uses compact
+input shapes and omits output schemas, nullable unions and conditional rules for
+connector compatibility. The full schema is still available through the schema
+tool/resource, and recipe validation and structured tool results are preserved.
+Omit unused optional fields rather than filling the tool input with nulls.
+Reconnect and confirm the reported version; server checks alone do not establish
+that a particular assistant app loaded its connector.
 
 Ask the assistant to search the catalog, inspect a mission's requirements,
 validate your selections, and generate a mission. For example: “Build a modern
@@ -484,6 +490,14 @@ Published packs remain authored downloads: the assistant retrieves their
 pack link rather than rebuilding a `pack_` template. Missions are not saved
 in an account or installed in another application. A specific F-14B(U)/Caucasus native import was tested in DKS; see below for
 what survived. This connection does not place files in its ATO.
+
+Exact radio **frequencies** are already supported through `comms`, and the
+applicable plan is programmed into both F-14 UHF radios. Channel numbers follow
+the fixed ladder; custom channel assignments and exact per-pylon stores are not
+recipe controls yet. `player_fit`/`player_load` select presets. The MCP catalog
+currently covers maps, eras, aircraft, templates, carriers, tracks and courses;
+searchable loadout/livery catalogs remain planned. Check the agent guide's
+capability table rather than assume unsupported fields will be accepted.
 
 Site operators can open **Admin → Analytics** to see **MCP missions built**,
 failed builds, busy/retry responses, downloads prepared and the latest completed

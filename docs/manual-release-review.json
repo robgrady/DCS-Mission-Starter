@@ -1,12 +1,13 @@
 {
-  "version": "1.120.0",
+  "version": "1.120.1",
   "documentation_required": true,
-  "reason": "Document five explicit authoring inputs, their native meanings/units, fixed-training restrictions and remaining app connector verification boundary.",
+  "reason": "Explain compact compatibility discovery, preserved structured results/runtime validation and exact current authoring capabilities versus stores/channel/catalog gaps.",
   "sections_reviewed": [
     "Missions through an AI assistant (MCP)",
-    "Scenario dates and historical context",
-    "MCP exact authoring inputs and discovery compatibility"
+    "MCP exact authoring inputs",
+    "MCP authoring capability boundaries",
+    "Grok and tool-discovery troubleshooting"
   ],
-  "source_sha256": "3d5a339feee08593d43a8b5683ee699b4a1b770023e09c5296861e5aa44f9c9e",
-  "previous_source_sha256": "219ded28ad539f46598cd568e4b1db0a9d174abcab616db264736e1fa0a5c741"
+  "source_sha256": "4bccd117c496cff71731c209489b9b6c97cef35db7f4193b04da9c5cf563a0bc",
+  "previous_source_sha256": "3d5a339feee08593d43a8b5683ee699b4a1b770023e09c5296861e5aa44f9c9e"
 }

@@ -41,7 +41,9 @@ def test_sdk_discovers_structured_schemas_annotations_and_resources():
             assert len(tools) == 6
             for tool in tools:
                 assert tool.name.startswith('sortiestarter_')
-                assert tool.output_schema and tool.annotations.destructive_hint is False
+                assert tool.output_schema is None and tool.annotations.destructive_hint is False
+            reply = await client.call_tool('sortiestarter_list_catalog', {'params':{'kind':'maps','limit':1}})
+            assert reply.structured_content['items'] and not reply.is_error
             generate = next(t for t in tools if t.name.endswith('generate_mission'))
             assert generate.annotations.read_only_hint is False
             assert 'params' in generate.input_schema['properties']

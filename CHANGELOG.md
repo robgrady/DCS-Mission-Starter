@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.120.1] — Compact MCP discovery for connector compatibility
+
+- Publish compact tool-list metadata with no references, nullable/composed input schemas, conditional rules or outputSchema. Retain every recipe field and the existing tool names/envelopes; fetch the canonical schema for the complete contract and omit unused optional inputs.
+- Keep SDK registration/validation schemas and structured JSON/text results intact. Do not change the transport, native mission generator or published Library content while testing the app loader.
+- Add wire-level discovery-size/shape guards, structured-result checks and invalid-input regressions. Document current frequency support on both F-14 radios and the remaining exact-stores, channel-assignment and loadout/livery-catalog gaps.
+- Review and regenerate the User Manual and release artifacts. App-side acceptance remains a separate retest.
+
 ## [1.120.0] — Explicit mission authoring inputs
 
 - Add `start_position`, `mission_date`, `start_altitude`, `player_slot` and `map_view` to the recipe, canonical schema and MCP tool discovery. Write coordinates/altitude to airborne aircraft and route point zero, exact dates to native and historical context, Player/Client control to human aircraft, and framing/F10 visibility to native map settings.
