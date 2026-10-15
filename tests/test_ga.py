@@ -8,7 +8,7 @@ Three separate promises here, and each one has a way of quietly breaking.
      every unzipped folder into a data source for our account. This is the
      guard that stops a "simplification" doing that.
 
-  2. **It is on every page, not just the front one.** The roadmap, the what's
+  2. **It is on public landing pages, not just the front one.** The roadmap, the what's
      new page, the sources page and the 404 are all real pages people land on.
 
   3. **The footer tells the truth.** The site used to promise "No IP address,
@@ -122,17 +122,20 @@ def test_injection_is_idempotent(ga_mod):
 
 
 # --------------------------------------------------------------------------- #
-# 2. Every page, not just the front one
+# 2. Public landing pages, not just the front one
 # --------------------------------------------------------------------------- #
-def test_every_html_response_runs_through_the_injector():
+def test_public_landing_html_responses_run_through_the_injector():
     """Sources, roadmap, what's new and the 404 are real landing pages.
 
-    Read out of the source rather than by hitting each route, because the point
-    is that NO HTML response is left out — a new page added next year should
-    fail this line, not slip through because nobody wrote a route test for it.
+    Account and unlisted mission pages deliberately omit third-party tracking:
+    their URLs are capabilities and their titles contain chosen profile data.
+    test_mission_sharing verifies that boundary with GA configured. Every other
+    HTML response remains covered, including newly added public landing pages.
     """
     src = server_source()
-    responses = re.findall(r"HTMLResponse\(([^\n]*)", src)
+    public_src = "\n".join(p.read_text() for p in sorted((ROOT / "server").glob("*routes.py"))
+                           if p.name != "mission_page_routes.py")
+    responses = re.findall(r"HTMLResponse\(([^\n]*)", public_src)
     assert responses, "no HTMLResponse calls found — has app.py moved?"
     for r in responses:
         assert "_ga.inject" in r or r.startswith("page,"), (

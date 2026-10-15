@@ -32,8 +32,9 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
-**v1.116.0**: explicit Save to My missions keeps selected Library missions,
-collections and Builder/Fly Now settings before generation. Saved selections
+**v1.117.0**: personal My missions pages add search, filters, sorting and
+explicit, revocable sharing of chosen missions or an unlisted personal page.
+v1.116.0 added selection saving before generation. Saved selections
 are separate from original generated mission and Kit archives introduced in v1.115.0. Guest use remains available. Shared
 Authentic sign-in, cloud training progress and Discord posting remain future
 integration. The product has four doors (Fly now · Library · Train · Builder), thirteen
@@ -325,6 +326,8 @@ must remain identifiable after generator updates.
   identity and cloud training progress remain follow-up work. v1.116.0 adds
   named recipe selections and published Library mission/collection references. Guest generation and local progress remain available.
 - **F16 · Share a mission on Discord.** P3 / M.
+  v1.117.0 implements copyable, revocable mission/page links and read-only
+  visitor downloads. Automatic Discord posting remains future work.
   Extend existing recipe links with a share card showing map, aircraft, era,
   player roles, prerequisites and a preview. Provide a stable landing page from
   which others can inspect and regenerate/download the referenced revision.

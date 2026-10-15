@@ -152,55 +152,69 @@ return, provided session storage is available and you return within ten minutes.
 If browser storage is blocked, sign in first, select the mission again and click
 Save. Cancelling sign-in does not save the selection.
 
-Open **My missions** in the header or Library. **Saved selections** holds up to
-100 setups or Library references, separately from your generated-file allowance.
-For settings, **Open in Builder** restores the captured recipe and seed;
-generating uses the current application and content. For authored content,
-**Open in Library** and **Download published mission/collection** use the current
-published version. The version selected when saving is shown for context; a
-Library reference is not a retained copy of that version. Unpublished or removed
-content may no longer be available. Rename or Remove a selection as needed.
-Saving the same settings/reference again reuses its existing entry. Saved
-selections do not record training completion or create original generated files.
-An unsaved result's **Save settings** keeps the recipe that produced that result,
-not the downloaded original file.
+Open **My missions** in the header or Library, or bookmark **/my-missions**.
+This is your personal page. Search by mission name, aircraft or map; filter
+**All missions**, **Original files**, **Saved setups**, **Library picks** or
+**Shared**, and sort by save date or mission name. Saving from the Library or
+Builder keeps you where you are and shows a **View My missions** link.
 
-Under **Profile & saving settings**, edit your profile name
-and use **Save profile**. **Save newly generated missions to my profile on this
-browser** is initially enabled; turn it off to generate without storing a
-mission on your profile. The preference stays on this browser; if browser
-storage is blocked, changes apply to the current tab only. Signing out
-ends this browser's session; sessions expire after 30 days. Builder settings
-are saved locally before leaving for Discord; cancelling login leaves guest
-generation available. Third-party authentication is handled by Discord.
+**Original files** are retained `.miz` and matching **Mission Kit** downloads,
+kept as generated even after an app upgrade. **Saved setups** hold settings and
+seed; **Open in Builder** generates with the current app/content. **Library
+picks** reference authored missions or collections; their downloads use the
+current published version. The selected version is shown under the card’s
+additional details. A reference is not a retained copy of that publication;
+removed content may be unavailable. Use **More actions** to rename or remove
+an item. Removing an original deletes its retained files. An unsaved result’s
+**Save settings** keeps its captured recipe, not the downloaded original file.
 
-With saving enabled, Generate from Fly now, a configurable Library mission
-or Builder saves the `.miz`, its resolved settings, generator version and
-matching Mission Kit from the same build. A successful Kit says **Saved
-privately to your profile**. The archive includes the generated briefing and
-kneeboard pages where available. Authored collection downloads and missions
-downloaded before signing in are not imported into your profile.
+### Share a mission or your page
 
-**Download original .miz** and **Original Mission Kit** return the retained
-files, even after an app upgrade. **Edit in Builder** restores the saved
-settings; generating there builds a new mission with the current app and
-content. It does not overwrite the original. The saved release is shown on
-each mission. Repeating an identical generation within a release reuses its
-existing archive. Briefing downloads for a saved result use its original Kit.
+Everything starts **Private**. On a card, choose **Share**, review what will be
+visible, then **Create share link** and **Copy link**. Anyone with the link can
+see your profile name and that mission’s settings or files without signing in.
+They can open a setup in Builder or download the shared original/published
+content. Other private saves stay hidden. Paste the link into Discord or a
+message yourself; the app does not post to Discord.
 
-Profiles are private: another user cannot list, download or change your
-missions. You can **Rename** or **Delete** each saved mission. The limit is
-100 generated missions or 100 MB per profile, including mission and Kit storage, plus 100 saved selections. If a
-save fails or space is full, the interface reports the error; turn saving
-off and Generate again for an unarchived download, or delete saved missions
-and retry. Do not assume a failed generation/save created an archive.
+Choose **Share my page → Enable shared page** to create your personal link.
+This unlisted page contains **only missions you have explicitly shared**.
+Enabling an empty page does not publish private saves or automatically share
+future saves. Use **Manage page link** to copy or preview the page later.
+Shared pages are not listed in a public directory and request that search
+engines do not index them; the link can still be forwarded to anyone.
 
-**Export settings** downloads your profile and mission metadata/recipes as
-JSON, including saved selections; download original files separately. **Delete profile** removes this
-app's profile, saved selections, archives and all its active sessions. Download anything you
-want to keep before confirming. This does not delete your Discord account
-or records in another app. Saving is separate from the anonymous generation
-analytics ledger; saved missions are not public links or Discord posts.
+Use **Manage link → Stop sharing this mission** to stop an individual link.
+**Manage page link → Stop all sharing** stops the page and every individual
+link. Creating new links later does not reactivate old ones. Removing a mission
+or deleting your profile also stops its links. Files already downloaded cannot
+be recalled. Builder recipe links and public Library downloads remain separate
+from these revocable profile links.
+
+### Profile and saving settings
+
+On your My missions page, open **Settings**, edit your profile name and use
+**Save profile**. This name appears on content you choose to share.
+**Save newly generated missions on this browser** is enabled initially. Turn it
+off to download without retaining files. If browser storage is blocked and the
+preference cannot be retained, the interface reports that; sign out to generate
+as a guest without saving. Signing out ends this browser’s session; sessions
+expire after 30 days. Cancelling sign-in leaves guest generation available.
+
+With saving enabled, Generate from Fly now, a configurable Library mission or
+Builder stores the `.miz`, its resolved settings, release and matching Mission
+Kit from the same build. The Kit includes available briefing and kneeboard
+pages. Repeating an identical generation within a release reuses the archive.
+Authored collection downloads and downloads made before signing in are not
+automatically copied into the original-file archive.
+
+You can keep 100 saved selections plus 100 original missions or 100 MB of
+original mission/Kit storage per profile. If a save fails or space is full,
+keep your download, remove an item and retry. A failed save is not confirmation
+of an archive. **Export settings** downloads profile and mission metadata and
+recipes as JSON; download original files separately. **Delete profile** removes
+this app’s profile, saves, sessions and shared links. Download originals first.
+This does not delete your Discord account or data in another Authentic app.
 
 ## Quick start (Builder path)
 

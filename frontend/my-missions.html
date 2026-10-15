@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">
+<title>{{PAGE_TITLE}} · Sortie Starter</title>
+<meta property="og:title" content="{{PAGE_TITLE}} · Sortie Starter">
+<meta property="og:description" content="A pilot’s selected DCS missions. Open a saved setup or download shared mission files.">
+<style>{{FLIGHTLINE_TOKENS}}</style>
+<link rel="stylesheet" href="/assets/mission-shelf.css?v={{APP_VERSION}}">
+<script src="/assets/mission-shelf.js?v={{APP_VERSION}}" defer></script>
+</head>
+<body data-mode="paper">
+<a class="skip" href="#main">Skip to missions</a>
+<header class="shelf-topbar"><a class="brand" href="/">DCS <span>SORTIE STARTER</span> <small>v{{APP_VERSION}}</small></a>
+<nav aria-label="Main navigation"><a href="/?v=quick">Fly now</a><a href="/?v=library">Library</a><a href="/?v=pipeline">Train</a><a href="/?v=builder">Builder</a><a href="/my-missions" id="my_page_link">My missions</a></nav>
+<button type="button" id="shelf_theme" aria-label="Switch color mode">Dark mode</button></header>
+<main id="main" class="shelf-wrap" tabindex="-1">
+<div class="shelf-heading"><div><p class="eyebrow" id="shelf_eyebrow">YOUR FLIGHTLINE</p><h1 id="shelf_title">My missions</h1>
+<p id="shelf_intro">Your saved setups, Library picks and original mission files, all in one place.</p></div>
+<div class="actions" id="shelf_tools" hidden><a class="button primary" href="/?v=library">Find a mission</a><button id="share_page" type="button">Share my page</button><button type="button" id="settings_open">Settings</button></div></div>
+<div id="shelf_status" role="status" aria-live="polite" tabindex="-1">Loading missions…</div>
+<section class="shelf-controls" id="shelf_controls" aria-label="Find saved missions" hidden>
+<div class="shelf-search"><label for="mission_search">Search my missions</label><input type="search" id="mission_search" placeholder="Mission name, aircraft, map…" autocomplete="off"></div>
+<div class="shelf-sort"><label for="mission_sort">Sort by</label><select id="mission_sort"><option value="newest">Newest saved</option><option value="oldest">Oldest saved</option><option value="title">Mission name</option></select></div>
+<div class="shelf-filters" aria-label="Mission type"><button type="button" data-filter="all" aria-pressed="true">All missions</button><button type="button" data-filter="original" aria-pressed="false">Original files</button><button type="button" data-filter="setup" aria-pressed="false">Saved setups</button><button type="button" data-filter="library" aria-pressed="false">Library picks</button><button type="button" data-filter="shared" aria-pressed="false" id="shared_filter">Shared</button></div>
+</section>
+<div class="shelf-count" id="shelf_count" aria-live="polite"></div>
+<section class="mission-grid" id="mission_grid" aria-label="Saved missions"></section>
+<p class="shelf-footnote" id="shelf_note"></p>
+</main>
+<dialog id="shelf_dialog" aria-labelledby="dialog_title"><div class="dialog-head"><h2 id="dialog_title"></h2><button type="button" id="dialog_close">Close</button></div><div id="dialog_body"></div><p id="dialog_status" role="status" aria-live="polite"></p></dialog>
+</body></html>

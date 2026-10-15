@@ -34,7 +34,10 @@ class AuthAccessFilter(logging.Filter):
     def filter(self, record):
         if isinstance(record.args, tuple) and len(record.args) >= 3:
             values = list(record.args)
-            if isinstance(values[2], str) and values[2].startswith('/auth/discord'):
+            if isinstance(values[2], str) and values[2].startswith(('/shared/', '/pilots/', '/api/shared/', '/api/pilots/')):
+                values[2] = '/[shared-link]'
+                record.args = tuple(values)
+            elif isinstance(values[2], str) and values[2].startswith('/auth/discord'):
                 values[2] = values[2].split('?', 1)[0]
                 record.args = tuple(values)
         return True
@@ -73,7 +76,7 @@ def require_user(request: Request):
 def safe_return(value):
     # Only app-root query strings are needed; reject redirects, backslashes,
     # control characters and credential/callback query leakage.
-    return value if (len(value) <= 100000 and (value == '/' or value.startswith('/?'))
+    return value if (len(value) <= 100000 and (value in ('/', '/my-missions') or value.startswith('/?'))
                      and '\\' not in value and not any(ord(c) < 32 for c in value)) else '/'
 
 
@@ -320,7 +323,7 @@ def install(app):
     @app.middleware('http')
     async def private_account_requests(request, call_next):
         path = request.url.path
-        private = path.startswith('/api/account') or path.startswith('/auth/discord')
+        private = (path == '/my-missions' or path.startswith(('/api/account', '/auth/discord', '/pilots/', '/shared/', '/api/pilots/', '/api/shared/')))
         if private:
             owner = os.environ.get('ACCOUNTS_OWNER_MACHINE')
             current = os.environ.get('FLY_MACHINE_ID')
@@ -343,8 +346,9 @@ def install(app):
                 log.exception('Account storage unavailable')
                 response = JSONResponse({'detail': 'Account storage is unavailable. Please try again shortly.'}, status_code=503)
             response.headers.update(NO_STORE)
+            response.headers['X-Robots-Tag'] = 'noindex, nofollow'
             return response
         # Keep login cookies and the canonical callback on one hostname.
-        if path == '/' and base_url() and request.url.hostname in ('sortiestarter.com', 'www.sortiestarter.com') and request.url.hostname != urlsplit(base_url()).hostname:
+        if path == '/' and base_url() and request.url.hostname in ('sortiestarter.com', 'www.sortiestarter.com', 'dcs-mission-starter.fly.dev') and request.url.hostname != urlsplit(base_url()).hostname:
             return RedirectResponse(base_url() + ('?' + request.url.query if request.url.query else ''), status_code=308)
         return await call_next(request)

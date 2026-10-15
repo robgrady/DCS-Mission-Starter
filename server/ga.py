@@ -25,7 +25,9 @@ WHAT THIS DOES NOT DO
 It does not gate on Do Not Track or on the site's own analytics off-switch.
 That was Rob's explicit call: the tag runs for every visitor, and the footer
 says so in as many words rather than the page carrying a promise it has
-stopped keeping. `tests/test_ga.py` holds the footer to it.
+stopped keeping. `tests/test_ga.py` holds the footer to it. Account and
+unlisted mission pages omit this tag so profile data and capability URLs are
+not transmitted as third-party page views.
 """
 from __future__ import annotations
 
@@ -65,7 +67,7 @@ def snippet(mid: str | None = None) -> str:
 def inject(html: str, mid: str | None = None) -> str:
     """Put the tag in the <head>, or at the top when a document has no head.
 
-    IDEMPOTENT. Every HTML response on this site runs through here, and one of
+    IDEMPOTENT. Public landing-page HTML responses run through here, and one of
     them (the sources page) is already passed through a second transform; a
     second injection would load gtag.js twice and double every page view.
     """

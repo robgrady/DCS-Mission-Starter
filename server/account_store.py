@@ -63,6 +63,15 @@ def database():
             title TEXT NOT NULL, created_at INTEGER NOT NULL, version TEXT NOT NULL,
             payload TEXT NOT NULL, fingerprint TEXT NOT NULL, UNIQUE(user_id, fingerprint));
           CREATE INDEX IF NOT EXISTS selection_user ON selections(user_id, created_at);
+          CREATE TABLE IF NOT EXISTS mission_shares (
+            token TEXT PRIMARY KEY, user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+            mission_id TEXT UNIQUE REFERENCES missions(id) ON DELETE CASCADE,
+            selection_id TEXT UNIQUE REFERENCES selections(id) ON DELETE CASCADE,
+            CHECK ((mission_id IS NOT NULL) != (selection_id IS NOT NULL)));
+          CREATE TABLE IF NOT EXISTS shared_pages (
+            user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
+            token TEXT NOT NULL UNIQUE);
+
         ''')
         now = int(time.time())
         db.execute('DELETE FROM sessions WHERE expires <= ?', (now,))

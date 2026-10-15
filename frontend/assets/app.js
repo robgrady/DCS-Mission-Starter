@@ -672,6 +672,8 @@ async function init(){
   const vparam = new URLSearchParams(location.search).get('v');
   NAV_READY=true;
   showView(code ? 'builder' : normalizeView(vparam), 'replace');
+  const savedPack=new URLSearchParams(location.search).get('pack');
+  if(CURRENT_VIEW==='library' && savedPack && libFind('pack_'+savedPack))openDetail('pack_'+savedPack);
   if (shareError){
     const notice = document.getElementById('shareerror');
     notice.textContent = `Could not open this mission: ${shareError} The Builder shows default settings.`;

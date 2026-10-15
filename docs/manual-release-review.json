@@ -1,7 +1,7 @@
 {
-  "version": "1.116.0",
+  "version": "1.117.0",
   "documentation_required": true,
-  "reason": "Reviewed Library, Builder/Fly Now, account saving and original archives. Document explicit selection saves, same-tab sign-in resumption and storage failure recovery, current published references versus retained originals, separate limits, export and cascading deletion.",
+  "reason": "Reviewed Library, mission kits, accounts, share links and manual release identity. Document the full personal page, search/filter/sort, contextual saves, explicit unlisted sharing and revocation, exact originals versus current content, settings and privacy boundaries.",
   "sections_reviewed": [
     "The four doors",
     "Your mission kit",
@@ -10,6 +10,6 @@
     "Share links & recipes",
     "Release identity and the manual"
   ],
-  "source_sha256": "44f6d7a5179d342da75b8b396c0052e01908126561dda087c1d086fe42447c09",
-  "previous_source_sha256": "3ca4ecdf7f852038b61403021c7ae3fe26567ccff0499f056b36ecaffd398532"
+  "source_sha256": "2013f48708c741ba5b0a7fea50bd8589eacd6ec45e1efeb14c6aad690e53ffc2",
+  "previous_source_sha256": "44f6d7a5179d342da75b8b396c0052e01908126561dda087c1d086fe42447c09"
 }

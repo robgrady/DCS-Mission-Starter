@@ -1,5 +1,13 @@
 # Changelog — DCS Sortie Starter
 
+## [1.117.0] — Personal mission pages and chosen sharing
+
+- Give every signed-in pilot a full My missions page with searchable, sortable cards for original files, saved setups and Library picks. Keep settings separate, label private/shared status, and provide direct download/open actions in the existing Flightline fonts and colors.
+- Keep saves in context with a confirmation and View My missions link. Preserve exact selected settings and the sign-in continuation; support direct links back to published Library collections.
+- Add explicit, unlisted mission links and a personal shared page containing only chosen shared missions. Visitors can open settings or download shared originals without signing in. Keep all existing saves private; allow individual revocation or Stop all sharing, and revoke links when missions or profiles are deleted.
+- Route all private/shared metadata and file reads to the account owner. Project only chosen content and the pilot’s display name; keep Discord IDs, sessions and unrelated saves private. Mark shared views no-store/noindex/no-referrer, omit analytics from account/shared pages, and redact capability URLs from access logs.
+- Update the manual, account operating guide and roadmap; rebuild release documents and official pack document provenance.
+
 ## [1.116.0] — Save selected missions before generating
 
 - Add Save to My missions to configurable Library missions, published collections, individual collection sorties, Builder Review and Fly Now. Unsaved generation results offer Save settings using their captured recipe.

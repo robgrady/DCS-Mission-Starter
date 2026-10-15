@@ -1,6 +1,6 @@
 # Discord login and private missions
 
-Status: sign-in and archives implemented in v1.115.0; explicit saved selections added in v1.116.0. A real user must still complete the production
+Status: sign-in and archives implemented in v1.115.0; saved selections added in v1.116.0; personal pages and explicit sharing added in v1.117.0. A real user must still complete the production
 Discord consent/callback and cross-device checks after deployment. Unit tests
 mock the provider; they do not certify a live client secret or Portal setting.
 
@@ -85,6 +85,34 @@ The account UUID is independent of the Discord ID. This provides a migration
 key for a future shared Authentic identity service, **not current SSO**.
 Existing Dash One profiles are not imported or overwritten by this release.
 No membership/subscription entitlement is inferred from Discord login.
+
+## Personal pages and sharing
+
+`/my-missions` serves the owner’s shelf; authenticated `/api/account/library`
+returns only that owner’s items. `/api/account/shares` creates an opaque link
+only after an explicit card action. `/api/account/shared-page` creates a separate
+unlisted page containing only shared items. No current or future save is public
+by default. `/shared/{token}` and `/pilots/{token}` have read-only APIs and
+explicit original-file downloads. A display name and chosen content are public
+to anyone with the link; Discord IDs, session/CSRF data, unrelated recipes and
+account-export metadata are excluded. Visitors need no login. These links do
+not grant write access or shared Authentic identity.
+
+Share tokens are 192 random bits. Sharing tables are additive and use foreign
+keys with cascading deletion. Revocation checks also cover original-file reads.
+Stopping all sharing revokes the page and every individual link; re-enabling
+uses new tokens. Previously downloaded files cannot be recalled. Public profile
+links are redacted in Uvicorn access logs. Account and shared mission pages
+omit Google Analytics to avoid transmitting profile titles or capability URLs
+as third-party page views. Responses carry no-store,
+no-referrer and noindex/nofollow. Search-engine exclusion is a request, not
+access control. These routes replay to `ACCOUNTS_OWNER_MACHINE`, including
+public views/downloads, and never fall back to replica account stores.
+
+The new shelf uses the generated Flightline token block directly from the main
+UI, avoiding a second font/palette source. Main-site saves stay in context and
+confirm with a View My missions link. OAuth permits an exact `/my-missions`
+return path as well as the existing root/query route.
 
 ## Storage and recovery
 

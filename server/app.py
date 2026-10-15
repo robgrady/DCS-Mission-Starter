@@ -28,6 +28,8 @@ for module in (site_routes, catalog_routes, document_routes, comm_routes,
     app.include_router(module.router)
 app.include_router(admin_router)
 app.include_router(account_routes.router)
+from . import mission_page_routes
+app.include_router(mission_page_routes.router)
 app.add_exception_handler(404, site_routes.not_found)
 mcp_mount = Mount('/mcp', app=mcp_server.create_http_app(), name='mcp')
 app.router.routes.append(mcp_mount)
