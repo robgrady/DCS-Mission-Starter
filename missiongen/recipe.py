@@ -33,6 +33,7 @@ def _type_description(expected):
 # Allowed values for the enum-like fields. Kept here (next to the dataclass) as
 # the single source of truth; the server surfaces the same lists in /api/options.
 RECIPE_ENUMS = {
+    "player_slot": (None, "player", "client"),
     "coalition": ("blue", "red"),
     "coach_ring": ("red", "green"),
     "start": ("cold", "warm", "runway", "air"),
@@ -142,6 +143,11 @@ class Recipe:
     start: str = "cold"                # cold | warm | runway | air (airborne;
                                        # position picked by the template's
                                        # air_start flag — tanker/merge/generic)
+    player_slot: Optional[str] = None # native Player (solo) or Client (multiplayer)
+    map_view: Optional[dict] = None    # center, zoom, F10 visibility
+    mission_date: Optional[str] = None # ISO YYYY-MM-DD, within selected era
+    start_position: Optional[dict] = None # airborne lead: {lat, lon} or DCS {x, y}
+    start_altitude: Optional[Union[int, float]] = None # metres MSL, airborne only
     time_of_day: str = "day"           # dawn | day | dusk | night
     weather: str = "clear"             # clear | scattered | overcast | storm
     density: str = "normal"            # sparse | normal | busy (AD/ambient scale)
@@ -504,4 +510,6 @@ class Recipe:
             if v["errors"]:
                 raise RecipeError("comms: " + " ".join(e["msg"] for e in v["errors"]))
             self.comms = v["clean"] or None
+        from .precision import validate_precision
+        validate_precision(self)
         return self

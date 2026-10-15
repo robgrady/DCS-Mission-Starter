@@ -112,6 +112,8 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
         raise EraViolation(f"Unknown map '{r.map}'.")
     if r.era not in builder.eras:
         raise EraViolation(f"Unknown era '{r.era}'.")
+    from .precision import validate_precision
+    validate_precision(r)
     map_cfg = builder.maps[r.map]
     era_cfg = builder.eras[r.era]
     if r.era not in map_cfg["presets"]:
@@ -141,6 +143,8 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
     m = dcs.Mission(terrain())
 
     # --- time & weather -------------------------------------------------
+    from .precision import dated_setting
+    preset = dated_setting(r, preset, era_cfg)
     when = scenario_date(preset, era_cfg)
     m.start_time = datetime(when.year, when.month, when.day, TIME_PRESETS[r.time_of_day], 0)
     builder._mission = m

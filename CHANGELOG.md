@@ -1,5 +1,13 @@
 # Changelog — DCS Sortie Starter
 
+## [1.120.0] — Explicit mission authoring inputs
+
+- Add `start_position`, `mission_date`, `start_altitude`, `player_slot` and `map_view` to the recipe, canonical schema and MCP tool discovery. Write coordinates/altitude to airborne aircraft and route point zero, exact dates to native and historical context, Player/Client control to human aircraft, and framing/F10 visibility to native map settings.
+- Validate coordinate systems, bounds, altitude units, era/date and seating relationships. Reject conflicting fixed-training/carrier overrides. Label changed scenario dates as author-selected adaptations; retain era-based ownership/overlay limits.
+- Preserve optional fields through share links and Builder; existing omitted defaults and published packs remain unchanged. Advanced authoring controls are currently agent/API inputs.
+- Publish inline MCP parameter schemas without model references, retain canonical cross-field rules and enforce all input validation. App-specific connector success still requires an app-side retest; direct access alone is insufficient evidence.
+- Update the User Manual, agent guide, handbook and release artifacts.
+
 ## [1.119.0] — MCP build analytics and custom-domain connections
 
 - Add MCP activity to Admin → Analytics: completed mission builds, failed builds, capacity retries, separately prepared downloads and the last completed build in the selected window. Record anonymous mission-shape events on persistent storage; keep MCP separate from website/browser metrics and share-link download counts. Earlier MCP builds remain unknown; retain the existing six-month event window.

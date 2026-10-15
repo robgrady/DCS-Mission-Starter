@@ -709,3 +709,23 @@ historical snapshot so native and external briefs share them. Optional generic
 strike routes originate at the ship; `routing.add_recovery` writes ship-linked
 landing points for the player and timed package. The default still adds no
 player route. Fault injection: `scripts/mutate_iraq_carrier.py <evidence-dir>`.
+
+
+### Explicit authoring inputs (v1.120.0)
+
+`missiongen/precision.py` validates and applies optional recipe `start_position`,
+`mission_date`, `start_altitude`, `player_slot` and `map_view`. Position is WGS84
+lat/lon degrees or DCS x/y metres; altitude is metres MSL/BARO. Dates remain
+inside the era and require takeoff timing. Date overrides reach world resolution
+before historical snapshots and equipment-year fitting. They do not recreate
+exact-day deployments or boundaries; changed dates carry an adaptation note.
+
+Airborne overrides run during player placement and again after automatic tanker/
+target-relative placement, before BFM geometry is computed. Preserve every unit's
+relative spacing and waypoint zero. Fixed carrier/Case III/formation/crew/White
+Knights start geometry refuses overrides. Player slot means native Player/Client,
+not aircraft index or cockpit crew. Map view separately controls saved map framing
+and forced F10 visibility; map_layers controls graphics. All five are optional
+and survive shared Builder recipes, with no dedicated Builder controls yet.
+Native readback and SDK guards: tests/test_precision_recipe.py. Simulator flight
+and a particular app connector's tool loading remain separate evidence gates.

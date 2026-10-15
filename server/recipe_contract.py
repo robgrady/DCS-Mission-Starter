@@ -14,6 +14,7 @@ from missiongen.share import SHARE_SCHEMA
 
 def recipe_json_schema() -> dict:
     schema = TypeAdapter(Recipe).json_schema()
+    schema['additionalProperties'] = False
     for name, values in RECIPE_ENUMS.items():
         schema['properties'][name]['enum'] = list(values)
     bounds = recipe_numeric_bounds()
@@ -42,6 +43,29 @@ def recipe_json_schema() -> dict:
     schema['properties']['callsign']['description'] = (
         f'Surrounding whitespace is trimmed; the result must contain '
         f'{CALLSIGN_LENGTH[0]}-{CALLSIGN_LENGTH[1]} characters.')
+    schema['properties']['mission_date'].update(description='Exact YYYY-MM-DD within the selected era; overrides scenario date. Presets remain era-based.', format='date')
+    schema['properties']['start_position'] = {'anyOf': [position_json_schema(), {'type':'null'}], 'default':None,
+        'description':'Exact airborne lead position. WGS84 lat/lon degrees OR DCS theatre x/y metres. Requires start=air. Ground parking and fixed training starts are excluded.'}
+    schema['properties']['start_altitude'] = {'anyOf': [{'type':'number','minimum':1,'maximum':25000},{'type':'null'}],
+        'default':None, 'description':'Airborne start altitude in metres MSL (BARO), not feet or AGL. Author must check terrain clearance. Requires start=air.'}
+    schema['properties']['player_slot']['description'] = 'Native DCS player/client control. Null preserves automatic solo/multiplayer seating. player requires one human aircraft; client allows a single multiplayer client.'
+    from missiongen.precision import VIEWS
+    schema['properties']['map_view'] = {'anyOf': [
+        {'type':'object', 'minProperties':1, 'additionalProperties':False, 'properties':{
+            'center':position_json_schema(), 'zoom':{'type':'number','minimum':1000,'maximum':5000000},
+            'visibility':{'type':'string','enum':list(VIEWS)}}}, {'type':'null'}],
+        'default':None, 'description':'Initial saved map framing and forced F10 unit visibility; independent of map_layers graphics. zoom uses native DCS map units.'}
     schema['x-engine-version'] = __version__
     schema['x-share-schema'] = SHARE_SCHEMA
     return schema
+
+
+def position_json_schema():
+    """Two explicit coordinate systems, with no inferred units."""
+    return {'oneOf': [
+        {'type': 'object', 'properties': {
+            'lat': {'type': 'number', 'minimum': -90, 'maximum': 90},
+            'lon': {'type': 'number', 'minimum': -180, 'maximum': 180}},
+         'required': ['lat', 'lon'], 'additionalProperties': False},
+        {'type': 'object', 'properties': {'x': {'type': 'number'}, 'y': {'type': 'number'}},
+         'required': ['x', 'y'], 'additionalProperties': False}]}

@@ -38,6 +38,8 @@ def place_presentation(builder: StarterBuilder, ctx: WorldContext, targets: Scen
     preset = ctx.preset
     stats = ctx.stats
     template_brief = training.template_brief
+    from ..precision import apply_map_view
+    apply_map_view(r, m)
     # --- bullseye ---------------------------------------------------------
     midpoint = mapping.Point((own_center.x + enemy_center.x) / 2,
                              (own_center.y + enemy_center.y) / 2, m.terrain)

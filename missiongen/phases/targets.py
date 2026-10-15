@@ -176,11 +176,15 @@ def place_targets(builder: StarterBuilder, ctx: WorldContext, player: PlayerPlac
     # Moving the flight afterwards keeps the blast radius to the two cards
     # this is meant to fix.
     if (air_start_mode in ("roll_in", "outside_the_ring")
-            and player_group is not None and gfx["targets"]):
+            and player_group is not None and gfx["targets"] and r.start_position is None):
         tpos, _tlabel = gfx["targets"][0]
         self._air_start_on_target(player_group, tpos, home.position,
                                   air_start_mode, stats,
                                   threats=gfx["threats"])
+
+    if player_group is not None:
+        from ..precision import apply_air_start
+        apply_air_start(r, m, player_group)
 
     # --- E2: BFM adversary (Quick Flight merge) ---------------------------
     if r.bb_bfm and player_group is not None:

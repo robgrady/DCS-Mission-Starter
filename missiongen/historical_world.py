@@ -53,7 +53,7 @@ CLASSIFICATIONS = {
 def resolve_setting(map_key, era, preset, template=None):
     """Authored map/lineup context, then template-specific era/map metadata.
 
-    Dates are internal content defaults, not additional recipe/share fields.
+    Authored dates are defaults; an explicit mission_date is applied by build_context.
     A template override only applies to its selected map and era.
     """
     from .templates import templates

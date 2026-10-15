@@ -55,7 +55,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
 // Engine settings without Builder controls must survive opening a shared
 // recipe. Do not add their defaults to a template recipe: omission lets the
 // template supply its own defaults on the server.
-const RECIPE_ENGINE_FIELDS = ['lineup','coach_gates','coach_ring','cq_ride',
+const RECIPE_ENGINE_FIELDS = ['mission_date','start_position','start_altitude','player_slot','map_view','lineup','coach_gates','coach_ring','cq_ride',
   'formation','tanker_type','bb_branding','bb_dtc','bb_bfm','bfm_setup',
   'target_packages','published_corridors','check_ride','player_fit'];
 

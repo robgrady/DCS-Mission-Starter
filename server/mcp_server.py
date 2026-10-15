@@ -6,7 +6,7 @@ in the same services as the website; no second generator or mission database.
 import json
 import logging
 import os
-from typing import Any, Literal
+from typing import Annotated, Any, Literal
 from urllib.parse import urlencode, urlsplit
 
 import anyio
@@ -15,7 +15,7 @@ from mcp.server import MCPServer
 from mcp.server.mcpserver.exceptions import ToolError
 from mcp.server.transport_security import TransportSecuritySettings
 from mcp.types import ToolAnnotations
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from missiongen import Recipe, __version__
 from missiongen.share import encode_recipe
@@ -91,14 +91,42 @@ class HistoricalQuery(BaseModel):
     on: str | None = Field(default=None, max_length=10, description='YYYY-MM-DD subject-date filter, not operational certification.')
 
 
+def discovery_recipe_schema():
+    """Small self-contained discovery schema; engine retains all domain checks.
+
+    Some hosts translate MCP schemas into provider function declarations. Keep
+    local model references and conditional seat rules out of that translation.
+    The canonical schema tool/resource still publishes the complete contract.
+    """
+    schema = recipe_json_schema()
+    schema.pop('allOf', None)
+    return schema
+
+
+CatalogParams = Annotated[dict, Field(json_schema_extra=CatalogQuery.model_json_schema())]
+ItemParams = Annotated[dict, Field(json_schema_extra=CatalogItem.model_json_schema())]
+HistoryParams = Annotated[dict, Field(json_schema_extra=HistoricalQuery.model_json_schema())]
+RecipeParams = Annotated[dict, Field(json_schema_extra={
+    'type': 'object', 'additionalProperties': False,
+    'properties': {'recipe': discovery_recipe_schema()}, 'required': ['recipe']})]
+
+
+def _params(model, value):
+    try:
+        return model.model_validate(value)
+    except ValidationError as exc:
+        raise ToolError(str(exc)) from exc
+
+
 @mcp.tool(annotations=READ, structured_output=True)
-def sortiestarter_get_historical_references(params: HistoricalQuery) -> dict[str, Any]:
+def sortiestarter_get_historical_references(params: HistoryParams) -> dict[str, Any]:
     """Read dated background, original source pages, unit observations and point profiles.
 
     Reference periods do not add playable eras. Station events and snapshots do
     not prove continuous occupancy. Profile routing is disabled; unverified
     coordinate datum and missing boundaries remain explicit.
     """
+    params = _params(HistoricalQuery, params)
     from missiongen.historical_library import catalog
     try:
         return catalog(params.map, params.period, params.topic, params.on)
@@ -123,7 +151,7 @@ def _item(kind: CatalogKind, key: str, item: dict) -> dict[str, Any]:
 
 
 @mcp.tool(annotations=READ, structured_output=True)
-def sortiestarter_list_catalog(params: CatalogQuery) -> dict[str, Any]:
+def sortiestarter_list_catalog(params: CatalogParams) -> dict[str, Any]:
     """Search paginated catalog summaries. Returns version, items, total, has_more and next_offset.
 
     Use get_catalog_item for full recipes, map airbase presets, historical
@@ -131,6 +159,7 @@ def sortiestarter_list_catalog(params: CatalogQuery) -> dict[str, Any]:
     unknown service history passes, just as in the Builder. A map filter checks
     template/map presets and carrier availability, not installed DCS ownership.
     """
+    params = _params(CatalogQuery, params)
     data = options()
     if params.era and params.era not in data['eras']:
         raise ToolError('Unknown era. List the eras catalog for supported keys.')
@@ -174,13 +203,14 @@ def sortiestarter_list_catalog(params: CatalogQuery) -> dict[str, Any]:
 
 
 @mcp.tool(annotations=READ, structured_output=True)
-def sortiestarter_get_catalog_item(params: CatalogItem) -> dict[str, Any]:
+def sortiestarter_get_catalog_item(params: ItemParams) -> dict[str, Any]:
     """Get one item's complete metadata, including template defaults and historical notes.
 
     Pack templates are fixed downloads: their download_url serves the authored
     archive; do not pass a pack_ key to generate_mission. Templates' by_era and
     by_map defaults are resolved by the engine when validating the recipe.
     """
+    params = _params(CatalogItem, params)
     item = _catalog(params.kind, options()).get(params.key)
     if item is None:
         raise ToolError('Unknown catalog key. Search list_catalog and use an exact returned key.')
@@ -203,13 +233,14 @@ def _recipe(values: dict) -> Recipe:
 
 
 @mcp.tool(annotations=READ, structured_output=True)
-def sortiestarter_validate_recipe(params: RecipeInput) -> dict[str, Any]:
+def sortiestarter_validate_recipe(params: RecipeParams) -> dict[str, Any]:
     """Validate field types/bounds and cross-field rules, and resolve template defaults.
 
     Returns normalized recipe, share code and stage=recipe_fields. Generation
     still checks terrain/aircraft/era compatibility, parking and actual build
     results; this inexpensive check does not claim a mission was generated.
     """
+    params = _params(RecipeInput, params)
     recipe = _recipe(params.recipe)
     code = encode_recipe(recipe)
     return {'app_version': __version__, 'valid': True, 'stage': 'recipe_fields',
@@ -217,7 +248,7 @@ def sortiestarter_validate_recipe(params: RecipeInput) -> dict[str, Any]:
 
 
 @mcp.tool(annotations=BUILD, structured_output=True)
-async def sortiestarter_generate_mission(params: RecipeInput) -> dict[str, Any]:
+async def sortiestarter_generate_mission(params: RecipeParams) -> dict[str, Any]:
     """Generate and inspect a native .miz; return its manifest and download URLs.
 
     This consumes the website's bounded generation capacity. Busy failures
@@ -228,6 +259,7 @@ async def sortiestarter_generate_mission(params: RecipeInput) -> dict[str, Any]:
     and files list describe what was actually produced. DTC remains specific
     to supported aircraft. Files are not automatically sent to other apps.
     """
+    params = _params(RecipeInput, params)
     recipe = _recipe(params.recipe)
     try:
         # Non-abandoning thread: cancellation waits for native build cleanup;

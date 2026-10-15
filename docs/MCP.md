@@ -94,6 +94,52 @@ template; do not apply global defaults before validation. Callsigns are trimmed
 before their 1–20-character limit is checked. Domain restrictions such as comm
 frequency compatibility and fixed-flight exclusions require validate_recipe.
 
+### Exact authoring inputs (1.120.0)
+
+These optional recipe fields are accepted by validation and generation, appear
+in both tool discovery schemas and the canonical schema, and survive share
+links opened in Builder. They currently have no dedicated Builder controls.
+Omit them to retain existing template behavior.
+
+| Field | Value and behavior |
+| --- | --- |
+| `start_position` | Airborne lead position: `{"lat":42.1,"lon":42.1}` in WGS84 decimal degrees, or `{"x":-296000,"y":653000}` in DCS theatre metres. Exactly one coordinate pair; inside the selected map bounds. Flight spacing is preserved. |
+| `mission_date` | Exact `YYYY-MM-DD` within the selected era. Overrides the authored/default date in the native file and historical context. Requires `timing_anchor: "takeoff"`; push/TOT timing can move the date. |
+| `start_altitude` | A finite number, **1–25000 metres MSL**, native BARO altitude. Applies to every aircraft and route point zero. Check terrain clearance in DCS; the generator has no terrain elevation query. |
+| `player_slot` | `"player"` for a native solo Player, `"client"` for multiplayer Client aircraft, or null for existing automatic seating. Player requires exactly one human aircraft (`slots - veteran_wingmen == 1`). Client also works with one human. This selects native control type, not aircraft number or cockpit crew position. |
+| `map_view` | Object with optional `center` (same coordinate formats), `zoom` (1000–5000000 native DCS map units) and `visibility`: `all`, `allies`, `only_allies`, `my_aircraft` or `map_only`. Supply at least one. Saves map framing and sets forced F10 unit visibility; `map_layers` separately controls graphics. Client behavior may affect initial framing. |
+
+Position and altitude require `start: "air"`. Carrier, Case III, formation,
+crew-ops and White Knights starts own their geometry and reject conflicting
+position/altitude overrides. Fixed Case III, formation and crew flights also
+reject player-slot overrides. For a ground start, select `home_airbase` and
+`start`; exact parking stand selection is not added here.
+
+An author-selected date does not recompute coalition ownership, deployments,
+aircraft variants or historical overlays for that exact day. Those remain
+era-based presets. Changed dates carry this adaptation note in the historical
+context; a reconstruction becomes an adaptation. Weapon fits use the actual
+mission year; unknown equipment/operator service history remains uncertified.
+
+Example (replace coordinates, map/era/aircraft and date for your mission):
+
+```json
+{"params":{"recipe":{
+  "map":"caucasus","era":"modern","aircraft":"F_16C_50",
+  "start":"air","mission_date":"2001-02-03",
+  "start_position":{"lat":42.1,"lon":42.1},"start_altitude":4100.5,
+  "slots":4,"veteran_wingmen":3,"player_slot":"client",
+  "map_view":{"center":{"lat":42.1,"lon":42.1},"zoom":145000,"visibility":"allies"},
+  "seed":17
+}}}
+```
+
+Tool discovery uses inline parameter objects without `$ref`/`$defs` and omits
+conditional `allOf` seat rules to reduce host schema-translation requirements.
+The canonical schema tool/resource retains those rules and the engine enforces
+them on every call. Envelope and tool names are unchanged. This compatibility
+change does not establish that a particular app's connector successfully loads.
+
 Resources: `sortiestarter://recipe-schema` (JSON),
 `sortiestarter://historical-library` (JSON),
 `sortiestarter://user-guide` and `sortiestarter://integration-guide` (Markdown). Their text and catalog descriptions are

@@ -440,8 +440,8 @@ still need to own the relevant DCS map and aircraft modules.
 
 Generation returns a mission manifest plus links to the **mission .miz** and
 **full mission kit ZIP**. Download and unzip the kit, then put `mission.miz` in
-`Saved Games/DCS/Missions/`. Use single-player for one human aircraft and
-multiplayer for two or more human seats. Available briefs, kneeboard PNGs,
+`Saved Games/DCS/Missions/`. Use single-player for native Player aircraft and multiplayer for native Client
+aircraft (two or more human aircraft use Client automatically). Available briefs, kneeboard PNGs,
 DTC setup card, `comms.json`, and `navigation.json` accompany the mission.
 DTC files are supplied only when the selected aircraft supports them and
 rendering succeeds. Check the manifest's file list and warnings.
@@ -459,6 +459,26 @@ aircraft. Other bounds include parking fill (0–100%), pattern traffic (1–8),
 threat intensity (1–5) and timing hold (0–15 minutes). Fixed crew-ops and Case III
 rides still refuse custom veteran wingmen. Validate the selected recipe before
 generation; these limits do not replace the final compatibility checks.
+
+Assistants can now set five exact authoring fields: **start_position**,
+**mission_date**, **start_altitude**, **player_slot** and **map_view**. Position
+accepts latitude/longitude in decimal degrees or native DCS x/y metres. Altitude
+is **metres above mean sea level**, not feet or height above terrain. Both
+require an ordinary airborne start and preserve the flight's spacing. Fixed
+training and carrier starts reject conflicting geometry. Check terrain clearance
+in DCS before flying.
+
+The exact date must fall inside the selected era and use takeoff-anchored timing.
+It changes the native mission and historical date; coalition/base presets and
+historical overlays remain era-based, with an adaptation note when the date
+changes. Player slot selects native **Player** (one human aircraft) or **Client**
+(multiplayer, including one human); it does not select a cockpit seat or aircraft
+number. Fixed Case III, formation and crew flights keep their authored seating.
+Map view sets saved center/zoom and F10 unit visibility; graphics layers remain
+separate. These advanced fields currently use the agent/API recipe, survive
+Builder share links, and have no dedicated Builder controls. The public MCP
+guide includes the full units, limits and an example. Native-file checks do not
+replace a DCS flight check.
 
 Published packs remain authored downloads: the assistant retrieves their
 pack link rather than rebuilding a `pack_` template. Missions are not saved

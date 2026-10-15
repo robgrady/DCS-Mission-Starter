@@ -269,6 +269,8 @@ def place_player(builder: StarterBuilder, ctx: WorldContext, carrier: CarrierPla
             raise UnknownUnitError(
                 f"no friendly airbase on this preset has free parking for {aircraft.id}")
     if player_group is not None:
+        from ..precision import apply_air_start
+        apply_air_start(r, m, player_group)
         # The callsign the FILE carries is the one the paperwork prints.
         # pydcs writes only the name string; DCS reads the index. Both now.
         _csn.apply(player_group, self._callsign_used)
