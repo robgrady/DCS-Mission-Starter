@@ -206,7 +206,8 @@ def mcp_site(tmp_path_factory):
         sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
     url=f'http://127.0.0.1:{port}'
     directory=tmp_path_factory.mktemp('mcp-http')
-    env=dict(os.environ,PUBLIC_BASE_URL=url,PACKS_DATA_DIR=str(directory/'packs'),ANALYTICS_DATA_DIR=str(directory/'analytics'))
+    env=dict(os.environ,PUBLIC_BASE_URL=url,PACKS_DATA_DIR=str(directory/'packs'),
+             ANALYTICS_DATA_DIR=str(directory/'analytics'), ADMIN_PASSWORD='mcp-browser-test-only')
     env.pop('PACKS_OWNER_MACHINE',None);env.pop('FLY_MACHINE_ID',None)
     process=subprocess.Popen([sys.executable,'-m','uvicorn','server.app:app','--port',str(port)],
         cwd=Path(__file__).resolve().parent.parent,env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
@@ -256,8 +257,47 @@ def test_real_http_generation_download_is_the_manifest_native_mission(mcp_site,t
             assert json.loads(archive.read('manifest.json'))['mission']==manifest['mission']
 
 
-def test_cancelled_tool_keeps_capacity_and_cleans_up_after_worker_finishes(monkeypatch):
+def test_real_browser_admin_mcp_counter_updates_after_completed_work(mcp_site, tmp_path):
+    pw = pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as p:
+        browser = p.chromium.launch()
+        page = browser.new_page(viewport={'width':1280,'height':900})
+        page.goto(mcp_site + '/admin/analytics?days=7')
+        assert page.get_by_text('MCP missions built', exact=True).count() == 0
+        page.locator('input[name="password"]').fill('mcp-browser-test-only')
+        page.get_by_role('button', name='Sign in', exact=True).click()
+        page.goto(mcp_site + '/admin/analytics?days=7')
+        card = page.locator('.card').filter(has_text='MCP activity')
+        count = card.locator('.big').filter(has_text='MCP missions built').locator('b')
+        previous = int(count.inner_text())
+        # Playwright's sync context owns an event loop in this thread, so use
+        # a real synchronous JSON-RPC POST rather than nesting anyio.run().
+        request = urllib.request.Request(mcp_site+'/mcp/', data=json.dumps({
+            'jsonrpc':'2.0', 'id':1, 'method':'tools/call',
+            'params':{'name':'sortiestarter_generate_mission','arguments':{'params':{'recipe':RECIPE}}}
+        }).encode(), headers={'Content-Type':'application/json',
+                              'Accept':'application/json, text/event-stream'})
+        with urllib.request.urlopen(request, timeout=120) as response:
+            result = json.load(response)
+        assert not result.get('error') and not result['result'].get('isError')
+        page.reload()
+        assert int(count.inner_text()) == previous + 1
+        assert 'earlier MCP builds are unknown' in card.inner_text()
+        assert 'website activity' in page.locator('body').inner_text().casefold()
+        shots = Path(os.environ.get('SORTIE_ADMIN_QA_DIR', str(tmp_path)))
+        shots.mkdir(parents=True, exist_ok=True)
+        for width in (1280,390):
+            page.set_viewport_size({'width':width,'height':900})
+            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+            assert count.is_visible()
+            page.screenshot(path=str(shots/f'mcp-admin-{width}.png'))
+        browser.close()
+
+
+def test_cancelled_tool_keeps_capacity_and_cleans_up_after_worker_finishes(monkeypatch, tmp_path):
     import threading
+    from missiongen import analytics
+    monkeypatch.setattr(analytics, 'DATA_DIR', tmp_path / 'analytics')
     entered, finish = threading.Event(), threading.Event()
     capacity = GenerationCapacity(1)
     directories = []
@@ -292,6 +332,7 @@ def test_cancelled_tool_keeps_capacity_and_cleans_up_after_worker_finishes(monke
             finally:
                 finish.set()
         assert not directories[0].exists()
+        assert analytics.mcp_stats()['built'] == 1
         with capacity.slot():pass
     anyio.run(work)
 

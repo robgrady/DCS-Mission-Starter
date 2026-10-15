@@ -1,9 +1,9 @@
 {
  "docs/DCS_Mission_Starter_Guide.pdf": {
-  "docs/USER_GUIDE.md": "10a6c95f3e2f0c37",
+  "docs/USER_GUIDE.md": "219ded28ad539f46",
   "docs/img/hero.png": "caadb08919fd8397",
-  "docs/img/review.png": "d7ea709a978a0a52",
-  "missiongen/__init__.py": "39c7c2424b0d7b0e",
+  "docs/img/review.png": "8e82507a703386c1",
+  "missiongen/__init__.py": "a70651c16af0f00e",
   "missiongen/authentic.py": "bb016757ea3cf784",
   "missiongen/data/brand/LICENSE-lucide.txt": "b495047bd93a9b06",
   "missiongen/data/brand/authentic_media.png": "2911b84231788ed2",
@@ -37,7 +37,7 @@
   "scripts/build_wk_voiceover_sheet.py": "054021c012eda7a4"
  },
  "docs/historical_coverage.html": {
-  "missiongen/__init__.py": "39c7c2424b0d7b0e",
+  "missiongen/__init__.py": "a70651c16af0f00e",
   "missiongen/corridor_chart.py": "d98a5d9f8e7edfd7",
   "missiongen/data/eras.json": "3ca3c51d40275450",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
@@ -50,7 +50,7 @@
  },
  "docs/historical_library.html": {
   "frontend/assets/historical-library.js": "97726417a3436634",
-  "missiongen/__init__.py": "39c7c2424b0d7b0e",
+  "missiongen/__init__.py": "a70651c16af0f00e",
   "missiongen/data/historical_library.json": "612c05bd87348fdd",
   "missiongen/data/maps.json": "7af05a830d97b3ae",
   "missiongen/historical_library.py": "01a91a2b2693a96d",
@@ -89,7 +89,7 @@
   "scripts/build_corridor_charts.py": "9963c541e9f4a3ab"
  },
  "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md": {
-  "missiongen/__init__.py": "39c7c2424b0d7b0e",
+  "missiongen/__init__.py": "a70651c16af0f00e",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
   "missiongen/historical_coverage.py": "e658a6f672a6c9db",
   "scripts/artifacts.py": "7e55403c7908fc9e",
@@ -119,7 +119,7 @@
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "packs/wk_proud_phantom.sspack": {
-  "missiongen/__init__.py": "39c7c2424b0d7b0e",
+  "missiongen/__init__.py": "a70651c16af0f00e",
   "missiongen/_determinism.py": "06395ce0d27e8e62",
   "missiongen/aar.py": "aa86bfe82da61e81",
   "missiongen/aar_grade.py": "7b289c17d8184251",
@@ -130,7 +130,7 @@
   "missiongen/airspace.py": "ef213f6f2cab4d0f",
   "missiongen/alignment.py": "91e8868c29d2840e",
   "missiongen/ambient.py": "7019772fbdd3d7f1",
-  "missiongen/analytics.py": "124953a4627e571d",
+  "missiongen/analytics.py": "418c33a019d218cb",
   "missiongen/artifacts.py": "7f6448afb1285c92",
   "missiongen/authentic.py": "bb016757ea3cf784",
   "missiongen/backseat.py": "b373f143d8f34c1c",

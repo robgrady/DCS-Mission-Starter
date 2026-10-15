@@ -35,11 +35,11 @@ CASES = [
   'custom_comm_sidecar', 'sidecar ignores squadron override'),
  ('server/mission_kit.py', 'background=BackgroundTask(shutil.rmtree, directory, ignore_errors=True)',
   'background=BackgroundTask(lambda: None)', 'http_download_cleanup', 'download files leak'),
- ('server/mission_kit.py', "with tempfile.TemporaryDirectory(prefix='sortie-mcp-') as directory:",
-  "from contextlib import nullcontext\n    with nullcontext(tempfile.mkdtemp(prefix='sortie-mcp-')) as directory:",
+ ('server/mission_kit.py', "        with tempfile.TemporaryDirectory(prefix='sortie-mcp-') as directory:",
+  "        from contextlib import nullcontext\n        with nullcontext(tempfile.mkdtemp(prefix='sortie-mcp-')) as directory:",
   'build_failure_and_success', 'preview failure leaks files'),
- ('server/mcp_server.py', 'security = TransportSecuritySettings(',
-  'security = TransportSecuritySettings(enable_dns_rebinding_protection=False,',
+ ('server/mcp_server.py', 'return TransportSecuritySettings(allowed_hosts=',
+  'return TransportSecuritySettings(enable_dns_rebinding_protection=False, allowed_hosts=',
   'http_transport_blocks', 'untrusted origins and hosts accepted'),
  ('server/catalog_owner.py', "path == '/mcp' or path.startswith('/mcp/')", 'False',
   'catalog_owner_routes_mcp', 'MCP reads divergent replica catalog'),
@@ -48,22 +48,43 @@ CASES = [
   'cancelled_tool_keeps_capacity', 'cancelled request abandons native cleanup'),
  ('server/app.py', 'async with mcp_server.mcp.session_manager.run():', 'if True:',
   'real_http_sdk_client_session', 'mounted transport never starts'),
+ ('server/mission_kit.py', "analytics.record('mcp_build', 'mcp', recipe)",
+  "analytics.record('generate', 'mcp', recipe)", 'success_counts_once', 'MCP builds disappear from admin counts'),
+ ('server/mission_kit.py', "analytics.record('mcp_download', 'mcp', recipe)",
+  "analytics.record('mcp_build', 'mcp', recipe)", 'success_counts_once', 'downloads inflate completed mission builds'),
+ ('server/mission_kit.py', "analytics.record('mcp_busy' if exc.status_code == 503 else 'mcp_error', 'mcp', recipe)",
+  "analytics.record('mcp_build', 'mcp', recipe)", 'failed_and_busy_native', 'busy generation counts as success'),
+ ('server/catalog_owner.py', "'/api/mission-kit', '/admin/analytics'", "'/api/mission-kit'",
+  'admin_analytics_and_mcp_share', 'admin reads the wrong analytics volume'),
+ ('server/mcp_server.py', 'hosts.append(parsed.netloc)', 'pass',
+  'explicit_canonical_and_fly', 'configured custom domains cannot discover tools'),
+ ('missiongen/analytics.py', '            share_dls += 1\n        if e.get("kind") != "generate" or e.get("source") == "mcp":',
+  '            share_dls += 1\n        if e.get("kind") not in ("generate", "mcp_build"):',
+  'mcp_metrics_respect_window', 'bot traffic inflates website metrics'),
 ]
 
 
 def run(selector):
-    return subprocess.run([sys.executable, '-m', 'pytest', 'tests/test_mcp.py', 'tests/test_refactor_browser.py', '-q', '-x', '-k', selector],
+    return subprocess.run([sys.executable, '-m', 'pytest', 'tests/test_mcp.py', 'tests/test_mcp_analytics.py', 'tests/test_refactor_browser.py', '-q', '-x', '-k', selector],
                           cwd=ROOT, capture_output=True, text=True)
 
 
 def main():
-    baseline = run('not historical and not offline and not carrier_restore and not library_has_no_static')
+    import argparse
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--label', action='append', help='Run only cases whose label contains this text; repeatable.')
+    args = parser.parse_args()
+    cases = [case for case in CASES if not args.label or any(s in case[-1] for s in args.label)]
+    if not cases:
+        raise SystemExit('No mutation labels matched.')
+    selection = ' or '.join(sorted({case[3] for case in cases})) if args.label else 'not historical and not offline and not carrier_restore and not library_has_no_static'
+    baseline = run(selection)
     if baseline.returncode:
         raise SystemExit('Baseline failed:\n' + baseline.stdout + baseline.stderr)
-    originals = {path: (ROOT/path).read_text() for path, *_ in CASES}
+    originals = {path: (ROOT/path).read_text() for path, *_ in cases}
     prior_dirs = set(Path(tempfile.gettempdir()).glob('sortie-*'))
     try:
-        for path, anchor, replacement, selector, label in CASES:
+        for path, anchor, replacement, selector, label in cases:
             original = originals[path]
             assert original.count(anchor) == 1, (path, anchor)
             (ROOT/path).write_text(original.replace(anchor, replacement))
@@ -80,10 +101,10 @@ def main():
         # Only clean newly leaked harness directories, never pre-existing ones.
         for path in set(Path(tempfile.gettempdir()).glob('sortie-*')) - prior_dirs:
             if path.is_dir():shutil.rmtree(path)
-    restored = run('not historical and not offline and not carrier_restore and not library_has_no_static')
+    restored = run(selection)
     if restored.returncode:
         raise SystemExit('Restored baseline failed:\n' + restored.stdout + restored.stderr)
-    print(f'{len(CASES)} caught; 0 weak; baseline restored and rechecked.')
+    print(f'{len(cases)} caught; 0 weak; baseline restored and rechecked.')
 
 
 if __name__ == '__main__':main()

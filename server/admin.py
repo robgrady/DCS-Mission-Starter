@@ -133,6 +133,11 @@ text-transform:uppercase;letter-spacing:.06em;padding:8px 2px;border-bottom:2px 
 .atabs a.backapp{margin-left:auto;color:var(--accent);text-transform:none;
 letter-spacing:0;font-weight:500}
 .atabs a.backapp:hover{text-decoration:underline}
+@media(max-width:640px){
+  .atabs{flex-wrap:wrap;gap:8px 18px}
+  .atabs a.backapp{margin-left:0}
+  .note code{overflow-wrap:anywhere}
+}
 table.stats{width:100%;border-collapse:collapse;font-size:13px}
 table.stats th{text-align:left;color:var(--dim);font-size:11px;text-transform:uppercase;
 letter-spacing:.05em;padding:6px 8px;border-bottom:1px solid var(--line)}
@@ -382,7 +387,9 @@ def _credits_page(msg: str = "") -> HTMLResponse:
 
 def _analytics_page(days: int = 30) -> HTMLResponse:
     from missiongen import analytics
+    from .mcp_server import PUBLIC_BASE_URL
     s = analytics.stats(days)
+    mc = analytics.mcp_stats(days)
 
     def table(title, rows, label):
         body = "".join(f"<tr><td>{html.escape(str(k))}</td><td class=n>{v}</td></tr>"
@@ -456,8 +463,23 @@ def _analytics_page(days: int = 30) -> HTMLResponse:
         f"<p class=sub>What gets made, and how many people make it. Missions' shapes "
         f"plus a random per-browser id — no IPs, no accounts, no names "
         f"(see missiongen/analytics.py for the whole schema).</p>"
-        + _tabs("analytics") + people_card +
-        f"<div class=card><h2>Last {s['days']} days &nbsp; <small>({ranges})</small></h2>"
+        + _tabs("analytics") +
+        f"<div class=card><h2>MCP activity · last {days} days <small>({ranges})</small></h2>"
+        f"<div class=bigrow>"
+        f"<div class=big><b>{mc['built']}</b><small>MCP missions built</small></div>"
+        f"<div class=big><b>{mc['failed']}</b><small>failed builds</small></div>"
+        f"<div class=big><b>{mc['busy']}</b><small>busy · retry requested</small></div>"
+        f"<div class=big><b>{mc['downloads']}</b><small>downloads prepared</small></div>"
+        f"</div><p class=note>Last completed MCP build (UTC): "
+        f"{html.escape(mc['last_built'] or 'None recorded in this window')}.</p>"
+        f"<p class=note>Counts successful generate_mission tool builds once. Downloads are separate; "
+        f"catalog browsing, validation and connection attempts are not builds. Tracking begins with "
+        f"v1.119.0; earlier MCP builds are unknown. Events are retained for six months. "
+        f"MCP activity is separate from the website activity and browser/people metrics below.</p>"
+        f"<p class=note>Connection: Streamable HTTP · no login · endpoint "
+        f"<code>{html.escape(PUBLIC_BASE_URL)}/mcp/</code>. "
+        f"<a href='/api/mcp-guide' style='color:var(--accent)'>Agent connection guide</a>.</p></div>" + people_card +
+        f"<div class=card><h2>Website activity · last {s['days']} days &nbsp; <small>({ranges})</small></h2>"
         f"<div class=bigrow>"
         f"<div class=big><b>{s['generates']}</b><small>missions generated</small></div>"
         f"<div class=big><b>{s['briefs']}</b><small>briefing packs ({s['brief_attach_pct']}% attach)</small></div>"

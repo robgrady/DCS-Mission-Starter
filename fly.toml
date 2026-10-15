@@ -18,7 +18,9 @@ primary_region = 'dfw'
   destination = '/data'
 
 [env]
-  PUBLIC_BASE_URL = 'https://dcs-mission-starter.fly.dev'
+  PUBLIC_BASE_URL = 'https://sortiestarter.com'
+  # Preserve existing integrations while advertising the canonical domain.
+  MCP_ADDITIONAL_ORIGINS = 'https://dcs-mission-starter.fly.dev'
   # Optional Discord login. The secret lives only in Fly secrets.
   DISCORD_CLIENT_ID = '1547542914651922452'
   DISCORD_BASE_URL = 'https://sortiestarter.com'

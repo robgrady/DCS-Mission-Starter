@@ -422,11 +422,16 @@ keeping your selections.
 ## Missions through an AI assistant (MCP)
 
 An MCP-compatible assistant can connect to
-**https://dcs-mission-starter.fly.dev/mcp/** using **Streamable HTTP**. Add this
+**https://sortiestarter.com/mcp/** using **Streamable HTTP**. Add this
 URL as a remote MCP server in your assistant's settings; configuration names
 vary by client. Sortie Starter's public tools do not require a login. The
 public agent guide is available at **/api/mcp-guide**, indexed by **/llms.txt**,
 and as the MCP resource **sortiestarter://integration-guide**.
+Existing connections to **https://dcs-mission-starter.fly.dev/mcp/** also work.
+Use the trailing slash, leave authentication unset and refresh/reconnect the
+server if the assistant cannot list tools. Opening the website directly does
+not check its MCP connection. The agent guide includes Grok configuration and
+HTTP error troubleshooting.
 
 Ask the assistant to search the catalog, inspect a mission's requirements,
 validate your selections, and generate a mission. For example: “Build a modern
@@ -459,6 +464,15 @@ Published packs remain authored downloads: the assistant retrieves their
 pack link rather than rebuilding a `pack_` template. Missions are not saved
 in an account or installed in another application. A specific F-14B(U)/Caucasus native import was tested in DKS; see below for
 what survived. This connection does not place files in its ATO.
+
+Site operators can open **Admin → Analytics** to see **MCP missions built**,
+failed builds, busy/retry responses, downloads prepared and the latest completed
+build for the selected time window. Successful mission-generation tool calls
+count once; downloading the resulting kit or mission does not add another
+build. Browsing, validation and connection attempts are excluded. Tracking
+starts with **v1.119.0**; earlier MCP builds are unknown. The anonymous event
+ledger retains six months of activity and separates MCP from website and browser/people
+statistics. A completed build does not prove that a pilot received or flew it.
 
 ### Importing a mission into Digital Kneeboard Simulator
 

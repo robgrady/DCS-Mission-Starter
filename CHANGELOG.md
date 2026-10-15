@@ -1,5 +1,13 @@
 # Changelog — DCS Sortie Starter
 
+## [1.119.0] — MCP build analytics and custom-domain connections
+
+- Add MCP activity to Admin → Analytics: completed mission builds, failed builds, capacity retries, separately prepared downloads and the last completed build in the selected window. Record anonymous mission-shape events on persistent storage; keep MCP separate from website/browser metrics and share-link download counts. Earlier MCP builds remain unknown; retain the existing six-month event window.
+- Route the Analytics page to the same Fly owner as MCP so its counters use the correct volume. Count completed native work even when a caller disconnects, and never count discovery, validation, failed builds or download rebuilds as successful MCP tool builds.
+- Wrap admin navigation on small screens so the new counter remains readable without horizontal page overflow; retain the existing admin fonts and palette.
+- Fix custom-domain MCP handshakes rejected with HTTP 421. Advertise sortiestarter.com and explicitly allow the existing Fly hostname, preserving Host/Origin checks for unrelated domains. Document Streamable HTTP connection and tool-discovery troubleshooting.
+- Update the User Manual, MCP guide and release artifacts. Mission content and native generation behavior are unchanged.
+
 ## [1.118.1] — Consistent Library mission-row typography
 
 - Give Save, Mission and Briefing one shared Source Sans action style, matching font size, weight, alignment and 44px targets. Remove the oversized Save label without changing the brand fonts or palette.

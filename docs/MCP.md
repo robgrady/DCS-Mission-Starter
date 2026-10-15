@@ -3,7 +3,8 @@
 Public agent guide: `/api/mcp-guide`. Discovery index: `/llms.txt`.
 MCP resource: `sortiestarter://integration-guide`. These expose this same source.
 
-Production endpoint: `https://dcs-mission-starter.fly.dev/mcp/`.
+Production endpoint: `https://sortiestarter.com/mcp/`.
+Existing clients may continue using `https://dcs-mission-starter.fly.dev/mcp/`.
 Transport: **Streamable HTTP**, stateless with JSON responses. The trailing
 slash avoids a redirect. Uses official Python MCP SDK 2.3.0. Both current
 protocol and legacy initialization clients are tested. Public abilities match
@@ -18,7 +19,7 @@ import asyncio
 from mcp import Client
 
 async def main():
-    async with Client("https://dcs-mission-starter.fly.dev/mcp/") as client:
+    async with Client("https://sortiestarter.com/mcp/") as client:
         result = await client.call_tool("sortiestarter_generate_mission", {
             "params": {"recipe": {
                 "map": "caucasus", "era": "modern", "aircraft": "F_16C_50",
@@ -164,6 +165,12 @@ origins. Loopback development origins are allowed. Set the actual public
 HTTPS origin for a reverse-proxy deployment. MCP rejects bodies over 1 MB,
 unlisted Hosts (421) and browser Origins (403), including chunked bodies.
 No broad browser CORS policy is installed; use a native/server-side MCP host.
+`MCP_ADDITIONAL_ORIGINS` is an optional comma-separated list of explicit
+HTTP(S) origins for other public domains serving the same application. Their
+Hosts and Origins are allowed without changing the canonical download origin.
+Wildcards, credentials and URL paths are refused. Production advertises
+sortiestarter.com and explicitly retains its Fly hostname; unrelated hosts
+still receive 421 and unrelated browser Origins receive 403.
 
 The host FastAPI lifespan starts a fresh SDK transport manager at each startup;
 mounted sub-app lifespans alone do not run. Do not run extra Uvicorn workers
@@ -198,6 +205,55 @@ placement remain unverified.
 5. Download the `.miz` or kit ZIP with an HTTP GET. Verify the mission's SHA-256
    against the manifest. Preserve the archive when exact mission bytes matter.
    Installation and transfer to another application are separate user actions.
+
+### Grok and tool-discovery troubleshooting
+
+Use the full endpoint **including `/mcp/`**, select **Streamable HTTP** and
+leave server authentication unset. Discord credentials and an API key are not
+required for this public server. Opening the website or performing a GET does
+not test tool discovery: it requires JSON-RPC POST requests.
+
+For xAI's Responses API, the remote tool configuration is:
+
+```json
+{"type":"mcp","server_label":"sortiestarter","server_url":"https://sortiestarter.com/mcp/"}
+```
+
+This follows [xAI's remote MCP configuration](https://docs.x.ai/developers/tools/remote-mcp).
+Names/settings in other Grokbot applications may differ. Reconnect or refresh
+the configured server after a domain correction. A direct HTTP request working
+does not establish that an application's stored connector can enumerate tools.
+
+To isolate discovery, POST `initialize`, then `tools/list` with
+`Content-Type: application/json` and
+`Accept: application/json, text/event-stream`. Include the negotiated
+`MCP-Protocol-Version` on later requests, using the connected client's protocol
+mode. Supported current and legacy SDK modes are covered by integration tests.
+Expect six `sortiestarter_` tools. A 307 usually means `/mcp` is missing the
+trailing slash; use `/mcp/` directly so POST redirects need not be followed.
+A 421 indicates an unconfigured Host; a 403 indicates a disallowed Origin.
+Do not disable host/origin protection or enable arbitrary browser origins.
+If discovery still fails, retain the connector's exact URL, status and error;
+do not include authorization headers, cookies or keys in a report.
+
+### Admin usage counts
+
+**Admin → Analytics** shows MCP missions built, failed builds, capacity retries,
+downloads prepared and the last completed build in the selected 7/30/90/180-day
+window. One successful `generate_mission` native build contributes one build;
+its subsequent kit/native download rebuilds are recorded separately. Catalog
+calls, recipe validation, connection attempts and failed builds do not inflate
+the success count. A completed native worker is counted even if its caller
+disconnects; it does not establish that the user received or flew the mission.
+
+Tracking begins with **1.119.0**; earlier MCP builds were not instrumented and
+cannot be reconstructed from these counters. Events use the existing
+best-effort persistent analytics ledger and six-month retention. They record
+mission shape and timestamp, with no caller identity, IP, token, request body
+or error text. MCP events remain separate from website and browser/people metrics. Both MCP and
+the admin report use the catalog owner's volume; this does not merge older
+website analytics from other machine-local volumes. Counts are operational
+analytics, not a billing ledger or a record of connection failures.
 
 ### Error recovery
 

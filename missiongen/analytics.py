@@ -33,8 +33,8 @@ from pathlib import Path
 DATA_DIR = Path(os.environ.get(
     "ANALYTICS_DATA_DIR", str(Path(__file__).parent.parent / "instance" / "analytics")))
 
-KINDS = ("generate", "brief", "dl", "pack")
-SOURCES = ("builder", "library", "quick", "share", "api")
+KINDS = ("generate", "brief", "dl", "pack", "mcp_build", "mcp_error", "mcp_busy", "mcp_download")
+SOURCES = ("builder", "library", "quick", "share", "api", "mcp")
 RETAIN_MONTHS = 6
 
 _lock = threading.Lock()
@@ -99,7 +99,7 @@ def record(kind: str, source: str, recipe, visitor: str | None = None) -> None:
             "ts": ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "kind": kind,
             "source": source,
-            "visitor": _hash_visitor(visitor),
+            "visitor": None if source == "mcp" else _hash_visitor(visitor),
             "template": getattr(recipe, "template", None),
             "map": getattr(recipe, "map", None),
             "era": getattr(recipe, "era", None),
@@ -151,7 +151,7 @@ def people(days: int = 30) -> dict:
     anon = 0
     total = 0
     for e in _iter_events(days):
-        if e.get("kind") != "generate":
+        if e.get("kind") != "generate" or e.get("source") == "mcp":
             continue
         total += 1
         v = e.get("visitor")
@@ -195,16 +195,19 @@ def people(days: int = 30) -> dict:
 
 
 def stats(days: int = 30) -> dict:
-    """Aggregate view for the admin Analytics tab. Counts only."""
+    """Website activity for the admin Analytics tab; MCP has its own report."""
     per_day: dict = {}
     top = {"template": {}, "aircraft": {}, "map": {}, "era": {}}
     sources: dict = {}
     kinds: dict = {}
     mp = 0
     total = 0
+    share_dls = 0
     for e in _iter_events(days):
         kinds[e.get("kind", "?")] = kinds.get(e.get("kind", "?"), 0) + 1
-        if e.get("kind") != "generate":
+        if e.get("kind") == "dl" and e.get("source") != "mcp":
+            share_dls += 1
+        if e.get("kind") != "generate" or e.get("source") == "mcp":
             continue
         total += 1
         day = e.get("ts", "")[:10]
@@ -225,7 +228,7 @@ def stats(days: int = 30) -> dict:
         "days": days,
         "generates": total,
         "briefs": briefs,
-        "share_dls": kinds.get("dl", 0),
+        "share_dls": share_dls,
         "brief_attach_pct": round(100 * briefs / total) if total else 0,
         "multiplayer_pct": round(100 * mp / total) if total else 0,
         "per_day": sorted(per_day.items()),
@@ -235,3 +238,26 @@ def stats(days: int = 30) -> dict:
         "top_maps": _top(top["map"]),
         "top_eras": _top(top["era"]),
     }
+
+
+def mcp_stats(days: int = 30) -> dict:
+    """Completed MCP tool builds, distinct from their subsequent downloads.
+
+    Same six-month, no-identity ledger as website analytics. Discovery and
+    validation are not builds; historical MCP activity cannot be backfilled.
+    """
+    counts = {"built": 0, "failed": 0, "busy": 0, "downloads": 0}
+    labels = {"mcp_build": "built", "mcp_error": "failed", "mcp_busy": "busy", "mcp_download": "downloads"}
+    per_day = {}
+    last_built = None
+    for e in _iter_events(days):
+        if e.get("source") != "mcp" or e.get("kind") not in labels:
+            continue
+        key = labels[e["kind"]]
+        counts[key] += 1
+        if key == "built":
+            ts = e.get("ts", "")
+            last_built = max(last_built or ts, ts)
+            per_day[ts[:10]] = per_day.get(ts[:10], 0) + 1
+    return {"days": days, **counts, "last_built": last_built,
+            "per_day": sorted(per_day.items())}

@@ -66,8 +66,20 @@ def build_kit(recipe: Recipe, directory: Path) -> dict:
 
 def generation_preview(recipe: Recipe) -> dict:
     """Produce actual native mission facts; delete all files even on failure."""
-    with tempfile.TemporaryDirectory(prefix='sortie-mcp-') as directory:
-        return build_kit(recipe, Path(directory))['manifest']
+    from missiongen import analytics
+    try:
+        with tempfile.TemporaryDirectory(prefix='sortie-mcp-') as directory:
+            manifest = build_kit(recipe, Path(directory))['manifest']
+    except HTTPException as exc:
+        analytics.record('mcp_busy' if exc.status_code == 503 else 'mcp_error', 'mcp', recipe)
+        raise
+    except Exception:
+        analytics.record('mcp_error', 'mcp', recipe)
+        raise
+    # In the native worker so a completed build is counted even if its caller
+    # disconnected while waiting. Downloads rebuild separately, never here.
+    analytics.record('mcp_build', 'mcp', recipe)
+    return manifest
 
 
 @router.get('/api/mission-kit')
@@ -98,6 +110,8 @@ def download_kit(r: str, version: str, format: Literal['kit', 'miz'] = 'kit',
         shutil.rmtree(directory, ignore_errors=True)
         log.exception('mission kit generation failed')
         raise HTTPException(500, 'Internal error generating the mission kit.')
+    from missiongen import analytics
+    analytics.record('mcp_download', 'mcp', recipe)
     return FileResponse(path, filename=path.name, media_type='application/zip',
                         headers={'Cache-Control': 'no-store'},
                         background=BackgroundTask(shutil.rmtree, directory, ignore_errors=True))
