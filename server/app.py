@@ -10,6 +10,7 @@ from . import site_routes, catalog_routes, document_routes, comm_routes
 from . import health_routes, mission_routes, library_routes, contact_routes
 from .admin import router as admin_router
 from . import mission_kit, mcp_server, readiness
+from . import account_routes
 
 @asynccontextmanager
 async def lifespan(app):
@@ -26,6 +27,7 @@ for module in (site_routes, catalog_routes, document_routes, comm_routes,
                health_routes, mission_routes, library_routes, contact_routes, mission_kit, readiness):
     app.include_router(module.router)
 app.include_router(admin_router)
+app.include_router(account_routes.router)
 app.add_exception_handler(404, site_routes.not_found)
 mcp_mount = Mount('/mcp', app=mcp_server.create_http_app(), name='mcp')
 app.router.routes.append(mcp_mount)
@@ -51,3 +53,4 @@ async def release_identity_cache(request, call_next):
 
 from .catalog_owner import install as install_catalog_owner
 install_catalog_owner(app)
+account_routes.install(app)

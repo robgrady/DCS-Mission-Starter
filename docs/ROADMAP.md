@@ -32,7 +32,10 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
-**v1.114.1**: four doors (Fly now · Library · Train · Builder), thirteen
+**v1.115.0**: optional Discord profiles and private My missions archive original
+generated missions and matching Kits. Guest use remains available. Shared
+Authentic sign-in, cloud training progress and Discord posting remain future
+integration. The product has four doors (Fly now · Library · Train · Builder), thirteen
 maps, the existing Flightline visual design, the published pack format and
 F-4E training pipeline. Builder supports veteran AI wingmen within the
 player flight, including a solo four-ship; the static New in DCS promotion
@@ -313,14 +316,12 @@ must remain identifiable after generator updates.
 **Explore later — social use and broader mission families**
 
 - **F15 · Optional Discord sign-in and cloud My Missions.** P3 / L.
-  Use Discord identity to save private recipes, collections and progress across
-  devices. Retain account-free generation and local saves. Decide explicitly
-  whether to retain mission bytes as well as recipes, including content revisions
-  and retention. **Evidence:** owner's explicit request, reopening the prior
-  no-accounts decision. **Depends on:** F13, account/session design, access
-  controls and storage costs. **Accept when:** sign-in, cross-device access,
-  export and account/data deletion work. Proposal only; Discord work remains
-  deferred until the mission foundation is ready.
+  First capability implemented in v1.115.0: optional Discord identity, private
+  original `.miz` and matching Kit archives, saved recipes/release provenance,
+  naming, export, deletion and owner-volume storage. Production consent and
+  cross-device checks still require a real Discord user. Shared Authentic
+  identity, cloud collections/progress and local named-recipe management remain
+  follow-up work. Guest generation and local progress remain available.
 - **F16 · Share a mission on Discord.** P3 / M.
   Extend existing recipe links with a share card showing map, aircraft, era,
   player roles, prerequisites and a preview. Provide a stable landing page from
@@ -403,10 +404,10 @@ not substitute for flight validation.
 - **No guessed encodings.** A Mission Editor feature enters the generator
   only after a file the Editor saved has been read; until then the knob
   does not exist (see `lineup.py`).
-- **Accounts decision reopened for consideration.** Generation and local
-  progress remain account-free today. The owner's request for Discord sign-in
-  and saved missions is the reason to evaluate F13/F15; cloud storage is not
-  approved or implemented by adding it to this roadmap. Squadron rosters and
+- **Optional accounts, guest generation.** The owner authorized Discord
+  profiles and private saved missions; v1.115.0 implements the first milestone.
+  Generation and local training progress remain available without accounts.
+  Shared identity and cloud training progress remain future work. Squadron rosters and
   operational administration remain the squadron desk's responsibility.
 - **Channels are fixed.** Frequencies are what SOPs differ on; the ladder's
   shape is what makes it learnable.

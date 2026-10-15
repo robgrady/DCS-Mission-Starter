@@ -1750,6 +1750,7 @@ function modalClose(){
   if(_modalPrev&&_modalPrev.focus){_modalPrev.focus();} _modalPrev=null;
 }
 document.addEventListener('keydown',e=>{
+  if(document.getElementById('account_dialog')?.open) return;
   if(!_modalEl) return;
   if(e.key==='Escape'){
     if(_modalEl.id==='ownmodal'||_modalEl.querySelector('#ocardinner')) closeOwn();

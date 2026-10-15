@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.115.0] — Discord profiles and private saved missions
+
+- Add optional Discord sign-in with the existing application, a stable profile ID, editable profile name, secure expiring sessions, CSRF protection and sign-out. Guest generation remains available; no Discord posting, server access or email permission is requested.
+- Add My missions in the account menu. Signed-in generation archives the original mission and matching Mission Kit from one build; pilots can disable saving on this browser, download originals, reopen settings in Builder, rename or delete missions, export profile/settings, and delete their profile.
+- Route private account traffic to one persistent Fly volume owner. Enforce ownership and storage quotas; reject failed saves without publishing partial archives. Existing collection downloads and previous browser downloads are not automatically imported. Shared sign-in with other Authentic applications remains future integration.
+- Document account setup, privacy, original-download versus regeneration behavior, storage ownership, backups and release validation. Keep the existing fonts and color palette.
+
 ## [1.114.1] — Recoverable pack-storage errors
 
 - Report full or unavailable server storage during pack uploads and review saves with an actionable message and HTTP 503, instead of a generic unreadable-pack message or an unhandled server error.

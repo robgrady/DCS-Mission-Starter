@@ -135,6 +135,52 @@ Lead also waits for you: at the first two route points he orbits until you have
 been in the slot for fifteen seconds, then flies the profile. He gives up after
 a few minutes and goes anyway. Neither happens on a check ride.
 
+## Discord profiles and My missions
+
+Sign-in is optional: Fly now, Library, Train and Builder still work as a guest.
+Choose **Sign in** in the header, then **Continue with Discord**. Discord asks
+for your basic identity; we do not request your email, server memberships or
+permission to post. We store your Discord ID, a stable Sortie Starter profile
+ID and profile name. This login currently applies to Sortie Starter; it does
+not automatically sign you into other Authentic applications.
+
+After signing in, open **My missions** in the header. Edit your profile name
+and use **Save profile**. **Save newly generated missions to my profile on this
+browser** is initially enabled; turn it off to generate without storing a
+mission on your profile. The preference stays on this browser; if browser
+storage is blocked, changes apply to the current tab only. Signing out
+ends this browser's session; sessions expire after 30 days. Builder settings
+are saved locally before leaving for Discord; cancelling login leaves guest
+generation available. Third-party authentication is handled by Discord.
+
+With saving enabled, Generate from Fly now, a configurable Library mission
+or Builder saves the `.miz`, its resolved settings, generator version and
+matching Mission Kit from the same build. A successful Kit says **Saved
+privately to your profile**. The archive includes the generated briefing and
+kneeboard pages where available. Authored collection downloads and missions
+downloaded before signing in are not imported into your profile.
+
+**Download original .miz** and **Original Mission Kit** return the retained
+files, even after an app upgrade. **Edit in Builder** restores the saved
+settings; generating there builds a new mission with the current app and
+content. It does not overwrite the original. The saved release is shown on
+each mission. Repeating an identical generation within a release reuses its
+existing archive. Briefing downloads for a saved result use its original Kit.
+
+Profiles are private: another user cannot list, download or change your
+missions. You can **Rename** or **Delete** each saved mission. The limit is
+100 missions or 100 MB per profile, including mission and Kit storage. If a
+save fails or space is full, the interface reports the error; turn saving
+off and Generate again for an unarchived download, or delete saved missions
+and retry. Do not assume a failed generation/save created an archive.
+
+**Export settings** downloads your profile and mission metadata/recipes as
+JSON; download original files separately. **Delete profile** removes this
+app's profile, archives and all its active sessions. Download anything you
+want to keep before confirming. This does not delete your Discord account
+or records in another app. Saving is separate from the anonymous generation
+analytics ledger; saved missions are not public links or Discord posts.
+
 ## Quick start (Builder path)
 
 1. Pick a **map** and an **era**. The era is a hard filter: a WWII starter will

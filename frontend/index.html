@@ -684,6 +684,7 @@
     .ownwrap .owntg{margin-left:0}.lchip{max-width:100%;overflow-wrap:anywhere}
   }
 </style>
+<link rel="stylesheet" href="/assets/accounts.css?v={{APP_VERSION}}">
 </head>
 <body data-mode="paper">
 <!-- Lucide icon sprite (ISC license, lucide.dev) — the site's icon
@@ -711,8 +712,16 @@
     <a href="/api/sources">Sources</a>
     <a href="#" onclick="openContact();return false">Contact</a>
   </div>
-  <button class="modebtn" id="modebtn" onclick="flipMode()" title="Switch between paper and night mode"><svg class="icon"><use href="#i-moon"/></svg> NIGHT</button>
+  <div class="account_tools">
+    <button class="modebtn" id="modebtn" onclick="flipMode()" title="Switch between paper and night mode"><svg class="icon"><use href="#i-moon"/></svg> NIGHT</button>
+    <button type="button" class="modebtn" id="account_button" hidden>Sign in</button>
+  </div>
 </div>
+<dialog id="account_dialog" aria-labelledby="account_heading">
+  <div class="modalhead"><h2 id="account_heading">Profile &amp; my missions</h2><button type="button" id="account_close" class="linkbtn">Close</button></div>
+  <p id="account_status" role="status" aria-live="polite"></p>
+  <div id="account_content"></div>
+</dialog>
 
 <div id="loaderror" role="alert" hidden style="position:fixed;top:var(--topbar-height);left:0;right:0;z-index:55;background:var(--panel);padding:20px">
   <p>Mission options could not be loaded. Check your connection and try again.</p>
@@ -1289,6 +1298,7 @@
 <script src="/assets/recipe-state.js"></script>
 <script src="/assets/readiness.js"></script>
 <script src="/assets/app.js"></script>
+<script src="/assets/accounts.js"></script>
 
 </body>
 </html>

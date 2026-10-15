@@ -11,7 +11,7 @@ const MISSION_RESULTS = {builder:null, quick:null, library:null};
 
 // Mission Kits own an immutable snapshot of the successful recipe. Every
 // document button closes over that result, including when several Kits exist.
-function kitRows(kit, fname, warn, rc){
+function kitRows(kit, fname, warn, rc, savedId){
   // rc = the recipe that was actually generated. Quick Flight builds recipes
   // off-DOM, so the kit can't read builder inputs; the builder passes its own.
   rc = rc || {};
@@ -26,14 +26,14 @@ function kitRows(kit, fname, warn, rc){
           : 'Single-player. Install path: <span class="kitpath">Saved Games\\DCS\\Missions</span> — then Mission → fly.',
     '<span class="kitok">DOWNLOAD STARTED ✓</span>');
   if(kit.flight) row('plane', 'Your flight', esc(kit.flight.text));
-  row('file', 'Briefing pack — PDF + Markdown',
-    'The full mission brief as documents: situation, comms &amp; TACAN card, threat picture. Print it or second-screen it.',
+  row('file', savedId ? 'Original Mission Kit — mission + documents' : 'Briefing pack — PDF + Markdown',
+    savedId ? 'The original mission, matching briefing, kneeboard pages and manifest, archived together.' : 'The full mission brief as documents: situation, comms &amp; TACAN card, threat picture. Print it or second-screen it.',
     '<button class="kitbtn kit_brief">Download</button>');
   if (kit.kneeboard_pages)
     row('clipboard', 'Kneeboard — '+kit.kneeboard_pages+' pages, already in the jet',
       'In the cockpit: RShift+K, [ ] to flip pages. Download them as PNGs to use '
       + 'in OpenKneeboard, print them, or send them to your flight.',
-      '<span class="kitok">IN THE .MIZ ✓</span> <button class="kitbtn kit_kb">Download PNGs</button>');
+      '<span class="kitok">IN THE .MIZ ✓</span>' + (savedId ? '' : ' <button class="kitbtn kit_kb">Download PNGs</button>'));
   if (kit.dtc)
     row('save', 'DTC setup card', 'Data cartridge reference for the F-14B(U) — nav points, threats and comms preloaded.',
       '<span class="kitok">IN THE .MIZ ✓</span>');
@@ -71,19 +71,30 @@ function kitRows(kit, fname, warn, rc){
       'See the comms card in the briefing and kneeboard for applicable frequencies and TACAN.');
   if (warn)
     row('warn', 'Generated with warnings', esc(warn));
+  if (globalThis.SortieAccount)
+    row('save', savedId ? 'Saved privately to your profile' : 'Keep missions across devices',
+      savedId ? 'Download these originals later from My missions. Editing in Builder creates a new result.' :
+      'Sign in and enable saving before your next generation. This download is not archived to your profile.',
+      '<button type="button" class="kitbtn kit_account">'+(savedId?'My missions':'Profile & saving')+'</button>');
   return rows.join('');
 }
 
 function wireKitButtons(box, result){
   const brief = box.querySelector('.kit_brief');
-  if (brief) brief.onclick = ()=>downloadBrief(brief, result);
+  if (brief) brief.onclick = ()=>{
+    if(result.savedId && globalThis.SortieAccount){
+      const a=document.createElement('a');a.href=globalThis.SortieAccount.originalKit(result.savedId);a.download='mission_kit.zip';a.click();
+    }else return downloadBrief(brief, result);
+  };
   const kb = box.querySelector('.kit_kb');
   if (kb) kb.onclick = ()=>downloadKneeboard(kb, result);
+  const account=box.querySelector('.kit_account');
+  if(account && globalThis.SortieAccount)account.onclick=()=>globalThis.SortieAccount.open();
 }
 
 function showKit(result, box){
   if (!box) return;
-  box.innerHTML = kitRows(result.kit, result.fname, result.warn, result.rc)
+  box.innerHTML = kitRows(result.kit, result.fname, result.warn, result.rc, result.savedId)
     + '<p class="kitstatus" role="status" aria-live="polite"></p>';
   box.style.display = '';
   wireKitButtons(box, result);
@@ -143,13 +154,14 @@ async function generateMission(btn, options={}){
   if(btn) btn.textContent='Generating…';
   status('Generating…');
   try{
-    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
+    const account=globalThis.SortieAccount?.generationRequest()||{url:'/api/generate',headers:{}};
+    const res=await fetch(account.url,{method:'POST',headers:{'Content-Type':'application/json',...account.headers},
       body:JSON.stringify({recipe:rc,source,visitor:visitorId()})});
     if(!res.ok){ ga('generate_error',{source}); status('Error: '+await responseError(res)); return null; }
     const blob=await res.blob();
     let kit={}; try { kit=JSON.parse(res.headers.get('X-Kit')||'{}'); } catch(e){}
     const fname=((res.headers.get('Content-Disposition')||'').match(/filename="?([^";]+)/)||[])[1]||'starter.miz';
-    const result=Object.freeze({rc,source,kit,fname,warn:res.headers.get('X-Warnings')});
+    const result=Object.freeze({rc,source,kit,fname,warn:res.headers.get('X-Warnings'),savedId:res.headers.get('X-Saved-Mission')});
     saveDownload(blob,fname);
     MISSION_RESULTS[source]=result; LAST_GEN_RECIPE=rc;
     ga('generate',{source}); showKit(result,box);

@@ -1,0 +1,32 @@
+/* Account controls use the existing Flightline fonts, colors and card tokens. */
+#account_button {letter-spacing:0;white-space:nowrap}
+#account_button[hidden] {display:none}
+.account_tools {display:flex;gap:8px;align-items:center;flex-shrink:0}
+@media(min-width:1001px) and (max-width:1400px) {
+  .topbar{gap:14px;padding:0 14px}.topbar .vtabs{gap:14px}
+  .topbar .tblinks{gap:12px}.topbar h1{letter-spacing:1px;font-size:15px}
+  .topbar .beta{display:none}
+}
+@media(max-width:1000px) {.account_tools{grid-row:1;grid-column:2}}
+@media(max-width:700px) {
+  .topbar:has(#account_button:not([hidden])) h1{font-size:12px;letter-spacing:.4px}
+  .topbar:has(#account_button:not([hidden])) .beta{display:none}
+}
+#account_dialog {margin:auto;padding:24px;width:min(760px,calc(100vw - 24px));
+  max-height:calc(100dvh - 24px);overflow:auto;background:var(--panel);color:var(--text);
+  border:1px solid var(--line);border-radius:var(--radius);font-family:var(--font-body)}
+#account_dialog::backdrop {background:rgba(0,0,0,.62)}
+#account_dialog p {margin:12px 0;line-height:1.5}
+#account_dialog button,#account_dialog a {font:inherit}
+#account_dialog input[type=text] {width:100%;padding:8px;background:var(--panel2);color:var(--text);
+  border:1px solid var(--line);border-radius:var(--radius);font:inherit}
+#account_dialog .account_actions {display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+#account_dialog .account_actions button,#account_dialog .account_actions a {border:1px solid var(--line);
+  padding:8px 12px;border-radius:var(--radius);background:var(--panel2);color:var(--text);text-decoration:none;cursor:pointer}
+#account_dialog .account_actions .primary {background:var(--accent-solid);color:var(--accent-text)}
+#account_dialog .account_mission {border-top:1px solid var(--line);padding:16px 0;overflow-wrap:anywhere}
+#account_dialog .account_mission small {display:block;color:var(--dim);margin-top:4px}
+#account_dialog .account_toggle {display:flex;gap:10px;align-items:flex-start;line-height:1.5;font:inherit}
+#account_dialog #account_status {color:var(--dim)}
+#account_dialog [disabled] {opacity:.55;cursor:wait}
+@media(max-width:700px) {#account_dialog{padding:16px} #account_button{padding:3px 6px}}

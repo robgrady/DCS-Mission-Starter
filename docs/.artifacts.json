@@ -1,9 +1,9 @@
 {
  "docs/DCS_Mission_Starter_Guide.pdf": {
-  "docs/USER_GUIDE.md": "27bd44a6aaf97608",
+  "docs/USER_GUIDE.md": "3ca4ecdf7f852038",
   "docs/img/hero.png": "caadb08919fd8397",
-  "docs/img/review.png": "c54acc7a6e5ec1ed",
-  "missiongen/__init__.py": "7e1c6e15376c13db",
+  "docs/img/review.png": "2a47f0d49747e9ce",
+  "missiongen/__init__.py": "7c95f48fcbc6fa52",
   "missiongen/authentic.py": "bb016757ea3cf784",
   "missiongen/data/brand/LICENSE-lucide.txt": "b495047bd93a9b06",
   "missiongen/data/brand/authentic_media.png": "2911b84231788ed2",
@@ -27,50 +27,52 @@
   "missiongen/data/brand/fonts/SourceSerif4-Bold.ttf": "a02d655bb88b38e4",
   "missiongen/data/brand/fonts/SourceSerif4-Regular.ttf": "804a4e69d2782806",
   "missiongen/data/brand/fonts/SourceSerif4-VF.ttf": "97b2d4da6e3cb494",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_guide_pdf.py": "a729d35b2f2a7317"
  },
  "docs/WK_BNAI_VOICEOVER.md": {
   "missiongen/wk_brief.py": "7303cc6cd544cd64",
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_wk_voiceover_sheet.py": "054021c012eda7a4"
  },
  "docs/historical_coverage.html": {
-  "missiongen/__init__.py": "7e1c6e15376c13db",
+  "missiongen/__init__.py": "7c95f48fcbc6fa52",
   "missiongen/corridor_chart.py": "d98a5d9f8e7edfd7",
   "missiongen/data/eras.json": "3ca3c51d40275450",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
   "missiongen/data/maps.json": "7af05a830d97b3ae",
   "missiongen/historical_coverage.py": "e658a6f672a6c9db",
   "missiongen/historical_symbols.py": "2d920b53924dbfe4",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_historical_coverage.py": "6c51a987a1dfa1db",
   "scripts/build_sources_html.py": "546eebf152053896"
  },
  "docs/historical_library.html": {
   "frontend/assets/historical-library.js": "97726417a3436634",
-  "missiongen/__init__.py": "7e1c6e15376c13db",
+  "missiongen/__init__.py": "7c95f48fcbc6fa52",
   "missiongen/data/historical_library.json": "612c05bd87348fdd",
   "missiongen/data/maps.json": "7af05a830d97b3ae",
   "missiongen/historical_library.py": "01a91a2b2693a96d",
   "missiongen/historical_reference_chart.py": "c780e80f4d54bd15",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_historical_library.py": "0cc6c9df529d094e",
   "scripts/build_sources_html.py": "546eebf152053896"
  },
  "docs/img/hero.png": {
-  "frontend/assets/app.js": "db60a4fea8001321",
+  "frontend/assets/accounts.css": "c18b8bb1154109d7",
+  "frontend/assets/accounts.js": "25a8e26a851c0943",
+  "frontend/assets/app.js": "0f2f3f45f4818d6e",
   "frontend/assets/comm-controller.js": "5782becb27164a2b",
   "frontend/assets/historical-library.js": "97726417a3436634",
   "frontend/assets/library-catalog.js": "a370de73a89adc5c",
   "frontend/assets/library-controller.js": "f5d0583c7a96dca0",
-  "frontend/assets/mission-results.js": "4e736d3c7d5c3e61",
+  "frontend/assets/mission-results.js": "8696a8a51e9e72ab",
   "frontend/assets/readiness.js": "69f2f88dd971b901",
   "frontend/assets/recipe-presets.js": "57078621729e5121",
   "frontend/assets/recipe-state.js": "1a34d8cc5fb12bfa",
-  "frontend/index.html": "c295af1790e508f2",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "frontend/index.html": "3d2c22d43138430d",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/capture_screenshots.py": "7cdfb2f0f6b63910"
  },
  "docs/img/nttr_corridors.png": {
@@ -81,41 +83,41 @@
   "missiongen/data/corridors/syria.json": "b112b09f9923c512",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
   "missiongen/historical_coverage.py": "e658a6f672a6c9db",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_corridor_charts.py": "9963c541e9f4a3ab"
  },
  "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md": {
-  "missiongen/__init__.py": "7e1c6e15376c13db",
+  "missiongen/__init__.py": "7c95f48fcbc6fa52",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
   "missiongen/historical_coverage.py": "e658a6f672a6c9db",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_historical_coverage.py": "6c51a987a1dfa1db"
  },
  "missiongen/data/checkride/checkride_overall_q.png": {
   "missiongen/checkride.py": "a28db3aea3ee74b1",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_checkride_cards.py": "9a480e3ef144d3df"
  },
  "missiongen/data/formation_hud/formation_hud_hold.png": {
   "missiongen/formation_hud.py": "fbeba1ee04a7c54e",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_formation_hud.py": "b78d48d669665246"
  },
  "missiongen/data/wk_brief/wk_brief_pop.png": {
   "missiongen/data/wk/wk_bnai.png": "e8d36a4633224dea",
   "missiongen/wk_brief.py": "7303cc6cd544cd64",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_wk_brief_pages.py": "19621dc21924f59d",
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "missiongen/data/wk_coach/wk_coach_pup.png": {
   "missiongen/data/wk/wk_bnai.png": "e8d36a4633224dea",
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
-  "scripts/artifacts.py": "e9545234fbc6438c",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "packs/wk_proud_phantom.sspack": {
-  "missiongen/__init__.py": "7e1c6e15376c13db",
+  "missiongen/__init__.py": "7c95f48fcbc6fa52",
   "missiongen/_determinism.py": "06395ce0d27e8e62",
   "missiongen/aar.py": "aa86bfe82da61e81",
   "missiongen/aar_grade.py": "7b289c17d8184251",
@@ -373,8 +375,8 @@
   "missiongen/wk_coach.py": "3ce2cdfea1c7f110",
   "missiongen/wk_guide.py": "4c6af99603877212",
   "missiongen/wk_route.py": "aaff19e241d25ade",
-  "scripts/artifacts.py": "e9545234fbc6438c",
-  "scripts/build_pack.py": "278fbf6bad6f4a9b",
+  "scripts/artifacts.py": "7e55403c7908fc9e",
+  "scripts/build_pack.py": "4180dc57832da852",
   "vendor/dcs/COPYING": "3972dc9744f6499f",
   "vendor/dcs/COPYING.LESSER": "e3a994d82e644b03",
   "vendor/dcs/PYDCS_PROVENANCE.md": "9fa31cc5db564d2e",

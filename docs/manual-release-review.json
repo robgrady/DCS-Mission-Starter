@@ -1,13 +1,15 @@
 {
-  "version": "1.114.1",
+  "version": "1.115.0",
   "documentation_required": true,
-  "reason": "Reviewed Template packs, the new authored-pack upload section, Share links and recipes, and Release identity and the manual. Documented actionable server-storage failures and retry behavior; mission generation and downloads are unchanged.",
+  "reason": "Reviewed the four doors, Mission Kit, Quick start, Share links and release identity. Added the Discord profile and My missions workflow, explicit saving preference, privacy/storage limits, original versus regenerated downloads, export and deletion. Guest and authored-collection behavior remains explicit.",
   "sections_reviewed": [
-    "Template packs",
-    "Uploading an authored mission pack",
+    "The four doors",
+    "Your mission kit",
+    "Discord profiles and My missions",
+    "Quick start (Builder path)",
     "Share links & recipes",
     "Release identity and the manual"
   ],
-  "source_sha256": "27bd44a6aaf9760820a3617024eb0c107d3d326c3a36eab644dbc6bc0d3cbe34",
-  "previous_source_sha256": "7202303b92017ab26cb05c3cdb688e6d12f05e9fde9c046b5d28e7df72d64cc5"
+  "source_sha256": "3ca4ecdf7f852038b61403021c7ae3fe26567ccff0499f056b36ecaffd398532",
+  "previous_source_sha256": "27bd44a6aaf9760820a3617024eb0c107d3d326c3a36eab644dbc6bc0d3cbe34"
 }

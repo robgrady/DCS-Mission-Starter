@@ -143,7 +143,7 @@ ARTIFACTS = [
         "rule": "stamp",
         "generator": ["scripts/capture_screenshots.py"],
         "inputs": ["frontend/index.html", "frontend/assets/mission-results.js",
-                   "frontend/assets/*.js", "scripts/capture_screenshots.py"],
+                   "frontend/assets/*.js", "frontend/assets/*.css", "scripts/capture_screenshots.py"],
         "why": "Every screenshot in the guide comes from this run. The Builder "
                "was rebuilt across v1.45-1.47 and these still showed the old "
                "eight-step wizard.",
