@@ -457,7 +457,7 @@ mission checksum. If mission content changes, ask for fresh links. After a deplo
 a link from an older version returns “another app version”; ask the assistant
 to generate fresh links. Keep downloaded files for an exact archive. A busy
 generator asks you to retry after three seconds. Recipe validation checks
-fields and template defaults; generation makes the final compatibility checks.
+fields, map-position envelopes and template defaults; generation makes the final compatibility checks.
 
 The assistant's recipe schema includes numeric limits and the human-seat rule:
 **1–4 aircraft**, with **0–3 veteran AI wingmen** and always at least one human
@@ -472,7 +472,10 @@ accepts latitude/longitude in decimal degrees or native DCS x/y metres. Altitude
 is **metres above mean sea level**, not feet or height above terrain. Both
 require an ordinary airborne start and preserve the flight's spacing. Fixed
 training and carrier starts reject conflicting geometry. Check terrain clearance
-in DCS before flying.
+in DCS before flying. Starting with v1.121.0, the map catalog publishes the
+DCS x/y authoring envelope used by both validation and generation. It includes
+known airfields and carrier anchors and corrects reversed/outdated vendor
+rectangles. It does not certify the DCS terrain edge or high-detail coverage.
 
 The exact date must fall inside the selected era and use takeoff-anchored timing.
 It changes the native mission and historical date; coalition/base presets and
@@ -494,7 +497,11 @@ what survived. This connection does not place files in its ATO.
 Exact radio **frequencies** are already supported through `comms`, and the
 applicable plan is programmed into both F-14 UHF radios. Channel numbers follow
 the fixed ladder; custom channel assignments and exact per-pylon stores are not
-recipe controls yet. `player_fit`/`player_load` select presets. The MCP catalog
+recipe controls yet. Stores still follow the mission year; an exact fictional
+1971 Phoenix missile fit is not supported. Exact start speed/clock, an independent
+second human flight, arbitrary waypoints, country/flight naming and custom enemy
+groups/triggers/F10 menus are also outside the published recipe.
+`player_fit`/`player_load` select presets. The MCP catalog
 currently covers maps, eras, aircraft, templates, carriers, tracks and courses;
 searchable loadout/livery catalogs remain planned. Check the agent guide's
 capability table rather than assume unsupported fields will be accepted.
@@ -507,6 +514,17 @@ build. Browsing, validation and connection attempts are excluded. Tracking
 starts with **v1.119.0**; earlier MCP builds are unknown. The anonymous event
 ledger retains six months of activity and separates MCP from website and browser/people
 statistics. A completed build does not prove that a pilot received or flew it.
+
+**Admin → Analytics → MCP connection diagnostics** shows the latest server
+requests with UTC time, release, request ID, RPC, HTTP status, response size,
+tool count and reply type. A separate bounded log keeps up to 200 requests;
+seven-day expiry is applied on reads and the next write. Header flags record
+presence/JSON-SSE acceptance only. No bodies, recipes, client names, addresses or
+credential values are stored. The server returns **X-Sortie-Request-ID** and
+**X-Sortie-Version** for correlation. A successful server tool-list response
+cannot explain why an app rejects it: retain the app/version, configured URL,
+retry time and request ID, then inspect the app logs. The reported connector
+failure persisted after v1.120.1; it is still under investigation.
 
 ### Importing a mission into Digital Kneeboard Simulator
 

@@ -59,6 +59,11 @@ STAMPS = ROOT / "docs" / ".artifacts.json"
 
 ARTIFACTS = [
     {
+        'path': 'docs/MCP.md',
+        'rule': 'version',
+        'why': 'The public integration guide must identify the release whose contracts it describes.',
+    },
+    {
         'path': 'docs/historical_library.html',
         'rule': 'stamp',
         'generator': ['scripts/build_historical_library.py'],

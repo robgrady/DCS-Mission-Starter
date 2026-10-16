@@ -22,6 +22,20 @@ whole codebase is organized around hunting).
 
 ## 2. The stack
 
+**Remote agent contract:** local PyDCS capabilities exceed the public MCP
+recipe. Read `docs/MCP.md` and fetch the running server's schema before making
+remote authoring promises. Offline knowledge handoffs are dated snapshots;
+`scripts/refresh_knowledge_pack.py` creates a new copy from a committed release,
+preserving the old pack. It does not rerun historical research or DCS flights.
+
+**Map coordinates:** `missiongen/map_bounds.py` owns the explicit-position
+authoring envelope. Some vendor rectangles have reversed axes (Syria, Sinai,
+Normandy, Persian Gulf); others exclude known expanded-map airfields. Normalize
+their limits and include known airfields/carrier anchors without editing vendor
+code. Recipe validation and generation must call the same check. Published
+`maps.<key>.bounds` is an authoring envelope, not certified terrain/detail or
+ground-clearance coverage. Never globally cache mutable terrain/parking objects.
+
 | Layer | What | Notes |
 |---|---|---|
 | Mission engine | **pydcs, VENDORED at `vendor/dcs`** | Not pip's 0.15.0 — that lacks the F-4E-45MC and current units. `PYTHONPATH=.:vendor` for everything. |

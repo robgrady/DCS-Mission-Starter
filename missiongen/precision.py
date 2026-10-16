@@ -53,6 +53,8 @@ def validate_precision(r):
             raise RecipeError('start_position/start_altitude require a normal airborne flight (start=air); fixed training and carrier starts own their placement.')
     if r.start_position is not None:
         validate_position(r.start_position, 'start_position')
+        from .map_bounds import check_position
+        check_position(r.start_position, r.map, 'start_position')
     if r.start_altitude is not None and (not _number(r.start_altitude) or not 1 <= r.start_altitude <= 25000):
         raise RecipeError('start_altitude must be 1–25000 metres MSL; terrain clearance is the author\'s responsibility.')
     if r.player_slot is not None:
@@ -68,6 +70,8 @@ def validate_precision(r):
             raise RecipeError('map_view accepts center, zoom and visibility; supply at least one.')
         if 'center' in v:
             validate_position(v['center'], 'map_view.center')
+            from .map_bounds import check_position
+            check_position(v['center'], r.map, 'map_view.center')
         if 'zoom' in v and (not _number(v['zoom']) or not 1000 <= v['zoom'] <= 5000000):
             raise RecipeError('map_view.zoom must be 1000–5000000 native DCS map units.')
         if 'visibility' in v and v['visibility'] not in VIEWS:
@@ -89,18 +93,18 @@ def dated_setting(r, preset, era_cfg):
                 'historical overlays remain era-based; this is not a reconstruction of that exact day.']}
 
 
-def point(value, terrain, name):
+def point(value, terrain, name, map_key):
     from dcs.mapping import Point, LatLng
+    from .map_bounds import check_position
+    check_position(value, map_key, name)
     p = (Point.from_latlng(LatLng(value['lat'], value['lon']), terrain)
          if 'lat' in value else Point(value['x'], value['y'], terrain))
-    if not math.isfinite(p.x) or not math.isfinite(p.y) or not terrain.bounds.point_in_rect(p):
-        raise RecipeError(f'{name} is outside the selected map bounds.')
     return p
 
 
 def apply_air_start(r, mission, group):
     if r.start_position is not None:
-        pos = point(r.start_position, mission.terrain, 'start_position')
+        pos = point(r.start_position, mission.terrain, 'start_position', r.map)
         first = group.units[0].position
         dx, dy = pos.x - first.x, pos.y - first.y
         from dcs.mapping import Point
@@ -122,7 +126,7 @@ def apply_map_view(r, mission):
     from dcs.forcedoptions import ForcedOptions
     v = r.map_view
     # Do not mutate terrain.map_view_default, which may be reused by callers.
-    center = point(v['center'], mission.terrain, 'map_view.center') if 'center' in v else mission.map.position
+    center = point(v['center'], mission.terrain, 'map_view.center', r.map) if 'center' in v else mission.map.position
     mission.map = MapView(center, mission.terrain, v.get('zoom', mission.map.zoom))
     if 'visibility' in v:
         mission.forced_options.options_view = dict(zip(VIEWS, (

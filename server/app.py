@@ -53,6 +53,8 @@ async def release_identity_cache(request, call_next):
         response.headers["Cache-Control"] = "no-store"
     return response
 
+from .mcp_diagnostics import MCPDiagnostics
+app.add_middleware(MCPDiagnostics)
 from .catalog_owner import install as install_catalog_owner
 install_catalog_owner(app)
 account_routes.install(app)

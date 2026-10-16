@@ -1,5 +1,9 @@
 # Sortie Starter MCP
 
+Guide release: **v1.121.0** · reviewed **2026-10-15**. This is a release snapshot;
+confirm the live server version and canonical schema before authoring. Offline
+knowledge packs retain their own snapshot versions and cannot update themselves.
+
 Public agent guide: `/api/mcp-guide`. Discovery index: `/llms.txt`.
 MCP resource: `sortiestarter://integration-guide`. These expose this same source.
 
@@ -79,7 +83,7 @@ Discovery examples:
 
 Validation reports `stage: recipe_fields`: types, bounds, cross-field rules
 and template defaults. It does not perform a full build. Generation enforces
-aircraft/era/terrain/parking constraints and reports rendering or engine
+aircraft/era/parking constraints and reports rendering or engine
 warnings. Errors are MCP tool errors with corrective guidance; unknown fields
 are refused. Generation is non-destructive, consumes compute and is annotated
 as not read-only. It is idempotent for a fixed recipe on this app version.
@@ -93,6 +97,23 @@ when `slots` is supplied. Omitted fields still resolve through the selected
 template; do not apply global defaults before validation. Callsigns are trimmed
 before their 1–20-character limit is checked. Domain restrictions such as comm
 frequency compatibility and fixed-flight exclusions require validate_recipe.
+
+### Published map authoring bounds (1.121.0)
+
+Use `get_catalog_item` with `kind: "maps"` and the map key. Its `bounds` includes
+inclusive `x_min`, `x_max`, `y_min`, `y_max`, units, axes and provenance. The same
+metadata appears at `/api/options` under `maps.<key>.bounds`. DCS x is north and
+y is east; these are theatre-local metres, not geographic degrees. WGS84 inputs
+are projected before checking. Validation and generation use this same check
+for both `start_position` and `map_view.center`.
+
+The authoring envelope normalizes reversed PyDCS rectangle limits and expands
+them to include known airfield positions and configured carrier anchors. Some
+vendor rectangles predate terrain expansions. This is **not** a certified DCS
+terrain edge, high-detail boundary, coastline or terrain-clearance service.
+Check terrain/elevation in your installed DCS revision. Earlier releases could
+accept a structurally valid coordinate during validation and then reject it in
+generation; Syria, Sinai, Normandy and Persian Gulf also had reversed limits.
 
 ### Exact authoring inputs (1.120.0)
 
@@ -151,9 +172,12 @@ changed in this test. App-side tool loading needs its own successful retest.
 | Requirement | Current behavior |
 | --- | --- |
 | Catalog | Maps, eras, aircraft, templates, carriers, tracks and courses. Loadout and livery catalogs are not exposed by MCP yet. Catalog presence is not proof of installed DCS modules or skins. |
-| Exact weapons | `player_fit` and `player_load` choose supported role presets. There is no exact station-to-CLSID recipe field yet; unknown fields are rejected. Inspect the generated stores or edit the native mission. |
+| Exact weapons | Stores follow the mission year. A fictional 1971 F-14 carrying 6 AIM-54A + 2 AIM-9M cannot be requested exactly today. `player_fit` and `player_load` choose supported role presets. There is no exact station-to-CLSID recipe field yet; unknown fields are rejected. Inspect the generated stores or edit the native mission. |
 | Radio frequencies | `comms` accepts exact agency frequencies in MHz on the radio's 25 kHz raster. Both F-14 UHF sets receive the applicable ladder. Fixed Guard remains 243.000 MHz. |
 | Radio channel numbers | Fixed ladder: Flight 1, Carrier 2, AWACS 3, Tanker 4, Plane guard 5, CAP 6, Tactical 7, AEW 8 (or 3 without AWACS), Guard last on each set. Arbitrary channel assignments and independent per-radio plans are not recipe inputs yet. Absent agencies do not create transmitters. |
+| Start speed/clock | No exact speed or clock-time input yet. `time_of_day` chooses a preset; `timing_at` schedules push/TOT, not an arbitrary start clock. |
+| Additional human flights | `slots`/`veteran_wingmen` configure one human flight. No second independently authored human flight (for example Colt) yet. |
+| Waypoints/country/flight name | No arbitrary waypoint list, country override or independent flight-name input. `callsign` selects a supported spoken callsign, not all three controls. |
 | Player/map | `player_slot: "player"`, `slots: 1`, `veteran_wingmen: 0` emits one solo Player aircraft. Set `map_view.center` to the start coordinates for saved map framing; this is not a runtime camera-follow command. |
 | Cartridge/kit | Native cartridge integration is currently specific to supported F-14B(U) DTM data. The kit includes only artifacts actually produced; inspect manifest files/warnings. It does not synthesize a cartridge format for every DCS module. |
 | Training/DO-M layer | The download is the generated base mission and available brief/comms/kneeboard/cartridge artifacts. Agent-authored training and DO-M documents are a separate downstream authoring step; archive the original `.miz`. |
@@ -319,6 +343,31 @@ Do not disable host/origin protection or enable arbitrary browser origins.
 If discovery still fails, retain the connector's exact URL, status and error;
 do not include authorization headers, cookies or keys in a report.
 
+### Connection diagnostics (1.121.0)
+
+Operators can open **Admin → Analytics → MCP connection diagnostics**. The last
+30 observed HTTP requests show UTC timestamp, release, server-generated request
+ID, RPC classification, HTTP status, response bytes, tool count and reply type.
+Header flags report only the presence of Origin, protocol and session headers,
+and whether Accept mentions JSON/SSE. The response carries `X-Sortie-Request-ID`
+and `X-Sortie-Version` for correlation. Up to 200 records are retained in a
+separate bounded ring; records older than seven days are hidden and pruned on
+the next write. Request/response bodies, recipes, client names, addresses,
+credential values and error text are not persisted. Missing/unwritable storage
+does not fail the request. Fly replay is excluded from successful discovery.
+
+A request rejected before its body is read appears as `unread`; a request body
+larger than 4 KiB appears as `large_request`. Tool count is observed inside the
+SDK discovery hook. HTTP 200 plus six tools proves the server sent discovery,
+not that the application accepted it. No observed attempt is inconclusive: the
+failure may be upstream of the server, or diagnostic storage may be unavailable.
+
+Keep the app name/version, exact configured URL, retry time including timezone,
+server release and request ID when available. The server cannot report an
+app-side schema rejection unless the app sends that reason back; inspect the
+app's logs for that part. Do not change transport expectations on speculation.
+The compact 1.120.1 tool list did **not** resolve the reported app failure.
+
 ### Admin usage counts
 
 **Admin → Analytics** shows MCP missions built, failed builds, capacity retries,
@@ -337,6 +386,16 @@ or error text. MCP events remain separate from website and browser/people metric
 the admin report use the catalog owner's volume; this does not merge older
 website analytics from other machine-local volumes. Counts are operational
 analytics, not a billing ledger or a record of connection failures.
+
+### Faithful rebuilds versus fallback missions
+
+Before building, compare the requested mission with the capability table. If
+required controls are absent, report the gap and keep the author's pipeline.
+A generated fallback must be explicitly labelled as different. Turning off
+unwanted blocks is supported (`bb_awacs: false`, `bb_tanker: false`,
+`bb_ambient: false`, `bb_sams: false`); that does not supply missing flights,
+routes, targets, triggers, exact stores, speed or clock time. Native map framing
+is a saved Editor/F10 center, not a cockpit camera-follow instruction.
 
 ### Error recovery
 

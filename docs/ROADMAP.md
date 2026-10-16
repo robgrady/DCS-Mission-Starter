@@ -32,6 +32,32 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.121.0** fixes the Syria/reversed-rectangle position failure, checks positions
+against the same published map authoring envelope in validation and generation,
+and adds bounded Admin MCP connection diagnostics. App tool loading is still
+unresolved; use server request evidence and app logs before changing transport.
+
+### Phoenix authoring priorities
+
+1. **Reliable base geometry (shipped):** valid Syria position and saved map
+   center, shared validation and published envelope/provenance for all maps.
+   This does not certify terrain detail, ground clearance or the user's exact
+   Phoenix recipe without its coordinates.
+2. **Exact single-flight authoring (next):** explicit start speed in declared
+   units, exact local start clock, legal per-station stores, loadout/livery
+   catalogs and intentional historical overrides. Preserve the exact date and
+   flag a fictional/anachronistic fit instead of quietly rewriting the year.
+   Acceptance requires saved native speed/time and 6 AIM-54A + 2 AIM-9M readback
+   on an explicitly fictional 1971 fit, plus both-radio channel checks.
+3. **Flight composition:** independent human flight (Colt), country and flight
+   name controls, authored waypoint lists. Validate aircraft/country/route
+   compatibility, preserve one Player across the mission, use Client for other
+   human slots and read back each flight/route from the saved archive.
+4. **Authored training layer:** declarative enemy groups, target drones, native
+   triggers and F10 menus with bounded conditions/actions and resource links.
+   No arbitrary code execution. Test saved references and menu/trigger behavior
+   in DCS. Until these land, Phoenix stays on its author's pipeline.
+
 **v1.120.1** publishes compact MCP discovery without output schemas, unions or
 conditional rules, preserving canonical validation and structured results. The
 remaining MCP authoring priorities are exact station-compatible stores, custom

@@ -70,6 +70,10 @@ class DiscoveryMCPServer(MCPServer):
 
     async def list_tools(self):
         tools = await super().list_tools()
+        from .mcp_diagnostics import trace
+        request = trace.get()
+        if request is not None:
+            request['tools'] = len(tools)
         return [tool.model_copy(update={
             'input_schema': compact_schema(tool.input_schema),
             'output_schema': None,

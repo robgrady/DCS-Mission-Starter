@@ -69,6 +69,7 @@ def flyable_aircraft():
 
 @router.get("/api/options")
 def options():
+    from missiongen.map_bounds import catalog_bounds
     maps = load_json("maps")
     eras = load_json("eras")
     from missiongen.historical_world import preview, template_previews
@@ -78,6 +79,7 @@ def options():
         # holds a verified DCS encoding; the Builder hides the knob otherwise.
         "lineup_supported": _lineup_mod.supported(),
         "maps": {k: {"label": v["label"], "free": v["free"],
+                     "bounds": catalog_bounds(k),
                      "has_carrier": "carrier" in v,
                      "lineups": v.get("lineups", {}),
                      "presets": {e: {"blue_airbases": p["blue_airbases"],

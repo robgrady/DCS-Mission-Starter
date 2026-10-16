@@ -390,6 +390,7 @@ def _analytics_page(days: int = 30) -> HTMLResponse:
     from .mcp_server import PUBLIC_BASE_URL
     s = analytics.stats(days)
     mc = analytics.mcp_stats(days)
+    from .mcp_diagnostics import admin_card
 
     def table(title, rows, label):
         body = "".join(f"<tr><td>{html.escape(str(k))}</td><td class=n>{v}</td></tr>"
@@ -478,7 +479,7 @@ def _analytics_page(days: int = 30) -> HTMLResponse:
         f"MCP activity is separate from the website activity and browser/people metrics below.</p>"
         f"<p class=note>Connection: Streamable HTTP · no login · endpoint "
         f"<code>{html.escape(PUBLIC_BASE_URL)}/mcp/</code>. "
-        f"<a href='/api/mcp-guide' style='color:var(--accent)'>Agent connection guide</a>.</p></div>" + people_card +
+        f"<a href='/api/mcp-guide' style='color:var(--accent)'>Agent connection guide</a>.</p></div>" + admin_card() + people_card +
         f"<div class=card><h2>Website activity · last {s['days']} days &nbsp; <small>({ranges})</small></h2>"
         f"<div class=bigrow>"
         f"<div class=big><b>{s['generates']}</b><small>missions generated</small></div>"

@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.121.0] — Consistent map validation and MCP connection diagnostics
+
+- Fix explicit positions and saved map centers rejected by reversed vendor rectangles, including Syria. Validate the same envelope before generation; include known airfields/carrier anchors where vendor extents are stale. Publish units, axes, provenance and limits in map catalog items without claiming certified terrain/detail coverage.
+- Add private Admin Analytics connection diagnostics with bounded retention, UTC request IDs, HTTP/discovery response facts and header-presence flags. Preserve SDK transport/security and keep connection evidence separate from successful mission counts. Connector failure remains unresolved; its cause is unconfirmed.
+- Date/version the agent guide, gate its release freshness, document the Phoenix capability gaps and faithful-rebuild boundary, and refresh the offline knowledge handoff snapshot.
+- Add all-map coordinate, Syria native-file and transport/security/privacy/retention regressions. Review and regenerate the User Manual and release artifacts.
+
 ## [1.120.1] — Compact MCP discovery for connector compatibility
 
 - Publish compact tool-list metadata with no references, nullable/composed input schemas, conditional rules or outputSchema. Retain every recipe field and the existing tool names/envelopes; fetch the canonical schema for the complete contract and omit unused optional inputs.
