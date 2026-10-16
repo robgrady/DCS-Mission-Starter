@@ -39,18 +39,18 @@ def test_initialize_and_list_preserve_sdk_reply_and_trace_discovery():
     assert analytics.mcp_stats()['built'] == 0
 
 
-def test_security_errors_unacceptable_headers_redirect_and_invalid_json_are_visible():
+def test_security_errors_unacceptable_headers_and_invalid_json_are_visible():
     with TestClient(app, base_url='https://sortiestarter.com', follow_redirects=False) as client:
         headers = {'Accept':'application/json, text/event-stream'}
-        assert client.post('/mcp', headers=headers, json={}).status_code == 307
+        assert client.post('/mcp', headers=headers, json={'jsonrpc':'2.0','id':1,'method':'ping'}).status_code == 200
         assert client.post('/mcp/', headers={**headers,'Host':'evil.example'},json={}).status_code == 421
         assert client.post('/mcp/',headers={**headers,'Origin':'https://evil.example'},json={}).status_code == 403
         assert client.post('/mcp/', headers={'Accept':'text/plain'},json={}).status_code == 406
         assert client.post('/mcp/', headers=headers,content=b'{broken',
                            ).status_code >= 400
     rows = diagnostics.recent()
-    assert [r['status'] for r in rows] == [307,421,403,406,400]
-    assert rows[0]['rpc'] == 'unread'  # redirect does not consume the body
+    assert [r['status'] for r in rows] == [200,421,403,406,400]
+    assert rows[0]['rpc'] == 'ping' and rows[0]['path'] == '/mcp'
     assert rows[-1]['rpc'] == 'invalid_json'
 
 

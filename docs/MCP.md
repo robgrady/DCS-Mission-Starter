@@ -1,6 +1,6 @@
 # Sortie Starter MCP
 
-Guide release: **v1.121.0** · reviewed **2026-10-15**. This is a release snapshot;
+Guide release: **v1.121.1** · reviewed **2026-10-15**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
@@ -9,8 +9,9 @@ MCP resource: `sortiestarter://integration-guide`. These expose this same source
 
 Production endpoint: `https://sortiestarter.com/mcp/`.
 Existing clients may continue using `https://dcs-mission-starter.fly.dev/mcp/`.
-Transport: **Streamable HTTP**, stateless with JSON responses. The trailing
-slash avoids a redirect. Uses official Python MCP SDK 2.3.0. Both current
+Transport: **Streamable HTTP**, stateless with JSON responses. Starting with
+**v1.121.1**, both `/mcp` and `/mcp/` reach the same transport directly without
+an HTTP redirect. Hosts may normalize the saved URL by dropping its slash. Uses official Python MCP SDK 2.3.0. Both current
 protocol and legacy initialization clients are tested. Public abilities match
 the anonymous website; no account, API token or administrative tools.
 
@@ -308,7 +309,7 @@ placement remain unverified.
 
 ### Grok and tool-discovery troubleshooting
 
-Use the full endpoint **including `/mcp/`**, select **Streamable HTTP** and
+Use the full endpoint **including `/mcp/` or `/mcp`**, select **Streamable HTTP** and
 leave server authentication unset. Discord credentials and an API key are not
 required for this public server. Opening the website or performing a GET does
 not test tool discovery: it requires JSON-RPC POST requests.
@@ -336,8 +337,10 @@ To isolate discovery, POST `initialize`, then `tools/list` with
 `Accept: application/json, text/event-stream`. Include the negotiated
 `MCP-Protocol-Version` on later requests, using the connected client's protocol
 mode. Supported current and legacy SDK modes are covered by integration tests.
-Expect six `sortiestarter_` tools. A 307 usually means `/mcp` is missing the
-trailing slash; use `/mcp/` directly so POST redirects need not be followed.
+Expect six `sortiestarter_` tools. Both `/mcp` and `/mcp/` return directly in
+v1.121.1; a 307 on either path means an older deployment or upstream redirect
+is still involved. Earlier releases redirected `/mcp` to `/mcp/`, which could
+prevent a host from reaching POST tool discovery.
 A 421 indicates an unconfigured Host; a 403 indicates a disallowed Origin.
 Do not disable host/origin protection or enable arbitrary browser origins.
 If discovery still fails, retain the connector's exact URL, status and error;
@@ -367,6 +370,11 @@ server release and request ID when available. The server cannot report an
 app-side schema rejection unless the app sends that reason back; inspect the
 app's logs for that part. Do not change transport expectations on speculation.
 The compact 1.120.1 tool list did **not** resolve the reported app failure.
+A fresh Grok Bot connector also failed on 1.121.0. Its settings displayed a
+slashless URL; timed server records showed POST redirects and GET streams but
+no tool-list call in that window. v1.121.1 removes that redirect dependency;
+confirm app-side acceptance separately. Caller identity is not logged, so
+timing alone cannot attribute each recorded request to a particular connector.
 
 ### Admin usage counts
 

@@ -1,5 +1,11 @@
 # Changelog — DCS Sortie Starter
 
+## [1.121.1] — Direct MCP routing with or without a trailing slash
+
+- Serve `/mcp` and `/mcp/` through the same SDK transport without an HTTP redirect. Preserve method, request body, query, protocol/security checks and Fly owner routing. This supports hosts that normalize saved URLs by dropping their trailing slash.
+- Keep diagnostics on the original requested path, and add both-domain initialize/discovery/body-validation, security, request-size and replay regressions. No recipe, native mission or tool-schema change.
+- Update the integration guide and User Manual to describe both accepted paths. App connector acceptance is verified separately from direct endpoint checks.
+
 ## [1.121.0] — Consistent map validation and MCP connection diagnostics
 
 - Fix explicit positions and saved map centers rejected by reversed vendor rectangles, including Syria. Validate the same envelope before generation; include known airfields/carrier anchors where vendor extents are stale. Publish units, axes, provenance and limits in map catalog items without claiming certified terrain/detail coverage.

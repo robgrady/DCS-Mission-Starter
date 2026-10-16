@@ -428,8 +428,10 @@ vary by client. Sortie Starter's public tools do not require a login. The
 public agent guide is available at **/api/mcp-guide**, indexed by **/llms.txt**,
 and as the MCP resource **sortiestarter://integration-guide**.
 Existing connections to **https://dcs-mission-starter.fly.dev/mcp/** also work.
-Use the trailing slash, leave authentication unset and refresh/reconnect the
-server if the assistant cannot list tools. Opening the website directly does
+Leave authentication unset and refresh/reconnect the server if the assistant
+cannot list tools. Starting with **v1.121.1**, both `/mcp` and `/mcp/` work
+directly without redirects, including when a host removes the saved URL’s
+trailing slash. Opening the website directly does
 not check its MCP connection. The agent guide includes Grok configuration and
 HTTP error troubleshooting. Starting in **v1.120.1**, the tool list uses compact
 input shapes and omits output schemas, nullable unions and conditional rules for
@@ -524,7 +526,9 @@ credential values are stored. The server returns **X-Sortie-Request-ID** and
 **X-Sortie-Version** for correlation. A successful server tool-list response
 cannot explain why an app rejects it: retain the app/version, configured URL,
 retry time and request ID, then inspect the app logs. The reported connector
-failure persisted after v1.120.1; it is still under investigation.
+failure persisted through v1.121.0. That retry exposed a redirect dependency;
+v1.121.1 accepts both path forms directly. App acceptance must still be checked
+inside the affected application.
 
 ### Importing a mission into Digital Kneeboard Simulator
 

@@ -32,6 +32,10 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.121.1** accepts both `/mcp` and `/mcp/` without redirects, preserving
+SDK security and original-path diagnostics. This addresses hosts that remove
+the saved URL’s trailing slash. App-side acceptance remains a separate check.
+
 **v1.121.0** fixes the Syria/reversed-rectangle position failure, checks positions
 against the same published map authoring envelope in validation and generation,
 and adds bounded Admin MCP connection diagnostics. App tool loading is still
