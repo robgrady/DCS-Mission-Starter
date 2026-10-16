@@ -727,6 +727,7 @@
   <div id="account_content"></div>
 </dialog>
 
+<div id="loadstatus" role="status" aria-live="polite" style="position:fixed;top:var(--topbar-height);left:0;right:0;z-index:55;background:var(--panel);padding:10px 20px;border-bottom:1px solid var(--line)">Loading mission options…</div>
 <div id="loaderror" role="alert" hidden style="position:fixed;top:var(--topbar-height);left:0;right:0;z-index:55;background:var(--panel);padding:20px">
   <p>Mission options could not be loaded. Check your connection and try again.</p>
   <button type="button" id="loadretry" onclick="init()">Retry</button>

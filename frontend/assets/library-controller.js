@@ -55,7 +55,13 @@ function trackOf(k){ const t=(OPT.templates[k]||{}).track; return t&&t.id; }
 // simply does not list tracks. The track itself is untouched: `OPT.tracks`
 // still carries every one, `openTrack` reads it directly, and any link that
 // ever pointed at `track_<id>` still opens the panel and still builds.
-function libItems(){ return Object.entries(OPT.templates)
+let libraryCatalogCache=null, libraryCatalogSignature=null;
+function libItems(){
+ // Detect refreshed or edited metadata, including nested collection requirements.
+ const signature=JSON.stringify([OPT.templates,OPT.maps,OPT.aircraft,OPT.eras,OPT.recipe_defaults]);
+ if(libraryCatalogSignature===signature&&libraryCatalogCache)return libraryCatalogCache;
+ libraryCatalogSignature=signature;
+ return libraryCatalogCache=Object.entries(OPT.templates)
  .filter(([k,v])=>v&&!k.startsWith('_')&&!v.quick&&!trackOf(k))
  .map(([k,v])=>{const lib=v.library||{},parts=(v.label||k).split(' — ');
   const t={k,...v,role:lib.role||inferRole(k,v),premise:lib.premise||parts[1]||parts[0],

@@ -148,6 +148,10 @@ class Recipe:
     mission_date: Optional[str] = None # ISO YYYY-MM-DD, within selected era
     start_position: Optional[dict] = None # airborne lead: {lat, lon} or DCS {x, y}
     start_altitude: Optional[Union[int, float]] = None # metres MSL, airborne only
+    start_speed: Optional[Union[int, float]] = None # metres/second TAS, airborne only
+    start_time: Optional[str] = None  # local HH:MM or HH:MM:SS; takeoff timing only
+    player_stores: Optional[dict] = None # complete {station string: CLSID}; {} = clean
+    allow_anachronistic_stores: bool = False # explicit fictional equipment-year override
     time_of_day: str = "day"           # dawn | day | dusk | night
     weather: str = "clear"             # clear | scattered | overcast | storm
     density: str = "normal"            # sparse | normal | busy (AD/ambient scale)
@@ -512,4 +516,6 @@ class Recipe:
             self.comms = v["clean"] or None
         from .precision import validate_precision
         validate_precision(self)
+        from .authoring import validate_authoring
+        validate_authoring(self)
         return self

@@ -54,6 +54,28 @@ def test_offline_options_still_show_the_current_release_and_retry(site):
         browser.close()
 
 
+def test_navigation_during_slow_options_keeps_selection_and_does_not_throw(site):
+    pw=pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as p:
+        browser=p.chromium.launch(); page=browser.new_page(); errors=[]; pending=[]
+        page.on('pageerror',lambda e:errors.append(str(e)))
+        page.route('**/api/options',lambda route:pending.append(route))
+        page.goto(site,wait_until='domcontentloaded')
+        page.wait_for_selector('#loadstatus:not([hidden])')
+        page.locator('#viewtabs button[data-v="library"]').click()
+        assert page.evaluate('PENDING_VIEW') == 'library'
+        assert 'Your selection will open' in page.locator('#loadstatus').inner_text()
+        assert not errors
+        assert len(pending)==1
+        pending[0].continue_()
+        page.wait_for_function('NAV_READY')
+        assert page.locator('#library').evaluate('el=>el.classList.contains("on")')
+        assert page.locator('#lgrid .libcard').count()>0
+        assert page.locator('#loadstatus').is_hidden()
+        assert not errors
+        browser.close()
+
+
 @pytest.mark.parametrize('width', [1280, 390])
 def test_library_has_no_static_new_module_promotions_and_veterans_roundtrip(site, width):
     pw = pytest.importorskip('playwright.sync_api')

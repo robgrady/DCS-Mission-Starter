@@ -11,6 +11,10 @@ waypoints** tickbox you switch on yourself.
 
 ## The four doors
 
+While mission options load, the page shows a loading notice. You can select a
+door immediately; it opens when the catalog is ready. If loading fails, choose
+**Retry**. Your selected destination is retained.
+
 **⚡ Fly Now** — the fastest path. One screen, three picks: *what do you want to
 practice* (Tanker Time, BFM Merge, Kill the Guns, Beat the SAM), *in what*, and
 *where*. Era, base, weather and comms are derived for you; a single "spice"
@@ -468,8 +472,9 @@ threat intensity (1–5) and timing hold (0–15 minutes). Fixed crew-ops and Ca
 rides still refuse custom veteran wingmen. Validate the selected recipe before
 generation; these limits do not replace the final compatibility checks.
 
-Assistants can now set five exact authoring fields: **start_position**,
-**mission_date**, **start_altitude**, **player_slot** and **map_view**. Position
+Assistants can set exact authoring fields: **start_position**,
+**mission_date**, **start_altitude**, **start_speed**, **start_time**,
+**player_stores**, **player_slot** and **map_view**. Position
 accepts latitude/longitude in decimal degrees or native DCS x/y metres. Altitude
 is **metres above mean sea level**, not feet or height above terrain. Both
 require an ordinary airborne start and preserve the flight's spacing. Fixed
@@ -491,6 +496,32 @@ Builder share links, and have no dedicated Builder controls. The public MCP
 guide includes the full units, limits and an example. Native-file checks do not
 replace a DCS flight check.
 
+Starting with v1.122.0, **start_speed** specifies airborne true airspeed in
+**metres per second**, rather than knots or indicated airspeed. Multiply knots
+by 0.5144444444. **start_time** specifies the local mission start clock as
+`HH:MM` or `HH:MM:SS`, with takeoff-anchored timing. It overrides the time-of-day
+preset and preserves the selected date. Speed requires a normal airborne start;
+fixed training and carrier starts retain their own geometry. Check the aircraft's
+flight envelope before flying.
+
+**player_stores** maps station numbers (as strings) to exact store IDs from the
+aircraft-scoped **stores** catalog. It replaces the whole flight's external fit;
+omitted stations stay empty, and an empty object means clean. It requires arming
+enabled and the automatic fit mode; fixed training fits cannot be overridden.
+Known weapon service dates are enforced. Set **allow_anachronistic_stores** to
+true only for a deliberate fictional fit: the date remains unchanged, the
+historical context becomes **Fictional exercise**, and the mission reports the
+equipment conflicts. This permits a fictional 1971 F-14 fit with six AIM-54As and
+two AIM-9Ms. Individual station lists are checked; combined-store interference,
+weight/performance limits and simulator behavior still need verification.
+
+The **loadouts** catalog lists generated role/weight presets and their station
+fits for an aircraft, era and optional date. The **liveries** catalog lists only
+source-backed IDs for the exact model. Coverage is partial: an empty list means
+the inventory has no verified choices, not that DCS has no skins for that jet.
+Neither catalog certifies a user's installed content or an exact historical unit
+assignment. Livery selection remains in the Mission Editor.
+
 Published packs remain authored downloads: the assistant retrieves their
 pack link rather than rebuilding a `pack_` template. Missions are not saved
 in an account or installed in another application. A specific F-14B(U)/Caucasus native import was tested in DKS; see below for
@@ -498,14 +529,11 @@ what survived. This connection does not place files in its ATO.
 
 Exact radio **frequencies** are already supported through `comms`, and the
 applicable plan is programmed into both F-14 UHF radios. Channel numbers follow
-the fixed ladder; custom channel assignments and exact per-pylon stores are not
-recipe controls yet. Stores still follow the mission year; an exact fictional
-1971 Phoenix missile fit is not supported. Exact start speed/clock, an independent
-second human flight, arbitrary waypoints, country/flight naming and custom enemy
-groups/triggers/F10 menus are also outside the published recipe.
-`player_fit`/`player_load` select presets. The MCP catalog
-currently covers maps, eras, aircraft, templates, carriers, tracks and courses;
-searchable loadout/livery catalogs remain planned. Check the agent guide's
+the fixed ladder; custom channel assignments are not recipe controls yet. An
+independent second human flight, arbitrary waypoints, country/flight naming and
+custom enemy groups/triggers/F10 menus remain outside the published recipe.
+`player_fit`/`player_load` still select presets when no exact fit is supplied.
+Check the agent guide's
 capability table rather than assume unsupported fields will be accepted.
 
 Site operators can open **Admin → Analytics** to see **MCP missions built**,

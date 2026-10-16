@@ -50,7 +50,7 @@ CLASSIFICATIONS = {
 }
 
 
-def resolve_setting(map_key, era, preset, template=None):
+def resolve_setting(map_key, era, preset, template=None, *, catalog=None):
     """Authored map/lineup context, then template-specific era/map metadata.
 
     Authored dates are defaults; an explicit mission_date is applied by build_context.
@@ -58,7 +58,7 @@ def resolve_setting(map_key, era, preset, template=None):
     """
     from .templates import templates
     setting = dict(preset)
-    tpl = templates().get(template, {})
+    tpl = (templates() if catalog is None else catalog).get(template, {})
     for block in (tpl.get('historical', {}),
                   tpl.get('historical_by_era', {}).get(era, {}),
                   tpl.get('historical_by_map', {}).get(map_key, {})):
@@ -80,14 +80,16 @@ def scenario_date(setting, era_cfg):
     return when
 
 
-def preview(map_key, era, template=None, lineup=None):
-    maps = load_json('maps')
+def preview(map_key, era, template=None, lineup=None, *, data=None):
+    maps = load_json('maps') if data is None else data['maps']
     cfg = maps[map_key]
     preset = dict(cfg['presets'][era])
     if lineup:
         preset.update(cfg.get('lineups', {}).get(lineup, {}))
-    setting = resolve_setting(map_key, era, preset, template)
-    return {'date': scenario_date(setting, load_json('eras')[era]).isoformat(),
+    setting = resolve_setting(map_key, era, preset, template,
+                              catalog=None if data is None else data['templates'])
+    eras = load_json('eras') if data is None else data['eras']
+    return {'date': scenario_date(setting, eras[era]).isoformat(),
             'classification': setting['historical_classification'],
             'label': CLASSIFICATIONS[setting['historical_classification']],
             'notes': setting.get('historical_notes', []),
@@ -124,18 +126,20 @@ def snapshot(map_key, era, when: date, preset) -> HistoricalSnapshot:
                               tuple(preset.get('historical_notes', [])))
 
 
-def template_previews(key):
+def template_previews(key, *, data=None):
     """Same effective map/lineup precedence as generation, for catalog surfaces."""
     from .templates import templates, effective_recipe
-    tpl = templates().get(key, {})
+    if data is None:
+        data = {'maps': load_json('maps'), 'eras': load_json('eras'), 'templates': templates()}
+    tpl = data['templates'].get(key, {})
     out = {}
-    maps = load_json('maps')
+    maps = data['maps']
     for era in tpl.get('eras', []):
         allowed = tpl.get('maps') or list(maps)
         out[era] = {}
         for mk in allowed:
             if era not in maps.get(mk, {}).get('presets', {}):
                 continue
-            cfg = effective_recipe(key, era, mk)
-            out[era][mk] = preview(mk, era, key, cfg.get('lineup'))
+            cfg = effective_recipe(key, era, mk, catalog=data['templates'])
+            out[era][mk] = preview(mk, era, key, cfg.get('lineup'), data=data)
     return out

@@ -57,7 +57,7 @@ mcp = DiscoveryMCPServer('sortiestarter_mcp', title='DCS Sortie Starter', versio
     'aircraft modules is required. This server does not install files in DCS or another application.')
 READ = ToolAnnotations(readOnlyHint=True, destructiveHint=False, idempotentHint=True, openWorldHint=False)
 BUILD = ToolAnnotations(readOnlyHint=False, destructiveHint=False, idempotentHint=True, openWorldHint=False)
-CatalogKind = Literal['maps', 'eras', 'aircraft', 'templates', 'carriers', 'tracks', 'courses']
+CatalogKind = Literal['maps', 'eras', 'aircraft', 'templates', 'carriers', 'tracks', 'courses', 'stores', 'loadouts', 'liveries']
 
 
 class CatalogQuery(BaseModel):
@@ -66,6 +66,8 @@ class CatalogQuery(BaseModel):
     query: str = Field(default='', max_length=200, description='Case-insensitive text or key fragment.')
     era: str | None = Field(default=None, max_length=40, description='Optional era key from the eras catalog.')
     map: str | None = Field(default=None, max_length=40, description='Optional map key from the maps catalog.')
+    aircraft: str | None = Field(default=None, max_length=80, description='Required aircraft key for stores/loadouts/liveries; never a DCS display name.')
+    on: str | None = Field(default=None, max_length=10, description='Optional YYYY-MM-DD equipment date. Loadouts require era; stores report year conflicts without hiding override choices.')
     limit: int = Field(default=20, ge=1, le=50, description='Maximum results, 1–50.')
     offset: int = Field(default=0, ge=0, description='Results to skip; follow next_offset to continue.')
 
@@ -74,6 +76,9 @@ class CatalogItem(BaseModel):
     model_config = ConfigDict(extra='forbid')
     kind: CatalogKind = Field(description='Catalog containing the desired item.')
     key: str = Field(min_length=1, max_length=150, description='Exact key returned by list_catalog.')
+    aircraft: str | None = Field(default=None, max_length=80, description='Required for stores/loadouts/liveries.')
+    era: str | None = Field(default=None, max_length=40, description='Required for loadouts; optional for stores/liveries.')
+    on: str | None = Field(default=None, max_length=10, description='Optional YYYY-MM-DD equipment date.')
 
 
 class RecipeInput(BaseModel):
@@ -100,6 +105,24 @@ def discovery_recipe_schema():
     """
     schema = recipe_json_schema()
     schema.pop('allOf', None)
+    # Keep discovery small as the contract grows. Canonical schema owns detailed
+    # prose; retain unit/override semantics here so a loader cannot guess units.
+    descriptions = {
+        'start_position': 'Airborne WGS84 lat/lon degrees OR DCS x/y metres.',
+        'start_altitude': 'Airborne metres MSL/BARO; check terrain clearance.',
+        'start_speed': 'Airborne TAS in metres/second, not knots or IAS.',
+        'start_time': 'Local HH:MM[:SS]; timing_anchor=takeoff.',
+        'mission_date': 'YYYY-MM-DD within era; timing_anchor=takeoff.',
+        'player_stores': 'Complete station-string:CLSID fit; {}=clean. Use stores catalog; omitted stations empty.',
+        'allow_anachronistic_stores': 'Fictional player_stores year override; station checks remain.',
+        'map_view': 'Saved map center/zoom/F10 visibility, not cockpit camera.',
+        'player_slot': 'Native player/client; player needs one human.',
+        'veteran_wingmen': 'Trailing High AI; less than slots.',
+    }
+    for name, prop in schema['properties'].items():
+        prop.pop('description', None)
+        if name in descriptions:
+            prop['description'] = descriptions[name]
     return schema
 
 
@@ -152,14 +175,19 @@ def _item(kind: CatalogKind, key: str, item: dict) -> dict[str, Any]:
 
 @mcp.tool(annotations=READ, structured_output=True)
 def sortiestarter_list_catalog(params: CatalogParams) -> dict[str, Any]:
-    """Search paginated catalog summaries. Returns version, items, total, has_more and next_offset.
+    """Search catalogs; follow next_offset for more. Get full metadata with get_catalog_item.
 
-    Use get_catalog_item for full recipes, map airbase presets, historical
-    context and requirements. Era filters use the engine's service windows;
-    unknown service history passes, just as in the Builder. A map filter checks
-    template/map presets and carrier availability, not installed DCS ownership.
+    Stores/loadouts/liveries require aircraft; loadouts also requires era.
+    on filters equipment dates. Unknown service history and client ownership
+    remain unverified. Maps filter presets/carriers, not installed modules.
     """
     params = _params(CatalogQuery, params)
+    if params.kind in ('stores', 'loadouts', 'liveries'):
+        from missiongen.authoring_catalog import catalog
+        try:
+            return catalog(params.kind, params.aircraft, params.era, params.on, params.query, params.limit, params.offset)
+        except ValueError as exc:
+            raise ToolError(str(exc)) from exc
     data = options()
     if params.era and params.era not in data['eras']:
         raise ToolError('Unknown era. List the eras catalog for supported keys.')
@@ -211,6 +239,16 @@ def sortiestarter_get_catalog_item(params: ItemParams) -> dict[str, Any]:
     by_map defaults are resolved by the engine when validating the recipe.
     """
     params = _params(CatalogItem, params)
+    if params.kind in ('stores', 'loadouts', 'liveries'):
+        from missiongen.authoring_catalog import entries
+        try:
+            rows = entries(params.kind, params.aircraft, params.era, params.on)
+        except ValueError as exc:
+            raise ToolError(str(exc)) from exc
+        item = next((row for row in rows if row['key'] == params.key), None)
+        if item is None:
+            raise ToolError('Unknown catalog key. Search list_catalog with the same aircraft/era/date scope.')
+        return {'app_version': __version__, 'item': item}
     item = _catalog(params.kind, options()).get(params.key)
     if item is None:
         raise ToolError('Unknown catalog key. Search list_catalog and use an exact returned key.')
@@ -249,15 +287,12 @@ def sortiestarter_validate_recipe(params: RecipeParams) -> dict[str, Any]:
 
 @mcp.tool(annotations=BUILD, structured_output=True)
 async def sortiestarter_generate_mission(params: RecipeParams) -> dict[str, Any]:
-    """Generate and inspect a native .miz; return its manifest and download URLs.
+    """Build/inspect a native .miz; return manifest, warnings and download URLs.
 
-    This consumes the website's bounded generation capacity. Busy failures
-    request a retry. No user missions are saved. Download URLs rebuild on the
-    stated app version and return 409 after an upgrade; call this tool again.
-    The ZIP includes the .miz, manifest, actual comm/nav sidecars, available
-    PDF/Markdown briefs, kneeboard PNGs and DTC setup card. Rendering warnings
-    and files list describe what was actually produced. DTC remains specific
-    to supported aircraft. Files are not automatically sent to other apps.
+    Uses bounded website capacity; retry busy errors. Kit includes actual
+    brief/comms/nav/kneeboard/cartridge artifacts listed in manifest. Cartridge
+    support is aircraft-specific. Downloads rebuild on this version (409 after
+    upgrade). No profile saving, app installation or simulator flight is implied.
     """
     params = _params(RecipeInput, params)
     recipe = _recipe(params.recipe)

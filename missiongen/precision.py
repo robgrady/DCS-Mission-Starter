@@ -27,7 +27,7 @@ def validate_precision(r):
     from .resolver import load_json
     from .recipe import Recipe
     Recipe._validate_field_types({name: getattr(r, name) for name in (
-        'mission_date', 'start_position', 'start_altitude', 'player_slot', 'map_view')})
+        'mission_date', 'start_position', 'start_altitude', 'start_speed', 'start_time', 'player_slot', 'map_view')})
     if r.player_slot not in (None, 'player', 'client'):
         raise RecipeError('player_slot must be player, client or null.')
     if r.mission_date is not None:
@@ -43,20 +43,33 @@ def validate_precision(r):
         # A solved TOT can cross midnight and silently invalidate an exact date.
         if r.timing_anchor != 'takeoff':
             raise RecipeError('mission_date requires timing_anchor=takeoff; push/TOT timing may move the date.')
-    explicit_start = r.start_position is not None or r.start_altitude is not None
+    if r.start_time is not None:
+        from datetime import time
+        import re
+        if not re.fullmatch(r'\d{2}:\d{2}(?::\d{2})?', r.start_time):
+            raise RecipeError('start_time must be a local clock time HH:MM or HH:MM:SS.')
+        try:
+            time.fromisoformat(r.start_time)
+        except ValueError:
+            raise RecipeError('start_time must be a valid local clock time, 00:00:00–23:59:59.') from None
+        if r.timing_anchor != 'takeoff':
+            raise RecipeError('start_time requires timing_anchor=takeoff; push/TOT timing owns the start clock.')
+    explicit_start = r.start_position is not None or r.start_altitude is not None or r.start_speed is not None
     if explicit_start:
         from .build_context import CREW_OPS_TEMPLATES, _scenario_templates
         tpl = _scenario_templates().get(r.template, {})
         if (r.start != 'air' or r.home_airbase == 'CARRIER' or r.cq_ride
                 or r.formation or r.template in CREW_OPS_TEMPLATES
                 or tpl.get('wk_ride') or tpl.get('formation')):
-            raise RecipeError('start_position/start_altitude require a normal airborne flight (start=air); fixed training and carrier starts own their placement.')
+            raise RecipeError('start_position/start_altitude/start_speed require a normal airborne flight (start=air); fixed training and carrier starts own their placement.')
     if r.start_position is not None:
         validate_position(r.start_position, 'start_position')
         from .map_bounds import check_position
         check_position(r.start_position, r.map, 'start_position')
     if r.start_altitude is not None and (not _number(r.start_altitude) or not 1 <= r.start_altitude <= 25000):
         raise RecipeError('start_altitude must be 1–25000 metres MSL; terrain clearance is the author\'s responsibility.')
+    if r.start_speed is not None and (not _number(r.start_speed) or not 1 <= r.start_speed <= 1000):
+        raise RecipeError('start_speed must be 1–1000 metres/second TAS; check the aircraft flight envelope.')
     if r.player_slot is not None:
         from .build_context import CREW_OPS_TEMPLATES, _scenario_templates
         tpl = _scenario_templates().get(r.template, {})
@@ -79,6 +92,12 @@ def validate_precision(r):
 
 
 def dated_setting(r, preset, era_cfg):
+    if r.allow_anachronistic_stores:
+        preset = {**preset, 'historical_classification': 'fictional_exercise',
+                  'historical_notes': [*preset.get('historical_notes', []),
+                    'Author enabled an intentional fictional equipment fit. The mission date is '
+                    'preserved; exact player stores bypass recorded weapon service windows. '
+                    'Station compatibility still applies. This is not a historical reconstruction.']}
     if r.mission_date is None:
         return preset
     from .historical_world import scenario_date
@@ -117,6 +136,11 @@ def apply_air_start(r, mission, group):
             u.alt_type = 'BARO'
         group.points[0].alt = r.start_altitude
         group.points[0].alt_type = 'BARO'
+    if r.start_speed is not None:
+        # Direct native properties are m/s. PyDCS waypoint helpers take km/h.
+        for u in group.units:
+            u.speed = r.start_speed
+        group.points[0].speed = r.start_speed
 
 
 def apply_map_view(r, mission):

@@ -5,7 +5,8 @@ Then open http://127.0.0.1:8000
 """
 import logging
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Query
+from typing import Literal
 
 from missiongen import Recipe, __version__
 from missiongen.recipe import Recipe, RECIPE_ENUMS
@@ -20,6 +21,19 @@ log = logging.getLogger("missionstarter")
 from .library_routes import _pack_templates, _published_tracks
 
 router = APIRouter()
+
+
+@router.get('/api/authoring-catalog')
+def authoring_catalog(kind: Literal['stores', 'loadouts', 'liveries'], aircraft: str = Query(max_length=80),
+                      era: str | None = Query(default=None, max_length=40),
+                      on: str | None = Query(default=None, max_length=10),
+                      query: str = Query(default='', max_length=200),
+                      limit: int = Query(default=20, ge=1, le=50), offset: int = Query(default=0, ge=0)):
+    from missiongen.authoring_catalog import catalog
+    try:
+        return catalog(kind, aircraft, era, on, query, limit, offset)
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 def _theme_mix(theme):
     """Flatten a ramp theme's weighted planes/large/helos lists into a default
@@ -72,6 +86,9 @@ def options():
     from missiongen.map_bounds import catalog_bounds
     maps = load_json("maps")
     eras = load_json("eras")
+    templates = load_json('mission_templates')
+    # Request-scoped immutable inputs: never cache the live pack/account stores.
+    historical_data = {'maps': maps, 'eras': eras, 'templates': templates}
     from missiongen.historical_world import preview, template_previews
     return {
         "version": __version__,
@@ -87,7 +104,7 @@ def options():
                                      "blue_country": p["blue_country"],
                                      "red_country": p["red_country"],
                                      "civilian_airbases": p.get("civilian_airbases", []),
-                                     "historical_context": preview(k, e)}
+                                     "historical_context": preview(k, e, data=historical_data)}
                                  for e, p in v["presets"].items()}}
                  for k, v in maps.items()},
         "eras": {k: {"label": v["label"], "window": v.get("window")}
@@ -112,7 +129,7 @@ def options():
                    # spans eras cannot pin one aircraft
                    "by_era": v.get("by_era") or {},
                    "by_map": v.get("by_map") or {},
-                   "historical_context": template_previews(k),
+                   "historical_context": template_previews(k, data=historical_data),
                    # per-era list of airframes this card is willing to fly.
                    # Formation training uses it so the Library can offer a
                    # choice instead of pinning one jet — the syllabus is
@@ -127,7 +144,7 @@ def options():
                    # quick: owned by the Quick Flight picker, hidden in Library
                    "quick": v.get("quick", False),
                           "library": v.get("library"), "default_map": v.get("default_map")}
-               for k, v in load_json("mission_templates").items()
+               for k, v in templates.items()
                # Pack reconciliation: a pack card only exists if its .miz
                # actually shipped. A deploy without packs/ (e.g. the core zip
                # alone) hides the cards instead of showing twelve broken

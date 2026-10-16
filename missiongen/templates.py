@@ -17,7 +17,7 @@ def templates() -> dict:
             if not k.startswith("_")}
 
 
-def effective_recipe(key: str, era: str, map_key: str = "") -> dict:
+def effective_recipe(key: str, era: str, map_key: str = "", *, catalog=None) -> dict:
     """The recipe a card really builds: base + per-era override + per-MAP override.
 
     Also carries `map` when the era override supplies one — a WWII card cannot
@@ -34,7 +34,7 @@ def effective_recipe(key: str, era: str, map_key: str = "") -> dict:
     both set the same field, the map wins, because the map is the more specific
     fact.
     """
-    tpl = templates().get(key) or {}
+    tpl = (templates() if catalog is None else catalog).get(key) or {}
     rc = dict(tpl.get("recipe") or {})
     rc.update(dict((tpl.get("by_era") or {}).get(era) or {}))
     rc["era"] = era

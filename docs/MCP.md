@@ -1,6 +1,6 @@
 # Sortie Starter MCP
 
-Guide release: **v1.121.1** · reviewed **2026-10-15**. This is a release snapshot;
+Guide release: **v1.122.0** · reviewed **2026-10-16**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
@@ -53,20 +53,37 @@ return structured JSON plus the SDK's text representation.
 
 | Tool | Input | Result |
 | --- | --- | --- |
-| `sortiestarter_list_catalog` | kind, query, era, map, limit, offset | Small summaries, total, has_more, next_offset |
-| `sortiestarter_get_catalog_item` | kind, key | Full metadata, historical context, presets/requirements |
+| `sortiestarter_list_catalog` | kind, query, era, map, aircraft, on, limit, offset | Small summaries, total, has_more, next_offset |
+| `sortiestarter_get_catalog_item` | kind, key, aircraft, era, on | Full metadata, historical context, presets/requirements |
 | `sortiestarter_get_recipe_schema` | none | Canonical types/defaults/enums, bounds, seat rules and engine/share versions |
 | `sortiestarter_validate_recipe` | recipe | Normalized fields/template defaults, share code, Builder URL |
 | `sortiestarter_generate_mission` | recipe | Actual native mission manifest and download links |
 | `sortiestarter_get_historical_references` | map, period, topic, on (YYYY-MM-DD) | Dated readings and source/profile/unit evidence; read-only |
 
 Catalog kinds: `maps`, `eras`, `aircraft`, `templates`, `carriers`, `tracks`,
-`courses`. Limit defaults to 20, maximum 50. Use `next_offset` to page. Aircraft
+`courses`, `stores`, `loadouts`, `liveries`. The last three require an exact
+`aircraft` catalog key; `loadouts` also requires `era`. Optional `on` is an
+equipment date (`YYYY-MM-DD`) inside that era. Preserve the same aircraft/era/date
+scope when retrieving an item. Limit defaults to 20, maximum 50. Use `next_offset` to page. Aircraft
 era filters use engine service windows; unrecorded service windows remain
 uncertified. Map filters inspect declared compatibility and carrier anchors;
 they cannot check which DCS modules a user owns. Track `published` indicates
 availability here. A pack template has `generatable: false` and a download URL.
 Do not pass `pack_` keys into mission generation.
+
+For exact stores, search `stores` with `aircraft`, `era`, `on` and a weapon-name
+`query`. Results list the exact CLSID, supported stations, recorded service window
+and whether that window fits the requested date. Out-of-window choices remain
+visible for deliberate fictional authoring. Unknown service dates are explicit.
+`loadouts` publishes generated role/weight presets, their station fits and the
+year used to resolve them; without `on`, that is the era's default year and may
+differ from a map/template date. Validate the final recipe before generating.
+`liveries` is a partial, source-backed inventory for the exact DCS model. An empty
+result means no IDs are verified in this inventory; guessed IDs from the
+unverified curated pack are excluded. It does not discover a client's installed
+skins or prove a historical unit assignment. Selection remains in the Mission
+Editor. The same paginated data is available at
+`/api/authoring-catalog?kind=stores&aircraft=F_14B_U&era=coldwar&on=1971-11-15`.
 
 Discovery examples:
 
@@ -128,12 +145,16 @@ Omit them to retain existing template behavior.
 | `start_position` | Airborne lead position: `{"lat":42.1,"lon":42.1}` in WGS84 decimal degrees, or `{"x":-296000,"y":653000}` in DCS theatre metres. Exactly one coordinate pair; inside the selected map bounds. Flight spacing is preserved. |
 | `mission_date` | Exact `YYYY-MM-DD` within the selected era. Overrides the authored/default date in the native file and historical context. Requires `timing_anchor: "takeoff"`; push/TOT timing can move the date. |
 | `start_altitude` | A finite number, **1–25000 metres MSL**, native BARO altitude. Applies to every aircraft and route point zero. Check terrain clearance in DCS; the generator has no terrain elevation query. |
+| `start_speed` | **1–1000 metres/second true airspeed**, not knots, km/h or indicated airspeed. Requires a normal airborne start. Sets every player-flight unit and route point zero. Convert knots × 0.5144444444; the author checks the aircraft's flight envelope. |
+| `start_time` | Exact **local** `HH:MM` or `HH:MM:SS`, 00:00:00–23:59:59. Overrides the time-of-day preset. Requires takeoff-anchored timing; push/TOT timing owns its start clock and is refused. Date is preserved. |
+| `player_stores` | Complete object mapping canonical station strings to exact CLSIDs from `stores`. All omitted stations stay empty; `{}` means clean; null/omission keeps presets. Applies to the whole player flight and replaces the preset completely. Requires `player_arm:true` and `player_fit:"auto"`; fixed training/crew fits are excluded. |
+| `allow_anachronistic_stores` | Default false. With an explicit `player_stores` fit, permits recorded weapon-year conflicts without changing the date. Labels historical context **fictional exercise** and reports conflicts. Never bypasses station membership checks. Unknown service history remains unverified. |
 | `player_slot` | `"player"` for a native solo Player, `"client"` for multiplayer Client aircraft, or null for existing automatic seating. Player requires exactly one human aircraft (`slots - veteran_wingmen == 1`). Client also works with one human. This selects native control type, not aircraft number or cockpit crew position. |
 | `map_view` | Object with optional `center` (same coordinate formats), `zoom` (1000–5000000 native DCS map units) and `visibility`: `all`, `allies`, `only_allies`, `my_aircraft` or `map_only`. Supply at least one. Saves map framing and sets forced F10 unit visibility; `map_layers` separately controls graphics. Client behavior may affect initial framing. |
 
-Position and altitude require `start: "air"`. Carrier, Case III, formation,
+Position, altitude and speed require `start: "air"`. Carrier, Case III, formation,
 crew-ops and White Knights starts own their geometry and reject conflicting
-position/altitude overrides. Fixed Case III, formation and crew flights also
+position/altitude/speed overrides. Fixed Case III, formation and crew flights also
 reject player-slot overrides. For a ground start, select `home_airbase` and
 `start`; exact parking stand selection is not added here.
 
@@ -166,17 +187,19 @@ complete validation contract. Tools keep their names and `params` envelopes,
 and results still include structured JSON plus serialized JSON text. The SDK's
 registered validation/output schemas are retained internally. Transport remains
 stateless Streamable HTTP with JSON responses; session/stream behavior is not
-changed in this test. App-side tool loading needs its own successful retest.
+unchanged. Grok Bot tool loading and a connector-initiated base mission build
+were verified on v1.121.1; this does not establish a DCS flight or a complete
+Phoenix training layer.
 
 ### Authoring capability boundaries
 
 | Requirement | Current behavior |
 | --- | --- |
-| Catalog | Maps, eras, aircraft, templates, carriers, tracks and courses. Loadout and livery catalogs are not exposed by MCP yet. Catalog presence is not proof of installed DCS modules or skins. |
-| Exact weapons | Stores follow the mission year. A fictional 1971 F-14 carrying 6 AIM-54A + 2 AIM-9M cannot be requested exactly today. `player_fit` and `player_load` choose supported role presets. There is no exact station-to-CLSID recipe field yet; unknown fields are rejected. Inspect the generated stores or edit the native mission. |
+| Catalog | Maps, eras, aircraft, templates, carriers, tracks, courses and aircraft-scoped stores/loadouts/liveries. Livery coverage is partial and source-backed. Catalog presence is not proof of installed DCS modules or skins. |
+| Exact weapons | `player_stores` accepts a complete station-to-CLSID fit. Known service windows are enforced unless `allow_anachronistic_stores:true` explicitly marks a fictional fit. Individual station membership is checked; every cross-station interference/weight/performance limit is not certified. |
 | Radio frequencies | `comms` accepts exact agency frequencies in MHz on the radio's 25 kHz raster. Both F-14 UHF sets receive the applicable ladder. Fixed Guard remains 243.000 MHz. |
 | Radio channel numbers | Fixed ladder: Flight 1, Carrier 2, AWACS 3, Tanker 4, Plane guard 5, CAP 6, Tactical 7, AEW 8 (or 3 without AWACS), Guard last on each set. Arbitrary channel assignments and independent per-radio plans are not recipe inputs yet. Absent agencies do not create transmitters. |
-| Start speed/clock | No exact speed or clock-time input yet. `time_of_day` chooses a preset; `timing_at` schedules push/TOT, not an arbitrary start clock. |
+| Start speed/clock | `start_speed` sets airborne TAS in m/s; `start_time` sets the exact local clock. `timing_at` still schedules push/TOT and is separate. |
 | Additional human flights | `slots`/`veteran_wingmen` configure one human flight. No second independently authored human flight (for example Colt) yet. |
 | Waypoints/country/flight name | No arbitrary waypoint list, country override or independent flight-name input. `callsign` selects a supported spoken callsign, not all three controls. |
 | Player/map | `player_slot: "player"`, `slots: 1`, `veteran_wingmen: 0` emits one solo Player aircraft. Set `map_view.center` to the start coordinates for saved map framing; this is not a runtime camera-follow command. |
@@ -191,9 +214,27 @@ Exact frequency example (agencies must be enabled to generate their stations):
 
 Do not invent fields such as `exact_stores`, `pylons` or `radio_channels` and
 assume they work. Fetch the canonical schema and inspect validation errors.
-The priorities for new authoring inputs are exact aircraft/station-compatible
-stores, explicit channel maps with both-radio readback, and searchable supported
-loadout/livery catalogs with availability/provenance caveats.
+Custom radio channel maps with both-radio readback, independent flights/routes
+and a bounded native training layer remain future authoring work.
+
+### Fictional Phoenix equipment example (1.122.0)
+
+Merge these inputs into the previously validated Syria recipe. This is an
+intentional fictional 1971 equipment fit, not evidence of 1971 service. Values
+come from the F-14B(U) stores catalog; no preset weapons or tanks are retained.
+
+```json
+{"start_speed":205.7777777778,"start_time":"09:17:23",
+ "player_stores":{
+   "1":"{LAU-138 wtip - AIM-9M}","2":"{SHOULDER AIM_54A_Mk47 L}",
+   "4":"{AIM_54A_Mk47}","5":"{AIM_54A_Mk47}",
+   "6":"{AIM_54A_Mk47}","7":"{AIM_54A_Mk47}",
+   "9":"{SHOULDER AIM_54A_Mk47 R}","10":"{LAU-138 wtip - AIM-9M}"},
+ "allow_anachronistic_stores":true}
+```
+
+The speed is approximately 400 knots TAS. This does not add Colt, drones,
+custom routes, triggers or DO-M documents. They remain downstream authoring work.
 
 Resources: `sortiestarter://recipe-schema` (JSON),
 `sortiestarter://historical-library` (JSON),
@@ -402,7 +443,8 @@ required controls are absent, report the gap and keep the author's pipeline.
 A generated fallback must be explicitly labelled as different. Turning off
 unwanted blocks is supported (`bb_awacs: false`, `bb_tanker: false`,
 `bb_ambient: false`, `bb_sams: false`); that does not supply missing flights,
-routes, targets, triggers, exact stores, speed or clock time. Native map framing
+routes, targets or triggers. Exact stores and start speed/clock are available
+through the explicit inputs above. Native map framing
 is a saved Editor/F10 center, not a cockpit camera-follow instruction.
 
 ### Error recovery

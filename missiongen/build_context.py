@@ -147,6 +147,9 @@ def prepare_world(builder: "StarterBuilder") -> WorldContext:
     preset = dated_setting(r, preset, era_cfg)
     when = scenario_date(preset, era_cfg)
     m.start_time = datetime(when.year, when.month, when.day, TIME_PRESETS[r.time_of_day], 0)
+    if r.start_time is not None:
+        from datetime import time
+        m.start_time = datetime.combine(when, time.fromisoformat(r.start_time))
     builder._mission = m
     builder._apply_weather(m)
 

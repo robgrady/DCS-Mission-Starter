@@ -5,6 +5,9 @@ from .resolver import load_json
 
 
 def resolve_fit(recipe, aircraft_id, *, year=None):
+    if getattr(recipe, 'player_stores', None) is not None:
+        from .authoring import explicit_fit
+        return explicit_fit(recipe, year=year)
     profile = recipe.player_fit
     if profile == "auto":
         return loadouts.player_loadout(aircraft_id, recipe.mission_kind,

@@ -48,6 +48,14 @@ def recipe_json_schema() -> dict:
         'description':'Exact airborne lead position. WGS84 lat/lon degrees OR DCS theatre x/y metres. Requires start=air. Ground parking and fixed training starts are excluded.'}
     schema['properties']['start_altitude'] = {'anyOf': [{'type':'number','minimum':1,'maximum':25000},{'type':'null'}],
         'default':None, 'description':'Airborne start altitude in metres MSL (BARO), not feet or AGL. Author must check terrain clearance. Requires start=air.'}
+    schema['properties']['start_speed'] = {'anyOf': [{'type':'number','minimum':1,'maximum':1000},{'type':'null'}],
+        'default':None, 'description':'Exact airborne start true airspeed in metres/second, not knots, km/h or IAS. Requires start=air and a normal player flight. Check flight envelope.'}
+    schema['properties']['start_time'] = {'anyOf': [{'type':'string', 'pattern':r'^([01][0-9]|2[0-3]):[0-5][0-9](:[0-5][0-9])?$'},{'type':'null'}],
+        'default':None, 'description':'Exact mission start local clock HH:MM or HH:MM:SS. Requires timing_anchor=takeoff. Does not shift the requested date.'}
+    schema['properties']['player_stores'] = {'anyOf': [{'type':'object','maxProperties':64,
+        'propertyNames':{'pattern':r'^(0|[1-9][0-9]{0,2})$'}, 'additionalProperties':{'type':'string','minLength':1}}, {'type':'null'}],
+        'default':None, 'description':'Complete player-flight station-to-CLSID fit, e.g. {"1":"CLSID"}. Omitted stations stay empty; {} is clean; null keeps presets. Discover exact aircraft/stations in the stores catalog. Requires player_arm=true and player_fit=auto. Fixed training fits are excluded. Checks individual station lists, not every physical multi-store constraint.'}
+    schema['properties']['allow_anachronistic_stores']['description'] = 'Explicit fictional-fit override for recorded weapon service windows, only with player_stores. Preserves mission date, labels historical context fictional and reports conflicts. Never bypasses station compatibility.'
     schema['properties']['player_slot']['description'] = 'Native DCS player/client control. Null preserves automatic solo/multiplayer seating. player requires one human aircraft; client allows a single multiplayer client.'
     from missiongen.precision import VIEWS
     schema['properties']['map_view'] = {'anyOf': [

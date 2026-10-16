@@ -1,12 +1,13 @@
 {
-  "version": "1.121.1",
+  "version": "1.122.0",
   "documentation_required": true,
-  "reason": "Document direct MCP routing with and without a trailing slash, while preserving original-path diagnostics and separating app acceptance from direct server checks.",
+  "reason": "Document exact stores, explicit fictional equipment-year overrides, speed/time units, scoped authoring catalogs and loading feedback with preserved early navigation.",
   "sections_reviewed": [
+    "The four doors and startup loading",
     "Missions through an AI assistant (MCP)",
-    "MCP connection setup and troubleshooting",
-    "Admin MCP connection diagnostics"
+    "Exact authoring units and fixed-training exclusions",
+    "Catalog evidence and capability boundaries"
   ],
-  "source_sha256": "313b37488d58b6003dd558f14330e61a3397580d10c78c3735f390b0461f78e3",
-  "previous_source_sha256": "a1ce843ca00b71ce080a8ab521381f00f26e22066c8a704d0cd109eea953aeeb"
+  "source_sha256": "7fa28fec9ce92cee2567124f5c6c7be345fc722e48d7204a4d6f0e804d218db6",
+  "previous_source_sha256": "313b37488d58b6003dd558f14330e61a3397580d10c78c3735f390b0461f78e3"
 }

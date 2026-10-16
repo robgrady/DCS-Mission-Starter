@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.122.0] — Exact flight authoring and faster page startup
+
+- Add optional exact airborne start speed (m/s TAS), local start clock and complete station-to-CLSID player fits. Enforce station membership and recorded weapon service windows; an explicit fictional-fit override preserves the date and labels historical context accordingly. Read back six AIM-54As plus two AIM-9Ms on the fictional 1971 example, with no preset stores retained.
+- Extend the existing six MCP tools with aircraft-scoped, paginated stores/loadouts/liveries and a matching HTTP catalog. Publish station lists and service-year status; restrict livery results to source-backed exact-model IDs and state partial coverage. Preserve compact tool discovery and canonical validation.
+- Remove repeated JSON loading from historical catalog previews and reuse browser Library projections until metadata changes. Show loading feedback and preserve navigation selected before mission options finish loading, avoiding early-click errors. Keep live published packs fresh on each catalog request.
+- Update the agent guide, roadmap and User Manual. Independent flights/routes, custom radio channel maps and authored training logic remain separate work; no simulator flight certification is implied.
+
 ## [1.121.1] — Direct MCP routing with or without a trailing slash
 
 - Serve `/mcp` and `/mcp/` through the same SDK transport without an HTTP redirect. Preserve method, request body, query, protocol/security checks and Fly owner routing. This supports hosts that normalize saved URLs by dropping their trailing slash.

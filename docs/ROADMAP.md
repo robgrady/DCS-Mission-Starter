@@ -32,14 +32,21 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.122.0** adds exact start speed/clock, complete station fits with an explicit
+fictional equipment-year override, and aircraft-scoped stores/loadouts/liveries.
+Livery coverage remains partial and source-backed; station membership does not
+certify every combined fit. Page startup reuses historical input snapshots,
+caches unchanged browser catalog projections and preserves early navigation.
+
 **v1.121.1** accepts both `/mcp` and `/mcp/` without redirects, preserving
 SDK security and original-path diagnostics. This addresses hosts that remove
-the saved URL’s trailing slash. App-side acceptance remains a separate check.
+the saved URL’s trailing slash. Grok Bot subsequently loaded all six tools and
+generated the submitted base recipe through the connector on October 16.
 
 **v1.121.0** fixes the Syria/reversed-rectangle position failure, checks positions
 against the same published map authoring envelope in validation and generation,
-and adds bounded Admin MCP connection diagnostics. App tool loading is still
-unresolved; use server request evidence and app logs before changing transport.
+and adds bounded Admin MCP connection diagnostics. Native mission checks and
+app tool loading are separately verified; DCS flight remains unverified.
 
 ### Phoenix authoring priorities
 
@@ -47,12 +54,13 @@ unresolved; use server request evidence and app logs before changing transport.
    center, shared validation and published envelope/provenance for all maps.
    This does not certify terrain detail, ground clearance or the user's exact
    Phoenix recipe without its coordinates.
-2. **Exact single-flight authoring (next):** explicit start speed in declared
-   units, exact local start clock, legal per-station stores, loadout/livery
+2. **Exact single-flight authoring (shipped in 1.122.0):** explicit start speed in declared
+   units, exact local start clock, listed per-station stores, loadout/livery
    catalogs and intentional historical overrides. Preserve the exact date and
    flag a fictional/anachronistic fit instead of quietly rewriting the year.
-   Acceptance requires saved native speed/time and 6 AIM-54A + 2 AIM-9M readback
-   on an explicitly fictional 1971 fit, plus both-radio channel checks.
+   Native checks cover saved speed/time and 6 AIM-54A + 2 AIM-9M readback
+   on an explicitly fictional 1971 fit, plus both-radio channel checks. Broader
+   livery inventories and combined-fit/simulator certification remain open.
 3. **Flight composition:** independent human flight (Colt), country and flight
    name controls, authored waypoint lists. Validate aircraft/country/route
    compatibility, preserve one Player across the mission, use Client for other
@@ -64,11 +72,11 @@ unresolved; use server request evidence and app logs before changing transport.
 
 **v1.120.1** publishes compact MCP discovery without output schemas, unions or
 conditional rules, preserving canonical validation and structured results. The
-remaining MCP authoring priorities are exact station-compatible stores, custom
-channel assignments verified on both F-14 radios, and searchable supported
-loadout/livery catalogs with installation and historical-provenance caveats.
+remaining MCP authoring priorities are custom channel assignments verified on
+both F-14 radios, independent flights/routes and the bounded training layer.
 These capabilities are planned, not current recipe controls. App connector
-acceptance still requires its own successful retest.
+acceptance was subsequently verified on v1.121.1; each release still needs its
+own direct transport/build checks.
 
 **v1.120.0** adds exact airborne position/altitude, mission date, native Player/Client
 control and saved map framing/F10 visibility to agent/API recipes. Inline MCP

@@ -313,8 +313,14 @@ def place_player(builder: StarterBuilder, ctx: WorldContext, carrier: CarrierPla
         if r.player_arm:
             from ..scenario_payloads import resolve_fit
             fit = resolve_fit(r, aircraft.id, year=m.start_time.year)
-            label = loadouts.apply_fit(player_group, fit, aircraft.id,
-                                       self.warnings)
+            if r.player_stores is not None:
+                from ..authoring import apply_explicit
+                apply_explicit(player_group, fit)
+                self.warnings.extend(fit.get('warnings', []))
+                label = fit['label']
+            else:
+                label = loadouts.apply_fit(player_group, fit, aircraft.id,
+                                           self.warnings)
             if label:
                 stats["player_loadout"] = label
                 stats["player_loadout_role"] = loadouts.KIND_ROLE.get(

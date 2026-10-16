@@ -271,9 +271,8 @@ def test_the_view_change_event_exists_because_ga_cannot_see_it_otherwise():
     """GA4's automatic page_view fires once, on load. This app never navigates
     again — Library, Fly Now and Builder are the same document — so without an
     explicit event two of the three doors are invisible in the reports."""
-    src = ui_source()
-    i = src.index("function showView(v,")
-    assert "ga('view_change', {view: v})" in src[i:i + 600]
+    from test_mission_kit_wiring import function
+    assert "ga('view_change', {view: v})" in function('showView')
 
 
 def test_the_old_track_helper_still_feeds_both_ledgers():

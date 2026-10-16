@@ -743,3 +743,31 @@ and forced F10 visibility; map_layers controls graphics. All five are optional
 and survive shared Builder recipes, with no dedicated Builder controls yet.
 Native readback and SDK guards: tests/test_precision_recipe.py. Simulator flight
 and a particular app connector's tool loading remain separate evidence gates.
+
+### Exact fits, clocks and catalog startup (v1.122.0)
+
+`authoring.py` validates complete `player_stores` fits and applies them strictly,
+clearing prior stores before placement and checking the retained fit. A missing
+fit preserves presets; `{}` means clean. `allow_anachronistic_stores` permits
+only recorded service-year conflicts, preserving the date and marking historical
+context fictional; it never bypasses individual station membership. This does not
+certify every combined-store interference/weight/performance constraint.
+`precision.py` owns airborne `start_speed` in native m/s TAS; PyDCS waypoint
+helpers still take km/h. `start_time` is a local clock, applied during world
+resolution and refused with push/TOT timing. Preserve all advanced fields in
+`RECIPE_ENGINE_FIELDS` when adding inputs without Builder controls.
+
+`authoring_catalog.py` supplies paginated aircraft-scoped stores, generated
+role/weight loadouts and partial source-backed exact-model livery IDs through
+HTTP and the existing MCP tools. Do not expose unverified guessed skin IDs as
+supported inventory. Catalog membership does not establish client installation,
+operator availability or a historically correct assignment.
+
+`options()` passes a single request-scoped historical input snapshot through
+`preview`/`template_previews`; never reread the full template/map/era JSON inside
+each combination. Keep live pack stores uncached. Browser `libItems()` reuses a
+projection only while its complete metadata signature is unchanged, including
+nested collection requirements. Early navigation waits for `NAV_READY`, retains
+the selected door and displays status. Tests: `test_exact_authoring.py`,
+`test_catalog_performance.py` and the delayed-response browser regression in
+`test_refactor_browser.py`. Mutation proof: `scripts/mutate_exact_authoring.py`.

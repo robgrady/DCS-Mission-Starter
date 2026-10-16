@@ -55,7 +55,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
 // Engine settings without Builder controls must survive opening a shared
 // recipe. Do not add their defaults to a template recipe: omission lets the
 // template supply its own defaults on the server.
-const RECIPE_ENGINE_FIELDS = ['mission_date','start_position','start_altitude','player_slot','map_view','lineup','coach_gates','coach_ring','cq_ride',
+const RECIPE_ENGINE_FIELDS = ['mission_date','start_position','start_altitude','start_speed','start_time','player_stores','allow_anachronistic_stores','player_slot','map_view','lineup','coach_gates','coach_ring','cq_ride',
   'formation','tanker_type','bb_branding','bb_dtc','bb_bfm','bfm_setup',
   'target_packages','published_corridors','check_ride','player_fit'];
 
@@ -251,6 +251,7 @@ function refreshCallsign(){
 
 let OPT = null;
 let NAV_READY = false;
+let PENDING_VIEW = null;
 let CURRENT_VIEW = 'entry';
 
 function cardState(c){
@@ -517,12 +518,13 @@ window.addEventListener('resize', syncGenbarHeight);
 
 async function init(){
   const loadError=document.getElementById('loaderror'), retry=document.getElementById('loadretry');
+  document.getElementById('loadstatus').hidden=false;
   retry.disabled=true; loadError.hidden=true;
   try{
     const res=await fetch('/api/options', {cache:'no-store'});
     if(!res.ok) throw new Error('Options request failed');
     OPT=await res.json();
-  } catch(e){ loadError.hidden=false; retry.disabled=false; return; }
+  } catch(e){ document.getElementById('loadstatus').hidden=true; loadError.hidden=false; retry.disabled=false; return; }
   if (OPT.version) document.getElementById('appver').textContent = 'v' + OPT.version;
   initGfxUI();
   initCommUI();
@@ -671,7 +673,9 @@ async function init(){
   // a share code still outranks it and lands in the Builder as always
   const vparam = new URLSearchParams(location.search).get('v');
   NAV_READY=true;
-  showView(code ? 'builder' : normalizeView(vparam), 'replace');
+  document.getElementById('loadstatus').hidden=true;
+  showView(code ? 'builder' : (PENDING_VIEW || normalizeView(vparam)), 'replace');
+  PENDING_VIEW=null;
   const savedPack=new URLSearchParams(location.search).get('pack');
   if(CURRENT_VIEW==='library' && savedPack && libFind('pack_'+savedPack))openDetail('pack_'+savedPack);
   if (shareError){
@@ -1704,6 +1708,11 @@ function writeNavigation(v, screen, mode='push'){
   history[mode==='replace'?'replaceState':'pushState']({view:v,screen},'',url);
 }
 function showView(v, historyMode='push'){
+  if(!NAV_READY){
+    PENDING_VIEW=normalizeView(v);
+    document.getElementById('loadstatus').textContent='Loading mission options… Your selection will open when ready.';
+    return;
+  }
   v=normalizeView(v); CURRENT_VIEW=v;
   writeNavigation(v,CUR_SCREEN,historyMode);
   const build=v==='builder';
