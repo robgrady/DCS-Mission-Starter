@@ -165,6 +165,10 @@ def place_routes(builder: StarterBuilder, ctx: WorldContext, gfx: dict, player: 
                 _t2.actions.append(
                     _A2.SetActiveHelperGateToPoint(_me_id, _wp))
                 m.triggerrules.triggers.append(_t2)
+    if r.waypoints is not None:
+        from ..authored_route import apply
+        route_rows = apply(builder, ctx, player)
+        return RoutePlacement(_wk_ride, _wk_rows, _cq_rows, route_rows)
     wants_route = (not _wk_ride) and (bool(getattr(r, "bb_route", False)) or (
         r.template and _scenario_templates().get(r.template, {}).get("route") == "strike"))
     if player_group is not None and wants_route and gfx["targets"]:

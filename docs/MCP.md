@@ -1,6 +1,6 @@
 # Sortie Starter MCP
 
-Guide release: **v1.122.0** · reviewed **2026-10-16**. This is a release snapshot;
+Guide release: **v1.123.0** · reviewed **2026-10-25**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
@@ -201,7 +201,8 @@ Phoenix training layer.
 | Radio channel numbers | Fixed ladder: Flight 1, Carrier 2, AWACS 3, Tanker 4, Plane guard 5, CAP 6, Tactical 7, AEW 8 (or 3 without AWACS), Guard last on each set. Arbitrary channel assignments and independent per-radio plans are not recipe inputs yet. Absent agencies do not create transmitters. |
 | Start speed/clock | `start_speed` sets airborne TAS in m/s; `start_time` sets the exact local clock. `timing_at` still schedules push/TOT and is separate. |
 | Additional human flights | `slots`/`veteran_wingmen` configure one human flight. No second independently authored human flight (for example Colt) yet. |
-| Waypoints/country/flight name | No arbitrary waypoint list, country override or independent flight-name input. `callsign` selects a supported spoken callsign, not all three controls. |
+| Waypoints | `waypoints` accepts an ordered exact single-flight route; see the contract below. No executable waypoint tasks. |
+| Country/flight name | No country override or independent flight-name input. `callsign` selects a supported spoken callsign. |
 | Player/map | `player_slot: "player"`, `slots: 1`, `veteran_wingmen: 0` emits one solo Player aircraft. Set `map_view.center` to the start coordinates for saved map framing; this is not a runtime camera-follow command. |
 | Cartridge/kit | Native cartridge integration is currently specific to supported F-14B(U) DTM data. The kit includes only artifacts actually produced; inspect manifest files/warnings. It does not synthesize a cartridge format for every DCS module. |
 | Training/DO-M layer | The download is the generated base mission and available brief/comms/kneeboard/cartridge artifacts. Agent-authored training and DO-M documents are a separate downstream authoring step; archive the original `.miz`. |
@@ -214,8 +215,54 @@ Exact frequency example (agencies must be enabled to generate their stations):
 
 Do not invent fields such as `exact_stores`, `pylons` or `radio_channels` and
 assume they work. Fetch the canonical schema and inspect validation errors.
-Custom radio channel maps with both-radio readback, independent flights/routes
+Custom radio channel maps with both-radio readback, independent flights
 and a bounded native training layer remain future authoring work.
+
+### Exact single-flight routes (1.123.0)
+
+Fetch the canonical recipe schema before authoring. Compact discovery documents
+`waypoints` and `map_view` as open objects; runtime validation remains strict.
+`waypoints` is null/omitted by default; an authored list must contain 1–32
+points, **excluding the separate start and optional recovery**. Each point needs
+unique `id` (1–40 ASCII letters/digits/underscore/hyphen), unique `name` (1–24
+characters, no control characters or surrounding whitespace), `position`,
+`altitude` (**metres MSL/BARO**, 1–25000), and `speed` (**m/s TAS**, 1–1000).
+Position uses exactly WGS84 decimal lat/lon or local DCS x/y metres. Optional
+`purpose` is transit/rendezvous/ip/target/egress and adds **no actions or targets**.
+`RECOVERY` (name) and `recovery` (ID) are reserved. Coordinate envelopes are checked during validation and
+again on generation. There is no terrain-elevation clearance service.
+
+```json
+{"bb_route":false,"waypoints":[
+  {"id":"join","name":"JOIN","position":{"lat":33.7,"lon":31.8},
+   "altitude":12192,"speed":205.7777777778,"purpose":"rendezvous"},
+  {"id":"exit","name":"EXIT","position":{"lat":33.9,"lon":32.0},
+   "altitude":9144,"speed":200,"purpose":"egress"}
+],"route_recovery":"home"}
+```
+
+Omit `route_recovery`/use null to finish at the last point; `home` adds a home
+field/carrier landing point; otherwise provide an exact map airfield name.
+Airfield names and projected schematic coordinates are available from
+`POST /api/route-preview` with `{"map":"syria","positions":[]}` (at most 32
+positions). This helper does not generate missions or validate a whole recipe.
+Recovery does not certify field access, terrain clearance or an instrument
+approach. Caller-chosen waypoints do not move generated targets to their labels.
+
+An authored route replaces ordinary template transit routing and conflicts with
+`bb_route:true`. Fixed Case III, formation, White Knights and crew-operation
+routes reject overrides. Use takeoff timing; timing_at, holds, timing_coach and
+timing_package are excluded. The native points retain requested altitude/speed
+and advisory unlocked ETA estimates without wind/climb allowance. No actions,
+triggers, F10 items or additional flights are inferred. An authored route is
+labelled as historically unverified; reconstruction context becomes adaptation.
+
+The kit `navigation.json` includes stable IDs, purposes, exact native units,
+requested positions and native readback. Complete routes paginate in brief and
+kneeboard documents; supported F-14B(U) cartridges carry route coordinates.
+Aircraft-specific navigation capacity and cartridge altitude behavior require
+DCS verification. This release does not provide guided routing, AGL/MGRS entry,
+per-flight routes or arrival-time constraints.
 
 ### Fictional Phoenix equipment example (1.122.0)
 
@@ -443,7 +490,7 @@ required controls are absent, report the gap and keep the author's pipeline.
 A generated fallback must be explicitly labelled as different. Turning off
 unwanted blocks is supported (`bb_awacs: false`, `bb_tanker: false`,
 `bb_ambient: false`, `bb_sams: false`); that does not supply missing flights,
-routes, targets or triggers. Exact stores and start speed/clock are available
+targets or triggers. Exact routes, stores and start speed/clock are available
 through the explicit inputs above. Native map framing
 is a saved Editor/F10 center, not a cockpit camera-follow instruction.
 

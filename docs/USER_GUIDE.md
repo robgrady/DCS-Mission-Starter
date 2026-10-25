@@ -2,12 +2,12 @@
 
 **Select, don't search.** Get a living DCS mission with period-inspired settings in under a
 minute — no editor, no Lua. We set the stage, you write the play: you are never
-handed a flight plan you did not ask for — and there is no waypoint editor,
-because none is needed. Waypoints appear only where the mission itself calls
+handed a flight plan you did not ask for. Author an exact route when you want
+to plan it yourself. Waypoints appear only where the mission itself calls
 for them: a routed strike (the strike templates), a curated training ride
 whose printed syllabus IS the flight plan (the White Knights rides carry the
 squadron's own route, because the route is the lesson), or the **Automatic
-waypoints** tickbox you switch on yourself.
+waypoints** tickbox you switch on yourself, or an **authored route** you enter in Builder.
 
 ## The four doors
 
@@ -393,12 +393,50 @@ Blue Diamonds) and **E-2 Hawkeye** AEW orbit covering the force.
 The F-4E training rides are a separate course; these F-14 crew-command
 features do not apply to the Phantom.
 
-Templates are one of the three places waypoints appear (the AI pilot needs
+Templates are one of the places waypoints appear (the AI pilot needs
 steerpoints to fly). The second is a **curated training ride** — the White
 Knights rides carry the squadron's own route automatically, since flying that
 exact ground track is the lesson. The third is **Automatic waypoints**, the
 tickbox on the Targets screen — off unless you turn it on, and it builds
 WP1 → IP → TARGET → home with a kneeboard leg card to fly it off.
+
+### Authoring your flight plan (v1.123.0)
+
+Open **Builder → Support & presentation → Your flight plan** and choose
+**Author an exact route**. Add up to 32 waypoints after the aircraft start.
+Select a numbered marker or list row to edit its name, coordinates, altitude
+and speed. Click the schematic or drag a marker to move the selected point.
+Use **Move up**, **Move down**, **Delete point** and **Undo** to revise it.
+Choose **Fit route** to zoom around your points or **Show theatre** to return.
+The schematic loads only when needed and shows airfields and the map's
+coordinate envelope; it contains no terrain, threats or historical boundaries.
+Changing the map retains your coordinates; review any out-of-bounds errors.
+Builder context changes retain your route; opening another Library mission
+replaces the recipe.
+
+Builder displays **feet MSL** and **knots TAS**. Coordinates accept decimal
+latitude/longitude or DCS theatre metres (X north, Y east). The API/MCP stores
+altitude in **metres MSL/BARO** and speed in **metres per second TAS**. AGL,
+MGRS entry and IAS conversion are not included in this release. The start
+point remains separate; adding a route does not set your starting position.
+
+Choose **End at last waypoint**, **Recover at home** (airfield or carrier), or a
+named map airfield. Recovery adds a native landing point; it does not design
+an instrument approach, grant access to an enemy field or check carrier sea room.
+Purpose labels (Transit, Rendezvous, Initial point, Target reference, Egress)
+add no tasks, target groups or triggers. Fixed training routes reject overrides. Author-defined routes are labelled as
+not historically source-verified; a reconstruction becomes an adaptation.
+Custom points replace template transit routing and require Automatic waypoints
+to be off. Guided route generation is a later feature.
+
+Routes survive share links, local restore and saving the recipe to My missions.
+The mission, downloadable navigation data, brief and paginated kneeboard carry
+the authored route. Supported F-14B(U) cartridges carry route coordinates;
+aircraft-specific navigation capacity and cartridge altitude loading still
+require DCS verification. Waypoint ETAs are advisory estimates from distance
+and requested TAS, excluding wind/climb allowance; no automatic timing coach,
+package or arrival-time locks are added. Review terrain clearance and aircraft
+performance in DCS. Existing missions keep their previous routing by default.
 
 ### Uploading an authored mission pack
 
@@ -530,7 +568,7 @@ what survived. This connection does not place files in its ATO.
 Exact radio **frequencies** are already supported through `comms`, and the
 applicable plan is programmed into both F-14 UHF radios. Channel numbers follow
 the fixed ladder; custom channel assignments are not recipe controls yet. An
-independent second human flight, arbitrary waypoints, country/flight naming and
+independent second human flight, country/flight naming and
 custom enemy groups/triggers/F10 menus remain outside the published recipe.
 `player_fit`/`player_load` still select presets when no exact fit is supplied.
 Check the agent guide's

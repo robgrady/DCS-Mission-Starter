@@ -79,6 +79,9 @@ class MissionBriefing:
                 "",
                 f"Recovering aboard: {where}",
             ]
+        elif stats.get("route_mode") == "authored":
+            from ..authored_route import brief_lines
+            lines += brief_lines(stats["route_legs"]) + ["", f"Home plate: {where}"]
         else:
             lines += [
                 "This is a STARTER, not a scripted mission: the theater is dressed, air",

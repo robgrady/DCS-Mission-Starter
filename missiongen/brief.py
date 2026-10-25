@@ -192,7 +192,12 @@ def _smea(ctx):
                       "ground, and most of it is optically aimed.")
 
     tgt_labels = [t for t in stats.get("targets", [])]
-    if stats.get("route"):
+    if stats.get("route_mode") == "authored":
+        mission = (f"Fly your authored route ({len(stats['authored_waypoints'])} points; full plan follows). "
+                   "Purpose labels are planning references; they add no targets or tasks. "
+                   "ETAs are advisory estimates without wind or climb allowance. "
+                   "Review terrain clearance and recovery access in DCS.")
+    elif stats.get("route"):
         mission = (f"Conduct a routed strike: {stats['route']}. "
                    f"Your flight plan is loaded — fly the black line, hit your "
                    f"TOT. The route is a starting point, not an order: the "
@@ -857,6 +862,9 @@ def brief_markdown(ctx, comms, nav_points, qnh_hpa):
         if stats.get("timing_coach_triggers"):
             L.append("The timing coach grades wheels-up, WP1, IP and TARGET "
                      "in-mission and opens a scorecard a minute after the target.")
+    if stats.get("route_mode") == "authored":
+        from .authored_route import brief_lines
+        L += ["", "## Authored flight plan", "", "```"] + brief_lines(stats["route_legs"]) + ["```", ""]
     if stats.get("historical_context"):
         h = stats["historical_context"]
         from .historical_world import CLASSIFICATIONS
@@ -897,16 +905,16 @@ def page_nttr_chart(plan):
     return img
 
 
-def pages_historical(ctx, lines):
+def pages_historical(ctx, lines, title="HISTORICAL CONTEXT"):
     """Paginate evidence and limitations without truncating long source URLs."""
     pages = []
-    img, d, f = _page("HISTORICAL CONTEXT", ctx['map_label'])
+    img, d, f = _page(title, ctx['map_label'])
     y = 210
     for paragraph in lines:
         for line in _wrap(d, f['small'], paragraph, W - 120):
             if y > H - 150:
                 pages.append(img)
-                img, d, f = _page("HISTORICAL CONTEXT", ctx['map_label'])
+                img, d, f = _page(title, ctx['map_label'])
                 y = 210
             d.text((60, y), line, font=f['small'], fill=INK)
             y += 34
@@ -934,6 +942,9 @@ def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
         page_comms_nav(ctx, comms, nav_points, qnh),
         page_airfield_guide(ctx),
     ]
+    if ctx["stats"].get("route_mode") == "authored":
+        from .authored_route import brief_lines
+        pages.extend(pages_historical(ctx, brief_lines(ctx["stats"]["route_legs"]), "AUTHORED FLIGHT PLAN"))
     if kb_ctx.get("nttr_plan"):
         # The NTTR corridor chart: the road this mission flies, on the
         # airspace it flies through (nttr_chart.py).

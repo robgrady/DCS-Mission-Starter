@@ -92,6 +92,12 @@ def validate_precision(r):
 
 
 def dated_setting(r, preset, era_cfg):
+    if getattr(r, 'waypoints', None) is not None:
+        preset = {**preset, 'historical_classification': ('historically_inspired_adaptation'
+            if preset.get('historical_classification') == 'reconstruction'
+            else preset.get('historical_classification', 'historically_inspired_adaptation')),
+            'historical_notes': [*preset.get('historical_notes', []),
+                'Author-defined route is not historically source-verified. Historical overlays remain reference; waypoint labels do not establish historical operations.']}
     if r.allow_anachronistic_stores:
         preset = {**preset, 'historical_classification': 'fictional_exercise',
                   'historical_notes': [*preset.get('historical_notes', []),

@@ -108,6 +108,8 @@ def discovery_recipe_schema():
     # Keep discovery small as the contract grows. Canonical schema owns detailed
     # prose; retain unit/override semantics here so a loader cannot guess units.
     descriptions = {
+        'waypoints': 'Ordered route after start; altitude=metres MSL, speed=m/s TAS. Read canonical schema; advisory ETA, no tasks.',
+        'route_recovery': 'With waypoints: omit=end at last point; home or exact map airfield name adds landing.',
         'start_position': 'Airborne WGS84 lat/lon degrees OR DCS x/y metres.',
         'start_altitude': 'Airborne metres MSL/BARO; check terrain clearance.',
         'start_speed': 'Airborne TAS in metres/second, not knots or IAS.',
@@ -123,6 +125,13 @@ def discovery_recipe_schema():
         prop.pop('description', None)
         if name in descriptions:
             prop['description'] = descriptions[name]
+    # Nested routes are published in full by get_recipe_schema. Keeping their
+    # item schema open here bounds discovery for hosts with small tool budgets;
+    # RecipeInput and Recipe retain the strict canonical/runtime validation.
+    schema['properties']['map_view'] = {'type': 'object',
+        'description': 'Optional center (lat/lon or x/y), zoom, visibility. Read canonical schema for bounds/enums.'}
+    schema['properties']['waypoints'] = {'type': 'array', 'maxItems': 32,
+        'items': {'type': 'object'}, 'description': 'Ordered points: id, name, position, altitude (m MSL), speed (m/s TAS). Read get_recipe_schema first.'}
     return schema
 
 

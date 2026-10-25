@@ -1,13 +1,13 @@
 {
-  "version": "1.122.0",
+  "version": "1.123.0",
   "documentation_required": true,
-  "reason": "Document exact stores, explicit fictional equipment-year overrides, speed/time units, scoped authoring catalogs and loading feedback with preserved early navigation.",
+  "reason": "Document Builder and MCP exact routes, units, recovery, schematic scope, persistence and native/simulator limitations.",
   "sections_reviewed": [
-    "The four doors and startup loading",
-    "Missions through an AI assistant (MCP)",
-    "Exact authoring units and fixed-training exclusions",
-    "Catalog evidence and capability boundaries"
+    "Introduction and explicit route opt-in",
+    "Template/automatic routes and new flight-plan editor",
+    "MCP exact authoring capability boundaries",
+    "Mission Kit, cartridge and simulator verification"
   ],
-  "source_sha256": "7fa28fec9ce92cee2567124f5c6c7be345fc722e48d7204a4d6f0e804d218db6",
-  "previous_source_sha256": "313b37488d58b6003dd558f14330e61a3397580d10c78c3735f390b0461f78e3"
+  "source_sha256": "16fffc44f6c60bb7da77afeefc1a8ac8a7fd2a19153763e3e3343af1a6027f3d",
+  "previous_source_sha256": "7fa28fec9ce92cee2567124f5c6c7be345fc722e48d7204a4d6f0e804d218db6"
 }

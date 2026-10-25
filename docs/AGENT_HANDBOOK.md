@@ -771,3 +771,21 @@ nested collection requirements. Early navigation waits for `NAV_READY`, retains
 the selected door and displays status. Tests: `test_exact_authoring.py`,
 `test_catalog_performance.py` and the delayed-response browser regression in
 `test_refactor_browser.py`. Mutation proof: `scripts/mutate_exact_authoring.py`.
+
+### Authored routes (v1.123.0)
+
+`authored_route.py` owns `waypoints` and `route_recovery`, validation and exact
+placement in the route phase. Start geometry stays separate. Inputs use metres
+MSL/BARO and m/s TAS; PyDCS add_waypoint still receives km/h. Templates cannot
+append automatic transit points to an explicit route. Fixed training routes
+refuse overrides. Purposes are metadata, never executable tasks or target placement.
+The same leg facts feed native unlocked ETAs, navigation.json and complete,
+paginated document lines. F-14B(U) cartridge route support remains coordinates;
+altitude/capacity requires cockpit verification. Defaults preserve old missions.
+The schematic endpoint is lazy, map-bounded and independent of mission generation;
+never add it to the home page options load. `route-editor.js` retains exact imported
+altitude/speed when editing unrelated fields and keeps state in engineSettings.
+The compact MCP discovery publishes open nested waypoint/map_view objects to fit
+the existing tool-list budget; canonical schema and runtime constraints stay strict.
+Guards: test_authored_route.py, test_authored_route_browser.py; fault injection:
+`scripts/mutate_authored_route.py <evidence-dir>`.

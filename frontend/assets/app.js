@@ -26,7 +26,7 @@ const BLOCKS = [
   ["bb_farps","Functional FARPs","Pads + fuel/ammo/command/comms so rearm-refuel works (helo eras)", false, "sup_air"],
   ["bb_targets","Strike target packages","Depot / convoy / C2 site placed in the enemy rear with trigger zones", false, "sup_tgt"],
   ["bb_range","Practice range","Bombing ring + strafe line in the friendly rear", false, "sup_tgt"],
-  ["bb_route","Automatic waypoints","Build a flight plan to the target and back — WP1 &rarr; IP &rarr; TARGET &rarr; home, on the F10 map, in the jet's nav system and on a kneeboard leg card. On Nevada the plan flies the Nellis corridors (FLEX, Sally, Alamo, FYTTR, the recoveries); on Syria the Levant roads (the coast and the Bekaa, J14 and Hermon, Akrotiri's SIDs, W74 out of Incirlik, L200 to Al-Tanf); on Cold War Germany the Central Region of 1985 (the ADIZ, the HAWK belt's transit routes to the Fulda Gap and Helmstedt, the Berlin corridors, the GDR's own flight lines &mdash; either side of the line) &mdash; see the corridor charts: <a href='/api/corridors/nevada/chart.svg' target='_blank' rel='noopener'>NTTR</a> &middot; <a href='/api/corridors/syria/chart.svg' target='_blank' rel='noopener'>Levant</a> &middot; <a href='/api/corridors/germany/chart.svg' target='_blank' rel='noopener'>Central Region</a>. Needs a target package. Off by default: normally we set the stage and you write the play.", false, "sup_tgt"],
+  ["bb_route","Automatic waypoints","Generate a target route and recovery. Needs a target package. Uses available corridor plans; <a href='/api/historical-coverage/report' target='_blank' rel='noopener'>check historical coverage</a>.", false, "sup_tgt"],
   ["bb_comms","Comms card","Non-conflicting freq/TACAN plan in briefing", true, "sup_brief"],
   ["bb_briefing","Starter briefing","Situation + contents summary", true, "sup_brief"],
   ["bb_kneeboard","Nav chart kneeboard","Comms card, airfield data + theater overview pages in the jet", true, "sup_brief"],
@@ -55,7 +55,7 @@ const RECIPE_DEFAULTS = {map:"caucasus",era:"coldwar",coalition:"blue",aircraft:
 // Engine settings without Builder controls must survive opening a shared
 // recipe. Do not add their defaults to a template recipe: omission lets the
 // template supply its own defaults on the server.
-const RECIPE_ENGINE_FIELDS = ['mission_date','start_position','start_altitude','start_speed','start_time','player_stores','allow_anachronistic_stores','player_slot','map_view','lineup','coach_gates','coach_ring','cq_ride',
+const RECIPE_ENGINE_FIELDS = ['waypoints','route_recovery','mission_date','start_position','start_altitude','start_speed','start_time','player_stores','allow_anachronistic_stores','player_slot','map_view','lineup','coach_gates','coach_ring','cq_ride',
   'formation','tanker_type','bb_branding','bb_dtc','bb_bfm','bfm_setup',
   'target_packages','published_corridors','check_ride','player_fit'];
 
@@ -129,8 +129,13 @@ function renderKinds(){
 
 // Applying a kind writes real values into the real controls, so the change is
 // visible on the screens that own them rather than hidden in a parallel state.
+function retainAuthoredRoute(){
+  const current=S.engineSettings||{};
+  return Array.isArray(current.waypoints)
+    ? {waypoints:JSON.parse(JSON.stringify(current.waypoints)),route_recovery:current.route_recovery??null} : {};
+}
 function pickKind(k, silent){
-  S.engineSettings = {};
+  S.engineSettings = retainAuthoredRoute();
   if (!silent){
     S.template=null;
     const custom=document.querySelector('#templates .card[data-k=""]');
@@ -531,7 +536,7 @@ async function init(){
   const maps = document.getElementById('maps');
   for (const [k,v] of Object.entries(OPT.maps)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b><small>${v.free?'Free terrain':'Paid terrain'}</small></div>`);
-    c.onclick = ()=>{ if(S.map!==k) S.engineSettings={}; S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
+    c.onclick = ()=>{ if(S.map!==k) S.engineSettings=retainAuthoredRoute(); S.map=k; sel(maps,c); refreshEraGating(); fillHome(); refreshDressUI(); renderCorridors(); sum(); };
     maps.appendChild(c);
   }
   // Library era filter, built from OPT.eras rather than typed into the HTML.
@@ -544,7 +549,7 @@ async function init(){
   const eras = document.getElementById('eras');
   for (const [k,v] of Object.entries(OPT.eras)){
     const c = el(`<div class="card" data-k="${k}"><b>${v.label}</b></div>`);
-    c.onclick = ()=>{ if(S.era!==k) S.engineSettings={}; S.era=k; sel(eras,c);
+    c.onclick = ()=>{ if(S.era!==k) S.engineSettings=retainAuthoredRoute(); S.era=k; sel(eras,c);
       // era drives everything: if the current map has no preset for it, jump
       // to the first map that does
       if (!S.map || !OPT.maps[S.map].presets[k]) {
@@ -589,7 +594,7 @@ async function init(){
   refreshTimingUI();
   const tp = document.getElementById('templates');
   const none = el(`<div class="card sel" data-k=""><b>Build your own</b><small>Start from scratch — you configure everything below</small></div>`);
-  none.onclick = ()=>{ S.engineSettings={}; S.template=null; sel(tp,none); sum(); updateRail(); };
+  none.onclick = ()=>{ S.engineSettings=retainAuthoredRoute(); S.template=null; sel(tp,none); sum(); updateRail(); };
   tp.appendChild(none);
   for (const [k,v] of Object.entries(OPT.templates)){
     const reqs = [];
@@ -598,7 +603,7 @@ async function init(){
     if (v.maps && v.maps.length) reqs.push(v.maps.map(m=>(OPT.maps[m]?.label||m)).join('/'));
     const hint = v.recipe ? 'Presets your setup — tweak anything below' : 'Crew-ops mission (locks the jet)';
     const c = el(`<div class="card" data-k="${k}" data-eras="${(v.eras||[]).join(',')}"><b>${v.label}</b><small>${hint}${reqs.length?' · '+reqs.join(' · '):''}</small></div>`);
-    c.onclick = ()=>{ applyScenarioPreset(k); sel(tp,c); };
+    c.onclick = ()=>{ applyScenarioPreset(k, true); sel(tp,c); };
     tp.appendChild(c);
   }
   // carrier deck configuration UI
@@ -767,6 +772,7 @@ function applyRecipe(r){
   S.engineSettings = Object.fromEntries(RECIPE_ENGINE_FIELDS
     .filter(k => Object.hasOwn(r, k)).map(k => [k, r[k]]));
   refreshWingmen();
+  globalThis.routeEditor?.restore();
 }
 function sel(container, card){
   container.querySelectorAll('.card').forEach(c=>c.classList.remove('sel'));
@@ -779,9 +785,12 @@ function sel(container, card){
 function presetRecipe(k, era, map){
   return effectiveScenarioPreset(OPT, k, era, map);
 }
-function applyScenarioPreset(k){
+function applyScenarioPreset(k, keepRoute=false){
+  const route=keepRoute ? retainAuthoredRoute() : {};
   const rc = Object.assign({}, OPT.recipe_defaults || RECIPE_DEFAULTS,
     presetRecipe(k, S.era, S.map), {template:k});
+  if(route.waypoints)Object.assign(rc,route,{bb_route:false,timing_anchor:'takeoff',timing_at:null,
+    timing_hold_min:0,timing_coach:false,timing_package:false});
   applyRecipe(rc);
   renderKinds(); sum(); updateRail();
 }
@@ -881,7 +890,7 @@ function bindCarrierRecipeChanges(){
     document.getElementById(id).addEventListener('change', sum);
 }
 function refreshTimingUI(){
-  const on = !!document.getElementById('bb_route')?.checked;
+  const on = !!document.getElementById('bb_route')?.checked && !S.engineSettings?.waypoints;
   document.getElementById('timing_opts').style.display = on ? '' : 'none';
   // A takeoff anchor has no time to pick: the clock is the mission start.
   const anchor = document.getElementById('timing_anchor').value;
@@ -1496,6 +1505,7 @@ function onThemeChange(){
 }
 
 function sum(){
+  globalThis.routeEditor?.sync();
   if(!OPT) return;
   refreshWingmen();
   syncThreatPreset();
@@ -1959,4 +1969,5 @@ Object.defineProperties(window, {
   MISSION_RESULTS:{get:()=>missionResultsController.results}
 });
 const readinessController = createReadinessController({document,fetch,ownedMaps,ownedAc,ownedModules,esc});
+window.routeEditor = createRouteEditor({state:S,document,fetch,changed:()=>{refreshTimingUI();sum();}});
 init();

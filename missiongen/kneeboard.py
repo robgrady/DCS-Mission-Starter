@@ -652,7 +652,10 @@ def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
         pages.append(page_stores(pylons, loadout_label, loadout_role or "combat",
                                  aircraft_id or "your aircraft",
                                  fuel_lines(fuel_max_kg)))
-    if route:
+    if route and "id" in route[0]:
+        from .authored_route import brief_lines
+        pages.extend(pages_text("AUTHORED FLIGHT PLAN", map_label, brief_lines(route)))
+    elif route:
         # A corridor plan on NTTR is a dozen legs: the legs and the clock no
         # longer share a page, so the clock gets its own (page_timing).
         long_plan = len(route) > 7

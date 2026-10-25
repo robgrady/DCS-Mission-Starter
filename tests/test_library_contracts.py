@@ -122,7 +122,7 @@ def test_preset_reset_cannot_inherit_old_stores_slots_or_comms():
         + "let S={era:'modern',map:'nevada',kind:'cas'};let applied;"
         + "const applyRecipe=r=>applied=r,renderKinds=()=>{},sum=()=>{},updateRail=()=>{};"
         + "applyScenarioPreset('bc_ti1');console.log(JSON.stringify(applied));",
-        ['presetRecipe', 'applyScenarioPreset'])
+        ['retainAuthoredRoute', 'presetRecipe', 'applyScenarioPreset'])
     assert got['slots'] == 1 and got['mission_kind'] == 'a2a'
     assert got['player_fit'] == 'auto' and got['comms'] is None
     assert got['bb_targets'] is False

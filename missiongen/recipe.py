@@ -271,6 +271,8 @@ class Recipe:
     # written before this field existed keeps generating what it always did.
     # Needs a target to aim at (bb_targets, or a template that places one);
     # with none it is a no-op rather than an invented destination.
+    waypoints: Optional[List[dict]] = None  # ordered authored route; start point is separate
+    route_recovery: Optional[str] = None    # null=end at last point, home, or exact map airfield
     bb_route: bool = False
     # Thread that route through the map's published corridors where it has
     # them (corridors.py: Nevada, Syria, Cold War Germany). Off keeps the
@@ -518,4 +520,6 @@ class Recipe:
         validate_precision(self)
         from .authoring import validate_authoring
         validate_authoring(self)
+        from .authored_route import validate_route
+        validate_route(self)
         return self

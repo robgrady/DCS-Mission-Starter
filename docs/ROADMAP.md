@@ -32,6 +32,11 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.123.0** adds exact single-flight waypoints in Builder and MCP/API: lazy map
+schematic, coordinate editing, reorder/undo, explicit recovery and matching native
+mission/kit documents. ETAs are advisory; AGL, guided routing, per-flight routes
+and executable waypoint actions remain future work.
+
 **v1.122.0** adds exact start speed/clock, complete station fits with an explicit
 fictional equipment-year override, and aircraft-scoped stores/loadouts/liveries.
 Livery coverage remains partial and source-backed; station membership does not
@@ -62,7 +67,7 @@ app tool loading are separately verified; DCS flight remains unverified.
    on an explicitly fictional 1971 fit, plus both-radio channel checks. Broader
    livery inventories and combined-fit/simulator certification remain open.
 3. **Flight composition:** independent human flight (Colt), country and flight
-   name controls, authored waypoint lists. Validate aircraft/country/route
+   name controls. Exact single-flight waypoint lists shipped in 1.123.0. Validate aircraft/country/route
    compatibility, preserve one Player across the mission, use Client for other
    human slots and read back each flight/route from the saved archive.
 4. **Authored training layer:** declarative enemy groups, target drones, native

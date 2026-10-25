@@ -1,5 +1,13 @@
 # Changelog — DCS Sortie Starter
 
+## [1.123.0] — Author your flight plan
+
+- Builder: exact ordered waypoints with a lazy airfield/map-envelope schematic, click/drag positioning, decimal or DCS coordinates, feet MSL/knots TAS inputs, stable names/IDs, reorder/delete/undo and explicit recovery.
+- MCP/API: optional `waypoints` (1–32, metres MSL and m/s TAS) and `route_recovery` (home or exact map airfield). Shared validation/generation bounds; fixed training routes and automatic timing conflicts refused.
+- Native mission, navigation manifest, brief and paginated kneeboard use the authored route; supported F-14B(U) cartridges retain route coordinates. Existing route defaults remain unchanged. No terrain clearance, aircraft performance, cartridge altitude or simulator-flight certification.
+- Advisory ETA estimates exclude wind/climb allowances. Purpose labels add no targets/actions. Guided routes, AGL/MGRS input, additional flights and waypoint actions remain deferred.
+- Keep six-tool MCP discovery below its existing 16 KB budget; the canonical schema remains complete and runtime validation strict. Shorten Automatic waypoints copy.
+
 ## [1.122.0] — Exact flight authoring and faster page startup
 
 - Add optional exact airborne start speed (m/s TAS), local start clock and complete station-to-CLSID player fits. Enforce station membership and recorded weapon service windows; an explicit fictional-fit override preserves the date and labels historical context accordingly. Read back six AIM-54As plus two AIM-9Ms on the fictional 1971 example, with no preset stores retained.

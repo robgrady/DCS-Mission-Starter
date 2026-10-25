@@ -57,6 +57,18 @@ def recipe_json_schema() -> dict:
         'default':None, 'description':'Complete player-flight station-to-CLSID fit, e.g. {"1":"CLSID"}. Omitted stations stay empty; {} is clean; null keeps presets. Discover exact aircraft/stations in the stores catalog. Requires player_arm=true and player_fit=auto. Fixed training fits are excluded. Checks individual station lists, not every physical multi-store constraint.'}
     schema['properties']['allow_anachronistic_stores']['description'] = 'Explicit fictional-fit override for recorded weapon service windows, only with player_stores. Preserves mission date, labels historical context fictional and reports conflicts. Never bypasses station compatibility.'
     schema['properties']['player_slot']['description'] = 'Native DCS player/client control. Null preserves automatic solo/multiplayer seating. player requires one human aircraft; client allows a single multiplayer client.'
+    from missiongen.authored_route import MAX_POINTS, PURPOSES
+    schema['properties']['waypoints'] = {'anyOf': [{'type': 'array', 'minItems': 1, 'maxItems': MAX_POINTS,
+        'items': {'type': 'object', 'additionalProperties': False,
+            'required': ['id', 'name', 'position', 'altitude', 'speed'], 'properties': {
+                'id': {'type': 'string', 'pattern': r'^[A-Za-z0-9_-]{1,40}$'},
+                'name': {'type': 'string', 'minLength': 1, 'maxLength': 24},
+                'position': position_json_schema(),
+                'altitude': {'type': 'number', 'minimum': 1, 'maximum': 25000},
+                'speed': {'type': 'number', 'minimum': 1, 'maximum': 1000},
+                'purpose': {'type': 'string', 'enum': list(PURPOSES), 'default': 'transit'}}}}, {'type': 'null'}],
+        'default': None, 'description': 'Ordered authored route after the separate start point. Unique IDs/names; altitude in metres MSL/BARO and speed in metres/second TAS. Purpose labels add no actions or targets. Overrides template transit routing; bb_route must be false. Fixed training routes excluded. Advisory ETAs only; terrain clearance and performance unverified.'}
+    schema['properties']['route_recovery']['description'] = 'Only with waypoints: null ends at the last point; home adds home airfield/carrier recovery; otherwise use an exact map airfield name. Adds a native landing point, not an approach clearance or guarantee of friendly access.'
     from missiongen.precision import VIEWS
     schema['properties']['map_view'] = {'anyOf': [
         {'type':'object', 'minProperties':1, 'additionalProperties':False, 'properties':{

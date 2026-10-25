@@ -13,7 +13,8 @@ def kit_manifest(stats: dict) -> dict:
         "flight": stats.get("flight_counts"),
         "kneeboard_pages": stats.get("kneeboard_pages", 0),
         "dtc": bool(stats.get("dtc_units_tagged")),
-        "route": stats.get("route"),
+        "route": (f"Authored route: {len(stats.get('authored_waypoints') or [])} waypoints"
+                  if stats.get("route_mode") == "authored" else stats.get("route")),
         # The clock the route is anchored on ("tot 06:42:00"), when timed.
         "timing": (f"{stats['timing'].get('anchor')} "
                    f"{stats['timing'].get('anchor_clock') or stats['timing'].get('takeoff_clock') or ''}").strip()
@@ -75,7 +76,9 @@ def navigation_manifest(stats, miz):
                     points=[{k:p.get(k) for k in ('name','x','y','alt','alt_type','speed','action','airdromeId','linkUnit','helipadId','ETA','ETA_locked')}
                             for p in values(group.get('route',{}).get('points'))]
                     flights.append({'name':group.get('name'),'coalition':side,'points':points})
-    return {'route':plain(stats.get('route_legs') or stats.get('wk_route') or stats.get('cq_route') or []),
+    return {'route_mode': stats.get('route_mode'), 'authored_waypoints': stats.get('authored_waypoints'),
+            'route_recovery': stats.get('route_recovery'),
+            'route':plain(stats.get('route_legs') or stats.get('wk_route') or stats.get('cq_route') or []),
             'target':stats.get('route_target'), 'timing':plain(stats.get('timing')),
             'native_units':{'coordinates':'theatre metres','altitude':'metres','speed':'metres per second','ETA':'seconds from mission start'},
             'mission_start_seconds':mission.get('start_time'), 'flights':flights}

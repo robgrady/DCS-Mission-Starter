@@ -62,7 +62,7 @@ let appliedTemplate=null;
 const document={querySelector:()=>null,getElementById:()=>null};
 const kindDef=()=>({patch:{}}), renderKinds=()=>{},updateRail=()=>{},buildReview=()=>{},sum=()=>{appliedTemplate=S.template;};
 pickKind('training');console.log(JSON.stringify({template:S.template,engine:S.engineSettings,kind:S.kind,appliedTemplate}));
-""", ['pickKind'])
+""", ['retainAuthoredRoute', 'pickKind'])
     assert out == {'template': None, 'engine': {}, 'kind': 'training', 'appliedTemplate': None}
 
 

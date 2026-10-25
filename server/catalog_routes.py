@@ -23,6 +23,41 @@ from .library_routes import _pack_templates, _published_tracks
 router = APIRouter()
 
 
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class RoutePreview(BaseModel):
+    model_config = ConfigDict(extra='forbid')
+    map: str = Field(max_length=40)
+    positions: list[dict] = Field(default_factory=list, max_length=32)
+
+
+@router.post('/api/route-preview')
+def route_preview(request: RoutePreview):
+    """Lazy schematic data; does not build a mission or touch parking state."""
+    from missiongen.resolver import resolve_terrain
+    from missiongen.map_bounds import catalog_bounds
+    from missiongen.precision import validate_position, point
+    from missiongen.recipe import RecipeError
+    cfg = load_json('maps').get(request.map)
+    if cfg is None:
+        raise HTTPException(400, 'Unknown route map.')
+    terrain = resolve_terrain(cfg['terrain_class'])()
+    try:
+        points = []
+        for i, value in enumerate(request.positions):
+            validate_position(value, f'positions[{i}]')
+            p = point(value, terrain, f'positions[{i}]', request.map)
+            ll = p.latlng()
+            points.append({'x': p.x, 'y': p.y, 'lat': ll.lat, 'lon': ll.lng})
+    except RecipeError as exc:
+        raise HTTPException(400, str(exc)) from exc
+    return {'map': request.map, 'bounds': catalog_bounds(request.map), 'points': points,
+            'airfields': [{'name': a.name, 'x': a.position.x, 'y': a.position.y}
+                          for a in terrain.airport_list()],
+            'carrier': cfg.get('carrier', {}).get('anchor')}
+
+
 @router.get('/api/authoring-catalog')
 def authoring_catalog(kind: Literal['stores', 'loadouts', 'liveries'], aircraft: str = Query(max_length=80),
                       era: str | None = Query(default=None, max_length=40),

@@ -689,6 +689,7 @@
   }
 </style>
 <link rel="stylesheet" href="/assets/accounts.css?v={{APP_VERSION}}">
+<link rel="stylesheet" href="/assets/route-editor.css?v={{APP_VERSION}}">
 </head>
 <body data-mode="paper">
 <!-- Lucide icon sprite (ISC license, lucide.dev) — the site's icon
@@ -1057,6 +1058,39 @@
 
     <div class="subcat">Targets &amp; ranges</div>
     <div class="blocks" id="sup_tgt"></div>
+    <section class="route-editor" aria-labelledby="route_heading">
+      <h3 id="route_heading">Your flight plan</h3>
+      <label for="route_mode">Route planning</label>
+      <select id="route_mode"><option value="existing">Keep mission defaults / automatic waypoints above</option><option value="authored">Author an exact route</option></select>
+      <div id="route_custom" hidden>
+        <p>Place up to 32 waypoints after the aircraft start. Fixed training routes cannot be replaced. Purpose labels add no actions or targets.</p>
+        <div class="route-workspace">
+          <div><svg id="route_map" viewBox="0 0 800 480" role="group" aria-label="Waypoint map schematic"></svg>
+            <p>Schematic with airfields and the authoring envelope. No terrain, threats or historical boundaries are shown. Check clearance and recovery access in DCS.</p>
+            <label for="route_recovery">After the last waypoint</label><select id="route_recovery"><option value="">End at last waypoint</option><option value="home">Recover at home</option></select>
+          </div>
+          <div>
+            <div class="route-actions"><button id="route_add" type="button">Add waypoint</button><button id="route_undo" type="button" disabled>Undo</button><button id="route_retry" type="button">Reload map</button><button id="route_fit" type="button">Fit route</button></div>
+            <p id="route_empty">No waypoints yet. Add one to begin.</p><div id="route_list" aria-label="Ordered waypoints"></div>
+            <div id="route_fields" hidden>
+              <div id="route_point_label"></div>
+              <div class="route-fields">
+                <div><label for="wp_name">Name</label><input id="wp_name" required maxlength="24"></div>
+                <div><label for="wp_purpose">Purpose (label only)</label><select id="wp_purpose"><option value="transit">Transit</option><option value="rendezvous">Rendezvous</option><option value="ip">Initial point</option><option value="target">Target reference</option><option value="egress">Egress</option></select></div>
+                <div><label for="wp_alt">Altitude (ft MSL)</label><input id="wp_alt" type="number" required min="4" max="82020" step="any"></div>
+                <div><label for="wp_speed">Speed (knots TAS)</label><input id="wp_speed" type="number" required min="2" max="1943" step="any"></div>
+                <div><label for="wp_system">Coordinates</label><select id="wp_system"><option value="local">DCS theatre metres</option><option value="geo">Latitude / longitude</option></select></div><div></div>
+                <div><label id="wp_a_label" for="wp_a">X north (metres)</label><input id="wp_a" type="number" required step="any"></div>
+                <div><label id="wp_b_label" for="wp_b">Y east (metres)</label><input id="wp_b" type="number" required step="any"></div>
+              </div>
+              <div class="route-actions"><button id="route_up" type="button">Move up</button><button id="route_down" type="button">Move down</button><button id="route_delete" type="button">Delete point</button></div>
+            </div>
+          </div>
+        </div>
+        <p id="route_status" role="status" aria-live="polite"></p>
+        <p>Arrival estimates appear in the generated kit. They exclude wind and climb allowances; arrival times remain advisory.</p>
+      </div>
+    </section>
     <!-- Timing rides on the automatic waypoints: every routed card carries
          a clock; these choose what it is anchored on and whether the
          mission grades you against it. See missiongen/timing.py. -->
@@ -1304,6 +1338,7 @@
 <script src="/assets/library-controller.js"></script>
 <script src="/assets/recipe-state.js"></script>
 <script src="/assets/readiness.js"></script>
+<script src="/assets/route-editor.js?v={{APP_VERSION}}"></script>
 <script src="/assets/app.js"></script>
 <script src="/assets/accounts.js"></script>
 
