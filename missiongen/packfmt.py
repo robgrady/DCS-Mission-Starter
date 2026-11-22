@@ -27,11 +27,15 @@ that has already cost this codebase two live defects.
 from __future__ import annotations
 
 import hashlib
+from datetime import date
 import io
 import json
 import re
 import zipfile
 from pathlib import Path
+from functools import lru_cache
+
+from .resolver import load_json
 
 FORMAT = 2                      # the version of the SPEC this module implements
 
@@ -60,6 +64,24 @@ class PackError(ValueError):
 
 def slug(s: str) -> str:
     return _ID_RE.sub("_", (s or "pack").lower()).strip("_") or "pack"
+
+
+@lru_cache(maxsize=1)
+def _era_aliases() -> dict[str, str]:
+    eras = load_json("eras")
+    aliases = {key: key for key in eras}
+    aliases.update({slug(era["label"].partition(" (")[0]): key
+                    for key, era in eras.items()})
+    aliases["cold_ear"] = "coldwar"  # legacy Nellis 1967 collection
+    return aliases
+
+
+def _library_eras(values) -> list[str]:
+    aliases = _era_aliases()
+    if isinstance(values, str):
+        values = [values]
+    names = (value.strip() for value in values or [] if isinstance(value, str))
+    return list(dict.fromkeys(aliases.get(slug(name), name) for name in names if name))
 
 
 # --------------------------------------------------------------------------- #
@@ -192,6 +214,14 @@ def mission_facts(raw: bytes) -> dict:
         m = re.search(r'\["theatre"\]\s*=\s*"([^"]+)"', txt)
         if m:
             facts["theatre"] = m.group(1)
+        table = re.search(r'\["date"\]\s*=\s*\{([^{}]*)\}', txt)
+        if table:
+            parts = dict(re.findall(r'\["(Year|Month|Day)"\]\s*=\s*(\d+)', table[1]))
+            if len(parts) == 3:
+                try:
+                    facts["date"] = date(*(int(parts[key]) for key in ("Year", "Month", "Day"))).isoformat()
+                except ValueError:
+                    pass
         for pat in (
             r'\["type"\]\s*=\s*"([^"]+)"[^}]*?\["skill"\]\s*=\s*"(?:Player|Client)"',
             r'\["skill"\]\s*=\s*"(?:Player|Client)"[^}]*?\["type"\]\s*=\s*"([^"]+)"',
@@ -298,7 +328,8 @@ def derive(pid: str, files: dict) -> dict:
 # §4 reading format 1
 # --------------------------------------------------------------------------- #
 _LIBRARY_KEYS = ("role", "threat", "players", "premise", "image",
-                 "eras", "maps", "featured")
+                 "eras", "maps", "featured", "sequence", "operation", "unit",
+                 "base", "scenario_date", "verification")
 
 
 def upgrade(man: dict) -> dict:
@@ -402,6 +433,7 @@ def normalize(raw: dict | None, pid: str, files: dict) -> dict:
     out["id"] = pid
     out["format"] = FORMAT
 
+    out["library"]["eras"] = _library_eras(out["library"].get("eras")) or ["modern"]
     if out["library"].get("role") not in ROLES:
         out["library"]["role"] = "training"
     if out["library"].get("image") and out["library"]["image"] not in files:
@@ -417,6 +449,11 @@ def normalize(raw: dict | None, pid: str, files: dict) -> dict:
         for k in list(f):
             if f[k] not in files:
                 f.pop(k)
+        if e.get("scenario_date"):
+            found_date = mission_facts(files[f["mission"]]).get("date")
+            if found_date and found_date != e["scenario_date"]:
+                raise PackError(f'“{e.get("label") or f["mission"]}” declares a scenario date '
+                                f'of {e["scenario_date"]}, but its mission uses {found_date}.')
         e["files"] = f
         keep.append(e)
     out["syllabus"] = keep
@@ -450,7 +487,10 @@ def card_view(man: dict) -> dict:
         "premise": lib.get("premise", ""),
         "historical_context": man.get("historical_context") or {},
         "image": lib.get("image"),
-        "eras": lib.get("eras") or ["modern"],
+        "eras": _library_eras(lib.get("eras")) or ["modern"],
+        "sequence": lib.get("sequence"),
+        **{key: lib[key] for key in ("operation", "unit", "base", "scenario_date", "verification")
+           if lib.get(key)},
         "maps": lib.get("maps"),
         "featured": bool(lib.get("featured")),
         "module": (req.get("modules") or [None])[0],
@@ -458,7 +498,9 @@ def card_view(man: dict) -> dict:
             {"n": e.get("n"), "label": e.get("label"),
              "premise": e.get("premise", ""),
              "miz": (e.get("files") or {}).get("mission"),
-             "brief_pdf": (e.get("files") or {}).get("brief")}
+             "brief_pdf": (e.get("files") or {}).get("brief"),
+             **{key: e[key] for key in ("scenario_date", "date_precision", "context_label")
+                if e.get(key)}}
             for e in man.get("syllabus") or []
         ],
     })

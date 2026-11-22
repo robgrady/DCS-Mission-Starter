@@ -1,12 +1,13 @@
 {
-  "version": "1.127.0",
+  "version": "1.128.0",
   "documentation_required": true,
-  "reason": "Document the Kandahar Builder starter and exact-date F10 airfield symbols.",
+  "reason": "Describe the Historical Missions Library, collection choices, and Builder to DKS handoff.",
   "sections_reviewed": [
-    "Historical map coverage and symbols",
+    "Find a mission in the Library",
     "Historical Library: dated readings and charts",
+    "Scenario dates and historical context",
     "Importing a mission into Digital Kneeboard Simulator"
   ],
-  "source_sha256": "1c00de0b01deccb95b6052ecba856dda88ba35c0e6d9276f0faeb0ace1ffb996",
-  "previous_source_sha256": "55dbcdd1167a72c80b86ef32aef4233b559a517b2930c350026f7fcc6b762237"
+  "source_sha256": "ca30a3f51506ff1645cf901ba1551c480a19a93364d254d06efcb06084332b00",
+  "previous_source_sha256": "1c00de0b01deccb95b6052ecba856dda88ba35c0e6d9276f0faeb0ace1ffb996"
 }

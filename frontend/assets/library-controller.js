@@ -15,7 +15,11 @@ const ROLES={
  training:{label:"Training",c:"var(--training)",ic:"gradcap"},
  historic:{label:"Historic",c:"var(--historic)",ic:"clock"},
 };
-let libState={role:"all",own:false,era:null,crew:"qualified",seed:1,cur:null,module:null,initd:false,aircraft:null};
+let libState={shelf:'historical',role:"all",own:false,era:null,crew:"qualified",seed:1,cur:null,module:null,initd:false,aircraft:null};
+const SHELVES={historical:'Historical missions',practice:'Practice missions',all:'All missions'};
+const historyDateFormat=new Intl.DateTimeFormat('en-GB',{
+  day:'numeric',month:'short',year:'numeric',timeZone:'UTC'
+});
 // EVERY template gets a Library card — the Library is the only home for
 // scenarios now (no wizard step), so a template with no hand-written card
 // metadata still shows up, with sensible synthesized defaults.
@@ -104,7 +108,7 @@ function libSort(a,b){
  if(sort==='threat')return b.threat-a.threat||a.catalog.title.localeCompare(b.catalog.title);
  return Number(b.featured)-Number(a.featured)||a.catalog.title.localeCompare(b.catalog.title);
 }
-function filterModule(m){ libState.module=m; renderLib(); window.scrollTo(0,0); }
+function filterModule(m){ libState.module=m; setLibraryShelf('all'); window.scrollTo(0,0); }
 function renderChips(anyF){
   const bar=document.getElementById('lchipbar'); if(!anyF){ bar.innerHTML=''; return; }
   const chips=[];
@@ -145,8 +149,32 @@ function ownedAc(){ const o=ownStore(); if(!(o&&o.set)) return null;
 function libFilters(){const value=id=>document.getElementById(id)?.value;return {era:value('lfEra')==='all'?null:value('lfEra'),map:value('lfMap')==='all'?null:value('lfMap'),aircraft:value('lfAc')==='all'?null:value('lfAc')};}
 function ownedModules(){const o=ownStore();return o?.set?new Set(o.modules||[]):null;}
 function libCompatibility(t,filters={}){return catalogCompatibility(t.catalog,ownedMaps(),ownedAc(),ownedModules(),filters);}
-function libSelection(t,pref){const filters={...libFilters(),...pref};return libCompatibility(t,filters).variant||(pref?libCompatibility(t,pref).variant:null)||libCompatibility(t).variant;}
+function libSelection(t,pref){
+ const filters={...libFilters(),...pref};
+ if(libState.shelf==='historical'&&!pref&&!t.pack){
+  const matching=matchingHistory(t,filters);
+  const query=searchTerms();
+  const candidates=query.length
+    ? [...matching.filter(context=>matchesTerms(query,[context.date,displayDate(context.date),...(context.notes||[])])),...matching]
+    : matching;
+  for(const context of candidates){
+   const selection=libCompatibility(t,{...filters,era:context.era,map:context.map});
+   if(selection.compatible || !libState.own)return selection.variant;
+  }
+ }
+ return libCompatibility(t,filters).variant||(pref?libCompatibility(t,pref).variant:null)||libCompatibility(t).variant;
+}
 function setLibraryFormat(value){document.getElementById('lfFormat').value=value;renderLib();}
+function setLibraryShelf(value, updateURL=true){
+ libState.shelf=Object.hasOwn(SHELVES,value)?value:'historical';
+ if(updateURL&&new URLSearchParams(location.search).get('v')==='library'){
+  const url=new URL(location.href);
+  if(libState.shelf==='historical')url.searchParams.delete('shelf');
+  else url.searchParams.set('shelf',libState.shelf);
+  if(url.href!==location.href)history.replaceState(history.state,'',url);
+ }
+ renderLib();
+}
 function detailSummary(t){
  if(t.pack)return '<span class="lchip">Aircraft: '+esc(t.catalog.aircraft.map(acLabel).join(', ')||'See collection requirements')+'</span><span class="lchip">Maps: '+esc(t.catalog.requirements.maps.map(m=>m.label).join(', ')||'Unspecified')+'</span>';
  const n=acChoices(t,libState.era).length;
@@ -260,16 +288,61 @@ function renderOwnBody(){
 function saveOwn(){ ownSet_({set:true, maps:[...ownEdit.maps], aircraft:[...ownEdit.aircraft],modules:[...ownEdit.modules]});
   libState.own=true; document.getElementById('lown').classList.add('on');document.getElementById('lown').setAttribute('aria-checked','true'); closeOwn(); renderLib(); document.dispatchEvent(new Event('sortie-ownership-change')); }
 function ownSet_(o){ try{localStorage.setItem('ms_owned',JSON.stringify(o))}catch(e){} }
+function displayDate(date){
+ if(!date || !/^\d{4}-\d{2}-\d{2}$/.test(date))return date||'';
+ const parsed=new Date(date+'T00:00:00Z');
+ return Number.isNaN(parsed.valueOf())?date:historyDateFormat.format(parsed);
+}
+function dateMark(date,precision){
+ if(!date)return '';
+ const display=precision==='year'?date.slice(0,4):precision==='month'?date.slice(0,7):date;
+ return (precision==='circa'?'Circa ':'')+'<time datetime="'+esc(display)+'">'+esc(displayDate(display))+'</time>';
+}
+function searchTerms(){
+ return document.getElementById('lfSearch').value.trim().toLowerCase().split(/\s+/).filter(Boolean);
+}
+function matchesTerms(terms, fields){
+ const hay=fields.filter(Boolean).join(' ').toLowerCase();
+ return terms.every(term=>hay.includes(term));
+}
+function matchingContexts(t,filters,contexts){
+ return contexts.filter(context=>
+  (!filters.era||!context.era||context.era===filters.era) &&
+  (!filters.map||!context.map||context.map===filters.map) &&
+  (t.pack||t.catalog.variants.some(v=>v.era===context.era&&v.map===context.map&&(!filters.aircraft||v.aircraft===filters.aircraft))));
+}
+function matchingHistory(t,filters){
+ return matchingContexts(t,filters,t.catalog.historical);
+}
+function historyFacts(t){
+ const filters=libFilters(), contexts=matchingHistory(t,filters);
+ if(!contexts.length){
+  const applicable=matchingContexts(t,filters,t.catalog.contexts);
+  return applicable.length&&applicable.every(h=>h.classification==='fictional_exercise')
+    ? '<p class="history-facts"><strong>Fictional exercise</strong></p>':'';
+ }
+ const dates=[...new Set(contexts.map(h=>h.date).filter(Boolean))];
+ const labels=[...new Set(contexts.map(h=>h.label).filter(Boolean))];
+ const date=t.pack?.scenario_date||dates[0];
+ const dateLabel=t.pack?'Setting date':'Scenario date';
+ const dateFact=date&&(t.pack?.scenario_date||dates.length===1)
+  ? dateLabel+' '+dateMark(date)
+  : dates.length>1?'Multiple scenario dates':'';
+ const label=labels.length===1?labels[0]:labels.length>1?'Historical setting varies':'Historical context unlisted';
+ const facts=[dateFact,'<strong>'+esc(label)+'</strong>',esc(t.pack?.operation),esc(t.pack?.base),esc(t.pack?.unit)].filter(Boolean);
+ return '<p class="history-facts">'+facts.join(' · ')+'</p>';
+}
 function libCard(t){
  const c=t.catalog,r=ROLES[t.role]||ROLES.training;
  const aircraft=c.aircraft.length===1?acLabel(c.aircraft[0]):(t.pack?c.aircraft.map(acLabel).join(', '):'Aircraft selectable');
  const maps=t.pack?c.requirements.maps.map(m=>m.label).join(', '):(c.maps.length===1?mapLabel(c.maps[0]):'Map selectable');
- return '<div class="libcard" role="button" tabindex="0" aria-label="View '+esc(c.title)+'" onclick="openDetail(\''+t.k+'\')">'+
+ const href='/?'+new URLSearchParams({v:'library',...(libState.shelf==='historical'?{}:{shelf:libState.shelf}),mission:t.k});
+ return '<a class="libcard" href="'+esc(href)+'" data-lib-mission="'+esc(t.k)+'" aria-label="View '+esc(c.title)+'">'+
   '<div class="bar" style="background:'+r.c+'"></div><div class="cbody"><div class="rt"><div class="role" style="color:'+r.c+'">'+r.label+'</div><span class="kindb '+(t.kind==='full'?'full':'open')+'">'+c.subtype+(t.pack?' · '+c.count+' missions':'')+'</span></div>'+
-  '<h3>'+esc(c.title)+'</h3><p class="prem">'+esc(t.premise||'')+'</p><p class="lsuit">'+esc(aircraft||'Aircraft requirements unconfirmed')+' · '+esc(maps||'Terrain requirements unconfirmed')+'</p>'+
+  '<h3>'+esc(c.title)+'</h3>'+historyFacts(t)+'<p class="prem">'+esc(t.premise||'')+'</p><p class="lsuit">'+esc(aircraft||'Aircraft requirements unconfirmed')+' · '+esc(maps||'Terrain requirements unconfirmed')+'</p>'+
   '<div class="lchips"><span class="lchip">'+esc(eraLabels(t.eras))+'</span><span class="lchip">'+thrBar(t.threat||1)+'</span><span class="lchip">'+esc(t.players||'SP')+'</span></div>'+ownRow(t)+
   (c.requirements.extras.length?'<div class="dnote">Requires '+esc(c.requirements.extras.map(k=>k==='Supercarrier'?'DCS: Supercarrier':k).join(', '))+'</div>':'')+
-  '<div class="lview">View '+(t.pack?'collection':'mission')+' →</div></div></div>';
+  '<div class="lview">View '+(t.pack?'collection':'mission')+' →</div></div></a>';
 }
 function libPasses(t){
  const c=t.catalog,g=id=>document.getElementById(id).value;
@@ -282,21 +355,73 @@ function libPasses(t){
  if(filters.aircraft&&!c.aircraft.includes(filters.aircraft))return false;
  if(filters.map&&!c.maps.includes(filters.map))return false;
  if(!t.pack&&!c.variants.some(v=>(!filters.era||v.era===filters.era)&&(!filters.aircraft||v.aircraft===filters.aircraft)&&(!filters.map||v.map===filters.map)))return false;
+ const historical=matchingHistory(t,filters);
+ if(libState.shelf==='historical'&&!historical.length||libState.shelf==='practice'&&historical.length)return false;
  const d=g('lfDiff'),th=t.threat||1;if(d==='lo'&&th>2||d==='md'&&th!==3||d==='hi'&&th<4)return false;
- const q=g('lfSearch').trim().toLowerCase();
- if(q){const hay=[c.title,t.premise,t.module,...c.aircraft.flatMap(k=>[acLabelFull(k),k,OWN_ALIAS[k]]),...c.maps.flatMap(k=>[mapLabel(k),OWN_ALIAS[k]]),...c.activity.map(k=>ROLES[k]?.label||k),...(t.pack?.events||[]).map(e=>e.label)].join(' ').toLowerCase();if(!hay.includes(q))return false;}
+ const terms=searchTerms();
+ if(terms.length&&!matchesTerms(terms,[
+  c.title,t.premise,t.module,...c.aircraft.flatMap(k=>[acLabelFull(k),k,OWN_ALIAS[k]]),
+  ...c.maps.flatMap(k=>[mapLabel(k),OWN_ALIAS[k]]),...c.activity.map(k=>ROLES[k]?.label||k),
+  t.recipe?.home_airbase,...Object.values(t.by_map||{}).map(recipe=>recipe.home_airbase),
+  t.pack?.operation,t.pack?.unit,t.pack?.base,t.pack?.scenario_date,displayDate(t.pack?.scenario_date),
+  ...(t.pack?.events||[]).flatMap(e=>[e.label,e.scenario_date,displayDate(e.scenario_date)]),
+  ...historical.flatMap(h=>[h.date,displayDate(h.date),h.label,...(h.notes||[])])
+ ]))return false;
  return !libState.own||libCompatibility(t,filters).compatible;
+}
+function renderHistoricalStarters(){
+ const container=document.getElementById('library-starters');
+ const filters=libFilters(), terms=searchTerms();
+ const format=document.getElementById('lfFormat').value;
+ const setup=document.getElementById('lfType').value;
+ const starters=libState.shelf==='historical'&&format!=='collection'&&setup!=='full'
+  &&!libState.module&&(libState.role==='all'||libState.role==='historic')
+  &&document.getElementById('lfDiff').value==='all'
+  ? (OPT.historical_starters||[]).filter(row=>
+    (!filters.map||row.map===filters.map) && (!filters.era||row.era===filters.era) &&
+    (!filters.aircraft||row.aircraft_key===filters.aircraft) &&
+    (!libState.own||(!!ownedMaps()?.has(row.map)&&catalogOwnsAircraft(ownedAc(),row.aircraft_key))) &&
+    matchesTerms(terms,[row.title,row.date,displayDate(row.date),row.operation,row.unit,row.base,row.aircraft,mapLabel(row.map),row.description]))
+  : [];
+ container.hidden=!starters.length;
+ document.getElementById('history-starter-grid').innerHTML=starters.map(row=>
+  '<article class="history-starter"><h3>'+esc(row.title)+'</h3>'+
+  '<p class="history-facts">'+[dateMark(row.date),esc(row.operation),esc(row.base),esc(row.unit)].filter(Boolean).join(' · ')+'</p>'+
+  '<p class="history-facts">'+esc(row.aircraft)+' · '+esc(row.slots)+' '+(row.slots===1?'slot':'slots')+'</p>'+
+  '<p>'+esc(row.description)+'</p>'+
+  '<div class="history-links"><a href="'+esc(row.builder_url)+'">Open '+esc(row.base)+' starter in Builder</a>'+
+  '<a href="'+esc(row.source_url)+'">View historical sources</a>'+
+  '<a href="/guide#importing-a-mission-into-digital-kneeboard-simulator">Plan in DKS</a></div></article>').join('');
+ return starters.length;
 }
 function renderLib(){
  initLibFilters();const items=libItems(),g=id=>document.getElementById(id);
  const anyF=libState.module||libState.role!=='all'||['lfEra','lfDiff','lfType','lfAc','lfMap','lfFormat'].some(id=>g(id).value!=='all')||g('lfSearch').value.trim()||libState.own;
  const list=items.filter(libPasses).sort(libSort),featured=anyF?[]:list.filter(t=>t.featured).slice(0,3),keys=new Set(featured.map(t=>t.k));
  g('lfeatwrap').style.display=featured.length?'':'none';g('lfeat').innerHTML=featured.map(libCard).join('');
- g('lallhead').textContent=anyF?'Results':featured.length?'More to fly':'All content';
- g('lgrid').innerHTML=list.length?list.filter(t=>!keys.has(t.k)).map(libCard).join(''):'<div class="lempty">No content matches these filters.<div class="dcta"><button class="ghost" onclick="clearFilters()">Clear filters</button><button class="prime" onclick="showView(\'builder\')">Open Builder</button></div></div>';
- g('libcount').textContent=list.length+' items · '+list.filter(t=>!t.pack).length+' missions · '+list.filter(t=>t.pack).length+' collections';
+ const starterCount=renderHistoricalStarters();
+ const results=list.filter(t=>!keys.has(t.k));
+ g('lallhead').textContent=anyF?'Mission results':featured.length?'More to fly':SHELVES[libState.shelf];
+ g('lallhead').hidden=!results.length&&!!(starterCount||featured.length);
+ g('lgrid').innerHTML=results.length?results.map(libCard).join(''):starterCount||featured.length?'':
+  '<div class="lempty">No content matches these filters.<div class="dcta"><button class="ghost" onclick="clearFilters()">Clear filters</button><button class="prime" onclick="showView(\'builder\')">Open Builder</button></div></div>';
+ g('libcount').textContent=(list.length+starterCount)+' items · '+list.filter(t=>!t.pack).length+' missions · '+list.filter(t=>t.pack).length+' collections'+(starterCount?' · '+starterCount+' planning '+(starterCount===1?'starter':'starters'):'');
+ document.querySelectorAll('[data-lib-shelf]').forEach(button=>{
+  const selected=button.dataset.libShelf===libState.shelf;
+  button.classList.toggle('on',selected);
+  button.setAttribute('aria-pressed',String(selected));
+ });
  document.querySelectorAll('[data-lib-format]').forEach(b=>{const on=b.dataset.libFormat===g('lfFormat').value;b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on));});renderChips(anyF);
 }
+document?.querySelectorAll('[data-lib-shelf]').forEach(button=>
+ button.addEventListener('click',()=>setLibraryShelf(button.dataset.libShelf)));
+document?.getElementById('library')?.addEventListener('click',event=>{
+ const link=event.target.closest('[data-lib-mission]');
+ if(!link||event.button!==0||event.ctrlKey||event.shiftKey||event.metaKey||event.altKey)return;
+ event.preventDefault();
+ history.replaceState(history.state,'',link.href);
+ openDetail(link.dataset.libMission);
+});
 function inclLines(t){
   const rc=t.recipe||{}, L=[];
   if(t.needs_carrier||rc.bb_carrier) L.push('Carrier strike group — measured deck, recovery + support');
@@ -649,14 +774,64 @@ function numWord(n){
   return w[n] || (n+' missions');
 }
 function tankerLabel(k){ const t=(OPT.tankers||{})[k]; return t?t.label:k; }
+function historicalSources(urls){
+ const sources=[...new Set((urls||[]).filter(u=>typeof u==='string'&&u.startsWith('https://')))];
+ return sources.map(url=>{
+  try{
+   const host=new URL(url).hostname.replace(/^www\./,'');
+   return '<li><a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer">'+esc(OPT.historical_source_titles?.[url]||host)+'</a></li>';
+  }catch{return '';}
+ }).join('');
+}
+function verificationStatus(result){
+ if(['verified','tested','passed','flight_tested','import_verified'].includes(result))return 'Author reports tested';
+ if(['pending','not_tested','unverified'].includes(result))return 'Pending';
+ return 'No result supplied';
+}
 function historicalBlock(t, era){
   const map=libState.map||((t.by_era||{})[era]||{}).map || t.default_map || S.map;
-  const h=((t.historical_context||{})[era]||{})[map];
-  if(!h) return t.pack ? '<p class="dnote">Historical context is not supplied for this published pack. Consult its author’s brief.</p>' : '';
-  return '<div class="dblock"><h4>Historical context</h4><p>'+esc(h.date)+' · '+esc(h.label)+'</p>'+
-    '<details class="libhistory"><summary>Setting, sources &amp; adaptations</summary><ul>'+ (h.notes||[]).map(n=>'<li>'+esc(n)+'</li>').join('')+'</ul>'+
-    '<p class="dnote">Recorded weapon service years are checked; unknown dates, operators and module variants remain uncertified.</p>'+
-    (h.sources||[]).filter(u=>/^https:\/\//.test(u)).map((u,i)=>'<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer">Source '+(i+1)+'</a> ').join('')+'</details></div>';
+  const h=t.historical_context?.[era]?.[map]||(t.pack?t.catalog.historical[0]:null);
+  const {operation,base,unit,scenario_date,verification}=t.pack||{};
+  const contexts=t.pack?t.catalog.contexts:[h].filter(Boolean);
+  if(!contexts.length&&!operation&&!base&&!unit&&!scenario_date&&!verification)return '';
+  const multiple=contexts.length>1;
+  const date=scenario_date||(!multiple?contexts[0]?.date:null);
+  const notes=contexts.flatMap(context=>{
+    const details=(context.notes||[]).map(note=>'<li>'+esc(note)+'</li>').join('');
+    if(!multiple)return details;
+    return '<li><strong>'+esc(mapLabel(context.map))+': '+esc(context.label||'Setting')+'</strong>'+(details?'<ul>'+details+'</ul>':'')+'</li>';
+  }).join('');
+  const links=historicalSources(contexts.flatMap(context=>context.sources||[]));
+  const label=multiple?'Setting varies by mission':contexts[0]?.label||'Historical evidence not specified';
+  const facts=[
+    date?(t.pack?'Setting date ':'Scenario date ')+dateMark(date):'',
+    '<strong>'+esc(label)+'</strong>',esc(operation),esc(base),esc(unit)
+  ].filter(Boolean);
+  const status=h?.classification==='fictional_exercise'&&!verification?'':
+    '<p class="dnote">DCS flight testing: '+verificationStatus(verification?.dcs)+
+    ' · DKS import testing: '+verificationStatus(verification?.dks)+'</p>';
+  return '<section class="history-evidence" aria-label="Historical context"><p class="history-facts">'+facts.join(' · ')+'</p>'+status+
+    '<details class="libhistory"><summary>Setting, sources &amp; adaptations</summary>'+
+    (notes?'<ul>'+notes+'</ul>':'')+
+    (links?'<ul class="source-links" aria-label="Historical sources">'+links+'</ul>':'<p class="dnote">No source links supplied for this setting.</p>')+
+    '<a href="/api/historical-library">Browse historical sources</a></details></section>';
+}
+function collectionMissions(t){
+ const pack=t.pack, ordered=pack.sequence===true, count=t.catalog.count;
+ const heading=ordered?count+(count===1?' mission in flying order':' missions in flying order'):'Missions in this collection';
+ return '<h3 class="sechead">'+heading+'</h3>'+ (pack.events||[]).map((event,index)=>{
+   const facts=[dateMark(event.scenario_date,event.date_precision),esc(event.context_label)].filter(Boolean);
+   const number=ordered?'<span class="evn">'+String(index+1).padStart(2,'0')+'</span>':'';
+   return '<div class="evrow'+(ordered?' ordered':'')+'">'+number+
+    '<div class="evt">'+esc(event.label)+(facts.length?'<p class="history-facts">'+facts.join(' · ')+'</p>':'')+
+    '<small>'+esc(event.premise||'')+'</small></div>'+
+    '<div class="evlinks"><button type="button" data-save-event="'+index+'" aria-label="Save mission '+esc(event.label)+'">Save</button>'+
+    '<a href="'+esc(packHref(pack.id,event.miz))+'" aria-label="Download mission '+esc(event.label)+'" download>Mission</a>'+
+    (event.brief_pdf?'<a href="'+esc(packHref(pack.id,event.brief_pdf))+'" aria-label="Download briefing '+esc(event.label)+'" download>Briefing</a>':'')+'</div></div>';
+ }).join('')+
+ '<div class="dnote">Published collection'+(pack.version?' v'+esc(pack.version):'')+
+ (pack.size_mb?' · '+esc(pack.size_mb)+' MB':'')+'. Unzip into Saved Games\\DCS\\Missions.'+
+ (ordered?' Follow the flying order above.':'')+'</div>';
 }
 function openDetail(k, pref){
  if(k.startsWith('track_')) return openTrack(k.slice(6), pref);
@@ -669,13 +844,14 @@ function openDetail(k, pref){
  const crew=t.aircraft_locked?'<div class="dblock"><h4>Crew difficulty</h4><div class="pillrow">'+['qualified','trainee'].map(v=>'<button class="pbtn '+(v===libState.crew?'on':'')+'" onclick="pickCrew(\''+v+'\')">'+(v==='qualified'?'Qualified — your calls':'Trainee — crew hints')+'</button>').join('')+'</div></div>':'';
  const actions=t.pack?packRequires(t.pack)+'<div class="dcta"><a class="prime" href="/api/pack/'+t.pack.id+'/all.zip" download><svg class="icon"><use href="#i-download"/></svg> Download collection · '+c.count+' missions</a>'+(t.pack.guide_pdf?'<a class="ghost" href="'+packHref(t.pack.id,t.pack.guide_pdf)+'" download>In-flight guide</a>':'')+(t.pack.readme_pdf?'<a class="ghost" href="'+packHref(t.pack.id,t.pack.readme_pdf)+'" download>Read me first</a>':'')+'</div>':
   '<div id="library_readiness" class="readiness"></div><div class="dcta"><button class="prime" id="dgen" onclick="generateFromLib(\''+k+'\')"><svg class="icon"><use href="#i-download"/></svg> Generate &amp; Download</button><button class="ghost" onclick="openInBuilder(\''+k+'\')">Customize in Builder</button></div><p id="libstatus" role="status" aria-live="polite"></p><div id="libkit" class="revlist" style="display:none;margin-top:12px"></div>';
- const events=t.pack?'<div class="sechead">'+c.count+' missions — fly them in order</div>'+(t.pack.events||[]).map((ev,index)=>'<div class="evrow"><span class="evn">'+String(ev.n).padStart(2,'0')+'</span><span class="evt">'+esc(ev.label)+'<small>'+esc(ev.premise||'')+'</small></span><div class="evlinks"><button type="button" data-save-event="'+index+'" aria-label="Save mission '+esc(ev.label)+'">Save</button><a href="'+packHref(t.pack.id,ev.miz)+'" aria-label="Download mission '+esc(ev.label)+'" download>Mission</a>'+(ev.brief_pdf?'<a href="'+packHref(t.pack.id,ev.brief_pdf)+'" aria-label="Download briefing '+esc(ev.label)+'" download>Briefing</a>':'')+'</div></div>').join('')+'<div class="dnote">Published collection'+(t.pack.version?' v'+esc(t.pack.version):'')+(t.pack.size_mb?' · '+t.pack.size_mb+' MB':'')+'. These are stored missions. Unzip into Saved Games\\DCS\\Missions and follow the sequence above.</div>':
+ const events=t.pack?collectionMissions(t):
   '<div class="dblock"><h4>What\'s set up for you</h4><ul class="incl">'+inclLines(t).map(x=>'<li><span class="k">✓</span>'+x+'</li>').join('')+'</ul></div><p class="dnote">Selections fill the Builder. Customize any setting before you fly.</p>';
  document.getElementById('dcardinner').innerHTML='<div class="detailhead"><span>'+c.subtype+(t.pack?' · '+c.count+' missions':'')+'</span><button class="dclose" aria-label="Close details" onclick="closeDetail()">×</button></div>'+
   '<h2>'+esc(c.title)+'</h2>'+(t.premise?.length>220?'<details class="libhistory"><summary>About this collection</summary><p class="dprem">'+esc(t.premise)+'</p></details>':'<p class="dprem">'+esc(t.premise||'')+'</p>')+
   '<div class="lchips" id="dSummary"></div>'+(req?'<div class="ownrow needs">'+(req.unknown?'Compatibility unconfirmed: ':'Needs: ')+esc(reqLabel(req))+'</div>':'')+
   (c.requirements.extras.length?'<div class="ownrow needs">Requires '+esc(c.requirements.extras.map(k=>k==='Supercarrier'?'DCS: Supercarrier':k).join(', '))+'</div>':'')+
-  choices+crew+actions+'<div class="dcta"><button type="button" id="save_library">Save to My missions</button></div>'+events+'<div id="dHistorical">'+historicalBlock(t,libState.era)+'</div>';
+  '<div id="dHistorical">'+historicalBlock(t,libState.era)+'</div>'+choices+crew+actions+
+  '<div class="dcta"><button type="button" id="save_library">Save to My missions</button></div>'+events;
  document.getElementById('save_library').onclick=()=>{
    if(t.pack)return globalThis.SortieAccount.saveSelection({kind:'pack',pack_id:t.pack.id});
    const draft=recipe();let selected;
@@ -689,7 +865,16 @@ function openDetail(k, pref){
  document.getElementById('libdetail').classList.add('on');modalOpen(document.getElementById('libdetail'));syncGenerationButtons();
 }
 function prettyAc(key){ const a=(OPT.aircraft||[]).find(x=>x.key===key); return a?a.id:key; }
-function closeDetail(){ document.getElementById('libdetail').classList.remove('on'); modalClose(); }
+function closeDetail(){
+ document.getElementById('libdetail').classList.remove('on');
+ const url=new URL(location.href);
+ if(url.searchParams.get('v')==='library'&&(url.searchParams.has('mission')||url.searchParams.has('pack'))){
+  url.searchParams.delete('mission');
+  url.searchParams.delete('pack');
+  history.replaceState(history.state,'',url);
+ }
+ modalClose();
+}
 function pickEra(e){
  const t=libFind(libState.cur);if(!t||t.pack)return;
  libState.era=e;const match=libCompatibility(t,{era:e}).variant;libState.map=match?.map||t.default_map;libState.aircraft=acDefaultFor(t,e);
@@ -727,5 +912,5 @@ async function generateFromLib(k){
 function openInBuilder(k){ setupFromLib(k); closeDetail(); showView('builder'); showScreen('flight'); }
 
 
-return { setLibraryFormat, pickMap, libCompatibility, libSelection, ownedModules, detailSummary, acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openCourseUnit, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
+return { setLibraryFormat, setLibraryShelf, pickMap, libCompatibility, libSelection, ownedModules, detailSummary, acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openCourseUnit, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
 }

@@ -114,8 +114,8 @@ def dated_setting(r, preset, era_cfg):
                 if preset.get('historical_classification') == 'reconstruction'
                 else preset.get('historical_classification', 'historically_inspired_adaptation')),
             'historical_notes': [*preset.get('historical_notes', []),
-                'Author-selected date overrides the scenario default. Coalition/base presets and '
-                'historical overlays remain era-based; this is not a reconstruction of that exact day.']}
+                'Author-selected date overrides the scenario default. Coalition and base assignments '
+                'still come from the map and era preset. Dated overlays refer to their own evidence.']}
 
 
 def point(value, terrain, name, map_key):

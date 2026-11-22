@@ -75,7 +75,7 @@ CONTENT_VERSION = {
     # corrections independently of the application release version.
     "cq_case3_f14": "1.0.13",
     "cq_case3_hornet": "1.0.13",
-    "timing_f4e": "1.0.13",
+    "timing_f4e": "1.0.15",
 }
 
 # Which terrain module each map key needs a pilot to own, in the words DCS

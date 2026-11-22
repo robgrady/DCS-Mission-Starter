@@ -89,9 +89,9 @@
     },
     "oef-kandahar-2010": {
       "id": "oef-kandahar-2010",
-      "label": "Operation Enduring Freedom: Kandahar, January 2010",
+      "label": "Operation Enduring Freedom: Kandahar, 2010",
       "subject_from": "2010-01-01",
-      "subject_to": "2010-01-01",
+      "subject_to": "2010-12-31",
       "recipe_era": null
     },
     "oif-iraq-2007": {
@@ -99,6 +99,27 @@
       "label": "Operation Iraqi Freedom: Iraq, January 2007",
       "subject_from": "2007-01-28",
       "subject_to": "2007-01-28",
+      "recipe_era": null
+    },
+    "oef-kandahar-2009": {
+      "id": "oef-kandahar-2009",
+      "label": "Operation Enduring Freedom: Kandahar, 2009",
+      "subject_from": "2009-01-01",
+      "subject_to": "2009-12-31",
+      "recipe_era": null
+    },
+    "oef-kandahar-2011": {
+      "id": "oef-kandahar-2011",
+      "label": "Operation Enduring Freedom: Kandahar, 2011",
+      "subject_from": "2011-01-01",
+      "subject_to": "2011-12-31",
+      "recipe_era": null
+    },
+    "oef-kandahar-bastion-2012": {
+      "id": "oef-kandahar-bastion-2012",
+      "label": "Operation Enduring Freedom: Kandahar and Camp Bastion, 2012",
+      "subject_from": "2012-01-01",
+      "subject_to": "2012-12-31",
       "recipe_era": null
     }
   },
@@ -362,6 +383,78 @@
       "publication_date": "2007-02-04",
       "publication_date_precision": "day",
       "access": "Public Air Force record."
+    },
+    "usaf-772-eas-kandahar-2009": {
+      "id": "usaf-772-eas-kandahar-2009",
+      "title": "New Kandahar unit prepares for troop increase",
+      "kind": "official_web",
+      "public_url": "https://www.af.mil/News/Article-Display/Article/120891/new-kandahar-unit-prepares-for-troop-increase/",
+      "publication_date": "2009-03-18",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
+    },
+    "usaf-354-fs-kandahar-2009": {
+      "id": "usaf-354-fs-kandahar-2009",
+      "title": "354th pilots surpass 1,000 A-10 flight hours Sept. 11",
+      "kind": "official_web",
+      "public_url": "https://www.dm.af.mil/Media/Article-View/Article/314005/354th-pilots-surpass-1000-a-10-flight-hours-sept-11/",
+      "publication_date": "2009-09-15",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
+    },
+    "afcent-81-efs-kandahar-2010": {
+      "id": "afcent-81-efs-kandahar-2010",
+      "title": "New A-10 unit provides close air support",
+      "kind": "official_web",
+      "public_url": "https://www.afcent.af.mil/News/Article/220353/new-a-10-unit-provides-close-air-support/",
+      "publication_date": "2010-05-18",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
+    },
+    "dvids-74-efs-kandahar-2011": {
+      "id": "dvids-74-efs-kandahar-2011",
+      "title": "74th EFS, Thunder!",
+      "kind": "official_web",
+      "public_url": "https://www.dvidshub.net/image/382221/74th-efs-thunder",
+      "publication_date": "2011-03-25",
+      "publication_date_precision": "day",
+      "access": "Public DVIDS image record."
+    },
+    "ang-132-fw-kandahar-2012": {
+      "id": "ang-132-fw-kandahar-2012",
+      "title": "F-16s Head South",
+      "kind": "official_web",
+      "public_url": "https://www.132dwing.ang.af.mil/News/Article-Display/Article/455835/f-16s-head-south/",
+      "publication_date": "2012-02-28",
+      "publication_date_precision": "day",
+      "access": "Public Air National Guard record."
+    },
+    "afcent-124-efs-kandahar-2012": {
+      "id": "afcent-124-efs-kandahar-2012",
+      "title": "Decisive Airpower: Iowa Air Guardsmen wrap up groundbreaking deployment",
+      "kind": "official_web",
+      "public_url": "https://www.afcent.af.mil/News/Article/500866/decisive-airpower-iowa-air-guardsmen-wrap-up-groundbreaking-deployment/",
+      "publication_date": "2012-05-08",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
+    },
+    "dvids-vma211-bastion-arrival-2012": {
+      "id": "dvids-vma211-bastion-arrival-2012",
+      "title": "Harrier squadron consolidates efforts in Afghanistan",
+      "kind": "official_web",
+      "public_url": "https://www.dvidshub.net/image/621067/harrier-squadron-consolidates-efforts-afghanistan",
+      "publication_date": "2012-07-10",
+      "publication_date_precision": "day",
+      "access": "Public DVIDS image record."
+    },
+    "dvids-vma211-bastion-2012": {
+      "id": "dvids-vma211-bastion-2012",
+      "title": "Air superiority – Harriers continue operations over Helmand",
+      "kind": "official_web",
+      "public_url": "https://www.dvidshub.net/news/95304/air-superiority-harriers-continue-operations-over-helmand",
+      "publication_date": "2012-09-26",
+      "publication_date_precision": "day",
+      "access": "Public DVIDS Marine Corps record."
     }
   },
   "entries": [
@@ -1173,6 +1266,200 @@
       "valid_from": null,
       "valid_to": null,
       "simulation_support": "Enable Historical airspace and use this exact mission date to draw archival airfield markers on the DCS F10 map.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-kandahar-airlift-2009-03-14",
+      "title": "Kandahar: 772nd EAS C-130J arrival",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-2009",
+      "subject_from": "2009-03-14",
+      "subject_to": "2009-03-14",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "The first C-130Js assigned to the 772nd Expeditionary Airlift Squadron arrived at Kandahar on 14 March 2009.",
+        "The squadron formally activated at Kandahar on 15 March."
+      ],
+      "limits": [
+        "The snapshot records an aircraft arrival. The following day is the unit activation date.",
+        "The marker uses the DCS airfield position. Historical parking locations and flown tracks are unverified."
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-772-eas-kandahar-2009",
+          "locator": "Dated arrival photograph and squadron activation in opening paragraphs"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw an archival airfield marker on the DCS F10 map.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-kandahar-2010-05-11",
+      "title": "Kandahar: 81st EFS A-10C rotation",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-2010",
+      "subject_from": "2010-05-11",
+      "subject_to": "2010-05-11",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "The 81st Expeditionary Fighter Squadron arrived at Kandahar on 11 May 2010, following the 184th EFS rotation.",
+        "The Air Force identified the arriving squadron as an A-10C unit."
+      ],
+      "limits": [
+        "The recorded arrival does not establish the rotation end date.",
+        "The marker uses the DCS airfield position. Historical parking locations and flown tracks are unverified."
+      ],
+      "sources": [
+        {
+          "source_id": "afcent-81-efs-kandahar-2010",
+          "locator": "Arrival, departing unit and A-10C upgrade paragraphs"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw an archival airfield marker on the DCS F10 map.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-kandahar-2011-03-24",
+      "title": "Kandahar: 74th EFS A-10C",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-2011",
+      "subject_from": "2011-03-24",
+      "subject_to": "2011-03-24",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "An Air Force photograph dated 24 March 2011 identifies a 74th Expeditionary Fighter Squadron A-10C maintenance activity at Kandahar Airfield."
+      ],
+      "limits": [
+        "This is a dated basing observation. It does not identify a historical incident in the Library’s Kandahar A-10 exercise.",
+        "The marker uses the DCS airfield position. Historical parking locations and flown tracks are unverified."
+      ],
+      "sources": [
+        {
+          "source_id": "dvids-74-efs-kandahar-2011",
+          "locator": "VIRIN 110324-F-1725G-003, dated caption and image record"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw an archival airfield marker on the DCS F10 map.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-kandahar-2012-02-16",
+      "title": "Kandahar: Iowa Air National Guard F-16C arrival",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-bastion-2012",
+      "subject_from": "2012-02-16",
+      "subject_to": "2012-02-16",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "An Iowa Air National Guard F-16C arrived at Kandahar on 16 February 2012.",
+        "The Air Force identifies the 124th EFS as the first U.S. F-16 unit based at Kandahar and identifies its aircraft as Block 30."
+      ],
+      "limits": [
+        "The DCS Block 50 used by the Library exercises is a different variant. This observation does not establish an earlier U.S. F-16C station assignment or the entire 2012 rotation.",
+        "The marker uses the DCS airfield position. Historical parking locations and flown tracks are unverified."
+      ],
+      "sources": [
+        {
+          "source_id": "ang-132-fw-kandahar-2012",
+          "locator": "Flying South for the Winter caption dated 16 February 2012"
+        },
+        {
+          "source_id": "afcent-124-efs-kandahar-2012",
+          "locator": "Unit, first U.S. F-16 basing, and Block 30 paragraphs"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw an archival airfield marker on the DCS F10 map.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-bastion-2012-07-01",
+      "title": "Camp Bastion: VMA-211 Harrier relocation",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-bastion-2012",
+      "subject_from": "2012-07-01",
+      "subject_to": "2012-07-01",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "A Marine Corps photograph records a VMA-211 AV-8B landing at Camp Bastion on 1 July 2012.",
+        "The caption identifies the landing as the squadron’s official move from Kandahar."
+      ],
+      "limits": [
+        "The relocation caption identifies the aircraft family. The specific variant is unverified for this observation.",
+        "The marker uses the DCS airfield position. Historical parking locations and flown tracks are unverified."
+      ],
+      "sources": [
+        {
+          "source_id": "dvids-vma211-bastion-arrival-2012",
+          "locator": "VIRIN 120701-M-NF414-104 and dated caption"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw an archival airfield marker on the DCS F10 map.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-bastion-2012-09-26",
+      "title": "Camp Bastion: VMA-211 AV-8B II Plus",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-bastion-2012",
+      "subject_from": "2012-09-26",
+      "subject_to": "2012-09-26",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "Marine Corps reporting dated 26 September 2012 identifies VMA-211 activity and AV-8B II Plus aircraft at Camp Bastion."
+      ],
+      "limits": [
+        "The report identifies II Plus aircraft present on the observed date. It does not establish the variant mix of the entire deployment or verify the DCS Night Attack module in this snapshot.",
+        "The marker uses the DCS airfield position. Historical parking locations and flown tracks are unverified."
+      ],
+      "sources": [
+        {
+          "source_id": "dvids-vma211-bastion-2012",
+          "locator": "Camp Bastion dateline, opening aircraft identification and VMA-211 attribution"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw an archival airfield marker on the DCS F10 map.",
       "aircraft_families": []
     }
   ],
@@ -2952,6 +3239,209 @@
       "valid_to": null,
       "map": "iraq",
       "map_airport": "Al-Asad Airbase"
+    },
+    {
+      "id": "772-eas-kandahar-2009-03-14",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "772nd Expeditionary Airlift Squadron",
+      "base": "Kandahar",
+      "event_date": "2009-03-14",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "C-130J"
+      ],
+      "aircraft_families": [
+        "C-130"
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-772-eas-kandahar-2009",
+          "locator": "Dated arrival photograph and squadron activation in opening paragraphs"
+        }
+      ],
+      "notes": [
+        "Dated observation. Continuous occupancy is unverified.",
+        "The snapshot records an aircraft arrival. The following day is the unit activation date."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Kandahar"
+    },
+    {
+      "id": "81-efs-kandahar-2010-05-11",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "81st Expeditionary Fighter Squadron",
+      "base": "Kandahar",
+      "event_date": "2010-05-11",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "A-10C"
+      ],
+      "aircraft_families": [
+        "A-10"
+      ],
+      "sources": [
+        {
+          "source_id": "afcent-81-efs-kandahar-2010",
+          "locator": "Arrival, departing unit and A-10C upgrade paragraphs"
+        }
+      ],
+      "notes": [
+        "Dated observation. Continuous occupancy is unverified.",
+        "The recorded arrival does not establish the rotation end date."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Kandahar"
+    },
+    {
+      "id": "74-efs-kandahar-2011-03-24",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "74th Expeditionary Fighter Squadron",
+      "base": "Kandahar",
+      "event_date": "2011-03-24",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "A-10C"
+      ],
+      "aircraft_families": [
+        "A-10"
+      ],
+      "sources": [
+        {
+          "source_id": "dvids-74-efs-kandahar-2011",
+          "locator": "VIRIN 110324-F-1725G-003, dated caption and image record"
+        }
+      ],
+      "notes": [
+        "Dated observation. Continuous occupancy is unverified.",
+        "This is a dated basing observation. It does not identify a historical incident in the Library’s Kandahar A-10 exercise."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Kandahar"
+    },
+    {
+      "id": "124-efs-kandahar-2012-02-16",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "124th Expeditionary Fighter Squadron",
+      "base": "Kandahar",
+      "event_date": "2012-02-16",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "F-16C Block 30"
+      ],
+      "aircraft_families": [
+        "F-16"
+      ],
+      "sources": [
+        {
+          "source_id": "ang-132-fw-kandahar-2012",
+          "locator": "Flying South for the Winter caption dated 16 February 2012"
+        },
+        {
+          "source_id": "afcent-124-efs-kandahar-2012",
+          "locator": "Unit, first U.S. F-16 basing, and Block 30 paragraphs"
+        }
+      ],
+      "notes": [
+        "Dated observation. Continuous occupancy is unverified.",
+        "The DCS Block 50 used by the Library exercises is a different variant. This observation does not establish an earlier U.S. F-16C station assignment or the entire 2012 rotation."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Kandahar"
+    },
+    {
+      "id": "vma211-bastion-2012-07-01",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "VMA-211",
+      "base": "Camp Bastion",
+      "event_date": "2012-07-01",
+      "date_precision": "day",
+      "aircraft_variants": [],
+      "aircraft_families": [
+        "AV-8B"
+      ],
+      "sources": [
+        {
+          "source_id": "dvids-vma211-bastion-arrival-2012",
+          "locator": "VIRIN 120701-M-NF414-104 and dated caption"
+        }
+      ],
+      "notes": [
+        "Dated observation. Continuous occupancy is unverified.",
+        "The relocation caption identifies the aircraft family. The specific variant is unverified for this observation."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Camp Bastion"
+    },
+    {
+      "id": "vma211-bastion-2012-09-26",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "VMA-211",
+      "base": "Camp Bastion",
+      "event_date": "2012-09-26",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "AV-8B II Plus"
+      ],
+      "aircraft_families": [
+        "AV-8B"
+      ],
+      "sources": [
+        {
+          "source_id": "dvids-vma211-bastion-2012",
+          "locator": "Camp Bastion dateline, opening aircraft identification and VMA-211 attribution"
+        }
+      ],
+      "notes": [
+        "Dated observation. Continuous occupancy is unverified.",
+        "The report identifies II Plus aircraft present on the observed date. It does not establish the variant mix of the entire deployment or verify the DCS Night Attack module in this snapshot."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Camp Bastion"
+    },
+    {
+      "id": "354-fs-kandahar-2009-07",
+      "kind": "station_event",
+      "title": "Kandahar deployment arrival",
+      "unit": "354th Fighter Squadron",
+      "base": "Kandahar",
+      "event_date": "2009-07",
+      "date_precision": "month",
+      "aircraft_variants": [
+        "A-10C"
+      ],
+      "aircraft_families": [
+        "A-10"
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-354-fs-kandahar-2009",
+          "locator": "Deployment summary placing the Kandahar arrival in July 2009"
+        }
+      ],
+      "notes": [
+        "The home-unit report dates the arrival to July. The exact day and continuous occupancy are unverified."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan"
     }
   ],
   "source_assessments": [

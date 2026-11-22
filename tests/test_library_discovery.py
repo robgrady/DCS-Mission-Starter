@@ -47,6 +47,7 @@ def page(library_site):
         browser=p.chromium.launch();page=browser.new_page(viewport={'width':1280,'height':900});errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
         page.goto(library_site+'/?v=library');page.wait_for_function('OPT !== null && NAV_READY')
+        page.locator('[data-lib-shelf="all"]').click()
         yield page
         assert not errors,errors
         browser.close()
@@ -121,7 +122,7 @@ def test_detail_summary_and_historical_context_follow_era_aircraft_and_map(page)
     assert n>7 and f'{n} types available' in page.locator('#dSummary').inner_text()
     page.evaluate("pickAircraft('F_4E_45MC');pickMap('germany')")
     assert 'F-4E' in page.locator('#dSummary').inner_text() and 'Germany' in page.locator('#dSummary').inner_text()
-    assert '1978-06-21' in page.locator('#dHistorical').inner_text()
+    assert page.locator('#dHistorical time').get_attribute('datetime') == '1978-06-21'
     page.evaluate("pickEra('wwii')")
     assert 'F-4E' not in page.locator('#dSummary').inner_text()
     assert page.locator('#dHistorical').inner_text()

@@ -304,3 +304,28 @@ def test_the_card_view_is_derived_and_never_round_trips():
     again = F.normalize(man, "x", {"a.miz": MIZ})
     assert again["library"]["role"] == "sead"
     assert "role" not in again and "events" not in again
+
+
+@pytest.mark.parametrize('legacy',['Cold War','Cold Ear'])
+def test_legacy_cold_war_packs_use_the_canonical_filter_key(legacy):
+    manifest = {'format': 2, 'id': 'x', 'label': 'Historical mission',
+                'library': {'eras': [legacy]}}
+    assert F.card_view(manifest)['eras'] == ['coldwar']
+    assert manifest['library']['eras'] == [legacy]
+    assert F.normalize(manifest, 'x', {'a.miz': MIZ})['library']['eras'] == ['coldwar']
+
+
+def test_published_scenario_date_agrees_with_native_archive():
+    mission = zipit({'mission': b'mission = {["date"] = {["Day"] = 10, ["Year"] = 1980, ["Month"] = 7}}'})
+    manifest = {'format': 2, 'id': 'x', 'label': 'History',
+                'library': {'sequence': True, 'operation': 'Proud Phantom'},
+                'syllabus': [{'n': 1, 'label': 'First sortie', 'files': {'mission': 'a.miz'},
+                              'scenario_date': '1980-07-10',
+                              'context_label': 'Documented deployment milestone'}]}
+    view = F.card_view(F.normalize(manifest, 'x', {'a.miz': mission}))
+    assert view['sequence'] is True and view['operation'] == 'Proud Phantom'
+    assert view['events'][0]['scenario_date'] == '1980-07-10'
+    assert view['events'][0]['context_label'] == 'Documented deployment milestone'
+    manifest['syllabus'][0]['scenario_date'] = '1978-06-21'
+    with pytest.raises(F.PackError, match='declares a scenario date of 1978-06-21.*uses 1980-07-10'):
+        F.normalize(manifest, 'x', {'a.miz': mission})

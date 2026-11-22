@@ -1,8 +1,7 @@
 # Iraq air corridors — what the history supports
 
-*Military aviation history review, 14 August 2026. Source-based; every corridor
-below is traced to a citable account, and where the sources disagree I say so
-rather than picking the tidier version.*
+*Military aviation history review, 14 August 2026. The historical accounts
+provide scenario context. The DCS threat axes use authored geometry.*
 
 ---
 
@@ -15,8 +14,9 @@ air history on the shelf. This is the review that fixes that.
 A corridor in this product is deliberately thin: a compass **bearing** from the
 friendly base centroid and a **reach** in metres. Selecting one swings the
 mission's threat axis, concentrates enemy CAP down the lane, and writes two
-lines into the brief. It places **no player waypoints** — that rule doesn't
-bend for history.
+lines into the brief. The bearing, reach and opposing force distribution are
+simulator settings. Player routes remain independent of these settings. Dated
+reference boundaries appear separately under Historical airspace.
 
 So the bar for including a corridor is not "did something happen there." It is:
 
@@ -46,15 +46,10 @@ around 60 major strikes by the end of that December. The profile is the
 interesting part for us: aircraft flew "at extremely low altitudes and suddenly
 popped up," and could tank over Iraq before crossing. The defense was **MIM-23
 HAWK on the island** (CSIS notes batteries were reportedly inoperable in some
-periods), **ZSU-23-4 and AAA**, and **F-14A / F-4E** area defense. The lane's
-875 km reach lands within 1.4 km of Kharg's own airfield, so this is the full
-historical run, not a gesture at it.
-
-*Caveat we are not hiding:* the Iraqi fields that actually flew this — Shaibah,
-Tallil, Qalat Salih — are not on the DCS map. Sources put Nasiriyah "about 300
-miles from Kharg Island." From our western coldwar basing it is a longer sortie
-than the real one was. The **axis** is history; the **range** is a consequence
-of which airfields ED modelled.
+periods), **ZSU-23-4 and AAA**, and **F-14A / F-4E** area defense. The selected DCS
+preset uses a map-relative axis to evoke the setting. The sources name the
+target and describe aspects of the historical campaign. Exact tracks and
+a dated force disposition for the DCS scenario remain unverified.
 
 **Jafati Valley.** The best-fitting scenario space on the whole map, and it
 serves both eras. Human Rights Watch's *Genocide in Iraq* documents the First
@@ -68,19 +63,11 @@ Mirage aircraft" in sorties of seven or eight. Kirkuk → Halabja is 152 km on
 airbases** — Kirkuk and K1 are the obvious candidates on geography alone, and
 that inference is mine, not the source's.
 
-**H-3 Raid Track.** The single best-documented deep ingress of the war, and
-here you are on the receiving end of it. On 4 April 1981 eight Iranian F-4s
-with F-14A cover flew Hamadan → Lake Urmia (395 km on 315°) → west along the
-Iraqi–Turkish border mountains → south down western Iraq to the H-3 complex,
-**below 300 ft throughout, including all four in-flight refuellings**, with
-three F-5Es from Tabriz flying a diversion toward Kirkuk. Our lane points north
-at the Jazira border ridges — the last leg, the part that is on our map.
-
-*Sources disagree* on the total distance (Wikipedia ~3,500 km, Atlantic Council
-~3,000 km) and on whether the tankers staged from Palmyra in Syria (Wikipedia
-says yes; the Atlantic Council account has both refuellings over Lake Urmia and
-the border). Syrian complicity is plausible — Damascus was aligned with Tehran
-— but it is the weaker claim.
+**H-3 Raid Track.** Public accounts document the Iranian raid of 4 April 1981
+and describe an extended flight that required air refueling. They differ on
+total distance and refueling support. The DCS preset uses an authored axis
+near the Jazira border ridges. A chart-quality historical track remains
+unverified.
 
 ### Coalition operations, 1991–2011 (`modern`)
 
@@ -99,10 +86,9 @@ Jaguar GR3, USAF F-15E and F-16CJ, USN/USMC EA-6B. **SA-3** sites are named;
 100 mm. The predecessor, Provide Comfort, ran 5 April 1991 – 31 December 1996
 over the same line.
 
-The line itself is the interesting bit on our map: **36°N passes just north of
-Erbil (36.24°N) and just south of Bashur (36.61°N)**, so Bashur is inside the
-no-fly zone, Erbil is marginally inside, and Qayyarah West and Sulaymaniyah are
-outside it. That is a real mission-design seam, not a decoration.
+The **36°N parallel lies south of Erbil (36.24°N) and Bashur (36.61°N)**. Both
+airfields are north of the parallel. Qayyarah West and Sulaymaniyah are south
+of it. The Builder’s selected axis is an exercise setting.
 
 **Southern Watch.** Announced 26 August 1992, flying from the 27th. Originally
 everything south of the **32nd parallel**; pushed north to the **33rd** after

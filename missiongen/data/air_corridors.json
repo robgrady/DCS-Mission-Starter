@@ -1,5 +1,5 @@
 {
-  "_comment": "Air Corridors (UX redesign v2): curated tactical lanes per map+era. Selecting one orients the mission's THREAT AXIS down the lane and concentrates enemy air defenses + CAP toward its far (enemy) end. Geometry is a compass BEARING (degrees, from the friendly side toward the enemy) + REACH (metres to the enemy focus), so it is map-agnostic and needs no per-corridor lat/lon. 'axis'/'enemy' are briefing text. NO player waypoints are placed — this shapes the ENEMY picture and the threat axis only.  terrain_note (optional): a plain-English caveat about the GROUND under the lane, briefed verbatim. Added Aug 2026 because DCS: Iraq ships only its North region in detail — the southern band a corridor may cross is present but low-detail until ED releases Iraq South, and a pilot should be told that rather than discover it.",
+  "_comment": "Curated DCS threat axes per map and era. Each axis uses a compass bearing in degrees and reach in metres from the friendly side toward the simulated opposing force. The axis and enemy fields are briefing text. The geometry is authored for the simulator. Use Historical airspace for separately sourced reference shapes. Selecting an axis shapes the simulated opposition and places no player waypoints. An optional terrain_note explains limitations in DCS scenery coverage.",
   "caucasus": [
     {
       "name": "Black Sea Coastal Push",
@@ -175,7 +175,7 @@
       "reach": 875000,
       "axis": "South-east down the Tigris and out over the Gulf to Kharg",
       "enemy": "MIM-23 HAWK on the island + IRIAF F-14A/F-4E + ZSU-23-4",
-      "terrain_note": "The ground under the southern half of this lane is DCS: Iraq's low-detail band — Eagle Dynamics has shipped only the North region so far. The geometry and the threat picture are real; the scenery down there is generic until Iraq South releases."
+      "terrain_note": "Scenery detail varies along this DCS exercise axis. The bearing, reach and simulated opposition are authored."
     },
     {
       "name": "Jafati Valley",
@@ -194,7 +194,7 @@
       ],
       "bearing": 350,
       "reach": 250000,
-      "axis": "North to the Jazira border ridges - the way the Phantoms came",
+      "axis": "Authored exercise axis near the Jazira border ridges",
       "enemy": "Low-level ingress under the radar horizon + escorting F-14A"
     },
     {
@@ -216,7 +216,7 @@
       "reach": 258000,
       "axis": "South-east across the 33rd parallel toward Al-Kut",
       "enemy": "SA-6 batteries + AAA, with MiG-25 probes from the east",
-      "terrain_note": "The ground under the southern half of this lane is DCS: Iraq's low-detail band — Eagle Dynamics has shipped only the North region so far. The geometry and the threat picture are real; the scenery down there is generic until Iraq South releases."
+      "terrain_note": "Scenery detail varies along this DCS exercise axis. The bearing, reach and simulated opposition are authored."
     },
     {
       "name": "Karbala Gap",
@@ -227,7 +227,7 @@
       "reach": 167000,
       "axis": "South to the gap between the Euphrates and Lake Razazah",
       "enemy": "Republican Guard SHORAD - Roland, SA-8, SA-9, ZSU-23-4",
-      "terrain_note": "The ground under the southern half of this lane is DCS: Iraq's low-detail band — Eagle Dynamics has shipped only the North region so far. The geometry and the threat picture are real; the scenery down there is generic until Iraq South releases."
+      "terrain_note": "Scenery detail varies along this DCS exercise axis. The bearing, reach and simulated opposition are authored."
     },
     {
       "name": "Western Scud Box",

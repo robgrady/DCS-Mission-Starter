@@ -19,7 +19,7 @@ from test_refactor_browser import site
 
 def test_edition_provenance_and_unknown_validity():
     data = catalog()
-    assert len(data['entries']) == 20 and len(data['unit_records']) == 20
+    assert len(data['entries']) == 26 and len(data['unit_records']) == 27
     assert len(data['profiles']['nevada-1981']['points']) == 32
     assert len(data['profiles']['nevada-2014']['points']) == 6
     assert all(not p['routing_enabled'] for p in data['profiles'].values())
@@ -135,7 +135,8 @@ def test_deployment_snapshots_expose_web_provenance_without_inferring_occupancy(
             'map': map_key, 'on': day, 'variant': variant,
         })
         assert response.status_code == 200
-        records = [row for row in response.json()['records'] if row['kind'] == 'deployment_snapshot']
+        records = [row for row in response.json()['records']
+                   if row['kind'] == 'deployment_snapshot' and row['event_date'] == day]
         assert len(records) == record_count
         for record in records:
             assert record['date_relation'] == 'event_on_selected_date'
@@ -191,14 +192,14 @@ def test_real_browser_library_filters_chart_keyboard_and_date_limits(site,width,
         page.on('pageerror',lambda error:errors.append(str(error)))
         page.goto(site+'/api/historical-library')
         page.wait_for_selector('#history-count')
-        assert page.locator('.reference-card:visible').count()==20
+        assert page.locator('.reference-card:visible').count()==26
         page.locator('#history-map').select_option('nevada')
         page.locator('#history-period').select_option('nevada-1981')
         assert page.locator('.reference-card:visible').count()==2
         page.locator('#history-search').fill('no such reference xyz')
         assert page.locator('#history-empty').is_visible()
         page.locator('#history-reset').click()
-        assert page.locator('.reference-card:visible').count()==20
+        assert page.locator('.reference-card:visible').count()==26
         page.locator('#history-extent').select_option('local')
         marker=page.locator('.reference-profile:visible .point-diagram:visible .reference-point').first
         marker.focus();marker.press('Enter')
@@ -253,3 +254,20 @@ def test_content_ledger_retains_reviews_only_for_unchanged_evidence(monkeypatch)
     assert third['records'][0]['change_status']=='changed_since_review'
     assert 'claim_assessment' not in third['records'][0]
     assert third['records'][0]['previous_claim_assessment']==reviewed['claim_assessment']
+
+
+def test_historical_planning_starter_has_a_valid_share_link_and_source():
+    from urllib.parse import parse_qs, urlsplit
+    from missiongen.share import decode_recipe
+
+    with TestClient(app) as client:
+        starter = next(row for row in client.get('/api/options').json()['historical_starters']
+                       if row['base'] == 'Kandahar')
+        code = parse_qs(urlsplit(starter['builder_url']).query)['r'][0]
+        recipe = decode_recipe(code)
+        assert starter['date'] == recipe.mission_date == '2010-01-01'
+        assert starter['map'] == recipe.map == 'afghanistan'
+        assert starter['aircraft_key'] == recipe.aircraft == 'A_10C'
+        assert recipe.slots == 2 and recipe.bb_historical_airspace and not recipe.player_arm
+        assert starter['source_url'].endswith('#oef-kandahar-2010-01-01')
+        assert '354th Expeditionary Fighter Squadron' in starter['unit']

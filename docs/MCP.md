@@ -1,6 +1,6 @@
 # Sortie Starter MCP
 
-Guide release: **v1.127.0** · reviewed **2026-11-22**. This is a release snapshot;
+Guide release: **v1.128.0** · reviewed **2026-11-22**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
@@ -528,7 +528,11 @@ Call `sortiestarter_get_historical_references` with `{"params": {}}` to discover
 exact period/topic keys, then filter entries by `map`, `period`, `topic` or `on`.
 The supporting sources, profiles and unit metadata remain available in filtered
 responses. `sortiestarter://historical-library` returns the same full catalog.
-The website is `/api/historical-library`; JSON is `/api/historical-library/catalog`.
+The reference website is `/api/historical-library`; JSON is
+`/api/historical-library/catalog`. The Library's `/api/options` response
+includes `historical_starters` with the observed date, map, aircraft,
+Builder link and linked archive reading. Use the Builder link or validate
+the underlying starter recipe before generating a mission.
 Unit comparisons are `/api/historical-library/units?map=normandy&on=1944-07-07`;
 optional `base` and `variant` match exact recorded strings. `occupancy_certified`
 is false: events and snapshots do not establish continuous station assignments.

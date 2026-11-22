@@ -185,11 +185,18 @@ statement of fact, not an instruction.
   "premise": "…",           // one or two sentences
   "image": "card.png",      // path inside the pack
   "eras": ["coldwar"],
-  "maps": ["sinai"]
+  "maps": ["sinai"],
+  "sequence": true          // true if pilots should fly the entries in order
 }
 ```
 
 An unknown `role` **MUST** be treated as `training` rather than rejected.
+Use the canonical era keys `wwii`, `coldwar`, `modern` and `gwot`.
+Recognized display aliases are normalized for compatibility. Set `sequence`
+to false for alternative versions. Older built-in syllabus tracks retain their
+defined order. Optional `operation`, `unit`, `base` and `scenario_date`
+help pilots find a collection. Only supply a collection date when it describes
+the collection as a whole.
 
 ### 2.7 `syllabus` — ordered contents
 
@@ -199,6 +206,8 @@ An unknown `role` **MUST** be treated as `training` rather than rejected.
     "id": "pp_1_drag",
     "label": "Tanker Drag to Egypt",
     "premise": "…",
+    "scenario_date": "1980-07-10",
+    "context_label": "Documented deployment milestone",
     "files": { "mission": "missions/01_pp_1_drag.miz",
                "brief":   "briefs/01_brief.pdf",
                "kneeboard": "kneeboards/01.zip" },
@@ -209,6 +218,13 @@ An unknown `role` **MUST** be treated as `training` rather than rejected.
 `n` orders the list and **MUST** be unique within a pack. A missing `n` sorts
 after every present one, in array order. An entry whose `files.mission` does
 not exist in the archive **MUST** be dropped by the reader, not served.
+
+An optional entry `scenario_date` is the date stored in its .miz. If the
+native date can be read and it disagrees, the importer rejects the entry's pack
+with the two dates. Use `context_label` to identify an adaptation, fictional
+episode or representative simulator date. `date_precision` can describe the
+precision of the evidence. A simulator calendar date alone establishes no
+historical claim.
 
 Format 1 called this `events` and used a flat `miz`/`brief_pdf` pair. Both
 spellings are accepted on read (§4).

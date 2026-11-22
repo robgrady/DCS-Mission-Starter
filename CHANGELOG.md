@@ -1,5 +1,14 @@
 # Changelog — DCS Sortie Starter
 
+## [1.128.0] — Historical Missions Library
+
+- Lead with historical missions and DKS planning starters. Browse dates, units, operations, aircraft and airfields, with sources and adaptations at the point of selection.
+- Link directly to mission details and make historical source links return to Library. Show alternate mission files as choices and display verified ordering for series.
+- Normalize legacy Cold War era labels, preserve per-mission simulator dates in collection details and catch mismatched declared dates on pack import.
+- Remove the conflicting year from the Timing syllabus title and explain its representative simulator date.
+- Expand the Afghanistan deployment timeline with sourced unit, airfield and aircraft observations. Correct misleading scenario attribution and distinguish authored Iraq map geometry.
+- Update the browser and offline User Guide.
+
 ## [1.127.0] — Historical deployment starters
 
 - Add official Air Force source records for Kandahar on 1 January 2010 and Balad and Al Asad on 28 January 2007, including five dated squadron observations.

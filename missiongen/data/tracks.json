@@ -48,6 +48,7 @@
   "label": "70th TFS White Knights \u2014 Squadron Checkout (F-4E, 1980)",
   "short": "White Knights \u00b7 Checkout",
   "role": "training",
+  "historical_library": true,
   "service": "USAF",
   "aircraft": "F_4E_45MC",
   "eras": [
@@ -70,6 +71,7 @@
   "label": "70th TFS White Knights \u2014 Proud Phantom, Egypt 1980",
   "short": "White Knights \u00b7 Proud Phantom",
   "role": "training",
+  "historical_library": true,
   "service": "USAF",
   "aircraft": "F_4E_45MC",
   "eras": [
@@ -132,7 +134,7 @@
   ]
  },
  "timing_f4e": {
-  "label": "Timing \u2014 The Clock on the Card (F-4E, 1980)",
+  "label": "Timing \u2014 The Clock on the Card (F-4E)",
   "short": "Timing \u00b7 F-4E",
   "role": "training",
   "service": "USAF",
@@ -148,7 +150,8 @@
    "Timing is anchored, not accumulated. One time is fixed \u2014 the",
    "takeoff, the push, or the time on target \u2014 and every other number",
    "on the card is solved from it. These four rides fix a different",
-   "one each, and the mission clock moves to make it true."
+   "one each, and the mission clock moves to make it true.",
+   "The simulator calendar uses a representative Cold War date."
   ]
  }
 }

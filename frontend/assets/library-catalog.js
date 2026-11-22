@@ -46,8 +46,14 @@ function buildLibraryCatalog(t, options){
  }
  const keys=pack?requirements.aircraft:[...new Set(variants.map(v=>v.aircraft))];
  const mapKeys=pack?requirements.maps.map(m=>m.key).filter(Boolean):[...new Set(variants.map(v=>v.map))];
- const activity=[...new Set([t.role,...(t.library?.activities||[]),...(t.needs_carrier?['carrier']:[]),...((t.recipe?.formation||t.recipe?.cq_ride||t.track)?['training']:[]),...(t.historical_context&&Object.values(t.historical_context).some(v=>Object.values(v).some(h=>h.classification&&h.classification!=='fictional_exercise'))?['historic']:[])])];
- return {structure:pack?'collection':'mission',subtype:pack?'Collection':t.kind==='full'?'Mission':'Open starter',count:pack?(pack.events||[]).length:1,title:t.title||t.label,aircraft:keys,maps:mapKeys,variants,requirements,activity};
+ const contexts=Object.entries(t.historical_context||{}).flatMap(([era, theaters]) =>
+  Object.entries(theaters).map(([map, context])=>({...context,era,map})));
+ const historical=(t.historical_authored?contexts:[]).filter(context=>
+  ['reconstruction','historically_inspired_adaptation'].includes(context.classification) &&
+  (pack||variants.some(v=>v.era===context.era&&v.map===context.map)));
+ if(pack&&t.library?.role==='historic'&&!contexts.length)historical.push({});
+ const activity=[...new Set([t.role,...(t.library?.activities||[]),...(t.needs_carrier?['carrier']:[]),...((t.recipe?.formation||t.recipe?.cq_ride||t.track)?['training']:[]),...(historical.length?['historic']:[])])];
+ return {structure:pack?'collection':'mission',subtype:pack?'Collection':t.kind==='full'?'Mission':'Open starter',count:pack?(pack.events||[]).length:1,title:t.title||t.label,aircraft:keys,maps:mapKeys,variants,requirements,activity,contexts,historical};
 }
 function catalogCompatibility(catalog, ownedMaps, ownedAircraft, ownedModules, filters={}){
  const missingExtras=catalog.requirements.extras.filter(k=>ownedModules&&!ownedModules.has(k));

@@ -245,7 +245,7 @@
    "threat": 2,
    "players": "SP \u00b7 MP",
    "featured": true,
-   "premise": "A friendly patrol faces hostile vehicles 800 m away. Check in with a dedicated DCS JTAC on 30 MHz FM, identify the target and provide CAS. No scripted 9-line or automatic danger-close clearance.",
+   "premise": "Fictional training exercise in the DCS Kandahar setting with an A-10C II and a dedicated in-game JTAC.",
    "new": false
   },
   "recipe": {
@@ -269,10 +269,20 @@
    "A friendly patrol and dedicated Pointer JTAC are placed near the hostile vehicles.",
    "Check in on 30.000 MHz FM using the native DCS JTAC radio menu.",
    "Confirm clearance and friendly positions before release; AWACS is air-picture support, not JTAC."
-  ]
+  ],
+  "historical": {
+   "historical_classification": "fictional_exercise",
+   "historical_notes": [
+    "The incident and unit roster are authored. A dated Air Force record separately places a 74th EFS A-10C at Kandahar on 24 March 2011.",
+    "The DCS A-10C II is a later module variant. The archive documents the A-10C."
+   ],
+   "historical_sources": [
+    "https://www.dvidshub.net/image/382221/74th-efs-thunder"
+   ]
+  }
  },
  "af_bastion_scramble": {
-  "label": "Bastion Scramble \u2014 Harrier Alert (VMA-211)",
+  "label": "Bastion Scramble \u2014 Harrier Alert",
   "eras": [
    "modern"
   ],
@@ -284,7 +294,7 @@
    "role": "strike",
    "threat": 2,
    "players": "SP",
-   "premise": "Alert Harrier at Camp Bastion. The QRF needs air NOW \u2014 runway alert, first pass counts.",
+   "premise": "Fictional Harrier alert exercise from Camp Bastion using the DCS Night Attack module.",
    "new": false
   },
   "recipe": {
@@ -303,7 +313,18 @@
    "== TASKING: ALERT LAUNCH ==",
    "Immediate launch from Bastion alert. Strike package in the target area.",
    "Fuel is tight - Texaco is airborne if you need it."
-  ]
+  ],
+  "historical": {
+   "historical_classification": "fictional_exercise",
+   "historical_notes": [
+    "This authored alert exercise uses the 2011 fictional Modern setting. The Marine Corps records VMA-211 moving from Kandahar to Camp Bastion on 1 July 2012.",
+    "A separate September 2012 report identifies AV-8B II Plus aircraft at Bastion. The exercise uses the DCS AV-8B Night Attack module."
+   ],
+   "historical_sources": [
+    "https://www.dvidshub.net/image/621067/harrier-squadron-consolidates-efforts-afghanistan",
+    "https://www.dvidshub.net/news/95304/air-superiority-harriers-continue-operations-over-helmand"
+   ]
+  }
  },
  "af_convoy_overwatch": {
   "label": "Helmand Convoy Overwatch (F-16 night)",
@@ -318,7 +339,7 @@
    "role": "cas",
    "threat": 2,
    "players": "SP \u00b7 MP",
-   "premise": "A friendly four-truck convoy follows a marked DCS road route after dark. Protect it when two hostile armored vehicles activate near the ambush zone. A notional local overwatch exercise.",
+   "premise": "Fictional night convoy exercise from DCS Kandahar. The convoy follows an in-game road route.",
    "new": false
   },
   "recipe": {
@@ -343,7 +364,17 @@
    "A dedicated convoy and proximity-activated hostile ambush are generated.",
    "Use the fitted targeting pod and verify identification before attacking.",
    "This uses the DCS road graph, not a surveyed historical Helmand route."
-  ]
+  ],
+  "historical": {
+   "historical_classification": "fictional_exercise",
+   "historical_notes": [
+    "The convoy and incident are authored. The route uses the DCS road graph.",
+    "The Air Force dates the first U.S. F-16 unit based at Kandahar to February 2012 and identifies its aircraft as Block 30. The exercise uses a DCS Block 50 in the fictional 2011 setting."
+   ],
+   "historical_sources": [
+    "https://www.afcent.af.mil/News/Article/500866/decisive-airpower-iowa-air-guardsmen-wrap-up-groundbreaking-deployment/"
+   ]
+  }
  },
  "af_hindu_kush_qra": {
   "label": "Hindu Kush QRA \u2014 Northern Intercept",
@@ -358,7 +389,7 @@
    "role": "a2a",
    "threat": 3,
    "players": "SP \u00b7 MP",
-   "premise": "Fast movers pushing south over the Hindu Kush. Scramble from Kandahar, climb hard, and meet them in the high passes.",
+   "premise": "Fictional opposing-air exercise from DCS Kandahar. The Modern preset assigns the northern bases to a simulated opposing force.",
    "new": false
   },
   "recipe": {
@@ -379,7 +410,17 @@
    "Overlord holds the picture - expect bandits from the northern fields.",
    "The terrain is the second enemy: MSA in the passes is unforgiving.",
    "Bagram's SAM umbrella is active - respect the rings on the F10 map."
-  ]
+  ],
+  "historical": {
+   "historical_classification": "fictional_exercise",
+   "historical_notes": [
+    "The opposing air forces, defensive deployments and intercept are authored for the Modern exercise.",
+    "The Air Force records the first U.S. F-16 unit at Kandahar in February 2012. The roster and aircraft variant in this fictional 2011 exercise are game choices."
+   ],
+   "historical_sources": [
+    "https://www.afcent.af.mil/News/Article/500866/decisive-airpower-iowa-air-guardsmen-wrap-up-groundbreaking-deployment/"
+   ]
+  }
  },
  "f100_victor_alert": {
   "label": "Victor Alert \u2014 Nuclear QRA (Bitburg F-100D)",

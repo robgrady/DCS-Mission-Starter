@@ -89,6 +89,7 @@ def test_library_has_no_static_new_module_promotions_and_veterans_roundtrip(site
         page.goto(site+'/?v=builder'); page.wait_for_function('OPT !== null')
         page.locator('#viewtabs button[data-v="library"]').click()
         assert 'New in DCS' not in page.locator('#library').inner_text()
+        page.locator('[data-lib-shelf="all"]').click()
         assert page.locator('#lfeat .libcard').count() > 0
         page.locator('#viewtabs button[data-v="builder"]').click()
         page.evaluate('showScreen("flight")')
@@ -151,16 +152,16 @@ def test_historical_details_follow_the_selected_era_without_overflow(site,width)
         page.goto(site+'/?v=library');page.wait_for_function('OPT !== null')
         page.evaluate('showView("library");openDetail("berlin_corridor_transit")')
         box=page.locator('#dHistorical')
-        assert '1978-06-21' in box.inner_text()
+        assert box.locator('time').get_attribute('datetime') == '1978-06-21'
         box.locator('summary').click()
         assert 'exercise limit' in box.inner_text()
-        assert box.locator('a').count()==4
+        assert box.locator('.source-links a').count()==4
         assert box.evaluate('(el)=>el.scrollWidth <= el.clientWidth+1')
         page.keyboard.press('Escape')
         page.evaluate('openDetail("qf_bfm");pickEra("coldwar")')
-        assert '1978-06-21' in page.locator('#dHistorical').inner_text()
+        assert page.locator('#dHistorical time').get_attribute('datetime') == '1978-06-21'
         page.evaluate('pickEra("modern")')
-        assert '2011-06-21' in page.locator('#dHistorical').inner_text()
+        assert page.locator('#dHistorical time').get_attribute('datetime') == '2011-06-21'
         assert not errors
         browser.close()
 

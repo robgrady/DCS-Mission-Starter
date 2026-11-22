@@ -51,7 +51,7 @@ def test_sdk_discovers_structured_schemas_annotations_and_resources():
             assert {str(r.uri) for r in resources} == {'sortiestarter://recipe-schema','sortiestarter://user-guide','sortiestarter://integration-guide','sortiestarter://historical-library'}
             history = await client.read_resource('sortiestarter://historical-library')
             history_entries = json.loads(history.contents[0].text)['entries']
-            assert len(history_entries) == 20
+            assert len(history_entries) == 26
             assert {'oef-kandahar-2010-01-01', 'oif-balad-al-asad-2007-01-28'} <= {
                 row['id'] for row in history_entries
             }

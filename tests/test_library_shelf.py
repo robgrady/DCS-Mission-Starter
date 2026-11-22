@@ -149,7 +149,9 @@ JS = ("() => { const ks = libItems().map(x => x.k);"
 with sync_playwright() as p:
     b = p.chromium.launch(); pg = b.new_page()
     pg.goto("http://127.0.0.1:8793/", wait_until="networkidle")
-    pg.click("text=Library", timeout=15000); pg.wait_for_timeout(2500)
+    pg.get_by_role("button", name="Library", exact=True).click(timeout=15000)
+    pg.wait_for_function('typeof NAV_READY !== "undefined" && NAV_READY')
+    pg.get_by_role("button", name="All missions", exact=True).click()
     out = pg.evaluate(JS)
     b.close()
 print("RESULT " + json.dumps(out))

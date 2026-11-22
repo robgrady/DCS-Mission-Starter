@@ -133,6 +133,20 @@ def profile(profile_id):
     return deepcopy(row)
 
 
+def source_titles():
+    """Public titles for sources linked from mission details."""
+    return {row["public_url"]: row["title"]
+            for row in _data()["sources"].values() if row.get("public_url")}
+
+
+def starter_entries():
+    """Published reference entries with an explicitly authored starter."""
+    return [
+        {key: deepcopy(row[key]) for key in ("id", "title", "period", "starter_recipe", "starter_note")}
+        for row in _data()["entries"] if row.get("starter_recipe")
+    ]
+
+
 def deployment_snapshots(map_key, on):
     """Return archival basing observations for exactly this map and day."""
     event = _day(on).isoformat()

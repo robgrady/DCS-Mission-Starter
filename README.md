@@ -38,11 +38,10 @@ warranty. Not affiliated with Eagle Dynamics or Heatblur.
   targets, practice range, comms card on the **25 kHz radio raster**, in-jet kneeboards,
   nav reference points, F10 map-graphics layers.
 - **Crew Ops (F-14) template packs** using the Heatblur Jester/Iceman PROXY flag API.
-- **Mission Library:** two paths at entry — *Pick from the Library* (curated,
-  role-colour-coded scenario cards with era/threat/difficulty filters,
-  pick → preview → generate or open-in-builder) or *Build a Mission* (the full
-  wizard). **All scenario templates live in the Library**; the builder has no
-  scenario step.
+- **Mission Library:** historical sorties, collections and DKS planning
+  starters, with dated context, source links and DCS adaptations. Use
+  **All missions** to see the full catalog and **Historical sources** for
+  archive readings. Scenario templates open from Library into Builder.
 - **Section-navigation UI:** one focused screen at a time with a progress rail, completion
   checkmarks, a live preview, and share links (recipe+seed → same starter, always
   regenerable; a share link *is* the mission).
@@ -57,7 +56,7 @@ this). The frontend is served by the server at `/` from `frontend/index.html`.
 If a hosting agent re-skins or regenerates the UI anyway, these product
 requirements are **non-negotiable** and must be preserved exactly:
 
-1. **Two paths at entry:** "Pick from the Library" and "Build a Mission".
+1. **Start with historical missions.** Home links to Library, with Fly Now, Train and Builder available from the navigation.
 2. **ALL scenario templates live in the Mission Library** (card gallery with
    role/era/difficulty filters, pick → preview → Generate or Open-in-Builder).
    **There is NO Scenario/Template step inside the builder wizard** — do not add

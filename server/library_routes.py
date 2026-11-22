@@ -42,6 +42,7 @@ def _pack_templates() -> dict:
     out = {}
     for man in _packs.list_packs():
         pid = man["id"]
+        track = _tracks_mod.get(pid) or {}
         # A pack and a track sharing an id are the SAME syllabus — one authored
         # as a spec, the other as the artifact built from it. Rendering both
         # gives the pilot two cards for one thing, and the difference between
@@ -55,10 +56,15 @@ def _pack_templates() -> dict:
             "recipe": {}, "kind": "full", "tasked": True, "quick": False,
             "default_map": (man.get("maps") or [None])[0],
             "historical_context": man.get("historical_context") or {},
+            "historical_authored": (man.get("role") == "historic" or bool(man.get("operation"))
+                                    or track.get("historical_library") is True),
             "pack": {"id": pid, "image": man.get("image"),
                      "guide_pdf": (man.get("docs") or {}).get("guide"),
                      "readme_pdf": (man.get("docs") or {}).get("readme"),
                      "events": man.get("events", []),
+                     "sequence": man.get("sequence") is True or (man.get("sequence") is None and bool(track)),
+                     **{key: man[key] for key in ("operation", "unit", "base", "scenario_date", "verification")
+                        if man.get(key)},
                      # WHAT A PILOT MUST OWN, surfaced BEFORE the download.
                      # This is the field the whole format-2 exercise was for:
                      # without it somebody downloads eleven Sinai missions and
@@ -69,7 +75,7 @@ def _pack_templates() -> dict:
                      "size_mb": man.get("size_mb")},
             "library": {"role": man.get("role", "training"),
                         "threat": man.get("threat", 3),
-                        "requires": (_tracks_mod.get(pid) or {}).get("requires"),
+                        "requires": track.get("requires"),
                         "players": man.get("players", "SP"),
                         "new": True, "featured": bool(man.get("featured")),
                         "module": man.get("module"), "kind": "full",

@@ -68,7 +68,7 @@
   h3{font-family:var(--disp);font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:.02em;margin:26px 0 8px}
 </style>
 </head>
-<body><div class="aband"><b>DCS Sortie Starter · v1.127.0 · Pack format</b><span>SORTIE STARTER / PACK FORMAT</span></div><div class="wrap">
+<body><div class="aband"><b>DCS Sortie Starter · v1.128.0 · Pack format</b><span>SORTIE STARTER / PACK FORMAT</span></div><div class="wrap">
 <h1>DCS <span>Sortie Starter</span> — Pack format</h1>
 <p class="sub">The specification for publishable content. Anyone may build a pack; this is what one is.</p>
 <div class="toc"><b>Contents</b><a href="#1-the-container">1. The container</a><a href="#2-the-manifest">2. The manifest</a><a href="#3-compatibility-the-promises">3. Compatibility — the promises</a><a href="#4-reading-format-1">4. Reading format 1</a><a href="#5-deriving-a-manifest">5. Deriving a manifest</a><a href="#6-what-a-reader-must-reject">6. What a reader must reject</a><a href="#7-course-packs">7. <code>course</code> packs</a><a href="#8-reference-packs">8. <code>reference</code> packs</a><a href="#9-theater-packs">9. <code>theater</code> packs</a><a href="#10-trust-model-summary">10. Trust model — summary</a><a href="#11-authoring-how-to-build-each-kind">11. Authoring — how to build each kind</a></div>
@@ -96,19 +96,22 @@ card.png                   artwork
   &quot;premise&quot;: &quot;…&quot;,           // one or two sentences
   &quot;image&quot;: &quot;card.png&quot;,      // path inside the pack
   &quot;eras&quot;: [&quot;coldwar&quot;],
-  &quot;maps&quot;: [&quot;sinai&quot;]
+  &quot;maps&quot;: [&quot;sinai&quot;],
+  &quot;sequence&quot;: true          // true if pilots should fly the entries in order
 }
-</code></pre><p>An unknown <code>role</code> <b>MUST</b> be treated as <code>training</code> rather than rejected.</p><h3 id="2-7-syllabus-ordered-contents">2.7 <code>syllabus</code> — ordered contents</h3><pre><code>&quot;syllabus&quot;: [
+</code></pre><p>An unknown <code>role</code> <b>MUST</b> be treated as <code>training</code> rather than rejected. Use the canonical era keys <code>wwii</code>, <code>coldwar</code>, <code>modern</code> and <code>gwot</code>. Recognized display aliases are normalized for compatibility. Set <code>sequence</code> to false for alternative versions. Older built-in syllabus tracks retain their defined order. Optional <code>operation</code>, <code>unit</code>, <code>base</code> and <code>scenario_date</code> help pilots find a collection. Only supply a collection date when it describes the collection as a whole.</p><h3 id="2-7-syllabus-ordered-contents">2.7 <code>syllabus</code> — ordered contents</h3><pre><code>&quot;syllabus&quot;: [
   { &quot;n&quot;: 1,
     &quot;id&quot;: &quot;pp_1_drag&quot;,
     &quot;label&quot;: &quot;Tanker Drag to Egypt&quot;,
     &quot;premise&quot;: &quot;…&quot;,
+    &quot;scenario_date&quot;: &quot;1980-07-10&quot;,
+    &quot;context_label&quot;: &quot;Documented deployment milestone&quot;,
     &quot;files&quot;: { &quot;mission&quot;: &quot;missions/01_pp_1_drag.miz&quot;,
                &quot;brief&quot;:   &quot;briefs/01_brief.pdf&quot;,
                &quot;kneeboard&quot;: &quot;kneeboards/01.zip&quot; },
     &quot;requires&quot;: { &quot;modules&quot;: [&quot;F-4E&quot;] } }
 ]
-</code></pre><p><code>n</code> orders the list and <b>MUST</b> be unique within a pack. A missing <code>n</code> sorts after every present one, in array order. An entry whose <code>files.mission</code> does not exist in the archive <b>MUST</b> be dropped by the reader, not served.</p><p>Format 1 called this <code>events</code> and used a flat <code>miz</code>/<code>brief_pdf</code> pair. Both spellings are accepted on read (§4).</p><h3 id="2-8-docs-pack-level-documents">2.8 <code>docs</code> — pack-level documents</h3><pre><code>&quot;docs&quot;: { &quot;guide&quot;: &quot;guide/syllabus.pdf&quot;, &quot;readme&quot;: &quot;READ_ME_FIRST.md&quot; }
+</code></pre><p><code>n</code> orders the list and <b>MUST</b> be unique within a pack. A missing <code>n</code> sorts after every present one, in array order. An entry whose <code>files.mission</code> does not exist in the archive <b>MUST</b> be dropped by the reader, not served.</p><p>An optional entry <code>scenario_date</code> is the date stored in its .miz. If the native date can be read and it disagrees, the importer rejects the entry&#x27;s pack with the two dates. Use <code>context_label</code> to identify an adaptation, fictional episode or representative simulator date. <code>date_precision</code> can describe the precision of the evidence. A simulator calendar date alone establishes no historical claim.</p><p>Format 1 called this <code>events</code> and used a flat <code>miz</code>/<code>brief_pdf</code> pair. Both spellings are accepted on read (§4).</p><h3 id="2-8-docs-pack-level-documents">2.8 <code>docs</code> — pack-level documents</h3><pre><code>&quot;docs&quot;: { &quot;guide&quot;: &quot;guide/syllabus.pdf&quot;, &quot;readme&quot;: &quot;READ_ME_FIRST.md&quot; }
 </code></pre><p>Keys are free-form; <code>guide</code> and <code>readme</code> are conventional and get first-class buttons. A value pointing at a file not in the archive <b>MUST</b> be dropped.</p><h3 id="2-9-files-and-digest-integrity">2.9 <code>files</code> and <code>digest</code> — integrity</h3><pre><code>&quot;files&quot;: [
   { &quot;path&quot;: &quot;missions/01_pp_1_drag.miz&quot;, &quot;bytes&quot;: 1079233, &quot;sha256&quot;: &quot;…&quot; }
 ],

@@ -116,12 +116,46 @@ def flyable_aircraft():
     return out
 
 
+def _historical_starters(aircraft):
+    from missiongen.historical_library import deployment_snapshots, starter_entries
+    from missiongen.share import encode_recipe
+
+    labels = {entry["key"]: entry["id"] for entry in aircraft}
+    result = []
+    for entry in starter_entries():
+        recipe = Recipe.from_dict(entry["starter_recipe"])
+        snapshots = deployment_snapshots(recipe.map, recipe.mission_date)
+        units = [row["unit"] for row in snapshots if row["map_airport"] == recipe.home_airbase]
+        result.append({
+            "id": entry["id"],
+            "title": entry["title"],
+            "period": entry["period"],
+            "operation": {"oef": "Operation Enduring Freedom", "oif": "Operation Iraqi Freedom"}.get(
+                entry["period"].partition("-")[0], ""
+            ),
+            "date": recipe.mission_date,
+            "base": recipe.home_airbase,
+            "map": recipe.map,
+            "era": recipe.era,
+            "unit": ", ".join(dict.fromkeys(units)),
+            "aircraft": labels.get(recipe.aircraft, recipe.aircraft),
+            "aircraft_key": recipe.aircraft,
+            "slots": recipe.slots,
+            "builder_url": "/?r=" + encode_recipe(recipe),
+            "source_url": "/api/historical-library#" + entry["id"],
+            "description": entry["starter_note"],
+        })
+    return result
+
+
 @router.get("/api/options")
 def options():
+    from missiongen.historical_library import source_titles
     from missiongen.map_bounds import catalog_bounds
     maps = load_json("maps")
     eras = load_json("eras")
     templates = load_json('mission_templates')
+    aircraft = flyable_aircraft()
     # Request-scoped immutable inputs: never cache the live pack/account stores.
     historical_data = {'maps': maps, 'eras': eras, 'templates': templates}
     from missiongen.historical_world import preview, template_previews
@@ -144,7 +178,9 @@ def options():
                  for k, v in maps.items()},
         "eras": {k: {"label": v["label"], "window": v.get("window")}
                  for k, v in eras.items()},
-        "aircraft": flyable_aircraft(),
+        "aircraft": aircraft,
+        "historical_starters": _historical_starters(aircraft),
+        "historical_source_titles": source_titles(),
         "air_corridors": {k: v for k, v in load_json("air_corridors").items()
                           if not k.startswith("_")},
         "recipe_defaults": Recipe().to_dict(),
@@ -165,6 +201,7 @@ def options():
                    "by_era": v.get("by_era") or {},
                    "by_map": v.get("by_map") or {},
                    "historical_context": template_previews(k, data=historical_data),
+                   "historical_authored": bool(v.get("historical")) or (v.get("library") or {}).get("role") == "historic",
                    # per-era list of airframes this card is willing to fly.
                    # Formation training uses it so the Library can offer a
                    # choice instead of pinning one jet — the syllabus is

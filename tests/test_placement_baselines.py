@@ -8,6 +8,9 @@ v1.114.0 adds bounded historical reading links and their presentation stats.
 All eight native group/route/trigger/weather/drawing contracts were compared
 with the prior release; old briefing text is retained after removing only the
 new reading block. Evidence: outputs/releases/1.114.0/native-contract-review.json.
+
+v1.128.0 adds Afghanistan provenance notes and sources. The two affected
+contracts differ only in historical context and the embedded briefing dictionary.
 """
 import hashlib
 import json

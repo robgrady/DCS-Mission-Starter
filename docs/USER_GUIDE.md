@@ -50,19 +50,24 @@ base, weather and comms for the selected drill.
 
 ### Find a mission in the Library
 
-Choose **Missions** for individual sorties or **Collections** for a sequence
-of authored missions. Search by title, aircraft, map or activity. Use
-**Filters & sort** to narrow the results by era, setup or threat level.
+Open **Library** to browse **Historical missions** and planning starters.
+Search by date, operation, unit or airfield when the record includes those
+details. Choose **All missions** for the wider catalog, or open **Historical
+sources** for the readings and unit timelines. **Filters & sort** narrows
+the results by aircraft, map, era and other requirements.
 
 Use **My DCS content** to identify the maps, aircraft and extras you have.
 Those choices stay in this browser. **Compatible with my content** shows fixed
 collections whose requirements match and configurable missions with a compatible
 setup. Review the aircraft and map on the detail screen before downloading.
 
-A fixed collection offers separate mission and briefing downloads. A
-configurable mission lets you generate from its detail screen or choose
-**Customize in Builder**. Historical sources and adaptations appear in the
-setting disclosure. Use **Save to My missions** to keep a mission or setup.
+Open the mission details to see the setting, source links and DCS adaptations.
+For a fixed collection, download the mission and briefing you want. Follow the
+sequence if the collection calls for one. Where entries offer solo and group
+versions, choose the one you want to fly. A configurable mission lets you
+generate from its detail screen or choose **Customize in Builder**. A historical
+starter opens a dated setup in Builder. Generate the .miz, then import it into
+DKS to plan the waypoints. Use **Save to My missions** to keep a mission or setup.
 
 ### Follow a training course
 
@@ -632,9 +637,9 @@ known airfields and carrier anchors and corrects reversed/outdated vendor
 rectangles. It does not certify the DCS terrain edge or high-detail coverage.
 
 The exact date must fall inside the selected era and use takeoff-anchored timing.
-It changes the native mission and historical date; coalition/base presets and
-historical overlays remain era-based, with an adaptation note when the date
-changes. Player slot selects native **Player** (one human aircraft) or **Client**
+It changes the native mission calendar. Coalition and base assignments still
+come from the map and era preset. Dated overlays follow the evidence for each
+reference. Player slot selects native **Player** (one human aircraft) or **Client**
 (multiplayer, including one human); it does not select a cockpit seat or aircraft
 number. Fixed Case III, formation and crew flights keep their authored seating.
 Map view sets saved center/zoom and F10 unit visibility; graphics layers remain
@@ -856,7 +861,7 @@ PDF show the same release version and use the same instructions.
 
 ## Historical Library: dated readings and charts
 
-Open **Library → Historical Library** or **/api/historical-library**. Filter
+Open **Library → Historical sources** or **/api/historical-library**. Filter
 readings by map, reference period and topic, or search by unit, aircraft,
 base and procedure. **Sources and historical limits** shows the edition and
 physical page for a supplied PDF or a link and locator for an official web
@@ -868,6 +873,7 @@ for multiplayer. Generate the .miz and import it into DKS for waypoint planning.
 The historical square is a reference and adds no waypoints or scoring.
 Archive readback has verified the marker and client slots. DCS flight and
 DKS import checks are pending.
+
 The 1990–91 Gulf War research period is a reading category, not a new Builder era.
 
 **Dated Nevada charts** keep February 1981 and 2014 separate from the routing

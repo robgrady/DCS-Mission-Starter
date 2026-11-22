@@ -167,7 +167,7 @@ RIDES.append({
 })
 
 TRACK_ENTRY = {
-    "label": "Timing — The Clock on the Card (F-4E, 1980)",
+    "label": "Timing — The Clock on the Card (F-4E)",
     "short": "Timing · F-4E",
     "role": "training",
     "service": "USAF",
@@ -186,6 +186,7 @@ TRACK_ENTRY = {
         "takeoff, the push, or the time on target — and every other number",
         "on the card is solved from it. These four rides fix a different",
         "one each, and the mission clock moves to make it true.",
+        "The simulator calendar uses a representative Cold War date.",
     ],
 }
 

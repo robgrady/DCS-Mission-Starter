@@ -1751,6 +1751,11 @@ function writeNavigation(v, screen, mode='push'){
     url.searchParams.delete('step');
     url.searchParams.delete('r');
   }
+  if(v!=='library'){
+    url.searchParams.delete('shelf');
+    url.searchParams.delete('mission');
+    url.searchParams.delete('pack');
+  }
   if(url.href===location.href && mode!=='replace') return;
   history[mode==='replace'?'replaceState':'pushState']({view:v,screen},'',url);
 }
@@ -1798,7 +1803,10 @@ function showView(view, historyMode = 'push') {
 
 function showURLView(historyMode = 'none') {
   const params = new URLSearchParams(location.search);
-  showView(params.get('r') ? 'builder' : params.get('v'), historyMode);
+  const view = params.get('r') ? 'builder' : params.get('v');
+  if(CURRENT_VIEW==='library' && document.getElementById('libdetail').classList.contains('on')
+    && (view!=='library'||(!params.has('mission')&&!params.has('pack'))))closeDetail();
+  showView(view, historyMode);
 }
 
 function openBuilderFromURL(params) {
@@ -1847,9 +1855,11 @@ function renderCurrentView() {
 
   if (build) openBuilderFromURL(params);
   if (visible === 'library') {
-    renderLib();
+    setLibraryShelf(params.get('shelf'), false);
     const pack = params.get('pack');
-    if (pack && libFind('pack_' + pack)) openDetail('pack_' + pack);
+    const mission = params.get('mission') || (pack ? 'pack_' + pack : null);
+    if (mission && libFind(mission) && (!document.getElementById('libdetail').classList.contains('on')
+      || libState.cur!==mission))openDetail(mission);
   }
   if (visible === 'quick') qfOpen();
   if (visible === 'pipeline') {
