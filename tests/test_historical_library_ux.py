@@ -1,7 +1,10 @@
 """Historical discovery through the normal browser entry points."""
 
+from pathlib import Path
+
 import pytest
 
+from missiongen.packfmt import mission_facts
 from test_refactor_browser import site
 
 
@@ -24,6 +27,20 @@ def test_home_and_library_promote_the_historical_starter(site, width, tmp_path):
         assert starter.is_visible()
         assert 'Kandahar' in starter.inner_text()
         page.screenshot(path=str(tmp_path / f'historical-library-{width}.png'))
+
+        dks = 'https://www.digitalkneeboardsimulator.com/'
+        page.context.route(dks, lambda route: route.fulfill(status=200, body='DKS planner'))
+        handoff = starter.get_by_role('link', name='Download .miz & open DKS')
+        with page.expect_popup() as popup, page.expect_download() as download:
+            handoff.click()
+        popup.value.wait_for_url(dks)
+        popup.value.close()
+        assert download.value.suggested_filename.endswith('.miz')
+        assert mission_facts(Path(download.value.path()).read_bytes()) == {
+            'theatre': 'Afghanistan', 'date': '2010-01-01', 'aircraft': 'A-10C',
+        }
+        assert 'v=library' in page.url
+
         page.locator('#lfSearch').fill('354th')
         assert starter.is_visible()
         assert page.evaluate('document.documentElement.scrollWidth <= innerWidth + 1')

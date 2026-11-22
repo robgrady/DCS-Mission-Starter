@@ -1,13 +1,12 @@
 {
-  "version": "1.128.0",
+  "version": "1.128.1",
   "documentation_required": true,
-  "reason": "Describe the Historical Missions Library, collection choices, and Builder to DKS handoff.",
+  "reason": "Document the quick download and the file selection step in the DKS planner.",
   "sections_reviewed": [
     "Find a mission in the Library",
-    "Historical Library: dated readings and charts",
-    "Scenario dates and historical context",
-    "Importing a mission into Digital Kneeboard Simulator"
+    "Importing a mission into Digital Kneeboard Simulator",
+    "Historical Library: dated readings and charts"
   ],
-  "source_sha256": "ca30a3f51506ff1645cf901ba1551c480a19a93364d254d06efcb06084332b00",
-  "previous_source_sha256": "1c00de0b01deccb95b6052ecba856dda88ba35c0e6d9276f0faeb0ace1ffb996"
+  "source_sha256": "d434655f6caebc7b305e815766222a262f8b8b8f500a53d735cdc09a0a5fb92c",
+  "previous_source_sha256": "ca30a3f51506ff1645cf901ba1551c480a19a93364d254d06efcb06084332b00"
 }

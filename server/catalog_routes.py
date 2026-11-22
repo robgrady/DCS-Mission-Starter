@@ -124,6 +124,7 @@ def _historical_starters(aircraft):
     result = []
     for entry in starter_entries():
         recipe = Recipe.from_dict(entry["starter_recipe"])
+        code = encode_recipe(recipe)
         snapshots = deployment_snapshots(recipe.map, recipe.mission_date)
         units = [row["unit"] for row in snapshots if row["map_airport"] == recipe.home_airbase]
         result.append({
@@ -141,7 +142,8 @@ def _historical_starters(aircraft):
             "aircraft": labels.get(recipe.aircraft, recipe.aircraft),
             "aircraft_key": recipe.aircraft,
             "slots": recipe.slots,
-            "builder_url": "/?r=" + encode_recipe(recipe),
+            "builder_url": "/?r=" + code,
+            "mission_url": "/api/dl?r=" + code,
             "source_url": "/api/historical-library#" + entry["id"],
             "description": entry["starter_note"],
         })

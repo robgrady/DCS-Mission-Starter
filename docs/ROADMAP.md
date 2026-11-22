@@ -30,6 +30,9 @@ somebody finishes the first one.
 
 ## Where the product is today
 
+**v1.128.1** downloads the dated starter and opens DKS from the Library. In
+DKS, pilots choose the downloaded `.miz` in the mission import picker.
+
 **v1.128.0** makes Historical Missions the Library's default view. Pilots
 can find missions by historical context, see whether an entry is a fixed
 mission or a planning starter, and follow links to its sources. The Afghan

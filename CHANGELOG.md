@@ -1,5 +1,9 @@
 # Changelog — DCS Sortie Starter
 
+## [1.128.1] — DKS planning handoff
+
+- Download the dated historical starter and open the DKS app in a new tab from one Library action. Show the import step on the starter card and in the User Guide.
+
 ## [1.128.0] — Historical Missions Library
 
 - Lead with historical missions and DKS planning starters. Browse dates, units, operations, aircraft and airfields, with sources and adaptations at the point of selection.

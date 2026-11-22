@@ -391,7 +391,8 @@ function renderHistoricalStarters(){
   '<p>'+esc(row.description)+'</p>'+
   '<div class="history-links"><a href="'+esc(row.builder_url)+'">Open '+esc(row.base)+' starter in Builder</a>'+
   '<a href="'+esc(row.source_url)+'">View historical sources</a>'+
-  '<a href="/guide#importing-a-mission-into-digital-kneeboard-simulator">Plan in DKS</a></div></article>').join('');
+  '<a href="https://www.digitalkneeboardsimulator.com/" target="_blank" rel="noopener noreferrer" data-dks-download="'+esc(row.mission_url)+'">Download .miz &amp; open DKS</a></div>'+
+  '<p class="history-facts">In DKS, choose <strong>New kneeboard → Import</strong> and select the downloaded mission.</p></article>').join('');
  return starters.length;
 }
 function renderLib(){
@@ -416,8 +417,19 @@ function renderLib(){
 document?.querySelectorAll('[data-lib-shelf]').forEach(button=>
  button.addEventListener('click',()=>setLibraryShelf(button.dataset.libShelf)));
 document?.getElementById('library')?.addEventListener('click',event=>{
+ if(event.button!==0||event.ctrlKey||event.shiftKey||event.metaKey||event.altKey)return;
+ const dks=event.target.closest('[data-dks-download]');
+ if(dks){
+  const download=document.createElement('a');
+  download.href=dks.dataset.dksDownload;
+  download.download='';
+  document.body.append(download);
+  download.click();
+  download.remove();
+  return;
+ }
  const link=event.target.closest('[data-lib-mission]');
- if(!link||event.button!==0||event.ctrlKey||event.shiftKey||event.metaKey||event.altKey)return;
+ if(!link)return;
  event.preventDefault();
  history.replaceState(history.state,'',link.href);
  openDetail(link.dataset.libMission);

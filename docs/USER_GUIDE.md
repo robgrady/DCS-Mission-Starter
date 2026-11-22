@@ -65,9 +65,10 @@ Open the mission details to see the setting, source links and DCS adaptations.
 For a fixed collection, download the mission and briefing you want. Follow the
 sequence if the collection calls for one. Where entries offer solo and group
 versions, choose the one you want to fly. A configurable mission lets you
-generate from its detail screen or choose **Customize in Builder**. A historical
-starter opens a dated setup in Builder. Generate the .miz, then import it into
-DKS to plan the waypoints. Use **Save to My missions** to keep a mission or setup.
+generate from its detail screen or choose **Customize in Builder**. On a historical
+starter, choose **Download .miz & open DKS** to use the dated setup as shown. Open
+the starter in Builder to make changes first. Use **Save to My missions** to keep
+a mission or setup.
 
 ### Follow a training course
 
@@ -712,9 +713,11 @@ inside the affected application.
 
 ### Importing a mission into Digital Kneeboard Simulator
 
-Use the standalone .miz from a Library collection or extract `mission.miz`
-from a generated Mission Kit. In DKS choose **New kneeboard → Import**,
-select the .miz and the human flight, then review and create the design.
+On a historical starter, choose **Download .miz & open DKS**. The mission downloads
+and DKS opens in a new tab. You can also use the standalone .miz from a Library
+collection or extract `mission.miz` from a generated Mission Kit. In DKS choose
+**New kneeboard → Import**, select the .miz and the human flight, then review and
+create the design.
 An unpublished DKS design is visible to members of its wing.
 
 The v1.112.0 F-14B(U)/Caucasus test retained the player aircraft, takeoff and
@@ -869,7 +872,8 @@ record. The citation distinguishes publication date from observation date.
 
 Search for **Kandahar** and select **Open Kandahar starter in Builder** to load
 the 1 January 2010 setup. It starts two A-10Cs with empty pylons at Kandahar
-for multiplayer. Generate the .miz and import it into DKS for waypoint planning.
+for multiplayer. For waypoint planning, choose **Download .miz & open DKS**
+on the starter card in the main Library, then import the downloaded mission in DKS.
 The historical square is a reference and adds no waypoints or scoring.
 Archive readback has verified the marker and client slots. DCS flight and
 DKS import checks are pending.
