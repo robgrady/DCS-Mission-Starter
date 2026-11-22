@@ -4,6 +4,7 @@ from datetime import date
 from functools import lru_cache
 import math
 import re
+from urllib.parse import urlsplit
 
 from . import __version__
 from .resolver import load_json
@@ -26,7 +27,10 @@ def _refs(value, sources):
             if value['source_id'] not in sources:
                 raise ValueError('Unknown historical source edition')
             src = sources[value['source_id']]
-            if not value['pdf_pages'] or any(not 1 <= p <= src['pdf_pages'] for p in value['pdf_pages']):
+            if src['kind'] == 'official_web':
+                if not isinstance(value.get('locator'), str) or not value['locator'].strip():
+                    raise ValueError('Historical web source requires a source locator')
+            elif not value['pdf_pages'] or any(not 1 <= p <= src['pdf_pages'] for p in value['pdf_pages']):
                 raise ValueError('Historical source page outside the supplied edition')
         for child in value.values():
             _refs(child, sources)
@@ -40,7 +44,12 @@ def validate(register):
     maps = load_json('maps')
     seen = set()
     for source in register['sources'].values():
-        if not re.fullmatch(r'[0-9a-f]{64}', source['sha256']):
+        if source['kind'] == 'official_web':
+            url = urlsplit(source.get('public_url') or '')
+            if url.scheme != 'https' or not url.hostname:
+                raise ValueError('Historical web source requires an HTTPS URL')
+            _day(source.get('publication_date'))
+        elif not re.fullmatch(r'[0-9a-f]{64}', source['sha256']):
             raise ValueError('Historical source requires an edition SHA-256')
         if source.get('public_url') and not source['public_url'].startswith('https://'):
             raise ValueError('Historical source link must use HTTPS')
@@ -81,6 +90,11 @@ def validate(register):
         _day(row['event_date'] + {4: '-01-01', 7: '-01', 10: ''}[expected])
         if row['valid_from'] or row['valid_to']:
             raise ValueError('Historical event does not establish continuous unit occupancy')
+        if row['kind'] == 'deployment_snapshot':
+            if row.get('map') not in maps or row['date_precision'] != 'day' or not row.get('map_airport'):
+                raise ValueError('Deployment snapshot requires a DCS airfield and exact observation day')
+            if not row['sources'] or not (row['aircraft_variants'] or row.get('aircraft_families')):
+                raise ValueError('Deployment snapshot requires aircraft evidence and a source')
     return register
 
 
@@ -117,6 +131,14 @@ def profile(profile_id):
     if row is None:
         raise ValueError('Unknown historical reference profile')
     return deepcopy(row)
+
+
+def deployment_snapshots(map_key, on):
+    """Return archival basing observations for exactly this map and day."""
+    event = _day(on).isoformat()
+    return [deepcopy(row) for row in _data()['unit_records']
+            if row['kind'] == 'deployment_snapshot' and row['map'] == map_key
+            and row['event_date'] == event]
 
 
 def unit_history(map_key=None, base=None, on=None, variant=None):

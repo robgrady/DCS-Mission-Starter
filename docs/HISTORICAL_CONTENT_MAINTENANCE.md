@@ -25,6 +25,13 @@ published revisions; they are not included merely because this checkout exists.
 
 For each finding, retain the edition hash, physical page, publication precision,
 claim period, original unit/aircraft designation and source access limitations.
+
+For an official web record, keep the publisher link, publication date and
+a locator that identifies the evidence. Record deployment observations with
+the precision the source supports. Build an archival F10 square at the DCS
+airfield position when the map and exact date match. Record the geometry basis
+and use period charts or sortie records to substantiate any route claim.
+
 Find affected mission dates, maps, bases, aircraft variants, courses and charts
 in the ledger. Compare the specific claim with that source; record verified,
 approximate, unsupported, conflicting or not yet reviewed. Check unit identity,

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "reviewed_on": "2026-10-04",
+  "reviewed_on": "2026-11-22",
   "scope": "Selected document review; reference history, not mission or operational certification.",
   "topics": {
     "navigation": "Navigation and airspace",
@@ -85,6 +85,20 @@
       "label": "Afghan air forces: 1989-2001",
       "subject_from": "1989-01-01",
       "subject_to": "2001-12-31",
+      "recipe_era": null
+    },
+    "oef-kandahar-2010": {
+      "id": "oef-kandahar-2010",
+      "label": "Operation Enduring Freedom: Kandahar, January 2010",
+      "subject_from": "2010-01-01",
+      "subject_to": "2010-01-01",
+      "recipe_era": null
+    },
+    "oif-iraq-2007": {
+      "id": "oif-iraq-2007",
+      "label": "Operation Iraqi Freedom: Iraq, January 2007",
+      "subject_from": "2007-01-28",
+      "subject_to": "2007-01-28",
       "recipe_era": null
     }
   },
@@ -330,6 +344,24 @@
       "public_url": null,
       "publication_date": "2020",
       "publication_date_precision": "year"
+    },
+    "afcent-354-efs-kandahar-2010": {
+      "id": "afcent-354-efs-kandahar-2010",
+      "title": "10K flight hours amid landmark OEF tour for 354th EFS",
+      "kind": "official_web",
+      "public_url": "https://www.afcent.af.mil/News/Article/220782/10k-flight-hours-amid-landmark-oef-tour-for-354th-efs/",
+      "publication_date": "2010-01-04",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
+    },
+    "usaf-332-aew-iraq-2007": {
+      "id": "usaf-332-aew-iraq-2007",
+      "title": "Air Force combat airpower helps turn tide in decisive battle of An Najaf",
+      "kind": "official_web",
+      "public_url": "https://www.af.mil/News/Article-Display/Article/128134/air-force-combat-airpower-helps-turn-tide-in-decisive-battle-of-an-najaf/",
+      "publication_date": "2007-02-04",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
     }
   },
   "entries": [
@@ -1056,6 +1088,91 @@
       "valid_from": null,
       "valid_to": null,
       "simulation_support": "Reference reading; does not add a flown route, aircraft system or scoring trigger.",
+      "aircraft_families": []
+    },
+    {
+      "id": "oef-kandahar-2010-01-01",
+      "title": "Kandahar: 354th EFS A-10Cs",
+      "maps": [
+        "afghanistan"
+      ],
+      "period": "oef-kandahar-2010",
+      "subject_from": "2010-01-01",
+      "subject_to": "2010-01-01",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "The Air Force photographed A-10Cs of the 354th Expeditionary Fighter Squadron at Kandahar Airfield on 1 January 2010.",
+        "The 451st Air Expeditionary Wing account was published on 4 January 2010."
+      ],
+      "limits": [
+        "The snapshot confirms a unit, aircraft variant, and airfield on the observed date. Exact tracks, periods of occupancy, ramp locations and paint assignments were not established.",
+        "The marker uses the DCS airfield position."
+      ],
+      "sources": [
+        {
+          "source_id": "afcent-354-efs-kandahar-2010",
+          "locator": "Dated photo captions and opening deployment summary"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw archival airfield markers on the DCS F10 map.",
+      "aircraft_families": [],
+      "starter_recipe": {
+        "map": "afghanistan",
+        "era": "gwot",
+        "aircraft": "A_10C",
+        "home_airbase": "Kandahar",
+        "mission_date": "2010-01-01",
+        "slots": 2,
+        "start": "warm",
+        "player_arm": false,
+        "bb_historical_airspace": true,
+        "bb_ambient": false,
+        "bb_dressing": false,
+        "bb_awacs": false,
+        "bb_tanker": false,
+        "bb_sams": false,
+        "bb_route": false,
+        "bb_navpoints": false,
+        "bb_branding": false,
+        "seed": 20100101
+      },
+      "starter_note": "Requires the DCS A-10C module and Afghanistan map. Two multiplayer aircraft start at Kandahar with empty pylons."
+    },
+    {
+      "id": "oif-balad-al-asad-2007-01-28",
+      "title": "Balad and Al Asad: F-16 and A-10 squadrons",
+      "maps": [
+        "iraq"
+      ],
+      "period": "oif-iraq-2007",
+      "subject_from": "2007-01-28",
+      "subject_to": "2007-01-28",
+      "topic": "units",
+      "priority": 2,
+      "status": "reference",
+      "facts": [
+        "On 28 January 2007, the Air Force recorded the 14th, 510th and 332nd Expeditionary Fighter Squadrons with F-16s based at Balad and the 74th with A-10s based at Al Asad.",
+        "The February report identifies aircraft families for the shared snapshot."
+      ],
+      "limits": [
+        "These records describe the 28 January snapshot. They do not establish continuous station assignments, exact variants for every squadron, flown routes, or historical parking locations.",
+        "The markers use DCS airfield positions."
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-332-aew-iraq-2007",
+          "locator": "January 28 event account and participating squadron basing paragraph"
+        }
+      ],
+      "corroboration_urls": [],
+      "valid_from": null,
+      "valid_to": null,
+      "simulation_support": "Enable Historical airspace and use this exact mission date to draw archival airfield markers on the DCS F10 map.",
       "aircraft_families": []
     }
   ],
@@ -2699,6 +2816,142 @@
       "valid_to": null,
       "map": "syria",
       "aircraft_count": 6
+    },
+    {
+      "id": "354-efs-kandahar-2010-01-01",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "354th Expeditionary Fighter Squadron",
+      "base": "Kandahar",
+      "event_date": "2010-01-01",
+      "date_precision": "day",
+      "aircraft_variants": [
+        "A-10C"
+      ],
+      "aircraft_families": [
+        "A-10"
+      ],
+      "sources": [
+        {
+          "source_id": "afcent-354-efs-kandahar-2010",
+          "locator": "Dated photo captions and opening deployment summary"
+        }
+      ],
+      "notes": [
+        "Dated observation; continuous occupancy is unverified."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "afghanistan",
+      "map_airport": "Kandahar"
+    },
+    {
+      "id": "14th-efs-balad-2007-01-28",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "14th Expeditionary Fighter Squadron",
+      "base": "Balad",
+      "event_date": "2007-01-28",
+      "date_precision": "day",
+      "aircraft_variants": [],
+      "aircraft_families": [
+        "F-16"
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-332-aew-iraq-2007",
+          "locator": "January 28 event account and participating squadron basing paragraph"
+        }
+      ],
+      "notes": [
+        "Dated observation; continuous occupancy is unverified.",
+        "Aircraft family recorded; exact variant unverified for this observation."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "iraq",
+      "map_airport": "Balad Airbase"
+    },
+    {
+      "id": "510th-efs-balad-2007-01-28",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "510th Expeditionary Fighter Squadron",
+      "base": "Balad",
+      "event_date": "2007-01-28",
+      "date_precision": "day",
+      "aircraft_variants": [],
+      "aircraft_families": [
+        "F-16"
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-332-aew-iraq-2007",
+          "locator": "January 28 event account and participating squadron basing paragraph"
+        }
+      ],
+      "notes": [
+        "Dated observation; continuous occupancy is unverified.",
+        "Aircraft family recorded; exact variant unverified for this observation."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "iraq",
+      "map_airport": "Balad Airbase"
+    },
+    {
+      "id": "332nd-efs-balad-2007-01-28",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "332nd Expeditionary Fighter Squadron",
+      "base": "Balad",
+      "event_date": "2007-01-28",
+      "date_precision": "day",
+      "aircraft_variants": [],
+      "aircraft_families": [
+        "F-16"
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-332-aew-iraq-2007",
+          "locator": "January 28 event account and participating squadron basing paragraph"
+        }
+      ],
+      "notes": [
+        "Dated observation; continuous occupancy is unverified.",
+        "Aircraft family recorded; exact variant unverified for this observation."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "iraq",
+      "map_airport": "Balad Airbase"
+    },
+    {
+      "id": "74-efs-al-asad-2007-01-28",
+      "kind": "deployment_snapshot",
+      "title": "Deployment snapshot",
+      "unit": "74th Expeditionary Fighter Squadron",
+      "base": "Al Asad",
+      "event_date": "2007-01-28",
+      "date_precision": "day",
+      "aircraft_variants": [],
+      "aircraft_families": [
+        "A-10"
+      ],
+      "sources": [
+        {
+          "source_id": "usaf-332-aew-iraq-2007",
+          "locator": "January 28 event account and participating squadron basing paragraph"
+        }
+      ],
+      "notes": [
+        "Dated observation; continuous occupancy is unverified.",
+        "Aircraft family recorded; exact variant unverified for this observation."
+      ],
+      "valid_from": null,
+      "valid_to": null,
+      "map": "iraq",
+      "map_airport": "Al-Asad Airbase"
     }
   ],
   "source_assessments": [

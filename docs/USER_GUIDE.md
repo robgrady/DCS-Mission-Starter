@@ -769,6 +769,7 @@ F10 reference shapes use meaning beyond color:
 - **Dashed lanes:** reconstructed routes. Network widths and altitude blocks
   remain planning values, with unknown per-segment historical validity.
 - **Diamonds:** reporting gates; **~** marks approximate geometry.
+- **Open squares / ARCHIVE:** dated squadron observations at DCS airfields.
 - **Circles:** control or reference zones; check radius units in the briefing.
 - **Hatched edges:** restricted or exclusion boundaries.
 - **Dash-dot lines:** deconfliction references.
@@ -791,6 +792,12 @@ They are labelled dated references and change no flight
 route, AI behavior, clearance or engagement rule. Normandy's transport route
 is not generalized to fighters. Existing Berlin, Nevada, Syria and illustrative
 Afghanistan overlays retain their disclosed limitations.
+
+For a **War on Terror** mission with **Historical airspace** enabled,
+deployment squares appear when the mission date matches the observation.
+The first records are Kandahar on **1 January 2010** and Balad and Al Asad
+on **28 January 2007**. The square marks the airfield position in DCS.
+The label names the observed units and aircraft.
 
 The research also identifies six Afghan ATS route designators, Sinai
 agreements, Arctic intercept events, Channel operating regions and Marianas
@@ -849,11 +856,18 @@ PDF show the same release version and use the same instructions.
 
 ## Historical Library: dated readings and charts
 
-Open **Library → Historical Library** or **/api/historical-library**. Its 18
-reference readings can be filtered by map, named reference period and topic,
-or searched by unit, aircraft, base and procedure. Open **Sources and historical
-limits** for the supplied edition's filename, SHA-256 and physical PDF page
-numbers. Publication dates and the period a document describes are different.
+Open **Library → Historical Library** or **/api/historical-library**. Filter
+readings by map, reference period and topic, or search by unit, aircraft,
+base and procedure. **Sources and historical limits** shows the edition and
+physical page for a supplied PDF or a link and locator for an official web
+record. The citation distinguishes publication date from observation date.
+
+Search for **Kandahar** and select **Open Kandahar starter in Builder** to load
+the 1 January 2010 setup. It starts two A-10Cs with empty pylons at Kandahar
+for multiplayer. Generate the .miz and import it into DKS for waypoint planning.
+The historical square is a reference and adds no waypoints or scoring.
+Archive readback has verified the marker and client slots. DCS flight and
+DKS import checks are pending.
 The 1990–91 Gulf War research period is a reading category, not a new Builder era.
 
 **Dated Nevada charts** keep February 1981 and 2014 separate from the routing

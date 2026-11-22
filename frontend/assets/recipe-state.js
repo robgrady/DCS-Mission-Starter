@@ -85,6 +85,8 @@ function recipe(){
     r.timing_coach = document.getElementById('timing_coach').checked;
     r.timing_package = document.getElementById('timing_package').checked;
   }
+  r.player_arm = document.getElementById('player_arm').checked;
+  r.player_load = document.getElementById('player_load').value;
   if (r.bb_dressing){
     const fill = +document.getElementById('dress_fill').value;
     if (fill !== 45) r.dress_fill = fill;
@@ -95,8 +97,6 @@ function recipe(){
     r.dress_aircraft_mode = document.getElementById('dress_aircraft_mode').value;
     r.dress_livery_style = document.getElementById('dress_livery_style').value;
     r.ramp_heavies = document.getElementById('ramp_heavies').value;
-    r.player_arm = document.getElementById('player_arm').checked;
-    r.player_load = document.getElementById('player_load').value;
     const ov = perBaseOverrides();
     if (Object.keys(ov).length) r.dress_overrides = ov;
     if (dressMode()==='compose'){

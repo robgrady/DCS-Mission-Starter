@@ -40,7 +40,6 @@ def place_targets(builder: StarterBuilder, ctx: WorldContext, player: PlayerPlac
     # no-fly zones for this map+era, drawn on the F10 map + briefed. Off by
     # default (determinism-safe); scenario templates like Berlin Corridor
     # Transit turn it on. Draws nothing if the map/era has no overlay.
-    airspace_brief = ""
     from .. import airspace
     # bb flag on = draw everything for the map/era. Off = still draw the
     # overlays marked "always" (standing real-world airspace: the R-4808N
@@ -50,7 +49,13 @@ def place_targets(builder: StarterBuilder, ctx: WorldContext, player: PlayerPlac
         m, r.map, r.era, only_always=not r.bb_historical_airspace)
     if drawn_as:
         stats["historical_airspace"] = drawn_as
-        airspace_brief = "\n".join(as_lines)
+    if r.bb_historical_airspace and r.era == "gwot":
+        from ..historical_deployments import add_deployment_references
+        deployment_ids, deployment_lines = add_deployment_references(m, r.map)
+        if deployment_ids:
+            stats["historical_deployments"] = deployment_ids
+            as_lines.extend(deployment_lines)
+    airspace_brief = "\n".join(as_lines)
 
     if r.bb_farps:
         if r.era == "wwii":

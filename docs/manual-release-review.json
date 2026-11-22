@@ -1,17 +1,12 @@
 {
-  "version": "1.126.0",
+  "version": "1.127.0",
   "documentation_required": true,
-  "reason": "Make the web guide primary, use task-based instructions and keep the same content in the offline PDF.",
+  "reason": "Document the Kandahar Builder starter and exact-date F10 airfield symbols.",
   "sections_reviewed": [
-    "Start here",
-    "Install a .miz mission",
-    "The four doors",
-    "Install the First Flight campaign",
-    "Use briefings and kneeboards",
-    "Save and share missions",
-    "Fix common problems",
-    "Release identity"
+    "Historical map coverage and symbols",
+    "Historical Library: dated readings and charts",
+    "Importing a mission into Digital Kneeboard Simulator"
   ],
-  "source_sha256": "55dbcdd1167a72c80b86ef32aef4233b559a517b2930c350026f7fcc6b762237",
-  "previous_source_sha256": "a60aff6056aeaa006440da27df142aa52bd1bfcf36d650e575b2c8215ed08c89"
+  "source_sha256": "1c00de0b01deccb95b6052ecba856dda88ba35c0e6d9276f0faeb0ace1ffb996",
+  "previous_source_sha256": "55dbcdd1167a72c80b86ef32aef4233b559a517b2930c350026f7fcc6b762237"
 }

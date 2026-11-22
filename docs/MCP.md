@@ -1,6 +1,6 @@
 # Sortie Starter MCP
 
-Guide release: **v1.126.0** · reviewed **2026-11-21**. This is a release snapshot;
+Guide release: **v1.127.0** · reviewed **2026-11-22**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
@@ -532,6 +532,11 @@ The website is `/api/historical-library`; JSON is `/api/historical-library/catal
 Unit comparisons are `/api/historical-library/units?map=normandy&on=1944-07-07`;
 optional `base` and `variant` match exact recorded strings. `occupancy_certified`
 is false: events and snapshots do not establish continuous station assignments.
+Official web records use an HTTPS source and a locator. The Kandahar reading
+includes a `starter_recipe` for a two-client A-10C familiarization mission.
+With `bb_historical_airspace` enabled in the GWOT era, archival F10 squares
+match the mission date at Kandahar (2010-01-01), Balad or Al Asad (2007-01-28).
+The observation does not set waypoints or establish continuous unit presence.
 
 The two profiles are `nevada-1981` and `nevada-2014`: fetch
 `/api/historical-library/profiles/{id}` or `/chart.svg` below that profile URL.

@@ -19,7 +19,7 @@ from test_refactor_browser import site
 
 def test_edition_provenance_and_unknown_validity():
     data = catalog()
-    assert len(data['entries']) == 18 and len(data['unit_records']) == 15
+    assert len(data['entries']) == 20 and len(data['unit_records']) == 20
     assert len(data['profiles']['nevada-1981']['points']) == 32
     assert len(data['profiles']['nevada-2014']['points']) == 6
     assert all(not p['routing_enabled'] for p in data['profiles'].values())
@@ -104,6 +104,52 @@ def test_reference_filters_and_public_http_errors():
         assert 'sortiestarter_get_historical_references' in client.get('/api/mcp-guide').text
 
 
+@pytest.mark.parametrize(
+    'map_key,day,reading_id,variant,variant_status,record_count',
+    [
+        ('afghanistan', '2010-01-01', 'oef-kandahar-2010-01-01',
+         'A-10C', 'exact_variant_recorded', 1),
+        ('iraq', '2007-01-28', 'oif-balad-al-asad-2007-01-28',
+         'F-16C Block 50', 'variant_not_recorded', 4),
+    ],
+)
+def test_deployment_snapshots_expose_web_provenance_without_inferring_occupancy(
+    map_key,day,reading_id,variant,variant_status,record_count,
+):
+    with TestClient(app) as client:
+        response = client.get('/api/historical-library/catalog', params={'map': map_key, 'on': day})
+        assert response.status_code == 200
+        data = response.json()
+        reading = next(row for row in data['entries'] if row['id'] == reading_id)
+        assert reading['subject_from'] == reading['subject_to'] == day
+        sources = reading['sources']
+        assert sources
+        for ref in sources:
+            assert ref['locator'].strip()
+            assert 'pdf_pages' not in ref
+            source = data['sources'][ref['source_id']]
+            assert source['kind'] == 'official_web'
+            assert source['public_url'].startswith('https://')
+
+        response = client.get('/api/historical-library/units', params={
+            'map': map_key, 'on': day, 'variant': variant,
+        })
+        assert response.status_code == 200
+        records = [row for row in response.json()['records'] if row['kind'] == 'deployment_snapshot']
+        assert len(records) == record_count
+        for record in records:
+            assert record['date_relation'] == 'event_on_selected_date'
+            assert record['variant_status'] == variant_status
+            assert record['occupancy_certified'] is False
+            assert record['valid_from'] is record['valid_to'] is None
+
+    bad = deepcopy(load_json('historical_library'))
+    reading = next(row for row in bad['entries'] if row['id'] == reading_id)
+    reading['sources'][0]['locator'] = ''
+    with pytest.raises(ValueError):
+        validate(bad)
+
+
 def test_matching_readings_reach_native_mission_and_document_facts(tmp_path,monkeypatch):
     rows=mission_references('nevada','1981-02-14','F-4E-45MC')
     assert len(rows)==3 and all(r['reference_only'] for r in rows)
@@ -145,14 +191,14 @@ def test_real_browser_library_filters_chart_keyboard_and_date_limits(site,width,
         page.on('pageerror',lambda error:errors.append(str(error)))
         page.goto(site+'/api/historical-library')
         page.wait_for_selector('#history-count')
-        assert page.locator('.reference-card:visible').count()==18
+        assert page.locator('.reference-card:visible').count()==20
         page.locator('#history-map').select_option('nevada')
         page.locator('#history-period').select_option('nevada-1981')
         assert page.locator('.reference-card:visible').count()==2
         page.locator('#history-search').fill('no such reference xyz')
         assert page.locator('#history-empty').is_visible()
         page.locator('#history-reset').click()
-        assert page.locator('.reference-card:visible').count()==18
+        assert page.locator('.reference-card:visible').count()==20
         page.locator('#history-extent').select_option('local')
         marker=page.locator('.reference-profile:visible .point-diagram:visible .reference-point').first
         marker.focus();marker.press('Enter')
@@ -163,9 +209,26 @@ def test_real_browser_library_filters_chart_keyboard_and_date_limits(site,width,
         assert not page.locator('#history-extent-label').is_visible()
         page.locator('#history-on').fill('1944-07-07')
         assert 'exact arrival unknown' in page.locator('tr[data-precision="circa"] .date-relation').inner_text()
+        page.locator('#history-map').select_option('afghanistan')
+        page.locator('#history-search').fill('Kandahar')
+        kandahar = page.locator('#oef-kandahar-2010-01-01')
+        assert kandahar.is_visible()
+        assert not page.locator('#oif-balad-al-asad-2007-01-28').is_visible()
+        kandahar.locator('summary').click()
+        assert kandahar.locator('a[href*="afcent.af.mil"]').first.is_visible()
         assert page.evaluate('document.documentElement.scrollWidth <= innerWidth+1')
         assert not errors
         page.screenshot(path=str(tmp_path/f'history-{width}.png'),full_page=True)
+        kandahar.get_by_role('link', name='Open Kandahar starter in Builder').click()
+        page.wait_for_function('typeof NAV_READY !== "undefined" && NAV_READY && CURRENT_VIEW === "builder"')
+        state = page.evaluate('recipe()')
+        assert state['map'] == 'afghanistan'
+        assert state['home_airbase'] == 'Kandahar'
+        assert state['mission_date'] == '2010-01-01'
+        assert state['slots'] == 2
+        assert state['bb_historical_airspace'] is True
+        assert state['player_arm'] is False
+        assert not errors
         browser.close()
 
 

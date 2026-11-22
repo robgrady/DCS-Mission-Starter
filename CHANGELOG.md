@@ -1,5 +1,13 @@
 # Changelog — DCS Sortie Starter
 
+## [1.127.0] — Historical deployment starters
+
+- Add official Air Force source records for Kandahar on 1 January 2010 and Balad and Al Asad on 28 January 2007, including five dated squadron observations.
+- Draw optional archival airfield squares on the F10 map for matching GWOT mission dates. Labels identify the date, unit and aircraft evidence.
+- Open a two-client A-10C Kandahar starter from the Historical Library in Builder. Download the resulting mission for group planning in DKS.
+- Preserve Builder aircraft loadout choices when airfield dressing is disabled.
+- Update the User Guide with the starter workflow, map legend and evidence limits.
+
 ## [1.126.0] — Browser User Guide
 
 - Open the User Guide from the site navigation and jump directly to installation, First Flight, downloads, saving, or troubleshooting.

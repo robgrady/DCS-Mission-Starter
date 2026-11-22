@@ -69,6 +69,7 @@ ARTIFACTS = [
         'generator': ['scripts/build_historical_library.py'],
         'inputs': ['missiongen/data/historical_library.json', 'missiongen/historical_library.py',
                    'missiongen/historical_reference_chart.py', 'scripts/build_historical_library.py',
+                   'missiongen/recipe.py', 'missiongen/share.py',
                    'scripts/build_sources_html.py', 'frontend/assets/historical-library.js',
                    'missiongen/data/maps.json', 'missiongen/__init__.py'],
         'why': 'Dated reference readings, point diagrams and unit observations must match their provenance data.',

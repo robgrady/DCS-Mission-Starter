@@ -30,7 +30,14 @@ somebody finishes the first one.
 
 ## Where the product is today
 
-The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
+**v1.127.0** adds dated GWOT deployment backgrounds for Kandahar, Balad and
+Al Asad. Two source-linked readings and five unit observations extend the
+Historical Library. Matching GWOT sorties can draw archival airfield squares
+on the F10 map. The Kandahar entry opens an editable A-10C starter in Builder
+for DKS route planning.
+
+The Historical Library now provides 20 source-linked readings, separate
+1981/2014 Nevada point charts and 20 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
 **v1.126.0** opens the User Guide in the browser, with direct links to pilot
 tasks and an offline PDF from the same source.
