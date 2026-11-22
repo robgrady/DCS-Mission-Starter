@@ -32,6 +32,9 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.126.0** opens the User Guide in the browser, with direct links to pilot
+tasks and an offline PDF from the same source.
+
 **v1.125.1** updates Fly Now with a compact setup, a sortie summary, and a
 mobile download below the controls. The User Guide opens with setup and
 download steps and includes a linked topic list.

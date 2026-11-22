@@ -2,33 +2,25 @@
 
 ## Start here
 
-1. **New to DCS?** Open **Train → First Flight** for two short T-45C lessons.
-2. **Want to practice a skill?** Open **Fly Now** and choose a drill, aircraft and map.
-3. **Want a ready-made mission or collection?** Open **Library**.
-4. **Want to choose the scenario, support or route?** Open **Builder**.
+- **Already have a mission file?** [Install and fly a .miz](#install-a-miz-mission).
+- **New to DCS?** [Start the First Flight campaign](#install-the-first-flight-campaign).
+- **Ready to practice?** [Choose a drill in Fly Now](#practice-a-drill-in-fly-now).
 
 You can download missions without signing in. Sign in with Discord to keep
 saved missions and setups in **My missions** across devices.
 
-**Find a topic**
+## Install a .miz mission
 
-- [Download and fly](#download-and-fly) · [First Flight](#first-flight-familiarization)
-- [Briefings and kneeboards](#your-mission-kit) · [Save and share](#discord-profiles-and-my-missions)
-- [Troubleshooting](#troubleshooting) · [Build a custom mission](#quick-start-builder-path)
-- [Use an AI assistant](#missions-through-an-ai-assistant-mcp)
+Copy the `.miz` to `%USERPROFILE%\Saved Games\DCS\Missions`, then open
+**Mission** in DCS and select the file.
 
-## Download and fly
-
-1. **Get the mission.** In **Fly Now**, select a drill, aircraft and map,
-   then choose **Generate & download .miz**. In **Library**, open a mission
-   or a collection and select the sortie you want. Check the listed aircraft,
-   map and any required modules before launching DCS.
-2. **Put the file where DCS can find it.** If you downloaded a ZIP, extract it
-   first. Copy the `.miz` to `%USERPROFILE%/Saved Games/DCS/Missions` on Windows.
-   Use your active DCS profile if the Saved Games folder has a different name.
-3. **Fly.** Open **Mission** in DCS, select the file, read the briefing and
-   start the mission. You can also open the `.miz` in **Mission Editor** to
-   inspect or edit it.
+1. **Download the mission.** In **Fly Now**, choose **Generate & download .miz**.
+   In **Library**, open the mission or choose a sortie in a collection.
+2. **Check what it needs.** Confirm you have the listed terrain, aircraft and
+   modules. Extract any ZIP to get the `.miz`. If your DCS profile uses a
+   different Saved Games folder, copy the file to that profile’s `Missions` folder.
+3. **Fly or edit.** Select the file in **Mission** to fly it, or open it in
+   **Mission Editor** to inspect or change it.
 
 ### Which download do I use?
 
@@ -41,14 +33,14 @@ saved missions and setups in **My missions** across devices.
 
 ## The four doors
 
-### Fly Now
+### Practice a drill in Fly Now
 
-Pick a drill, aircraft and map. Choose an aircraft from the list or use
-**Search aircraft** to narrow it by model or nickname. Use **My DCS content**
-to set your saved map and module preferences. The sortie summary sits beside
-the controls on desktop and below them on mobile. Expand **Mission readiness**
-in the summary to review requirements, then choose **Generate & download
-.miz**. Fly Now restores the last valid setup on this device.
+Pick a drill, aircraft and map, then select **Generate & download .miz**.
+
+Use **Search aircraft** to find a model or nickname. Use **My DCS content**
+to set your map and module preferences. Expand **Mission readiness** beside
+the download button to check requirements. Fly Now restores the last valid
+setup on this device.
 
 ![Fly Now. Choose the drill, aircraft and map on the left. The blue download button is in the sortie summary.](img/guide-fly-now.png)
 
@@ -56,7 +48,7 @@ Open **Mission settings** to change the BFM setup or **Spice** (opposition
 level), see the seed, or choose **Re-roll layout**. Fly Now sets the era,
 base, weather and comms for the selected drill.
 
-### Library
+### Find a mission in the Library
 
 Choose **Missions** for individual sorties or **Collections** for a sequence
 of authored missions. Search by title, aircraft, map or activity. Use
@@ -72,10 +64,10 @@ configurable mission lets you generate from its detail screen or choose
 **Customize in Builder**. Historical sources and adaptations appear in the
 setting disclosure. Use **Save to My missions** to keep a mission or setup.
 
-### Train
+### Follow a training course
 
-**First Flight** is the beginner course for the VNAO T-45C mod. The
-**Training Pipeline** is a separate aircraft-specific program. Its first course covers
+Open **Train** and choose **First Flight** for the beginner T-45C course
+or **Training Pipeline** for aircraft-specific training. Its first course covers
 the F-4E Phantom II, starting with foundation skills and progressing to
 aircraft systems and mission practice. Units labeled **planned** explain
 what remains to be built. Flyable lessons provide briefings and kneeboards.
@@ -86,7 +78,11 @@ Pipeline completion checkboxes stay in this browser. The **squadron kit**
 includes the program, readings and a gradesheet. First Flight campaign
 progress is managed in DCS.
 
-### First Flight familiarization
+### Install the First Flight campaign
+
+Install the **VNAO T-45C v1.02** mod. Download and extract the campaign,
+copy its folder to `%USERPROFILE%\Saved Games\DCS\Missions\Campaigns\en`,
+then open **Campaigns → User** in DCS.
 
 1. Open **Train → First Flight**. Choose the available map and aircraft and
    select **Review sorties**. The beginner campaign uses the front seat of the
@@ -98,7 +94,7 @@ progress is managed in DCS.
    at parking with the engine running.
 3. To fly the linked sequence, choose **Download campaign ZIP**. Extract it
    and follow `INSTALL.txt`. Copy the campaign folder into
-   `%USERPROFILE%/Saved Games/DCS/Missions/Campaigns/en`. Keep the `.cmp`
+   `%USERPROFILE%\Saved Games\DCS\Missions\Campaigns\en`. Keep the `.cmp`
    together with both `.miz` files. Open **Campaigns → User** in DCS and
    select **First Flight**.
 4. In DCS, use the first kneeboard page for lesson cues and the second for
@@ -112,17 +108,21 @@ progress is managed in DCS.
 still need an end-to-end Windows DCS playthrough. The web picker shows
 campaign setups available in Sortie Starter.
 
-### Builder
+### Build a custom mission
 
-Choose the theater, era, side and aircraft. Add the support, opposition
-and airfield details you want, then open **Review** to check your setup.
+Open **Builder**, choose the theater, era, side and aircraft, then
+generate from **Review**. Set support, opposition and airfield details
+before you review the setup.
+
+![Builder Review. Check Mission readiness and the setup summary before selecting Generate .miz.](img/review.png)
+
 Routed strike templates and training rides with a route in their syllabus
 include those waypoints. For other missions, use **Automatic waypoints** or
 use the Builder waypoint editor to enter your own route.
 
 If the catalog fails to load, use **Retry**. You can switch sections while it loads.
 
-### Mission readiness before Generate
+### Check requirements before generating
 
 Open **Mission readiness** in Fly Now or look for the card in Builder's
 **Review** and configurable Library mission details. It checks the effective recipe and lists terrain,
@@ -147,11 +147,11 @@ certified. Read generation warnings and DCS load warnings. A failed setup check
 explains which selection needs correction. If the check is unavailable, Generate
 still performs the engine's compatibility checks.
 
-## Your mission kit
+## Use briefings and kneeboards
 
-Generating starts the `.miz` download and opens **Mission Kit**. Use that
-panel for the setup summary and optional downloads, including the briefing
-pack and kneeboard. The mission file includes cockpit kneeboard pages
+Open **Mission Kit** to get the briefing pack and kneeboard downloads.
+It appears when the `.miz` download starts and shows the generated setup.
+The mission file includes cockpit kneeboard pages
 (**RShift+K** with the default DCS binding). Routed missions include a flight
 plan, and supported F-14B(U) builds include a DTC setup card.
 
@@ -201,10 +201,13 @@ Lead also waits for you: at the first two route points he orbits until you have
 been in the slot for fifteen seconds, then flies the profile. He gives up after
 a few minutes and goes anyway. Neither happens on a check ride.
 
-## Discord profiles and My missions
+## Save and share missions
 
-Sign-in is optional: Fly now, Library, Train and Builder still work as a guest.
-Choose **Sign in** in the header, then **Continue with Discord**. Discord asks
+Choose **Save to My missions** on the mission or setup you want to keep.
+Sign in with Discord when prompted. To share a saved item, open **My missions**
+and choose its sharing controls.
+
+To sign in first, choose **Sign in** in the header, then **Continue with Discord**. Discord asks
 for your basic identity; we do not request your email, server memberships or
 permission to post. We store your Discord ID, a stable Sortie Starter profile
 ID and profile name. This login currently applies to Sortie Starter; it does
@@ -292,7 +295,7 @@ recipes as JSON; download original files separately. **Delete profile** removes
 this app’s profile, saves, sessions and shared links. Download originals first.
 This does not delete your Discord account or data in another Authentic app.
 
-## Quick start (Builder path)
+## Configure a Builder sortie
 
 1. Pick a **map** and an **era**. The era is a hard filter: a WWII starter will
    not offer you a Hornet, and a modern starter will not offer a Spitfire.
@@ -328,6 +331,50 @@ follow native DCS behavior; this option does not script attack geometry or
 formation procedures. Fixed crew-ops flights and authored Case III recovery
 rides do not offer this option. Existing training rides retain their authored
 wingmen when no custom AI count is selected.
+
+## Fix common problems
+
+### Generate is disabled
+
+Choose a drill, aircraft and map. Read the message
+beside the download button if the selections are incompatible. Try another
+aircraft or map. If the catalog failed to load, use **Retry**.
+
+### Find a missing mission in DCS
+
+Extract any ZIP first. Check that the file
+ends in `.miz` and is in the active profile’s `Missions` folder. Select it
+from the DCS **Mission** menu. For First Flight as a campaign, check that the
+`.cmp` and both `.miz` files are together in the campaign folder and look
+under **Campaigns → User**.
+
+### DCS reports missing content
+
+Review the terrain and aircraft requirements
+in the mission details and check your installation. First Flight uses the
+VNAO T-45C v1.02 community mod. The CVN-71/72/73/75 decks require Supercarrier.
+Stennis works with the base game, and Forrestal comes with the F-14.
+
+### Repeat a First Flight cue
+
+Use **F10 Other → FAM: Show current step**
+or read the first in-cockpit kneeboard page.
+
+**Can I edit the starter?** Yes — that's the point. Open it in the Mission Editor;
+everything is ordinary groups and statics you can move, delete, or build on.
+
+**Why can't I pick aircraft X in era Y?** Hard era gate by service window — e.g.
+the Hornet entered service in 1987, so it can't appear in a Cold War (1965–1985)
+starter. This is a broad era filter, not certification that every module variant served on the authored scenario date.
+
+**What is the "War on Terror" era for?** Iraq and Afghanistan missions with a
+**2003–2025 aircraft service-window filter**. This broad preset is not a claim
+that a particular conflict or deployment lasted through 2025; named scenarios
+retain their authored dates. Its defining setting is the opposition: there is
+no enemy air force and no radar SAM; the threat is guns and MANPADS, which is
+why the transit profile sits higher than Modern's. If you want MiGs over Iraq,
+pick Modern instead.
+
 
 ## The standard comm ladder
 
@@ -686,42 +733,6 @@ format. DKS can recalculate a flight plan; compare its results with the original
 mission before exporting a replacement cartridge. Preserve the original `.miz`
 when exact mission bytes matter.
 
-## Troubleshooting
-
-**Generate is disabled.** Choose a drill, aircraft and map. Read the message
-beside the download button if the selections are incompatible. Try another
-aircraft or map. If the catalog failed to load, use **Retry**.
-
-**I can’t find the mission in DCS.** Extract any ZIP first. Check that the file
-ends in `.miz` and is in the active profile’s `Missions` folder. Select it
-from the DCS **Mission** menu. For First Flight as a campaign, check that the
-`.cmp` and both `.miz` files are together in the campaign folder and look
-under **Campaigns → User**.
-
-**DCS reports missing content.** Review the terrain and aircraft requirements
-in the mission details and check your installation. First Flight uses the
-VNAO T-45C v1.02 community mod. The CVN-71/72/73/75 decks require Supercarrier.
-Stennis works with the base game, and Forrestal comes with the F-14.
-
-**I missed a First Flight cue.** Use **F10 Other → FAM: Show current step**
-or read the first in-cockpit kneeboard page.
-
-**Can I edit the starter?** Yes — that's the point. Open it in the Mission Editor;
-everything is ordinary groups and statics you can move, delete, or build on.
-
-**Why can't I pick aircraft X in era Y?** Hard era gate by service window — e.g.
-the Hornet entered service in 1987, so it can't appear in a Cold War (1965–1985)
-starter. This is a broad era filter, not certification that every module variant served on the authored scenario date.
-
-**What is the "War on Terror" era for?** Iraq and Afghanistan missions with a
-**2003–2025 aircraft service-window filter**. This broad preset is not a claim
-that a particular conflict or deployment lasted through 2025; named scenarios
-retain their authored dates. Its defining setting is the opposition: there is
-no enemy air force and no radar SAM; the threat is guns and MANPADS, which is
-why the transit profile sits higher than Modern's. If you want MiGs over Iraq,
-pick Modern instead.
-
-
 ## Parking, skins and historical fidelity
 
 Parked aircraft use measured stand directions where survey data exists. Iraq
@@ -832,10 +843,8 @@ coalition; it does not certify an aircraft roster.
 ## Release identity and the manual
 
 The version beside the title identifies the running release. Reload the page
-after a deployment to load its latest controls and version. The downloadable
-User guide uses this same version on its cover. Every release reviews this
-manual and updates its instructions when behavior, controls or limitations
-change. The PDF is generated from this document so both copies stay aligned.
+after a deployment to load the latest version. The browser guide and offline
+PDF show the same release version and use the same instructions.
 
 
 ## Historical Library: dated readings and charts

@@ -1,17 +1,17 @@
 {
-  "version": "1.125.1",
+  "version": "1.126.0",
   "documentation_required": true,
-  "reason": "Explain the Fly Now layout, illustrate the first mission and First Flight steps, and add quick navigation, a download reference and troubleshooting.",
+  "reason": "Make the web guide primary, use task-based instructions and keep the same content in the offline PDF.",
   "sections_reviewed": [
     "Start here",
-    "Download and fly",
-    "Which download do I use?",
+    "Install a .miz mission",
     "The four doors",
-    "First Flight familiarization",
-    "Mission readiness before Generate",
-    "Your mission kit",
-    "Troubleshooting"
+    "Install the First Flight campaign",
+    "Use briefings and kneeboards",
+    "Save and share missions",
+    "Fix common problems",
+    "Release identity"
   ],
-  "source_sha256": "a60aff6056aeaa006440da27df142aa52bd1bfcf36d650e575b2c8215ed08c89",
-  "previous_source_sha256": "14011c28c1503191c615c0ab19bcb3285c11677a29e9fc2f0c73a6b055903243"
+  "source_sha256": "55dbcdd1167a72c80b86ef32aef4233b559a517b2930c350026f7fcc6b762237",
+  "previous_source_sha256": "a60aff6056aeaa006440da27df142aa52bd1bfcf36d650e575b2c8215ed08c89"
 }

@@ -1,5 +1,10 @@
 # Changelog — DCS Sortie Starter
 
+## [1.126.0] — Browser User Guide
+
+- Open the User Guide from the site navigation and jump directly to installation, First Flight, downloads, saving, or troubleshooting.
+- Use the same instructions and screenshots in the browser guide and the offline PDF. Keep the existing PDF download URL.
+
 ## [1.125.1] — A clearer Fly Now layout
 
 - Put the drill, aircraft and map in one panel with a live sortie summary alongside it on desktop.

@@ -133,12 +133,21 @@ ARTIFACTS = [
                "commit for a terrain we have since replaced.",
     },
     {
+        "path": "docs/user-guide.html",
+        "rule": "rebuild",
+        "generator": ["scripts/build_user_guide_html.py"],
+        "inputs": ["docs/USER_GUIDE.md", "scripts/guide_source.py", "scripts/build_user_guide_html.py",
+                   "scripts/build_sources_html.py", "missiongen/__init__.py",
+                   "docs/img/guide-fly-now.png", "docs/img/guide-first-flight-0.3.0.png", "docs/img/review.png"],
+        "why": "The browser guide, its direct links and its release label come from the reviewed manual.",
+    },
+    {
         "path": "docs/DCS_Mission_Starter_Guide.pdf",
         "rule": "stamp",
         "generator": ["scripts/build_guide_pdf.py"],
         # The guide embeds the screenshots and prints the version on its cover,
         # so it is downstream of both the UI and the release.
-        "inputs": ["docs/USER_GUIDE.md", "scripts/build_guide_pdf.py", "missiongen/authentic.py", "missiongen/data/brand/**/*", "missiongen/__init__.py",
+        "inputs": ["docs/USER_GUIDE.md", "scripts/build_guide_pdf.py", "scripts/guide_source.py", "missiongen/authentic.py", "missiongen/data/brand/**/*", "missiongen/__init__.py",
                    "docs/img/hero.png", "docs/img/review.png", "docs/img/guide-fly-now.png",
                    "docs/img/guide-first-flight-0.3.0.png"],
         "why": "Downloaded from /api/guide. Its cover prints the version, so a "
@@ -376,7 +385,12 @@ def release_generators(stage):
             continue
         seen.add(tuple(command))
         producer = command[0]
-        phase = 'screenshots' if 'capture_screenshots' in producer else 'after-shots' if 'build_guide_pdf' in producer else 'before-shots'
+        if 'capture_screenshots' in producer:
+            phase = 'screenshots'
+        elif producer in ('scripts/build_user_guide_html.py', 'scripts/build_guide_pdf.py'):
+            phase = 'after-shots'
+        else:
+            phase = 'before-shots'
         if phase == stage:
             yield command
 

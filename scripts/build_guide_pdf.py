@@ -4,7 +4,6 @@ Rerun whenever docs content changes: python scripts/build_guide_pdf.py"""
 from html import escape
 from pathlib import Path
 import re
-from unicodedata import normalize
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor, white
@@ -18,6 +17,7 @@ import sys as _sys
 _sys.path.insert(0, str(Path(__file__).parent.parent))
 _sys.path.insert(0, str(Path(__file__).parent.parent / "vendor"))
 from missiongen import __version__ as APP_VERSION
+from scripts.guide_source import blocks, heading_id
 
 OUT = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
 IMG = Path(__file__).parent.parent / "docs" / "img"
@@ -170,20 +170,9 @@ def inline(text):
     return text
 
 
-def heading_slug(text):
-    plain = normalize("NFKD", text.replace("&", " and ")).encode("ascii", "ignore").decode()
-    return re.sub(r"[^a-z0-9]+", "-", plain.lower()).strip("-") or "topic"
-
-
 def guide_heading(text, level, anchors):
     heading = P(inline(text), f"h{level + 1}")
-    slug = heading_slug(heading.getPlainText())
-    key = slug
-    suffix = 1
-    while key in anchors:
-        key = f"{slug}-{suffix}"
-        suffix += 1
-    anchors.add(key)
+    key = heading_id(heading.getPlainText(), anchors)
     heading.guide_section = (key, level)
     heading.keepWithNext = True
     return heading
@@ -204,65 +193,34 @@ class GuideDocument(BaseDocTemplate):
 
 def manual_story(path):
     """The Markdown manual is the sole prose source for the download."""
-    rows = path.read_text(encoding="utf-8").splitlines()
     result = [NextPageTemplate("page"), PageBreak()]
     anchors = set()
     has_chapter = False
-    paragraph = []
-    def flush():
-        if paragraph:
-            result.append(P(inline(' '.join(paragraph))))
-            paragraph.clear()
-    i = 0
-    while i < len(rows):
-        line = rows[i].strip()
-        if not line:
-            flush(); i += 1; continue
-        if line.startswith('|'):
-            flush(); data = []
-            while i < len(rows) and rows[i].strip().startswith('|'):
-                cells = rows[i].strip().strip('|').split('|')
-                if not all(re.fullmatch(r'[: -]+', c) for c in cells):
-                    cell_style = 'note' if data else 'table_head'
-                    data.append([P(inline(c.strip()), cell_style) for c in cells])
-                i += 1
-            if data:
-                widths = [(W - 1.5 * inch) / len(data[0])] * len(data[0])
-                result.append(t(data, widths)); result.append(Spacer(1, 8))
-            continue
-        if line.startswith('```'):
-            flush(); i += 1
-            while i < len(rows) and not rows[i].strip().startswith('```'):
-                result.append(P(inline('`'+rows[i]+'`'), 'note')); i += 1
-            i += 1; continue
-        if line.startswith('!['):
-            flush()
-            image = re.fullmatch(r'!\[([^]]+)\]\(img/([a-zA-Z0-9][a-zA-Z0-9_.-]*[.]png)\)', line)
-            if not image or not image[1].strip():
-                raise ValueError(f"{path}:{i + 1}: use ![caption](img/name.png) with a caption")
-            result.append(shot(image[2], image[1].strip(), compact=True))
-            i += 1; continue
-        heading = re.match(r'^(#{1,3}) +(.+)', line)
-        if heading:
-            flush()
-            if len(heading[1]) == 2:
-                result.append(guide_heading(heading[2], 0, anchors))
+    for kind, value in blocks(path):
+        if kind == "paragraph":
+            result.append(P(inline(value)))
+        elif kind == "table":
+            table = [[P(inline(cell), "table_head" if index == 0 else "note") for cell in row]
+                     for index, row in enumerate(value)]
+            widths = [(W - 1.5 * inch) / len(table[0])] * len(table[0])
+            result.extend([t(table, widths), Spacer(1, 8)])
+        elif kind == "code":
+            result.extend(P(inline(f"`{line}`"), "note") for line in value)
+        elif kind == "image":
+            result.append(shot(*value, compact=True))
+        elif kind == "heading":
+            level, heading = value
+            if level == 2:
+                result.append(guide_heading(heading, 0, anchors))
                 has_chapter = True
-            elif len(heading[1]) == 3:
-                result.append(guide_heading(heading[2], 1 if has_chapter else 0, anchors))
-            i += 1; continue
-        bullet = re.match(r'^(?:[-*] |(\d+)\. )(.+)', line)
-        if bullet:
-            flush(); text = bullet[2]; i += 1
-            while i < len(rows) and rows[i].startswith('   ') and rows[i].strip():
-                text += ' ' + rows[i].strip(); i += 1
-            result.append(P(inline((bullet[1]+'. ' if bullet[1] else '• ')+text), 'bullet'))
-            continue
-        paragraph.append(line); i += 1
-    flush()
+            elif level == 3:
+                result.append(guide_heading(heading, 1 if has_chapter else 0, anchors))
+        elif kind == "item":
+            number, text = value
+            marker = f"{number}. " if number else "• "
+            result.append(P(inline(marker + text), "bullet"))
     result += [PageBreak(), guide_heading('Builder reference', 0, anchors),
-               shot('hero.png', 'The Builder: choose the theater and era.'),
-               PageBreak(), shot('review.png', 'Review the recipe before generating your mission kit.')]
+               shot('hero.png', 'The Builder: choose the theater and era.')]
     return result
 
 def build_guide(source, output):

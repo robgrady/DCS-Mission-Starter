@@ -119,7 +119,7 @@ missiongen/            generation engine (pure python, no web deps)
   graphics.py          F10 map-drawing layers
   backseat.py/crewops  F-14 Crew Ops template packs (Heatblur PROXY flags)
   data/*.json          era/map/theme/catalog/parking-heading data packs (the product)
-server/app.py          FastAPI: /api/options, /api/generate, /api/health, /api/guide, /api/roadmap
+server/app.py          FastAPI: /api/options, /api/generate, /api/health, /guide, /api/guide (PDF), /api/roadmap
 frontend/index.html    single-file section-navigation wizard
 scripts/               CLI generation, PDF guide, screenshots, parking survey tools
 ```

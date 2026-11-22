@@ -16,6 +16,9 @@ from . import ga as _ga
 
 router = APIRouter()
 
+GUIDE_HTML = Path(__file__).parent.parent / "docs" / "user-guide.html"
+GUIDE_IMAGES = {"guide-fly-now.png", "guide-first-flight-0.3.0.png", "review.png"}
+
 DOCS_PDF = Path(__file__).parent.parent / "docs" / "DCS_Mission_Starter_Guide.pdf"
 MCP_GUIDE = Path(__file__).parent.parent / 'docs' / 'MCP.md'
 
@@ -36,7 +39,8 @@ def agent_document_index():
         '## Integration documentation\n\n'
         '- [MCP agent guide](/api/mcp-guide): Tools, schemas, examples, workflow and errors.\n'
         '- [Recipe JSON Schema](/api/recipe-schema): Canonical fields, defaults and enums.\n'
-        '- [User Manual PDF](/api/guide): Product behavior, ownership and limitations.\n\n'
+        '- [User Guide](/guide): Pilot tasks, product behavior, ownership and limitations.\n'
+        '- [User Guide PDF](/api/guide): Offline copy.\n\n'
         '- [Historical coverage register](/api/historical-coverage): Map/era evidence, dates and research gaps.\n\n'
         '- [Historical reference catalog](/api/historical-library/catalog): Dated readings, unit observations, reference-only point profiles and provenance.\n\n'
         '## Connection\n\n'
@@ -277,6 +281,20 @@ def _with_thanks(page: str) -> str:
              + "".join(items) + "</ul>")
     marker = "</div></body></html>"
     return page.replace(marker, block + marker, 1) if marker in page else page + block
+
+
+@router.get("/guide", response_class=HTMLResponse)
+def user_guide():
+    return HTMLResponse(_ga.inject(GUIDE_HTML.read_text(encoding="utf-8")),
+                        headers={"Cache-Control": "no-store"})
+
+
+@router.get("/guide/images/{name}")
+def user_guide_image(name: str):
+    path = DOCS_IMG / name
+    if name not in GUIDE_IMAGES or not path.is_file():
+        raise HTTPException(status_code=404, detail="Not Found")
+    return FileResponse(path, media_type="image/png")
 
 
 @router.get("/api/guide")
