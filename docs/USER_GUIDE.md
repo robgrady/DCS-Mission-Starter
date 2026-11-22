@@ -878,6 +878,13 @@ The historical square is a reference and adds no waypoints or scoring.
 Archive readback has verified the marker and client slots. DCS flight and
 DKS import checks are pending.
 
+Search for **Balad** in the main Library to find the Iraq planning starter for
+28 January 2007. It requires the DCS Iraq map and F-16C Viper module and starts
+two unarmed multiplayer aircraft cold at Balad. The Air Force records the
+14th EFS and its Block 50 deployment. The DCS airfield layout, parking stands
+and aircraft markings are simulator choices. Use **View historical sources**
+for the deployment record or **Download .miz & open DKS** to plan your route.
+
 The 1990–91 Gulf War research period is a reading category, not a new Builder era.
 
 **Dated Nevada charts** keep February 1981 and 2014 separate from the routing

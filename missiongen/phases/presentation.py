@@ -130,7 +130,7 @@ def place_presentation(builder: StarterBuilder, ctx: WorldContext, targets: Scen
     # --- briefing ----------------------------------------------------------
     from ..historical_world import brief_lines
     history_lines = brief_lines(ctx.historical)
-    from ..historical_library import mission_references, reference_lines
+    from ..historical_library import mission_references, planning_starter, reference_lines
     reference_rows = mission_references(r.map, m.start_time.date().isoformat(),
         getattr(self._resolve_aircraft(r.aircraft), 'id', r.aircraft))
     stats['historical_references'] = reference_rows
@@ -140,10 +140,20 @@ def place_presentation(builder: StarterBuilder, ctx: WorldContext, targets: Scen
                                  'notes': list(ctx.historical.notes),
                                  'sources': list(ctx.historical.sources)}
     stats['airspace_notes'] = airspace_brief.splitlines() if airspace_brief else []
+    starter = planning_starter(r) if r.mission_date else None
+    if starter:
+        if player_group is not None:
+            for unit in player_group.units:
+                unit.gun = 0
+        starter['setting'] += f' Mission start {m.start_time:%H:%M} local.'
+        stats['planning_starter'] = starter
     if r.bb_briefing:
-        brief = self._briefing(map_cfg, era_cfg, preset, home,
-                               comms, stats, template_brief)
-        brief += '\n\n' + '\n'.join(history_lines)
+        if starter:
+            brief = '\n\n'.join(starter[key] for key in ('title', 'setting', 'description', 'instructions', 'source_url'))
+        else:
+            brief = self._briefing(map_cfg, era_cfg, preset, home,
+                                   comms, stats, template_brief)
+            brief += '\n\n' + '\n'.join(history_lines)
         if nav_pts:
             from .. import navpoints
             brief += "\n" + navpoints.briefing_block(nav_pts)

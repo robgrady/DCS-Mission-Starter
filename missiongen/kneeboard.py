@@ -122,7 +122,8 @@ def fuel_lines(fuel_max_kg):
 
 
 def page_comms(comms, map_label, era_label, home_name, qnh_hpa=None,
-               own_fields=None, home_pos=None, fuel_max_kg=None, routed=False):
+               own_fields=None, home_pos=None, fuel_max_kg=None, routed=False,
+               show_diverts=True):
     img, d, f = _page("COMMS / NAV", f"{map_label}  ·  {era_label}  ·  home: {home_name}")
     y = 150
     if qnh_hpa:
@@ -150,8 +151,9 @@ def page_comms(comms, map_label, era_label, home_name, qnh_hpa=None,
     # A kneeboard with blank space and no divert data isn't finished. Diverts:
     # nearest friendly fields by range from home, with runway heading.
     y += 26
-    d.text((40, y), "DIVERTS", font=f["h2"], fill=ACCENT); y += 44
-    if own_fields and home_pos is not None:
+    if show_diverts:
+        d.text((40, y), "DIVERTS", font=f["h2"], fill=ACCENT); y += 44
+    if show_diverts and own_fields and home_pos is not None:
         import math as _m
         rows = []
         for ap in own_fields:
@@ -167,7 +169,7 @@ def page_comms(comms, map_label, era_label, home_name, qnh_hpa=None,
             d.text((40, y), f"{name[:20]:<22}{int(brg):03d}° / {rng_nm:3.0f} nm   RWY {rwy}",
                    font=f["mono"], fill=FG)
             y += 40
-    else:
+    elif show_diverts:
         d.text((40, y), "— see AIRFIELD DATA page", font=f["mono"], fill=DIM); y += 40
     y += 22
     d.text((40, y), "FUEL", font=f["h2"], fill=ACCENT); y += 44
@@ -634,16 +636,20 @@ def build_kneeboard(miz_path, comms, own_fields, enemy_fields, bullseye,
                     route_target=None, pylons=None, loadout_label=None,
                     loadout_role=None, aircraft_id=None, card=None,
                     card_title=None, diagram=None, diagram_caption=None,
-                    timing=None, nttr_plan=None, map_key=None, historical_notes=None):
+                    timing=None, nttr_plan=None, map_key=None, historical_notes=None,
+                    planning_only=False):
     home_pos = next((a.position for a in own_fields if a.name == home_name), None)
     pages = [
         page_comms(comms, map_label, era_label, home_name, qnh_hpa,
-                   own_fields=own_fields, home_pos=home_pos,
-                   fuel_max_kg=fuel_max_kg, routed=bool(route)),
-        page_airfields(own_fields, enemy_fields, era_year, enemy_air=enemy_air, map_key=map_key),
-        page_theater(own_fields, enemy_fields, bullseye, map_label, support_names,
-                     nav_points, threats=threats, targets=targets),
+                   own_fields=own_fields, home_pos=home_pos, fuel_max_kg=fuel_max_kg,
+                   routed=bool(route), show_diverts=not planning_only),
     ]
+    if not planning_only:
+        pages.extend([
+            page_airfields(own_fields, enemy_fields, era_year, enemy_air=enemy_air, map_key=map_key),
+            page_theater(own_fields, enemy_fields, bullseye, map_label, support_names,
+                         nav_points, threats=threats, targets=targets),
+        ])
     # Optional pages APPEND. The three reference pages keep the numbers they
     # have always had — a pilot who knows the theater page is 03 should not
     # find a flight plan there because he ticked a box on another screen.

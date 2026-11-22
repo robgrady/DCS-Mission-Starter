@@ -152,8 +152,9 @@ def _smea(ctx):
     """SITUATION / MISSION / EXECUTION text (D-1): the brief opens like a
     briefing, not a settings receipt. All composed from recipe + stats —
     deterministic, and honest about what the engine actually placed."""
-    from .acnames import display as _acd
     r = ctx["recipe"]; stats = ctx["stats"]
+    if starter := stats.get('planning_starter'):
+        return starter['setting'], starter['description'], starter['instructions']
     n_enemy = len(ctx.get("enemy_fields", []))
     threat = stats.get("threat_level", "unassessed")
     tier = (r.threat_tier or "auto")
@@ -240,8 +241,10 @@ def page_mission_data(ctx, comms):
     from .acnames import display as _acd
     r = ctx["recipe"]
     stats = ctx["stats"]
+    starter = stats.get('planning_starter')
     img, d, f = _page("MISSION BRIEF", "Pre-flight briefing pack — pairs with the .miz")
-    d.text((60, 200), f'{ctx["map_label"]} · {ctx["era_label"]}', font=f["h1"], fill=NAVY)
+    title = starter['title'] if starter else f'{ctx["map_label"]} · {ctx["era_label"]}'
+    d.text((60, 200), title, font=f["h1"], fill=NAVY)
     d.text((60, 290), f'{r.coalition.upper()} · {_acd(r.aircraft)} · '
                       f'{"THE CARRIER" if ctx["carrier_home"] else ctx["home"].name}'
                       f' · DTG {_dtg(ctx)}',
@@ -294,10 +297,15 @@ def page_mission_data(ctx, comms):
     # ---- get-flying strip (kept, tightened) --------------------------------
     d.rectangle([60, H - 300, W - 60, H - 120], outline=GOLD, width=3)
     d.text((90, H - 276), "GET FLYING", font=f["h3"], fill=NAVY)
-    for i, line in enumerate([
+    get_flying = [
             "1. Drop the .miz into Saved Games/DCS/Missions — COMM1 presets are pre-tuned",
             "2. Same charts ride in-jet on the kneeboard (RShift+K)",
-            f"3. Variation {r.seed}: same settings + seed rebuild THIS exact mission — share it"]):
+            f"3. Variation {r.seed}: same settings + seed rebuild THIS exact mission — share it"]
+    if starter:
+        get_flying = ["1. Open the .miz in DKS to plan with your wingman.",
+                      "2. Load the .miz as a DCS multiplayer mission and take the two Client slots.",
+                      "3. The mission includes a comms card and historical notes in the kneeboard."]
+    for i, line in enumerate(get_flying):
         d.text((90, H - 224 + i * 34), line, font=f["small"], fill=INK)
     return img
 
@@ -747,6 +755,9 @@ def page_forces(ctx):
 
 # ------------------------------------------------------------------- markdown
 def brief_markdown(ctx, comms, nav_points, qnh_hpa):
+    if starter := ctx['stats'].get('planning_starter'):
+        return '\n\n'.join((f"# {starter['title']}", starter['setting'], starter['description'],
+                            starter['instructions'], f"[Historical sources]({starter['source_url']})")) + '\n'
     from . import alignment, pressure
     r = ctx["recipe"]; stats = ctx["stats"]
     align = alignment.bases(r.map, r.era)
@@ -936,12 +947,13 @@ def build_brief(brief_ctx, kb_ctx, pdf_path, md_path=None):
     # D-7: the old page 4 (Airfields & Forces) duplicated page 1's support list
     # and named enemy fields with no actionable data; its useful half (diverts,
     # owners) now lives in page 3's ADMIN block. Three pages, no filler.
-    pages = [
-        page_mission_data(ctx, comms),
-        page_theater_chart(ctx),
-        page_comms_nav(ctx, comms, nav_points, qnh),
-        page_airfield_guide(ctx),
-    ]
+    pages = [page_mission_data(ctx, comms)]
+    if not ctx['stats'].get('planning_starter'):
+        pages.extend([
+            page_theater_chart(ctx),
+            page_comms_nav(ctx, comms, nav_points, qnh),
+            page_airfield_guide(ctx),
+        ])
     if ctx["stats"].get("route_mode") == "authored":
         from .authored_route import brief_lines
         pages.extend(pages_historical(ctx, brief_lines(ctx["stats"]["route_legs"]), "AUTHORED FLIGHT PLAN"))

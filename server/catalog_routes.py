@@ -117,7 +117,7 @@ def flyable_aircraft():
 
 
 def _historical_starters(aircraft):
-    from missiongen.historical_library import deployment_snapshots, starter_entries
+    from missiongen.historical_library import starter_entries
     from missiongen.share import encode_recipe
 
     labels = {entry["key"]: entry["id"] for entry in aircraft}
@@ -125,8 +125,6 @@ def _historical_starters(aircraft):
     for entry in starter_entries():
         recipe = Recipe.from_dict(entry["starter_recipe"])
         code = encode_recipe(recipe)
-        snapshots = deployment_snapshots(recipe.map, recipe.mission_date)
-        units = [row["unit"] for row in snapshots if row["map_airport"] == recipe.home_airbase]
         result.append({
             "id": entry["id"],
             "title": entry["title"],
@@ -138,7 +136,7 @@ def _historical_starters(aircraft):
             "base": recipe.home_airbase,
             "map": recipe.map,
             "era": recipe.era,
-            "unit": ", ".join(dict.fromkeys(units)),
+            "unit": entry["unit"],
             "aircraft": labels.get(recipe.aircraft, recipe.aircraft),
             "aircraft_key": recipe.aircraft,
             "slots": recipe.slots,

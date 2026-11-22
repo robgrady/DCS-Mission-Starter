@@ -1,12 +1,12 @@
 {
-  "version": "1.128.1",
+  "version": "1.129.0",
   "documentation_required": true,
-  "reason": "Document the quick download and the file selection step in the DKS planner.",
+  "reason": "Document the Balad starter, multiplayer requirements, and historical evidence.",
   "sections_reviewed": [
     "Find a mission in the Library",
-    "Importing a mission into Digital Kneeboard Simulator",
-    "Historical Library: dated readings and charts"
+    "Historical Library: dated readings and charts",
+    "Importing a mission into Digital Kneeboard Simulator"
   ],
-  "source_sha256": "d434655f6caebc7b305e815766222a262f8b8b8f500a53d735cdc09a0a5fb92c",
-  "previous_source_sha256": "ca30a3f51506ff1645cf901ba1551c480a19a93364d254d06efcb06084332b00"
+  "source_sha256": "7db5dbf76834cdd0e7154534b20be2759f9bcd43dff179029b46011ce4b5fc4e",
+  "previous_source_sha256": "d434655f6caebc7b305e815766222a262f8b8b8f500a53d735cdc09a0a5fb92c"
 }

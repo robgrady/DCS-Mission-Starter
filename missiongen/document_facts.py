@@ -27,7 +27,10 @@ def document_facts(builder, ctx: WorldContext, home, carrier: CarrierPlacement,
     map_cfg, era_cfg = ctx.map_cfg, ctx.era_cfg
     comms = ctx.comms
     stats = ctx.stats
+    starter = stats.get('planning_starter')
     own_fields, enemy_fields = ctx.own_fields, ctx.enemy_fields
+    if starter:
+        own_fields, enemy_fields = [home], []
     carrier_home = ctx.carrier_home
     csg = carrier.group
     brief_context = {
@@ -82,9 +85,13 @@ def document_facts(builder, ctx: WorldContext, home, carrier: CarrierPlacement,
     }
     from .historical_world import brief_lines
     from .historical_library import reference_lines
-    kneeboard_context['historical_notes'] = (brief_lines(ctx.historical)
-        + reference_lines(stats.get('historical_references', []))
-        + list(stats.get('airspace_notes', [])))
+    if starter:
+        kneeboard_context['planning_only'] = True
+        kneeboard_context['historical_notes'] = [starter[key] for key in ('setting', 'description', 'source_url')]
+    else:
+        kneeboard_context['historical_notes'] = (brief_lines(ctx.historical)
+            + reference_lines(stats.get('historical_references', []))
+            + list(stats.get('airspace_notes', [])))
     return MissionFacts(ctx.mission.start_time.date(), ctx.historical, ctx.mission.start_time.hour * 3600
                         + ctx.mission.start_time.minute * 60 + ctx.mission.start_time.second,
                         home, comms, stats.get('route_legs'), stats.get('timing'),

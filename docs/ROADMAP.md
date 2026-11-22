@@ -30,6 +30,9 @@ somebody finishes the first one.
 
 ## Where the product is today
 
+**v1.129.0** adds a Balad planning starter with two unarmed DCS F-16Cs
+on 28 January 2007 and a source for the 14th EFS Block 50 deployment.
+
 **v1.128.1** downloads the dated starter and opens DKS from the Library. In
 DKS, pilots choose the downloaded `.miz` in the mission import picker.
 

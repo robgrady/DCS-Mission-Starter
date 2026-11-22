@@ -71,3 +71,28 @@ def test_mission_link_opens_detail_and_sources_return_to_library(site):
         assert page.locator('[data-lib-shelf="historical"]').get_attribute('aria-pressed') == 'true'
         assert page.locator('#library').is_visible()
         browser.close()
+
+
+def test_balad_starter_search_and_builder_state(site):
+    pw = pytest.importorskip('playwright.sync_api')
+    with pw.sync_playwright() as runner:
+        browser = runner.chromium.launch()
+        page = browser.new_page(viewport={'width': 390, 'height': 900})
+        page.goto(site + '/?v=library')
+        page.wait_for_function('typeof NAV_READY !== "undefined" && NAV_READY')
+        page.locator('#lfSearch').fill('Balad')
+        card = page.locator('#library-starters .history-starter')
+        assert card.count() == 1
+        assert card.get_by_role('heading', name='Balad: 14th EFS F-16 planning starter').is_visible()
+        assert 'DCS Iraq map and F-16C Viper module' in card.inner_text()
+        assert card.get_by_role('link', name='View historical sources').get_attribute('href').endswith(
+            '#oif-balad-al-asad-2007-01-28'
+        )
+        assert card.get_by_role('link', name='Download .miz & open DKS').get_attribute('data-dks-download').startswith('/api/dl?r=')
+        card.get_by_role('link', name='Open Balad Airbase starter in Builder').click()
+        page.wait_for_function('typeof NAV_READY !== "undefined" && NAV_READY && CURRENT_VIEW === "builder"')
+        recipe = page.evaluate('recipe()')
+        assert (recipe['map'], recipe['home_airbase'], recipe['aircraft']) == ('iraq', 'Balad Airbase', 'F_16C_50')
+        assert (recipe['mission_date'], recipe['slots'], recipe['player_slot']) == ('2007-01-28', 2, 'client')
+        assert recipe['start'] == 'cold' and not recipe['player_arm']
+        browser.close()

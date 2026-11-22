@@ -1,5 +1,10 @@
 # Changelog — DCS Sortie Starter
 
+## [1.129.0] — Balad historical planning starter
+
+- Add a two-pilot, unarmed F-16C planning starter at Balad on 28 January 2007. Open the starter in Builder or download its .miz and open DKS from the Library.
+- Cite the 14th Expeditionary Fighter Squadron's Block 50 deployment and explain the simulator choices on the starter card.
+
 ## [1.128.1] — DKS planning handoff
 
 - Download the dated historical starter and open the DKS app in a new tab from one Library action. Show the import step on the starter card and in the User Guide.

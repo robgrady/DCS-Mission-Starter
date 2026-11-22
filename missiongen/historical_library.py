@@ -54,6 +54,7 @@ def validate(register):
         if source.get('public_url') and not source['public_url'].startswith('https://'):
             raise ValueError('Historical source link must use HTTPS')
     _refs(register, register['sources'])
+    units = {row['id']: row for row in register['unit_records']}
     for row in register['entries']:
         if row['id'] in seen or row['period'] not in register['periods'] or row['topic'] not in register['topics']:
             raise ValueError('Duplicate or unregistered historical reference')
@@ -64,6 +65,15 @@ def validate(register):
             raise ValueError('Historical subject period is reversed')
         if row['valid_from'] or row['valid_to']:
             raise ValueError('Reference subject dates cannot certify operational validity')
+        if recipe := row.get('starter_recipe'):
+            unit = units.get(row.get('starter_unit_id'), {})
+            if (unit.get('kind') != 'deployment_snapshot'
+                    or unit.get('event_date') != recipe.get('mission_date')
+                    or unit.get('map') != recipe.get('map')
+                    or unit.get('map_airport') != recipe.get('home_airbase')):
+                raise ValueError('Historical starter requires a matching dated deployment record')
+            if recipe.get('player_arm') is not False:
+                raise ValueError('Historical planning starters require an unarmed flight')
     for profile in register['profiles'].values():
         if profile['map'] not in maps:
             raise ValueError('Historical profile names an unsupported map')
@@ -141,10 +151,39 @@ def source_titles():
 
 def starter_entries():
     """Published reference entries with an explicitly authored starter."""
+    data = _data()
+    units = {row['id']: row['unit'] for row in data['unit_records']}
     return [
-        {key: deepcopy(row[key]) for key in ("id", "title", "period", "starter_recipe", "starter_note")}
-        for row in _data()["entries"] if row.get("starter_recipe")
+        {
+            "id": row["id"],
+            "title": row.get("starter_title", row["title"]),
+            "period": row["period"],
+            "unit": units[row["starter_unit_id"]],
+            "starter_recipe": deepcopy(row["starter_recipe"]),
+            "starter_note": row["starter_note"],
+        }
+        for row in data["entries"] if row.get("starter_recipe")
     ]
+
+
+def planning_starter(recipe):
+    """Return the brief for an unchanged published starter recipe."""
+    from .recipe import Recipe
+
+    for row in starter_entries():
+        settings = row['starter_recipe']
+        if recipe.mission_date != settings['mission_date'] or recipe.map != settings['map']:
+            continue
+        if recipe == Recipe.from_dict(settings):
+            return {
+                'title': row['title'],
+                'setting': f"{row['unit']} at {recipe.home_airbase} · {recipe.mission_date}.",
+                'description': row['starter_note'],
+                'instructions': ('Choose New kneeboard → Import in Digital Kneeboard Simulator and select '
+                                 'the .miz. Plan a local flight together, then host the mission in DCS multiplayer.'),
+                'source_url': f"https://sortiestarter.com/api/historical-library#{row['id']}",
+            }
+    return None
 
 
 def deployment_snapshots(map_key, on):

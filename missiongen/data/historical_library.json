@@ -384,6 +384,15 @@
       "publication_date_precision": "day",
       "access": "Public Air Force record."
     },
+    "misawa-14th-efs-balad-2007": {
+      "id": "misawa-14th-efs-balad-2007",
+      "title": "Wing stands up third fighter squadron",
+      "kind": "official_web",
+      "public_url": "https://www.misawa.af.mil/News/Article-Display/Article/404368/wing-stands-up-third-fighter-squadron/",
+      "publication_date": "2007-02-05",
+      "publication_date_precision": "day",
+      "access": "Public Air Force record."
+    },
     "usaf-772-eas-kandahar-2009": {
       "id": "usaf-772-eas-kandahar-2009",
       "title": "New Kandahar unit prepares for troop increase",
@@ -1234,6 +1243,7 @@
         "bb_branding": false,
         "seed": 20100101
       },
+      "starter_unit_id": "354-efs-kandahar-2010-01-01",
       "starter_note": "Requires the DCS A-10C module and Afghanistan map. Two multiplayer aircraft start at Kandahar with empty pylons."
     },
     {
@@ -1250,23 +1260,50 @@
       "status": "reference",
       "facts": [
         "On 28 January 2007, the Air Force recorded the 14th, 510th and 332nd Expeditionary Fighter Squadrons with F-16s based at Balad and the 74th with A-10s based at Al Asad.",
-        "The February report identifies aircraft families for the shared snapshot."
+        "Misawa Air Base Public Affairs identifies the 14th Expeditionary Fighter Squadron at Balad as an F-16 Block 50 unit in January 2007."
       ],
       "limits": [
-        "These records describe the 28 January snapshot. They do not establish continuous station assignments, exact variants for every squadron, flown routes, or historical parking locations.",
+        "These records describe the 28 January snapshot. Continuous station assignments, the other squadrons’ exact variants, flown routes and historical parking locations remain unverified.",
         "The markers use DCS airfield positions."
       ],
       "sources": [
         {
           "source_id": "usaf-332-aew-iraq-2007",
           "locator": "January 28 event account and participating squadron basing paragraph"
+        },
+        {
+          "source_id": "misawa-14th-efs-balad-2007",
+          "locator": "Squadron stand-up and Block 50 identification in the opening two paragraphs"
         }
       ],
       "corroboration_urls": [],
       "valid_from": null,
       "valid_to": null,
       "simulation_support": "Enable Historical airspace and use this exact mission date to draw archival airfield markers on the DCS F10 map.",
-      "aircraft_families": []
+      "aircraft_families": [],
+      "starter_title": "Balad: 14th EFS F-16 planning starter",
+      "starter_unit_id": "14th-efs-balad-2007-01-28",
+      "starter_recipe": {
+        "map": "iraq",
+        "era": "gwot",
+        "aircraft": "F_16C_50",
+        "home_airbase": "Balad Airbase",
+        "mission_date": "2007-01-28",
+        "slots": 2,
+        "player_slot": "client",
+        "start": "cold",
+        "player_arm": false,
+        "bb_ambient": false,
+        "bb_dressing": false,
+        "bb_awacs": false,
+        "bb_tanker": false,
+        "bb_sams": false,
+        "bb_navpoints": false,
+        "bb_branding": false,
+        "map_layers": [],
+        "seed": 20070128
+      },
+      "starter_note": "Requires the DCS Iraq map and F-16C Viper module. Two unarmed multiplayer F-16Cs start cold at Balad. The ramp positions and aircraft markings are simulator choices. Plan your route in DKS."
     },
     {
       "id": "oef-kandahar-airlift-2009-03-14",
@@ -3140,7 +3177,9 @@
       "base": "Balad",
       "event_date": "2007-01-28",
       "date_precision": "day",
-      "aircraft_variants": [],
+      "aircraft_variants": [
+        "F-16C Block 50"
+      ],
       "aircraft_families": [
         "F-16"
       ],
@@ -3148,11 +3187,15 @@
         {
           "source_id": "usaf-332-aew-iraq-2007",
           "locator": "January 28 event account and participating squadron basing paragraph"
+        },
+        {
+          "source_id": "misawa-14th-efs-balad-2007",
+          "locator": "Second paragraph identifies the 14th Expeditionary Fighter Squadron as a Block 50 unit"
         }
       ],
       "notes": [
         "Dated observation; continuous occupancy is unverified.",
-        "Aircraft family recorded; exact variant unverified for this observation."
+        "The Block 50 designation applies to the 14th Expeditionary Fighter Squadron. Individual airframes and their markings are unverified."
       ],
       "valid_from": null,
       "valid_to": null,

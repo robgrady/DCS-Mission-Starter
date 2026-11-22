@@ -105,16 +105,16 @@ def test_reference_filters_and_public_http_errors():
 
 
 @pytest.mark.parametrize(
-    'map_key,day,reading_id,variant,variant_status,record_count',
+    'map_key,day,reading_id,variant,exact_record,record_count',
     [
         ('afghanistan', '2010-01-01', 'oef-kandahar-2010-01-01',
-         'A-10C', 'exact_variant_recorded', 1),
+         'A-10C', '354-efs-kandahar-2010-01-01', 1),
         ('iraq', '2007-01-28', 'oif-balad-al-asad-2007-01-28',
-         'F-16C Block 50', 'variant_not_recorded', 4),
+         'F-16C Block 50', '14th-efs-balad-2007-01-28', 4),
     ],
 )
 def test_deployment_snapshots_expose_web_provenance_without_inferring_occupancy(
-    map_key,day,reading_id,variant,variant_status,record_count,
+    map_key,day,reading_id,variant,exact_record,record_count,
 ):
     with TestClient(app) as client:
         response = client.get('/api/historical-library/catalog', params={'map': map_key, 'on': day})
@@ -140,7 +140,9 @@ def test_deployment_snapshots_expose_web_provenance_without_inferring_occupancy(
         assert len(records) == record_count
         for record in records:
             assert record['date_relation'] == 'event_on_selected_date'
-            assert record['variant_status'] == variant_status
+            assert record['variant_status'] == (
+                'exact_variant_recorded' if record['id'] == exact_record else 'variant_not_recorded'
+            )
             assert record['occupancy_certified'] is False
             assert record['valid_from'] is record['valid_to'] is None
 
@@ -271,3 +273,47 @@ def test_historical_planning_starter_has_a_valid_share_link_and_source():
         assert recipe.slots == 2 and recipe.bb_historical_airspace and not recipe.player_arm
         assert starter['source_url'].endswith('#oef-kandahar-2010-01-01')
         assert '354th Expeditionary Fighter Squadron' in starter['unit']
+
+
+def test_balad_starter_download_has_two_unarmed_clients_at_the_documented_base(tmp_path):
+    from missiongen.terrains.iraq import Iraq
+    from scripts.audit_library import inspect_archive
+
+    with TestClient(app) as client:
+        starter = next(row for row in client.get('/api/options').json()['historical_starters']
+                       if row['map'] == 'iraq')
+        assert starter['unit'] == '14th Expeditionary Fighter Squadron'
+        assert starter['base'] == 'Balad Airbase'
+        assert starter['date'] == '2007-01-28'
+        assert 'Al Asad' not in starter['title']
+        assert starter['source_url'].endswith('#oif-balad-al-asad-2007-01-28')
+        download = client.get(starter['mission_url'])
+        assert download.status_code == 200
+
+    path = tmp_path / 'balad.miz'
+    path.write_bytes(download.content)
+    native = inspect_archive(path)
+    assert native['theatre'] == 'Iraq'
+    assert native['date'] == {'Year': 2007, 'Month': 1, 'Day': 28}
+    flight, = native['groups']
+    assert flight['side'] == 'blue' and flight['country'] == 'USA'
+    assert len(flight['units']) == 2
+    assert all(unit['skill'] == 'Client' and unit['type'] == 'F-16C_50'
+               and not unit['payload']['pylons'] and unit['payload']['gun'] == 0
+               for unit in flight['units'])
+    assert len({(unit['x'], unit['y']) for unit in flight['units']}) == 2
+    ramp_start, = flight['route']
+    assert ramp_start['airdromeId'] == Iraq().airports['Balad Airbase'].id
+    assert ramp_start['action'] == 'From Parking Area'
+    briefing = native['embedded_text']['l10n/DEFAULT/dictionary']
+    assert '14th Expeditionary Fighter Squadron at Balad Airbase' in briefing
+    assert 'two unarmed' in briefing.lower() and 'plan a local flight together' in briefing.lower()
+    assert 'https://sortiestarter.com/api/historical-library#oif-balad-al-asad-2007-01-28' in briefing
+    assert 'Opponent' not in briefing and 'targets of opportunity' not in briefing.lower()
+    assert sum(name.startswith('KNEEBOARD/') and name.endswith('.png') for name in native['files']) == 2
+
+    source = deepcopy(load_json('historical_library'))
+    row = next(entry for entry in source['entries'] if entry['id'] == starter['id'])
+    row['starter_unit_id'] = '74-efs-al-asad-2007-01-28'
+    with pytest.raises(ValueError, match='matching dated deployment record'):
+        validate(source)
