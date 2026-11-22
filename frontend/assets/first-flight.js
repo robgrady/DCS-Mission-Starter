@@ -22,7 +22,8 @@ function isProfile(profile) {
     nonEmptyString(profile.airfield) && safeLink(profile.download_url, true) &&
     Array.isArray(profile.lessons) && profile.lessons.length > 0 &&
     profile.lessons.every(lesson => nonEmptyString(lesson?.title) && nonEmptyString(lesson.start) &&
-      nonEmptyString(lesson.objective));
+      nonEmptyString(lesson.objective) && safeLink(lesson.brief_url, true) &&
+      safeLink(lesson.mission_url, true));
 }
 
 function fillOptions(select, options, preferred) {
@@ -36,11 +37,27 @@ function lessonEntry(lesson) {
   const title = document.createElement('h4');
   const objective = document.createElement('p');
   const details = document.createElement('p');
+  const actions = document.createElement('div');
+  const preview = document.createElement('a');
+  const mission = document.createElement('a');
   title.textContent = lesson.title;
   objective.textContent = lesson.objective;
   details.textContent = Number.isFinite(lesson.minutes) && lesson.minutes > 0 ?
     `${lesson.start} · About ${lesson.minutes} min` : lesson.start;
-  item.append(title, objective, details);
+  actions.className = 'first-flight-actions';
+  preview.className = 'navbtn ghost';
+  preview.href = safeLink(lesson.brief_url, true).href;
+  preview.target = '_blank';
+  preview.rel = 'noopener';
+  preview.textContent = 'Preview brief';
+  preview.setAttribute('aria-label', `Preview brief for ${lesson.title} (PDF, opens in a new tab)`);
+  mission.className = 'navbtn ghost';
+  mission.href = safeLink(lesson.mission_url, true).href;
+  mission.download = '';
+  mission.textContent = 'Download mission';
+  mission.setAttribute('aria-label', `Download mission for ${lesson.title} (.miz)`);
+  actions.append(preview, mission);
+  item.append(title, objective, details, actions);
   return item;
 }
 
@@ -62,21 +79,36 @@ function requirementsList(list) {
 
 export async function loadFirstFlight(root) {
   const get = name => root.querySelector(`#first_flight_${name}`);
-  const response = await fetch('/api/first-flight');
-  if (!response.ok) throw new Error('First Flight catalog unavailable');
-  const {profiles} = await response.json();
-  if (!Array.isArray(profiles)) throw new Error('Invalid First Flight catalog');
-  if (!profiles.length) {
-    get('status').textContent = 'No First Flight campaign is available right now.';
+  const status = get('status');
+  const retry = get('retry');
+  const setup = get('setup');
+  const review = get('review');
+  const showUnavailable = message => {
+    setup.hidden = true;
+    review.hidden = true;
+    status.textContent = message;
+    status.hidden = false;
+    retry.hidden = false;
     return false;
+  };
+  let available;
+  try {
+    const response = await fetch('/api/first-flight');
+    if (!response.ok) throw new Error('First Flight catalog unavailable');
+    const {profiles} = await response.json();
+    if (!Array.isArray(profiles)) throw new Error('Invalid First Flight catalog');
+    if (!profiles.length) return showUnavailable('No First Flight campaign is available right now.');
+    available = profiles.filter(isProfile);
+    if (!available.length) throw new Error('No valid First Flight options');
+  } catch {
+    return showUnavailable('Could not load First Flight. Try again.');
   }
-  const available = profiles.filter(isProfile);
-  if (!available.length) throw new Error('No valid First Flight options');
 
   const map = get('map');
   const aircraft = get('aircraft');
-  const setup = get('setup');
-  const review = get('review');
+  const download = get('download');
+  const requirementsSection = get('requirements_section');
+  download.parentElement.before(requirementsSection);
   const currentProfile = () => available.find(profile =>
     profile.map.id === map.value && profile.aircraft.id === aircraft.value);
   const updateAirfield = () => {
@@ -100,10 +132,10 @@ export async function loadFirstFlight(root) {
     get('lessons').replaceChildren(...profile.lessons.map(lessonEntry));
     const requirements = requirementsList(Array.isArray(profile.requirements) ? profile.requirements : []);
     get('requirements').replaceChildren(...requirements);
-    get('requirements_section').hidden = requirements.length === 0;
+    requirementsSection.hidden = requirements.length === 0;
     const evidence = profile.status === 'flight_tested' ? 'Flight tested in DCS' : 'Flight testing pending';
     get('evidence').textContent = nonEmptyString(profile.version) ? `${evidence} · Pack v${profile.version}` : evidence;
-    get('download').href = safeLink(profile.download_url, true).href;
+    download.href = safeLink(profile.download_url, true).href;
     setup.hidden = true;
     review.hidden = false;
     get('review_title').focus();
@@ -113,7 +145,8 @@ export async function loadFirstFlight(root) {
     setup.hidden = false;
     map.focus();
   });
-  get('status').hidden = true;
+  status.hidden = true;
+  retry.hidden = true;
   setup.hidden = false;
   return true;
 }

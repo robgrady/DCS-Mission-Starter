@@ -1,9 +1,9 @@
 {
  "docs/DCS_Mission_Starter_Guide.pdf": {
-  "docs/USER_GUIDE.md": "37200601c01004f5",
+  "docs/USER_GUIDE.md": "14011c28c1503191",
   "docs/img/hero.png": "caadb08919fd8397",
-  "docs/img/review.png": "7d316cf99b241650",
-  "missiongen/__init__.py": "0e79943550c9bca6",
+  "docs/img/review.png": "e86244cc4216fe19",
+  "missiongen/__init__.py": "9327f20a3d6b94aa",
   "missiongen/authentic.py": "bb016757ea3cf784",
   "missiongen/data/brand/LICENSE-lucide.txt": "b495047bd93a9b06",
   "missiongen/data/brand/authentic_media.png": "2911b84231788ed2",
@@ -37,7 +37,7 @@
   "scripts/build_wk_voiceover_sheet.py": "054021c012eda7a4"
  },
  "docs/historical_coverage.html": {
-  "missiongen/__init__.py": "0e79943550c9bca6",
+  "missiongen/__init__.py": "9327f20a3d6b94aa",
   "missiongen/corridor_chart.py": "d98a5d9f8e7edfd7",
   "missiongen/data/eras.json": "3ca3c51d40275450",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
@@ -50,7 +50,7 @@
  },
  "docs/historical_library.html": {
   "frontend/assets/historical-library.js": "97726417a3436634",
-  "missiongen/__init__.py": "0e79943550c9bca6",
+  "missiongen/__init__.py": "9327f20a3d6b94aa",
   "missiongen/data/historical_library.json": "612c05bd87348fdd",
   "missiongen/data/maps.json": "7af05a830d97b3ae",
   "missiongen/historical_library.py": "01a91a2b2693a96d",
@@ -62,12 +62,13 @@
  "docs/img/hero.png": {
   "frontend/assets/accounts.css": "05dab03dcf7e4bb8",
   "frontend/assets/accounts.js": "1d5432ed64cc410f",
-  "frontend/assets/app.js": "5c5d7a5d39237d55",
+  "frontend/assets/app.js": "7d132bb6199340ec",
   "frontend/assets/comm-controller.js": "5782becb27164a2b",
-  "frontend/assets/first-flight.js": "1ef8d0b10ddb3684",
+  "frontend/assets/first-flight.js": "5deb1fd2d3258b89",
+  "frontend/assets/fly-now.js": "8525512e44064f47",
   "frontend/assets/historical-library.js": "97726417a3436634",
   "frontend/assets/library-catalog.js": "a370de73a89adc5c",
-  "frontend/assets/library-controller.js": "d3376307b958fc0d",
+  "frontend/assets/library-controller.js": "4f5fa9f779667464",
   "frontend/assets/mission-results.js": "9c8dc1a7f730fb14",
   "frontend/assets/mission-shelf.css": "aaa2d418287c81f1",
   "frontend/assets/mission-shelf.js": "c79095e0c542b773",
@@ -76,9 +77,9 @@
   "frontend/assets/recipe-state.js": "1a34d8cc5fb12bfa",
   "frontend/assets/route-editor.css": "22f13091fab7412e",
   "frontend/assets/route-editor.js": "45ce2cb3c2378e39",
-  "frontend/index.html": "a3eced308311c84a",
+  "frontend/index.html": "22cfbf71433958fe",
   "scripts/artifacts.py": "9ac2001d9b8f76d9",
-  "scripts/capture_screenshots.py": "7cdfb2f0f6b63910"
+  "scripts/capture_screenshots.py": "d77e28cf02b9d53c"
  },
  "docs/img/nttr_corridors.png": {
   "missiongen/corridor_chart.py": "d98a5d9f8e7edfd7",
@@ -92,7 +93,7 @@
   "scripts/build_corridor_charts.py": "9963c541e9f4a3ab"
  },
  "docs/research/HISTORICAL_AIRSPACE_RESEARCH.md": {
-  "missiongen/__init__.py": "0e79943550c9bca6",
+  "missiongen/__init__.py": "9327f20a3d6b94aa",
   "missiongen/data/historical_coverage.json": "71262d9d7725d130",
   "missiongen/historical_coverage.py": "e658a6f672a6c9db",
   "scripts/artifacts.py": "9ac2001d9b8f76d9",
@@ -122,7 +123,7 @@
   "scripts/build_wk_coach_cards.py": "94c929ceb10266c6"
  },
  "packs/wk_proud_phantom.sspack": {
-  "missiongen/__init__.py": "0e79943550c9bca6",
+  "missiongen/__init__.py": "9327f20a3d6b94aa",
   "missiongen/_determinism.py": "06395ce0d27e8e62",
   "missiongen/aar.py": "aa86bfe82da61e81",
   "missiongen/aar_grade.py": "7b289c17d8184251",

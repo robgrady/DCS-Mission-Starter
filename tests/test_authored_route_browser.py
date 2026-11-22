@@ -11,7 +11,7 @@ def test_route_editor_map_order_undo_and_share_roundtrip(site,width):
         browser=p.chromium.launch();page=browser.new_page(viewport={'width':width,'height':1000});errors=[];requests=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
         page.on('request',lambda r:requests.append(r.url))
-        page.goto(site);page.wait_for_function('NAV_READY')
+        page.goto(site+'/?v=builder');page.wait_for_function('NAV_READY')
         assert not any('/api/route-preview' in url for url in requests)
         page.evaluate('(r)=>{applyRecipe(r);showView("builder");showScreen("world");}',BASE)
         page.locator('#route_mode').select_option('authored')
@@ -50,7 +50,7 @@ def test_editing_name_preserves_exact_imported_speed_altitude_and_ids(site):
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
         browser=p.chromium.launch();page=browser.new_page()
-        page.goto(site);page.wait_for_function('NAV_READY')
+        page.goto(site+'/?v=builder');page.wait_for_function('NAV_READY')
         page.evaluate('(r)=>{applyRecipe(r);showView("builder");showScreen("world");}',{**BASE,'waypoints':POINTS})
         page.wait_for_selector('.route-marker')
         page.locator('#wp_name').fill('JOIN ALPHA');page.locator('#wp_name').press('Tab')
@@ -69,7 +69,7 @@ def test_drag_marker_has_one_undo_and_keeps_other_point(site):
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
         browser=p.chromium.launch();page=browser.new_page(viewport={'width':1280,'height':1000})
-        page.goto(site);page.wait_for_function('NAV_READY')
+        page.goto(site+'/?v=builder');page.wait_for_function('NAV_READY')
         page.evaluate('(r)=>{applyRecipe(r);showView("builder");showScreen("world");}',{**BASE,'waypoints':POINTS})
         page.wait_for_selector('.route-marker');marker=page.locator('.route-marker').first
         marker.scroll_into_view_if_needed();box=marker.bounding_box();x=box['x']+box['width']/2;y=box['y']+box['height']/2
@@ -85,7 +85,7 @@ def test_changing_map_era_kind_and_template_retains_authored_route(site):
     from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
         browser=p.chromium.launch();page=browser.new_page()
-        page.goto(site);page.wait_for_function('NAV_READY')
+        page.goto(site+'/?v=builder');page.wait_for_function('NAV_READY')
         page.evaluate('(r)=>applyRecipe(r)',{**BASE,'waypoints':POINTS,'route_recovery':'home'})
         for action in ["""document.querySelector('#maps .card[data-k="syria"]').click()""",
                        """document.querySelector('#eras .card[data-k="coldwar"]').click()""",
@@ -104,7 +104,7 @@ def test_fit_route_and_name_edit_at_native_numeric_limits(site):
     points=[{**POINTS[0],'altitude':25000,'speed':1000},POINTS[1]]
     with sync_playwright() as p:
         browser=p.chromium.launch();page=browser.new_page(viewport={'width':1280,'height':1000})
-        page.goto(site);page.wait_for_function('NAV_READY')
+        page.goto(site+'/?v=builder');page.wait_for_function('NAV_READY')
         page.evaluate('(r)=>{applyRecipe(r);showView("builder");showScreen("world");}',{**BASE,'waypoints':points})
         page.wait_for_selector('.route-marker')
         old=page.locator('.route-line').bounding_box()['width']

@@ -76,7 +76,7 @@ def test_real_browser_readiness_all_generation_doors(site,width):
     with pw.sync_playwright() as p:
         browser=p.chromium.launch();page=browser.new_page(viewport={'width':width,'height':900});errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(site);page.wait_for_function('OPT !== null && NAV_READY')
+        page.goto(site+'/?v=builder');page.wait_for_function('OPT !== null && NAV_READY')
         page.evaluate('showView("builder"); applyRecipe({...recipe(),era:"modern",slots:4,veteran_wingmen:3}); showScreen("review")')
         page.wait_for_function('document.querySelector("#builder_readiness").textContent.includes("Selection checked")')
         text=page.locator('#builder_readiness').inner_text()

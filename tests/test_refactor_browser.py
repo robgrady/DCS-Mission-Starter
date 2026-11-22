@@ -42,7 +42,7 @@ def test_offline_options_still_show_the_current_release_and_retry(site):
         page = browser.new_page(); errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
         page.route('**/api/options',lambda route:route.abort())
-        page.goto(site)
+        page.goto(site+'/?v=library')
         page.wait_for_selector('#loaderror:not([hidden])')
         assert page.locator('#appver').inner_text() == 'v'+__version__
         assert not errors
@@ -61,10 +61,13 @@ def test_navigation_during_slow_options_keeps_selection_and_does_not_throw(site)
         page.on('pageerror',lambda e:errors.append(str(e)))
         page.route('**/api/options',lambda route:pending.append(route))
         page.goto(site,wait_until='domcontentloaded')
+        assert page.locator('#loadstatus').is_hidden()
+        with page.expect_request('**/api/options'):
+            page.locator('#viewtabs button[data-v="library"]').click()
         page.wait_for_selector('#loadstatus:not([hidden])')
-        page.locator('#viewtabs button[data-v="library"]').click()
-        assert page.evaluate('PENDING_VIEW') == 'library'
-        assert 'Your selection will open' in page.locator('#loadstatus').inner_text()
+        assert page.evaluate('CURRENT_VIEW') == 'library'
+        assert page.locator('#library').is_hidden()
+        assert page.url.endswith('?v=library')
         assert not errors
         assert len(pending)==1
         pending[0].continue_()
@@ -83,7 +86,7 @@ def test_library_has_no_static_new_module_promotions_and_veterans_roundtrip(site
         browser = p.chromium.launch()
         page = browser.new_page(viewport={'width':width,'height':900}); errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(site); page.wait_for_function('OPT !== null')
+        page.goto(site+'/?v=builder'); page.wait_for_function('OPT !== null')
         page.locator('#viewtabs button[data-v="library"]').click()
         assert 'New in DCS' not in page.locator('#library').inner_text()
         assert page.locator('#lfeat .libcard').count() > 0
@@ -115,7 +118,7 @@ def test_carrier_restore_share_and_library_use_the_assembled_controllers(site,wi
         browser = p.chromium.launch()
         page = browser.new_page(viewport={'width':width,'height':900}); errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(site); page.wait_for_function('OPT !== null')
+        page.goto(site+'/?v=builder'); page.wait_for_function('OPT !== null')
         rc={'map':'caucasus','era':'coldwar','aircraft':'F_14A_135_GR',
             'bb_carrier':True,'home_airbase':'CARRIER','carrier_hull':'forrestal',
             'carrier_layout':'launch','carrier_cap':True,'seed':19,
@@ -145,7 +148,7 @@ def test_historical_details_follow_the_selected_era_without_overflow(site,width)
         browser=p.chromium.launch()
         page=browser.new_page(viewport={'width':width,'height':900});errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(site);page.wait_for_function('OPT !== null')
+        page.goto(site+'/?v=library');page.wait_for_function('OPT !== null')
         page.evaluate('showView("library");openDetail("berlin_corridor_transit")')
         box=page.locator('#dHistorical')
         assert '1978-06-21' in box.inner_text()

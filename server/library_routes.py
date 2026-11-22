@@ -234,7 +234,7 @@ def api_track_zip(track: str, era: str = None, aircraft: str = None,
 
 
 @router.get("/api/pack/{pack}/{fname:path}")
-def api_pack_file(pack: str, fname: str):
+def api_pack_file(pack: str, fname: str, inline: bool = False):
     """Serve a file from an installed pack. all.zip bundles the whole pack."""
     from missiongen import packs as _packs
     if fname == "all.zip":
@@ -242,7 +242,8 @@ def api_pack_file(pack: str, fname: str):
     f = _packs.get_file(pack, fname)
     if f is None:
         raise HTTPException(status_code=404, detail="Not Found")
-    if f.suffix.lower() == ".miz":
+    suffix = f.suffix.lower()
+    if suffix == ".miz":
         from missiongen import analytics
         analytics.record("pack", "library", type("R", (), {
             "template": f"{pack}/{f.stem}", "map": None, "era": None,
@@ -250,7 +251,14 @@ def api_pack_file(pack: str, fname: str):
     media = {".miz": "application/zip", ".zip": "application/zip", ".pdf": "application/pdf",
              ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
              ".md": "text/markdown", ".json": "application/json"}.get(
-                 f.suffix.lower(), "application/octet-stream")
+                 suffix, "application/octet-stream")
+    if inline and suffix == ".pdf":
+        with f.open("rb") as brief:
+            if brief.read(5) != b"%PDF-":
+                raise HTTPException(status_code=415, detail="This file cannot be previewed as a PDF.")
+        return FileResponse(str(f), filename=f.name, media_type=media,
+                            content_disposition_type="inline",
+                            headers={"X-Content-Type-Options": "nosniff"})
     return FileResponse(str(f), filename=f.name, media_type=media)
 
 

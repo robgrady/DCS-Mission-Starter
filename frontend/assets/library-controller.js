@@ -3,7 +3,7 @@ function createLibraryController({state, getOptions, callbacks, environment}) {
 const {document, window, localStorage, fetch, navigator, location, history, prompt} = environment;
 const S = state;
 const OPT = new Proxy({}, {get: (_, key) => getOptions()?.[key]});
-const { AC_NAME, acCleanId, acDisplay, applyScenarioPreset, ga, modalClose, modalOpen, refreshAircraft, showScreen, showView, sum, track, updateRail, recipe } = callbacks;
+const { AC_NAME, acCleanId, acDisplay, applyScenarioPreset, ensureOptions, ga, modalClose, modalOpen, refreshAircraft, showScreen, showView, sum, track, updateRail, recipe } = callbacks;
 // ===================== LIBRARY =====================
 function roleIcon(r){return '<svg class="icon"><use href="#i-'+(r.ic||'target')+'"/></svg>'}
 const ROLES={
@@ -258,7 +258,7 @@ function renderOwnBody(){
   if(fc) fc.textContent=(ownEdit.maps.size+ownEdit.aircraft.size+ownEdit.modules.size)+' modules marked owned';
 }
 function saveOwn(){ ownSet_({set:true, maps:[...ownEdit.maps], aircraft:[...ownEdit.aircraft],modules:[...ownEdit.modules]});
-  libState.own=true; document.getElementById('lown').classList.add('on');document.getElementById('lown').setAttribute('aria-checked','true'); closeOwn(); renderLib(); }
+  libState.own=true; document.getElementById('lown').classList.add('on');document.getElementById('lown').setAttribute('aria-checked','true'); closeOwn(); renderLib(); document.dispatchEvent(new Event('sortie-ownership-change')); }
 function ownSet_(o){ try{localStorage.setItem('ms_owned',JSON.stringify(o))}catch(e){} }
 function libCard(t){
  const c=t.catalog,r=ROLES[t.role]||ROLES.training;
@@ -345,7 +345,29 @@ function libFind(k){ const t=libItems().find(x=>x.k===k)||rideItem(k);if(t&&!t.c
 // this browser, nobody else — which is the same privacy line the analytics
 // draw. A squadron takes the kit instead.
 function esc(x){ return String(x==null?'':x).replace(/[&<>"']/g, ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch])); }
-const pipeState={course:null, school:null, data:{}};
+const pipeState = {course:null, school:null, list:null, listRequest:null, data:{}, details:{}};
+
+async function courseJSON(path) {
+  const response = await fetch(path);
+  if (!response.ok) throw new Error('Course request failed');
+  return response.json();
+}
+
+function showCourseRetry(target, message) {
+  const explanation = document.createElement('p');
+  explanation.className = 'dprem';
+  explanation.setAttribute('role', 'status');
+  explanation.textContent = message;
+  const retry = document.createElement('button');
+  retry.className = 'navbtn ghost';
+  retry.type = 'button';
+  retry.textContent = 'Retry';
+  retry.addEventListener('click', () => {
+    retry.disabled = true;
+    renderPipeline();
+  });
+  document.getElementById(target).replaceChildren(explanation, retry);
+}
 function pKey(cid){ return 'ss_course_'+cid; }
 function pProgress(cid){ try{ return JSON.parse(localStorage.getItem(pKey(cid))||'{}'); }catch(e){ return {}; } }
 function pSetDone(cid, uid, on){
@@ -360,22 +382,39 @@ function pSchoolStats(c, sc, pr){
   return {n:units.length, done:done, pct: units.length? Math.round(100*done/units.length):0};
 }
 async function renderPipeline(){
-  const list=OPT.courses||{};
-  const ids=Object.keys(list);
-  document.getElementById('pcount').textContent=ids.length+(ids.length===1?' course':' courses');
-  if(!pipeState.course) pipeState.course=ids[0]||null;
-  const cid=pipeState.course;
-  if(!cid){ document.getElementById('pcourses').innerHTML='<p class="dprem">No courses published yet.</p>'; return; }
-  if(!pipeState.data[cid]){
-    try{ pipeState.data[cid]=await (await fetch('/api/course/'+encodeURIComponent(cid))).json(); }
-    catch(e){ document.getElementById('pbody').innerHTML='<p class="dprem">The course could not be loaded.</p>'; return; }
+  if (!pipeState.list) {
+    try {
+      pipeState.listRequest ??= courseJSON('/api/courses').finally(() => { pipeState.listRequest = null; });
+      pipeState.list = await pipeState.listRequest;
+    } catch {
+      showCourseRetry('pcourses', 'Could not load the course list.');
+      return;
+    }
+  }
+  const ids = Object.keys(pipeState.list);
+  document.getElementById('pcount').textContent = ids.length + (ids.length === 1 ? ' course' : ' courses');
+  pipeState.course ||= ids[0] || null;
+  const cid = pipeState.course;
+  if (!cid) {
+    document.getElementById('pcourses').innerHTML = '<p class="dprem">No courses published yet.</p>';
+    return;
+  }
+  if (!pipeState.data[cid]) {
+    try {
+      pipeState.details[cid] ??= courseJSON('/api/course/' + encodeURIComponent(cid))
+        .finally(() => { delete pipeState.details[cid]; });
+      pipeState.data[cid] = await pipeState.details[cid];
+    } catch {
+      showCourseRetry('pcourses', 'Could not load this course.');
+      return;
+    }
   }
   const c=pipeState.data[cid], pr=pProgress(cid);
   const all=c.schools.flatMap(sc=>sc.phases.flatMap(p=>p.units)).filter(u=>u.status==='ready');
   const done=all.filter(u=>pr[u.uid]).length;
   document.getElementById('pcourses').innerHTML=
     '<div class="pcourse">'+
-      '<div class="eyebrow" style="margin-bottom:6px">Training course · '+esc(c.module||'')+' · '+esc((OPT.eras[c.era]||{}).label||c.era||'')+'</div>'+
+      '<div class="eyebrow" style="margin-bottom:6px">Training course · '+esc(c.module||'')+' · '+esc(OPT.eras?.[c.era]?.label || c.era || '')+'</div>'+
       '<h2>'+esc(c.label)+'</h2><p class="dprem">'+esc(c.premise)+'</p>'+
       '<p class="dprem" style="font-size:13.5px">'+esc((c.blurb||[]).join(' '))+'</p>'+
       '<div class="pstats">'+
@@ -411,6 +450,21 @@ async function renderPipeline(){
         ph.units.map(u=>unitRow(c, u, pr, pref)).join('')+'</div>').join('')+
     '</div>';
 }
+async function openCourseUnit(link, kind, id, preference) {
+  if (link.getAttribute('aria-busy') === 'true') return;
+  if (!OPT.templates) {
+    link.dataset.label ||= link.textContent;
+    link.setAttribute('aria-busy', 'true');
+    link.textContent = 'Loading lesson…';
+    const ready = await ensureOptions();
+    link.removeAttribute('aria-busy');
+    link.textContent = ready ? link.dataset.label : 'Retry opening lesson';
+    if (!ready || !link.isConnected || !document.getElementById('pipeline').classList.contains('on')) return;
+  }
+  if (kind === 'track') openTrack(id, preference);
+  else openDetail(id, preference);
+}
+
 function unitRow(c, u, pr, pref){
   const isDone=!!pr[u.uid], ready=u.status==='ready';
   const chk=ready?'<input class="uchk" type="checkbox" '+(isDone?'checked':'')+' aria-label="Done" onchange="pSetDone(\''+c.id+'\',\''+u.uid+'\',this.checked)">'
@@ -420,9 +474,9 @@ function unitRow(c, u, pr, pref){
   if(u.kind==='reading'){ kind='Reading'; sub=(u.minutes?u.minutes+' min':'');
     act='<a class="ub" href="#" onclick="openReading(\''+c.id+'\',\''+u.doc+'\');return false">Read</a>'; }
   else if(u.kind==='track'){ kind=u.check?'Check ride':(u.rides+(u.rides===1?' ride':' rides')); sub=u.premise+(u.requires?' · Requires '+u.requires:'');
-    act='<a class="ub" href="#" onclick="openTrack(\''+u.track+'\','+pa+');return false">Open track</a>'; }
+    act='<a class="ub" href="#" onclick="openCourseUnit(this,\'track\',\''+u.track+'\','+pa+');return false">Open track</a>'; }
   else if(u.kind==='card'){ kind=u.check?'Check ride':'1 ride'; sub=u.premise;
-    act='<a class="ub" href="#" onclick="openDetail(\''+u.key+'\','+pa+');return false">Open</a>'; }
+    act='<a class="ub" href="#" onclick="openCourseUnit(this,\'card\',\''+u.key+'\','+pa+');return false">Open</a>'; }
   else { kind='Planned'; sub=u.why; }
   const graded = ready&&u.kind!=='reading' ? (u.graded?'<span class="uk">graded in-mission</span>':'<span class="uk">IP grades</span>') : '';
   return '<div class="unit '+(isDone?'done':'')+(ready?'':' planned')+'">'+chk+
@@ -434,7 +488,7 @@ async function openReading(cid, doc){
   ga('pipeline_reading', {course: cid, doc: doc});
   document.getElementById('dcardinner').innerHTML=
     '<button class="dclose" aria-label="Close details" onclick="closeDetail()">×</button>'+
-    '<div class="reading"><div class="eyebrow" style="margin-bottom:6px">Reading · '+esc((OPT.courses[cid]||{}).short||cid)+'</div>'+
+    '<div class="reading"><div class="eyebrow" style="margin-bottom:6px">Reading · '+esc(pipeState.list?.[cid]?.short || cid)+'</div>'+
     r.html+'</div>';
   document.getElementById('libdetail').classList.add('on');
   modalOpen(document.getElementById('libdetail'));
@@ -673,5 +727,5 @@ async function generateFromLib(k){
 function openInBuilder(k){ setupFromLib(k); closeDetail(); showView('builder'); showScreen('flight'); }
 
 
-return { setLibraryFormat, pickMap, libCompatibility, libSelection, ownedModules, detailSummary, acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
+return { setLibraryFormat, pickMap, libCompatibility, libSelection, ownedModules, detailSummary, acChoiceBlock, acChoiceRow, acChoices, acDefaultFor, acLabel, acLabelFull, buildRoleTabs, clearFilter, clearFilters, clearModule, closeDetail, closeOwn, eraLabels, esc, filterModule, generateFromLib, inclLines, inferRole, initLibFilters, libCard, libFind, libItems, libPasses, libReq, libSort, libState, mapKeyOf, mapLabel, numWord, openCourseUnit, openDetail, openInBuilder, openOwn, openReading, openTrack, ownCats, ownClearCat, ownEdit, ownMatch, ownRow, ownSelectAll, ownSetP, ownSet_, ownStore, ownedAc, ownedMaps, pKey, pProgress, pSchoolStats, pSetDone, packRequires, pickAircraft, pickCrew, pickEra, pipeState, prettyAc, renderChips, renderLib, renderOwnBody, renderPipeline, renderTrackWizard, reqLabel, rideItem, roleIcon, saveOwn, setRole, setTrack, setupFromLib, tankerLabel, thrBar, toggleOwn, toggleOwnItem, trackOf, trackPick, trackQuery, trackState, unitRow };
 }

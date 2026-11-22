@@ -19,7 +19,7 @@ CASES = [
   'public_agent_docs', 'public agent guide unavailable'),
  ('server/mcp_server.py', "@mcp.resource('sortiestarter://integration-guide'", "@mcp.resource('sortiestarter://integration-guide-missing'",
   'sdk_discovers', 'agent guide resource unavailable'),
- ('scripts/capture_screenshots.py', "    page.wait_for_function('OPT !== null && NAV_READY', timeout=30000)\n", '',
+ ('scripts/capture_screenshots.py', "    page.wait_for_function('OPT !== null && NAV_READY && !!document.getElementById(\"maps\").offsetParent', timeout=30000)\n", '',
   'manual_capture_waits', 'manual screenshots race initial navigation'),
  ('server/mcp_server.py', '@mcp.tool(annotations=READ, structured_output=True)\ndef sortiestarter_list_catalog',
   '@mcp.tool(annotations=READ, structured_output=False)\ndef sortiestarter_list_catalog', 'sdk_discovers', 'structured results disappear'),

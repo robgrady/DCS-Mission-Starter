@@ -11,16 +11,21 @@ waypoints** tickbox you switch on yourself, or an **authored route** you enter i
 
 ## The four doors
 
-While mission options load, the page shows a loading notice. You can select a
-door immediately; it opens when the catalog is ready. If loading fails, choose
-**Retry**. Your selected destination is retained.
+Choose a door from the top navigation. Home and Train are available while
+the mission catalog loads. Fly Now, Library and Builder show their own loading
+notice when they need that catalog. Choose **Retry** if a request fails.
+You can still switch sections.
 
-**⚡ Fly Now** — the fastest path. One screen, three picks: *what do you want to
-practice* (Tanker Time, BFM Merge, Kill the Guns, Beat the SAM), *in what*, and
-*where*. Era, base, weather and comms are derived for you; a single "spice"
-notch sets the opposition (calm / realistic / hostile) and the 🎲 re-rolls a
-fresh layout of the same picks. Tanker Time and BFM Merge start you **airborne**
-— behind the tanker at its assigned block, or in your chosen BFM geometry.
+**⚡ Fly Now** gets you straight into a practice sortie. Pick a drill, aircraft
+and map. Search compatible aircraft by model or nickname, or choose a recent
+aircraft. **My DCS content** opens your saved module and map preferences.
+Review the selected sortie and its requirements, then choose
+**Generate & download .miz**. Fly Now restores the last valid setup on this
+device, including its drill settings and seed.
+
+Era, base, weather and comms are derived for you. Set **Spice** for the desired
+opposition and use the dice to reroll the layout. Tanker Time and BFM Merge
+start airborne.
 
 **📚 Library** — find individual **Missions** or multi-mission **Collections**.
 Search titles, aircraft/nicknames, maps, activities and collection mission names.
@@ -67,11 +72,14 @@ at **Kobuleti, Caucasus**. Install the mod from its maintainer before starting
 DCS. The download includes two solo lessons, **First Flight** (airborne) and
 **Ramp to Air** (engine running at parking).
 
-Choose **Download campaign** and follow the ZIP's setup guide to copy the
-campaign folder into your DCS Saved Games campaign folder. Keep the .cmp
-beside both .miz files. To practice a lesson independently, open its .miz
-from the DCS **Mission** menu. Each lesson includes an illustrated brief and
-an in-cockpit kneeboard. The CNATRA study figure follows the lesson card.
+Use **Preview brief** before downloading. The PDF includes the CNATRA study
+figure after the lesson card. Choose **Download mission** to practice one lesson
+from the DCS **Mission** menu. Both missions include their kneeboards.
+
+For the two-lesson sequence, choose **Download campaign** and follow the setup
+guide inside the ZIP. Copy the campaign folder into the DCS Saved Games
+campaign directory and keep the .cmp beside both .miz files. The review shows
+the required mod version beside the campaign download.
 
 The First Flight picker lists installed campaign variants. A **flight
 testing pending** label means the files were built and inspected and still
@@ -617,10 +625,10 @@ inside the affected application.
 
 ### Importing a mission into Digital Kneeboard Simulator
 
-Download and unzip the Mission Kit. In DKS choose **New kneeboard → Import .miz**,
-select `mission.miz` and the human flight, then review and create the design.
-Import the native mission, not the kit ZIP. DKS designs belong to a squadron;
-an unpublished test design is still visible to its squadron members.
+Use the standalone .miz from a Library collection or extract `mission.miz`
+from a generated Mission Kit. In DKS choose **New kneeboard → Import**,
+select the .miz and the human flight, then review and create the design.
+An unpublished DKS design is visible to members of its wing.
 
 The v1.112.0 F-14B(U)/Caucasus test retained the player aircraft, takeoff and
 route coordinates, route altitude/speed/elapsed times, radio frequencies,
@@ -629,8 +637,13 @@ appeared in the crew roster; three AI wingmen did not become human roster rows.
 Radio **agency names** remained blank. DKS displayed landing as an unnamed
 steerpoint with no ETA, and its additional-point/plot-line lists were empty.
 Its cartridge sections used aircraft defaults. Native cartridge import/export,
-in-cockpit loading, other aircraft/maps, kneeboard export size and ATO posting
-remain unverified.
+in-cockpit loading, kneeboard export size and ATO posting remain unverified.
+
+The F-4E **Timing 1 — Fly the Card** import in v1.125.0 retained the
+Germany Cold War theater, Chevy 1, waypoint coordinates, altitude, speed and
+elapsed timing. Both ARC-164 radio tables retained the sampled presets. The
+agency labels were blank and the displayed loadout omitted four AIM-9Ps.
+Review the DKS plan against the original .miz and brief before using it.
 
 Keep `comms.json`, `navigation.json`, brief and DTC setup card beside the mission
 for comparison. These JSON sidecars are integration references, not a DKS import

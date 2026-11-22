@@ -89,7 +89,7 @@ def test_personal_page_is_browsable_and_sharing_requires_an_explicit_action(site
         page.get_by_role('button',name='Settings',exact=True).click()
         assert page.locator('#profile_name').input_value()==state['user']['name']
         page.locator('#auto_save').uncheck()
-        page.keyboard.press('Escape');page.goto(site);page.wait_for_function('OPT !== null && SortieAccount.signedIn')
+        page.keyboard.press('Escape');page.goto(site);page.wait_for_function('SortieAccount.signedIn')
         assert page.evaluate('SortieAccount.generationRequest().url')=='/api/generate'
         assert page.locator('#viewtabs button').count()==4
         page.locator('#account_button').click();page.wait_for_url('**/my-missions')
@@ -107,7 +107,7 @@ def test_contextual_save_keeps_builder_draft_and_opens_full_page(site):
             library['items'].append({**item('setup',body.get('name','My saved setup')),'id':str(len(posts)),'kind':'selection'})
             route.fulfill(json={'id':str(len(posts))})
         page.route('**/api/account/selections',save)
-        page.goto(site);page.wait_for_function('OPT !== null && SortieAccount.signedIn')
+        page.goto(site+'/?v=builder');page.wait_for_function('OPT !== null && SortieAccount.signedIn')
         page.evaluate('applyRecipe({...recipe(),slots:4,veteran_wingmen:3,seed:71});showView("builder");showScreen("review")')
         page.locator('#save_builder').click();page.locator('#save_notice').wait_for()
         page.wait_for_function('document.querySelector("#save_notice").textContent.includes("Saved to My missions.")')
@@ -133,7 +133,7 @@ def test_clicked_save_resumes_after_sign_in_without_accepting_url_save_commands(
             state.update(user={'id':'p','name':'Pilot'},csrf='c')
             route.fulfill(status=302,headers={'Location':site+'/?auth=signed_in'})
         page.route('**/auth/discord?*',sign_in)
-        page.goto(site);page.wait_for_function('OPT !== null')
+        page.goto(site+'/?v=builder');page.wait_for_function('OPT !== null')
         page.evaluate('applyRecipe({...recipe(),seed:719});showView("builder");showScreen("review")')
         page.locator('#save_builder').click();page.get_by_role('button',name='Continue with Discord').click()
         page.wait_for_function('document.querySelector("#save_notice")?.textContent.includes("Saved to My missions.")')

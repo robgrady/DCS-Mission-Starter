@@ -46,7 +46,7 @@ def page(library_site):
     with pw.sync_playwright() as p:
         browser=p.chromium.launch();page=browser.new_page(viewport={'width':1280,'height':900});errors=[]
         page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(library_site);page.wait_for_function('OPT !== null && NAV_READY');page.evaluate('showView("library")')
+        page.goto(library_site+'/?v=library');page.wait_for_function('OPT !== null && NAV_READY')
         yield page
         assert not errors,errors
         browser.close()

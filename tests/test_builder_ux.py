@@ -228,8 +228,9 @@ def test_there_is_exactly_one_generate_button():
     """v1.45.1. The orange footer bar had its own GENERATE .MIZ competing with
     the one on Review, and on the first screen with Next as well — three things
     asking to be pressed and no way to tell which was the right one."""
-    labels = re.findall(r"<button[^>]*>\s*GENERATE[^<]*</button>", HTML, re.I)
-    assert len(labels) == 1, f"{len(labels)} GENERATE buttons in the markup: {labels}"
+    builder = HTML.split('<div class="app">', 1)[1].split("<script ", 1)[0]
+    labels = re.findall(r"<button[^>]*>\s*GENERATE[^<]*</button>", builder, re.I)
+    assert len(labels) == 1, f"{len(labels)} GENERATE buttons in Builder: {labels}"
 
 
 def test_the_last_screen_is_review_and_it_ends_the_flow():

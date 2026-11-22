@@ -20,7 +20,7 @@ CASES=[
     ('missiongen/historical_world.py', "preview(mk, era, key, cfg.get('lineup'), data=data)",
      "preview(mk, era, key, cfg.get('lineup'))",
      'options_bounds', 'reload historical JSON for every preview'),
-    ('frontend/assets/app.js', '  if(!NAV_READY){', '  if(false){',
+    ('frontend/assets/app.js', "  const visible = waiting ? 'entry' : view;", '  const visible = view;',
      'navigation_during', 'run Library navigation before options are available'),
     ('frontend/assets/library-controller.js', 'if(libraryCatalogSignature===signature&&libraryCatalogCache)', 'if(false)',
      'library_catalog_reuses', 'recompute unchanged Library projections'),

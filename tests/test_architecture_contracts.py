@@ -138,8 +138,9 @@ def test_options_failure_shows_retry_and_does_not_initialize_partial_ui(failure)
     out = run_js("""
 const banner={hidden:true}, retry={disabled:false};
 const document={getElementById:id=>id==='loaderror'?banner:retry};
-let OPT=null, attempts=0, partial=0;
-const initGfxUI=()=>partial++, initCommUI=()=>partial++;
+let OPT=null, NAV_READY=false, optionsRequest=null, optionsError=false, CURRENT_VIEW='builder';
+let attempts=0, partial=0;
+const initializeOptions=()=>partial++;
 const fetch=async()=>{attempts++;
   if(FAILURE==='network') throw new Error('offline');
   return {ok:FAILURE!=='http',json:async()=>{throw new Error('invalid JSON');}};
@@ -147,6 +148,6 @@ const fetch=async()=>{attempts++;
 (async()=>{await init(); await init();
   console.log(JSON.stringify({attempts,partial,options:OPT,visible:!banner.hidden,canRetry:!retry.disabled}));
 })();
-""".replace('FAILURE', json.dumps(failure)), ['init'])
+""".replace('FAILURE', json.dumps(failure)), ['needsOptions', 'updateOptionsStatus', 'loadOptions', 'init'])
     assert out == {'attempts': 2, 'partial': 0, 'options': None,
                    'visible': True, 'canRetry': True}

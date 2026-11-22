@@ -1,12 +1,13 @@
 {
-  "version": "1.124.0",
+  "version": "1.125.0",
   "documentation_required": true,
-  "reason": "Describe the First Flight picker, mod requirement, campaign install, standalone practice and simulator test status.",
+  "reason": "Describe catalog loading and retry, the Fly Now picker, standalone First Flight downloads and the observed F-4E DKS import differences.",
   "sections_reviewed": [
-    "The four doors and Train",
+    "The four doors",
     "First Flight familiarization",
-    "Mission readiness and Your mission kit"
+    "Mission readiness before Generate",
+    "Importing a mission into Digital Kneeboard Simulator"
   ],
-  "source_sha256": "37200601c01004f5360bdc232809f1c03e1d2bc51420d76e1268ea1b41a9b88e",
-  "previous_source_sha256": "16fffc44f6c60bb7da77afeefc1a8ac8a7fd2a19153763e3e3343af1a6027f3d"
+  "source_sha256": "14011c28c1503191c615c0ab19bcb3285c11677a29e9fc2f0c73a6b055903243",
+  "previous_source_sha256": "37200601c01004f5360bdc232809f1c03e1d2bc51420d76e1268ea1b41a9b88e"
 }

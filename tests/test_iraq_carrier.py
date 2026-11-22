@@ -99,7 +99,7 @@ def test_iraq_carrier_is_selectable_in_the_real_builder(site,width):
         page = browser.new_page(viewport={'width':width,'height':900})
         errors = []
         page.on('pageerror',lambda e:errors.append(str(e)))
-        page.goto(site)
+        page.goto(site+'/?v=builder')
         page.wait_for_function('OPT !== null && NAV_READY')
         assert page.evaluate('OPT.maps.iraq.has_carrier')
         page.evaluate('''applyRecipe({map:"iraq",era:"modern",aircraft:"FA_18C_hornet",

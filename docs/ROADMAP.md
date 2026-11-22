@@ -32,6 +32,13 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.125.0** adds First Flight lesson downloads and PDF previews, a compact
+Fly Now picker with local setup restoration, and independent startup for Home
+and Train. The F-4E import test found route and frequency parity, with agency
+labels and four stores missing from the DKS display. See
+[F-4E import results](dks-validation-1.125.0.md). Windows DCS playthrough and
+beginner observation remain open.
+
 **v1.124.0** adds First Flight under Train. The first package has two T-45C
 familiarization sorties at Kobuleti. The picker downloads an installed
 campaign variant. Windows DCS flight testing and additional variants remain
@@ -132,7 +139,7 @@ release adds selection readiness to all generation doors and emitted flight
 counts to Mission Kits. Routed integration ZIPs now serialize actual coordinates
 and native navigation fields. A five-mission validation pack is generated;
 DCS flights remain unrun. A bounded native F-14B(U)/Caucasus DKS import was
-observed; see [import results](dks-validation-1.113.0.md).
+observed. See [import results](dks-validation-1.112.0.md).
 
 Pack uploads and review saves now report server-storage failures explicitly;
 failed review saves retain the author's draft fields. The production catalog
@@ -199,12 +206,12 @@ of them; an item that hangs off none is a candidate for *Later* or for no.
 - **A squadron's ladder inside its pack.** The comm table is per mission and
   per browser; a `comms` block in a course pack makes it per squadron, so
   every mission in the pack is on the SOP without anyone typing. *Bet 3.*
-- **Extend the DKS import validation.** The v1.113.0 F-14B(U)/Caucasus
-  native fixture retained route, radio frequencies, support, stores and map
-  drawings. Agency names stayed blank; AI did not become human roster rows.
-  Cartridge round trips, cockpit loading, more aircraft/maps and kneeboard
-  export dimensions still need evidence. ATO posting remains unimplemented
-  and unverified. See [results](dks-validation-1.113.0.md). *Bet 3.*
+- **Extend the DKS import validation.** The F-14B(U) and F-4E imports
+  retained route and radio frequencies. Verify agency and loadout correction,
+  kneeboard export size, cartridge behavior where supported and cockpit loading.
+  Observe one pilot fly the original F-4E lesson and review a chosen replay.
+  [F-14B(U) results](dks-validation-1.112.0.md) ·
+  [F-4E results](dks-validation-1.125.0.md). *Bet 3.*
 - **Cockpit-parameter verification.** The readback gate is built and off on
   the F-14 and Hornet until `list_cockpit_params()` output arrives for each;
   then `cockpit.py` gains two lines and the channel-2 problem is caught by

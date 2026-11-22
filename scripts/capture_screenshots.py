@@ -42,12 +42,8 @@ CARRIER_SHOT = ("flight", "carrier.png")
 
 def enter_builder(page):
     """Click through the landing page. The wizard is not on screen at load."""
-    page.wait_for_function('OPT !== null && NAV_READY', timeout=30000)
-    page.wait_for_selector("text=Builder", timeout=15000)
-    page.click("text=Builder")
-    page.wait_for_function(
-        "() => { const e = document.getElementById('maps');"
-        " return e && !!e.offsetParent; }", timeout=15000)
+    page.locator('#viewtabs button[data-v="builder"]').click(timeout=15000)
+    page.wait_for_function('OPT !== null && NAV_READY && !!document.getElementById("maps").offsetParent', timeout=30000)
     page.wait_for_timeout(400)
 
 
@@ -92,7 +88,7 @@ def main():
         page.goto(BASE)
 
         # Landing shots, before we go anywhere.
-        page.wait_for_function("OPT !== null && NAV_READY", timeout=30000)
+        page.wait_for_selector("#entry.on", timeout=30000)
         page.screenshot(path=str(OUT / "quick.png"),
                         clip={"x": 0, "y": 0, "width": 1380, "height": 820})
 

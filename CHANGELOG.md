@@ -1,5 +1,12 @@
 # Changelog — DCS Sortie Starter
 
+## [1.125.0] — Faster startup and easier training
+
+- Put training on the Home screen. In First Flight, show the exact mod requirement, preview each illustrated brief and download each lesson as a standalone mission. Check the campaign stages, native mission files, scoring and embedded kneeboards.
+- In Fly Now, search compatible aircraft, use recent selections and review your declared DCS content. Resume the last valid setup on the same device. Keep the sortie summary and the mission download action together on narrow screens.
+- Show Home and Train independently of the full mission catalog. Builder, Library and Fly Now load their detailed options when needed. Keep navigation and retry available during catalog failure.
+- Update the User Manual and document the live F-4E DKS import. The test retained the route and radio frequencies and exposed gaps in agency names and the imported loadout.
+
 ## [1.124.0] — First Flight under Train
 
 - Add a map and aircraft picker, two-lesson preview, requirements and campaign download under Train. The catalog offers installed First Flight packages and serves the selected ZIP through the existing pack download.

@@ -255,9 +255,11 @@ function refreshCallsign(){
 
 
 let OPT = null;
-let NAV_READY = false;
-let PENDING_VIEW = null;
+let NAV_READY = false; // Full mission options and their controls are initialized.
 let CURRENT_VIEW = 'entry';
+let optionsRequest = null;
+let optionsError = false;
+let appliedShareCode = null;
 
 function cardState(c){
   const disabled=(c.classList.contains('dis') && !c.dataset.vote)||c.classList.contains('dim');
@@ -521,15 +523,50 @@ function syncGenbarHeight(){
 }
 window.addEventListener('resize', syncGenbarHeight);
 
-async function init(){
-  const loadError=document.getElementById('loaderror'), retry=document.getElementById('loadretry');
-  document.getElementById('loadstatus').hidden=false;
-  retry.disabled=true; loadError.hidden=true;
-  try{
-    const res=await fetch('/api/options', {cache:'no-store'});
-    if(!res.ok) throw new Error('Options request failed');
-    OPT=await res.json();
-  } catch(e){ document.getElementById('loadstatus').hidden=true; loadError.hidden=false; retry.disabled=false; return; }
+function needsOptions(view) {
+  return view === 'builder' || view === 'library' || view === 'quick';
+}
+
+function updateOptionsStatus() {
+  const waiting = needsOptions(CURRENT_VIEW) && !NAV_READY;
+  document.getElementById('loadstatus').hidden = !waiting || optionsError;
+  document.getElementById('loaderror').hidden = !waiting || !optionsError;
+  document.getElementById('loadretry').disabled = !!optionsRequest;
+}
+
+function init() {
+  if (NAV_READY) return Promise.resolve(true);
+  if (optionsRequest) return optionsRequest;
+  optionsError = false;
+  optionsRequest = loadOptions().finally(() => {
+    optionsRequest = null;
+    updateOptionsStatus();
+    if (NAV_READY && needsOptions(CURRENT_VIEW)) renderCurrentView();
+  });
+  updateOptionsStatus();
+  return optionsRequest;
+}
+
+async function loadOptions() {
+  try {
+    const response = await fetch('/api/options', {cache:'no-store'});
+    if (!response.ok) throw new Error('Options request failed');
+    const options = await response.json();
+    if (!options?.maps || !options.eras || !options.templates || !options.enums) {
+      throw new Error('Invalid options response');
+    }
+    OPT = options;
+    initializeOptions();
+  } catch {
+    OPT = null;
+    optionsError = true;
+    return false;
+  }
+  NAV_READY = true;
+  return true;
+}
+
+function initializeOptions() {
   if (OPT.version) document.getElementById('appver').textContent = 'v' + OPT.version;
   initGfxUI();
   initCommUI();
@@ -655,39 +692,17 @@ async function init(){
   document.getElementById('seed').oninput = ()=>{refreshCallsign();sum();};
   document.getElementById('callsign').oninput = sum;
   refreshCallsign();
-  renderPrivacy();
-  // defaults, or prefill from a share link (?r=<code>)
-  const code = new URLSearchParams(location.search).get('r');
   buildRail();
   document.getElementById('gen2').onclick = function(){ generateMission(this); };
   document.getElementById('player_arm').onchange = function(){ syncPlayerArm(); renderRailOutline(); };
   document.getElementById('player_load').onchange = function(){ renderRailOutline(); };
   document.getElementById('share2').onclick = () => document.getElementById('share').click();
-  let shareError = null;
-  if (code) { try { applyRecipe(decodeRecipe(code)); } catch(e){ defaultSelection(); shareError = e.message; } }
-  else if (!restoreState()) { defaultSelection(); }
+  if (!restoreState()) defaultSelection();
   updateRail();
   sum();
   renderKinds();
   syncGenbarHeight();
-  const step = new URLSearchParams(location.search).get('step');
-  showScreen(SCREENS.some(s=>s.key===step) ? step : 'theater');
   buildRoleTabs();
-  // land on entry (two paths) — unless a share link goes straight to the builder
-  // deep view links: /?v=quick|library|builder (used by the 404 page's doors);
-  // a share code still outranks it and lands in the Builder as always
-  const vparam = new URLSearchParams(location.search).get('v');
-  NAV_READY=true;
-  document.getElementById('loadstatus').hidden=true;
-  showView(code ? 'builder' : (PENDING_VIEW || normalizeView(vparam)), 'replace');
-  PENDING_VIEW=null;
-  const savedPack=new URLSearchParams(location.search).get('pack');
-  if(CURRENT_VIEW==='library' && savedPack && libFind('pack_'+savedPack))openDetail('pack_'+savedPack);
-  if (shareError){
-    const notice = document.getElementById('shareerror');
-    notice.textContent = `Could not open this mission: ${shareError} The Builder shows default settings.`;
-    notice.hidden = false;
-  }
 }
 function defaultSelection(){
   // era-first: default to Modern (broadest module ownership); the era click
@@ -1550,10 +1565,23 @@ const QF_SPICE = [
   {k:'hostile', t:'Hostile', s:'Dense, sharp, unfair. Bring your A-game.'},
 ];
 
+const flyNow = createFlyNowControls({
+  state: QF,
+  getOptions: () => OPT,
+  qfAcList, qfMapsFor, qfEra,
+  ownedMaps: () => ownedMaps(),
+  ownedAc: () => ownedAc(),
+  acDisplay: (...args) => acDisplay(...args),
+  pick: qfPick,
+  render: qfRender,
+  openOwn: () => openOwn(),
+});
+
 function qfOpen(){
   if(!OPT) return;
   if(!QF.opened){
     QF.opened = true; QF.seed = 1 + Math.floor(Math.random()*99999);
+    flyNow.restore(QF_TYPES, QF_BFM_SETUPS, QF_SPICE);
     fetch('/api/ev',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({event:'qf_open'})}).catch(()=>{});
   }
@@ -1571,8 +1599,8 @@ function qfMapsFor(type){
     Object.keys(OPT.maps[mk].presets).some(e=>te.has(e)));
 }
 
-function qfAcList(type){
-  const own = ownedAc();
+function qfAcList(type, respectOwnership = true){
+  const own = respectOwnership ? ownedAc() : null;
   let list = (OPT.aircraft||[]).filter(a=>!a.upcoming);
   if (type==='qf_tanker') list = list.filter(a=>a.can_refuel);
   if (type==='qf_bfm') list = list.filter(a=>a.kind==='plane');
@@ -1616,14 +1644,9 @@ function qfRender(){
   document.getElementById('qf_types').innerHTML = QF_TYPES.map(t=>
     `<div class="qcard${QF.type===t.k?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.type===t.k}" onclick="qfPick('type','${t.k}')">`+
     `<span class="qi"><svg class="icon lg"><use href="#i-${t.ic}"/></svg></span><b>${t.t}</b><small>${t.s}</small></div>`).join('');
-  const {list, owned} = qfAcList(QF.type||'qf_bfm');
-  if (QF.ac && !list.some(a=>a.key===QF.ac)) QF.ac = null;
-  document.getElementById('qf_acs').innerHTML = list.map(a=>
-    `<div class="qcard${QF.ac===a.key?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.ac===a.key}" onclick="qfPick('ac','${a.key}')">`+
-    `<b>${acDisplay(a.key, a.id)}</b></div>`).join('') +
-    (owned?'':'<div class="qcard dis"><small>Tip: set “My DCS content” in the Library to trim this to what you own.</small></div>');
   const maps = qfMapsFor(QF.type||'qf_bfm');
-  if (QF.map && !maps.includes(QF.map)) QF.map = null;
+  if (QF.map && (!maps.includes(QF.map) || (own && !own.has(QF.map)))) QF.map = null;
+  flyNow.renderAircraft();
   const sorted = maps.sort((a,b)=>(OPT.maps[b].free-OPT.maps[a].free)||a.localeCompare(b));
   document.getElementById('qf_maps').innerHTML = sorted.map(mk=>{
     const un = own && !own.has(mk);
@@ -1645,14 +1668,15 @@ function qfRender(){
   else readinessController.clear('quick_readiness');
   document.getElementById('qf_hint').textContent = ready
     ? (era ? `${OPT.eras[era].label} · seed ${QF.seed} — era, base, weather and comms are set for you.`
-           : 'That jet, mission and map have no era in common — pick another map.')
+           : 'That aircraft, mission and map have no era in common. Choose another aircraft or map.')
     : 'Pick a mission, a jet and a map.';
+  flyNow.renderSummary(QF_TYPES, era);
 }
 
 function qfPick(what, v){
   if (what==='map' && (!qfMapsFor(QF.type||'qf_bfm').includes(v) ||
       (ownedMaps() && !ownedMaps().has(v)))) return;
-  if (what==='ac' && !qfAcList(QF.type||'qf_bfm').list.some(a=>a.key===v)) return;
+  if (what==='ac' && !flyNow.canPickAircraft(v)) return;
   // spice and the BFM rung always have a value — deselecting them would leave
   // the ride undefined, which is not a state a pilot can fly
   QF[what] = (QF[what]===v && what!=='spice' && what!=='bfm') ? null : v;
@@ -1710,10 +1734,15 @@ function normalizeView(v){
   return ['quick','library','builder','pipeline','entry'].includes(v) ? v : 'entry';
 }
 function writeNavigation(v, screen, mode='push'){
-  if(!NAV_READY || mode==='none') return;
+  if(mode==='none') return;
   const url=new URL(location.href);
   if(v==='entry') url.searchParams.delete('v'); else url.searchParams.set('v',v);
-  if(v==='builder') url.searchParams.set('step',screen); else url.searchParams.delete('step');
+  if(v==='builder') {
+    url.searchParams.set('step',screen);
+  } else {
+    url.searchParams.delete('step');
+    url.searchParams.delete('r');
+  }
   if(url.href===location.href && mode!=='replace') return;
   history[mode==='replace'?'replaceState':'pushState']({view:v,screen},'',url);
 }
@@ -1748,47 +1777,77 @@ function openFirstFlight(focusSetup=false){
 }
 document.getElementById('first_flight_retry').addEventListener('click', () => openFirstFlight(true));
 
-function showView(v, historyMode='push'){
-  if(!NAV_READY){
-    PENDING_VIEW=normalizeView(v);
-    document.getElementById('loadstatus').textContent='Loading mission options… Your selection will open when ready.';
-    return;
+function showView(view, historyMode = 'push') {
+  CURRENT_VIEW = normalizeView(view);
+  const params = new URLSearchParams(location.search);
+  const step = historyMode === 'replace' ? params.get('step') || CUR_SCREEN : CUR_SCREEN;
+  writeNavigation(CURRENT_VIEW, step, historyMode);
+  ga('view_change', {view: CURRENT_VIEW});
+  renderCurrentView();
+  if (needsOptions(CURRENT_VIEW) && !NAV_READY && !optionsError) init();
+  window.scrollTo(0, 0);
+}
+
+function showURLView(historyMode = 'none') {
+  const params = new URLSearchParams(location.search);
+  showView(params.get('r') ? 'builder' : params.get('v'), historyMode);
+}
+
+function openBuilderFromURL(params) {
+  const code = params.get('r');
+  const notice = document.getElementById('shareerror');
+  if (code && code !== appliedShareCode) {
+    appliedShareCode = code;
+    notice.textContent = '';
+    try {
+      applyRecipe(decodeRecipe(code));
+      sum();
+    } catch (error) {
+      defaultSelection();
+      notice.textContent = `Could not open this mission: ${error.message} The Builder shows default settings.`;
+    }
   }
-  v=normalizeView(v); CURRENT_VIEW=v;
-  writeNavigation(v,CUR_SCREEN,historyMode);
-  const build=v==='builder';
-  const shareNotice = document.getElementById('shareerror');
-  shareNotice.hidden = !build || !shareNotice.textContent;
-  // GA4's automatic page_view fires once, on load. This app never navigates
-  // again — the three doors are the same document — so without this the whole
-  // Library and Fly Now are invisible in the reports.
-  ga('view_change', {view: v});
-  document.getElementById('entry').classList.toggle('on',v==='entry');
-  document.getElementById('library').classList.toggle('on',v==='library');
-  document.getElementById('quick').classList.toggle('on',v==='quick');
-  document.getElementById('pipeline').classList.toggle('on',v==='pipeline');
-  let dismissed=false; try{dismissed=localStorage.getItem('ms_gotit')==='1';}catch(e){}
-  document.getElementById('whatbanner').style.display=(build&&!dismissed)?'':'none';
-  document.querySelector('.app').style.display=build?'':'none';
-  document.querySelector('.genbar').style.display=build?'':'none';
-  // light the active view tab; entry lights neither (choice not yet made)
-  document.querySelectorAll('#viewtabs button').forEach(b=>{
-    const on = b.dataset.v===v;
-    b.classList.toggle('on', on);
-    if (on) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current');
+  notice.hidden = !code || !notice.textContent;
+  const step = params.get('step');
+  showScreen(SCREENS.some(screen => screen.key === step) ? step : 'theater', 'none');
+}
+
+function renderCurrentView() {
+  const view = CURRENT_VIEW;
+  const waiting = needsOptions(view) && !NAV_READY;
+  const visible = waiting ? 'entry' : view;
+  const build = visible === 'builder';
+  const params = new URLSearchParams(location.search);
+  document.getElementById('shareerror').hidden = true;
+  for (const name of ['entry', 'library', 'quick', 'pipeline']) {
+    document.getElementById(name).classList.toggle('on', visible === name);
+  }
+  let dismissed = false;
+  try { dismissed = localStorage.getItem('ms_gotit') === '1'; } catch {}
+  document.getElementById('whatbanner').style.display = build && !dismissed ? '' : 'none';
+  document.querySelector('.app').style.display = build ? '' : 'none';
+  document.querySelector('.genbar').style.display = build ? '' : 'none';
+  document.querySelectorAll('#viewtabs button').forEach(button => {
+    const active = button.dataset.v === view;
+    button.classList.toggle('on', active);
+    if (active) button.setAttribute('aria-current', 'page');
+    else button.removeAttribute('aria-current');
   });
-  // the tab title should say where you are — it was frozen on one string,
-  // so browser history and pinned tabs were unreadable
-  document.title = ({quick:'Fly Now', library:'Mission Library', builder:'Builder',
-                     pipeline:'Training Pipeline', entry:'DCS Sortie Starter'}[v] || 'DCS Sortie Starter')
-                   + (v==='entry' ? '' : ' · DCS Sortie Starter');
-  if(v==='library') renderLib();
-  if(v==='quick') qfOpen();
-  if(v==='pipeline'){
+  const title = {quick:'Fly Now', library:'Mission Library', builder:'Builder', pipeline:'Training Pipeline'}[view];
+  document.title = title ? title + ' · DCS Sortie Starter' : 'DCS Sortie Starter';
+  updateOptionsStatus();
+
+  if (build) openBuilderFromURL(params);
+  if (visible === 'library') {
+    renderLib();
+    const pack = params.get('pack');
+    if (pack && libFind('pack_' + pack)) openDetail('pack_' + pack);
+  }
+  if (visible === 'quick') qfOpen();
+  if (visible === 'pipeline') {
     renderPipeline();
     openFirstFlight();
   }
-  window.scrollTo(0,0);
 }
 
 // ---- Modal accessibility (WCAG 2.1.2 / 4.1.2): focus trap, Escape, restore.
@@ -1835,12 +1894,7 @@ document.addEventListener('keydown',e=>{
   }
 });
 
-window.addEventListener('popstate',()=>{
-  if(!OPT) return;
-  const params=new URLSearchParams(location.search), view=normalizeView(params.get('v'));
-  if(view==='builder') showScreen(params.get('step')||'theater','none');
-  showView(view,'none');
-});
+window.addEventListener('popstate', () => showURLView());
 
 // ===================== CONTACT =====================
 // The only way a pilot can talk back to us. Design notes in
@@ -1985,7 +2039,7 @@ document.addEventListener('change', e=>{
 
 Object.assign(window, createCommController({state:S,getOptions:()=>OPT,callbacks:{sel: (...args) => sel(...args), updateRail: (...args) => updateRail(...args), recipe: (...args) => recipe(...args), saveState: (...args) => saveState(...args) , SUP_NAMES},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
 
-Object.assign(window, createLibraryController({state:S,getOptions:()=>OPT,callbacks:{refreshReadiness:(...args)=>readinessController.refresh(...args),acCleanId: (...args) => acCleanId(...args), acDisplay: (...args) => acDisplay(...args), applyScenarioPreset: (...args) => applyScenarioPreset(...args), ga: (...args) => ga(...args), modalClose: (...args) => modalClose(...args), modalOpen: (...args) => modalOpen(...args), refreshAircraft: (...args) => refreshAircraft(...args), showScreen: (...args) => showScreen(...args), showView: (...args) => showView(...args), sum: (...args) => sum(...args), track: (...args) => track(...args), updateRail: (...args) => updateRail(...args), recipe: (...args) => recipe(...args) , AC_NAME},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
+Object.assign(window, createLibraryController({state:S,getOptions:()=>OPT,callbacks:{ensureOptions:init,refreshReadiness:(...args)=>readinessController.refresh(...args),acCleanId: (...args) => acCleanId(...args), acDisplay: (...args) => acDisplay(...args), applyScenarioPreset: (...args) => applyScenarioPreset(...args), ga: (...args) => ga(...args), modalClose: (...args) => modalClose(...args), modalOpen: (...args) => modalOpen(...args), refreshAircraft: (...args) => refreshAircraft(...args), showScreen: (...args) => showScreen(...args), showView: (...args) => showView(...args), sum: (...args) => sum(...args), track: (...args) => track(...args), updateRail: (...args) => updateRail(...args), recipe: (...args) => recipe(...args) , AC_NAME},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
 
 Object.assign(window, createRecipeController({state:S,getOptions:()=>OPT,callbacks:{applyRecipe: (...args) => applyRecipe(...args), composerMix: (...args) => composerMix(...args), dressMode: (...args) => dressMode(...args), perBaseOverrides: (...args) => perBaseOverrides(...args), commOverrides: (...args) => commOverrides(...args) , BLOCKS, RECIPE_DEFAULTS, RECIPE_ENGINE_FIELDS},environment:{document,window,localStorage,fetch,navigator,location,history,prompt}}));
 
@@ -2004,4 +2058,5 @@ Object.defineProperties(window, {
 });
 const readinessController = createReadinessController({document,fetch,ownedMaps,ownedAc,ownedModules,esc});
 window.routeEditor = createRouteEditor({state:S,document,fetch,changed:()=>{refreshTimingUI();sum();}});
-init();
+renderPrivacy();
+showURLView('replace');
