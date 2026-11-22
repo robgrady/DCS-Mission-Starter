@@ -138,6 +138,93 @@ def test_the_user_guide_builder_uses_the_module_and_no_helvetica_text():
         assert _has(names, "Bangers") and _has(names, "BarlowCondensed-ExtraBold")
 
 
+def test_user_guide_pdf_navigates_to_the_bookmarked_topics(tmp_path):
+    from pypdf import PdfReader
+    from scripts.build_guide_pdf import build_guide, manual_story
+
+    source = tmp_path / "guide.md"
+    source.write_text(
+        "# User Guide\n\n## Start here\n\n"
+        "[Download](#download-and-fly) · [First Flight](#first-flight-familiarization) · "
+        "[DCS World](https://www.digitalcombatsimulator.com/)\n\n"
+        "## Download & fly\n\nOpen the downloaded mission.\n\n"
+        "### First Flight familiarization\n\nReview the course setup.\n",
+        encoding="utf-8",
+    )
+    output = tmp_path / "test-guide.pdf"
+    build_guide(source, output)
+    reader = PdfReader(output)
+
+    cover = reader.pages[0].extract_text()
+    assert "Choose a DCS mission. Download it and fly." in cover
+    assert "Developed by Authentic Media LLC" in cover
+    assert authentic.NOT_AFFILIATED in cover
+
+    start, download, children, reference = reader.outline
+    (first_flight,) = children
+    assert [entry.title for entry in (start, download, first_flight, reference)] == [
+        "Start here", "Download & fly", "First Flight familiarization", "Builder reference",
+    ]
+    assert all(
+        heading.getKeepWithNext() for heading in manual_story(source) if hasattr(heading, "guide_section")
+    )
+    links = [
+        ref.get_object() for page in reader.pages for ref in page.get("/Annots", [])
+    ]
+    destinations = {tuple(link["/Dest"]) for link in links if "/Dest" in link}
+    assert (download.page, "/XYZ", download.left, download.top, download.zoom) in destinations
+    assert (first_flight.page, "/XYZ", first_flight.left, first_flight.top, first_flight.zoom) in destinations
+    assert {link["/A"]["/URI"] for link in links if "/A" in link} == {
+        "https://www.digitalcombatsimulator.com/",
+    }
+
+
+def test_user_guide_pdf_renders_captioned_markdown_images(tmp_path, monkeypatch):
+    from pypdf import PdfReader
+    from reportlab.lib.units import inch
+    from reportlab.platypus import KeepTogether
+    from scripts import build_guide_pdf
+
+    images = tmp_path / "img"
+    images.mkdir()
+    monkeypatch.setattr(build_guide_pdf, "IMG", images)
+    Image.new("RGB", (1600, 900), "navy").save(images / "fly-now.png")
+    Image.new("RGB", (390, 844), "white").save(images / "train.png")
+    source = tmp_path / "guide.md"
+    source.write_text(
+        "# User Guide\n\n## Start here\n\n"
+        "![Map & aircraft](img/fly-now.png)\n\n"
+        "![First Flight on mobile](img/train.png)\n", encoding="utf-8",
+    )
+    figures = [flowable._content[0] for flowable in build_guide_pdf.manual_story(source)
+               if isinstance(flowable, KeepTogether)]
+    assert [figure.drawHeight / inch for figure in figures] == pytest.approx([2.7, 3.5])
+    assert [figure.drawWidth / figure.drawHeight for figure in figures] == pytest.approx([1600 / 900, 390 / 844])
+
+    output = tmp_path / "guide.pdf"
+    build_guide_pdf.build_guide(source, output)
+    pages = PdfReader(output).pages
+    text = "\n".join(page.extract_text() for page in pages)
+    assert "Map & aircraft" in text and "First Flight on mobile" in text
+    assert "img/fly-now.png" not in text
+    assert sum(len(page.images) for page in pages) == 2
+
+
+@pytest.mark.parametrize(("markup", "error", "message"), [
+    ("![Missing](img/missing.png)", FileNotFoundError, "missing.png"),
+    ("![](img/fly-now.png)", ValueError, "with a caption"),
+    ("![Outside](img/../outside.png)", ValueError, "img/name.png"),
+])
+def test_user_guide_pdf_rejects_invalid_or_missing_images(tmp_path, monkeypatch, markup, error, message):
+    from scripts import build_guide_pdf
+
+    monkeypatch.setattr(build_guide_pdf, "IMG", tmp_path)
+    source = tmp_path / "guide.md"
+    source.write_text("# User Guide\n\n" + markup + "\n", encoding="utf-8")
+    with pytest.raises(error, match=message):
+        build_guide_pdf.manual_story(source)
+
+
 # --------------------------------------------------------------------------- #
 # 3. the PIL documents
 # --------------------------------------------------------------------------- #

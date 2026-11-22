@@ -8,6 +8,14 @@ function createFlyNowControls({
   const picker = document.getElementById('qf_aircraft');
   const pickerStatus = document.getElementById('qf_aircraft_status');
   const summary = document.getElementById('qf_selection');
+  const mapPicker = document.getElementById('qf_maps');
+  const mapHelp = document.getElementById('qf_map_help');
+  const searchToggle = document.getElementById('qf_search_toggle');
+  const searchBox = document.getElementById('qf_search_box');
+  const sortie = document.getElementById('qf_sortie');
+  const facts = document.getElementById('qf_facts');
+  const start = document.getElementById('qf_start');
+  const terrain = document.getElementById('qf_terrain');
   let recent = [];
   let displayed = [];
   let scope = '';
@@ -24,6 +32,30 @@ function createFlyNowControls({
     const maps = qfMapsFor(type);
     const owned = ownedMaps();
     return owned ? maps.filter(map => owned.has(map)) : maps;
+  }
+
+  function terrainLabel(map) {
+    return map.free ? 'Included terrain' : 'Paid terrain';
+  }
+
+  function renderMaps() {
+    const type = state.type || 'qf_bfm';
+    const {maps} = getOptions();
+    const compatible = mapOptions(type);
+    if (state.map && !compatible.includes(state.map)) state.map = null;
+    const choices = qfMapsFor(type).sort((a, b) =>
+      Number(maps[b].free) - Number(maps[a].free) || maps[a].label.localeCompare(maps[b].label));
+    mapPicker.replaceChildren(new Option('Choose a map', ''));
+    for (const key of choices) {
+      const available = compatible.includes(key);
+      const label = maps[key].label + (available ? '' : ' · not in My DCS content');
+      const option = new Option(label, key);
+      option.disabled = !available;
+      mapPicker.append(option);
+    }
+    mapPicker.value = state.map || '';
+    mapHelp.textContent = state.map ? terrainLabel(maps[state.map]) :
+      compatible.length ? '' : 'No maps match My DCS content for this drill.';
   }
 
   function aircraftOptions(type, maps) {
@@ -70,10 +102,8 @@ function createFlyNowControls({
     const selected = !shownSelection && state.ac
       ? getOptions().aircraft.find(aircraft => aircraft.key === state.ac)
       : null;
-    const placeholder = selected
-      ? 'Selected: ' + acDisplay(selected.key, selected.id)
-      : 'Choose an aircraft';
-    picker.replaceChildren(new Option(placeholder, ''));
+    picker.replaceChildren(new Option('Choose an aircraft', ''));
+    if (selected) picker.append(new Option(acDisplay(selected.key, selected.id), selected.key));
     function addGroup(label, options) {
       if (!options.length) return;
       const group = document.createElement('optgroup');
@@ -83,11 +113,12 @@ function createFlyNowControls({
     }
     addGroup('Recent aircraft', recentMatches);
     addGroup(recentMatches.length ? 'Other compatible aircraft' : 'Compatible aircraft', otherMatches);
-    picker.value = shownSelection ? state.ac : '';
+    picker.value = shownSelection || selected ? state.ac : '';
     const count = matches.length
       ? matches.length + ' aircraft available.'
       : words.length ? 'No compatible aircraft match this search.' : 'No compatible aircraft for this setup.';
-    pickerStatus.textContent = [count, matches.length ? scope : ''].filter(Boolean).join(' ');
+    pickerStatus.textContent = words.length || !matches.length || scope
+      ? [count, matches.length ? scope : ''].filter(Boolean).join(' ') : '';
   }
 
   function renderAircraft() {
@@ -106,14 +137,18 @@ function createFlyNowControls({
     filterOptions();
   }
 
-  function renderSummary(types, era) {
+  function renderSummary(type, recipe) {
     const options = getOptions();
-    const type = types.find(option => option.k === state.type);
     const aircraft = options.aircraft.find(aircraft => aircraft.key === state.ac);
     const map = options.maps[state.map];
-    summary.textContent = [type?.t, aircraft && acDisplay(aircraft.key, aircraft.id), map?.label]
-      .filter(Boolean).join(' · ') || 'Your sortie';
-    if (!era || !aircraft || !map || !displayed.some(option => option.key === state.ac)) return;
+    sortie.textContent = type?.t || 'Your sortie';
+    summary.textContent = [aircraft && acDisplay(aircraft.key, aircraft.id), map?.label]
+      .filter(Boolean).join(' · ');
+    facts.hidden = !recipe;
+    if (!recipe) return;
+    start.textContent = ({air:'Airborne', cold:'Cold parking', hot:'Hot parking', runway:'Runway'})[recipe.start] || recipe.start;
+    terrain.textContent = terrainLabel(map);
+    if (!displayed.some(option => option.key === state.ac)) return;
     const {ac, bfm, spice, seed} = state;
     const moved = recent[0] !== ac;
     recent = [ac, ...recent.filter(key => key !== ac)].slice(0, historyLimit);
@@ -128,6 +163,23 @@ function createFlyNowControls({
   }
 
   search.addEventListener('input', filterOptions);
+  searchToggle.addEventListener('click', () => {
+    searchBox.hidden = !searchBox.hidden;
+    searchToggle.setAttribute('aria-expanded', String(!searchBox.hidden));
+    if (searchBox.hidden) {
+      search.value = '';
+      filterOptions();
+    } else {
+      search.focus();
+    }
+  });
+  mapPicker.addEventListener('change', () => {
+    if (mapPicker.value) pick('map', mapPicker.value);
+    else {
+      state.map = null;
+      render();
+    }
+  });
   picker.addEventListener('change', () => {
     if (picker.value) {
       pick('ac', picker.value);
@@ -144,6 +196,7 @@ function createFlyNowControls({
   return {
     restore: recoverSetup,
     renderAircraft,
+    renderMaps,
     renderSummary,
     canPickAircraft: key => displayed.some(aircraft => aircraft.key === key),
   };

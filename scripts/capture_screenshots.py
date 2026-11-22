@@ -78,6 +78,21 @@ def dismiss_banners(page):
     page.wait_for_timeout(250)
 
 
+def capture_fly_now(browser):
+    page = browser.new_page(viewport={"width": 950, "height": 850}, device_scale_factor=2)
+    try:
+        page.goto(BASE + "/?v=quick")
+        quick = page.locator("#quick")
+        quick.get_by_role("button", name="Tanker Time", exact=True).click()
+        quick.get_by_label("Aircraft", exact=True).select_option("F_16C_50")
+        quick.get_by_label("Map", exact=True).select_option("caucasus")
+        summary = quick.get_by_role("heading", name="Tanker Time", exact=True)
+        summary.wait_for()
+        quick.locator(".qgrid").screenshot(path=str(OUT / "guide-fly-now.png"))
+    finally:
+        page.close()
+
+
 def main():
     with sync_playwright() as pw:
         browser = pw.chromium.launch(
@@ -92,6 +107,7 @@ def main():
         page.screenshot(path=str(OUT / "quick.png"),
                         clip={"x": 0, "y": 0, "width": 1380, "height": 820})
 
+        capture_fly_now(browser)
         enter_builder(page)
         dismiss_banners(page)
 

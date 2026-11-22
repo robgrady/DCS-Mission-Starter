@@ -139,7 +139,8 @@ ARTIFACTS = [
         # The guide embeds the screenshots and prints the version on its cover,
         # so it is downstream of both the UI and the release.
         "inputs": ["docs/USER_GUIDE.md", "scripts/build_guide_pdf.py", "missiongen/authentic.py", "missiongen/data/brand/**/*", "missiongen/__init__.py",
-                   "docs/img/hero.png", "docs/img/review.png"],
+                   "docs/img/hero.png", "docs/img/review.png", "docs/img/guide-fly-now.png",
+                   "docs/img/guide-first-flight-0.3.0.png"],
         "why": "Downloaded from /api/guide. Its cover prints the version, so a "
                "stale one is visibly, embarrassingly wrong.",
     },

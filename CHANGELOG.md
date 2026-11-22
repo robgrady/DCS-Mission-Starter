@@ -1,5 +1,11 @@
 # Changelog — DCS Sortie Starter
 
+## [1.125.1] — A clearer Fly Now layout
+
+- Put the drill, aircraft and map in one panel with a live sortie summary alongside it on desktop.
+- Stack the summary and download below the setup on mobile so the map selector stays clear. Put BFM setup, Spice and the layout seed under Mission settings.
+- Start the User Guide with file installation, the four ways to fly and clickable topic links. Add a download reference table, app screenshots, PDF bookmarks and troubleshooting.
+
 ## [1.125.0] — Faster startup and easier training
 
 - Put training on the Home screen. In First Flight, show the exact mod requirement, preview each illustrated brief and download each lesson as a standalone mission. Check the campaign stages, native mission files, scoring and embedded kneeboards.

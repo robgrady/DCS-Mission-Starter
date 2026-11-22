@@ -87,6 +87,7 @@ def test_real_browser_readiness_all_generation_doors(site,width):
         assert 'F-14BU' in page.locator('#library_readiness').inner_text()
         page.evaluate('closeDetail();showView("quick");QF.type="qf_bfm";QF.ac="F_16C_50";QF.map="caucasus";qfRender()')
         page.wait_for_function('document.querySelector("#quick_readiness").textContent.includes("Selection checked")')
+        page.locator("#qf_requirements summary").click()
         assert 'Single-player' in page.locator('#quick_readiness').inner_text()
         assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
         assert not errors

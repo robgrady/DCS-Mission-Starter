@@ -425,58 +425,76 @@
      Apple HIG accessible variants, per mode. Do not redefine them here. */
   #entry,#library,#quick,#pipeline{position:fixed;left:0;right:0;bottom:0;top:var(--topbar-height);overflow-y:auto;background:var(--bg);z-index:40;display:none}
   #entry.on,#library.on,#quick.on,#pipeline.on{display:block}
-  /* Quick Flight (PRD v2 §A): one screen, three questions, one button */
-  .qwrap{max-width:980px;margin:0 auto;padding:26px 20px 60px}
-  .qwrap h2{font-size:24px;margin:0 0 2px}
-  .qwrap .qsub{color:var(--dim);font-size:13.5px;margin-bottom:20px}
-  .qlabel{font-family:var(--font-mono);font-size:12px;letter-spacing:.08em;
-          text-transform:uppercase;color:var(--accent-small);margin:18px 0 8px}
-  .qcards{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:9px}
-  .qcards.small{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
-  .qcard{background:var(--panel);border:1px solid var(--line);border-radius: var(--radius);
-         padding:12px 14px;cursor:pointer;box-shadow:var(--shadow);user-select:none}
-  .qcard:hover{border-color:var(--dim)}
-  .qcard.sel{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
-  .qcard.dis{opacity:1;pointer-events:none;border-style:dashed;color:var(--dim)}
-  .qcard .qi{font-size:19px}
-  .qcard b{display:block;font-size:14.5px;margin-top:2px}
-  .qcard small{color:var(--dim);font-size:11.5px;line-height:1.35;display:block}
-  .qf-picker{display:grid;gap:8px;max-width:620px}
-  .qf-picker label,.qf-picker p{font-size:13px;color:var(--dim)}
-  .qf-picker-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-  .qf-picker input,.qf-picker select{width:100%;border:1px solid var(--line);border-radius:var(--radius);
-    background:var(--panel);color:var(--text);font:inherit;padding:8px 10px}
-  .qf-picker input{min-height:44px}
-  .qf-picker select option,.qf-picker select optgroup{padding:3px 4px}
-  .qgo{display:flex;gap:14px;align-items:center;justify-content:space-between;margin-top:20px;padding:12px 14px;
-    background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
-  .qgo-copy{flex:1;min-width:0}
-  .qgo .qsummary{font-weight:700;line-height:1.3;overflow-wrap:anywhere}
-  .qgo .qhint{color:var(--dim);font-size:13px;line-height:1.3;margin-top:2px}
-  .qgo-actions,.qgo-secondary{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-  .qgo .fly{background:var(--accent-solid);color:var(--accent-text);font:bold 15px var(--font-body);border:0;
-    border-radius:var(--radius);min-height:44px;padding:9px 14px;cursor:pointer}
-  .qgo .fly:disabled{background:var(--panel2);color:var(--dim);cursor:default}
-  .qgo .die{min-width:44px;min-height:44px;background:var(--panel2);border:1px solid var(--line);
-    border-radius:var(--radius);cursor:pointer;color:var(--text);font-size:17px}
-  .qgo .die svg{pointer-events:none}
-  .qf-picker .qf-own,.qgo #qf_save{min-height:44px;padding:6px 8px;border:0;background:none;
-    color:var(--accent-small);font:600 14px var(--font-body);cursor:pointer}
-  .qf-picker .qf-own:hover,.qgo #qf_save:hover{text-decoration:underline}
-  @media(max-width:760px){
-    #quick{scroll-padding-bottom:160px}
-    .qwrap{padding-bottom:14px}
-    .qgo{position:sticky;bottom:8px;z-index:2;display:grid;gap:6px;padding:9px 10px}
-    .qgo-actions{justify-content:space-between}
+  /* Fly Now */
+  .qwrap { max-width:1440px; margin:0 auto; padding:44px 24px 48px; }
+  .qhead { margin:0 0 30px; }
+  .qhead h2 { margin:0 0 4px; font-size:clamp(44px, 6vw, 72px); line-height:1; font-weight:800; }
+  .qhead h2 span { color:var(--accent-small); }
+  .qhead p { font-size:clamp(16px, 2vw, 23px); color:var(--dim); }
+  .qgrid { display:grid; grid-template-columns:minmax(0, 3fr) minmax(0, 2fr); gap:16px; }
+  .qpanel { min-width:0; padding:26px 28px; background:var(--panel); border:1px solid var(--line);
+            border-radius:var(--radius); }
+  .qfields { display:grid; align-content:start; gap:22px; }
+  .qfield { min-width:0; }
+  .qlabel, .qfields label.qlabel { display:block; margin:0 0 8px; color:var(--text);
+    font:700 18px var(--font-body); }
+  .qseg { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:1px;
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--line); }
+  .qseg button { min-height:48px; min-width:0; padding:6px; background:var(--panel); color:var(--text);
+    font:700 15px var(--font-body); border:0; cursor:pointer; }
+  .qseg button:first-child { border-radius:calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px); }
+  .qseg button:last-child { border-radius:0 calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0; }
+  .qseg button:hover { background:var(--panel2); }
+  .qseg button[aria-pressed="true"] { background:var(--accent-solid); color:var(--accent-text); }
+  .qseg button:focus-visible { z-index:1; }
+  .qfields :is(select, input[type="search"]) { box-sizing:border-box; width:100%; min-width:0; min-height:46px;
+    border:1px solid var(--line); border-radius:var(--radius); background:var(--panel); color:var(--text);
+    font:inherit; padding:8px 10px; }
+  .qfield p:not(.qlabel), .qhint { margin:6px 0 0; color:var(--dim); font-size:14px; line-height:1.4; }
+  .qfield p:empty { display:none; }
+  .qfilters { display:flex; align-items:center; flex-wrap:wrap; gap:4px 18px; }
+  .qlink { min-height:44px; border:0; background:none; padding:4px 0; width:fit-content;
+    font:600 15px var(--font-body); color:var(--accent-small); cursor:pointer; }
+  .qlink:hover { text-decoration:underline; }
+  .qsettings, .qrequirements { border-top:1px solid var(--line); padding-top:12px; }
+  .qsettings > summary, .qrequirements > summary { min-height:44px; padding:9px 0; cursor:pointer; font-weight:700; }
+  .qsettings[open] > summary { margin-bottom:8px; }
+  .qextras { display:grid; gap:14px; }
+  .qgo { display:flex; flex-direction:column; overflow-wrap:anywhere; }
+  .qgo h3 { margin:0; font-size:clamp(30px, 4vw, 49px); line-height:1.05; font-weight:800; }
+  .qsummary { color:var(--dim); font-size:clamp(16px, 2vw, 23px); margin:7px 0 0; }
+  .qfacts { margin:22px 0 0; padding:12px 0; border-block:1px solid var(--line); }
+  .qfacts > div { display:grid; grid-template-columns:70px minmax(0, 1fr); gap:8px; padding:4px 0; }
+  .qfacts dt { font-weight:700; color:var(--dim); }
+  .qfacts dd { margin:0; font-family:var(--font-mono); font-size:14px; }
+  .qgo-actions { display:grid; gap:8px; padding-top:22px; }
+  .qgo .fly { background:var(--accent-solid); color:var(--accent-text); font:700 17px var(--font-body);
+    border:0; border-radius:var(--radius); min-height:50px; padding:10px 12px; cursor:pointer; }
+  .qgo #qf_save { min-height:44px; border:0; background:transparent; padding:4px 0;
+    color:var(--accent-small); font:600 15px var(--font-body); }
+  .qgo .fly:disabled { background:var(--panel2); color:var(--dim); cursor:default; }
+  .qrequirements { margin-top:10px; }
+  .qrequirements .readiness { margin:0; border:0; padding:0; }
+  #qf_hint:empty { display:none; }
+  @media(min-width:1100px) {
+    .qpanel { padding:30px 32px; }
+    .qfields { gap:26px; }
+    .qfacts { margin-top:26px; }
+    .qgo-actions { padding-top:30px; }
   }
-  @media(max-width:420px){
-    .qgo-actions{display:grid;grid-template-columns:1fr auto;gap:5px}
-    .qgo #qf_save{font-size:13px;padding-inline:4px}
-    .qgo .fly{font-size:14px;padding-inline:8px}
+  @media(max-width:860px) {
+    .qwrap { padding:24px 16px 28px; }
+    .qhead { margin-bottom:18px; }
+    .qgrid { grid-template-columns:minmax(0, 1fr); gap:12px; }
+    .qpanel { padding:16px; }
+    .qfields { gap:15px; }
   }
-  @media(max-width:355px){
-    .qgo-actions{grid-template-columns:1fr}
-    .qgo-secondary{justify-content:space-between}
+  @media(max-width:480px) {
+    .qseg { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+    .qseg button:first-child { border-radius:calc(var(--radius) - 1px) 0 0 0; }
+    .qseg button:nth-child(2) { border-radius:0 calc(var(--radius) - 1px) 0 0; }
+    .qseg button:nth-child(3) { border-radius:0 0 0 calc(var(--radius) - 1px); }
+    .qseg button:last-child { border-radius:0 0 calc(var(--radius) - 1px) 0; }
   }
   #qfkit{margin-top:22px}
   .viewbar{position:sticky;top:0;z-index:5;background:rgba(13,17,23,.9);backdrop-filter:blur(8px);
@@ -904,43 +922,72 @@
   <div id="pcourses"></div>
   <div id="pbody"></div>
 </div></section>
-<section id="quick"><div class="qwrap">
-  <h2>Fly Now</h2>
-  <div class="qsub">Three picks, one button. Era, base, weather and comms are handled — open it in the Builder afterward if you want to tweak.</div>
-  <div class="qlabel">1 · What do you want to practice?</div>
-  <div class="qcards" id="qf_types"></div>
-  <div class="qlabel">2 · Choose an aircraft</div>
-  <div id="qf_acs" class="qf-picker">
-    <div class="qf-picker-head">
-      <label for="qf_aircraft_search">Search compatible aircraft</label>
-      <button type="button" id="qf_ownership" class="qf-own">My DCS content</button>
-    </div>
-    <input id="qf_aircraft_search" type="search" aria-label="Search compatible aircraft" placeholder="Search by aircraft or nickname" autocomplete="off">
-    <label for="qf_aircraft">Aircraft</label>
-    <select id="qf_aircraft" size="5" aria-describedby="qf_aircraft_status"></select>
-    <p id="qf_aircraft_status" role="status"></p>
-  </div>
-  <div class="qlabel">3 · Choose a map</div>
-  <div class="qcards small" id="qf_maps"></div>
-  <div id="qf_setup_wrap" style="display:none">
-    <div class="qlabel">BFM ride — the rung, not the difficulty</div>
-    <div class="qcards small" id="qf_setup"></div>
-  </div>
-  <div class="qlabel">Spice</div>
-  <div class="qcards small" id="qf_spice"></div>
-  <div id="quick_readiness" class="readiness"></div>
-  <div class="qgo">
-    <div class="qgo-copy">
-      <p id="qf_selection" class="qsummary">Your sortie</p>
-      <p class="qhint" id="qf_hint" role="status" aria-live="polite">Pick a mission, a jet and a map.</p>
-    </div>
-    <div class="qgo-actions">
-      <button type="button" class="fly" id="qf_fly" aria-describedby="qf_hint" disabled>Generate &amp; download .miz</button>
-      <div class="qgo-secondary">
-        <button type="button" id="qf_save">Save to My missions</button>
-        <button type="button" class="die" id="qf_die" title="Re-roll: same picks, fresh layout" aria-label="Re-roll layout"><svg class="icon" aria-hidden="true"><use href="#i-dice"/></svg></button>
+<section id="quick" aria-labelledby="qf_heading"><div class="qwrap">
+  <header class="qhead">
+    <h2 id="qf_heading">Fly <span>Now</span></h2>
+    <p>Pick a drill, aircraft and map.</p>
+  </header>
+  <div class="qgrid">
+    <div class="qpanel qfields">
+      <div class="qfield">
+        <p class="qlabel" id="qf_drill_label">Drill</p>
+        <div class="qseg" id="qf_types" role="group" aria-labelledby="qf_drill_label"></div>
+        <p id="qf_drill_help"></p>
       </div>
+      <div class="qfield">
+        <label class="qlabel" for="qf_aircraft">Aircraft</label>
+        <select id="qf_aircraft" aria-describedby="qf_aircraft_status"></select>
+        <div class="qfilters">
+          <button type="button" id="qf_ownership" class="qlink">My DCS content</button>
+          <button type="button" id="qf_search_toggle" class="qlink" aria-expanded="false" aria-controls="qf_search_box">Search aircraft</button>
+        </div>
+        <div id="qf_search_box" hidden>
+          <input id="qf_aircraft_search" type="search" aria-label="Search compatible aircraft" placeholder="Search by aircraft or nickname" autocomplete="off">
+        </div>
+        <p id="qf_aircraft_status" role="status"></p>
+      </div>
+      <div class="qfield">
+        <label class="qlabel" for="qf_maps">Map</label>
+        <select id="qf_maps" aria-describedby="qf_map_help"></select>
+        <p id="qf_map_help"></p>
+      </div>
+      <details class="qsettings">
+        <summary>Mission settings</summary>
+        <div class="qextras">
+          <div class="qfield" id="qf_setup_wrap" hidden>
+            <label class="qlabel" for="qf_setup">BFM setup</label>
+            <select id="qf_setup" aria-describedby="qf_setup_help"></select>
+            <p id="qf_setup_help"></p>
+          </div>
+          <div class="qfield">
+            <label class="qlabel" for="qf_spice">Spice</label>
+            <select id="qf_spice" aria-describedby="qf_spice_help"></select>
+            <p id="qf_spice_help"></p>
+          </div>
+          <div class="qfield">
+            <p id="qf_seed"></p>
+            <button type="button" id="qf_die" class="qlink">Re-roll layout</button>
+          </div>
+        </div>
+      </details>
     </div>
+    <section class="qpanel qgo" aria-labelledby="qf_sortie">
+      <h3 id="qf_sortie">Your sortie</h3>
+      <p id="qf_selection" class="qsummary"></p>
+      <dl class="qfacts" id="qf_facts" hidden>
+        <div><dt>Start</dt><dd id="qf_start"></dd></div>
+        <div><dt>Map</dt><dd id="qf_terrain"></dd></div>
+      </dl>
+      <div class="qgo-actions">
+        <p class="qhint" id="qf_hint" role="status" aria-live="polite">Choose a drill, aircraft and map.</p>
+        <button type="button" class="fly" id="qf_fly" aria-describedby="qf_hint" disabled>Generate &amp; download .miz</button>
+        <button type="button" id="qf_save" class="qlink">Save to My missions</button>
+      </div>
+      <details class="qrequirements" id="qf_requirements" hidden>
+        <summary>Mission readiness</summary>
+        <div id="quick_readiness" class="readiness"></div>
+      </details>
+    </section>
   </div>
   <div id="qfkit" class="revlist" style="display:none"></div>
 </div></section>

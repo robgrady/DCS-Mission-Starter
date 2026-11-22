@@ -1541,14 +1541,10 @@ function sum(){
 // spice notch is the only dial.
 const QF = { type:null, ac:null, map:null, spice:'realistic', bfm:'offensive', seed:1, opened:false };
 const QF_TYPES = [
-  {k:'qf_tanker', ic:'fuel', t:'Tanker Time',
-   s:'Air-start behind the tanker, right receiver for your jet. Plug until bored.'},
-  {k:'qf_bfm', ic:'swords', t:'BFM Merge',
-   s:'Three perches: offensive, defensive, high-aspect. Pick the ride below.'},
-  {k:'qf_guns', ic:'flame', t:'Kill the Guns',
-   s:'Airborne with the target off the nose. No SAMs — set up the wheel and hit it.'},
-  {k:'qf_sam', ic:'radar', t:'Beat the SAM',
-   s:'Airborne just outside the ring, RWR already talking. Stand off, notch, or go under it.'},
+  {k:'qf_tanker', t:'Tanker Time', s:'Start airborne behind a compatible tanker.'},
+  {k:'qf_bfm', t:'BFM Merge', s:'Choose a starting position in Mission settings.'},
+  {k:'qf_guns', t:'Kill the Guns', s:'Start airborne near a target defended by guns.'},
+  {k:'qf_sam', t:'Beat the SAM', s:'Start airborne near a surface-to-air missile site.'},
 ];
 // The BFM ladder. Three perches plus the everyday neutral fight — the rung is
 // a PARAMETER of the rep, not four more cards on a screen that is already too
@@ -1640,51 +1636,63 @@ function qfEra(type, mapK, acKey){
 }
 
 function qfRender(){
-  const own = ownedMaps();
-  document.getElementById('qf_types').innerHTML = QF_TYPES.map(t=>
-    `<div class="qcard${QF.type===t.k?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.type===t.k}" onclick="qfPick('type','${t.k}')">`+
-    `<span class="qi"><svg class="icon lg"><use href="#i-${t.ic}"/></svg></span><b>${t.t}</b><small>${t.s}</small></div>`).join('');
-  const maps = qfMapsFor(QF.type||'qf_bfm');
-  if (QF.map && (!maps.includes(QF.map) || (own && !own.has(QF.map)))) QF.map = null;
+  const type = QF_TYPES.find(option => option.k === QF.type);
+  const drills = document.getElementById('qf_types');
+  if (!drills.childElementCount) {
+    for (const option of QF_TYPES) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.dataset.drill = option.k;
+      button.textContent = option.t;
+      button.addEventListener('click', () => qfPick('type', option.k));
+      drills.append(button);
+    }
+  }
+  for (const button of drills.children) {
+    button.setAttribute('aria-pressed', String(button.dataset.drill === QF.type));
+  }
+  document.getElementById('qf_drill_help').textContent = type?.s || '';
+
+  flyNow.renderMaps();
   flyNow.renderAircraft();
-  const sorted = maps.sort((a,b)=>(OPT.maps[b].free-OPT.maps[a].free)||a.localeCompare(b));
-  document.getElementById('qf_maps').innerHTML = sorted.map(mk=>{
-    const un = own && !own.has(mk);
-    return `<div class="qcard${QF.map===mk?' sel':''}${un?' dis':''}" role="button" tabindex="${un?-1:0}" aria-disabled="${!!un}" aria-pressed="${QF.map===mk}" onclick="qfPick('map','${mk}')">`+
-      `<b>${OPT.maps[mk].label}</b><small>${OPT.maps[mk].free?'Free terrain':'Paid terrain'}</small></div>`;}).join('');
-  // the ladder appears only for the ride it belongs to
   const isBfm = QF.type === 'qf_bfm';
-  document.getElementById('qf_setup_wrap').style.display = isBfm ? '' : 'none';
-  if (isBfm) document.getElementById('qf_setup').innerHTML = QF_BFM_SETUPS.map(b=>
-    `<div class="qcard${QF.bfm===b.k?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.bfm===b.k}" onclick="qfPick('bfm','${b.k}')">`+
-    `<b>${b.t}</b><small>${b.s}</small></div>`).join('');
-  document.getElementById('qf_spice').innerHTML = QF_SPICE.map(s=>
-    `<div class="qcard${QF.spice===s.k?' sel':''}" role="button" tabindex="0" aria-pressed="${QF.spice===s.k}" onclick="qfPick('spice','${s.k}')">`+
-    `<b>${s.t}</b><small>${s.s}</small></div>`).join('');
+  document.getElementById('qf_setup_wrap').hidden = !isBfm;
+  if (isBfm) qfRenderSetting('qf_setup', QF_BFM_SETUPS, 'bfm');
+  qfRenderSetting('qf_spice', QF_SPICE, 'spice');
+  document.getElementById('qf_seed').textContent = `Seed ${QF.seed}`;
+
   const ready = QF.type && QF.ac && QF.map;
   const era = ready ? qfEra(QF.type, QF.map, QF.ac) : null;
-  document.getElementById('qf_fly').disabled = GENERATING || !era;
-  if(era) readinessController.refresh('quick_readiness', qfRecipe());
+  const effectiveRecipe = era ? qfRecipe() : null;
+  document.getElementById('qf_fly').disabled = GENERATING || !effectiveRecipe;
+  document.getElementById('qf_requirements').hidden = !effectiveRecipe;
+  if (effectiveRecipe) readinessController.refresh('quick_readiness', effectiveRecipe);
   else readinessController.clear('quick_readiness');
   document.getElementById('qf_hint').textContent = ready
-    ? (era ? `${OPT.eras[era].label} · seed ${QF.seed} — era, base, weather and comms are set for you.`
-           : 'That aircraft, mission and map have no era in common. Choose another aircraft or map.')
-    : 'Pick a mission, a jet and a map.';
-  flyNow.renderSummary(QF_TYPES, era);
+    ? (era ? '' : 'That aircraft, drill and map have no era in common. Choose another aircraft or map.')
+    : 'Choose a drill, aircraft and map.';
+  flyNow.renderSummary(type, effectiveRecipe);
+}
+
+function qfRenderSetting(id, options, field) {
+  const select = document.getElementById(id);
+  if (!select.options.length) {
+    select.replaceChildren(...options.map(option => new Option(option.t, option.k)));
+    select.addEventListener('change', () => qfPick(field, select.value));
+  }
+  select.value = QF[field];
+  document.getElementById(id + '_help').textContent = options.find(option => option.k === select.value)?.s || '';
 }
 
 function qfPick(what, v){
   if (what==='map' && (!qfMapsFor(QF.type||'qf_bfm').includes(v) ||
       (ownedMaps() && !ownedMaps().has(v)))) return;
   if (what==='ac' && !flyNow.canPickAircraft(v)) return;
-  // spice and the BFM rung always have a value — deselecting them would leave
-  // the ride undefined, which is not a state a pilot can fly
-  QF[what] = (QF[what]===v && what!=='spice' && what!=='bfm') ? null : v;
+  QF[what] = v;
   qfRender();
 }
 
 function qfRecipe(){
-  const tpl = OPT.templates[QF.type] || {};
   const rc = presetRecipe(QF.type, qfEra(QF.type, QF.map, QF.ac), QF.map);
   rc.template = QF.type;
   rc.aircraft = QF.ac;

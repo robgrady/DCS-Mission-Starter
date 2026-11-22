@@ -1,13 +1,11 @@
 """Verify that the compact Fly Now picker still produces and restores real recipes."""
 
-import re
-
 import pytest
 
 from test_refactor_browser import site
 
 
-@pytest.mark.parametrize("width", [390, 1280])
+@pytest.mark.parametrize("width", [320, 390, 1280])
 def test_fly_now_search_and_restore_a_valid_setup(site, width):
     pw = pytest.importorskip("playwright.sync_api")
     with pw.sync_playwright() as playwright, playwright.chromium.launch() as browser:
@@ -26,21 +24,36 @@ def test_fly_now_search_and_restore_a_valid_setup(site, width):
         generate = quick.get_by_role("button", name="Generate & download .miz")
         pw.expect(generate).to_be_disabled()
 
-        quick.get_by_role("button", name=re.compile("^BFM Merge")).click()
+        quick.get_by_role("button", name="BFM Merge").click()
+        quick.get_by_role("button", name="Search aircraft").click()
+        pw.expect(search).to_be_focused()
         search.fill("hornet")
         pw.expect(quick.locator("#qf_aircraft_status")).to_have_text("No compatible aircraft match this search.")
         search.fill("f16 viper")
         pw.expect(aircraft.locator("optgroup option")).to_have_count(1)
         aircraft.select_option("F_16C_50")
-        quick.get_by_role("button", name=re.compile("^Caucasus")).click()
-        quick.get_by_role("button", name=re.compile("Defensive perch")).click()
-        quick.get_by_role("button", name=re.compile("^Calm")).click()
+        maps = quick.get_by_label("Map", exact=True)
+        maps.select_option("caucasus")
+        quick.get_by_text("Mission settings", exact=True).click()
+        quick.get_by_label("BFM setup").select_option("defensive")
+        quick.get_by_label("Spice").select_option("calm")
         pw.expect(generate).to_be_enabled()
-        pw.expect(quick.locator("#qf_selection")).to_have_text("BFM Merge · F-16C-50 · Viper · Caucasus")
+        pw.expect(quick.get_by_role("heading", name="BFM Merge")).to_be_visible()
+        pw.expect(quick.locator("#qf_selection")).to_have_text("F-16C-50 · Viper · Caucasus")
+        pw.expect(quick.locator("#qf_start")).to_have_text("Airborne")
+        pw.expect(quick.locator("#qf_terrain")).to_have_text("Included terrain")
         pw.expect(aircraft.locator('optgroup[label="Recent aircraft"] option')).to_have_count(1)
-        if width == 390:
-            dock = generate.bounding_box()
-            assert dock and dock["y"] + dock["height"] <= 844
+        if width <= 390:
+            maps.scroll_into_view_if_needed()
+            map_box = maps.bounding_box()
+            download_box = generate.bounding_box()
+            assert map_box and download_box
+            assert download_box["y"] >= map_box["y"] + map_box["height"]
+            assert maps.evaluate("""el => {
+                const box = el.getBoundingClientRect();
+                return document.elementFromPoint(box.x + box.width / 2, box.y + box.height / 2) === el;
+            }""")
+            assert quick.locator(".qgo").evaluate("el => getComputedStyle(el).position") == "static"
             assert quick.evaluate("panel => panel.scrollWidth === panel.clientWidth")
         recipe = page.evaluate("qfRecipe()")
         assert recipe["bfm_setup"] == "defensive"

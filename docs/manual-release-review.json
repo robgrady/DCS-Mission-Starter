@@ -1,13 +1,17 @@
 {
-  "version": "1.125.0",
+  "version": "1.125.1",
   "documentation_required": true,
-  "reason": "Describe catalog loading and retry, the Fly Now picker, standalone First Flight downloads and the observed F-4E DKS import differences.",
+  "reason": "Explain the Fly Now layout, illustrate the first mission and First Flight steps, and add quick navigation, a download reference and troubleshooting.",
   "sections_reviewed": [
+    "Start here",
+    "Download and fly",
+    "Which download do I use?",
     "The four doors",
     "First Flight familiarization",
     "Mission readiness before Generate",
-    "Importing a mission into Digital Kneeboard Simulator"
+    "Your mission kit",
+    "Troubleshooting"
   ],
-  "source_sha256": "14011c28c1503191c615c0ab19bcb3285c11677a29e9fc2f0c73a6b055903243",
-  "previous_source_sha256": "37200601c01004f5360bdc232809f1c03e1d2bc51420d76e1268ea1b41a9b88e"
+  "source_sha256": "a60aff6056aeaa006440da27df142aa52bd1bfcf36d650e575b2c8215ed08c89",
+  "previous_source_sha256": "14011c28c1503191c615c0ab19bcb3285c11677a29e9fc2f0c73a6b055903243"
 }

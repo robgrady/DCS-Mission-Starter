@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """Build the professional PDF user guide (docs/DCS_Mission_Starter_Guide.pdf).
 Rerun whenever docs content changes: python scripts/build_guide_pdf.py"""
+from html import escape
 from pathlib import Path
+import re
+from unicodedata import normalize
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.units import inch
 from reportlab.lib.colors import HexColor, white
@@ -9,7 +12,7 @@ from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib.enums import TA_LEFT, TA_CENTER
 from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph,
                                 Spacer, Table, TableStyle, PageBreak,
-                                KeepTogether, Image as RLImage)
+                                KeepTogether, NextPageTemplate, Image as RLImage)
 from PIL import Image as PILImage
 import sys as _sys
 _sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -43,6 +46,8 @@ styles = {
     "body": _S["p"],
     "bullet": _S["bullet"],
     "note": _S["note"],
+    "table_head": ParagraphStyle("table_head", fontName=_F["subhead"], fontSize=10,
+                                 leading=13, textColor=white),
     "tagline": _S["tag"],
 }
 
@@ -88,15 +93,16 @@ def cover(canvas, doc):
     canvas.setFillColor(HexColor("#C7D2E6"))
     canvas.setFont(_F["sans"], 12)
     canvas.drawString(0.9 * inch, H - 5.1 * inch,
-                      "Pick a map, an era, and an aircraft — fly a living world in minutes.")
+                      "Choose a DCS mission. Download it and fly.")
     canvas.drawString(0.9 * inch, H - 5.35 * inch,
-                      "Airfields dressed. SAMs up. The strike group at sea. Your flight plan stays yours.")
+                      "Start with a practice drill, a training lesson or your own setup.")
     canvas.setFont(_F["mono"], 9)
     canvas.setFillColor(HexColor("#9DB0CC"))
     canvas.drawString(0.9 * inch, 1.6 * inch, f"VERSION {APP_VERSION}")
     canvas.drawString(0.9 * inch, 1.4 * inch,
-                      "Developed by Authentic Media LLC  ·  robgrady.com  ·  "
-                      "provided as-is - no warranty, no liability  ·  " + _auth.NOT_AFFILIATED)
+                      "Developed by Authentic Media LLC  ·  robgrady.com  ·  Provided as-is")
+    canvas.drawString(0.9 * inch, 1.2 * inch,
+                      "No warranty or liability. " + _auth.NOT_AFFILIATED)
     canvas.restoreState()
 
 
@@ -125,18 +131,26 @@ def P(text, s="body"):
     return Paragraph(text, styles[s])
 
 
-def shot(name, caption, width=6.6 * inch, max_h=8.1 * inch):
-    """Screenshot with caption, scaled to width but capped in height so tall
-    single-screen captures still fit on the page, kept together."""
+def shot(name, caption, width=6.6 * inch, max_h=8.1 * inch, *, compact=False):
+    """Keep the caption with its image and preserve the image's aspect ratio."""
     path = IMG / name
-    if not path.exists():
+    if compact:
+        path = path.resolve()
+        if path.parent != IMG.resolve():
+            raise ValueError(f"Guide screenshot must be inside docs/img: {name}")
+        if not path.is_file():
+            raise FileNotFoundError(f"Guide screenshot not found: {name}")
+    elif not path.is_file():
         return Spacer(1, 1)
-    w, h = PILImage.open(path).size
+    with PILImage.open(path) as screenshot:
+        w, h = screenshot.size
+    if compact:
+        max_h = (2.7 if w > h else 3.5) * inch
     disp_w, disp_h = width, width * h / w
     if disp_h > max_h:                      # scale down to fit the page height
         disp_h, disp_w = max_h, max_h * w / h
     img = RLImage(str(path), width=disp_w, height=disp_h)
-    cap = Paragraph(caption, ParagraphStyle(
+    cap = Paragraph(escape(caption), ParagraphStyle(
         "cap", fontName=_F["sans"], fontSize=8.5, leading=11,
         textColor=DIM, alignment=TA_CENTER, spaceBefore=3, spaceAfter=10))
     return KeepTogether([img, cap])
@@ -148,20 +162,52 @@ def B(text):
 
 def inline(text):
     """Render the manual's Markdown inline grammar with escaped PDF markup."""
-    import html, re
-    text = html.escape(text)
+    text = escape(text)
     text = re.sub(r"`([^`]+)`", r"<font name='" + _F["mono"] + r"'>\1</font>", text)
     text = re.sub(r"\*\*([^*]+)\*\*", r"<b>\1</b>", text)
     text = re.sub(r"\*([^*]+)\*", r"<i>\1</i>", text)
-    text = re.sub(r"\[([^]]+)\]\((https?://[^)]+)\)", r'<link href="\2" color="'+_H["accent"]+r'">\1</link>', text)
+    text = re.sub(r"\[([^]]+)\]\((https?://[^)]+|#[a-z0-9][a-z0-9-]*)\)", r'<link href="\2" color="'+_H["accent"]+r'"><u>\1</u></link>', text)
     return text
+
+
+def heading_slug(text):
+    plain = normalize("NFKD", text.replace("&", " and ")).encode("ascii", "ignore").decode()
+    return re.sub(r"[^a-z0-9]+", "-", plain.lower()).strip("-") or "topic"
+
+
+def guide_heading(text, level, anchors):
+    heading = P(inline(text), f"h{level + 1}")
+    slug = heading_slug(heading.getPlainText())
+    key = slug
+    suffix = 1
+    while key in anchors:
+        key = f"{slug}-{suffix}"
+        suffix += 1
+    anchors.add(key)
+    heading.guide_section = (key, level)
+    heading.keepWithNext = True
+    return heading
+
+
+class GuideDocument(BaseDocTemplate):
+    """Create a named destination and a PDF outline entry at each heading."""
+
+    def afterFlowable(self, flowable):
+        section = getattr(flowable, "guide_section", None)
+        if section is None:
+            return
+        key, level = section
+        y = self.frame._y + flowable.height + 4
+        self.canv.bookmarkHorizontalAbsolute(key, y, self.leftMargin)
+        self.canv.addOutlineEntry(flowable.getPlainText(), key, level=level, closed=True)
 
 
 def manual_story(path):
     """The Markdown manual is the sole prose source for the download."""
-    import re
-    rows = path.read_text().splitlines()
-    result = [PageBreak()]
+    rows = path.read_text(encoding="utf-8").splitlines()
+    result = [NextPageTemplate("page"), PageBreak()]
+    anchors = set()
+    has_chapter = False
     paragraph = []
     def flush():
         if paragraph:
@@ -177,7 +223,8 @@ def manual_story(path):
             while i < len(rows) and rows[i].strip().startswith('|'):
                 cells = rows[i].strip().strip('|').split('|')
                 if not all(re.fullmatch(r'[: -]+', c) for c in cells):
-                    data.append([P(inline(c.strip()), 'note') for c in cells])
+                    cell_style = 'note' if data else 'table_head'
+                    data.append([P(inline(c.strip()), cell_style) for c in cells])
                 i += 1
             if data:
                 widths = [(W - 1.5 * inch) / len(data[0])] * len(data[0])
@@ -188,11 +235,21 @@ def manual_story(path):
             while i < len(rows) and not rows[i].strip().startswith('```'):
                 result.append(P(inline('`'+rows[i]+'`'), 'note')); i += 1
             i += 1; continue
+        if line.startswith('!['):
+            flush()
+            image = re.fullmatch(r'!\[([^]]+)\]\(img/([a-zA-Z0-9][a-zA-Z0-9_.-]*[.]png)\)', line)
+            if not image or not image[1].strip():
+                raise ValueError(f"{path}:{i + 1}: use ![caption](img/name.png) with a caption")
+            result.append(shot(image[2], image[1].strip(), compact=True))
+            i += 1; continue
         heading = re.match(r'^(#{1,3}) +(.+)', line)
         if heading:
             flush()
-            if len(heading[1]) > 1:
-                result.append(P(inline(heading[2]), 'h'+str(len(heading[1])-1)))
+            if len(heading[1]) == 2:
+                result.append(guide_heading(heading[2], 0, anchors))
+                has_chapter = True
+            elif len(heading[1]) == 3:
+                result.append(guide_heading(heading[2], 1 if has_chapter else 0, anchors))
             i += 1; continue
         bullet = re.match(r'^(?:[-*] |(\d+)\. )(.+)', line)
         if bullet:
@@ -203,27 +260,26 @@ def manual_story(path):
             continue
         paragraph.append(line); i += 1
     flush()
-    result += [PageBreak(), P('Builder reference', 'h1'),
+    result += [PageBreak(), guide_heading('Builder reference', 0, anchors),
                shot('hero.png', 'The Builder: choose the theater and era.'),
                PageBreak(), shot('review.png', 'Review the recipe before generating your mission kit.')]
     return result
 
-story = manual_story(OUT.parent / 'USER_GUIDE.md')
+def build_guide(source, output):
+    story = manual_story(source)
+    doc = GuideDocument(str(output), pagesize=letter,
+                        leftMargin=0.75 * inch, rightMargin=0.75 * inch,
+                        topMargin=0.85 * inch, bottomMargin=0.8 * inch,
+                        title=f"DCS Sortie Starter — User Guide v{APP_VERSION}",
+                        author="Rob Grady")
+    frame = Frame(0.75 * inch, 0.8 * inch, W - 1.5 * inch, H - 1.65 * inch, id="main")
+    doc.addPageTemplates([
+        PageTemplate(id="cover", frames=[Frame(0, 0, W, H)], onPage=cover),
+        PageTemplate(id="page", frames=[frame], onPage=header_footer),
+    ])
+    doc.build(story)
 
-doc = BaseDocTemplate(str(OUT), pagesize=letter,
-                      leftMargin=0.75 * inch, rightMargin=0.75 * inch,
-                      topMargin=0.85 * inch, bottomMargin=0.8 * inch,
-                      title=f"DCS Sortie Starter — User Guide v{APP_VERSION}",  # version in
-                      # the PDF metadata so a test can assert the shipped guide
-                      # matches the release without needing a PDF text parser
-                      author="Rob Grady")
-frame = Frame(0.75 * inch, 0.8 * inch, W - 1.5 * inch, H - 1.65 * inch, id="main")
-doc.addPageTemplates([
-    PageTemplate(id="cover", frames=[Frame(0, 0, W, H)], onPage=cover),
-    PageTemplate(id="page", frames=[frame], onPage=header_footer),
-])
 
-from reportlab.platypus import NextPageTemplate
-story.insert(0, NextPageTemplate("page"))
-doc.build(story)
-print(f"built {OUT} ({OUT.stat().st_size} bytes)")
+if __name__ == "__main__":
+    build_guide(OUT.parent / "USER_GUIDE.md", OUT)
+    print(f"built {OUT} ({OUT.stat().st_size} bytes)")

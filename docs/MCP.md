@@ -1,6 +1,6 @@
 # Sortie Starter MCP
 
-Guide release: **v1.125.0** · reviewed **2026-11-21**. This is a release snapshot;
+Guide release: **v1.125.1** · reviewed **2026-11-21**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
