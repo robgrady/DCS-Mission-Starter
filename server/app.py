@@ -7,7 +7,7 @@ from . import artifact_service
 from . import ROOT as _root
 from missiongen import __version__
 from . import site_routes, catalog_routes, document_routes, comm_routes
-from . import health_routes, mission_routes, library_routes, contact_routes
+from . import health_routes, mission_routes, library_routes, contact_routes, first_flight
 from .admin import router as admin_router
 from . import mission_kit, mcp_server, readiness
 from . import account_routes
@@ -24,7 +24,8 @@ async def lifespan(app):
 app = FastAPI(title="DCS Sortie Starter", version=__version__, lifespan=lifespan)
 app.mount("/assets", StaticFiles(directory=_root / "frontend" / "assets"), name="assets")
 for module in (site_routes, catalog_routes, document_routes, comm_routes,
-               health_routes, mission_routes, library_routes, contact_routes, mission_kit, readiness):
+               health_routes, mission_routes, library_routes, contact_routes, first_flight,
+               mission_kit, readiness):
     app.include_router(module.router)
 app.include_router(admin_router)
 app.include_router(account_routes.router)

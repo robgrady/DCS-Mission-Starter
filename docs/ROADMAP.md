@@ -32,6 +32,11 @@ somebody finishes the first one.
 
 The Historical Library now provides 18 source-linked readings, separate 1981/2014 Nevada point charts and 15 unit/aircraft observations. Exact route boundaries, continuous unit assignments and simulator flights remain research/validation work; published dates are not clearance certificates.
 
+**v1.124.0** adds First Flight under Train. The first package has two T-45C
+familiarization sorties at Kobuleti. The picker downloads an installed
+campaign variant. Windows DCS flight testing and additional variants remain
+open.
+
 **v1.123.0** adds exact single-flight waypoints in Builder and MCP/API: lazy map
 schematic, coordinate editing, reorder/undo, explicit recovery and matching native
 mission/kit documents. ETAs are advisory; AGL, guided routing, per-flight routes

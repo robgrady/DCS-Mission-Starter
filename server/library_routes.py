@@ -247,7 +247,7 @@ def api_pack_file(pack: str, fname: str):
         analytics.record("pack", "library", type("R", (), {
             "template": f"{pack}/{f.stem}", "map": None, "era": None,
             "aircraft": None, "slots": 1, "threat_tier": None})())
-    media = {".miz": "application/zip", ".pdf": "application/pdf",
+    media = {".miz": "application/zip", ".zip": "application/zip", ".pdf": "application/pdf",
              ".png": "image/png", ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
              ".md": "text/markdown", ".json": "application/json"}.get(
                  f.suffix.lower(), "application/octet-stream")

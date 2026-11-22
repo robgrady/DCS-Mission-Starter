@@ -1,0 +1,47 @@
+{
+  "profiles": [
+    {
+      "id": "first_flight_t45c_caucasus",
+      "version": "0.3.0",
+      "status": "flight_test_pending",
+      "map": {
+        "id": "caucasus",
+        "label": "Caucasus"
+      },
+      "aircraft": {
+        "id": "vnao_t45c",
+        "label": "VNAO T-45C Goshawk"
+      },
+      "airfield": "Kobuleti",
+      "requirements": [
+        {
+          "label": "VNAO T-45C v1.02 community mod",
+          "url": "https://forum.dcs.world/topic/203816-vnao-t-45-goshawk/"
+        },
+        {
+          "label": "Caucasus terrain included with DCS World",
+          "url": "https://www.digitalcombatsimulator.com/en/downloads/world/"
+        }
+      ],
+      "lessons": [
+        {
+          "id": "FAM-01",
+          "title": "First Flight",
+          "start": "Airborne",
+          "objective": "Hold a short level-flight segment, then make one coached turn.",
+          "minutes": 6,
+          "mission": "FAM-01-First-Flight.miz"
+        },
+        {
+          "id": "FAM-02",
+          "title": "Ramp to Air",
+          "start": "Parked, engine running",
+          "objective": "Taxi to the practice checkpoint, take off, and reach the departure gate.",
+          "minutes": 10,
+          "mission": "FAM-02-Ramp-to-Air.miz"
+        }
+      ],
+      "archive": "campaign/First-Flight-T45C-Caucasus-0.3.0.zip"
+    }
+  ]
+}

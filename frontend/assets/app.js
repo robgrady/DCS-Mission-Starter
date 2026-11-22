@@ -1717,6 +1717,37 @@ function writeNavigation(v, screen, mode='push'){
   if(url.href===location.href && mode!=='replace') return;
   history[mode==='replace'?'replaceState':'pushState']({view:v,screen},'',url);
 }
+let firstFlightLoad;
+let firstFlightAssetRetry = 0;
+function openFirstFlight(focusSetup=false){
+  if(firstFlightLoad) return;
+  const root = document.getElementById('first_flight');
+  const status = document.getElementById('first_flight_status');
+  const retry = document.getElementById('first_flight_retry');
+  retry.hidden = true;
+  status.textContent = 'Loading First Flight…';
+  const asset = `/assets/first-flight.js?v=${encodeURIComponent(root.dataset.version)}&retry=${firstFlightAssetRetry}`;
+  const module = import(asset).catch(error => {
+    firstFlightAssetRetry += 1;
+    throw error;
+  });
+  firstFlightLoad = module.then(({loadFirstFlight}) => loadFirstFlight(root)).then(loaded => {
+    if(!loaded){
+      firstFlightLoad = null;
+      retry.hidden = false;
+    }
+    if(focusSetup && CURRENT_VIEW === 'pipeline'){
+      (loaded ? document.getElementById('first_flight_map') : retry).focus();
+    }
+  }).catch(() => {
+    status.textContent = 'Could not load the First Flight catalog.';
+    retry.hidden = false;
+    firstFlightLoad = null;
+    if(focusSetup && CURRENT_VIEW === 'pipeline') retry.focus();
+  });
+}
+document.getElementById('first_flight_retry').addEventListener('click', () => openFirstFlight(true));
+
 function showView(v, historyMode='push'){
   if(!NAV_READY){
     PENDING_VIEW=normalizeView(v);
@@ -1753,7 +1784,10 @@ function showView(v, historyMode='push'){
                    + (v==='entry' ? '' : ' · DCS Sortie Starter');
   if(v==='library') renderLib();
   if(v==='quick') qfOpen();
-  if(v==='pipeline') renderPipeline();
+  if(v==='pipeline'){
+    renderPipeline();
+    openFirstFlight();
+  }
   window.scrollTo(0,0);
 }
 

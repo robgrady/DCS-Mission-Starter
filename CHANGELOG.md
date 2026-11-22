@@ -1,5 +1,11 @@
 # Changelog — DCS Sortie Starter
 
+## [1.124.0] — First Flight under Train
+
+- Add a map and aircraft picker, two-lesson preview, requirements and campaign download under Train. The catalog offers installed First Flight packages and serves the selected ZIP through the existing pack download.
+- Add the Caucasus/Kobuleti and VNAO T-45C flight-test candidate with two original unarmed solo missions, a native campaign, CNATRA-illustrated briefs, and in-mission kneeboards.
+- Document installation, standalone practice and the flight-testing status in the User Manual.
+
 ## [1.123.0] — Author your flight plan
 
 - Builder: exact ordered waypoints with a lazy airfield/map-envelope schematic, click/drag positioning, decimal or DCS coordinates, feet MSL/knots TAS inputs, stable names/IDs, reorder/delete/undo and explicit recovery.

@@ -495,6 +495,31 @@
   .ptag{margin-left:auto;font-family:var(--font-display);font-size:20px;font-weight:700;color:var(--accent-small);letter-spacing:.02em}
   .pcourse{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:24px 26px;margin-bottom:22px}
   .pcourse h2{margin:0 0 6px;font-size:26px}.pcourse .dprem{margin-bottom:12px}
+  .first-flight { display:grid; gap:14px; }
+  .first-flight > header h2 { margin-bottom:4px; font-size:32px; }
+  .first-flight p { color:var(--dim); line-height:1.45; }
+  .first-flight-selects { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; max-width:620px; margin-bottom:12px; }
+  .first-flight-selects label { display:block; margin-bottom:4px; font-size:12px; }
+  .first-flight-selects select {
+    width:100%; min-height:44px; padding:8px 10px; font:inherit; color:var(--text);
+    background:var(--panel2); border:1px solid var(--line); border-radius:var(--radius);
+  }
+  .first-flight-actions { display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .first-flight-actions .navbtn, .first-flight > .navbtn { min-height:44px; font-family:inherit; }
+  .first-flight-actions a { display:inline-flex; align-items:center; text-decoration:none; }
+  .first-flight > button { justify-self:start; }
+  .first-flight-review h3 { font-size:22px; }
+  .first-flight-lessons { padding-left:24px; margin:12px 0 16px; }
+  .first-flight-lessons li { padding:5px 0 8px 4px; }
+  .first-flight-lessons li::marker { color:var(--accent-small); font-weight:700; }
+  .first-flight-lessons li + li { border-top:1px solid var(--line); }
+  .first-flight-lessons h4 { font-size:19px; }
+  .first-flight-requirements { padding-left:20px; margin:4px 0 12px; }
+  .first-flight-requirements a { color:var(--accent-small); }
+  @media(max-width:520px) {
+    .first-flight { padding:18px; }
+    .first-flight-selects { grid-template-columns:1fr; }
+  }
   .pstats{display:flex;gap:10px;flex-wrap:wrap;margin:10px 0 14px}
   .pschools{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:22px}
   @media(max-width:980px){.pschools{grid-template-columns:1fr}}
@@ -799,6 +824,45 @@
      else; a squadron takes the kit. -->
 <section id="pipeline"><div class="pwrap">
   <div class="lhead"><div class="slantb"><span>Training Pipeline</span></div><span id="pcount"></span><span class="ptag">Learn it · Fly it · Fight it</span></div>
+  <section id="first_flight" class="pcourse first-flight" aria-labelledby="first_flight_title" data-version="{{APP_VERSION}}">
+    <header>
+      <h2 id="first_flight_title">First Flight</h2>
+      <p>Two short solo lessons for new DCS pilots. Practice basic aircraft handling, then taxi and take off.</p>
+    </header>
+    <p id="first_flight_status" role="status">Loading First Flight…</p>
+    <button type="button" class="navbtn ghost" id="first_flight_retry" hidden>Try again</button>
+    <form id="first_flight_setup" hidden>
+      <div class="first-flight-selects">
+        <div>
+          <label for="first_flight_map">Map</label>
+          <select id="first_flight_map" name="map"></select>
+        </div>
+        <div>
+          <label for="first_flight_aircraft">Aircraft</label>
+          <select id="first_flight_aircraft" name="aircraft"></select>
+        </div>
+      </div>
+      <p id="first_flight_airfield"></p>
+      <div class="first-flight-actions">
+        <button type="submit" class="navbtn primary">Review sorties</button>
+      </div>
+    </form>
+    <div id="first_flight_review" class="first-flight-review" hidden>
+      <h3 id="first_flight_review_title" tabindex="-1">Sortie plan</h3>
+      <p id="first_flight_profile"></p>
+      <ol id="first_flight_lessons" class="first-flight-lessons"></ol>
+      <div id="first_flight_requirements_section">
+        <h4>What you’ll need</h4>
+        <ul id="first_flight_requirements" class="first-flight-requirements"></ul>
+      </div>
+      <p id="first_flight_evidence"></p>
+      <p>Unzip the download and follow the included DCS installation instructions.</p>
+      <div class="first-flight-actions">
+        <a class="navbtn primary" id="first_flight_download" download>Download campaign ZIP</a>
+        <button type="button" class="navbtn ghost" id="first_flight_back">Change setup</button>
+      </div>
+    </div>
+  </section>
   <div id="pcourses"></div>
   <div id="pbody"></div>
 </div></section>

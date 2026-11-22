@@ -1,11 +1,14 @@
 # Sortie Starter MCP
 
-Guide release: **v1.123.0** · reviewed **2026-10-25**. This is a release snapshot;
+Guide release: **v1.124.0** · reviewed **2026-11-21**. This is a release snapshot;
 confirm the live server version and canonical schema before authoring. Offline
 knowledge packs retain their own snapshot versions and cannot update themselves.
 
 Public agent guide: `/api/mcp-guide`. Discovery index: `/llms.txt`.
 MCP resource: `sortiestarter://integration-guide`. These expose this same source.
+
+First Flight in Train uses published campaign packages. The website reads their
+available configurations at `/api/first-flight`. MCP still generates one sortie at a time.
 
 Production endpoint: `https://sortiestarter.com/mcp/`.
 Existing clients may continue using `https://dcs-mission-starter.fly.dev/mcp/`.

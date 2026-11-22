@@ -58,6 +58,25 @@ record lives in your browser and nowhere else. A virtual squadron takes the
 readings) and downloads the missions from each track. The first course is the
 F-4E Phantom II.
 
+### First Flight familiarization
+
+In **Train**, open **First Flight**. Select a map and aircraft, then review the
+home airfield, required content, start types and lesson objectives. The
+opening campaign is for the front seat of the **VNAO T-45C v1.02 community mod**
+at **Kobuleti, Caucasus**. Install the mod from its maintainer before starting
+DCS. The download includes two solo lessons, **First Flight** (airborne) and
+**Ramp to Air** (engine running at parking).
+
+Choose **Download campaign** and follow the ZIP's setup guide to copy the
+campaign folder into your DCS Saved Games campaign folder. Keep the .cmp
+beside both .miz files. To practice a lesson independently, open its .miz
+from the DCS **Mission** menu. Each lesson includes an illustrated brief and
+an in-cockpit kneeboard. The CNATRA study figure follows the lesson card.
+
+The First Flight picker lists installed campaign variants. A **flight
+testing pending** label means the files were built and inspected and still
+need a Windows DCS playthrough with the specified mod.
+
 **🛠 Builder** — the full wizard. Theater, era, coalition, aircraft, airfield
 dressing, the Threat Dial (including the guns-only tier: AAA belts, zero SAMs),
 support, corridors, map graphics — everything, in seven screens.

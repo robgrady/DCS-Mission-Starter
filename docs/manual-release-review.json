@@ -1,13 +1,12 @@
 {
-  "version": "1.123.0",
+  "version": "1.124.0",
   "documentation_required": true,
-  "reason": "Document Builder and MCP exact routes, units, recovery, schematic scope, persistence and native/simulator limitations.",
+  "reason": "Describe the First Flight picker, mod requirement, campaign install, standalone practice and simulator test status.",
   "sections_reviewed": [
-    "Introduction and explicit route opt-in",
-    "Template/automatic routes and new flight-plan editor",
-    "MCP exact authoring capability boundaries",
-    "Mission Kit, cartridge and simulator verification"
+    "The four doors and Train",
+    "First Flight familiarization",
+    "Mission readiness and Your mission kit"
   ],
-  "source_sha256": "16fffc44f6c60bb7da77afeefc1a8ac8a7fd2a19153763e3e3343af1a6027f3d",
-  "previous_source_sha256": "7fa28fec9ce92cee2567124f5c6c7be345fc722e48d7204a4d6f0e804d218db6"
+  "source_sha256": "37200601c01004f5360bdc232809f1c03e1d2bc51420d76e1268ea1b41a9b88e",
+  "previous_source_sha256": "16fffc44f6c60bb7da77afeefc1a8ac8a7fd2a19153763e3e3343af1a6027f3d"
 }
